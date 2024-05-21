@@ -447,7 +447,6 @@ public final class CifParser extends Parser<ASpecification> {
         "Identifier",
         "SEMICOLTK",
         "COLONTK",
-        "EDGEKW",
         "EQUATIONKW",
         "INITIALKW",
         "MARKEDKW",
@@ -455,26 +454,8 @@ public final class CifParser extends Parser<ASpecification> {
         "LocationElement",
         "LocationElements",
         "OptDoubleAnnos",
+        "EDGEKW",
         "InvariantDecls",
-        "LocationElement",
-        "SEMICOLTK",
-        "SEMICOLTK",
-        "Expressions",
-        "SEMICOLTK",
-        "SEMICOLTK",
-        "Expressions",
-        "SEMICOLTK",
-        "Equation",
-        "Equations",
-        "Identifier",
-        "APOSTROPHETK",
-        "EQTK",
-        "Expression",
-        "EQTK",
-        "Expression",
-        "COMMATK",
-        "SEMICOLTK",
-        "Equation",
         "DOKW",
         "NOWKW",
         "TAUKW",
@@ -539,6 +520,25 @@ public final class CifParser extends Parser<ASpecification> {
         "OptEdgeUpdate",
         "OptEdgeUpdate",
         "Updates",
+        "LocationElement",
+        "SEMICOLTK",
+        "SEMICOLTK",
+        "Expressions",
+        "SEMICOLTK",
+        "SEMICOLTK",
+        "Expressions",
+        "SEMICOLTK",
+        "Equation",
+        "Equations",
+        "Identifier",
+        "APOSTROPHETK",
+        "EQTK",
+        "Expression",
+        "EQTK",
+        "Expression",
+        "COMMATK",
+        "SEMICOLTK",
+        "Equation",
         "LocationElements",
         "ALGKW",
         "CONSTKW",
@@ -6713,6 +6713,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 8:
             case 9:
             case 11:
+            case 19:
             case 23:
             case 24:
             case 25:
@@ -6769,6 +6770,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 8:
             case 9:
             case 11:
+            case 19:
             case 23:
             case 24:
             case 25:
@@ -32833,36 +32835,31 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action222() throws IOException {
         switch (token.id) {
-            case 19: {
+            case 24: {
                 // Shift 226.
                 token = doShift(token, 226);
                 return;
             }
 
-            case 24: {
+            case 36: {
                 // Shift 227.
                 token = doShift(token, 227);
                 return;
             }
 
-            case 36: {
+            case 42: {
                 // Shift 228.
                 token = doShift(token, 228);
                 return;
             }
 
-            case 42: {
+            case 70: {
                 // Shift 229.
                 token = doShift(token, 229);
                 return;
             }
 
-            case 70: {
-                // Shift 230.
-                token = doShift(token, 230);
-                return;
-            }
-
+            case 19:
             case 39:
             case 75:
             case 76:
@@ -32951,36 +32948,31 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action225() throws IOException {
         switch (token.id) {
-            case 19: {
+            case 24: {
                 // Shift 226.
                 token = doShift(token, 226);
                 return;
             }
 
-            case 24: {
+            case 36: {
                 // Shift 227.
                 token = doShift(token, 227);
                 return;
             }
 
-            case 36: {
+            case 42: {
                 // Shift 228.
                 token = doShift(token, 228);
                 return;
             }
 
-            case 42: {
+            case 70: {
                 // Shift 229.
                 token = doShift(token, 229);
                 return;
             }
 
-            case 70: {
-                // Shift 230.
-                token = doShift(token, 230);
-                return;
-            }
-
+            case 19:
             case 39:
             case 75:
             case 76:
@@ -33014,6 +33006,390 @@ public final class CifParser extends Parser<ASpecification> {
                 return;
             }
 
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 227.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action227() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 26: {
+                // Shift 53.
+                token = doShift(token, 53);
+                return;
+            }
+
+            case 34: {
+                // Shift 54.
+                token = doShift(token, 54);
+                return;
+            }
+
+            case 53: {
+                // Shift 55.
+                token = doShift(token, 55);
+                return;
+            }
+
+            case 61: {
+                // Shift 56.
+                token = doShift(token, 56);
+                return;
+            }
+
+            case 64: {
+                // Shift 57.
+                token = doShift(token, 57);
+                return;
+            }
+
+            case 66: {
+                // Shift 58.
+                token = doShift(token, 58);
+                return;
+            }
+
+            case 78: {
+                // Shift 59.
+                token = doShift(token, 59);
+                return;
+            }
+
+            case 79: {
+                // Shift 60.
+                token = doShift(token, 60);
+                return;
+            }
+
+            case 80: {
+                // Shift 61.
+                token = doShift(token, 61);
+                return;
+            }
+
+            case 81: {
+                // Shift 62.
+                token = doShift(token, 62);
+                return;
+            }
+
+            case 82: {
+                // Shift 63.
+                token = doShift(token, 63);
+                return;
+            }
+
+            case 83: {
+                // Shift 64.
+                token = doShift(token, 64);
+                return;
+            }
+
+            case 84: {
+                // Shift 65.
+                token = doShift(token, 65);
+                return;
+            }
+
+            case 85: {
+                // Shift 66.
+                token = doShift(token, 66);
+                return;
+            }
+
+            case 86: {
+                // Shift 67.
+                token = doShift(token, 67);
+                return;
+            }
+
+            case 87: {
+                // Shift 68.
+                token = doShift(token, 68);
+                return;
+            }
+
+            case 88: {
+                // Shift 69.
+                token = doShift(token, 69);
+                return;
+            }
+
+            case 89: {
+                // Shift 70.
+                token = doShift(token, 70);
+                return;
+            }
+
+            case 90: {
+                // Shift 71.
+                token = doShift(token, 71);
+                return;
+            }
+
+            case 91: {
+                // Shift 72.
+                token = doShift(token, 72);
+                return;
+            }
+
+            case 92: {
+                // Shift 73.
+                token = doShift(token, 73);
+                return;
+            }
+
+            case 93: {
+                // Shift 74.
+                token = doShift(token, 74);
+                return;
+            }
+
+            case 94: {
+                // Shift 75.
+                token = doShift(token, 75);
+                return;
+            }
+
+            case 95: {
+                // Shift 76.
+                token = doShift(token, 76);
+                return;
+            }
+
+            case 96: {
+                // Shift 77.
+                token = doShift(token, 77);
+                return;
+            }
+
+            case 97: {
+                // Shift 78.
+                token = doShift(token, 78);
+                return;
+            }
+
+            case 98: {
+                // Shift 79.
+                token = doShift(token, 79);
+                return;
+            }
+
+            case 99: {
+                // Shift 80.
+                token = doShift(token, 80);
+                return;
+            }
+
+            case 100: {
+                // Shift 81.
+                token = doShift(token, 81);
+                return;
+            }
+
+            case 101: {
+                // Shift 82.
+                token = doShift(token, 82);
+                return;
+            }
+
+            case 102: {
+                // Shift 83.
+                token = doShift(token, 83);
+                return;
+            }
+
+            case 103: {
+                // Shift 84.
+                token = doShift(token, 84);
+                return;
+            }
+
+            case 104: {
+                // Shift 85.
+                token = doShift(token, 85);
+                return;
+            }
+
+            case 105: {
+                // Shift 86.
+                token = doShift(token, 86);
+                return;
+            }
+
+            case 106: {
+                // Shift 87.
+                token = doShift(token, 87);
+                return;
+            }
+
+            case 107: {
+                // Shift 88.
+                token = doShift(token, 88);
+                return;
+            }
+
+            case 108: {
+                // Shift 89.
+                token = doShift(token, 89);
+                return;
+            }
+
+            case 109: {
+                // Shift 90.
+                token = doShift(token, 90);
+                return;
+            }
+
+            case 110: {
+                // Shift 91.
+                token = doShift(token, 91);
+                return;
+            }
+
+            case 111: {
+                // Shift 92.
+                token = doShift(token, 92);
+                return;
+            }
+
+            case 112: {
+                // Shift 93.
+                token = doShift(token, 93);
+                return;
+            }
+
+            case 113: {
+                // Shift 94.
+                token = doShift(token, 94);
+                return;
+            }
+
+            case 114: {
+                // Shift 95.
+                token = doShift(token, 95);
+                return;
+            }
+
+            case 115: {
+                // Shift 96.
+                token = doShift(token, 96);
+                return;
+            }
+
+            case 116: {
+                // Shift 97.
+                token = doShift(token, 97);
+                return;
+            }
+
+            case 117: {
+                // Shift 98.
+                token = doShift(token, 98);
+                return;
+            }
+
+            case 118: {
+                // Shift 99.
+                token = doShift(token, 99);
+                return;
+            }
+
+            case 119: {
+                // Shift 100.
+                token = doShift(token, 100);
+                return;
+            }
+
+            case 120: {
+                // Shift 101.
+                token = doShift(token, 101);
+                return;
+            }
+
+            case 121: {
+                // Shift 102.
+                token = doShift(token, 102);
+                return;
+            }
+
+            case 122: {
+                // Shift 103.
+                token = doShift(token, 103);
+                return;
+            }
+
+            case 123: {
+                // Shift 104.
+                token = doShift(token, 104);
+                return;
+            }
+
+            case 128: {
+                // Shift 105.
+                token = doShift(token, 105);
+                return;
+            }
+
+            case 130: {
+                // Shift 106.
+                token = doShift(token, 106);
+                return;
+            }
+
+            case 138: {
+                // Shift 107.
+                token = doShift(token, 107);
+                return;
+            }
+
+            case 142: {
+                // Shift 108.
+                token = doShift(token, 108);
+                return;
+            }
+
+            case 148: {
+                // Shift 109.
+                token = doShift(token, 109);
+                return;
+            }
+
+            case 149: {
+                // Shift 110.
+                token = doShift(token, 110);
+                return;
+            }
+
+            case 153: {
+                // Shift 111.
+                token = doShift(token, 111);
+                return;
+            }
+
+            case 155: {
+                // Shift 112.
+                token = doShift(token, 112);
+                return;
+            }
+
+            case 157: {
+                // Shift 113.
+                token = doShift(token, 113);
+                return;
+            }
+
             case 159: {
                 // Shift 114.
                 token = doShift(token, 114);
@@ -33032,45 +33408,27 @@ public final class CifParser extends Parser<ASpecification> {
                 return;
             }
 
-            case 18: {
-                // Shift 254.
-                token = doShift(token, 254);
+            case 163: {
+                // Shift 117.
+                token = doShift(token, 117);
                 return;
             }
 
-            case 46: {
-                // Shift 255.
-                token = doShift(token, 255);
+            case 164: {
+                // Shift 118.
+                token = doShift(token, 118);
                 return;
             }
 
-            case 62: {
-                // Shift 256.
-                token = doShift(token, 256);
+            case 165: {
+                // Shift 119.
+                token = doShift(token, 119);
                 return;
             }
 
-            case 73: {
-                // Shift 257.
-                token = doShift(token, 257);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 227.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action227() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
+            case 134: {
+                // Shift 304.
+                token = doShift(token, 304);
                 return;
             }
 
@@ -33495,8 +33853,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 134: {
-                // Shift 240.
-                token = doShift(token, 240);
+                // Shift 301.
+                token = doShift(token, 301);
                 return;
             }
 
@@ -33512,417 +33870,9 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action229() throws IOException {
         switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 26: {
-                // Shift 53.
-                token = doShift(token, 53);
-                return;
-            }
-
-            case 34: {
-                // Shift 54.
-                token = doShift(token, 54);
-                return;
-            }
-
-            case 53: {
-                // Shift 55.
-                token = doShift(token, 55);
-                return;
-            }
-
-            case 61: {
-                // Shift 56.
-                token = doShift(token, 56);
-                return;
-            }
-
-            case 64: {
-                // Shift 57.
-                token = doShift(token, 57);
-                return;
-            }
-
-            case 66: {
-                // Shift 58.
-                token = doShift(token, 58);
-                return;
-            }
-
-            case 78: {
-                // Shift 59.
-                token = doShift(token, 59);
-                return;
-            }
-
-            case 79: {
-                // Shift 60.
-                token = doShift(token, 60);
-                return;
-            }
-
-            case 80: {
-                // Shift 61.
-                token = doShift(token, 61);
-                return;
-            }
-
-            case 81: {
-                // Shift 62.
-                token = doShift(token, 62);
-                return;
-            }
-
-            case 82: {
-                // Shift 63.
-                token = doShift(token, 63);
-                return;
-            }
-
-            case 83: {
-                // Shift 64.
-                token = doShift(token, 64);
-                return;
-            }
-
-            case 84: {
-                // Shift 65.
-                token = doShift(token, 65);
-                return;
-            }
-
-            case 85: {
-                // Shift 66.
-                token = doShift(token, 66);
-                return;
-            }
-
-            case 86: {
-                // Shift 67.
-                token = doShift(token, 67);
-                return;
-            }
-
-            case 87: {
-                // Shift 68.
-                token = doShift(token, 68);
-                return;
-            }
-
-            case 88: {
-                // Shift 69.
-                token = doShift(token, 69);
-                return;
-            }
-
-            case 89: {
-                // Shift 70.
-                token = doShift(token, 70);
-                return;
-            }
-
-            case 90: {
-                // Shift 71.
-                token = doShift(token, 71);
-                return;
-            }
-
-            case 91: {
-                // Shift 72.
-                token = doShift(token, 72);
-                return;
-            }
-
-            case 92: {
-                // Shift 73.
-                token = doShift(token, 73);
-                return;
-            }
-
-            case 93: {
-                // Shift 74.
-                token = doShift(token, 74);
-                return;
-            }
-
-            case 94: {
-                // Shift 75.
-                token = doShift(token, 75);
-                return;
-            }
-
-            case 95: {
-                // Shift 76.
-                token = doShift(token, 76);
-                return;
-            }
-
-            case 96: {
-                // Shift 77.
-                token = doShift(token, 77);
-                return;
-            }
-
-            case 97: {
-                // Shift 78.
-                token = doShift(token, 78);
-                return;
-            }
-
-            case 98: {
-                // Shift 79.
-                token = doShift(token, 79);
-                return;
-            }
-
-            case 99: {
-                // Shift 80.
-                token = doShift(token, 80);
-                return;
-            }
-
-            case 100: {
-                // Shift 81.
-                token = doShift(token, 81);
-                return;
-            }
-
-            case 101: {
-                // Shift 82.
-                token = doShift(token, 82);
-                return;
-            }
-
-            case 102: {
-                // Shift 83.
-                token = doShift(token, 83);
-                return;
-            }
-
-            case 103: {
-                // Shift 84.
-                token = doShift(token, 84);
-                return;
-            }
-
-            case 104: {
-                // Shift 85.
-                token = doShift(token, 85);
-                return;
-            }
-
-            case 105: {
-                // Shift 86.
-                token = doShift(token, 86);
-                return;
-            }
-
-            case 106: {
-                // Shift 87.
-                token = doShift(token, 87);
-                return;
-            }
-
-            case 107: {
-                // Shift 88.
-                token = doShift(token, 88);
-                return;
-            }
-
-            case 108: {
-                // Shift 89.
-                token = doShift(token, 89);
-                return;
-            }
-
-            case 109: {
-                // Shift 90.
-                token = doShift(token, 90);
-                return;
-            }
-
-            case 110: {
-                // Shift 91.
-                token = doShift(token, 91);
-                return;
-            }
-
-            case 111: {
-                // Shift 92.
-                token = doShift(token, 92);
-                return;
-            }
-
-            case 112: {
-                // Shift 93.
-                token = doShift(token, 93);
-                return;
-            }
-
-            case 113: {
-                // Shift 94.
-                token = doShift(token, 94);
-                return;
-            }
-
-            case 114: {
-                // Shift 95.
-                token = doShift(token, 95);
-                return;
-            }
-
-            case 115: {
-                // Shift 96.
-                token = doShift(token, 96);
-                return;
-            }
-
-            case 116: {
-                // Shift 97.
-                token = doShift(token, 97);
-                return;
-            }
-
-            case 117: {
-                // Shift 98.
-                token = doShift(token, 98);
-                return;
-            }
-
-            case 118: {
-                // Shift 99.
-                token = doShift(token, 99);
-                return;
-            }
-
-            case 119: {
-                // Shift 100.
-                token = doShift(token, 100);
-                return;
-            }
-
-            case 120: {
-                // Shift 101.
-                token = doShift(token, 101);
-                return;
-            }
-
-            case 121: {
-                // Shift 102.
-                token = doShift(token, 102);
-                return;
-            }
-
-            case 122: {
-                // Shift 103.
-                token = doShift(token, 103);
-                return;
-            }
-
-            case 123: {
-                // Shift 104.
-                token = doShift(token, 104);
-                return;
-            }
-
-            case 128: {
-                // Shift 105.
-                token = doShift(token, 105);
-                return;
-            }
-
-            case 130: {
-                // Shift 106.
-                token = doShift(token, 106);
-                return;
-            }
-
-            case 138: {
-                // Shift 107.
-                token = doShift(token, 107);
-                return;
-            }
-
-            case 142: {
-                // Shift 108.
-                token = doShift(token, 108);
-                return;
-            }
-
-            case 148: {
-                // Shift 109.
-                token = doShift(token, 109);
-                return;
-            }
-
-            case 149: {
-                // Shift 110.
-                token = doShift(token, 110);
-                return;
-            }
-
-            case 153: {
-                // Shift 111.
-                token = doShift(token, 111);
-                return;
-            }
-
-            case 155: {
-                // Shift 112.
-                token = doShift(token, 112);
-                return;
-            }
-
-            case 157: {
-                // Shift 113.
-                token = doShift(token, 113);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 163: {
-                // Shift 117.
-                token = doShift(token, 117);
-                return;
-            }
-
-            case 164: {
-                // Shift 118.
-                token = doShift(token, 118);
-                return;
-            }
-
-            case 165: {
-                // Shift 119.
-                token = doShift(token, 119);
-                return;
-            }
-
             case 134: {
-                // Shift 237.
-                token = doShift(token, 237);
+                // Shift 300.
+                token = doShift(token, 300);
                 return;
             }
 
@@ -33937,24 +33887,6 @@ public final class CifParser extends Parser<ASpecification> {
      * @throws IOException If reading the input failed due to an I/O error.
      */
     private final void action230() throws IOException {
-        switch (token.id) {
-            case 134: {
-                // Shift 236.
-                token = doShift(token, 236);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 231.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action231() throws IOException {
         switch (token.id) {
             case 19:
             case 22:
@@ -33994,39 +33926,33 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 232.
+     * Parser action code for parser state 231.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action232() throws IOException {
+    private final void action231() throws IOException {
         switch (token.id) {
-            case 19: {
+            case 24: {
                 // Shift 226.
                 token = doShift(token, 226);
                 return;
             }
 
-            case 24: {
+            case 36: {
                 // Shift 227.
                 token = doShift(token, 227);
                 return;
             }
 
-            case 36: {
+            case 42: {
                 // Shift 228.
                 token = doShift(token, 228);
                 return;
             }
 
-            case 42: {
+            case 70: {
                 // Shift 229.
                 token = doShift(token, 229);
-                return;
-            }
-
-            case 70: {
-                // Shift 230.
-                token = doShift(token, 230);
                 return;
             }
 
@@ -34056,6 +33982,7 @@ public final class CifParser extends Parser<ASpecification> {
                 return;
             }
 
+            case 19:
             case 39:
             case 75:
             case 76:
@@ -34077,11 +34004,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 233.
+     * Parser action code for parser state 232.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action233() throws IOException {
+    private final void action232() throws IOException {
         switch (token.id) {
             case 167: {
                 // Shift 3.
@@ -34107,6 +34034,12 @@ public final class CifParser extends Parser<ASpecification> {
                 return;
             }
 
+            case 19: {
+                // Shift 233.
+                token = doShift(token, 233);
+                return;
+            }
+
             case 39: {
                 // Reduce OptSupKind : ;
                 doReduce1(token, 68);
@@ -34115,6 +34048,66 @@ public final class CifParser extends Parser<ASpecification> {
                 reduce = true;
                 reduceNonTerminal = 68;
                 reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 233.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action233() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
+
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 18: {
+                // Shift 235.
+                token = doShift(token, 235);
+                return;
+            }
+
+            case 46: {
+                // Shift 236.
+                token = doShift(token, 236);
+                return;
+            }
+
+            case 62: {
+                // Shift 237.
+                token = doShift(token, 237);
+                return;
+            }
+
+            case 73: {
+                // Shift 238.
+                token = doShift(token, 238);
                 return;
             }
 
@@ -34175,36 +34168,39 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action235() throws IOException {
         switch (token.id) {
-            case 19:
-            case 22:
-            case 24:
-            case 36:
-            case 39:
-            case 41:
-            case 42:
-            case 49:
-            case 50:
-            case 56:
-            case 57:
-            case 58:
-            case 59:
-            case 60:
-            case 70:
-            case 75:
-            case 76:
-            case 77:
-            case 166:
-            case 167: {
-                // Reduce LocationElements : LocationElements LocationElement;
-                doReduce1(token, 38);
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
 
-                List<ALocationElement> o = hooks.parseLocationElements2((List<ALocationElement>)o1, (ALocationElement)o2);
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
 
-                reduce = true;
-                reduceNonTerminal = 38;
-                reduceState = doReduce3(o);
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 34: {
+                // Shift 253.
+                token = doShift(token, 253);
+                return;
+            }
+
+            case 155: {
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -34220,1413 +34216,9 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action236() throws IOException {
         switch (token.id) {
-            case 19:
-            case 22:
-            case 24:
-            case 36:
-            case 39:
-            case 41:
-            case 42:
-            case 49:
-            case 50:
-            case 56:
-            case 57:
-            case 58:
-            case 59:
-            case 60:
-            case 70:
-            case 75:
-            case 76:
-            case 77:
-            case 166:
-            case 167: {
-                // Reduce LocationElement : URGENTKW SEMICOLTK;
-                doReduce1(token, 39);
-                doReduce2();
-                Object o1 = doReduce2();
-
-                ALocationElement o = hooks.parseLocationElement7((Token)o1);
-
-                reduce = true;
-                reduceNonTerminal = 39;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 237.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action237() throws IOException {
-        switch (token.id) {
-            case 19:
-            case 22:
-            case 24:
-            case 36:
-            case 39:
-            case 41:
-            case 42:
-            case 49:
-            case 50:
-            case 56:
-            case 57:
-            case 58:
-            case 59:
-            case 60:
-            case 70:
-            case 75:
-            case 76:
-            case 77:
-            case 166:
-            case 167: {
-                // Reduce LocationElement : MARKEDKW SEMICOLTK;
-                doReduce1(token, 39);
-                doReduce2();
-                Object o1 = doReduce2();
-
-                ALocationElement o = hooks.parseLocationElement5((Token)o1);
-
-                reduce = true;
-                reduceNonTerminal = 39;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 238.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action238() throws IOException {
-        switch (token.id) {
-            case 133: {
-                // Shift 144.
-                token = doShift(token, 144);
-                return;
-            }
-
-            case 134: {
-                // Shift 239.
-                token = doShift(token, 239);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 239.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action239() throws IOException {
-        switch (token.id) {
-            case 19:
-            case 22:
-            case 24:
-            case 36:
-            case 39:
-            case 41:
-            case 42:
-            case 49:
-            case 50:
-            case 56:
-            case 57:
-            case 58:
-            case 59:
-            case 60:
-            case 70:
-            case 75:
-            case 76:
-            case 77:
-            case 166:
-            case 167: {
-                // Reduce LocationElement : MARKEDKW Expressions SEMICOLTK;
-                doReduce1(token, 39);
-                doReduce2();
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                ALocationElement o = hooks.parseLocationElement6((Token)o1, (List<AExpression>)o2);
-
-                reduce = true;
-                reduceNonTerminal = 39;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 240.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action240() throws IOException {
-        switch (token.id) {
-            case 19:
-            case 22:
-            case 24:
-            case 36:
-            case 39:
-            case 41:
-            case 42:
-            case 49:
-            case 50:
-            case 56:
-            case 57:
-            case 58:
-            case 59:
-            case 60:
-            case 70:
-            case 75:
-            case 76:
-            case 77:
-            case 166:
-            case 167: {
-                // Reduce LocationElement : INITIALKW SEMICOLTK;
-                doReduce1(token, 39);
-                doReduce2();
-                Object o1 = doReduce2();
-
-                ALocationElement o = hooks.parseLocationElement1((Token)o1);
-
-                reduce = true;
-                reduceNonTerminal = 39;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 241.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action241() throws IOException {
-        switch (token.id) {
-            case 133: {
-                // Shift 144.
-                token = doShift(token, 144);
-                return;
-            }
-
-            case 134: {
-                // Shift 242.
-                token = doShift(token, 242);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 242.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action242() throws IOException {
-        switch (token.id) {
-            case 19:
-            case 22:
-            case 24:
-            case 36:
-            case 39:
-            case 41:
-            case 42:
-            case 49:
-            case 50:
-            case 56:
-            case 57:
-            case 58:
-            case 59:
-            case 60:
-            case 70:
-            case 75:
-            case 76:
-            case 77:
-            case 166:
-            case 167: {
-                // Reduce LocationElement : INITIALKW Expressions SEMICOLTK;
-                doReduce1(token, 39);
-                doReduce2();
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                ALocationElement o = hooks.parseLocationElement2((Token)o1, (List<AExpression>)o2);
-
-                reduce = true;
-                reduceNonTerminal = 39;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 243.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action243() throws IOException {
-        switch (token.id) {
-            case 133:
-            case 134: {
-                // Reduce Equations : Equation;
-                doReduce1(token, 53);
-                Object o1 = doReduce2();
-
-                List<AEquation> o = hooks.parseEquations1((AEquation)o1);
-
-                reduce = true;
-                reduceNonTerminal = 53;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 244.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action244() throws IOException {
-        switch (token.id) {
-            case 133: {
+            case 18: {
                 // Shift 251.
                 token = doShift(token, 251);
-                return;
-            }
-
-            case 134: {
-                // Shift 252.
-                token = doShift(token, 252);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 245.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action245() throws IOException {
-        switch (token.id) {
-            case 136: {
-                // Shift 246.
-                token = doShift(token, 246);
-                return;
-            }
-
-            case 144: {
-                // Shift 247.
-                token = doShift(token, 247);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 246.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action246() throws IOException {
-        switch (token.id) {
-            case 144: {
-                // Shift 249.
-                token = doShift(token, 249);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 247.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action247() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 26: {
-                // Shift 53.
-                token = doShift(token, 53);
-                return;
-            }
-
-            case 34: {
-                // Shift 54.
-                token = doShift(token, 54);
-                return;
-            }
-
-            case 53: {
-                // Shift 55.
-                token = doShift(token, 55);
-                return;
-            }
-
-            case 61: {
-                // Shift 56.
-                token = doShift(token, 56);
-                return;
-            }
-
-            case 64: {
-                // Shift 57.
-                token = doShift(token, 57);
-                return;
-            }
-
-            case 66: {
-                // Shift 58.
-                token = doShift(token, 58);
-                return;
-            }
-
-            case 78: {
-                // Shift 59.
-                token = doShift(token, 59);
-                return;
-            }
-
-            case 79: {
-                // Shift 60.
-                token = doShift(token, 60);
-                return;
-            }
-
-            case 80: {
-                // Shift 61.
-                token = doShift(token, 61);
-                return;
-            }
-
-            case 81: {
-                // Shift 62.
-                token = doShift(token, 62);
-                return;
-            }
-
-            case 82: {
-                // Shift 63.
-                token = doShift(token, 63);
-                return;
-            }
-
-            case 83: {
-                // Shift 64.
-                token = doShift(token, 64);
-                return;
-            }
-
-            case 84: {
-                // Shift 65.
-                token = doShift(token, 65);
-                return;
-            }
-
-            case 85: {
-                // Shift 66.
-                token = doShift(token, 66);
-                return;
-            }
-
-            case 86: {
-                // Shift 67.
-                token = doShift(token, 67);
-                return;
-            }
-
-            case 87: {
-                // Shift 68.
-                token = doShift(token, 68);
-                return;
-            }
-
-            case 88: {
-                // Shift 69.
-                token = doShift(token, 69);
-                return;
-            }
-
-            case 89: {
-                // Shift 70.
-                token = doShift(token, 70);
-                return;
-            }
-
-            case 90: {
-                // Shift 71.
-                token = doShift(token, 71);
-                return;
-            }
-
-            case 91: {
-                // Shift 72.
-                token = doShift(token, 72);
-                return;
-            }
-
-            case 92: {
-                // Shift 73.
-                token = doShift(token, 73);
-                return;
-            }
-
-            case 93: {
-                // Shift 74.
-                token = doShift(token, 74);
-                return;
-            }
-
-            case 94: {
-                // Shift 75.
-                token = doShift(token, 75);
-                return;
-            }
-
-            case 95: {
-                // Shift 76.
-                token = doShift(token, 76);
-                return;
-            }
-
-            case 96: {
-                // Shift 77.
-                token = doShift(token, 77);
-                return;
-            }
-
-            case 97: {
-                // Shift 78.
-                token = doShift(token, 78);
-                return;
-            }
-
-            case 98: {
-                // Shift 79.
-                token = doShift(token, 79);
-                return;
-            }
-
-            case 99: {
-                // Shift 80.
-                token = doShift(token, 80);
-                return;
-            }
-
-            case 100: {
-                // Shift 81.
-                token = doShift(token, 81);
-                return;
-            }
-
-            case 101: {
-                // Shift 82.
-                token = doShift(token, 82);
-                return;
-            }
-
-            case 102: {
-                // Shift 83.
-                token = doShift(token, 83);
-                return;
-            }
-
-            case 103: {
-                // Shift 84.
-                token = doShift(token, 84);
-                return;
-            }
-
-            case 104: {
-                // Shift 85.
-                token = doShift(token, 85);
-                return;
-            }
-
-            case 105: {
-                // Shift 86.
-                token = doShift(token, 86);
-                return;
-            }
-
-            case 106: {
-                // Shift 87.
-                token = doShift(token, 87);
-                return;
-            }
-
-            case 107: {
-                // Shift 88.
-                token = doShift(token, 88);
-                return;
-            }
-
-            case 108: {
-                // Shift 89.
-                token = doShift(token, 89);
-                return;
-            }
-
-            case 109: {
-                // Shift 90.
-                token = doShift(token, 90);
-                return;
-            }
-
-            case 110: {
-                // Shift 91.
-                token = doShift(token, 91);
-                return;
-            }
-
-            case 111: {
-                // Shift 92.
-                token = doShift(token, 92);
-                return;
-            }
-
-            case 112: {
-                // Shift 93.
-                token = doShift(token, 93);
-                return;
-            }
-
-            case 113: {
-                // Shift 94.
-                token = doShift(token, 94);
-                return;
-            }
-
-            case 114: {
-                // Shift 95.
-                token = doShift(token, 95);
-                return;
-            }
-
-            case 115: {
-                // Shift 96.
-                token = doShift(token, 96);
-                return;
-            }
-
-            case 116: {
-                // Shift 97.
-                token = doShift(token, 97);
-                return;
-            }
-
-            case 117: {
-                // Shift 98.
-                token = doShift(token, 98);
-                return;
-            }
-
-            case 118: {
-                // Shift 99.
-                token = doShift(token, 99);
-                return;
-            }
-
-            case 119: {
-                // Shift 100.
-                token = doShift(token, 100);
-                return;
-            }
-
-            case 120: {
-                // Shift 101.
-                token = doShift(token, 101);
-                return;
-            }
-
-            case 121: {
-                // Shift 102.
-                token = doShift(token, 102);
-                return;
-            }
-
-            case 122: {
-                // Shift 103.
-                token = doShift(token, 103);
-                return;
-            }
-
-            case 123: {
-                // Shift 104.
-                token = doShift(token, 104);
-                return;
-            }
-
-            case 128: {
-                // Shift 105.
-                token = doShift(token, 105);
-                return;
-            }
-
-            case 130: {
-                // Shift 106.
-                token = doShift(token, 106);
-                return;
-            }
-
-            case 138: {
-                // Shift 107.
-                token = doShift(token, 107);
-                return;
-            }
-
-            case 142: {
-                // Shift 108.
-                token = doShift(token, 108);
-                return;
-            }
-
-            case 148: {
-                // Shift 109.
-                token = doShift(token, 109);
-                return;
-            }
-
-            case 149: {
-                // Shift 110.
-                token = doShift(token, 110);
-                return;
-            }
-
-            case 153: {
-                // Shift 111.
-                token = doShift(token, 111);
-                return;
-            }
-
-            case 155: {
-                // Shift 112.
-                token = doShift(token, 112);
-                return;
-            }
-
-            case 157: {
-                // Shift 113.
-                token = doShift(token, 113);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 163: {
-                // Shift 117.
-                token = doShift(token, 117);
-                return;
-            }
-
-            case 164: {
-                // Shift 118.
-                token = doShift(token, 118);
-                return;
-            }
-
-            case 165: {
-                // Shift 119.
-                token = doShift(token, 119);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 248.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action248() throws IOException {
-        switch (token.id) {
-            case 133:
-            case 134: {
-                // Reduce Equation : Identifier EQTK Expression;
-                doReduce1(token, 54);
-                Object o3 = doReduce2();
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                AEquation o = hooks.parseEquation2((AIdentifier)o1, (Token)o2, (AExpression)o3);
-
-                reduce = true;
-                reduceNonTerminal = 54;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 249.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action249() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 26: {
-                // Shift 53.
-                token = doShift(token, 53);
-                return;
-            }
-
-            case 34: {
-                // Shift 54.
-                token = doShift(token, 54);
-                return;
-            }
-
-            case 53: {
-                // Shift 55.
-                token = doShift(token, 55);
-                return;
-            }
-
-            case 61: {
-                // Shift 56.
-                token = doShift(token, 56);
-                return;
-            }
-
-            case 64: {
-                // Shift 57.
-                token = doShift(token, 57);
-                return;
-            }
-
-            case 66: {
-                // Shift 58.
-                token = doShift(token, 58);
-                return;
-            }
-
-            case 78: {
-                // Shift 59.
-                token = doShift(token, 59);
-                return;
-            }
-
-            case 79: {
-                // Shift 60.
-                token = doShift(token, 60);
-                return;
-            }
-
-            case 80: {
-                // Shift 61.
-                token = doShift(token, 61);
-                return;
-            }
-
-            case 81: {
-                // Shift 62.
-                token = doShift(token, 62);
-                return;
-            }
-
-            case 82: {
-                // Shift 63.
-                token = doShift(token, 63);
-                return;
-            }
-
-            case 83: {
-                // Shift 64.
-                token = doShift(token, 64);
-                return;
-            }
-
-            case 84: {
-                // Shift 65.
-                token = doShift(token, 65);
-                return;
-            }
-
-            case 85: {
-                // Shift 66.
-                token = doShift(token, 66);
-                return;
-            }
-
-            case 86: {
-                // Shift 67.
-                token = doShift(token, 67);
-                return;
-            }
-
-            case 87: {
-                // Shift 68.
-                token = doShift(token, 68);
-                return;
-            }
-
-            case 88: {
-                // Shift 69.
-                token = doShift(token, 69);
-                return;
-            }
-
-            case 89: {
-                // Shift 70.
-                token = doShift(token, 70);
-                return;
-            }
-
-            case 90: {
-                // Shift 71.
-                token = doShift(token, 71);
-                return;
-            }
-
-            case 91: {
-                // Shift 72.
-                token = doShift(token, 72);
-                return;
-            }
-
-            case 92: {
-                // Shift 73.
-                token = doShift(token, 73);
-                return;
-            }
-
-            case 93: {
-                // Shift 74.
-                token = doShift(token, 74);
-                return;
-            }
-
-            case 94: {
-                // Shift 75.
-                token = doShift(token, 75);
-                return;
-            }
-
-            case 95: {
-                // Shift 76.
-                token = doShift(token, 76);
-                return;
-            }
-
-            case 96: {
-                // Shift 77.
-                token = doShift(token, 77);
-                return;
-            }
-
-            case 97: {
-                // Shift 78.
-                token = doShift(token, 78);
-                return;
-            }
-
-            case 98: {
-                // Shift 79.
-                token = doShift(token, 79);
-                return;
-            }
-
-            case 99: {
-                // Shift 80.
-                token = doShift(token, 80);
-                return;
-            }
-
-            case 100: {
-                // Shift 81.
-                token = doShift(token, 81);
-                return;
-            }
-
-            case 101: {
-                // Shift 82.
-                token = doShift(token, 82);
-                return;
-            }
-
-            case 102: {
-                // Shift 83.
-                token = doShift(token, 83);
-                return;
-            }
-
-            case 103: {
-                // Shift 84.
-                token = doShift(token, 84);
-                return;
-            }
-
-            case 104: {
-                // Shift 85.
-                token = doShift(token, 85);
-                return;
-            }
-
-            case 105: {
-                // Shift 86.
-                token = doShift(token, 86);
-                return;
-            }
-
-            case 106: {
-                // Shift 87.
-                token = doShift(token, 87);
-                return;
-            }
-
-            case 107: {
-                // Shift 88.
-                token = doShift(token, 88);
-                return;
-            }
-
-            case 108: {
-                // Shift 89.
-                token = doShift(token, 89);
-                return;
-            }
-
-            case 109: {
-                // Shift 90.
-                token = doShift(token, 90);
-                return;
-            }
-
-            case 110: {
-                // Shift 91.
-                token = doShift(token, 91);
-                return;
-            }
-
-            case 111: {
-                // Shift 92.
-                token = doShift(token, 92);
-                return;
-            }
-
-            case 112: {
-                // Shift 93.
-                token = doShift(token, 93);
-                return;
-            }
-
-            case 113: {
-                // Shift 94.
-                token = doShift(token, 94);
-                return;
-            }
-
-            case 114: {
-                // Shift 95.
-                token = doShift(token, 95);
-                return;
-            }
-
-            case 115: {
-                // Shift 96.
-                token = doShift(token, 96);
-                return;
-            }
-
-            case 116: {
-                // Shift 97.
-                token = doShift(token, 97);
-                return;
-            }
-
-            case 117: {
-                // Shift 98.
-                token = doShift(token, 98);
-                return;
-            }
-
-            case 118: {
-                // Shift 99.
-                token = doShift(token, 99);
-                return;
-            }
-
-            case 119: {
-                // Shift 100.
-                token = doShift(token, 100);
-                return;
-            }
-
-            case 120: {
-                // Shift 101.
-                token = doShift(token, 101);
-                return;
-            }
-
-            case 121: {
-                // Shift 102.
-                token = doShift(token, 102);
-                return;
-            }
-
-            case 122: {
-                // Shift 103.
-                token = doShift(token, 103);
-                return;
-            }
-
-            case 123: {
-                // Shift 104.
-                token = doShift(token, 104);
-                return;
-            }
-
-            case 128: {
-                // Shift 105.
-                token = doShift(token, 105);
-                return;
-            }
-
-            case 130: {
-                // Shift 106.
-                token = doShift(token, 106);
-                return;
-            }
-
-            case 138: {
-                // Shift 107.
-                token = doShift(token, 107);
-                return;
-            }
-
-            case 142: {
-                // Shift 108.
-                token = doShift(token, 108);
-                return;
-            }
-
-            case 148: {
-                // Shift 109.
-                token = doShift(token, 109);
-                return;
-            }
-
-            case 149: {
-                // Shift 110.
-                token = doShift(token, 110);
-                return;
-            }
-
-            case 153: {
-                // Shift 111.
-                token = doShift(token, 111);
-                return;
-            }
-
-            case 155: {
-                // Shift 112.
-                token = doShift(token, 112);
-                return;
-            }
-
-            case 157: {
-                // Shift 113.
-                token = doShift(token, 113);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 163: {
-                // Shift 117.
-                token = doShift(token, 117);
-                return;
-            }
-
-            case 164: {
-                // Shift 118.
-                token = doShift(token, 118);
-                return;
-            }
-
-            case 165: {
-                // Shift 119.
-                token = doShift(token, 119);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 250.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action250() throws IOException {
-        switch (token.id) {
-            case 133:
-            case 134: {
-                // Reduce Equation : Identifier APOSTROPHETK EQTK Expression;
-                doReduce1(token, 54);
-                Object o4 = doReduce2();
-                Object o3 = doReduce2();
-                doReduce2();
-                Object o1 = doReduce2();
-
-                AEquation o = hooks.parseEquation1((AIdentifier)o1, (Token)o3, (AExpression)o4);
-
-                reduce = true;
-                reduceNonTerminal = 54;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 251.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action251() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 252.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action252() throws IOException {
-        switch (token.id) {
-            case 19:
-            case 22:
-            case 24:
-            case 36:
-            case 39:
-            case 41:
-            case 42:
-            case 49:
-            case 50:
-            case 56:
-            case 57:
-            case 58:
-            case 59:
-            case 60:
-            case 70:
-            case 75:
-            case 76:
-            case 77:
-            case 166:
-            case 167: {
-                // Reduce LocationElement : EQUATIONKW Equations SEMICOLTK;
-                doReduce1(token, 39);
-                doReduce2();
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                ALocationElement o = hooks.parseLocationElement4((Token)o1, (List<AEquation>)o2);
-
-                reduce = true;
-                reduceNonTerminal = 39;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 253.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action253() throws IOException {
-        switch (token.id) {
-            case 133:
-            case 134: {
-                // Reduce Equations : Equations COMMATK Equation;
-                doReduce1(token, 53);
-                Object o3 = doReduce2();
-                doReduce2();
-                Object o1 = doReduce2();
-
-                List<AEquation> o = hooks.parseEquations2((List<AEquation>)o1, (AEquation)o3);
-
-                reduce = true;
-                reduceNonTerminal = 53;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 254.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action254() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 34: {
-                // Shift 272.
-                token = doShift(token, 272);
-                return;
-            }
-
-            case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 255.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action255() throws IOException {
-        switch (token.id) {
-            case 18: {
-                // Shift 270.
-                token = doShift(token, 270);
                 return;
             }
 
@@ -35648,11 +34240,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 256.
+     * Parser action code for parser state 237.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action256() throws IOException {
+    private final void action237() throws IOException {
         switch (token.id) {
             case 18:
             case 31:
@@ -35678,11 +34270,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 257.
+     * Parser action code for parser state 238.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action257() throws IOException {
+    private final void action238() throws IOException {
         switch (token.id) {
             case 162: {
                 // Shift 32.
@@ -36098,21 +34690,21 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 258.
+     * Parser action code for parser state 239.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action258() throws IOException {
+    private final void action239() throws IOException {
         switch (token.id) {
             case 31: {
-                // Shift 309.
-                token = doShift(token, 309);
+                // Shift 290.
+                token = doShift(token, 290);
                 return;
             }
 
             case 134: {
-                // Shift 310.
-                token = doShift(token, 310);
+                // Shift 291.
+                token = doShift(token, 291);
                 return;
             }
 
@@ -36122,11 +34714,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 259.
+     * Parser action code for parser state 240.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action259() throws IOException {
+    private final void action240() throws IOException {
         switch (token.id) {
             case 18:
             case 31:
@@ -36152,21 +34744,21 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 260.
+     * Parser action code for parser state 241.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action260() throws IOException {
+    private final void action241() throws IOException {
         switch (token.id) {
             case 73: {
-                // Shift 265.
-                token = doShift(token, 265);
+                // Shift 246.
+                token = doShift(token, 246);
                 return;
             }
 
             case 133: {
-                // Shift 266.
-                token = doShift(token, 266);
+                // Shift 247.
+                token = doShift(token, 247);
                 return;
             }
 
@@ -36190,21 +34782,21 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 261.
+     * Parser action code for parser state 242.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action261() throws IOException {
+    private final void action242() throws IOException {
         switch (token.id) {
             case 137: {
-                // Shift 262.
-                token = doShift(token, 262);
+                // Shift 243.
+                token = doShift(token, 243);
                 return;
             }
 
             case 138: {
-                // Shift 263.
-                token = doShift(token, 263);
+                // Shift 244.
+                token = doShift(token, 244);
                 return;
             }
 
@@ -36232,11 +34824,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 262.
+     * Parser action code for parser state 243.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action262() throws IOException {
+    private final void action243() throws IOException {
         switch (token.id) {
             case 162: {
                 // Shift 32.
@@ -36671,11 +35263,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 263.
+     * Parser action code for parser state 244.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action263() throws IOException {
+    private final void action244() throws IOException {
         switch (token.id) {
             case 18:
             case 31:
@@ -36702,11 +35294,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 264.
+     * Parser action code for parser state 245.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action264() throws IOException {
+    private final void action245() throws IOException {
         switch (token.id) {
             case 18:
             case 31:
@@ -36734,11 +35326,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 265.
+     * Parser action code for parser state 246.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action265() throws IOException {
+    private final void action246() throws IOException {
         switch (token.id) {
             case 162: {
                 // Shift 32.
@@ -37154,11 +35746,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 266.
+     * Parser action code for parser state 247.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action266() throws IOException {
+    private final void action247() throws IOException {
         switch (token.id) {
             case 162: {
                 // Shift 32.
@@ -37185,8 +35777,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 62: {
-                // Shift 256.
-                token = doShift(token, 256);
+                // Shift 237.
+                token = doShift(token, 237);
                 return;
             }
 
@@ -37196,15 +35788,15 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 267.
+     * Parser action code for parser state 248.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action267() throws IOException {
+    private final void action248() throws IOException {
         switch (token.id) {
             case 46: {
-                // Shift 268.
-                token = doShift(token, 268);
+                // Shift 249.
+                token = doShift(token, 249);
                 return;
             }
 
@@ -37227,11 +35819,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 268.
+     * Parser action code for parser state 249.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action268() throws IOException {
+    private final void action249() throws IOException {
         switch (token.id) {
             case 18:
             case 31:
@@ -37254,15 +35846,15 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 269.
+     * Parser action code for parser state 250.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action269() throws IOException {
+    private final void action250() throws IOException {
         switch (token.id) {
             case 18: {
-                // Shift 270.
-                token = doShift(token, 270);
+                // Shift 251.
+                token = doShift(token, 251);
                 return;
             }
 
@@ -37275,6 +35867,1771 @@ public final class CifParser extends Parser<ASpecification> {
                 reduce = true;
                 reduceNonTerminal = 33;
                 reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 251.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action251() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
+
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 34: {
+                // Shift 253.
+                token = doShift(token, 253);
+                return;
+            }
+
+            case 155: {
+                // Shift 254.
+                token = doShift(token, 254);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 252.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action252() throws IOException {
+        switch (token.id) {
+            case 31:
+            case 134: {
+                // Reduce CoreEdge : EdgeEvents OptEdgeGuard OptEdgeUrgent OptEdgeUpdate;
+                doReduce1(token, 30);
+                Object o4 = doReduce2();
+                Object o3 = doReduce2();
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                ACoreEdge o = hooks.parseCoreEdge1((List<AEdgeEvent>)o1, (List<AExpression>)o2, (TextPosition)o3, (List<AUpdate>)o4);
+
+                reduce = true;
+                reduceNonTerminal = 30;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 253.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action253() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 26: {
+                // Shift 53.
+                token = doShift(token, 53);
+                return;
+            }
+
+            case 34: {
+                // Shift 54.
+                token = doShift(token, 54);
+                return;
+            }
+
+            case 53: {
+                // Shift 55.
+                token = doShift(token, 55);
+                return;
+            }
+
+            case 61: {
+                // Shift 56.
+                token = doShift(token, 56);
+                return;
+            }
+
+            case 64: {
+                // Shift 57.
+                token = doShift(token, 57);
+                return;
+            }
+
+            case 66: {
+                // Shift 58.
+                token = doShift(token, 58);
+                return;
+            }
+
+            case 78: {
+                // Shift 59.
+                token = doShift(token, 59);
+                return;
+            }
+
+            case 79: {
+                // Shift 60.
+                token = doShift(token, 60);
+                return;
+            }
+
+            case 80: {
+                // Shift 61.
+                token = doShift(token, 61);
+                return;
+            }
+
+            case 81: {
+                // Shift 62.
+                token = doShift(token, 62);
+                return;
+            }
+
+            case 82: {
+                // Shift 63.
+                token = doShift(token, 63);
+                return;
+            }
+
+            case 83: {
+                // Shift 64.
+                token = doShift(token, 64);
+                return;
+            }
+
+            case 84: {
+                // Shift 65.
+                token = doShift(token, 65);
+                return;
+            }
+
+            case 85: {
+                // Shift 66.
+                token = doShift(token, 66);
+                return;
+            }
+
+            case 86: {
+                // Shift 67.
+                token = doShift(token, 67);
+                return;
+            }
+
+            case 87: {
+                // Shift 68.
+                token = doShift(token, 68);
+                return;
+            }
+
+            case 88: {
+                // Shift 69.
+                token = doShift(token, 69);
+                return;
+            }
+
+            case 89: {
+                // Shift 70.
+                token = doShift(token, 70);
+                return;
+            }
+
+            case 90: {
+                // Shift 71.
+                token = doShift(token, 71);
+                return;
+            }
+
+            case 91: {
+                // Shift 72.
+                token = doShift(token, 72);
+                return;
+            }
+
+            case 92: {
+                // Shift 73.
+                token = doShift(token, 73);
+                return;
+            }
+
+            case 93: {
+                // Shift 74.
+                token = doShift(token, 74);
+                return;
+            }
+
+            case 94: {
+                // Shift 75.
+                token = doShift(token, 75);
+                return;
+            }
+
+            case 95: {
+                // Shift 76.
+                token = doShift(token, 76);
+                return;
+            }
+
+            case 96: {
+                // Shift 77.
+                token = doShift(token, 77);
+                return;
+            }
+
+            case 97: {
+                // Shift 78.
+                token = doShift(token, 78);
+                return;
+            }
+
+            case 98: {
+                // Shift 79.
+                token = doShift(token, 79);
+                return;
+            }
+
+            case 99: {
+                // Shift 80.
+                token = doShift(token, 80);
+                return;
+            }
+
+            case 100: {
+                // Shift 81.
+                token = doShift(token, 81);
+                return;
+            }
+
+            case 101: {
+                // Shift 82.
+                token = doShift(token, 82);
+                return;
+            }
+
+            case 102: {
+                // Shift 83.
+                token = doShift(token, 83);
+                return;
+            }
+
+            case 103: {
+                // Shift 84.
+                token = doShift(token, 84);
+                return;
+            }
+
+            case 104: {
+                // Shift 85.
+                token = doShift(token, 85);
+                return;
+            }
+
+            case 105: {
+                // Shift 86.
+                token = doShift(token, 86);
+                return;
+            }
+
+            case 106: {
+                // Shift 87.
+                token = doShift(token, 87);
+                return;
+            }
+
+            case 107: {
+                // Shift 88.
+                token = doShift(token, 88);
+                return;
+            }
+
+            case 108: {
+                // Shift 89.
+                token = doShift(token, 89);
+                return;
+            }
+
+            case 109: {
+                // Shift 90.
+                token = doShift(token, 90);
+                return;
+            }
+
+            case 110: {
+                // Shift 91.
+                token = doShift(token, 91);
+                return;
+            }
+
+            case 111: {
+                // Shift 92.
+                token = doShift(token, 92);
+                return;
+            }
+
+            case 112: {
+                // Shift 93.
+                token = doShift(token, 93);
+                return;
+            }
+
+            case 113: {
+                // Shift 94.
+                token = doShift(token, 94);
+                return;
+            }
+
+            case 114: {
+                // Shift 95.
+                token = doShift(token, 95);
+                return;
+            }
+
+            case 115: {
+                // Shift 96.
+                token = doShift(token, 96);
+                return;
+            }
+
+            case 116: {
+                // Shift 97.
+                token = doShift(token, 97);
+                return;
+            }
+
+            case 117: {
+                // Shift 98.
+                token = doShift(token, 98);
+                return;
+            }
+
+            case 118: {
+                // Shift 99.
+                token = doShift(token, 99);
+                return;
+            }
+
+            case 119: {
+                // Shift 100.
+                token = doShift(token, 100);
+                return;
+            }
+
+            case 120: {
+                // Shift 101.
+                token = doShift(token, 101);
+                return;
+            }
+
+            case 121: {
+                // Shift 102.
+                token = doShift(token, 102);
+                return;
+            }
+
+            case 122: {
+                // Shift 103.
+                token = doShift(token, 103);
+                return;
+            }
+
+            case 123: {
+                // Shift 104.
+                token = doShift(token, 104);
+                return;
+            }
+
+            case 128: {
+                // Shift 105.
+                token = doShift(token, 105);
+                return;
+            }
+
+            case 130: {
+                // Shift 106.
+                token = doShift(token, 106);
+                return;
+            }
+
+            case 138: {
+                // Shift 107.
+                token = doShift(token, 107);
+                return;
+            }
+
+            case 142: {
+                // Shift 108.
+                token = doShift(token, 108);
+                return;
+            }
+
+            case 148: {
+                // Shift 109.
+                token = doShift(token, 109);
+                return;
+            }
+
+            case 149: {
+                // Shift 110.
+                token = doShift(token, 110);
+                return;
+            }
+
+            case 153: {
+                // Shift 111.
+                token = doShift(token, 111);
+                return;
+            }
+
+            case 155: {
+                // Shift 112.
+                token = doShift(token, 112);
+                return;
+            }
+
+            case 157: {
+                // Shift 113.
+                token = doShift(token, 113);
+                return;
+            }
+
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
+
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 163: {
+                // Shift 117.
+                token = doShift(token, 117);
+                return;
+            }
+
+            case 164: {
+                // Shift 118.
+                token = doShift(token, 118);
+                return;
+            }
+
+            case 165: {
+                // Shift 119.
+                token = doShift(token, 119);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 254.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action254() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
+
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 155: {
+                // Shift 254.
+                token = doShift(token, 254);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 255.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action255() throws IOException {
+        switch (token.id) {
+            case 132: {
+                // Shift 267.
+                token = doShift(token, 267);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 256.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action256() throws IOException {
+        switch (token.id) {
+            case 157: {
+                // Shift 261.
+                token = doShift(token, 261);
+                return;
+            }
+
+            case 132:
+            case 133:
+            case 156: {
+                // Reduce Addressable : Name;
+                doReduce1(token, 63);
+                Object o1 = doReduce2();
+
+                AExpression o = hooks.parseAddressable1((AName)o1);
+
+                reduce = true;
+                reduceNonTerminal = 63;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 257.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action257() throws IOException {
+        switch (token.id) {
+            case 20:
+            case 21:
+            case 22:
+            case 27:
+            case 31:
+            case 133:
+            case 134: {
+                // Reduce Updates : Update;
+                doReduce1(token, 60);
+                Object o1 = doReduce2();
+
+                List<AUpdate> o = hooks.parseUpdates1((AUpdate)o1);
+
+                reduce = true;
+                reduceNonTerminal = 60;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 258.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action258() throws IOException {
+        switch (token.id) {
+            case 133: {
+                // Shift 259.
+                token = doShift(token, 259);
+                return;
+            }
+
+            case 31:
+            case 134: {
+                // Reduce OptEdgeUpdate : DOKW Updates;
+                doReduce1(token, 33);
+                Object o2 = doReduce2();
+                doReduce2();
+
+                List<AUpdate> o = hooks.parseOptEdgeUpdate2((List<AUpdate>)o2);
+
+                reduce = true;
+                reduceNonTerminal = 33;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 259.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action259() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
+
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 34: {
+                // Shift 253.
+                token = doShift(token, 253);
+                return;
+            }
+
+            case 155: {
+                // Shift 254.
+                token = doShift(token, 254);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 260.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action260() throws IOException {
+        switch (token.id) {
+            case 20:
+            case 21:
+            case 22:
+            case 27:
+            case 31:
+            case 133:
+            case 134: {
+                // Reduce Updates : Updates COMMATK Update;
+                doReduce1(token, 60);
+                Object o3 = doReduce2();
+                doReduce2();
+                Object o1 = doReduce2();
+
+                List<AUpdate> o = hooks.parseUpdates2((List<AUpdate>)o1, (AUpdate)o3);
+
+                reduce = true;
+                reduceNonTerminal = 60;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 261.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action261() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 26: {
+                // Shift 53.
+                token = doShift(token, 53);
+                return;
+            }
+
+            case 34: {
+                // Shift 54.
+                token = doShift(token, 54);
+                return;
+            }
+
+            case 53: {
+                // Shift 55.
+                token = doShift(token, 55);
+                return;
+            }
+
+            case 61: {
+                // Shift 56.
+                token = doShift(token, 56);
+                return;
+            }
+
+            case 64: {
+                // Shift 57.
+                token = doShift(token, 57);
+                return;
+            }
+
+            case 66: {
+                // Shift 58.
+                token = doShift(token, 58);
+                return;
+            }
+
+            case 78: {
+                // Shift 59.
+                token = doShift(token, 59);
+                return;
+            }
+
+            case 79: {
+                // Shift 60.
+                token = doShift(token, 60);
+                return;
+            }
+
+            case 80: {
+                // Shift 61.
+                token = doShift(token, 61);
+                return;
+            }
+
+            case 81: {
+                // Shift 62.
+                token = doShift(token, 62);
+                return;
+            }
+
+            case 82: {
+                // Shift 63.
+                token = doShift(token, 63);
+                return;
+            }
+
+            case 83: {
+                // Shift 64.
+                token = doShift(token, 64);
+                return;
+            }
+
+            case 84: {
+                // Shift 65.
+                token = doShift(token, 65);
+                return;
+            }
+
+            case 85: {
+                // Shift 66.
+                token = doShift(token, 66);
+                return;
+            }
+
+            case 86: {
+                // Shift 67.
+                token = doShift(token, 67);
+                return;
+            }
+
+            case 87: {
+                // Shift 68.
+                token = doShift(token, 68);
+                return;
+            }
+
+            case 88: {
+                // Shift 69.
+                token = doShift(token, 69);
+                return;
+            }
+
+            case 89: {
+                // Shift 70.
+                token = doShift(token, 70);
+                return;
+            }
+
+            case 90: {
+                // Shift 71.
+                token = doShift(token, 71);
+                return;
+            }
+
+            case 91: {
+                // Shift 72.
+                token = doShift(token, 72);
+                return;
+            }
+
+            case 92: {
+                // Shift 73.
+                token = doShift(token, 73);
+                return;
+            }
+
+            case 93: {
+                // Shift 74.
+                token = doShift(token, 74);
+                return;
+            }
+
+            case 94: {
+                // Shift 75.
+                token = doShift(token, 75);
+                return;
+            }
+
+            case 95: {
+                // Shift 76.
+                token = doShift(token, 76);
+                return;
+            }
+
+            case 96: {
+                // Shift 77.
+                token = doShift(token, 77);
+                return;
+            }
+
+            case 97: {
+                // Shift 78.
+                token = doShift(token, 78);
+                return;
+            }
+
+            case 98: {
+                // Shift 79.
+                token = doShift(token, 79);
+                return;
+            }
+
+            case 99: {
+                // Shift 80.
+                token = doShift(token, 80);
+                return;
+            }
+
+            case 100: {
+                // Shift 81.
+                token = doShift(token, 81);
+                return;
+            }
+
+            case 101: {
+                // Shift 82.
+                token = doShift(token, 82);
+                return;
+            }
+
+            case 102: {
+                // Shift 83.
+                token = doShift(token, 83);
+                return;
+            }
+
+            case 103: {
+                // Shift 84.
+                token = doShift(token, 84);
+                return;
+            }
+
+            case 104: {
+                // Shift 85.
+                token = doShift(token, 85);
+                return;
+            }
+
+            case 105: {
+                // Shift 86.
+                token = doShift(token, 86);
+                return;
+            }
+
+            case 106: {
+                // Shift 87.
+                token = doShift(token, 87);
+                return;
+            }
+
+            case 107: {
+                // Shift 88.
+                token = doShift(token, 88);
+                return;
+            }
+
+            case 108: {
+                // Shift 89.
+                token = doShift(token, 89);
+                return;
+            }
+
+            case 109: {
+                // Shift 90.
+                token = doShift(token, 90);
+                return;
+            }
+
+            case 110: {
+                // Shift 91.
+                token = doShift(token, 91);
+                return;
+            }
+
+            case 111: {
+                // Shift 92.
+                token = doShift(token, 92);
+                return;
+            }
+
+            case 112: {
+                // Shift 93.
+                token = doShift(token, 93);
+                return;
+            }
+
+            case 113: {
+                // Shift 94.
+                token = doShift(token, 94);
+                return;
+            }
+
+            case 114: {
+                // Shift 95.
+                token = doShift(token, 95);
+                return;
+            }
+
+            case 115: {
+                // Shift 96.
+                token = doShift(token, 96);
+                return;
+            }
+
+            case 116: {
+                // Shift 97.
+                token = doShift(token, 97);
+                return;
+            }
+
+            case 117: {
+                // Shift 98.
+                token = doShift(token, 98);
+                return;
+            }
+
+            case 118: {
+                // Shift 99.
+                token = doShift(token, 99);
+                return;
+            }
+
+            case 119: {
+                // Shift 100.
+                token = doShift(token, 100);
+                return;
+            }
+
+            case 120: {
+                // Shift 101.
+                token = doShift(token, 101);
+                return;
+            }
+
+            case 121: {
+                // Shift 102.
+                token = doShift(token, 102);
+                return;
+            }
+
+            case 122: {
+                // Shift 103.
+                token = doShift(token, 103);
+                return;
+            }
+
+            case 123: {
+                // Shift 104.
+                token = doShift(token, 104);
+                return;
+            }
+
+            case 128: {
+                // Shift 105.
+                token = doShift(token, 105);
+                return;
+            }
+
+            case 130: {
+                // Shift 106.
+                token = doShift(token, 106);
+                return;
+            }
+
+            case 138: {
+                // Shift 107.
+                token = doShift(token, 107);
+                return;
+            }
+
+            case 142: {
+                // Shift 108.
+                token = doShift(token, 108);
+                return;
+            }
+
+            case 148: {
+                // Shift 109.
+                token = doShift(token, 109);
+                return;
+            }
+
+            case 149: {
+                // Shift 110.
+                token = doShift(token, 110);
+                return;
+            }
+
+            case 153: {
+                // Shift 111.
+                token = doShift(token, 111);
+                return;
+            }
+
+            case 155: {
+                // Shift 112.
+                token = doShift(token, 112);
+                return;
+            }
+
+            case 157: {
+                // Shift 113.
+                token = doShift(token, 113);
+                return;
+            }
+
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
+
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 163: {
+                // Shift 117.
+                token = doShift(token, 117);
+                return;
+            }
+
+            case 164: {
+                // Shift 118.
+                token = doShift(token, 118);
+                return;
+            }
+
+            case 165: {
+                // Shift 119.
+                token = doShift(token, 119);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 262.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action262() throws IOException {
+        switch (token.id) {
+            case 132:
+            case 133:
+            case 156:
+            case 157: {
+                // Reduce Projections : Projection;
+                doReduce1(token, 64);
+                Object o1 = doReduce2();
+
+                List<AProjectionExpression> o = hooks.parseProjections1((AProjectionExpression)o1);
+
+                reduce = true;
+                reduceNonTerminal = 64;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 263.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action263() throws IOException {
+        switch (token.id) {
+            case 157: {
+                // Shift 261.
+                token = doShift(token, 261);
+                return;
+            }
+
+            case 132:
+            case 133:
+            case 156: {
+                // Reduce Addressable : Name Projections;
+                doReduce1(token, 63);
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                AExpression o = hooks.parseAddressable2((AName)o1, (List<AProjectionExpression>)o2);
+
+                reduce = true;
+                reduceNonTerminal = 63;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 264.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action264() throws IOException {
+        switch (token.id) {
+            case 132:
+            case 133:
+            case 156:
+            case 157: {
+                // Reduce Projections : Projections Projection;
+                doReduce1(token, 64);
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                List<AProjectionExpression> o = hooks.parseProjections2((List<AProjectionExpression>)o1, (AProjectionExpression)o2);
+
+                reduce = true;
+                reduceNonTerminal = 64;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 265.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action265() throws IOException {
+        switch (token.id) {
+            case 158: {
+                // Shift 266.
+                token = doShift(token, 266);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 266.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action266() throws IOException {
+        switch (token.id) {
+            case 132:
+            case 133:
+            case 156:
+            case 157: {
+                // Reduce Projection : SQOPENTK Expression SQCLOSETK;
+                doReduce1(token, 65);
+                doReduce2();
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                AProjectionExpression o = hooks.parseProjection1((Token)o1, (AExpression)o2);
+
+                reduce = true;
+                reduceNonTerminal = 65;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 267.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action267() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 26: {
+                // Shift 53.
+                token = doShift(token, 53);
+                return;
+            }
+
+            case 34: {
+                // Shift 54.
+                token = doShift(token, 54);
+                return;
+            }
+
+            case 53: {
+                // Shift 55.
+                token = doShift(token, 55);
+                return;
+            }
+
+            case 61: {
+                // Shift 56.
+                token = doShift(token, 56);
+                return;
+            }
+
+            case 64: {
+                // Shift 57.
+                token = doShift(token, 57);
+                return;
+            }
+
+            case 66: {
+                // Shift 58.
+                token = doShift(token, 58);
+                return;
+            }
+
+            case 78: {
+                // Shift 59.
+                token = doShift(token, 59);
+                return;
+            }
+
+            case 79: {
+                // Shift 60.
+                token = doShift(token, 60);
+                return;
+            }
+
+            case 80: {
+                // Shift 61.
+                token = doShift(token, 61);
+                return;
+            }
+
+            case 81: {
+                // Shift 62.
+                token = doShift(token, 62);
+                return;
+            }
+
+            case 82: {
+                // Shift 63.
+                token = doShift(token, 63);
+                return;
+            }
+
+            case 83: {
+                // Shift 64.
+                token = doShift(token, 64);
+                return;
+            }
+
+            case 84: {
+                // Shift 65.
+                token = doShift(token, 65);
+                return;
+            }
+
+            case 85: {
+                // Shift 66.
+                token = doShift(token, 66);
+                return;
+            }
+
+            case 86: {
+                // Shift 67.
+                token = doShift(token, 67);
+                return;
+            }
+
+            case 87: {
+                // Shift 68.
+                token = doShift(token, 68);
+                return;
+            }
+
+            case 88: {
+                // Shift 69.
+                token = doShift(token, 69);
+                return;
+            }
+
+            case 89: {
+                // Shift 70.
+                token = doShift(token, 70);
+                return;
+            }
+
+            case 90: {
+                // Shift 71.
+                token = doShift(token, 71);
+                return;
+            }
+
+            case 91: {
+                // Shift 72.
+                token = doShift(token, 72);
+                return;
+            }
+
+            case 92: {
+                // Shift 73.
+                token = doShift(token, 73);
+                return;
+            }
+
+            case 93: {
+                // Shift 74.
+                token = doShift(token, 74);
+                return;
+            }
+
+            case 94: {
+                // Shift 75.
+                token = doShift(token, 75);
+                return;
+            }
+
+            case 95: {
+                // Shift 76.
+                token = doShift(token, 76);
+                return;
+            }
+
+            case 96: {
+                // Shift 77.
+                token = doShift(token, 77);
+                return;
+            }
+
+            case 97: {
+                // Shift 78.
+                token = doShift(token, 78);
+                return;
+            }
+
+            case 98: {
+                // Shift 79.
+                token = doShift(token, 79);
+                return;
+            }
+
+            case 99: {
+                // Shift 80.
+                token = doShift(token, 80);
+                return;
+            }
+
+            case 100: {
+                // Shift 81.
+                token = doShift(token, 81);
+                return;
+            }
+
+            case 101: {
+                // Shift 82.
+                token = doShift(token, 82);
+                return;
+            }
+
+            case 102: {
+                // Shift 83.
+                token = doShift(token, 83);
+                return;
+            }
+
+            case 103: {
+                // Shift 84.
+                token = doShift(token, 84);
+                return;
+            }
+
+            case 104: {
+                // Shift 85.
+                token = doShift(token, 85);
+                return;
+            }
+
+            case 105: {
+                // Shift 86.
+                token = doShift(token, 86);
+                return;
+            }
+
+            case 106: {
+                // Shift 87.
+                token = doShift(token, 87);
+                return;
+            }
+
+            case 107: {
+                // Shift 88.
+                token = doShift(token, 88);
+                return;
+            }
+
+            case 108: {
+                // Shift 89.
+                token = doShift(token, 89);
+                return;
+            }
+
+            case 109: {
+                // Shift 90.
+                token = doShift(token, 90);
+                return;
+            }
+
+            case 110: {
+                // Shift 91.
+                token = doShift(token, 91);
+                return;
+            }
+
+            case 111: {
+                // Shift 92.
+                token = doShift(token, 92);
+                return;
+            }
+
+            case 112: {
+                // Shift 93.
+                token = doShift(token, 93);
+                return;
+            }
+
+            case 113: {
+                // Shift 94.
+                token = doShift(token, 94);
+                return;
+            }
+
+            case 114: {
+                // Shift 95.
+                token = doShift(token, 95);
+                return;
+            }
+
+            case 115: {
+                // Shift 96.
+                token = doShift(token, 96);
+                return;
+            }
+
+            case 116: {
+                // Shift 97.
+                token = doShift(token, 97);
+                return;
+            }
+
+            case 117: {
+                // Shift 98.
+                token = doShift(token, 98);
+                return;
+            }
+
+            case 118: {
+                // Shift 99.
+                token = doShift(token, 99);
+                return;
+            }
+
+            case 119: {
+                // Shift 100.
+                token = doShift(token, 100);
+                return;
+            }
+
+            case 120: {
+                // Shift 101.
+                token = doShift(token, 101);
+                return;
+            }
+
+            case 121: {
+                // Shift 102.
+                token = doShift(token, 102);
+                return;
+            }
+
+            case 122: {
+                // Shift 103.
+                token = doShift(token, 103);
+                return;
+            }
+
+            case 123: {
+                // Shift 104.
+                token = doShift(token, 104);
+                return;
+            }
+
+            case 128: {
+                // Shift 105.
+                token = doShift(token, 105);
+                return;
+            }
+
+            case 130: {
+                // Shift 106.
+                token = doShift(token, 106);
+                return;
+            }
+
+            case 138: {
+                // Shift 107.
+                token = doShift(token, 107);
+                return;
+            }
+
+            case 142: {
+                // Shift 108.
+                token = doShift(token, 108);
+                return;
+            }
+
+            case 148: {
+                // Shift 109.
+                token = doShift(token, 109);
+                return;
+            }
+
+            case 149: {
+                // Shift 110.
+                token = doShift(token, 110);
+                return;
+            }
+
+            case 153: {
+                // Shift 111.
+                token = doShift(token, 111);
+                return;
+            }
+
+            case 155: {
+                // Shift 112.
+                token = doShift(token, 112);
+                return;
+            }
+
+            case 157: {
+                // Shift 113.
+                token = doShift(token, 113);
+                return;
+            }
+
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
+
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 163: {
+                // Shift 117.
+                token = doShift(token, 117);
+                return;
+            }
+
+            case 164: {
+                // Shift 118.
+                token = doShift(token, 118);
+                return;
+            }
+
+            case 165: {
+                // Shift 119.
+                token = doShift(token, 119);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 268.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action268() throws IOException {
+        switch (token.id) {
+            case 20:
+            case 21:
+            case 22:
+            case 27:
+            case 31:
+            case 133:
+            case 134: {
+                // Reduce Update : Addressable BECOMESTK Expression;
+                doReduce1(token, 61);
+                Object o3 = doReduce2();
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                AUpdate o = hooks.parseUpdate1((AExpression)o1, (Token)o2, (AExpression)o3);
+
+                reduce = true;
+                reduceNonTerminal = 61;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 269.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action269() throws IOException {
+        switch (token.id) {
+            case 133: {
+                // Shift 270.
+                token = doShift(token, 270);
                 return;
             }
 
@@ -37314,15 +37671,9 @@ public final class CifParser extends Parser<ASpecification> {
                 return;
             }
 
-            case 34: {
-                // Shift 272.
-                token = doShift(token, 272);
-                return;
-            }
-
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -37338,19 +37689,17 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action271() throws IOException {
         switch (token.id) {
-            case 31:
-            case 134: {
-                // Reduce CoreEdge : EdgeEvents OptEdgeGuard OptEdgeUrgent OptEdgeUpdate;
-                doReduce1(token, 30);
-                Object o4 = doReduce2();
-                Object o3 = doReduce2();
-                Object o2 = doReduce2();
+            case 132:
+            case 133:
+            case 156: {
+                // Reduce Addressables : Addressable;
+                doReduce1(token, 62);
                 Object o1 = doReduce2();
 
-                ACoreEdge o = hooks.parseCoreEdge1((List<AEdgeEvent>)o1, (List<AExpression>)o2, (TextPosition)o3, (List<AUpdate>)o4);
+                List<AExpression> o = hooks.parseAddressables1((AExpression)o1);
 
                 reduce = true;
-                reduceNonTerminal = 30;
+                reduceNonTerminal = 62;
                 reduceState = doReduce3(o);
                 return;
             }
@@ -37367,411 +37716,15 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action272() throws IOException {
         switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
+            case 133: {
+                // Shift 273.
+                token = doShift(token, 273);
                 return;
             }
 
-            case 26: {
-                // Shift 53.
-                token = doShift(token, 53);
-                return;
-            }
-
-            case 34: {
-                // Shift 54.
-                token = doShift(token, 54);
-                return;
-            }
-
-            case 53: {
-                // Shift 55.
-                token = doShift(token, 55);
-                return;
-            }
-
-            case 61: {
-                // Shift 56.
-                token = doShift(token, 56);
-                return;
-            }
-
-            case 64: {
-                // Shift 57.
-                token = doShift(token, 57);
-                return;
-            }
-
-            case 66: {
-                // Shift 58.
-                token = doShift(token, 58);
-                return;
-            }
-
-            case 78: {
-                // Shift 59.
-                token = doShift(token, 59);
-                return;
-            }
-
-            case 79: {
-                // Shift 60.
-                token = doShift(token, 60);
-                return;
-            }
-
-            case 80: {
-                // Shift 61.
-                token = doShift(token, 61);
-                return;
-            }
-
-            case 81: {
-                // Shift 62.
-                token = doShift(token, 62);
-                return;
-            }
-
-            case 82: {
-                // Shift 63.
-                token = doShift(token, 63);
-                return;
-            }
-
-            case 83: {
-                // Shift 64.
-                token = doShift(token, 64);
-                return;
-            }
-
-            case 84: {
-                // Shift 65.
-                token = doShift(token, 65);
-                return;
-            }
-
-            case 85: {
-                // Shift 66.
-                token = doShift(token, 66);
-                return;
-            }
-
-            case 86: {
-                // Shift 67.
-                token = doShift(token, 67);
-                return;
-            }
-
-            case 87: {
-                // Shift 68.
-                token = doShift(token, 68);
-                return;
-            }
-
-            case 88: {
-                // Shift 69.
-                token = doShift(token, 69);
-                return;
-            }
-
-            case 89: {
-                // Shift 70.
-                token = doShift(token, 70);
-                return;
-            }
-
-            case 90: {
-                // Shift 71.
-                token = doShift(token, 71);
-                return;
-            }
-
-            case 91: {
-                // Shift 72.
-                token = doShift(token, 72);
-                return;
-            }
-
-            case 92: {
-                // Shift 73.
-                token = doShift(token, 73);
-                return;
-            }
-
-            case 93: {
-                // Shift 74.
-                token = doShift(token, 74);
-                return;
-            }
-
-            case 94: {
-                // Shift 75.
-                token = doShift(token, 75);
-                return;
-            }
-
-            case 95: {
-                // Shift 76.
-                token = doShift(token, 76);
-                return;
-            }
-
-            case 96: {
-                // Shift 77.
-                token = doShift(token, 77);
-                return;
-            }
-
-            case 97: {
-                // Shift 78.
-                token = doShift(token, 78);
-                return;
-            }
-
-            case 98: {
-                // Shift 79.
-                token = doShift(token, 79);
-                return;
-            }
-
-            case 99: {
-                // Shift 80.
-                token = doShift(token, 80);
-                return;
-            }
-
-            case 100: {
-                // Shift 81.
-                token = doShift(token, 81);
-                return;
-            }
-
-            case 101: {
-                // Shift 82.
-                token = doShift(token, 82);
-                return;
-            }
-
-            case 102: {
-                // Shift 83.
-                token = doShift(token, 83);
-                return;
-            }
-
-            case 103: {
-                // Shift 84.
-                token = doShift(token, 84);
-                return;
-            }
-
-            case 104: {
-                // Shift 85.
-                token = doShift(token, 85);
-                return;
-            }
-
-            case 105: {
-                // Shift 86.
-                token = doShift(token, 86);
-                return;
-            }
-
-            case 106: {
-                // Shift 87.
-                token = doShift(token, 87);
-                return;
-            }
-
-            case 107: {
-                // Shift 88.
-                token = doShift(token, 88);
-                return;
-            }
-
-            case 108: {
-                // Shift 89.
-                token = doShift(token, 89);
-                return;
-            }
-
-            case 109: {
-                // Shift 90.
-                token = doShift(token, 90);
-                return;
-            }
-
-            case 110: {
-                // Shift 91.
-                token = doShift(token, 91);
-                return;
-            }
-
-            case 111: {
-                // Shift 92.
-                token = doShift(token, 92);
-                return;
-            }
-
-            case 112: {
-                // Shift 93.
-                token = doShift(token, 93);
-                return;
-            }
-
-            case 113: {
-                // Shift 94.
-                token = doShift(token, 94);
-                return;
-            }
-
-            case 114: {
-                // Shift 95.
-                token = doShift(token, 95);
-                return;
-            }
-
-            case 115: {
-                // Shift 96.
-                token = doShift(token, 96);
-                return;
-            }
-
-            case 116: {
-                // Shift 97.
-                token = doShift(token, 97);
-                return;
-            }
-
-            case 117: {
-                // Shift 98.
-                token = doShift(token, 98);
-                return;
-            }
-
-            case 118: {
-                // Shift 99.
-                token = doShift(token, 99);
-                return;
-            }
-
-            case 119: {
-                // Shift 100.
-                token = doShift(token, 100);
-                return;
-            }
-
-            case 120: {
-                // Shift 101.
-                token = doShift(token, 101);
-                return;
-            }
-
-            case 121: {
-                // Shift 102.
-                token = doShift(token, 102);
-                return;
-            }
-
-            case 122: {
-                // Shift 103.
-                token = doShift(token, 103);
-                return;
-            }
-
-            case 123: {
-                // Shift 104.
-                token = doShift(token, 104);
-                return;
-            }
-
-            case 128: {
-                // Shift 105.
-                token = doShift(token, 105);
-                return;
-            }
-
-            case 130: {
-                // Shift 106.
-                token = doShift(token, 106);
-                return;
-            }
-
-            case 138: {
-                // Shift 107.
-                token = doShift(token, 107);
-                return;
-            }
-
-            case 142: {
-                // Shift 108.
-                token = doShift(token, 108);
-                return;
-            }
-
-            case 148: {
-                // Shift 109.
-                token = doShift(token, 109);
-                return;
-            }
-
-            case 149: {
-                // Shift 110.
-                token = doShift(token, 110);
-                return;
-            }
-
-            case 153: {
-                // Shift 111.
-                token = doShift(token, 111);
-                return;
-            }
-
-            case 155: {
-                // Shift 112.
-                token = doShift(token, 112);
-                return;
-            }
-
-            case 157: {
-                // Shift 113.
-                token = doShift(token, 113);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 163: {
-                // Shift 117.
-                token = doShift(token, 117);
-                return;
-            }
-
-            case 164: {
-                // Shift 118.
-                token = doShift(token, 118);
-                return;
-            }
-
-            case 165: {
-                // Shift 119.
-                token = doShift(token, 119);
+            case 156: {
+                // Shift 274.
+                token = doShift(token, 274);
                 return;
             }
 
@@ -37812,8 +37765,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -37829,9 +37782,22 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action274() throws IOException {
         switch (token.id) {
-            case 132: {
-                // Shift 286.
-                token = doShift(token, 286);
+            case 132:
+            case 133:
+            case 156: {
+                // Reduce Addressable : PAROPENTK Addressable COMMATK Addressables PARCLOSETK;
+                doReduce1(token, 63);
+                doReduce2();
+                Object o4 = doReduce2();
+                doReduce2();
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                AExpression o = hooks.parseAddressable3((Token)o1, (AExpression)o2, (List<AExpression>)o4);
+
+                reduce = true;
+                reduceNonTerminal = 63;
+                reduceState = doReduce3(o);
                 return;
             }
 
@@ -37847,23 +37813,19 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action275() throws IOException {
         switch (token.id) {
-            case 157: {
-                // Shift 280.
-                token = doShift(token, 280);
-                return;
-            }
-
             case 132:
             case 133:
             case 156: {
-                // Reduce Addressable : Name;
-                doReduce1(token, 63);
+                // Reduce Addressables : Addressables COMMATK Addressable;
+                doReduce1(token, 62);
+                Object o3 = doReduce2();
+                doReduce2();
                 Object o1 = doReduce2();
 
-                AExpression o = hooks.parseAddressable1((AName)o1);
+                List<AExpression> o = hooks.parseAddressables2((List<AExpression>)o1, (AExpression)o3);
 
                 reduce = true;
-                reduceNonTerminal = 63;
+                reduceNonTerminal = 62;
                 reduceState = doReduce3(o);
                 return;
             }
@@ -37880,22 +37842,15 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action276() throws IOException {
         switch (token.id) {
-            case 20:
-            case 21:
-            case 22:
-            case 27:
-            case 31:
-            case 133:
-            case 134: {
-                // Reduce Updates : Update;
-                doReduce1(token, 60);
-                Object o1 = doReduce2();
+            case 133: {
+                // Shift 144.
+                token = doShift(token, 144);
+                return;
+            }
 
-                List<AUpdate> o = hooks.parseUpdates1((AUpdate)o1);
-
-                reduce = true;
-                reduceNonTerminal = 60;
-                reduceState = doReduce3(o);
+            case 135: {
+                // Shift 277.
+                token = doShift(token, 277);
                 return;
             }
 
@@ -37910,39 +37865,6 @@ public final class CifParser extends Parser<ASpecification> {
      * @throws IOException If reading the input failed due to an I/O error.
      */
     private final void action277() throws IOException {
-        switch (token.id) {
-            case 133: {
-                // Shift 278.
-                token = doShift(token, 278);
-                return;
-            }
-
-            case 31:
-            case 134: {
-                // Reduce OptEdgeUpdate : DOKW Updates;
-                doReduce1(token, 33);
-                Object o2 = doReduce2();
-                doReduce2();
-
-                List<AUpdate> o = hooks.parseOptEdgeUpdate2((List<AUpdate>)o2);
-
-                reduce = true;
-                reduceNonTerminal = 33;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 278.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action278() throws IOException {
         switch (token.id) {
             case 162: {
                 // Shift 32.
@@ -37969,14 +37891,45 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 34: {
-                // Shift 272.
-                token = doShift(token, 272);
+                // Shift 253.
+                token = doShift(token, 253);
                 return;
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 278.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action278() throws IOException {
+        switch (token.id) {
+            case 133: {
+                // Shift 259.
+                token = doShift(token, 259);
+                return;
+            }
+
+            case 20:
+            case 21:
+            case 22: {
+                // Reduce OptElifUpdates : ;
+                doReduce1(token, 66);
+                List<AElifUpdate> o = hooks.parseOptElifUpdates1();
+
+                reduce = true;
+                reduceNonTerminal = 66;
+                reduceState = doReduce3(o);
                 return;
             }
 
@@ -37992,23 +37945,25 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action279() throws IOException {
         switch (token.id) {
-            case 20:
-            case 21:
-            case 22:
-            case 27:
-            case 31:
-            case 133:
-            case 134: {
-                // Reduce Updates : Updates COMMATK Update;
-                doReduce1(token, 60);
-                Object o3 = doReduce2();
-                doReduce2();
-                Object o1 = doReduce2();
+            case 20: {
+                // Shift 280.
+                token = doShift(token, 280);
+                return;
+            }
 
-                List<AUpdate> o = hooks.parseUpdates2((List<AUpdate>)o1, (AUpdate)o3);
+            case 21: {
+                // Shift 281.
+                token = doShift(token, 281);
+                return;
+            }
+
+            case 22: {
+                // Reduce OptElseUpdate : ;
+                doReduce1(token, 67);
+                List<AUpdate> o = hooks.parseOptElseUpdate1();
 
                 reduce = true;
-                reduceNonTerminal = 60;
+                reduceNonTerminal = 67;
                 reduceState = doReduce3(o);
                 return;
             }
@@ -38445,19 +38400,39 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action281() throws IOException {
         switch (token.id) {
-            case 132:
-            case 133:
-            case 156:
-            case 157: {
-                // Reduce Projections : Projection;
-                doReduce1(token, 64);
-                Object o1 = doReduce2();
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
 
-                List<AProjectionExpression> o = hooks.parseProjections1((AProjectionExpression)o1);
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
 
-                reduce = true;
-                reduceNonTerminal = 64;
-                reduceState = doReduce3(o);
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 34: {
+                // Shift 253.
+                token = doShift(token, 253);
+                return;
+            }
+
+            case 155: {
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -38473,25 +38448,9 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action282() throws IOException {
         switch (token.id) {
-            case 157: {
-                // Shift 280.
-                token = doShift(token, 280);
-                return;
-            }
-
-            case 132:
-            case 133:
-            case 156: {
-                // Reduce Addressable : Name Projections;
-                doReduce1(token, 63);
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                AExpression o = hooks.parseAddressable2((AName)o1, (List<AProjectionExpression>)o2);
-
-                reduce = true;
-                reduceNonTerminal = 63;
-                reduceState = doReduce3(o);
+            case 22: {
+                // Shift 283.
+                token = doShift(token, 283);
                 return;
             }
 
@@ -38506,1373 +38465,6 @@ public final class CifParser extends Parser<ASpecification> {
      * @throws IOException If reading the input failed due to an I/O error.
      */
     private final void action283() throws IOException {
-        switch (token.id) {
-            case 132:
-            case 133:
-            case 156:
-            case 157: {
-                // Reduce Projections : Projections Projection;
-                doReduce1(token, 64);
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                List<AProjectionExpression> o = hooks.parseProjections2((List<AProjectionExpression>)o1, (AProjectionExpression)o2);
-
-                reduce = true;
-                reduceNonTerminal = 64;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 284.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action284() throws IOException {
-        switch (token.id) {
-            case 158: {
-                // Shift 285.
-                token = doShift(token, 285);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 285.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action285() throws IOException {
-        switch (token.id) {
-            case 132:
-            case 133:
-            case 156:
-            case 157: {
-                // Reduce Projection : SQOPENTK Expression SQCLOSETK;
-                doReduce1(token, 65);
-                doReduce2();
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                AProjectionExpression o = hooks.parseProjection1((Token)o1, (AExpression)o2);
-
-                reduce = true;
-                reduceNonTerminal = 65;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 286.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action286() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 26: {
-                // Shift 53.
-                token = doShift(token, 53);
-                return;
-            }
-
-            case 34: {
-                // Shift 54.
-                token = doShift(token, 54);
-                return;
-            }
-
-            case 53: {
-                // Shift 55.
-                token = doShift(token, 55);
-                return;
-            }
-
-            case 61: {
-                // Shift 56.
-                token = doShift(token, 56);
-                return;
-            }
-
-            case 64: {
-                // Shift 57.
-                token = doShift(token, 57);
-                return;
-            }
-
-            case 66: {
-                // Shift 58.
-                token = doShift(token, 58);
-                return;
-            }
-
-            case 78: {
-                // Shift 59.
-                token = doShift(token, 59);
-                return;
-            }
-
-            case 79: {
-                // Shift 60.
-                token = doShift(token, 60);
-                return;
-            }
-
-            case 80: {
-                // Shift 61.
-                token = doShift(token, 61);
-                return;
-            }
-
-            case 81: {
-                // Shift 62.
-                token = doShift(token, 62);
-                return;
-            }
-
-            case 82: {
-                // Shift 63.
-                token = doShift(token, 63);
-                return;
-            }
-
-            case 83: {
-                // Shift 64.
-                token = doShift(token, 64);
-                return;
-            }
-
-            case 84: {
-                // Shift 65.
-                token = doShift(token, 65);
-                return;
-            }
-
-            case 85: {
-                // Shift 66.
-                token = doShift(token, 66);
-                return;
-            }
-
-            case 86: {
-                // Shift 67.
-                token = doShift(token, 67);
-                return;
-            }
-
-            case 87: {
-                // Shift 68.
-                token = doShift(token, 68);
-                return;
-            }
-
-            case 88: {
-                // Shift 69.
-                token = doShift(token, 69);
-                return;
-            }
-
-            case 89: {
-                // Shift 70.
-                token = doShift(token, 70);
-                return;
-            }
-
-            case 90: {
-                // Shift 71.
-                token = doShift(token, 71);
-                return;
-            }
-
-            case 91: {
-                // Shift 72.
-                token = doShift(token, 72);
-                return;
-            }
-
-            case 92: {
-                // Shift 73.
-                token = doShift(token, 73);
-                return;
-            }
-
-            case 93: {
-                // Shift 74.
-                token = doShift(token, 74);
-                return;
-            }
-
-            case 94: {
-                // Shift 75.
-                token = doShift(token, 75);
-                return;
-            }
-
-            case 95: {
-                // Shift 76.
-                token = doShift(token, 76);
-                return;
-            }
-
-            case 96: {
-                // Shift 77.
-                token = doShift(token, 77);
-                return;
-            }
-
-            case 97: {
-                // Shift 78.
-                token = doShift(token, 78);
-                return;
-            }
-
-            case 98: {
-                // Shift 79.
-                token = doShift(token, 79);
-                return;
-            }
-
-            case 99: {
-                // Shift 80.
-                token = doShift(token, 80);
-                return;
-            }
-
-            case 100: {
-                // Shift 81.
-                token = doShift(token, 81);
-                return;
-            }
-
-            case 101: {
-                // Shift 82.
-                token = doShift(token, 82);
-                return;
-            }
-
-            case 102: {
-                // Shift 83.
-                token = doShift(token, 83);
-                return;
-            }
-
-            case 103: {
-                // Shift 84.
-                token = doShift(token, 84);
-                return;
-            }
-
-            case 104: {
-                // Shift 85.
-                token = doShift(token, 85);
-                return;
-            }
-
-            case 105: {
-                // Shift 86.
-                token = doShift(token, 86);
-                return;
-            }
-
-            case 106: {
-                // Shift 87.
-                token = doShift(token, 87);
-                return;
-            }
-
-            case 107: {
-                // Shift 88.
-                token = doShift(token, 88);
-                return;
-            }
-
-            case 108: {
-                // Shift 89.
-                token = doShift(token, 89);
-                return;
-            }
-
-            case 109: {
-                // Shift 90.
-                token = doShift(token, 90);
-                return;
-            }
-
-            case 110: {
-                // Shift 91.
-                token = doShift(token, 91);
-                return;
-            }
-
-            case 111: {
-                // Shift 92.
-                token = doShift(token, 92);
-                return;
-            }
-
-            case 112: {
-                // Shift 93.
-                token = doShift(token, 93);
-                return;
-            }
-
-            case 113: {
-                // Shift 94.
-                token = doShift(token, 94);
-                return;
-            }
-
-            case 114: {
-                // Shift 95.
-                token = doShift(token, 95);
-                return;
-            }
-
-            case 115: {
-                // Shift 96.
-                token = doShift(token, 96);
-                return;
-            }
-
-            case 116: {
-                // Shift 97.
-                token = doShift(token, 97);
-                return;
-            }
-
-            case 117: {
-                // Shift 98.
-                token = doShift(token, 98);
-                return;
-            }
-
-            case 118: {
-                // Shift 99.
-                token = doShift(token, 99);
-                return;
-            }
-
-            case 119: {
-                // Shift 100.
-                token = doShift(token, 100);
-                return;
-            }
-
-            case 120: {
-                // Shift 101.
-                token = doShift(token, 101);
-                return;
-            }
-
-            case 121: {
-                // Shift 102.
-                token = doShift(token, 102);
-                return;
-            }
-
-            case 122: {
-                // Shift 103.
-                token = doShift(token, 103);
-                return;
-            }
-
-            case 123: {
-                // Shift 104.
-                token = doShift(token, 104);
-                return;
-            }
-
-            case 128: {
-                // Shift 105.
-                token = doShift(token, 105);
-                return;
-            }
-
-            case 130: {
-                // Shift 106.
-                token = doShift(token, 106);
-                return;
-            }
-
-            case 138: {
-                // Shift 107.
-                token = doShift(token, 107);
-                return;
-            }
-
-            case 142: {
-                // Shift 108.
-                token = doShift(token, 108);
-                return;
-            }
-
-            case 148: {
-                // Shift 109.
-                token = doShift(token, 109);
-                return;
-            }
-
-            case 149: {
-                // Shift 110.
-                token = doShift(token, 110);
-                return;
-            }
-
-            case 153: {
-                // Shift 111.
-                token = doShift(token, 111);
-                return;
-            }
-
-            case 155: {
-                // Shift 112.
-                token = doShift(token, 112);
-                return;
-            }
-
-            case 157: {
-                // Shift 113.
-                token = doShift(token, 113);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 163: {
-                // Shift 117.
-                token = doShift(token, 117);
-                return;
-            }
-
-            case 164: {
-                // Shift 118.
-                token = doShift(token, 118);
-                return;
-            }
-
-            case 165: {
-                // Shift 119.
-                token = doShift(token, 119);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 287.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action287() throws IOException {
-        switch (token.id) {
-            case 20:
-            case 21:
-            case 22:
-            case 27:
-            case 31:
-            case 133:
-            case 134: {
-                // Reduce Update : Addressable BECOMESTK Expression;
-                doReduce1(token, 61);
-                Object o3 = doReduce2();
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                AUpdate o = hooks.parseUpdate1((AExpression)o1, (Token)o2, (AExpression)o3);
-
-                reduce = true;
-                reduceNonTerminal = 61;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 288.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action288() throws IOException {
-        switch (token.id) {
-            case 133: {
-                // Shift 289.
-                token = doShift(token, 289);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 289.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action289() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 290.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action290() throws IOException {
-        switch (token.id) {
-            case 132:
-            case 133:
-            case 156: {
-                // Reduce Addressables : Addressable;
-                doReduce1(token, 62);
-                Object o1 = doReduce2();
-
-                List<AExpression> o = hooks.parseAddressables1((AExpression)o1);
-
-                reduce = true;
-                reduceNonTerminal = 62;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 291.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action291() throws IOException {
-        switch (token.id) {
-            case 133: {
-                // Shift 292.
-                token = doShift(token, 292);
-                return;
-            }
-
-            case 156: {
-                // Shift 293.
-                token = doShift(token, 293);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 292.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action292() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 293.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action293() throws IOException {
-        switch (token.id) {
-            case 132:
-            case 133:
-            case 156: {
-                // Reduce Addressable : PAROPENTK Addressable COMMATK Addressables PARCLOSETK;
-                doReduce1(token, 63);
-                doReduce2();
-                Object o4 = doReduce2();
-                doReduce2();
-                Object o2 = doReduce2();
-                Object o1 = doReduce2();
-
-                AExpression o = hooks.parseAddressable3((Token)o1, (AExpression)o2, (List<AExpression>)o4);
-
-                reduce = true;
-                reduceNonTerminal = 63;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 294.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action294() throws IOException {
-        switch (token.id) {
-            case 132:
-            case 133:
-            case 156: {
-                // Reduce Addressables : Addressables COMMATK Addressable;
-                doReduce1(token, 62);
-                Object o3 = doReduce2();
-                doReduce2();
-                Object o1 = doReduce2();
-
-                List<AExpression> o = hooks.parseAddressables2((List<AExpression>)o1, (AExpression)o3);
-
-                reduce = true;
-                reduceNonTerminal = 62;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 295.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action295() throws IOException {
-        switch (token.id) {
-            case 133: {
-                // Shift 144.
-                token = doShift(token, 144);
-                return;
-            }
-
-            case 135: {
-                // Shift 296.
-                token = doShift(token, 296);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 296.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action296() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 34: {
-                // Shift 272.
-                token = doShift(token, 272);
-                return;
-            }
-
-            case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 297.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action297() throws IOException {
-        switch (token.id) {
-            case 133: {
-                // Shift 278.
-                token = doShift(token, 278);
-                return;
-            }
-
-            case 20:
-            case 21:
-            case 22: {
-                // Reduce OptElifUpdates : ;
-                doReduce1(token, 66);
-                List<AElifUpdate> o = hooks.parseOptElifUpdates1();
-
-                reduce = true;
-                reduceNonTerminal = 66;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 298.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action298() throws IOException {
-        switch (token.id) {
-            case 20: {
-                // Shift 299.
-                token = doShift(token, 299);
-                return;
-            }
-
-            case 21: {
-                // Shift 300.
-                token = doShift(token, 300);
-                return;
-            }
-
-            case 22: {
-                // Reduce OptElseUpdate : ;
-                doReduce1(token, 67);
-                List<AUpdate> o = hooks.parseOptElseUpdate1();
-
-                reduce = true;
-                reduceNonTerminal = 67;
-                reduceState = doReduce3(o);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 299.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action299() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 26: {
-                // Shift 53.
-                token = doShift(token, 53);
-                return;
-            }
-
-            case 34: {
-                // Shift 54.
-                token = doShift(token, 54);
-                return;
-            }
-
-            case 53: {
-                // Shift 55.
-                token = doShift(token, 55);
-                return;
-            }
-
-            case 61: {
-                // Shift 56.
-                token = doShift(token, 56);
-                return;
-            }
-
-            case 64: {
-                // Shift 57.
-                token = doShift(token, 57);
-                return;
-            }
-
-            case 66: {
-                // Shift 58.
-                token = doShift(token, 58);
-                return;
-            }
-
-            case 78: {
-                // Shift 59.
-                token = doShift(token, 59);
-                return;
-            }
-
-            case 79: {
-                // Shift 60.
-                token = doShift(token, 60);
-                return;
-            }
-
-            case 80: {
-                // Shift 61.
-                token = doShift(token, 61);
-                return;
-            }
-
-            case 81: {
-                // Shift 62.
-                token = doShift(token, 62);
-                return;
-            }
-
-            case 82: {
-                // Shift 63.
-                token = doShift(token, 63);
-                return;
-            }
-
-            case 83: {
-                // Shift 64.
-                token = doShift(token, 64);
-                return;
-            }
-
-            case 84: {
-                // Shift 65.
-                token = doShift(token, 65);
-                return;
-            }
-
-            case 85: {
-                // Shift 66.
-                token = doShift(token, 66);
-                return;
-            }
-
-            case 86: {
-                // Shift 67.
-                token = doShift(token, 67);
-                return;
-            }
-
-            case 87: {
-                // Shift 68.
-                token = doShift(token, 68);
-                return;
-            }
-
-            case 88: {
-                // Shift 69.
-                token = doShift(token, 69);
-                return;
-            }
-
-            case 89: {
-                // Shift 70.
-                token = doShift(token, 70);
-                return;
-            }
-
-            case 90: {
-                // Shift 71.
-                token = doShift(token, 71);
-                return;
-            }
-
-            case 91: {
-                // Shift 72.
-                token = doShift(token, 72);
-                return;
-            }
-
-            case 92: {
-                // Shift 73.
-                token = doShift(token, 73);
-                return;
-            }
-
-            case 93: {
-                // Shift 74.
-                token = doShift(token, 74);
-                return;
-            }
-
-            case 94: {
-                // Shift 75.
-                token = doShift(token, 75);
-                return;
-            }
-
-            case 95: {
-                // Shift 76.
-                token = doShift(token, 76);
-                return;
-            }
-
-            case 96: {
-                // Shift 77.
-                token = doShift(token, 77);
-                return;
-            }
-
-            case 97: {
-                // Shift 78.
-                token = doShift(token, 78);
-                return;
-            }
-
-            case 98: {
-                // Shift 79.
-                token = doShift(token, 79);
-                return;
-            }
-
-            case 99: {
-                // Shift 80.
-                token = doShift(token, 80);
-                return;
-            }
-
-            case 100: {
-                // Shift 81.
-                token = doShift(token, 81);
-                return;
-            }
-
-            case 101: {
-                // Shift 82.
-                token = doShift(token, 82);
-                return;
-            }
-
-            case 102: {
-                // Shift 83.
-                token = doShift(token, 83);
-                return;
-            }
-
-            case 103: {
-                // Shift 84.
-                token = doShift(token, 84);
-                return;
-            }
-
-            case 104: {
-                // Shift 85.
-                token = doShift(token, 85);
-                return;
-            }
-
-            case 105: {
-                // Shift 86.
-                token = doShift(token, 86);
-                return;
-            }
-
-            case 106: {
-                // Shift 87.
-                token = doShift(token, 87);
-                return;
-            }
-
-            case 107: {
-                // Shift 88.
-                token = doShift(token, 88);
-                return;
-            }
-
-            case 108: {
-                // Shift 89.
-                token = doShift(token, 89);
-                return;
-            }
-
-            case 109: {
-                // Shift 90.
-                token = doShift(token, 90);
-                return;
-            }
-
-            case 110: {
-                // Shift 91.
-                token = doShift(token, 91);
-                return;
-            }
-
-            case 111: {
-                // Shift 92.
-                token = doShift(token, 92);
-                return;
-            }
-
-            case 112: {
-                // Shift 93.
-                token = doShift(token, 93);
-                return;
-            }
-
-            case 113: {
-                // Shift 94.
-                token = doShift(token, 94);
-                return;
-            }
-
-            case 114: {
-                // Shift 95.
-                token = doShift(token, 95);
-                return;
-            }
-
-            case 115: {
-                // Shift 96.
-                token = doShift(token, 96);
-                return;
-            }
-
-            case 116: {
-                // Shift 97.
-                token = doShift(token, 97);
-                return;
-            }
-
-            case 117: {
-                // Shift 98.
-                token = doShift(token, 98);
-                return;
-            }
-
-            case 118: {
-                // Shift 99.
-                token = doShift(token, 99);
-                return;
-            }
-
-            case 119: {
-                // Shift 100.
-                token = doShift(token, 100);
-                return;
-            }
-
-            case 120: {
-                // Shift 101.
-                token = doShift(token, 101);
-                return;
-            }
-
-            case 121: {
-                // Shift 102.
-                token = doShift(token, 102);
-                return;
-            }
-
-            case 122: {
-                // Shift 103.
-                token = doShift(token, 103);
-                return;
-            }
-
-            case 123: {
-                // Shift 104.
-                token = doShift(token, 104);
-                return;
-            }
-
-            case 128: {
-                // Shift 105.
-                token = doShift(token, 105);
-                return;
-            }
-
-            case 130: {
-                // Shift 106.
-                token = doShift(token, 106);
-                return;
-            }
-
-            case 138: {
-                // Shift 107.
-                token = doShift(token, 107);
-                return;
-            }
-
-            case 142: {
-                // Shift 108.
-                token = doShift(token, 108);
-                return;
-            }
-
-            case 148: {
-                // Shift 109.
-                token = doShift(token, 109);
-                return;
-            }
-
-            case 149: {
-                // Shift 110.
-                token = doShift(token, 110);
-                return;
-            }
-
-            case 153: {
-                // Shift 111.
-                token = doShift(token, 111);
-                return;
-            }
-
-            case 155: {
-                // Shift 112.
-                token = doShift(token, 112);
-                return;
-            }
-
-            case 157: {
-                // Shift 113.
-                token = doShift(token, 113);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 163: {
-                // Shift 117.
-                token = doShift(token, 117);
-                return;
-            }
-
-            case 164: {
-                // Shift 118.
-                token = doShift(token, 118);
-                return;
-            }
-
-            case 165: {
-                // Shift 119.
-                token = doShift(token, 119);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 300.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action300() throws IOException {
-        switch (token.id) {
-            case 162: {
-                // Shift 32.
-                token = doShift(token, 32);
-                return;
-            }
-
-            case 159: {
-                // Shift 114.
-                token = doShift(token, 114);
-                return;
-            }
-
-            case 160: {
-                // Shift 115.
-                token = doShift(token, 115);
-                return;
-            }
-
-            case 161: {
-                // Shift 116.
-                token = doShift(token, 116);
-                return;
-            }
-
-            case 34: {
-                // Shift 272.
-                token = doShift(token, 272);
-                return;
-            }
-
-            case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 301.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action301() throws IOException {
-        switch (token.id) {
-            case 22: {
-                // Shift 302.
-                token = doShift(token, 302);
-                return;
-            }
-
-            default:
-                parsingFailed(token);
-        }
-    }
-
-    /**
-     * Parser action code for parser state 302.
-     *
-     * @throws IOException If reading the input failed due to an I/O error.
-     */
-    private final void action302() throws IOException {
         switch (token.id) {
             case 20:
             case 21:
@@ -39905,15 +38497,15 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 303.
+     * Parser action code for parser state 284.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action303() throws IOException {
+    private final void action284() throws IOException {
         switch (token.id) {
             case 133: {
-                // Shift 278.
-                token = doShift(token, 278);
+                // Shift 259.
+                token = doShift(token, 259);
                 return;
             }
 
@@ -39937,11 +38529,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 304.
+     * Parser action code for parser state 285.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action304() throws IOException {
+    private final void action285() throws IOException {
         switch (token.id) {
             case 133: {
                 // Shift 144.
@@ -39950,8 +38542,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 135: {
-                // Shift 305.
-                token = doShift(token, 305);
+                // Shift 286.
+                token = doShift(token, 286);
                 return;
             }
 
@@ -39961,11 +38553,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 305.
+     * Parser action code for parser state 286.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action305() throws IOException {
+    private final void action286() throws IOException {
         switch (token.id) {
             case 162: {
                 // Shift 32.
@@ -39992,14 +38584,14 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 34: {
-                // Shift 272.
-                token = doShift(token, 272);
+                // Shift 253.
+                token = doShift(token, 253);
                 return;
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -40009,15 +38601,15 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 306.
+     * Parser action code for parser state 287.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action306() throws IOException {
+    private final void action287() throws IOException {
         switch (token.id) {
             case 133: {
-                // Shift 278.
-                token = doShift(token, 278);
+                // Shift 259.
+                token = doShift(token, 259);
                 return;
             }
 
@@ -40046,11 +38638,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 307.
+     * Parser action code for parser state 288.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action307() throws IOException {
+    private final void action288() throws IOException {
         switch (token.id) {
             case 18:
             case 31:
@@ -40078,11 +38670,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 308.
+     * Parser action code for parser state 289.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action308() throws IOException {
+    private final void action289() throws IOException {
         switch (token.id) {
             case 133: {
                 // Shift 144.
@@ -40113,11 +38705,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 309.
+     * Parser action code for parser state 290.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action309() throws IOException {
+    private final void action290() throws IOException {
         switch (token.id) {
             case 162: {
                 // Shift 32.
@@ -40131,11 +38723,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 310.
+     * Parser action code for parser state 291.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action310() throws IOException {
+    private final void action291() throws IOException {
         switch (token.id) {
             case 19:
             case 22:
@@ -40157,13 +38749,14 @@ public final class CifParser extends Parser<ASpecification> {
             case 77:
             case 166:
             case 167: {
-                // Reduce LocationElement : EDGEKW CoreEdge SEMICOLTK;
+                // Reduce LocationElement : OptDoubleAnnos EDGEKW CoreEdge SEMICOLTK;
                 doReduce1(token, 39);
                 doReduce2();
+                Object o3 = doReduce2();
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                ALocationElement o = hooks.parseLocationElement8((Token)o1, (ACoreEdge)o2);
+                ALocationElement o = hooks.parseLocationElement8((List<AAnnotation>)o1, (Token)o2, (ACoreEdge)o3);
 
                 reduce = true;
                 reduceNonTerminal = 39;
@@ -40177,15 +38770,15 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 311.
+     * Parser action code for parser state 292.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action311() throws IOException {
+    private final void action292() throws IOException {
         switch (token.id) {
             case 134: {
-                // Shift 312.
-                token = doShift(token, 312);
+                // Shift 293.
+                token = doShift(token, 293);
                 return;
             }
 
@@ -40195,11 +38788,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 312.
+     * Parser action code for parser state 293.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action312() throws IOException {
+    private final void action293() throws IOException {
         switch (token.id) {
             case 19:
             case 22:
@@ -40221,15 +38814,16 @@ public final class CifParser extends Parser<ASpecification> {
             case 77:
             case 166:
             case 167: {
-                // Reduce LocationElement : EDGEKW CoreEdge GOTOKW Identifier SEMICOLTK;
+                // Reduce LocationElement : OptDoubleAnnos EDGEKW CoreEdge GOTOKW Identifier SEMICOLTK;
                 doReduce1(token, 39);
                 doReduce2();
-                Object o4 = doReduce2();
+                Object o5 = doReduce2();
                 doReduce2();
+                Object o3 = doReduce2();
                 Object o2 = doReduce2();
                 Object o1 = doReduce2();
 
-                ALocationElement o = hooks.parseLocationElement9((Token)o1, (ACoreEdge)o2, (AIdentifier)o4);
+                ALocationElement o = hooks.parseLocationElement9((List<AAnnotation>)o1, (Token)o2, (ACoreEdge)o3, (AIdentifier)o5);
 
                 reduce = true;
                 reduceNonTerminal = 39;
@@ -40243,11 +38837,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 313.
+     * Parser action code for parser state 294.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action313() throws IOException {
+    private final void action294() throws IOException {
         switch (token.id) {
             case 133: {
                 // Shift 144.
@@ -40256,8 +38850,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 46: {
-                // Shift 268.
-                token = doShift(token, 268);
+                // Shift 249.
+                token = doShift(token, 249);
                 return;
             }
 
@@ -40280,15 +38874,15 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 314.
+     * Parser action code for parser state 295.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action314() throws IOException {
+    private final void action295() throws IOException {
         switch (token.id) {
             case 18: {
-                // Shift 270.
-                token = doShift(token, 270);
+                // Shift 251.
+                token = doShift(token, 251);
                 return;
             }
 
@@ -40310,11 +38904,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 315.
+     * Parser action code for parser state 296.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action315() throws IOException {
+    private final void action296() throws IOException {
         switch (token.id) {
             case 31:
             case 134: {
@@ -40339,11 +38933,11 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 316.
+     * Parser action code for parser state 297.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action316() throws IOException {
+    private final void action297() throws IOException {
         switch (token.id) {
             case 31:
             case 134: {
@@ -40366,15 +38960,15 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
-     * Parser action code for parser state 317.
+     * Parser action code for parser state 298.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
-    private final void action317() throws IOException {
+    private final void action298() throws IOException {
         switch (token.id) {
             case 133: {
-                // Shift 278.
-                token = doShift(token, 278);
+                // Shift 259.
+                token = doShift(token, 259);
                 return;
             }
 
@@ -40399,39 +38993,1434 @@ public final class CifParser extends Parser<ASpecification> {
     }
 
     /**
+     * Parser action code for parser state 299.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action299() throws IOException {
+        switch (token.id) {
+            case 19:
+            case 22:
+            case 24:
+            case 36:
+            case 39:
+            case 41:
+            case 42:
+            case 49:
+            case 50:
+            case 56:
+            case 57:
+            case 58:
+            case 59:
+            case 60:
+            case 70:
+            case 75:
+            case 76:
+            case 77:
+            case 166:
+            case 167: {
+                // Reduce LocationElements : LocationElements LocationElement;
+                doReduce1(token, 38);
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                List<ALocationElement> o = hooks.parseLocationElements2((List<ALocationElement>)o1, (ALocationElement)o2);
+
+                reduce = true;
+                reduceNonTerminal = 38;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 300.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action300() throws IOException {
+        switch (token.id) {
+            case 19:
+            case 22:
+            case 24:
+            case 36:
+            case 39:
+            case 41:
+            case 42:
+            case 49:
+            case 50:
+            case 56:
+            case 57:
+            case 58:
+            case 59:
+            case 60:
+            case 70:
+            case 75:
+            case 76:
+            case 77:
+            case 166:
+            case 167: {
+                // Reduce LocationElement : URGENTKW SEMICOLTK;
+                doReduce1(token, 39);
+                doReduce2();
+                Object o1 = doReduce2();
+
+                ALocationElement o = hooks.parseLocationElement7((Token)o1);
+
+                reduce = true;
+                reduceNonTerminal = 39;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 301.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action301() throws IOException {
+        switch (token.id) {
+            case 19:
+            case 22:
+            case 24:
+            case 36:
+            case 39:
+            case 41:
+            case 42:
+            case 49:
+            case 50:
+            case 56:
+            case 57:
+            case 58:
+            case 59:
+            case 60:
+            case 70:
+            case 75:
+            case 76:
+            case 77:
+            case 166:
+            case 167: {
+                // Reduce LocationElement : MARKEDKW SEMICOLTK;
+                doReduce1(token, 39);
+                doReduce2();
+                Object o1 = doReduce2();
+
+                ALocationElement o = hooks.parseLocationElement5((Token)o1);
+
+                reduce = true;
+                reduceNonTerminal = 39;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 302.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action302() throws IOException {
+        switch (token.id) {
+            case 133: {
+                // Shift 144.
+                token = doShift(token, 144);
+                return;
+            }
+
+            case 134: {
+                // Shift 303.
+                token = doShift(token, 303);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 303.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action303() throws IOException {
+        switch (token.id) {
+            case 19:
+            case 22:
+            case 24:
+            case 36:
+            case 39:
+            case 41:
+            case 42:
+            case 49:
+            case 50:
+            case 56:
+            case 57:
+            case 58:
+            case 59:
+            case 60:
+            case 70:
+            case 75:
+            case 76:
+            case 77:
+            case 166:
+            case 167: {
+                // Reduce LocationElement : MARKEDKW Expressions SEMICOLTK;
+                doReduce1(token, 39);
+                doReduce2();
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                ALocationElement o = hooks.parseLocationElement6((Token)o1, (List<AExpression>)o2);
+
+                reduce = true;
+                reduceNonTerminal = 39;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 304.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action304() throws IOException {
+        switch (token.id) {
+            case 19:
+            case 22:
+            case 24:
+            case 36:
+            case 39:
+            case 41:
+            case 42:
+            case 49:
+            case 50:
+            case 56:
+            case 57:
+            case 58:
+            case 59:
+            case 60:
+            case 70:
+            case 75:
+            case 76:
+            case 77:
+            case 166:
+            case 167: {
+                // Reduce LocationElement : INITIALKW SEMICOLTK;
+                doReduce1(token, 39);
+                doReduce2();
+                Object o1 = doReduce2();
+
+                ALocationElement o = hooks.parseLocationElement1((Token)o1);
+
+                reduce = true;
+                reduceNonTerminal = 39;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 305.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action305() throws IOException {
+        switch (token.id) {
+            case 133: {
+                // Shift 144.
+                token = doShift(token, 144);
+                return;
+            }
+
+            case 134: {
+                // Shift 306.
+                token = doShift(token, 306);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 306.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action306() throws IOException {
+        switch (token.id) {
+            case 19:
+            case 22:
+            case 24:
+            case 36:
+            case 39:
+            case 41:
+            case 42:
+            case 49:
+            case 50:
+            case 56:
+            case 57:
+            case 58:
+            case 59:
+            case 60:
+            case 70:
+            case 75:
+            case 76:
+            case 77:
+            case 166:
+            case 167: {
+                // Reduce LocationElement : INITIALKW Expressions SEMICOLTK;
+                doReduce1(token, 39);
+                doReduce2();
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                ALocationElement o = hooks.parseLocationElement2((Token)o1, (List<AExpression>)o2);
+
+                reduce = true;
+                reduceNonTerminal = 39;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 307.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action307() throws IOException {
+        switch (token.id) {
+            case 133:
+            case 134: {
+                // Reduce Equations : Equation;
+                doReduce1(token, 53);
+                Object o1 = doReduce2();
+
+                List<AEquation> o = hooks.parseEquations1((AEquation)o1);
+
+                reduce = true;
+                reduceNonTerminal = 53;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 308.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action308() throws IOException {
+        switch (token.id) {
+            case 133: {
+                // Shift 315.
+                token = doShift(token, 315);
+                return;
+            }
+
+            case 134: {
+                // Shift 316.
+                token = doShift(token, 316);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 309.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action309() throws IOException {
+        switch (token.id) {
+            case 136: {
+                // Shift 310.
+                token = doShift(token, 310);
+                return;
+            }
+
+            case 144: {
+                // Shift 311.
+                token = doShift(token, 311);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 310.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action310() throws IOException {
+        switch (token.id) {
+            case 144: {
+                // Shift 313.
+                token = doShift(token, 313);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 311.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action311() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 26: {
+                // Shift 53.
+                token = doShift(token, 53);
+                return;
+            }
+
+            case 34: {
+                // Shift 54.
+                token = doShift(token, 54);
+                return;
+            }
+
+            case 53: {
+                // Shift 55.
+                token = doShift(token, 55);
+                return;
+            }
+
+            case 61: {
+                // Shift 56.
+                token = doShift(token, 56);
+                return;
+            }
+
+            case 64: {
+                // Shift 57.
+                token = doShift(token, 57);
+                return;
+            }
+
+            case 66: {
+                // Shift 58.
+                token = doShift(token, 58);
+                return;
+            }
+
+            case 78: {
+                // Shift 59.
+                token = doShift(token, 59);
+                return;
+            }
+
+            case 79: {
+                // Shift 60.
+                token = doShift(token, 60);
+                return;
+            }
+
+            case 80: {
+                // Shift 61.
+                token = doShift(token, 61);
+                return;
+            }
+
+            case 81: {
+                // Shift 62.
+                token = doShift(token, 62);
+                return;
+            }
+
+            case 82: {
+                // Shift 63.
+                token = doShift(token, 63);
+                return;
+            }
+
+            case 83: {
+                // Shift 64.
+                token = doShift(token, 64);
+                return;
+            }
+
+            case 84: {
+                // Shift 65.
+                token = doShift(token, 65);
+                return;
+            }
+
+            case 85: {
+                // Shift 66.
+                token = doShift(token, 66);
+                return;
+            }
+
+            case 86: {
+                // Shift 67.
+                token = doShift(token, 67);
+                return;
+            }
+
+            case 87: {
+                // Shift 68.
+                token = doShift(token, 68);
+                return;
+            }
+
+            case 88: {
+                // Shift 69.
+                token = doShift(token, 69);
+                return;
+            }
+
+            case 89: {
+                // Shift 70.
+                token = doShift(token, 70);
+                return;
+            }
+
+            case 90: {
+                // Shift 71.
+                token = doShift(token, 71);
+                return;
+            }
+
+            case 91: {
+                // Shift 72.
+                token = doShift(token, 72);
+                return;
+            }
+
+            case 92: {
+                // Shift 73.
+                token = doShift(token, 73);
+                return;
+            }
+
+            case 93: {
+                // Shift 74.
+                token = doShift(token, 74);
+                return;
+            }
+
+            case 94: {
+                // Shift 75.
+                token = doShift(token, 75);
+                return;
+            }
+
+            case 95: {
+                // Shift 76.
+                token = doShift(token, 76);
+                return;
+            }
+
+            case 96: {
+                // Shift 77.
+                token = doShift(token, 77);
+                return;
+            }
+
+            case 97: {
+                // Shift 78.
+                token = doShift(token, 78);
+                return;
+            }
+
+            case 98: {
+                // Shift 79.
+                token = doShift(token, 79);
+                return;
+            }
+
+            case 99: {
+                // Shift 80.
+                token = doShift(token, 80);
+                return;
+            }
+
+            case 100: {
+                // Shift 81.
+                token = doShift(token, 81);
+                return;
+            }
+
+            case 101: {
+                // Shift 82.
+                token = doShift(token, 82);
+                return;
+            }
+
+            case 102: {
+                // Shift 83.
+                token = doShift(token, 83);
+                return;
+            }
+
+            case 103: {
+                // Shift 84.
+                token = doShift(token, 84);
+                return;
+            }
+
+            case 104: {
+                // Shift 85.
+                token = doShift(token, 85);
+                return;
+            }
+
+            case 105: {
+                // Shift 86.
+                token = doShift(token, 86);
+                return;
+            }
+
+            case 106: {
+                // Shift 87.
+                token = doShift(token, 87);
+                return;
+            }
+
+            case 107: {
+                // Shift 88.
+                token = doShift(token, 88);
+                return;
+            }
+
+            case 108: {
+                // Shift 89.
+                token = doShift(token, 89);
+                return;
+            }
+
+            case 109: {
+                // Shift 90.
+                token = doShift(token, 90);
+                return;
+            }
+
+            case 110: {
+                // Shift 91.
+                token = doShift(token, 91);
+                return;
+            }
+
+            case 111: {
+                // Shift 92.
+                token = doShift(token, 92);
+                return;
+            }
+
+            case 112: {
+                // Shift 93.
+                token = doShift(token, 93);
+                return;
+            }
+
+            case 113: {
+                // Shift 94.
+                token = doShift(token, 94);
+                return;
+            }
+
+            case 114: {
+                // Shift 95.
+                token = doShift(token, 95);
+                return;
+            }
+
+            case 115: {
+                // Shift 96.
+                token = doShift(token, 96);
+                return;
+            }
+
+            case 116: {
+                // Shift 97.
+                token = doShift(token, 97);
+                return;
+            }
+
+            case 117: {
+                // Shift 98.
+                token = doShift(token, 98);
+                return;
+            }
+
+            case 118: {
+                // Shift 99.
+                token = doShift(token, 99);
+                return;
+            }
+
+            case 119: {
+                // Shift 100.
+                token = doShift(token, 100);
+                return;
+            }
+
+            case 120: {
+                // Shift 101.
+                token = doShift(token, 101);
+                return;
+            }
+
+            case 121: {
+                // Shift 102.
+                token = doShift(token, 102);
+                return;
+            }
+
+            case 122: {
+                // Shift 103.
+                token = doShift(token, 103);
+                return;
+            }
+
+            case 123: {
+                // Shift 104.
+                token = doShift(token, 104);
+                return;
+            }
+
+            case 128: {
+                // Shift 105.
+                token = doShift(token, 105);
+                return;
+            }
+
+            case 130: {
+                // Shift 106.
+                token = doShift(token, 106);
+                return;
+            }
+
+            case 138: {
+                // Shift 107.
+                token = doShift(token, 107);
+                return;
+            }
+
+            case 142: {
+                // Shift 108.
+                token = doShift(token, 108);
+                return;
+            }
+
+            case 148: {
+                // Shift 109.
+                token = doShift(token, 109);
+                return;
+            }
+
+            case 149: {
+                // Shift 110.
+                token = doShift(token, 110);
+                return;
+            }
+
+            case 153: {
+                // Shift 111.
+                token = doShift(token, 111);
+                return;
+            }
+
+            case 155: {
+                // Shift 112.
+                token = doShift(token, 112);
+                return;
+            }
+
+            case 157: {
+                // Shift 113.
+                token = doShift(token, 113);
+                return;
+            }
+
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
+
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 163: {
+                // Shift 117.
+                token = doShift(token, 117);
+                return;
+            }
+
+            case 164: {
+                // Shift 118.
+                token = doShift(token, 118);
+                return;
+            }
+
+            case 165: {
+                // Shift 119.
+                token = doShift(token, 119);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 312.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action312() throws IOException {
+        switch (token.id) {
+            case 133:
+            case 134: {
+                // Reduce Equation : Identifier EQTK Expression;
+                doReduce1(token, 54);
+                Object o3 = doReduce2();
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                AEquation o = hooks.parseEquation2((AIdentifier)o1, (Token)o2, (AExpression)o3);
+
+                reduce = true;
+                reduceNonTerminal = 54;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 313.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action313() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            case 26: {
+                // Shift 53.
+                token = doShift(token, 53);
+                return;
+            }
+
+            case 34: {
+                // Shift 54.
+                token = doShift(token, 54);
+                return;
+            }
+
+            case 53: {
+                // Shift 55.
+                token = doShift(token, 55);
+                return;
+            }
+
+            case 61: {
+                // Shift 56.
+                token = doShift(token, 56);
+                return;
+            }
+
+            case 64: {
+                // Shift 57.
+                token = doShift(token, 57);
+                return;
+            }
+
+            case 66: {
+                // Shift 58.
+                token = doShift(token, 58);
+                return;
+            }
+
+            case 78: {
+                // Shift 59.
+                token = doShift(token, 59);
+                return;
+            }
+
+            case 79: {
+                // Shift 60.
+                token = doShift(token, 60);
+                return;
+            }
+
+            case 80: {
+                // Shift 61.
+                token = doShift(token, 61);
+                return;
+            }
+
+            case 81: {
+                // Shift 62.
+                token = doShift(token, 62);
+                return;
+            }
+
+            case 82: {
+                // Shift 63.
+                token = doShift(token, 63);
+                return;
+            }
+
+            case 83: {
+                // Shift 64.
+                token = doShift(token, 64);
+                return;
+            }
+
+            case 84: {
+                // Shift 65.
+                token = doShift(token, 65);
+                return;
+            }
+
+            case 85: {
+                // Shift 66.
+                token = doShift(token, 66);
+                return;
+            }
+
+            case 86: {
+                // Shift 67.
+                token = doShift(token, 67);
+                return;
+            }
+
+            case 87: {
+                // Shift 68.
+                token = doShift(token, 68);
+                return;
+            }
+
+            case 88: {
+                // Shift 69.
+                token = doShift(token, 69);
+                return;
+            }
+
+            case 89: {
+                // Shift 70.
+                token = doShift(token, 70);
+                return;
+            }
+
+            case 90: {
+                // Shift 71.
+                token = doShift(token, 71);
+                return;
+            }
+
+            case 91: {
+                // Shift 72.
+                token = doShift(token, 72);
+                return;
+            }
+
+            case 92: {
+                // Shift 73.
+                token = doShift(token, 73);
+                return;
+            }
+
+            case 93: {
+                // Shift 74.
+                token = doShift(token, 74);
+                return;
+            }
+
+            case 94: {
+                // Shift 75.
+                token = doShift(token, 75);
+                return;
+            }
+
+            case 95: {
+                // Shift 76.
+                token = doShift(token, 76);
+                return;
+            }
+
+            case 96: {
+                // Shift 77.
+                token = doShift(token, 77);
+                return;
+            }
+
+            case 97: {
+                // Shift 78.
+                token = doShift(token, 78);
+                return;
+            }
+
+            case 98: {
+                // Shift 79.
+                token = doShift(token, 79);
+                return;
+            }
+
+            case 99: {
+                // Shift 80.
+                token = doShift(token, 80);
+                return;
+            }
+
+            case 100: {
+                // Shift 81.
+                token = doShift(token, 81);
+                return;
+            }
+
+            case 101: {
+                // Shift 82.
+                token = doShift(token, 82);
+                return;
+            }
+
+            case 102: {
+                // Shift 83.
+                token = doShift(token, 83);
+                return;
+            }
+
+            case 103: {
+                // Shift 84.
+                token = doShift(token, 84);
+                return;
+            }
+
+            case 104: {
+                // Shift 85.
+                token = doShift(token, 85);
+                return;
+            }
+
+            case 105: {
+                // Shift 86.
+                token = doShift(token, 86);
+                return;
+            }
+
+            case 106: {
+                // Shift 87.
+                token = doShift(token, 87);
+                return;
+            }
+
+            case 107: {
+                // Shift 88.
+                token = doShift(token, 88);
+                return;
+            }
+
+            case 108: {
+                // Shift 89.
+                token = doShift(token, 89);
+                return;
+            }
+
+            case 109: {
+                // Shift 90.
+                token = doShift(token, 90);
+                return;
+            }
+
+            case 110: {
+                // Shift 91.
+                token = doShift(token, 91);
+                return;
+            }
+
+            case 111: {
+                // Shift 92.
+                token = doShift(token, 92);
+                return;
+            }
+
+            case 112: {
+                // Shift 93.
+                token = doShift(token, 93);
+                return;
+            }
+
+            case 113: {
+                // Shift 94.
+                token = doShift(token, 94);
+                return;
+            }
+
+            case 114: {
+                // Shift 95.
+                token = doShift(token, 95);
+                return;
+            }
+
+            case 115: {
+                // Shift 96.
+                token = doShift(token, 96);
+                return;
+            }
+
+            case 116: {
+                // Shift 97.
+                token = doShift(token, 97);
+                return;
+            }
+
+            case 117: {
+                // Shift 98.
+                token = doShift(token, 98);
+                return;
+            }
+
+            case 118: {
+                // Shift 99.
+                token = doShift(token, 99);
+                return;
+            }
+
+            case 119: {
+                // Shift 100.
+                token = doShift(token, 100);
+                return;
+            }
+
+            case 120: {
+                // Shift 101.
+                token = doShift(token, 101);
+                return;
+            }
+
+            case 121: {
+                // Shift 102.
+                token = doShift(token, 102);
+                return;
+            }
+
+            case 122: {
+                // Shift 103.
+                token = doShift(token, 103);
+                return;
+            }
+
+            case 123: {
+                // Shift 104.
+                token = doShift(token, 104);
+                return;
+            }
+
+            case 128: {
+                // Shift 105.
+                token = doShift(token, 105);
+                return;
+            }
+
+            case 130: {
+                // Shift 106.
+                token = doShift(token, 106);
+                return;
+            }
+
+            case 138: {
+                // Shift 107.
+                token = doShift(token, 107);
+                return;
+            }
+
+            case 142: {
+                // Shift 108.
+                token = doShift(token, 108);
+                return;
+            }
+
+            case 148: {
+                // Shift 109.
+                token = doShift(token, 109);
+                return;
+            }
+
+            case 149: {
+                // Shift 110.
+                token = doShift(token, 110);
+                return;
+            }
+
+            case 153: {
+                // Shift 111.
+                token = doShift(token, 111);
+                return;
+            }
+
+            case 155: {
+                // Shift 112.
+                token = doShift(token, 112);
+                return;
+            }
+
+            case 157: {
+                // Shift 113.
+                token = doShift(token, 113);
+                return;
+            }
+
+            case 159: {
+                // Shift 114.
+                token = doShift(token, 114);
+                return;
+            }
+
+            case 160: {
+                // Shift 115.
+                token = doShift(token, 115);
+                return;
+            }
+
+            case 161: {
+                // Shift 116.
+                token = doShift(token, 116);
+                return;
+            }
+
+            case 163: {
+                // Shift 117.
+                token = doShift(token, 117);
+                return;
+            }
+
+            case 164: {
+                // Shift 118.
+                token = doShift(token, 118);
+                return;
+            }
+
+            case 165: {
+                // Shift 119.
+                token = doShift(token, 119);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 314.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action314() throws IOException {
+        switch (token.id) {
+            case 133:
+            case 134: {
+                // Reduce Equation : Identifier APOSTROPHETK EQTK Expression;
+                doReduce1(token, 54);
+                Object o4 = doReduce2();
+                Object o3 = doReduce2();
+                doReduce2();
+                Object o1 = doReduce2();
+
+                AEquation o = hooks.parseEquation1((AIdentifier)o1, (Token)o3, (AExpression)o4);
+
+                reduce = true;
+                reduceNonTerminal = 54;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 315.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action315() throws IOException {
+        switch (token.id) {
+            case 162: {
+                // Shift 32.
+                token = doShift(token, 32);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 316.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action316() throws IOException {
+        switch (token.id) {
+            case 19:
+            case 22:
+            case 24:
+            case 36:
+            case 39:
+            case 41:
+            case 42:
+            case 49:
+            case 50:
+            case 56:
+            case 57:
+            case 58:
+            case 59:
+            case 60:
+            case 70:
+            case 75:
+            case 76:
+            case 77:
+            case 166:
+            case 167: {
+                // Reduce LocationElement : EQUATIONKW Equations SEMICOLTK;
+                doReduce1(token, 39);
+                doReduce2();
+                Object o2 = doReduce2();
+                Object o1 = doReduce2();
+
+                ALocationElement o = hooks.parseLocationElement4((Token)o1, (List<AEquation>)o2);
+
+                reduce = true;
+                reduceNonTerminal = 39;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
+     * Parser action code for parser state 317.
+     *
+     * @throws IOException If reading the input failed due to an I/O error.
+     */
+    private final void action317() throws IOException {
+        switch (token.id) {
+            case 133:
+            case 134: {
+                // Reduce Equations : Equations COMMATK Equation;
+                doReduce1(token, 53);
+                Object o3 = doReduce2();
+                doReduce2();
+                Object o1 = doReduce2();
+
+                List<AEquation> o = hooks.parseEquations2((List<AEquation>)o1, (AEquation)o3);
+
+                reduce = true;
+                reduceNonTerminal = 53;
+                reduceState = doReduce3(o);
+                return;
+            }
+
+            default:
+                parsingFailed(token);
+        }
+    }
+
+    /**
      * Parser action code for parser state 318.
      *
      * @throws IOException If reading the input failed due to an I/O error.
      */
     private final void action318() throws IOException {
         switch (token.id) {
-            case 19: {
+            case 24: {
                 // Shift 226.
                 token = doShift(token, 226);
                 return;
             }
 
-            case 24: {
+            case 36: {
                 // Shift 227.
                 token = doShift(token, 227);
                 return;
             }
 
-            case 36: {
+            case 42: {
                 // Shift 228.
                 token = doShift(token, 228);
                 return;
             }
 
-            case 42: {
+            case 70: {
                 // Shift 229.
                 token = doShift(token, 229);
-                return;
-            }
-
-            case 70: {
-                // Shift 230.
-                token = doShift(token, 230);
                 return;
             }
 
@@ -40460,6 +40449,7 @@ public final class CifParser extends Parser<ASpecification> {
                 return;
             }
 
+            case 19:
             case 39:
             case 75:
             case 76:
@@ -51027,36 +51017,31 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action469() throws IOException {
         switch (token.id) {
-            case 19: {
+            case 24: {
                 // Shift 226.
                 token = doShift(token, 226);
                 return;
             }
 
-            case 24: {
+            case 36: {
                 // Shift 227.
                 token = doShift(token, 227);
                 return;
             }
 
-            case 36: {
+            case 42: {
                 // Shift 228.
                 token = doShift(token, 228);
                 return;
             }
 
-            case 42: {
+            case 70: {
                 // Shift 229.
                 token = doShift(token, 229);
                 return;
             }
 
-            case 70: {
-                // Shift 230.
-                token = doShift(token, 230);
-                return;
-            }
-
+            case 19:
             case 39:
             case 75:
             case 76:
@@ -51144,36 +51129,31 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action472() throws IOException {
         switch (token.id) {
-            case 19: {
+            case 24: {
                 // Shift 226.
                 token = doShift(token, 226);
                 return;
             }
 
-            case 24: {
+            case 36: {
                 // Shift 227.
                 token = doShift(token, 227);
                 return;
             }
 
-            case 36: {
+            case 42: {
                 // Shift 228.
                 token = doShift(token, 228);
                 return;
             }
 
-            case 42: {
+            case 70: {
                 // Shift 229.
                 token = doShift(token, 229);
                 return;
             }
 
-            case 70: {
-                // Shift 230.
-                token = doShift(token, 230);
-                return;
-            }
-
+            case 19:
             case 39:
             case 75:
             case 76:
@@ -51201,33 +51181,27 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action473() throws IOException {
         switch (token.id) {
-            case 19: {
+            case 24: {
                 // Shift 226.
                 token = doShift(token, 226);
                 return;
             }
 
-            case 24: {
+            case 36: {
                 // Shift 227.
                 token = doShift(token, 227);
                 return;
             }
 
-            case 36: {
+            case 42: {
                 // Shift 228.
                 token = doShift(token, 228);
                 return;
             }
 
-            case 42: {
+            case 70: {
                 // Shift 229.
                 token = doShift(token, 229);
-                return;
-            }
-
-            case 70: {
-                // Shift 230.
-                token = doShift(token, 230);
                 return;
             }
 
@@ -51256,6 +51230,7 @@ public final class CifParser extends Parser<ASpecification> {
                 return;
             }
 
+            case 19:
             case 39:
             case 75:
             case 76:
@@ -51283,33 +51258,27 @@ public final class CifParser extends Parser<ASpecification> {
      */
     private final void action474() throws IOException {
         switch (token.id) {
-            case 19: {
+            case 24: {
                 // Shift 226.
                 token = doShift(token, 226);
                 return;
             }
 
-            case 24: {
+            case 36: {
                 // Shift 227.
                 token = doShift(token, 227);
                 return;
             }
 
-            case 36: {
+            case 42: {
                 // Shift 228.
                 token = doShift(token, 228);
                 return;
             }
 
-            case 42: {
+            case 70: {
                 // Shift 229.
                 token = doShift(token, 229);
-                return;
-            }
-
-            case 70: {
-                // Shift 230.
-                token = doShift(token, 230);
                 return;
             }
 
@@ -51337,6 +51306,7 @@ public final class CifParser extends Parser<ASpecification> {
                 return;
             }
 
+            case 19:
             case 39:
             case 75:
             case 76:
@@ -66640,8 +66610,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -68119,8 +68089,8 @@ public final class CifParser extends Parser<ASpecification> {
     private final void action681() throws IOException {
         switch (token.id) {
             case 133: {
-                // Shift 292.
-                token = doShift(token, 292);
+                // Shift 273.
+                token = doShift(token, 273);
                 return;
             }
 
@@ -68306,8 +68276,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -68360,8 +68330,8 @@ public final class CifParser extends Parser<ASpecification> {
     private final void action685() throws IOException {
         switch (token.id) {
             case 157: {
-                // Shift 280.
-                token = doShift(token, 280);
+                // Shift 261.
+                token = doShift(token, 261);
                 return;
             }
 
@@ -70196,8 +70166,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -70268,8 +70238,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -70474,8 +70444,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -70546,8 +70516,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -71086,8 +71056,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -71219,8 +71189,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -71329,8 +71299,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -71401,8 +71371,8 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -77046,14 +77016,14 @@ public final class CifParser extends Parser<ASpecification> {
             }
 
             case 34: {
-                // Shift 272.
-                token = doShift(token, 272);
+                // Shift 253.
+                token = doShift(token, 253);
                 return;
             }
 
             case 155: {
-                // Shift 273.
-                token = doShift(token, 273);
+                // Shift 254.
+                token = doShift(token, 254);
                 return;
             }
 
@@ -78936,8 +78906,8 @@ public final class CifParser extends Parser<ASpecification> {
     private final void action796() throws IOException {
         switch (token.id) {
             case 133: {
-                // Shift 278.
-                token = doShift(token, 278);
+                // Shift 259.
+                token = doShift(token, 259);
                 return;
             }
 
@@ -85556,8 +85526,8 @@ public final class CifParser extends Parser<ASpecification> {
     private final void action876() throws IOException {
         switch (token.id) {
             case 133: {
-                // Shift 251.
-                token = doShift(token, 251);
+                // Shift 315.
+                token = doShift(token, 315);
                 return;
             }
 
@@ -86498,6 +86468,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 8:
             case 9:
             case 11:
+            case 19:
             case 23:
             case 24:
             case 25:
@@ -86603,6 +86574,7 @@ public final class CifParser extends Parser<ASpecification> {
             case 8:
             case 9:
             case 11:
+            case 19:
             case 23:
             case 24:
             case 25:
@@ -86965,7 +86937,7 @@ public final class CifParser extends Parser<ASpecification> {
         switch (reduceNonTerminal) {
             case 11:
                 // Identifier
-                doGoto(245);
+                doGoto(309);
                 return;
 
             case 53:
@@ -86975,7 +86947,7 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 54:
                 // Equation
-                doGoto(243);
+                doGoto(307);
                 return;
 
             default:
@@ -92375,12 +92347,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 39:
                 // LocationElement
-                doGoto(231);
+                doGoto(230);
                 return;
 
             case 115:
                 // OptDoubleAnnos
-                doGoto(233);
+                doGoto(232);
                 return;
 
             default:
@@ -92421,17 +92393,17 @@ public final class CifParser extends Parser<ASpecification> {
         switch (reduceNonTerminal) {
             case 38:
                 // LocationElements
-                doGoto(232);
+                doGoto(231);
                 return;
 
             case 39:
                 // LocationElement
-                doGoto(231);
+                doGoto(230);
                 return;
 
             case 115:
                 // OptDoubleAnnos
-                doGoto(233);
+                doGoto(232);
                 return;
 
             default:
@@ -92448,27 +92420,17 @@ public final class CifParser extends Parser<ASpecification> {
         switch (reduceNonTerminal) {
             case 11:
                 // Identifier
-                doGoto(140);
+                doGoto(309);
                 return;
 
-            case 30:
-                // CoreEdge
-                doGoto(258);
+            case 53:
+                // Equations
+                doGoto(308);
                 return;
 
-            case 34:
-                // EdgeEvents
-                doGoto(260);
-                return;
-
-            case 35:
-                // EdgeEvent
-                doGoto(259);
-                return;
-
-            case 114:
-                // Name
-                doGoto(261);
+            case 54:
+                // Equation
+                doGoto(307);
                 return;
 
             default:
@@ -92483,19 +92445,79 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 227. */
     private final void goto227() {
         switch (reduceNonTerminal) {
+            case 1:
+                // StdLibFunction
+                doGoto(133);
+                return;
+
             case 11:
                 // Identifier
-                doGoto(245);
+                doGoto(140);
                 return;
 
-            case 53:
-                // Equations
-                doGoto(244);
+            case 15:
+                // StringToken
+                doGoto(134);
                 return;
 
-            case 54:
-                // Equation
-                doGoto(243);
+            case 98:
+                // Expressions
+                doGoto(305);
+                return;
+
+            case 100:
+                // Expression
+                doGoto(138);
+                return;
+
+            case 101:
+                // OrExpression
+                doGoto(132);
+                return;
+
+            case 102:
+                // AndExpression
+                doGoto(121);
+                return;
+
+            case 103:
+                // CompareExpression
+                doGoto(122);
+                return;
+
+            case 104:
+                // AddExpression
+                doGoto(120);
+                return;
+
+            case 105:
+                // MulExpression
+                doGoto(129);
+                return;
+
+            case 106:
+                // UnaryExpression
+                doGoto(135);
+                return;
+
+            case 107:
+                // FuncExpression
+                doGoto(125);
+                return;
+
+            case 108:
+                // ExpressionFactor
+                doGoto(124);
+                return;
+
+            case 109:
+                // NonEmptySetExpression
+                doGoto(142);
+                return;
+
+            case 114:
+                // Name
+                doGoto(141);
                 return;
 
             default:
@@ -92527,7 +92549,7 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 98:
                 // Expressions
-                doGoto(241);
+                doGoto(302);
                 return;
 
             case 100:
@@ -92597,6 +92619,199 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 229. */
     private final void goto229() {
         switch (reduceNonTerminal) {
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 230. */
+    private final void goto230() {
+        switch (reduceNonTerminal) {
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 231. */
+    private final void goto231() {
+        switch (reduceNonTerminal) {
+            case 39:
+                // LocationElement
+                doGoto(299);
+                return;
+
+            case 115:
+                // OptDoubleAnnos
+                doGoto(232);
+                return;
+
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 232. */
+    private final void goto232() {
+        switch (reduceNonTerminal) {
+            case 0:
+                // SupKind
+                doGoto(211);
+                return;
+
+            case 55:
+                // InvariantDecls
+                doGoto(234);
+                return;
+
+            case 68:
+                // OptSupKind
+                doGoto(210);
+                return;
+
+            case 116:
+                // DoubleAnnotation
+                doGoto(4);
+                return;
+
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 233. */
+    private final void goto233() {
+        switch (reduceNonTerminal) {
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 30:
+                // CoreEdge
+                doGoto(239);
+                return;
+
+            case 34:
+                // EdgeEvents
+                doGoto(241);
+                return;
+
+            case 35:
+                // EdgeEvent
+                doGoto(240);
+                return;
+
+            case 114:
+                // Name
+                doGoto(242);
+                return;
+
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 234. */
+    private final void goto234() {
+        switch (reduceNonTerminal) {
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 235. */
+    private final void goto235() {
+        switch (reduceNonTerminal) {
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 60:
+                // Updates
+                doGoto(298);
+                return;
+
+            case 61:
+                // Update
+                doGoto(257);
+                return;
+
+            case 63:
+                // Addressable
+                doGoto(255);
+                return;
+
+            case 114:
+                // Name
+                doGoto(256);
+                return;
+
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 236. */
+    private final void goto236() {
+        switch (reduceNonTerminal) {
+            case 33:
+                // OptEdgeUpdate
+                doGoto(297);
+                return;
+
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 237. */
+    private final void goto237() {
+        switch (reduceNonTerminal) {
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 238. */
+    private final void goto238() {
+        switch (reduceNonTerminal) {
             case 1:
                 // StdLibFunction
                 doGoto(133);
@@ -92614,7 +92829,7 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 98:
                 // Expressions
-                doGoto(238);
+                doGoto(294);
                 return;
 
             case 100:
@@ -92672,144 +92887,6 @@ public final class CifParser extends Parser<ASpecification> {
                 doGoto(141);
                 return;
 
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 230. */
-    private final void goto230() {
-        switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 231. */
-    private final void goto231() {
-        switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 232. */
-    private final void goto232() {
-        switch (reduceNonTerminal) {
-            case 39:
-                // LocationElement
-                doGoto(235);
-                return;
-
-            case 115:
-                // OptDoubleAnnos
-                doGoto(233);
-                return;
-
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 233. */
-    private final void goto233() {
-        switch (reduceNonTerminal) {
-            case 0:
-                // SupKind
-                doGoto(211);
-                return;
-
-            case 55:
-                // InvariantDecls
-                doGoto(234);
-                return;
-
-            case 68:
-                // OptSupKind
-                doGoto(210);
-                return;
-
-            case 116:
-                // DoubleAnnotation
-                doGoto(4);
-                return;
-
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 234. */
-    private final void goto234() {
-        switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 235. */
-    private final void goto235() {
-        switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 236. */
-    private final void goto236() {
-        switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 237. */
-    private final void goto237() {
-        switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 238. */
-    private final void goto238() {
-        switch (reduceNonTerminal) {
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -92846,6 +92923,11 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 241. */
     private final void goto241() {
         switch (reduceNonTerminal) {
+            case 31:
+                // OptEdgeGuard
+                doGoto(248);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -92870,6 +92952,76 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 243. */
     private final void goto243() {
         switch (reduceNonTerminal) {
+            case 1:
+                // StdLibFunction
+                doGoto(133);
+                return;
+
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 15:
+                // StringToken
+                doGoto(134);
+                return;
+
+            case 100:
+                // Expression
+                doGoto(245);
+                return;
+
+            case 101:
+                // OrExpression
+                doGoto(132);
+                return;
+
+            case 102:
+                // AndExpression
+                doGoto(121);
+                return;
+
+            case 103:
+                // CompareExpression
+                doGoto(122);
+                return;
+
+            case 104:
+                // AddExpression
+                doGoto(120);
+                return;
+
+            case 105:
+                // MulExpression
+                doGoto(129);
+                return;
+
+            case 106:
+                // UnaryExpression
+                doGoto(135);
+                return;
+
+            case 107:
+                // FuncExpression
+                doGoto(125);
+                return;
+
+            case 108:
+                // ExpressionFactor
+                doGoto(124);
+                return;
+
+            case 109:
+                // NonEmptySetExpression
+                doGoto(142);
+                return;
+
+            case 114:
+                // Name
+                doGoto(141);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -92906,18 +93058,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 246. */
     private final void goto246() {
         switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 247. */
-    private final void goto247() {
-        switch (reduceNonTerminal) {
             case 1:
                 // StdLibFunction
                 doGoto(133);
@@ -92933,9 +93073,14 @@ public final class CifParser extends Parser<ASpecification> {
                 doGoto(134);
                 return;
 
+            case 98:
+                // Expressions
+                doGoto(289);
+                return;
+
             case 100:
                 // Expression
-                doGoto(248);
+                doGoto(138);
                 return;
 
             case 101:
@@ -92986,6 +93131,33 @@ public final class CifParser extends Parser<ASpecification> {
             case 114:
                 // Name
                 doGoto(141);
+                return;
+
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 247. */
+    private final void goto247() {
+        switch (reduceNonTerminal) {
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 35:
+                // EdgeEvent
+                doGoto(288);
+                return;
+
+            case 114:
+                // Name
+                doGoto(242);
                 return;
 
             default:
@@ -93000,6 +93172,11 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 248. */
     private final void goto248() {
         switch (reduceNonTerminal) {
+            case 32:
+                // OptEdgeUrgent
+                doGoto(250);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93012,76 +93189,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 249. */
     private final void goto249() {
         switch (reduceNonTerminal) {
-            case 1:
-                // StdLibFunction
-                doGoto(133);
-                return;
-
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 15:
-                // StringToken
-                doGoto(134);
-                return;
-
-            case 100:
-                // Expression
-                doGoto(250);
-                return;
-
-            case 101:
-                // OrExpression
-                doGoto(132);
-                return;
-
-            case 102:
-                // AndExpression
-                doGoto(121);
-                return;
-
-            case 103:
-                // CompareExpression
-                doGoto(122);
-                return;
-
-            case 104:
-                // AddExpression
-                doGoto(120);
-                return;
-
-            case 105:
-                // MulExpression
-                doGoto(129);
-                return;
-
-            case 106:
-                // UnaryExpression
-                doGoto(135);
-                return;
-
-            case 107:
-                // FuncExpression
-                doGoto(125);
-                return;
-
-            case 108:
-                // ExpressionFactor
-                doGoto(124);
-                return;
-
-            case 109:
-                // NonEmptySetExpression
-                doGoto(142);
-                return;
-
-            case 114:
-                // Name
-                doGoto(141);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93094,6 +93201,11 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 250. */
     private final void goto250() {
         switch (reduceNonTerminal) {
+            case 33:
+                // OptEdgeUpdate
+                doGoto(252);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93108,12 +93220,27 @@ public final class CifParser extends Parser<ASpecification> {
         switch (reduceNonTerminal) {
             case 11:
                 // Identifier
-                doGoto(245);
+                doGoto(140);
                 return;
 
-            case 54:
-                // Equation
-                doGoto(253);
+            case 60:
+                // Updates
+                doGoto(258);
+                return;
+
+            case 61:
+                // Update
+                doGoto(257);
+                return;
+
+            case 63:
+                // Addressable
+                doGoto(255);
+                return;
+
+            case 114:
+                // Name
+                doGoto(256);
                 return;
 
             default:
@@ -93140,84 +93267,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 253. */
     private final void goto253() {
         switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 254. */
-    private final void goto254() {
-        switch (reduceNonTerminal) {
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 60:
-                // Updates
-                doGoto(317);
-                return;
-
-            case 61:
-                // Update
-                doGoto(276);
-                return;
-
-            case 63:
-                // Addressable
-                doGoto(274);
-                return;
-
-            case 114:
-                // Name
-                doGoto(275);
-                return;
-
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 255. */
-    private final void goto255() {
-        switch (reduceNonTerminal) {
-            case 33:
-                // OptEdgeUpdate
-                doGoto(316);
-                return;
-
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 256. */
-    private final void goto256() {
-        switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 257. */
-    private final void goto257() {
-        switch (reduceNonTerminal) {
             case 1:
                 // StdLibFunction
                 doGoto(133);
@@ -93235,7 +93284,7 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 98:
                 // Expressions
-                doGoto(313);
+                doGoto(276);
                 return;
 
             case 100:
@@ -93293,6 +93342,79 @@ public final class CifParser extends Parser<ASpecification> {
                 doGoto(141);
                 return;
 
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 254. */
+    private final void goto254() {
+        switch (reduceNonTerminal) {
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 63:
+                // Addressable
+                doGoto(269);
+                return;
+
+            case 114:
+                // Name
+                doGoto(256);
+                return;
+
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 255. */
+    private final void goto255() {
+        switch (reduceNonTerminal) {
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 256. */
+    private final void goto256() {
+        switch (reduceNonTerminal) {
+            case 64:
+                // Projections
+                doGoto(263);
+                return;
+
+            case 65:
+                // Projection
+                doGoto(262);
+                return;
+
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 257. */
+    private final void goto257() {
+        switch (reduceNonTerminal) {
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93317,6 +93439,26 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 259. */
     private final void goto259() {
         switch (reduceNonTerminal) {
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 61:
+                // Update
+                doGoto(260);
+                return;
+
+            case 63:
+                // Addressable
+                doGoto(255);
+                return;
+
+            case 114:
+                // Name
+                doGoto(256);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93329,11 +93471,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 260. */
     private final void goto260() {
         switch (reduceNonTerminal) {
-            case 31:
-                // OptEdgeGuard
-                doGoto(267);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93345,18 +93482,6 @@ public final class CifParser extends Parser<ASpecification> {
 
     /** Parser goto code for parser state 261. */
     private final void goto261() {
-        switch (reduceNonTerminal) {
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 262. */
-    private final void goto262() {
         switch (reduceNonTerminal) {
             case 1:
                 // StdLibFunction
@@ -93375,7 +93500,7 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 100:
                 // Expression
-                doGoto(264);
+                doGoto(265);
                 return;
 
             case 101:
@@ -93437,9 +93562,26 @@ public final class CifParser extends Parser<ASpecification> {
         }
     }
 
+    /** Parser goto code for parser state 262. */
+    private final void goto262() {
+        switch (reduceNonTerminal) {
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
     /** Parser goto code for parser state 263. */
     private final void goto263() {
         switch (reduceNonTerminal) {
+            case 65:
+                // Projection
+                doGoto(264);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93464,6 +93606,30 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 265. */
     private final void goto265() {
         switch (reduceNonTerminal) {
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 266. */
+    private final void goto266() {
+        switch (reduceNonTerminal) {
+            default:
+                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
+                                 "state %d.", reduceNonTerminal,
+                                 NON_TERMINAL_NAMES[reduceNonTerminal],
+                                 reduceState);
+                throw new RuntimeException(msg);
+        }
+    }
+
+    /** Parser goto code for parser state 267. */
+    private final void goto267() {
+        switch (reduceNonTerminal) {
             case 1:
                 // StdLibFunction
                 doGoto(133);
@@ -93479,14 +93645,9 @@ public final class CifParser extends Parser<ASpecification> {
                 doGoto(134);
                 return;
 
-            case 98:
-                // Expressions
-                doGoto(308);
-                return;
-
             case 100:
                 // Expression
-                doGoto(138);
+                doGoto(268);
                 return;
 
             case 101:
@@ -93537,50 +93698,6 @@ public final class CifParser extends Parser<ASpecification> {
             case 114:
                 // Name
                 doGoto(141);
-                return;
-
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 266. */
-    private final void goto266() {
-        switch (reduceNonTerminal) {
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 35:
-                // EdgeEvent
-                doGoto(307);
-                return;
-
-            case 114:
-                // Name
-                doGoto(261);
-                return;
-
-            default:
-                String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
-                                 "state %d.", reduceNonTerminal,
-                                 NON_TERMINAL_NAMES[reduceNonTerminal],
-                                 reduceState);
-                throw new RuntimeException(msg);
-        }
-    }
-
-    /** Parser goto code for parser state 267. */
-    private final void goto267() {
-        switch (reduceNonTerminal) {
-            case 32:
-                // OptEdgeUrgent
-                doGoto(269);
                 return;
 
             default:
@@ -93607,11 +93724,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 269. */
     private final void goto269() {
         switch (reduceNonTerminal) {
-            case 33:
-                // OptEdgeUpdate
-                doGoto(271);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93629,24 +93741,19 @@ public final class CifParser extends Parser<ASpecification> {
                 doGoto(140);
                 return;
 
-            case 60:
-                // Updates
-                doGoto(277);
-                return;
-
-            case 61:
-                // Update
-                doGoto(276);
+            case 62:
+                // Addressables
+                doGoto(272);
                 return;
 
             case 63:
                 // Addressable
-                doGoto(274);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -93673,81 +93780,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 272. */
     private final void goto272() {
         switch (reduceNonTerminal) {
-            case 1:
-                // StdLibFunction
-                doGoto(133);
-                return;
-
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 15:
-                // StringToken
-                doGoto(134);
-                return;
-
-            case 98:
-                // Expressions
-                doGoto(295);
-                return;
-
-            case 100:
-                // Expression
-                doGoto(138);
-                return;
-
-            case 101:
-                // OrExpression
-                doGoto(132);
-                return;
-
-            case 102:
-                // AndExpression
-                doGoto(121);
-                return;
-
-            case 103:
-                // CompareExpression
-                doGoto(122);
-                return;
-
-            case 104:
-                // AddExpression
-                doGoto(120);
-                return;
-
-            case 105:
-                // MulExpression
-                doGoto(129);
-                return;
-
-            case 106:
-                // UnaryExpression
-                doGoto(135);
-                return;
-
-            case 107:
-                // FuncExpression
-                doGoto(125);
-                return;
-
-            case 108:
-                // ExpressionFactor
-                doGoto(124);
-                return;
-
-            case 109:
-                // NonEmptySetExpression
-                doGoto(142);
-                return;
-
-            case 114:
-                // Name
-                doGoto(141);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93767,12 +93799,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(288);
+                doGoto(275);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -93799,16 +93831,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 275. */
     private final void goto275() {
         switch (reduceNonTerminal) {
-            case 64:
-                // Projections
-                doGoto(282);
-                return;
-
-            case 65:
-                // Projection
-                doGoto(281);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93833,6 +93855,31 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 277. */
     private final void goto277() {
         switch (reduceNonTerminal) {
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 60:
+                // Updates
+                doGoto(278);
+                return;
+
+            case 61:
+                // Update
+                doGoto(257);
+                return;
+
+            case 63:
+                // Addressable
+                doGoto(255);
+                return;
+
+            case 114:
+                // Name
+                doGoto(256);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93845,24 +93892,9 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 278. */
     private final void goto278() {
         switch (reduceNonTerminal) {
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 61:
-                // Update
+            case 66:
+                // OptElifUpdates
                 doGoto(279);
-                return;
-
-            case 63:
-                // Addressable
-                doGoto(274);
-                return;
-
-            case 114:
-                // Name
-                doGoto(275);
                 return;
 
             default:
@@ -93877,6 +93909,11 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 279. */
     private final void goto279() {
         switch (reduceNonTerminal) {
+            case 67:
+                // OptElseUpdate
+                doGoto(282);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93904,9 +93941,14 @@ public final class CifParser extends Parser<ASpecification> {
                 doGoto(134);
                 return;
 
+            case 98:
+                // Expressions
+                doGoto(285);
+                return;
+
             case 100:
                 // Expression
-                doGoto(284);
+                doGoto(138);
                 return;
 
             case 101:
@@ -93971,6 +94013,31 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 281. */
     private final void goto281() {
         switch (reduceNonTerminal) {
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 60:
+                // Updates
+                doGoto(284);
+                return;
+
+            case 61:
+                // Update
+                doGoto(257);
+                return;
+
+            case 63:
+                // Addressable
+                doGoto(255);
+                return;
+
+            case 114:
+                // Name
+                doGoto(256);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -93983,11 +94050,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 282. */
     private final void goto282() {
         switch (reduceNonTerminal) {
-            case 65:
-                // Projection
-                doGoto(283);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94036,74 +94098,29 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 286. */
     private final void goto286() {
         switch (reduceNonTerminal) {
-            case 1:
-                // StdLibFunction
-                doGoto(133);
-                return;
-
             case 11:
                 // Identifier
                 doGoto(140);
                 return;
 
-            case 15:
-                // StringToken
-                doGoto(134);
-                return;
-
-            case 100:
-                // Expression
+            case 60:
+                // Updates
                 doGoto(287);
                 return;
 
-            case 101:
-                // OrExpression
-                doGoto(132);
+            case 61:
+                // Update
+                doGoto(257);
                 return;
 
-            case 102:
-                // AndExpression
-                doGoto(121);
-                return;
-
-            case 103:
-                // CompareExpression
-                doGoto(122);
-                return;
-
-            case 104:
-                // AddExpression
-                doGoto(120);
-                return;
-
-            case 105:
-                // MulExpression
-                doGoto(129);
-                return;
-
-            case 106:
-                // UnaryExpression
-                doGoto(135);
-                return;
-
-            case 107:
-                // FuncExpression
-                doGoto(125);
-                return;
-
-            case 108:
-                // ExpressionFactor
-                doGoto(124);
-                return;
-
-            case 109:
-                // NonEmptySetExpression
-                doGoto(142);
+            case 63:
+                // Addressable
+                doGoto(255);
                 return;
 
             case 114:
                 // Name
-                doGoto(141);
+                doGoto(256);
                 return;
 
             default:
@@ -94142,26 +94159,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 289. */
     private final void goto289() {
         switch (reduceNonTerminal) {
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 62:
-                // Addressables
-                doGoto(291);
-                return;
-
-            case 63:
-                // Addressable
-                doGoto(290);
-                return;
-
-            case 114:
-                // Name
-                doGoto(275);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94174,6 +94171,11 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 290. */
     private final void goto290() {
         switch (reduceNonTerminal) {
+            case 11:
+                // Identifier
+                doGoto(292);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94198,21 +94200,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 292. */
     private final void goto292() {
         switch (reduceNonTerminal) {
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 63:
-                // Addressable
-                doGoto(294);
-                return;
-
-            case 114:
-                // Name
-                doGoto(275);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94237,6 +94224,11 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 294. */
     private final void goto294() {
         switch (reduceNonTerminal) {
+            case 32:
+                // OptEdgeUrgent
+                doGoto(295);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94249,6 +94241,11 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 295. */
     private final void goto295() {
         switch (reduceNonTerminal) {
+            case 33:
+                // OptEdgeUpdate
+                doGoto(296);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94261,31 +94258,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 296. */
     private final void goto296() {
         switch (reduceNonTerminal) {
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 60:
-                // Updates
-                doGoto(297);
-                return;
-
-            case 61:
-                // Update
-                doGoto(276);
-                return;
-
-            case 63:
-                // Addressable
-                doGoto(274);
-                return;
-
-            case 114:
-                // Name
-                doGoto(275);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94298,11 +94270,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 297. */
     private final void goto297() {
         switch (reduceNonTerminal) {
-            case 66:
-                // OptElifUpdates
-                doGoto(298);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94315,11 +94282,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 298. */
     private final void goto298() {
         switch (reduceNonTerminal) {
-            case 67:
-                // OptElseUpdate
-                doGoto(301);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94332,81 +94294,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 299. */
     private final void goto299() {
         switch (reduceNonTerminal) {
-            case 1:
-                // StdLibFunction
-                doGoto(133);
-                return;
-
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 15:
-                // StringToken
-                doGoto(134);
-                return;
-
-            case 98:
-                // Expressions
-                doGoto(304);
-                return;
-
-            case 100:
-                // Expression
-                doGoto(138);
-                return;
-
-            case 101:
-                // OrExpression
-                doGoto(132);
-                return;
-
-            case 102:
-                // AndExpression
-                doGoto(121);
-                return;
-
-            case 103:
-                // CompareExpression
-                doGoto(122);
-                return;
-
-            case 104:
-                // AddExpression
-                doGoto(120);
-                return;
-
-            case 105:
-                // MulExpression
-                doGoto(129);
-                return;
-
-            case 106:
-                // UnaryExpression
-                doGoto(135);
-                return;
-
-            case 107:
-                // FuncExpression
-                doGoto(125);
-                return;
-
-            case 108:
-                // ExpressionFactor
-                doGoto(124);
-                return;
-
-            case 109:
-                // NonEmptySetExpression
-                doGoto(142);
-                return;
-
-            case 114:
-                // Name
-                doGoto(141);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94419,31 +94306,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 300. */
     private final void goto300() {
         switch (reduceNonTerminal) {
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 60:
-                // Updates
-                doGoto(303);
-                return;
-
-            case 61:
-                // Update
-                doGoto(276);
-                return;
-
-            case 63:
-                // Addressable
-                doGoto(274);
-                return;
-
-            case 114:
-                // Name
-                doGoto(275);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94504,31 +94366,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 305. */
     private final void goto305() {
         switch (reduceNonTerminal) {
-            case 11:
-                // Identifier
-                doGoto(140);
-                return;
-
-            case 60:
-                // Updates
-                doGoto(306);
-                return;
-
-            case 61:
-                // Update
-                doGoto(276);
-                return;
-
-            case 63:
-                // Addressable
-                doGoto(274);
-                return;
-
-            case 114:
-                // Name
-                doGoto(275);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94577,11 +94414,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 309. */
     private final void goto309() {
         switch (reduceNonTerminal) {
-            case 11:
-                // Identifier
-                doGoto(311);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94606,6 +94438,76 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 311. */
     private final void goto311() {
         switch (reduceNonTerminal) {
+            case 1:
+                // StdLibFunction
+                doGoto(133);
+                return;
+
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 15:
+                // StringToken
+                doGoto(134);
+                return;
+
+            case 100:
+                // Expression
+                doGoto(312);
+                return;
+
+            case 101:
+                // OrExpression
+                doGoto(132);
+                return;
+
+            case 102:
+                // AndExpression
+                doGoto(121);
+                return;
+
+            case 103:
+                // CompareExpression
+                doGoto(122);
+                return;
+
+            case 104:
+                // AddExpression
+                doGoto(120);
+                return;
+
+            case 105:
+                // MulExpression
+                doGoto(129);
+                return;
+
+            case 106:
+                // UnaryExpression
+                doGoto(135);
+                return;
+
+            case 107:
+                // FuncExpression
+                doGoto(125);
+                return;
+
+            case 108:
+                // ExpressionFactor
+                doGoto(124);
+                return;
+
+            case 109:
+                // NonEmptySetExpression
+                doGoto(142);
+                return;
+
+            case 114:
+                // Name
+                doGoto(141);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94630,9 +94532,74 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 313. */
     private final void goto313() {
         switch (reduceNonTerminal) {
-            case 32:
-                // OptEdgeUrgent
+            case 1:
+                // StdLibFunction
+                doGoto(133);
+                return;
+
+            case 11:
+                // Identifier
+                doGoto(140);
+                return;
+
+            case 15:
+                // StringToken
+                doGoto(134);
+                return;
+
+            case 100:
+                // Expression
                 doGoto(314);
+                return;
+
+            case 101:
+                // OrExpression
+                doGoto(132);
+                return;
+
+            case 102:
+                // AndExpression
+                doGoto(121);
+                return;
+
+            case 103:
+                // CompareExpression
+                doGoto(122);
+                return;
+
+            case 104:
+                // AddExpression
+                doGoto(120);
+                return;
+
+            case 105:
+                // MulExpression
+                doGoto(129);
+                return;
+
+            case 106:
+                // UnaryExpression
+                doGoto(135);
+                return;
+
+            case 107:
+                // FuncExpression
+                doGoto(125);
+                return;
+
+            case 108:
+                // ExpressionFactor
+                doGoto(124);
+                return;
+
+            case 109:
+                // NonEmptySetExpression
+                doGoto(142);
+                return;
+
+            case 114:
+                // Name
+                doGoto(141);
                 return;
 
             default:
@@ -94647,11 +94614,6 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 314. */
     private final void goto314() {
         switch (reduceNonTerminal) {
-            case 33:
-                // OptEdgeUpdate
-                doGoto(315);
-                return;
-
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94664,6 +94626,16 @@ public final class CifParser extends Parser<ASpecification> {
     /** Parser goto code for parser state 315. */
     private final void goto315() {
         switch (reduceNonTerminal) {
+            case 11:
+                // Identifier
+                doGoto(309);
+                return;
+
+            case 54:
+                // Equation
+                doGoto(317);
+                return;
+
             default:
                 String msg = fmt("Unknown non-terminal %d (%s) for reduce " +
                                  "state %d.", reduceNonTerminal,
@@ -94702,12 +94674,12 @@ public final class CifParser extends Parser<ASpecification> {
         switch (reduceNonTerminal) {
             case 39:
                 // LocationElement
-                doGoto(235);
+                doGoto(299);
                 return;
 
             case 115:
                 // OptDoubleAnnos
-                doGoto(233);
+                doGoto(232);
                 return;
 
             default:
@@ -97909,12 +97881,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 39:
                 // LocationElement
-                doGoto(231);
+                doGoto(230);
                 return;
 
             case 115:
                 // OptDoubleAnnos
-                doGoto(233);
+                doGoto(232);
                 return;
 
             default:
@@ -97960,12 +97932,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 39:
                 // LocationElement
-                doGoto(231);
+                doGoto(230);
                 return;
 
             case 115:
                 // OptDoubleAnnos
-                doGoto(233);
+                doGoto(232);
                 return;
 
             default:
@@ -97982,12 +97954,12 @@ public final class CifParser extends Parser<ASpecification> {
         switch (reduceNonTerminal) {
             case 39:
                 // LocationElement
-                doGoto(235);
+                doGoto(299);
                 return;
 
             case 115:
                 // OptDoubleAnnos
-                doGoto(233);
+                doGoto(232);
                 return;
 
             default:
@@ -98004,12 +97976,12 @@ public final class CifParser extends Parser<ASpecification> {
         switch (reduceNonTerminal) {
             case 39:
                 // LocationElement
-                doGoto(235);
+                doGoto(299);
                 return;
 
             case 115:
                 // OptDoubleAnnos
-                doGoto(233);
+                doGoto(232);
                 return;
 
             default:
@@ -102472,7 +102444,7 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 95:
@@ -102889,12 +102861,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -102911,12 +102883,12 @@ public final class CifParser extends Parser<ASpecification> {
         switch (reduceNonTerminal) {
             case 64:
                 // Projections
-                doGoto(282);
+                doGoto(263);
                 return;
 
             case 65:
                 // Projection
-                doGoto(281);
+                doGoto(262);
                 return;
 
             default:
@@ -103421,12 +103393,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -103458,12 +103430,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -103548,12 +103520,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -103590,12 +103562,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -103736,12 +103708,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -103797,12 +103769,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -103851,12 +103823,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -103888,12 +103860,12 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 63:
                 // Addressable
-                doGoto(290);
+                doGoto(271);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -105305,17 +105277,17 @@ public final class CifParser extends Parser<ASpecification> {
 
             case 61:
                 // Update
-                doGoto(276);
+                doGoto(257);
                 return;
 
             case 63:
                 // Addressable
-                doGoto(274);
+                doGoto(255);
                 return;
 
             case 114:
                 // Name
-                doGoto(275);
+                doGoto(256);
                 return;
 
             default:
@@ -110076,12 +110048,12 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [226]}. */
         private static void init226() {
-            FIRST_TERMINALS[226] = new int[] {18, 46, 62, 73, 159, 160, 161, 162};
+            FIRST_TERMINALS[226] = new int[] {162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [227]}. */
         private static void init227() {
-            FIRST_TERMINALS[227] = new int[] {162};
+            FIRST_TERMINALS[227] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 134, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [228]}. */
@@ -110091,27 +110063,27 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [229]}. */
         private static void init229() {
-            FIRST_TERMINALS[229] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 134, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
+            FIRST_TERMINALS[229] = new int[] {134};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [230]}. */
         private static void init230() {
-            FIRST_TERMINALS[230] = new int[] {134};
+            FIRST_TERMINALS[230] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [231]}. */
         private static void init231() {
-            FIRST_TERMINALS[231] = new int[] {};
+            FIRST_TERMINALS[231] = new int[] {19, 24, 36, 39, 42, 70, 75, 76, 77, 167};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [232]}. */
         private static void init232() {
-            FIRST_TERMINALS[232] = new int[] {19, 24, 36, 39, 42, 70, 75, 76, 77, 167};
+            FIRST_TERMINALS[232] = new int[] {19, 39, 75, 76, 77, 167};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [233]}. */
         private static void init233() {
-            FIRST_TERMINALS[233] = new int[] {39, 75, 76, 77, 167};
+            FIRST_TERMINALS[233] = new int[] {18, 46, 62, 73, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [234]}. */
@@ -110121,12 +110093,12 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [235]}. */
         private static void init235() {
-            FIRST_TERMINALS[235] = new int[] {};
+            FIRST_TERMINALS[235] = new int[] {34, 155, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [236]}. */
         private static void init236() {
-            FIRST_TERMINALS[236] = new int[] {};
+            FIRST_TERMINALS[236] = new int[] {18};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [237]}. */
@@ -110136,12 +110108,12 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [238]}. */
         private static void init238() {
-            FIRST_TERMINALS[238] = new int[] {133, 134};
+            FIRST_TERMINALS[238] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [239]}. */
         private static void init239() {
-            FIRST_TERMINALS[239] = new int[] {};
+            FIRST_TERMINALS[239] = new int[] {31, 134};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [240]}. */
@@ -110151,57 +110123,57 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [241]}. */
         private static void init241() {
-            FIRST_TERMINALS[241] = new int[] {133, 134};
+            FIRST_TERMINALS[241] = new int[] {18, 46, 73, 133};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [242]}. */
         private static void init242() {
-            FIRST_TERMINALS[242] = new int[] {};
+            FIRST_TERMINALS[242] = new int[] {137, 138};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [243]}. */
         private static void init243() {
-            FIRST_TERMINALS[243] = new int[] {};
+            FIRST_TERMINALS[243] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [244]}. */
         private static void init244() {
-            FIRST_TERMINALS[244] = new int[] {133, 134};
+            FIRST_TERMINALS[244] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [245]}. */
         private static void init245() {
-            FIRST_TERMINALS[245] = new int[] {136, 144};
+            FIRST_TERMINALS[245] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [246]}. */
         private static void init246() {
-            FIRST_TERMINALS[246] = new int[] {144};
+            FIRST_TERMINALS[246] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [247]}. */
         private static void init247() {
-            FIRST_TERMINALS[247] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
+            FIRST_TERMINALS[247] = new int[] {62, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [248]}. */
         private static void init248() {
-            FIRST_TERMINALS[248] = new int[] {};
+            FIRST_TERMINALS[248] = new int[] {18, 46};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [249]}. */
         private static void init249() {
-            FIRST_TERMINALS[249] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
+            FIRST_TERMINALS[249] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [250]}. */
         private static void init250() {
-            FIRST_TERMINALS[250] = new int[] {};
+            FIRST_TERMINALS[250] = new int[] {18};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [251]}. */
         private static void init251() {
-            FIRST_TERMINALS[251] = new int[] {162};
+            FIRST_TERMINALS[251] = new int[] {34, 155, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [252]}. */
@@ -110211,57 +110183,57 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [253]}. */
         private static void init253() {
-            FIRST_TERMINALS[253] = new int[] {};
+            FIRST_TERMINALS[253] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [254]}. */
         private static void init254() {
-            FIRST_TERMINALS[254] = new int[] {34, 155, 159, 160, 161, 162};
+            FIRST_TERMINALS[254] = new int[] {155, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [255]}. */
         private static void init255() {
-            FIRST_TERMINALS[255] = new int[] {18};
+            FIRST_TERMINALS[255] = new int[] {132};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [256]}. */
         private static void init256() {
-            FIRST_TERMINALS[256] = new int[] {};
+            FIRST_TERMINALS[256] = new int[] {157};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [257]}. */
         private static void init257() {
-            FIRST_TERMINALS[257] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
+            FIRST_TERMINALS[257] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [258]}. */
         private static void init258() {
-            FIRST_TERMINALS[258] = new int[] {31, 134};
+            FIRST_TERMINALS[258] = new int[] {133};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [259]}. */
         private static void init259() {
-            FIRST_TERMINALS[259] = new int[] {};
+            FIRST_TERMINALS[259] = new int[] {34, 155, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [260]}. */
         private static void init260() {
-            FIRST_TERMINALS[260] = new int[] {18, 46, 73, 133};
+            FIRST_TERMINALS[260] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [261]}. */
         private static void init261() {
-            FIRST_TERMINALS[261] = new int[] {137, 138};
+            FIRST_TERMINALS[261] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [262]}. */
         private static void init262() {
-            FIRST_TERMINALS[262] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
+            FIRST_TERMINALS[262] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [263]}. */
         private static void init263() {
-            FIRST_TERMINALS[263] = new int[] {};
+            FIRST_TERMINALS[263] = new int[] {157};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [264]}. */
@@ -110271,17 +110243,17 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [265]}. */
         private static void init265() {
-            FIRST_TERMINALS[265] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
+            FIRST_TERMINALS[265] = new int[] {158};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [266]}. */
         private static void init266() {
-            FIRST_TERMINALS[266] = new int[] {62, 159, 160, 161, 162};
+            FIRST_TERMINALS[266] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [267]}. */
         private static void init267() {
-            FIRST_TERMINALS[267] = new int[] {18, 46};
+            FIRST_TERMINALS[267] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [268]}. */
@@ -110291,12 +110263,12 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [269]}. */
         private static void init269() {
-            FIRST_TERMINALS[269] = new int[] {18};
+            FIRST_TERMINALS[269] = new int[] {133};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [270]}. */
         private static void init270() {
-            FIRST_TERMINALS[270] = new int[] {34, 155, 159, 160, 161, 162};
+            FIRST_TERMINALS[270] = new int[] {155, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [271]}. */
@@ -110306,7 +110278,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [272]}. */
         private static void init272() {
-            FIRST_TERMINALS[272] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
+            FIRST_TERMINALS[272] = new int[] {133, 156};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [273]}. */
@@ -110316,32 +110288,32 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [274]}. */
         private static void init274() {
-            FIRST_TERMINALS[274] = new int[] {132};
+            FIRST_TERMINALS[274] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [275]}. */
         private static void init275() {
-            FIRST_TERMINALS[275] = new int[] {157};
+            FIRST_TERMINALS[275] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [276]}. */
         private static void init276() {
-            FIRST_TERMINALS[276] = new int[] {};
+            FIRST_TERMINALS[276] = new int[] {133, 135};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [277]}. */
         private static void init277() {
-            FIRST_TERMINALS[277] = new int[] {133};
+            FIRST_TERMINALS[277] = new int[] {34, 155, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [278]}. */
         private static void init278() {
-            FIRST_TERMINALS[278] = new int[] {34, 155, 159, 160, 161, 162};
+            FIRST_TERMINALS[278] = new int[] {20, 21, 22, 133};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [279]}. */
         private static void init279() {
-            FIRST_TERMINALS[279] = new int[] {};
+            FIRST_TERMINALS[279] = new int[] {20, 21, 22};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [280]}. */
@@ -110351,12 +110323,12 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [281]}. */
         private static void init281() {
-            FIRST_TERMINALS[281] = new int[] {};
+            FIRST_TERMINALS[281] = new int[] {34, 155, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [282]}. */
         private static void init282() {
-            FIRST_TERMINALS[282] = new int[] {157};
+            FIRST_TERMINALS[282] = new int[] {22};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [283]}. */
@@ -110366,47 +110338,47 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [284]}. */
         private static void init284() {
-            FIRST_TERMINALS[284] = new int[] {158};
+            FIRST_TERMINALS[284] = new int[] {133};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [285]}. */
         private static void init285() {
-            FIRST_TERMINALS[285] = new int[] {};
+            FIRST_TERMINALS[285] = new int[] {133, 135};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [286]}. */
         private static void init286() {
-            FIRST_TERMINALS[286] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
+            FIRST_TERMINALS[286] = new int[] {34, 155, 159, 160, 161, 162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [287]}. */
         private static void init287() {
-            FIRST_TERMINALS[287] = new int[] {};
+            FIRST_TERMINALS[287] = new int[] {133};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [288]}. */
         private static void init288() {
-            FIRST_TERMINALS[288] = new int[] {133};
+            FIRST_TERMINALS[288] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [289]}. */
         private static void init289() {
-            FIRST_TERMINALS[289] = new int[] {155, 159, 160, 161, 162};
+            FIRST_TERMINALS[289] = new int[] {133};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [290]}. */
         private static void init290() {
-            FIRST_TERMINALS[290] = new int[] {};
+            FIRST_TERMINALS[290] = new int[] {162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [291]}. */
         private static void init291() {
-            FIRST_TERMINALS[291] = new int[] {133, 156};
+            FIRST_TERMINALS[291] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [292]}. */
         private static void init292() {
-            FIRST_TERMINALS[292] = new int[] {155, 159, 160, 161, 162};
+            FIRST_TERMINALS[292] = new int[] {134};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [293]}. */
@@ -110416,67 +110388,67 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [294]}. */
         private static void init294() {
-            FIRST_TERMINALS[294] = new int[] {};
+            FIRST_TERMINALS[294] = new int[] {18, 46, 133};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [295]}. */
         private static void init295() {
-            FIRST_TERMINALS[295] = new int[] {133, 135};
+            FIRST_TERMINALS[295] = new int[] {18};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [296]}. */
         private static void init296() {
-            FIRST_TERMINALS[296] = new int[] {34, 155, 159, 160, 161, 162};
+            FIRST_TERMINALS[296] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [297]}. */
         private static void init297() {
-            FIRST_TERMINALS[297] = new int[] {20, 21, 22, 133};
+            FIRST_TERMINALS[297] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [298]}. */
         private static void init298() {
-            FIRST_TERMINALS[298] = new int[] {20, 21, 22};
+            FIRST_TERMINALS[298] = new int[] {133};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [299]}. */
         private static void init299() {
-            FIRST_TERMINALS[299] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
+            FIRST_TERMINALS[299] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [300]}. */
         private static void init300() {
-            FIRST_TERMINALS[300] = new int[] {34, 155, 159, 160, 161, 162};
+            FIRST_TERMINALS[300] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [301]}. */
         private static void init301() {
-            FIRST_TERMINALS[301] = new int[] {22};
+            FIRST_TERMINALS[301] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [302]}. */
         private static void init302() {
-            FIRST_TERMINALS[302] = new int[] {};
+            FIRST_TERMINALS[302] = new int[] {133, 134};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [303]}. */
         private static void init303() {
-            FIRST_TERMINALS[303] = new int[] {133};
+            FIRST_TERMINALS[303] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [304]}. */
         private static void init304() {
-            FIRST_TERMINALS[304] = new int[] {133, 135};
+            FIRST_TERMINALS[304] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [305]}. */
         private static void init305() {
-            FIRST_TERMINALS[305] = new int[] {34, 155, 159, 160, 161, 162};
+            FIRST_TERMINALS[305] = new int[] {133, 134};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [306]}. */
         private static void init306() {
-            FIRST_TERMINALS[306] = new int[] {133};
+            FIRST_TERMINALS[306] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [307]}. */
@@ -110486,22 +110458,22 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [308]}. */
         private static void init308() {
-            FIRST_TERMINALS[308] = new int[] {133};
+            FIRST_TERMINALS[308] = new int[] {133, 134};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [309]}. */
         private static void init309() {
-            FIRST_TERMINALS[309] = new int[] {162};
+            FIRST_TERMINALS[309] = new int[] {136, 144};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [310]}. */
         private static void init310() {
-            FIRST_TERMINALS[310] = new int[] {};
+            FIRST_TERMINALS[310] = new int[] {144};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [311]}. */
         private static void init311() {
-            FIRST_TERMINALS[311] = new int[] {134};
+            FIRST_TERMINALS[311] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [312]}. */
@@ -110511,17 +110483,17 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [313]}. */
         private static void init313() {
-            FIRST_TERMINALS[313] = new int[] {18, 46, 133};
+            FIRST_TERMINALS[313] = new int[] {26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [314]}. */
         private static void init314() {
-            FIRST_TERMINALS[314] = new int[] {18};
+            FIRST_TERMINALS[314] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [315]}. */
         private static void init315() {
-            FIRST_TERMINALS[315] = new int[] {};
+            FIRST_TERMINALS[315] = new int[] {162};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [316]}. */
@@ -110531,7 +110503,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [317]}. */
         private static void init317() {
-            FIRST_TERMINALS[317] = new int[] {133};
+            FIRST_TERMINALS[317] = new int[] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS}{@code [318]}. */
@@ -115837,7 +115809,7 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [222]}. */
         private static void init222() {
             FIRST_TERMINALS_REDUCED[222] = new int[][] {
-                {115, 39, 75, 76, 77, 167},
+                {115, 19, 39, 75, 76, 77, 167},
                 {38, 19, 24, 36, 39, 42, 70, 75, 76, 77, 167},
             };
         }
@@ -115855,7 +115827,7 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [225]}. */
         private static void init225() {
             FIRST_TERMINALS_REDUCED[225] = new int[][] {
-                {115, 39, 75, 76, 77, 167},
+                {115, 19, 39, 75, 76, 77, 167},
                 {38, 19, 24, 36, 39, 42, 70, 75, 76, 77, 167},
             };
         }
@@ -115863,17 +115835,23 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [226]}. */
         private static void init226() {
             FIRST_TERMINALS_REDUCED[226] = new int[][] {
-                {114, 137, 138},
-                {30, 31, 134},
-                {34, 18, 46, 73, 133},
+                {11, 136, 144},
+                {53, 133, 134},
             };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [227]}. */
         private static void init227() {
             FIRST_TERMINALS_REDUCED[227] = new int[][] {
-                {11, 136, 144},
-                {53, 133, 134},
+                {1, 155},
+                {101, 129, 150, 151},
+                {102, 124},
+                {103, 126, 131, 142, 143, 144, 145, 146, 147},
+                {104, 148, 149},
+                {105, 125, 127, 140, 141},
+                {107, 155, 157},
+                {114, 136},
+                {98, 133, 134},
             };
         }
 
@@ -115894,17 +115872,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [229]}. */
         private static void init229() {
-            FIRST_TERMINALS_REDUCED[229] = new int[][] {
-                {1, 155},
-                {101, 129, 150, 151},
-                {102, 124},
-                {103, 126, 131, 142, 143, 144, 145, 146, 147},
-                {104, 148, 149},
-                {105, 125, 127, 140, 141},
-                {107, 155, 157},
-                {114, 136},
-                {98, 133, 134},
-            };
+            FIRST_TERMINALS_REDUCED[229] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [230]}. */
@@ -115914,21 +115882,25 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [231]}. */
         private static void init231() {
-            FIRST_TERMINALS_REDUCED[231] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[231] = new int[][] {
+                {115, 19, 39, 75, 76, 77, 167},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [232]}. */
         private static void init232() {
             FIRST_TERMINALS_REDUCED[232] = new int[][] {
-                {115, 39, 75, 76, 77, 167},
+                {0, 26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165},
+                {68, 39},
             };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [233]}. */
         private static void init233() {
             FIRST_TERMINALS_REDUCED[233] = new int[][] {
-                {0, 26, 34, 53, 61, 64, 66, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 128, 130, 138, 142, 148, 149, 153, 155, 157, 159, 160, 161, 162, 163, 164, 165},
-                {68, 39},
+                {114, 137, 138},
+                {30, 31, 134},
+                {34, 18, 46, 73, 133},
             };
         }
 
@@ -115939,7 +115911,11 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [235]}. */
         private static void init235() {
-            FIRST_TERMINALS_REDUCED[235] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[235] = new int[][] {
+                {114, 157},
+                {60, 133},
+                {63, 132},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [236]}. */
@@ -115954,7 +115930,17 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [238]}. */
         private static void init238() {
-            FIRST_TERMINALS_REDUCED[238] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[238] = new int[][] {
+                {1, 155},
+                {101, 129, 150, 151},
+                {102, 124},
+                {103, 126, 131, 142, 143, 144, 145, 146, 147},
+                {104, 148, 149},
+                {105, 125, 127, 140, 141},
+                {107, 155, 157},
+                {114, 136},
+                {98, 18, 46, 133},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [239]}. */
@@ -115969,7 +115955,9 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [241]}. */
         private static void init241() {
-            FIRST_TERMINALS_REDUCED[241] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[241] = new int[][] {
+                {31, 18, 46},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [242]}. */
@@ -115979,7 +115967,16 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [243]}. */
         private static void init243() {
-            FIRST_TERMINALS_REDUCED[243] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[243] = new int[][] {
+                {1, 155},
+                {101, 129, 150, 151},
+                {102, 124},
+                {103, 126, 131, 142, 143, 144, 145, 146, 147},
+                {104, 148, 149},
+                {105, 125, 127, 140, 141},
+                {107, 155, 157},
+                {114, 136},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [244]}. */
@@ -115994,40 +115991,36 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [246]}. */
         private static void init246() {
-            FIRST_TERMINALS_REDUCED[246] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[246] = new int[][] {
+                {1, 155},
+                {101, 129, 150, 151},
+                {102, 124},
+                {103, 126, 131, 142, 143, 144, 145, 146, 147},
+                {104, 148, 149},
+                {105, 125, 127, 140, 141},
+                {107, 155, 157},
+                {114, 136},
+                {98, 133},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [247]}. */
         private static void init247() {
             FIRST_TERMINALS_REDUCED[247] = new int[][] {
-                {1, 155},
-                {101, 129, 150, 151},
-                {102, 124},
-                {103, 126, 131, 142, 143, 144, 145, 146, 147},
-                {104, 148, 149},
-                {105, 125, 127, 140, 141},
-                {107, 155, 157},
-                {114, 136},
+                {114, 137, 138},
             };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [248]}. */
         private static void init248() {
-            FIRST_TERMINALS_REDUCED[248] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[248] = new int[][] {
+                {32, 18},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [249]}. */
         private static void init249() {
-            FIRST_TERMINALS_REDUCED[249] = new int[][] {
-                {1, 155},
-                {101, 129, 150, 151},
-                {102, 124},
-                {103, 126, 131, 142, 143, 144, 145, 146, 147},
-                {104, 148, 149},
-                {105, 125, 127, 140, 141},
-                {107, 155, 157},
-                {114, 136},
-            };
+            FIRST_TERMINALS_REDUCED[249] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [250]}. */
@@ -116038,7 +116031,9 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [251]}. */
         private static void init251() {
             FIRST_TERMINALS_REDUCED[251] = new int[][] {
-                {11, 136, 144},
+                {114, 157},
+                {60, 133},
+                {63, 132},
             };
         }
 
@@ -116049,15 +116044,24 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [253]}. */
         private static void init253() {
-            FIRST_TERMINALS_REDUCED[253] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[253] = new int[][] {
+                {1, 155},
+                {101, 129, 150, 151},
+                {102, 124},
+                {103, 126, 131, 142, 143, 144, 145, 146, 147},
+                {104, 148, 149},
+                {105, 125, 127, 140, 141},
+                {107, 155, 157},
+                {114, 136},
+                {98, 133, 135},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [254]}. */
         private static void init254() {
             FIRST_TERMINALS_REDUCED[254] = new int[][] {
                 {114, 157},
-                {60, 133},
-                {63, 132},
+                {63, 133},
             };
         }
 
@@ -116068,22 +116072,14 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [256]}. */
         private static void init256() {
-            FIRST_TERMINALS_REDUCED[256] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[256] = new int[][] {
+                {64, 157},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [257]}. */
         private static void init257() {
-            FIRST_TERMINALS_REDUCED[257] = new int[][] {
-                {1, 155},
-                {101, 129, 150, 151},
-                {102, 124},
-                {103, 126, 131, 142, 143, 144, 145, 146, 147},
-                {104, 148, 149},
-                {105, 125, 127, 140, 141},
-                {107, 155, 157},
-                {114, 136},
-                {98, 18, 46, 133},
-            };
+            FIRST_TERMINALS_REDUCED[257] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [258]}. */
@@ -116093,25 +116089,22 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [259]}. */
         private static void init259() {
-            FIRST_TERMINALS_REDUCED[259] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[259] = new int[][] {
+                {114, 157},
+                {63, 132},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [260]}. */
         private static void init260() {
-            FIRST_TERMINALS_REDUCED[260] = new int[][] {
-                {31, 18, 46},
-            };
+            FIRST_TERMINALS_REDUCED[260] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [261]}. */
         private static void init261() {
-            FIRST_TERMINALS_REDUCED[261] = new int[][] {};
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [262]}. */
-        private static void init262() {
-            FIRST_TERMINALS_REDUCED[262] = new int[][] {
+            FIRST_TERMINALS_REDUCED[261] = new int[][] {
                 {1, 155},
+                {100, 158},
                 {101, 129, 150, 151},
                 {102, 124},
                 {103, 126, 131, 142, 143, 144, 145, 146, 147},
@@ -116120,6 +116113,11 @@ public final class CifParser extends Parser<ASpecification> {
                 {107, 155, 157},
                 {114, 136},
             };
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [262]}. */
+        private static void init262() {
+            FIRST_TERMINALS_REDUCED[262] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [263]}. */
@@ -116134,7 +116132,17 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [265]}. */
         private static void init265() {
-            FIRST_TERMINALS_REDUCED[265] = new int[][] {
+            FIRST_TERMINALS_REDUCED[265] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [266]}. */
+        private static void init266() {
+            FIRST_TERMINALS_REDUCED[266] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [267]}. */
+        private static void init267() {
+            FIRST_TERMINALS_REDUCED[267] = new int[][] {
                 {1, 155},
                 {101, 129, 150, 151},
                 {102, 124},
@@ -116143,21 +116151,6 @@ public final class CifParser extends Parser<ASpecification> {
                 {105, 125, 127, 140, 141},
                 {107, 155, 157},
                 {114, 136},
-                {98, 133},
-            };
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [266]}. */
-        private static void init266() {
-            FIRST_TERMINALS_REDUCED[266] = new int[][] {
-                {114, 137, 138},
-            };
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [267]}. */
-        private static void init267() {
-            FIRST_TERMINALS_REDUCED[267] = new int[][] {
-                {32, 18},
             };
         }
 
@@ -116175,8 +116168,7 @@ public final class CifParser extends Parser<ASpecification> {
         private static void init270() {
             FIRST_TERMINALS_REDUCED[270] = new int[][] {
                 {114, 157},
-                {60, 133},
-                {63, 132},
+                {62, 133, 156},
             };
         }
 
@@ -116187,7 +116179,57 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [272]}. */
         private static void init272() {
-            FIRST_TERMINALS_REDUCED[272] = new int[][] {
+            FIRST_TERMINALS_REDUCED[272] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [273]}. */
+        private static void init273() {
+            FIRST_TERMINALS_REDUCED[273] = new int[][] {
+                {114, 157},
+            };
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [274]}. */
+        private static void init274() {
+            FIRST_TERMINALS_REDUCED[274] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [275]}. */
+        private static void init275() {
+            FIRST_TERMINALS_REDUCED[275] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [276]}. */
+        private static void init276() {
+            FIRST_TERMINALS_REDUCED[276] = new int[][] {};
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [277]}. */
+        private static void init277() {
+            FIRST_TERMINALS_REDUCED[277] = new int[][] {
+                {114, 157},
+                {60, 20, 21, 22, 133},
+                {63, 132},
+            };
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [278]}. */
+        private static void init278() {
+            FIRST_TERMINALS_REDUCED[278] = new int[][] {
+                {66, 20, 21, 22},
+            };
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [279]}. */
+        private static void init279() {
+            FIRST_TERMINALS_REDUCED[279] = new int[][] {
+                {67, 22},
+            };
+        }
+
+        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [280]}. */
+        private static void init280() {
+            FIRST_TERMINALS_REDUCED[280] = new int[][] {
                 {1, 155},
                 {101, 129, 150, 151},
                 {102, 124},
@@ -116200,67 +116242,13 @@ public final class CifParser extends Parser<ASpecification> {
             };
         }
 
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [273]}. */
-        private static void init273() {
-            FIRST_TERMINALS_REDUCED[273] = new int[][] {
-                {114, 157},
-                {63, 133},
-            };
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [274]}. */
-        private static void init274() {
-            FIRST_TERMINALS_REDUCED[274] = new int[][] {};
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [275]}. */
-        private static void init275() {
-            FIRST_TERMINALS_REDUCED[275] = new int[][] {
-                {64, 157},
-            };
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [276]}. */
-        private static void init276() {
-            FIRST_TERMINALS_REDUCED[276] = new int[][] {};
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [277]}. */
-        private static void init277() {
-            FIRST_TERMINALS_REDUCED[277] = new int[][] {};
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [278]}. */
-        private static void init278() {
-            FIRST_TERMINALS_REDUCED[278] = new int[][] {
-                {114, 157},
-                {63, 132},
-            };
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [279]}. */
-        private static void init279() {
-            FIRST_TERMINALS_REDUCED[279] = new int[][] {};
-        }
-
-        /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [280]}. */
-        private static void init280() {
-            FIRST_TERMINALS_REDUCED[280] = new int[][] {
-                {1, 155},
-                {100, 158},
-                {101, 129, 150, 151},
-                {102, 124},
-                {103, 126, 131, 142, 143, 144, 145, 146, 147},
-                {104, 148, 149},
-                {105, 125, 127, 140, 141},
-                {107, 155, 157},
-                {114, 136},
-            };
-        }
-
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [281]}. */
         private static void init281() {
-            FIRST_TERMINALS_REDUCED[281] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[281] = new int[][] {
+                {114, 157},
+                {60, 133},
+                {63, 132},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [282]}. */
@@ -116286,14 +116274,9 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [286]}. */
         private static void init286() {
             FIRST_TERMINALS_REDUCED[286] = new int[][] {
-                {1, 155},
-                {101, 129, 150, 151},
-                {102, 124},
-                {103, 126, 131, 142, 143, 144, 145, 146, 147},
-                {104, 148, 149},
-                {105, 125, 127, 140, 141},
-                {107, 155, 157},
-                {114, 136},
+                {114, 157},
+                {60, 133},
+                {63, 132},
             };
         }
 
@@ -116309,15 +116292,14 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [289]}. */
         private static void init289() {
-            FIRST_TERMINALS_REDUCED[289] = new int[][] {
-                {114, 157},
-                {62, 133, 156},
-            };
+            FIRST_TERMINALS_REDUCED[289] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [290]}. */
         private static void init290() {
-            FIRST_TERMINALS_REDUCED[290] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[290] = new int[][] {
+                {11, 134},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [291]}. */
@@ -116327,9 +116309,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [292]}. */
         private static void init292() {
-            FIRST_TERMINALS_REDUCED[292] = new int[][] {
-                {114, 157},
-            };
+            FIRST_TERMINALS_REDUCED[292] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [293]}. */
@@ -116339,7 +116319,9 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [294]}. */
         private static void init294() {
-            FIRST_TERMINALS_REDUCED[294] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[294] = new int[][] {
+                {32, 18},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [295]}. */
@@ -116349,49 +116331,27 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [296]}. */
         private static void init296() {
-            FIRST_TERMINALS_REDUCED[296] = new int[][] {
-                {114, 157},
-                {60, 20, 21, 22, 133},
-                {63, 132},
-            };
+            FIRST_TERMINALS_REDUCED[296] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [297]}. */
         private static void init297() {
-            FIRST_TERMINALS_REDUCED[297] = new int[][] {
-                {66, 20, 21, 22},
-            };
+            FIRST_TERMINALS_REDUCED[297] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [298]}. */
         private static void init298() {
-            FIRST_TERMINALS_REDUCED[298] = new int[][] {
-                {67, 22},
-            };
+            FIRST_TERMINALS_REDUCED[298] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [299]}. */
         private static void init299() {
-            FIRST_TERMINALS_REDUCED[299] = new int[][] {
-                {1, 155},
-                {101, 129, 150, 151},
-                {102, 124},
-                {103, 126, 131, 142, 143, 144, 145, 146, 147},
-                {104, 148, 149},
-                {105, 125, 127, 140, 141},
-                {107, 155, 157},
-                {114, 136},
-                {98, 133, 135},
-            };
+            FIRST_TERMINALS_REDUCED[299] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [300]}. */
         private static void init300() {
-            FIRST_TERMINALS_REDUCED[300] = new int[][] {
-                {114, 157},
-                {60, 133},
-                {63, 132},
-            };
+            FIRST_TERMINALS_REDUCED[300] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [301]}. */
@@ -116416,11 +116376,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [305]}. */
         private static void init305() {
-            FIRST_TERMINALS_REDUCED[305] = new int[][] {
-                {114, 157},
-                {60, 133},
-                {63, 132},
-            };
+            FIRST_TERMINALS_REDUCED[305] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [306]}. */
@@ -116440,9 +116396,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [309]}. */
         private static void init309() {
-            FIRST_TERMINALS_REDUCED[309] = new int[][] {
-                {11, 134},
-            };
+            FIRST_TERMINALS_REDUCED[309] = new int[][] {};
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [310]}. */
@@ -116452,7 +116406,16 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [311]}. */
         private static void init311() {
-            FIRST_TERMINALS_REDUCED[311] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[311] = new int[][] {
+                {1, 155},
+                {101, 129, 150, 151},
+                {102, 124},
+                {103, 126, 131, 142, 143, 144, 145, 146, 147},
+                {104, 148, 149},
+                {105, 125, 127, 140, 141},
+                {107, 155, 157},
+                {114, 136},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [312]}. */
@@ -116463,7 +116426,14 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [313]}. */
         private static void init313() {
             FIRST_TERMINALS_REDUCED[313] = new int[][] {
-                {32, 18},
+                {1, 155},
+                {101, 129, 150, 151},
+                {102, 124},
+                {103, 126, 131, 142, 143, 144, 145, 146, 147},
+                {104, 148, 149},
+                {105, 125, 127, 140, 141},
+                {107, 155, 157},
+                {114, 136},
             };
         }
 
@@ -116474,7 +116444,9 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [315]}. */
         private static void init315() {
-            FIRST_TERMINALS_REDUCED[315] = new int[][] {};
+            FIRST_TERMINALS_REDUCED[315] = new int[][] {
+                {11, 136, 144},
+            };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [316]}. */
@@ -116490,7 +116462,7 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [318]}. */
         private static void init318() {
             FIRST_TERMINALS_REDUCED[318] = new int[][] {
-                {115, 39, 75, 76, 77, 167},
+                {115, 19, 39, 75, 76, 77, 167},
             };
         }
 
@@ -117428,7 +117400,7 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [469]}. */
         private static void init469() {
             FIRST_TERMINALS_REDUCED[469] = new int[][] {
-                {115, 39, 75, 76, 77, 167},
+                {115, 19, 39, 75, 76, 77, 167},
                 {38, 19, 24, 36, 39, 42, 70, 75, 76, 77, 167},
             };
         }
@@ -117446,7 +117418,7 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [472]}. */
         private static void init472() {
             FIRST_TERMINALS_REDUCED[472] = new int[][] {
-                {115, 39, 75, 76, 77, 167},
+                {115, 19, 39, 75, 76, 77, 167},
                 {38, 19, 24, 36, 39, 42, 70, 75, 76, 77, 167},
             };
         }
@@ -117454,14 +117426,14 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [473]}. */
         private static void init473() {
             FIRST_TERMINALS_REDUCED[473] = new int[][] {
-                {115, 39, 75, 76, 77, 167},
+                {115, 19, 39, 75, 76, 77, 167},
             };
         }
 
         /** Initialize {@link #FIRST_TERMINALS_REDUCED}{@code [474]}. */
         private static void init474() {
             FIRST_TERMINALS_REDUCED[474] = new int[][] {
-                {115, 39, 75, 76, 77, 167},
+                {115, 19, 39, 75, 76, 77, 167},
             };
         }
 
@@ -122682,29 +122654,29 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [230]}. */
         private static void init230() {
-            REDUCIBLE_NON_TERMINALS[230] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[230] = new int[][] {
+                {38, 1},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [231]}. */
         private static void init231() {
             REDUCIBLE_NON_TERMINALS[231] = new int[][] {
-                {38, 1},
+                {115, 0},
+                {37, 5},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [232]}. */
         private static void init232() {
             REDUCIBLE_NON_TERMINALS[232] = new int[][] {
-                {115, 0},
-                {37, 5},
+                {68, 0},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [233]}. */
         private static void init233() {
-            REDUCIBLE_NON_TERMINALS[233] = new int[][] {
-                {68, 0},
-            };
+            REDUCIBLE_NON_TERMINALS[233] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [234]}. */
@@ -122716,22 +122688,21 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [235]}. */
         private static void init235() {
-            REDUCIBLE_NON_TERMINALS[235] = new int[][] {
-                {38, 2},
-            };
+            REDUCIBLE_NON_TERMINALS[235] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [236]}. */
         private static void init236() {
             REDUCIBLE_NON_TERMINALS[236] = new int[][] {
-                {39, 2},
+                {30, 1},
+                {33, 0},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [237]}. */
         private static void init237() {
             REDUCIBLE_NON_TERMINALS[237] = new int[][] {
-                {39, 2},
+                {35, 1},
             };
         }
 
@@ -122742,45 +122713,50 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [239]}. */
         private static void init239() {
-            REDUCIBLE_NON_TERMINALS[239] = new int[][] {
-                {39, 3},
-            };
+            REDUCIBLE_NON_TERMINALS[239] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [240]}. */
         private static void init240() {
             REDUCIBLE_NON_TERMINALS[240] = new int[][] {
-                {39, 2},
+                {34, 1},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [241]}. */
         private static void init241() {
-            REDUCIBLE_NON_TERMINALS[241] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[241] = new int[][] {
+                {30, 1},
+                {31, 0},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [242]}. */
         private static void init242() {
             REDUCIBLE_NON_TERMINALS[242] = new int[][] {
-                {39, 3},
+                {35, 1},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [243]}. */
         private static void init243() {
             REDUCIBLE_NON_TERMINALS[243] = new int[][] {
-                {53, 1},
+                {35, 2},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [244]}. */
         private static void init244() {
-            REDUCIBLE_NON_TERMINALS[244] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[244] = new int[][] {
+                {35, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [245]}. */
         private static void init245() {
-            REDUCIBLE_NON_TERMINALS[245] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[245] = new int[][] {
+                {35, 3},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [246]}. */
@@ -122796,19 +122772,23 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [248]}. */
         private static void init248() {
             REDUCIBLE_NON_TERMINALS[248] = new int[][] {
-                {54, 3},
+                {30, 2},
+                {32, 0},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [249]}. */
         private static void init249() {
-            REDUCIBLE_NON_TERMINALS[249] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[249] = new int[][] {
+                {32, 1},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [250]}. */
         private static void init250() {
             REDUCIBLE_NON_TERMINALS[250] = new int[][] {
-                {54, 4},
+                {30, 3},
+                {33, 0},
             };
         }
 
@@ -122820,15 +122800,13 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [252]}. */
         private static void init252() {
             REDUCIBLE_NON_TERMINALS[252] = new int[][] {
-                {39, 3},
+                {30, 4},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [253]}. */
         private static void init253() {
-            REDUCIBLE_NON_TERMINALS[253] = new int[][] {
-                {53, 3},
-            };
+            REDUCIBLE_NON_TERMINALS[253] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [254]}. */
@@ -122838,69 +122816,65 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [255]}. */
         private static void init255() {
-            REDUCIBLE_NON_TERMINALS[255] = new int[][] {
-                {30, 1},
-                {33, 0},
-            };
+            REDUCIBLE_NON_TERMINALS[255] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [256]}. */
         private static void init256() {
             REDUCIBLE_NON_TERMINALS[256] = new int[][] {
-                {35, 1},
+                {63, 1},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [257]}. */
         private static void init257() {
-            REDUCIBLE_NON_TERMINALS[257] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[257] = new int[][] {
+                {60, 1},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [258]}. */
         private static void init258() {
-            REDUCIBLE_NON_TERMINALS[258] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[258] = new int[][] {
+                {33, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [259]}. */
         private static void init259() {
-            REDUCIBLE_NON_TERMINALS[259] = new int[][] {
-                {34, 1},
-            };
+            REDUCIBLE_NON_TERMINALS[259] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [260]}. */
         private static void init260() {
             REDUCIBLE_NON_TERMINALS[260] = new int[][] {
-                {30, 1},
-                {31, 0},
+                {60, 3},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [261]}. */
         private static void init261() {
-            REDUCIBLE_NON_TERMINALS[261] = new int[][] {
-                {35, 1},
-            };
+            REDUCIBLE_NON_TERMINALS[261] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [262]}. */
         private static void init262() {
             REDUCIBLE_NON_TERMINALS[262] = new int[][] {
-                {35, 2},
+                {64, 1},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [263]}. */
         private static void init263() {
             REDUCIBLE_NON_TERMINALS[263] = new int[][] {
-                {35, 2},
+                {63, 2},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [264]}. */
         private static void init264() {
             REDUCIBLE_NON_TERMINALS[264] = new int[][] {
-                {35, 3},
+                {64, 2},
             };
         }
 
@@ -122911,30 +122885,26 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [266]}. */
         private static void init266() {
-            REDUCIBLE_NON_TERMINALS[266] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[266] = new int[][] {
+                {65, 3},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [267]}. */
         private static void init267() {
-            REDUCIBLE_NON_TERMINALS[267] = new int[][] {
-                {30, 2},
-                {32, 0},
-            };
+            REDUCIBLE_NON_TERMINALS[267] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [268]}. */
         private static void init268() {
             REDUCIBLE_NON_TERMINALS[268] = new int[][] {
-                {32, 1},
+                {61, 3},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [269]}. */
         private static void init269() {
-            REDUCIBLE_NON_TERMINALS[269] = new int[][] {
-                {30, 3},
-                {33, 0},
-            };
+            REDUCIBLE_NON_TERMINALS[269] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [270]}. */
@@ -122945,7 +122915,7 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [271]}. */
         private static void init271() {
             REDUCIBLE_NON_TERMINALS[271] = new int[][] {
-                {30, 4},
+                {62, 1},
             };
         }
 
@@ -122961,39 +122931,39 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [274]}. */
         private static void init274() {
-            REDUCIBLE_NON_TERMINALS[274] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[274] = new int[][] {
+                {63, 5},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [275]}. */
         private static void init275() {
             REDUCIBLE_NON_TERMINALS[275] = new int[][] {
-                {63, 1},
+                {62, 3},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [276]}. */
         private static void init276() {
-            REDUCIBLE_NON_TERMINALS[276] = new int[][] {
-                {60, 1},
-            };
+            REDUCIBLE_NON_TERMINALS[276] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [277]}. */
         private static void init277() {
-            REDUCIBLE_NON_TERMINALS[277] = new int[][] {
-                {33, 2},
-            };
+            REDUCIBLE_NON_TERMINALS[277] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [278]}. */
         private static void init278() {
-            REDUCIBLE_NON_TERMINALS[278] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[278] = new int[][] {
+                {66, 0},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [279]}. */
         private static void init279() {
             REDUCIBLE_NON_TERMINALS[279] = new int[][] {
-                {60, 3},
+                {67, 0},
             };
         }
 
@@ -123004,35 +122974,31 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [281]}. */
         private static void init281() {
-            REDUCIBLE_NON_TERMINALS[281] = new int[][] {
-                {64, 1},
-            };
+            REDUCIBLE_NON_TERMINALS[281] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [282]}. */
         private static void init282() {
-            REDUCIBLE_NON_TERMINALS[282] = new int[][] {
-                {63, 2},
-            };
+            REDUCIBLE_NON_TERMINALS[282] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [283]}. */
         private static void init283() {
             REDUCIBLE_NON_TERMINALS[283] = new int[][] {
-                {64, 2},
+                {61, 7},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [284]}. */
         private static void init284() {
-            REDUCIBLE_NON_TERMINALS[284] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[284] = new int[][] {
+                {67, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [285]}. */
         private static void init285() {
-            REDUCIBLE_NON_TERMINALS[285] = new int[][] {
-                {65, 3},
-            };
+            REDUCIBLE_NON_TERMINALS[285] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [286]}. */
@@ -123043,30 +123009,34 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [287]}. */
         private static void init287() {
             REDUCIBLE_NON_TERMINALS[287] = new int[][] {
-                {61, 3},
+                {66, 5},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [288]}. */
         private static void init288() {
-            REDUCIBLE_NON_TERMINALS[288] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[288] = new int[][] {
+                {34, 3},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [289]}. */
         private static void init289() {
-            REDUCIBLE_NON_TERMINALS[289] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[289] = new int[][] {
+                {31, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [290]}. */
         private static void init290() {
-            REDUCIBLE_NON_TERMINALS[290] = new int[][] {
-                {62, 1},
-            };
+            REDUCIBLE_NON_TERMINALS[290] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [291]}. */
         private static void init291() {
-            REDUCIBLE_NON_TERMINALS[291] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[291] = new int[][] {
+                {39, 4},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [292]}. */
@@ -123077,73 +123047,85 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [293]}. */
         private static void init293() {
             REDUCIBLE_NON_TERMINALS[293] = new int[][] {
-                {63, 5},
+                {39, 6},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [294]}. */
         private static void init294() {
             REDUCIBLE_NON_TERMINALS[294] = new int[][] {
-                {62, 3},
+                {30, 2},
+                {32, 0},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [295]}. */
         private static void init295() {
-            REDUCIBLE_NON_TERMINALS[295] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[295] = new int[][] {
+                {30, 3},
+                {33, 0},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [296]}. */
         private static void init296() {
-            REDUCIBLE_NON_TERMINALS[296] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[296] = new int[][] {
+                {30, 4},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [297]}. */
         private static void init297() {
             REDUCIBLE_NON_TERMINALS[297] = new int[][] {
-                {66, 0},
+                {30, 2},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [298]}. */
         private static void init298() {
             REDUCIBLE_NON_TERMINALS[298] = new int[][] {
-                {67, 0},
+                {30, 2},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [299]}. */
         private static void init299() {
-            REDUCIBLE_NON_TERMINALS[299] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[299] = new int[][] {
+                {38, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [300]}. */
         private static void init300() {
-            REDUCIBLE_NON_TERMINALS[300] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[300] = new int[][] {
+                {39, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [301]}. */
         private static void init301() {
-            REDUCIBLE_NON_TERMINALS[301] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[301] = new int[][] {
+                {39, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [302]}. */
         private static void init302() {
-            REDUCIBLE_NON_TERMINALS[302] = new int[][] {
-                {61, 7},
-            };
+            REDUCIBLE_NON_TERMINALS[302] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [303]}. */
         private static void init303() {
             REDUCIBLE_NON_TERMINALS[303] = new int[][] {
-                {67, 2},
+                {39, 3},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [304]}. */
         private static void init304() {
-            REDUCIBLE_NON_TERMINALS[304] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS[304] = new int[][] {
+                {39, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [305]}. */
@@ -123154,22 +123136,20 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [306]}. */
         private static void init306() {
             REDUCIBLE_NON_TERMINALS[306] = new int[][] {
-                {66, 5},
+                {39, 3},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [307]}. */
         private static void init307() {
             REDUCIBLE_NON_TERMINALS[307] = new int[][] {
-                {34, 3},
+                {53, 1},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [308]}. */
         private static void init308() {
-            REDUCIBLE_NON_TERMINALS[308] = new int[][] {
-                {31, 2},
-            };
+            REDUCIBLE_NON_TERMINALS[308] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [309]}. */
@@ -123179,9 +123159,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [310]}. */
         private static void init310() {
-            REDUCIBLE_NON_TERMINALS[310] = new int[][] {
-                {39, 3},
-            };
+            REDUCIBLE_NON_TERMINALS[310] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [311]}. */
@@ -123192,44 +123170,38 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [312]}. */
         private static void init312() {
             REDUCIBLE_NON_TERMINALS[312] = new int[][] {
-                {39, 5},
+                {54, 3},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [313]}. */
         private static void init313() {
-            REDUCIBLE_NON_TERMINALS[313] = new int[][] {
-                {30, 2},
-                {32, 0},
-            };
+            REDUCIBLE_NON_TERMINALS[313] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [314]}. */
         private static void init314() {
             REDUCIBLE_NON_TERMINALS[314] = new int[][] {
-                {30, 3},
-                {33, 0},
+                {54, 4},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [315]}. */
         private static void init315() {
-            REDUCIBLE_NON_TERMINALS[315] = new int[][] {
-                {30, 4},
-            };
+            REDUCIBLE_NON_TERMINALS[315] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [316]}. */
         private static void init316() {
             REDUCIBLE_NON_TERMINALS[316] = new int[][] {
-                {30, 2},
+                {39, 3},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS}{@code [317]}. */
         private static void init317() {
             REDUCIBLE_NON_TERMINALS[317] = new int[][] {
-                {30, 2},
+                {53, 3},
             };
         }
 
@@ -129318,17 +129290,26 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [226]}. */
         private static void init226() {
             REDUCIBLE_NON_TERMINALS_REDUCED[226] = new int[][] {
-                {11, 114, 0},
-                {114, 35, 0},
-                {34, 30, 0},
-                {35, 34, 0},
+                {54, 53, 0},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [227]}. */
         private static void init227() {
             REDUCIBLE_NON_TERMINALS_REDUCED[227] = new int[][] {
-                {54, 53, 0},
+                {100, 98, 0},
+                {101, 100, 0},
+                {102, 101, 0},
+                {103, 102, 0},
+                {104, 103, 0},
+                {105, 104, 0},
+                {106, 105, 0},
+                {107, 106, 0},
+                {108, 107, 0},
+                {109, 108, 0},
+                {11, 114, 0},
+                {114, 108, 0},
+                {15, 108, 0},
             };
         }
 
@@ -129353,21 +129334,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [229]}. */
         private static void init229() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[229] = new int[][] {
-                {100, 98, 0},
-                {101, 100, 0},
-                {102, 101, 0},
-                {103, 102, 0},
-                {104, 103, 0},
-                {105, 104, 0},
-                {106, 105, 0},
-                {107, 106, 0},
-                {108, 107, 0},
-                {109, 108, 0},
-                {11, 114, 0},
-                {114, 108, 0},
-                {15, 108, 0},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[229] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [230]}. */
@@ -129377,22 +129344,27 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [231]}. */
         private static void init231() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[231] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS_REDUCED[231] = new int[][] {
+                {39, 38, 1},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [232]}. */
         private static void init232() {
             REDUCIBLE_NON_TERMINALS_REDUCED[232] = new int[][] {
-                {39, 38, 1},
+                {0, 68, 0},
+                {116, 115, 1},
+                {55, 39, 1},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [233]}. */
         private static void init233() {
             REDUCIBLE_NON_TERMINALS_REDUCED[233] = new int[][] {
-                {0, 68, 0},
-                {116, 115, 1},
-                {55, 39, 1},
+                {11, 114, 0},
+                {114, 35, 0},
+                {34, 30, 0},
+                {35, 34, 0},
             };
         }
 
@@ -129403,12 +129375,19 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [235]}. */
         private static void init235() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[235] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS_REDUCED[235] = new int[][] {
+                {11, 114, 0},
+                {114, 63, 0},
+                {60, 30, 1},
+                {61, 60, 0},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [236]}. */
         private static void init236() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[236] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS_REDUCED[236] = new int[][] {
+                {33, 30, 1},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [237]}. */
@@ -129418,139 +129397,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [238]}. */
         private static void init238() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[238] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [239]}. */
-        private static void init239() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[239] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [240]}. */
-        private static void init240() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[240] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [241]}. */
-        private static void init241() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[241] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [242]}. */
-        private static void init242() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[242] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [243]}. */
-        private static void init243() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[243] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [244]}. */
-        private static void init244() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[244] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [245]}. */
-        private static void init245() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[245] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [246]}. */
-        private static void init246() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[246] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [247]}. */
-        private static void init247() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[247] = new int[][] {
-                {100, 54, 2},
-                {101, 100, 0},
-                {102, 101, 0},
-                {103, 102, 0},
-                {104, 103, 0},
-                {105, 104, 0},
-                {106, 105, 0},
-                {107, 106, 0},
-                {108, 107, 0},
-                {109, 108, 0},
-                {11, 114, 0},
-                {114, 108, 0},
-                {15, 108, 0},
-            };
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [248]}. */
-        private static void init248() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[248] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [249]}. */
-        private static void init249() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[249] = new int[][] {
-                {100, 54, 3},
-                {101, 100, 0},
-                {102, 101, 0},
-                {103, 102, 0},
-                {104, 103, 0},
-                {105, 104, 0},
-                {106, 105, 0},
-                {107, 106, 0},
-                {108, 107, 0},
-                {109, 108, 0},
-                {11, 114, 0},
-                {114, 108, 0},
-                {15, 108, 0},
-            };
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [250]}. */
-        private static void init250() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[250] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [251]}. */
-        private static void init251() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[251] = new int[][] {
-                {54, 53, 2},
-            };
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [252]}. */
-        private static void init252() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[252] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [253]}. */
-        private static void init253() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[253] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [254]}. */
-        private static void init254() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[254] = new int[][] {
-                {11, 114, 0},
-                {114, 63, 0},
-                {60, 30, 1},
-                {61, 60, 0},
-            };
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [255]}. */
-        private static void init255() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[255] = new int[][] {
-                {33, 30, 1},
-            };
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [256]}. */
-        private static void init256() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[256] = new int[][] {};
-        }
-
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [257]}. */
-        private static void init257() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[257] = new int[][] {
+            REDUCIBLE_NON_TERMINALS_REDUCED[238] = new int[][] {
                 {100, 98, 0},
                 {101, 100, 0},
                 {102, 101, 0},
@@ -129568,31 +129415,31 @@ public final class CifParser extends Parser<ASpecification> {
             };
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [258]}. */
-        private static void init258() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[258] = new int[][] {};
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [239]}. */
+        private static void init239() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[239] = new int[][] {};
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [259]}. */
-        private static void init259() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[259] = new int[][] {};
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [240]}. */
+        private static void init240() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[240] = new int[][] {};
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [260]}. */
-        private static void init260() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[260] = new int[][] {
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [241]}. */
+        private static void init241() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[241] = new int[][] {
                 {31, 30, 1},
             };
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [261]}. */
-        private static void init261() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[261] = new int[][] {};
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [242]}. */
+        private static void init242() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[242] = new int[][] {};
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [262]}. */
-        private static void init262() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[262] = new int[][] {
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [243]}. */
+        private static void init243() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[243] = new int[][] {
                 {100, 35, 2},
                 {101, 100, 0},
                 {102, 101, 0},
@@ -129609,19 +129456,19 @@ public final class CifParser extends Parser<ASpecification> {
             };
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [263]}. */
-        private static void init263() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[263] = new int[][] {};
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [244]}. */
+        private static void init244() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[244] = new int[][] {};
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [264]}. */
-        private static void init264() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[264] = new int[][] {};
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [245]}. */
+        private static void init245() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[245] = new int[][] {};
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [265]}. */
-        private static void init265() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[265] = new int[][] {
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [246]}. */
+        private static void init246() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[246] = new int[][] {
                 {100, 98, 0},
                 {101, 100, 0},
                 {102, 101, 0},
@@ -129639,37 +129486,37 @@ public final class CifParser extends Parser<ASpecification> {
             };
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [266]}. */
-        private static void init266() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[266] = new int[][] {
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [247]}. */
+        private static void init247() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[247] = new int[][] {
                 {11, 114, 0},
                 {114, 35, 0},
                 {35, 34, 2},
             };
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [267]}. */
-        private static void init267() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[267] = new int[][] {
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [248]}. */
+        private static void init248() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[248] = new int[][] {
                 {32, 30, 2},
             };
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [268]}. */
-        private static void init268() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[268] = new int[][] {};
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [249]}. */
+        private static void init249() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[249] = new int[][] {};
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [269]}. */
-        private static void init269() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[269] = new int[][] {
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [250]}. */
+        private static void init250() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[250] = new int[][] {
                 {33, 30, 3},
             };
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [270]}. */
-        private static void init270() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[270] = new int[][] {
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [251]}. */
+        private static void init251() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[251] = new int[][] {
                 {11, 114, 0},
                 {114, 63, 0},
                 {60, 33, 1},
@@ -129677,14 +129524,14 @@ public final class CifParser extends Parser<ASpecification> {
             };
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [271]}. */
-        private static void init271() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[271] = new int[][] {};
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [252]}. */
+        private static void init252() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[252] = new int[][] {};
         }
 
-        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [272]}. */
-        private static void init272() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[272] = new int[][] {
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [253]}. */
+        private static void init253() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[253] = new int[][] {
                 {100, 98, 0},
                 {101, 100, 0},
                 {102, 101, 0},
@@ -129701,11 +129548,150 @@ public final class CifParser extends Parser<ASpecification> {
             };
         }
 
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [254]}. */
+        private static void init254() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[254] = new int[][] {
+                {11, 114, 0},
+                {114, 63, 0},
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [255]}. */
+        private static void init255() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[255] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [256]}. */
+        private static void init256() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[256] = new int[][] {
+                {64, 63, 1},
+                {65, 64, 0},
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [257]}. */
+        private static void init257() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[257] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [258]}. */
+        private static void init258() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[258] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [259]}. */
+        private static void init259() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[259] = new int[][] {
+                {11, 114, 0},
+                {114, 63, 0},
+                {61, 60, 2},
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [260]}. */
+        private static void init260() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[260] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [261]}. */
+        private static void init261() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[261] = new int[][] {
+                {101, 100, 0},
+                {102, 101, 0},
+                {103, 102, 0},
+                {104, 103, 0},
+                {105, 104, 0},
+                {106, 105, 0},
+                {107, 106, 0},
+                {108, 107, 0},
+                {109, 108, 0},
+                {11, 114, 0},
+                {114, 108, 0},
+                {15, 108, 0},
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [262]}. */
+        private static void init262() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[262] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [263]}. */
+        private static void init263() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[263] = new int[][] {
+                {65, 64, 1},
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [264]}. */
+        private static void init264() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[264] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [265]}. */
+        private static void init265() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[265] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [266]}. */
+        private static void init266() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[266] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [267]}. */
+        private static void init267() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[267] = new int[][] {
+                {100, 61, 2},
+                {101, 100, 0},
+                {102, 101, 0},
+                {103, 102, 0},
+                {104, 103, 0},
+                {105, 104, 0},
+                {106, 105, 0},
+                {107, 106, 0},
+                {108, 107, 0},
+                {109, 108, 0},
+                {11, 114, 0},
+                {114, 108, 0},
+                {15, 108, 0},
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [268]}. */
+        private static void init268() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[268] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [269]}. */
+        private static void init269() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[269] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [270]}. */
+        private static void init270() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[270] = new int[][] {
+                {11, 114, 0},
+                {114, 63, 0},
+                {63, 62, 0},
+            };
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [271]}. */
+        private static void init271() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[271] = new int[][] {};
+        }
+
+        /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [272]}. */
+        private static void init272() {
+            REDUCIBLE_NON_TERMINALS_REDUCED[272] = new int[][] {};
+        }
+
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [273]}. */
         private static void init273() {
             REDUCIBLE_NON_TERMINALS_REDUCED[273] = new int[][] {
                 {11, 114, 0},
                 {114, 63, 0},
+                {63, 62, 2},
             };
         }
 
@@ -129716,10 +129702,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [275]}. */
         private static void init275() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[275] = new int[][] {
-                {64, 63, 1},
-                {65, 64, 0},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[275] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [276]}. */
@@ -129729,16 +129712,16 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [277]}. */
         private static void init277() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[277] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS_REDUCED[277] = new int[][] {
+                {11, 114, 0},
+                {114, 63, 0},
+                {61, 60, 0},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [278]}. */
         private static void init278() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[278] = new int[][] {
-                {11, 114, 0},
-                {114, 63, 0},
-                {61, 60, 2},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[278] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [279]}. */
@@ -129749,6 +129732,7 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [280]}. */
         private static void init280() {
             REDUCIBLE_NON_TERMINALS_REDUCED[280] = new int[][] {
+                {100, 98, 0},
                 {101, 100, 0},
                 {102, 101, 0},
                 {103, 102, 0},
@@ -129766,14 +129750,17 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [281]}. */
         private static void init281() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[281] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS_REDUCED[281] = new int[][] {
+                {11, 114, 0},
+                {114, 63, 0},
+                {60, 67, 1},
+                {61, 60, 0},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [282]}. */
         private static void init282() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[282] = new int[][] {
-                {65, 64, 1},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[282] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [283]}. */
@@ -129794,19 +129781,10 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [286]}. */
         private static void init286() {
             REDUCIBLE_NON_TERMINALS_REDUCED[286] = new int[][] {
-                {100, 61, 2},
-                {101, 100, 0},
-                {102, 101, 0},
-                {103, 102, 0},
-                {104, 103, 0},
-                {105, 104, 0},
-                {106, 105, 0},
-                {107, 106, 0},
-                {108, 107, 0},
-                {109, 108, 0},
                 {11, 114, 0},
-                {114, 108, 0},
-                {15, 108, 0},
+                {114, 63, 0},
+                {60, 66, 4},
+                {61, 60, 0},
             };
         }
 
@@ -129822,11 +129800,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [289]}. */
         private static void init289() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[289] = new int[][] {
-                {11, 114, 0},
-                {114, 63, 0},
-                {63, 62, 0},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[289] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [290]}. */
@@ -129841,11 +129815,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [292]}. */
         private static void init292() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[292] = new int[][] {
-                {11, 114, 0},
-                {114, 63, 0},
-                {63, 62, 2},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[292] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [293]}. */
@@ -129855,21 +129825,21 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [294]}. */
         private static void init294() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[294] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS_REDUCED[294] = new int[][] {
+                {32, 30, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [295]}. */
         private static void init295() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[295] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS_REDUCED[295] = new int[][] {
+                {33, 30, 3},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [296]}. */
         private static void init296() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[296] = new int[][] {
-                {11, 114, 0},
-                {114, 63, 0},
-                {61, 60, 0},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[296] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [297]}. */
@@ -129884,31 +129854,12 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [299]}. */
         private static void init299() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[299] = new int[][] {
-                {100, 98, 0},
-                {101, 100, 0},
-                {102, 101, 0},
-                {103, 102, 0},
-                {104, 103, 0},
-                {105, 104, 0},
-                {106, 105, 0},
-                {107, 106, 0},
-                {108, 107, 0},
-                {109, 108, 0},
-                {11, 114, 0},
-                {114, 108, 0},
-                {15, 108, 0},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[299] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [300]}. */
         private static void init300() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[300] = new int[][] {
-                {11, 114, 0},
-                {114, 63, 0},
-                {60, 67, 1},
-                {61, 60, 0},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[300] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [301]}. */
@@ -129933,12 +129884,7 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [305]}. */
         private static void init305() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[305] = new int[][] {
-                {11, 114, 0},
-                {114, 63, 0},
-                {60, 66, 4},
-                {61, 60, 0},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[305] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [306]}. */
@@ -129968,7 +129914,21 @@ public final class CifParser extends Parser<ASpecification> {
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [311]}. */
         private static void init311() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[311] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS_REDUCED[311] = new int[][] {
+                {100, 54, 2},
+                {101, 100, 0},
+                {102, 101, 0},
+                {103, 102, 0},
+                {104, 103, 0},
+                {105, 104, 0},
+                {106, 105, 0},
+                {107, 106, 0},
+                {108, 107, 0},
+                {109, 108, 0},
+                {11, 114, 0},
+                {114, 108, 0},
+                {15, 108, 0},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [312]}. */
@@ -129979,20 +129939,32 @@ public final class CifParser extends Parser<ASpecification> {
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [313]}. */
         private static void init313() {
             REDUCIBLE_NON_TERMINALS_REDUCED[313] = new int[][] {
-                {32, 30, 2},
+                {100, 54, 3},
+                {101, 100, 0},
+                {102, 101, 0},
+                {103, 102, 0},
+                {104, 103, 0},
+                {105, 104, 0},
+                {106, 105, 0},
+                {107, 106, 0},
+                {108, 107, 0},
+                {109, 108, 0},
+                {11, 114, 0},
+                {114, 108, 0},
+                {15, 108, 0},
             };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [314]}. */
         private static void init314() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[314] = new int[][] {
-                {33, 30, 3},
-            };
+            REDUCIBLE_NON_TERMINALS_REDUCED[314] = new int[][] {};
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [315]}. */
         private static void init315() {
-            REDUCIBLE_NON_TERMINALS_REDUCED[315] = new int[][] {};
+            REDUCIBLE_NON_TERMINALS_REDUCED[315] = new int[][] {
+                {54, 53, 2},
+            };
         }
 
         /** Initialize {@link #REDUCIBLE_NON_TERMINALS_REDUCED}{@code [316]}. */
@@ -136207,25 +136179,27 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code LocationElement : @EDGEKW CoreEdge SEMICOLTK;}</p>
+         * <p>{@code LocationElement : OptDoubleAnnos @EDGEKW CoreEdge SEMICOLTK;}</p>
          *
-         * @param t1 {@code EDGEKW}.
-         * @param a2 {@code CoreEdge}.
+         * @param l1 {@code OptDoubleAnnos}.
+         * @param t2 {@code EDGEKW}.
+         * @param a3 {@code CoreEdge}.
          * @return The parser call back hook result.
          */
-        public ALocationElement parseLocationElement8(Token t1, ACoreEdge a2);
+        public ALocationElement parseLocationElement8(List<AAnnotation> l1, Token t2, ACoreEdge a3);
 
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code LocationElement : @EDGEKW CoreEdge GOTOKW Identifier SEMICOLTK;}</p>
+         * <p>{@code LocationElement : OptDoubleAnnos @EDGEKW CoreEdge GOTOKW Identifier SEMICOLTK;}</p>
          *
-         * @param t1 {@code EDGEKW}.
-         * @param a2 {@code CoreEdge}.
-         * @param a4 {@code Identifier}.
+         * @param l1 {@code OptDoubleAnnos}.
+         * @param t2 {@code EDGEKW}.
+         * @param a3 {@code CoreEdge}.
+         * @param a5 {@code Identifier}.
          * @return The parser call back hook result.
          */
-        public ALocationElement parseLocationElement9(Token t1, ACoreEdge a2, AIdentifier a4);
+        public ALocationElement parseLocationElement9(List<AAnnotation> l1, Token t2, ACoreEdge a3, AIdentifier a5);
 
         /**
          * Parser call back hook for rule/production:
