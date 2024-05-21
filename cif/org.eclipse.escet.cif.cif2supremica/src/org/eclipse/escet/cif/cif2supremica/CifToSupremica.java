@@ -57,6 +57,7 @@ import org.eclipse.escet.cif.cif2cif.ElimSelf;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
@@ -206,6 +207,9 @@ public class CifToSupremica {
     private static void preprocess(Specification spec, boolean elimEnums) {
         // Remove position information, for performance.
         new RemovePositionInfo().transform(spec);
+
+        // Remove annotations to avoid precondition failures on them.
+        new RemoveAnnotations().transform(spec);
 
         // Eliminate component definitions/instantiations, as Supremica doesn't
         // have them.

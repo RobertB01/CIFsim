@@ -110,7 +110,7 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                 NoSpecificType.FUNC_TYPES_AS_DATA, //
                 NoSpecificType.LIST_TYPES_NON_ARRAY, //
                 NoSpecificType.SET_TYPES //
-        ));
+        ).ignoreAnnotations());
 
         // Disallow certain expressions.
         checks.add(new ExprNoSpecificExprsCheck(
@@ -139,13 +139,13 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                 // disallowed.
                 NoSpecificExpr.SET_LITS, //
                 NoSpecificExpr.DICT_LITS //
-        ));
+        ).ignoreAnnotations());
 
         // Disallow certain unary expressions.
         checks.add(new ExprNoSpecificUnaryExprsCheck(
                 // Sampling of distributions is not supported.
                 NoSpecificUnaryOp.SAMPLE //
-        ));
+        ).ignoreAnnotations());
 
         // Disallow certain binary expressions.
         checks.add(new ExprNoSpecificBinaryExprsCheck(
@@ -178,7 +178,7 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
                 NoSpecificBinaryOp.SUBTRACTION_LISTS, //
                 NoSpecificBinaryOp.SUBTRACTION_SETS, //
                 NoSpecificBinaryOp.SUBTRACTION_DICTS //
-        ));
+        ).ignoreAnnotations());
 
         // Disallow certain standard library functions.
         checks.add(new FuncNoSpecificStdLibCheck(
@@ -204,7 +204,7 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 
                 // The distribution standard library functions are not supported.
                 NoSpecificStdLib.ALL_STOCHASTIC //
-        ));
+        ).ignoreAnnotations());
 
         // Disallow certain print declarations.
         checks.add(new PrintNoSpecificPrintDeclsCheck( //

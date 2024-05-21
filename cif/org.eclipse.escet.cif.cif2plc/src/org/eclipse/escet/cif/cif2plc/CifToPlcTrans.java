@@ -57,6 +57,7 @@ import org.eclipse.escet.cif.cif2cif.EnumsToConsts;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
 import org.eclipse.escet.cif.cif2cif.MergeEnums;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
@@ -345,6 +346,9 @@ public class CifToPlcTrans {
     public static PlcProject transform(Specification spec, String absSpecPath) {
         // Initialize transformation.
         CifToPlcTrans trans = new CifToPlcTrans();
+
+        // Remove annotations to avoid precondition failures on them.
+        new RemoveAnnotations().transform(spec);
 
         // Eliminate component definition/instantiation, to avoid having to
         // handle them.

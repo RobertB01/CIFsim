@@ -43,6 +43,7 @@ import java.util.Set;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2yed.options.RelationKind;
 import org.eclipse.escet.cif.cif2yed.options.RelationKindsOption;
 import org.eclipse.escet.cif.common.CifEquationUtils;
@@ -86,6 +87,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter;
+import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Strings;
@@ -143,6 +145,10 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
 
     @Override
     protected void addSpec(Specification spec, Element root) {
+        // Remove annotations to avoid finding relations in them.
+        spec = EMFHelper.deepclone(spec);
+        new RemoveAnnotations().transform(spec);
+
         // Precondition checking.
         preCheck(spec);
 

@@ -61,6 +61,7 @@ import org.eclipse.escet.cif.cif2cif.ElimLocRefExprs;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.EnumsToConsts;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
@@ -505,6 +506,9 @@ public class CifProcessor {
      * @param spec Specification to widen.
      */
     private void widenSpec(Specification spec) {
+        // Remove all non-documentation annotations, to avoid having to deal with.
+        new RemoveAnnotations("doc").transform(spec);
+
         // Eliminate component definition/instantiation, to avoid having to handle them.
         new ElimComponentDefInst().transform(spec);
 
@@ -604,7 +608,8 @@ public class CifProcessor {
                             NoSpecificType.FUNC_TYPES_AS_DATA, //
                             NoSpecificType.SET_TYPES, //
                             NoSpecificType.STRING_TYPES, //
-                            (supportArrays ? NoSpecificType.LIST_TYPES_NON_ARRAY : NoSpecificType.LIST_TYPES)),
+                            (supportArrays ? NoSpecificType.LIST_TYPES_NON_ARRAY : NoSpecificType.LIST_TYPES))
+                                    .ignoreAnnotations(),
 
                     // Disallow the empty array type (with only value [], as PLC arrays have an inclusive non-negative
                     // upper-bound.
@@ -624,10 +629,11 @@ public class CifProcessor {
                             NoSpecificExpr.SET_LITS, //
                             NoSpecificExpr.STRING_LITS, //
                             NoSpecificExpr.SLICE_EXPRS, //
-                            NoSpecificExpr.TIME_VAR_REFS),
+                            NoSpecificExpr.TIME_VAR_REFS)
+                                    .ignoreAnnotations(),
 
                     // Disallow sampling.
-                    new ExprNoSpecificUnaryExprsCheck(NoSpecificUnaryOp.SAMPLE),
+                    new ExprNoSpecificUnaryExprsCheck(NoSpecificUnaryOp.SAMPLE).ignoreAnnotations(),
 
                     // Disallow element of, and subset operators. Allow conjunction and disjunction only on booleans,
                     // allow equality only on booleans, integers, reals and enums, allow addition and subtraction only
@@ -652,7 +658,8 @@ public class CifProcessor {
                             NoSpecificBinaryOp.UNEQUAL_LIST, //
                             NoSpecificBinaryOp.UNEQUAL_SET, //
                             NoSpecificBinaryOp.UNEQUAL_STRING, //
-                            NoSpecificBinaryOp.UNEQUAL_TUPLE),
+                            NoSpecificBinaryOp.UNEQUAL_TUPLE)
+                                    .ignoreAnnotations(),
 
                     // Limit standard library functions.
                     new FuncNoSpecificStdLibCheck( //
@@ -672,7 +679,8 @@ public class CifProcessor {
                             NoSpecificStdLib.ROUND, //
                             NoSpecificStdLib.SCALE, //
                             NoSpecificStdLib.SIGN, //
-                            NoSpecificStdLib.SIZE),
+                            NoSpecificStdLib.SIZE)
+                                    .ignoreAnnotations(),
 
                     // Limit use of continuous variables.
                     new VarContOnlyTimers()

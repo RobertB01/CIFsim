@@ -424,7 +424,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, LOCATIONS),
 
                     // Unsupported features.
-                    new TypeNoSpecificTypesCheck(NoSpecificType.COMP_DEF_TYPES, NoSpecificType.COMP_TYPES), //
+                    new TypeNoSpecificTypesCheck(NoSpecificType.COMP_DEF_TYPES, NoSpecificType.COMP_TYPES)
+                            .ignoreAnnotations(), //
                     new EventNoTauCheck(), //
                     new VarNoContinuousCheck(), //
                     new EqnNotAllowedCheck(),
@@ -441,7 +442,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     new EventNoChannelsCheck(),
 
                     // Only allow non-negative integer values in expressions.
-                    new TypeIntBoundsCheck(true, 0, null, null, null),
+                    new TypeIntBoundsCheck(true, 0, null, null, null).ignoreAnnotations(),
 
                     // Only allow ranged integers, enumerations, and booleans.
                     new TypeNoSpecificTypesCheck( //
@@ -457,7 +458,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
                             NoSpecificType.SET_TYPES, //
                             NoSpecificType.STRING_TYPES, //
                             NoSpecificType.TUPLE_TYPES, //
-                            NoSpecificType.VOID_TYPES),
+                            NoSpecificType.VOID_TYPES)
+                                    .ignoreAnnotations(),
 
                     // Disallow unsupported expressions.
                     new ExprNoSpecificExprsCheck( //
@@ -477,12 +479,14 @@ public class MultilevelApp extends Application<IOutputComponent> {
                             NoSpecificExpr.SLICE_EXPRS, //
                             NoSpecificExpr.STRING_LITS, //
                             NoSpecificExpr.TIME_VAR_REFS, //
-                            NoSpecificExpr.TUPLE_LITS),
+                            NoSpecificExpr.TUPLE_LITS)
+                                    .ignoreAnnotations(),
 
                     // Only allow inversion unary operator.
                     new ExprNoSpecificUnaryExprsCheck( //
                             NoSpecificUnaryOp.NEGATE, //
-                            NoSpecificUnaryOp.SAMPLE),
+                            NoSpecificUnaryOp.SAMPLE)
+                                    .ignoreAnnotations(),
 
                     // Disallow all non-supported binary operators.
                     new ExprNoSpecificBinaryExprsCheck( //
@@ -526,7 +530,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
                             NoSpecificBinaryOp.UNEQUAL_REAL, //
                             NoSpecificBinaryOp.UNEQUAL_SET, //
                             NoSpecificBinaryOp.UNEQUAL_STRING, //
-                            NoSpecificBinaryOp.UNEQUAL_TUPLE),
+                            NoSpecificBinaryOp.UNEQUAL_TUPLE)
+                                    .ignoreAnnotations(),
 
                     // Conditional updates (if updates), multi-assignments, and partial variable assignments are not
                     // supported.

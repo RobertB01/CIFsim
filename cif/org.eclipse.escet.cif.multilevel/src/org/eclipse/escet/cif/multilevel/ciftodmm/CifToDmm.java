@@ -100,7 +100,8 @@ public class CifToDmm {
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, LOCATIONS),
 
                     // Unsupported features.
-                    new TypeNoSpecificTypesCheck(NoSpecificType.COMP_DEF_TYPES, NoSpecificType.COMP_TYPES), //
+                    new TypeNoSpecificTypesCheck(NoSpecificType.COMP_DEF_TYPES, NoSpecificType.COMP_TYPES)
+                            .ignoreAnnotations(), //
                     new EventNoTauCheck(), // TODO Could be ignored in the CIF to DMM transformation.
                     new VarNoContinuousCheck(), //
                     new EqnNotAllowedCheck() //
