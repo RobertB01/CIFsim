@@ -426,6 +426,10 @@ public abstract class CifWalker {
             walkDeclaration((Declaration)obj);
             return;
         }
+        if (obj instanceof Edge) {
+            walkEdge((Edge)obj);
+            return;
+        }
         if (obj instanceof EnumLiteral) {
             walkEnumLiteral((EnumLiteral)obj);
             return;
@@ -2671,6 +2675,10 @@ public abstract class CifWalker {
      */
     protected void walkEdge(Edge obj) {
         precrawlEdge(obj);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x);
+        }
         List<EdgeEvent> _events = obj.getEvents();
         for (EdgeEvent x: _events) {
             walkEdgeEvent(x);
@@ -2696,7 +2704,7 @@ public abstract class CifWalker {
      * @param obj The object to crawl over.
      */
     protected void precrawlEdge(Edge obj) {
-        precrawlPositionObject(obj);
+        precrawlAnnotatedObject(obj);
         preprocessEdge(obj);
     }
 
@@ -2707,7 +2715,7 @@ public abstract class CifWalker {
      */
     protected void postcrawlEdge(Edge obj) {
         postprocessEdge(obj);
-        postcrawlPositionObject(obj);
+        postcrawlAnnotatedObject(obj);
     }
 
     /**
@@ -5452,10 +5460,6 @@ public abstract class CifWalker {
         }
         if (obj instanceof DictPair) {
             walkDictPair((DictPair)obj);
-            return;
-        }
-        if (obj instanceof Edge) {
-            walkEdge((Edge)obj);
             return;
         }
         if (obj instanceof EdgeEvent) {

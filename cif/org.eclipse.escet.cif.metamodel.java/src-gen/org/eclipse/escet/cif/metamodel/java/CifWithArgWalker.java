@@ -450,6 +450,10 @@ public abstract class CifWithArgWalker<T> {
             walkDeclaration((Declaration)obj, arg);
             return;
         }
+        if (obj instanceof Edge) {
+            walkEdge((Edge)obj, arg);
+            return;
+        }
         if (obj instanceof EnumLiteral) {
             walkEnumLiteral((EnumLiteral)obj, arg);
             return;
@@ -2885,6 +2889,10 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void walkEdge(Edge obj, T arg) {
         precrawlEdge(obj, arg);
+        List<Annotation> _annotations = obj.getAnnotations();
+        for (Annotation x: _annotations) {
+            walkAnnotation(x, arg);
+        }
         List<EdgeEvent> _events = obj.getEvents();
         for (EdgeEvent x: _events) {
             walkEdgeEvent(x, arg);
@@ -2911,7 +2919,7 @@ public abstract class CifWithArgWalker<T> {
      * @param arg The extra argument provided to the pre-crawling method.
      */
     protected void precrawlEdge(Edge obj, T arg) {
-        precrawlPositionObject(obj, arg);
+        precrawlAnnotatedObject(obj, arg);
         preprocessEdge(obj, arg);
     }
 
@@ -2923,7 +2931,7 @@ public abstract class CifWithArgWalker<T> {
      */
     protected void postcrawlEdge(Edge obj, T arg) {
         postprocessEdge(obj, arg);
-        postcrawlPositionObject(obj, arg);
+        postcrawlAnnotatedObject(obj, arg);
     }
 
     /**
@@ -5886,10 +5894,6 @@ public abstract class CifWithArgWalker<T> {
         }
         if (obj instanceof DictPair) {
             walkDictPair((DictPair)obj, arg);
-            return;
-        }
-        if (obj instanceof Edge) {
-            walkEdge((Edge)obj, arg);
             return;
         }
         if (obj instanceof EdgeEvent) {

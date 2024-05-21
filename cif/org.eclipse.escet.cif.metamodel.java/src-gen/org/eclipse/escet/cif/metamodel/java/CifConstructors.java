@@ -1351,6 +1351,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Edge} class.
      *
+     * @param annotations The "annotations" of the new "Edge". Multiplicity [0..*]. May be {@code null} to skip setting the "annotations", or to set it later.
      * @param events The "events" of the new "Edge". Multiplicity [0..*]. May be {@code null} to skip setting the "events", or to set it later.
      * @param guards The "guards" of the new "Edge". Multiplicity [0..*]. May be {@code null} to skip setting the "guards", or to set it later.
      * @param position The "position" of the new "Edge". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
@@ -1359,8 +1360,11 @@ public class CifConstructors {
      * @param urgent The "urgent" of the new "Edge". Multiplicity [1..1]. May be {@code null} to set the "urgent" later.
      * @return A new instance of the {@link Edge} class.
      */
-    public static Edge newEdge(List<EdgeEvent> events, List<Expression> guards, Position position, Location target, List<Update> updates, Boolean urgent) {
+    public static Edge newEdge(List<Annotation> annotations, List<EdgeEvent> events, List<Expression> guards, Position position, Location target, List<Update> updates, Boolean urgent) {
         Edge rslt_ = newEdge();
+        if (annotations != null) {
+            rslt_.getAnnotations().addAll(annotations);
+        }
         if (events != null) {
             rslt_.getEvents().addAll(events);
         }
