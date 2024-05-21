@@ -29,6 +29,9 @@ automaton a1:
   @cif:typechecker:tests:anno1
   location:
     initial;
+
+    @@cif:typechecker:tests:anno1
+    edge tau;
 end
 
 automaton a2:

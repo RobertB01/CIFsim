@@ -57,6 +57,9 @@ automaton a1:
   @doc
   location:
     initial;
+
+    @@doc
+    edge tau;
 end
 
 automaton a2:
