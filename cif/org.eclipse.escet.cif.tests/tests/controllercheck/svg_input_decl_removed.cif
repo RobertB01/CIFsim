@@ -15,10 +15,11 @@ svgfile "../tchecker/small.svg";
 
 plant p:
   controllable c;
+  uncontrollable u;
   location:
     initial;
     marked;
-    edge c;
+    edge c, u;
 end
 
 svgin id "box" event p.c;

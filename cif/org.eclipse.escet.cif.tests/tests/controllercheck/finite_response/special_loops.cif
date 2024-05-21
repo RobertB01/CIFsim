@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Shifted loops should be considered the same.
-automaton A:
+plant A:
   controllable a, b;
   location l0:
     initial;
@@ -29,7 +29,7 @@ automaton A:
 end
 
 // Same event in a loop should be printed twice.
-automaton B:
+plant B:
   controllable a;
   location l0: // Loop a-a.
     initial;

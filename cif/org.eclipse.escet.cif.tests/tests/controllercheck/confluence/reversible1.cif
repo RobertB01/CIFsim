@@ -13,7 +13,7 @@
 
 controllable a, b, c;
 
-automaton A:
+plant A:
   location p:
     initial;
     edge a goto q;
@@ -21,7 +21,7 @@ automaton A:
     marked;
 end
 
-automaton B:
+plant B:
   disc int[0..2] v;
 
   location p:

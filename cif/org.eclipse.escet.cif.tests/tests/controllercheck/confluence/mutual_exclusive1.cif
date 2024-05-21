@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton DifferentLocs:
+plant DifferentLocs:
   controllable a, b;
   uncontrollable u;
 

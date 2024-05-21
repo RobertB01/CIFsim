@@ -1,0 +1,3 @@
+WARNING: The alphabet of the specification contains no uncontrollable events.
+ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
+ - Unsupported location of automaton "p": non-determinism detected for edge of controllable event "p.a" with overlapping guards.

@@ -24,6 +24,6 @@ end
 
 input int[0..2] Y;
 
-requirement X.a needs Y = 0 or Y = 2;
-requirement X.b needs Y = 0 or Y = 1;
-requirement X.c needs Y = 1 or Y = 2;
+supervisor X.a needs Y = 0 or Y = 2;
+supervisor X.b needs Y = 0 or Y = 1;
+supervisor X.c needs Y = 1 or Y = 2;
