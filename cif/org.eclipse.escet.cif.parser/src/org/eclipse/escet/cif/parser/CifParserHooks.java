@@ -1335,9 +1335,9 @@ implements CifScanner.Hooks,
         return new ALocationParameter(l2, t1.position);
     }
 
-    @Override // CompDefDeclaration : @ALGKW Type Identifiers;
-    public AParameter parseCompDefDeclaration7(Token t1, ACifType a2, List<AIdentifier> l3) {
-        return new AAlgParameter(a2, l3, t1.position);
+    @Override // CompDefDeclaration : OptAnnos @ALGKW Type Identifiers;
+    public AParameter parseCompDefDeclaration7(List<AAnnotation> l1, Token t2, ACifType a3, List<AIdentifier> l4) {
+        return new AAlgParameter(l1, a3, l4, t2.position);
     }
 
     @Override // EventParamIds : EventParamId;

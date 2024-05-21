@@ -800,20 +800,48 @@ public final class CifPrettyPrinter {
     public void add(ComponentDef cdef) {
         // Preparations.
         ComplexComponent compBody = cdef.getBody();
-        boolean isAut = compBody instanceof Automaton;
 
         // Add annotations.
-        add(cdef.getBody().getAnnotations());
+        add(compBody.getAnnotations());
 
         // Add header.
-        List<String> paramTxts = listc(cdef.getParameters().size());
-        for (Parameter param: cdef.getParameters()) {
-            paramTxts.add(pprint(param));
+        addHeader(cdef);
+
+        // Add body.
+        code.indent();
+        if (compBody instanceof Automaton aut) {
+            addAutBody(aut.getAlphabet(), aut.getMonitors(), aut.getLocations(), aut.getDeclarations(),
+                    aut.getInitials(), aut.getInvariants(), aut.getEquations(), aut.getMarkeds(), aut.getIoDecls());
+        } else if (compBody instanceof Group group) {
+            addCompBody(null, group.getDeclarations(), group.getDefinitions(), group.getComponents(),
+                    group.getInitials(), group.getInvariants(), group.getEquations(), group.getMarkeds(),
+                    group.getIoDecls());
+        } else {
+            throw new RuntimeException("Unknown component definition body: " + compBody);
         }
 
+        // Add end.
+        code.dedent();
+        code.add("end");
+    }
+
+    /**
+     * Add the header of the given component definition to the pretty printed code.
+     *
+     * @param cdef The component definition.
+     */
+    public void addHeader(ComponentDef cdef) {
+        // Preparations.
+        ComplexComponent compBody = cdef.getBody();
+
+        // Check whether the parameters have annotations.
+        boolean paramsHaveAnnos = cdef.getParameters().stream().anyMatch(
+                param -> param instanceof AlgParameter algParam && !algParam.getVariable().getAnnotations().isEmpty());
+
+        // Get kind text.
         String kindTxt;
-        if (isAut) {
-            SupKind kind = ((Automaton)compBody).getKind();
+        if (compBody instanceof Automaton autBody) {
+            SupKind kind = autBody.getKind();
             kindTxt = "automaton";
             if (kind != SupKind.NONE) {
                 kindTxt = kindToStr(kind) + " " + kindTxt;
@@ -821,25 +849,38 @@ public final class CifPrettyPrinter {
         } else {
             kindTxt = "group";
         }
-        code.add("%s def %s(%s):", kindTxt, escapeIdentifier(compBody.getName()), String.join("; ", paramTxts));
-        code.indent();
 
-        // Add body.
-        if (isAut) {
-            Automaton aut = (Automaton)compBody;
-            addAutBody(aut.getAlphabet(), aut.getMonitors(), aut.getLocations(), aut.getDeclarations(),
-                    aut.getInitials(), aut.getInvariants(), aut.getEquations(), aut.getMarkeds(), aut.getIoDecls());
+        // Add header.
+        if (paramsHaveAnnos) {
+            code.add("%s def %s(", kindTxt, escapeIdentifier(compBody.getName()));
+            int paramCount = cdef.getParameters().size();
+            code.indent();
+            for (int i = 0; i < paramCount; i++) {
+                Parameter param = cdef.getParameters().get(i);
+                add(param, i == paramCount - 1);
+            }
+            code.dedent();
+            code.add("):");
         } else {
-            Assert.check(compBody instanceof Group);
-            Group group = (Group)compBody;
-            addCompBody(null, group.getDeclarations(), group.getDefinitions(), group.getComponents(),
-                    group.getInitials(), group.getInvariants(), group.getEquations(), group.getMarkeds(),
-                    group.getIoDecls());
+            List<String> paramTxts = cdef.getParameters().stream().map(this::pprint).toList();
+            code.add("%s def %s(%s):", kindTxt, escapeIdentifier(compBody.getName()), String.join("; ", paramTxts));
+        }
+    }
+
+    /**
+     * Add the given parameter of a component definition.
+     *
+     * @param param The parameter.
+     * @param last Whether this parameter is the last parameter of the component definition.
+     */
+    public void add(Parameter param, boolean last) {
+        // Add annotations.
+        if (param instanceof AlgParameter algParam) {
+            add(algParam.getVariable().getAnnotations());
         }
 
-        // Add end.
-        code.dedent();
-        code.add("end");
+        // Add parameter.
+        code.add("%s%s", pprint(param), last ? "" : ";");
     }
 
     /**

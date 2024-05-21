@@ -53,9 +53,12 @@ group g1:
 end
 
 @doc("A")
-automaton def A():
+automaton def A(
+  @doc("p")
+  alg int p
+):
   location:
-    initial;
+    initial p > 0;
 end
 
 @doc("G")
@@ -63,10 +66,10 @@ group def G():
 end
 
 @doc("ainst1")
-ainst1: A();
+ainst1: A(1);
 
 @doc("ainst2")
-ainst2: A();
+ainst2: A(2);
 
 @doc("ginst1")
 ginst1: G();

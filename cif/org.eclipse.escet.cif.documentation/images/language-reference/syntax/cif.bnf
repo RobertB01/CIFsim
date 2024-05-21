@@ -236,7 +236,7 @@ CompDefDeclaration : OptControllability "event"           EventParamIds
                    |    Controllability         EventType EventParamIds
                    | Name Identifiers
                    | "location" Identifiers
-                   | "alg" Type Identifiers
+                   | OptAnnos "alg" Type Identifiers
                    ;
 
 EventParamIds : EventParamId

@@ -184,7 +184,7 @@ end
 group def_inst:
   @a(b: 1)
   automaton def ADef():
-    location:
+    location l:
       initial;
   end
   @a(b: 2)
@@ -198,4 +198,44 @@ group def_inst:
   ginst1: GDef();
   @a(b: 6)
   ginst2: GDef();
+end
+group alg_param:
+  event e;
+  automaton def ADef(
+    location l;
+    @a(b: 1)
+    alg int p1;
+    @a(b: 1)
+    alg int p2;
+    @a(b: 2)
+    alg int p3;
+    @a(b: 2)
+    alg int p4;
+    event e;
+    def_inst.ADef c
+  ):
+    location:
+      initial p1 + p2 + p3 + p4 > 0 and l and c.l;
+      edge e;
+  end
+  group def GDef(
+    location l;
+    @a(b: 3)
+    alg int p1;
+    @a(b: 3)
+    alg int p2;
+    @a(b: 4)
+    alg int p3;
+    @a(b: 4)
+    alg int p4;
+    event e;
+    def_inst.ADef c
+  ):
+    invariant p1 + p2 + p3 + p4 > 0 and l and c.l;
+    invariant e needs p1 > 4;
+  end
+  ainst1: ADef(def_inst.ainst1.l, 11, 21, 31, 41, e, def_inst.ainst1);
+  ainst2: ADef(def_inst.ainst2.l, 12, 22, 32, 42, e, def_inst.ainst2);
+  ginst1: GDef(def_inst.ainst1.l, 13, 23, 33, 43, e, def_inst.ainst1);
+  ginst2: GDef(def_inst.ainst2.l, 14, 24, 34, 44, e, def_inst.ainst2);
 end

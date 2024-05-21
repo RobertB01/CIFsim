@@ -125,3 +125,4 @@ This transformation does not add any new annotations.
 Each instantiated component gets the annotations of its component definition and instantiation.
 If a component definition is instantiated multiple times, this thus leads to a duplication of the annotations of that definition on its instantiated components.
 The annotations of automaton definitions that are not instantiated are removed.
+As each algebraic parameter becomes an algebraic variable when a component definition is instantiated, the variable get the annotations of the parameter.

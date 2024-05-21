@@ -15,13 +15,17 @@ package org.eclipse.escet.cif.typechecker.declwrap;
 
 import static org.eclipse.escet.cif.typechecker.CifTypesTypeChecker.transCifType;
 
+import java.util.List;
+
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.AlgParameter;
+import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.parser.ast.AAlgParameter;
 import org.eclipse.escet.cif.typechecker.CheckStatus;
+import org.eclipse.escet.cif.typechecker.CifAnnotationsTypeChecker;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.scopes.ParentScope;
@@ -97,6 +101,10 @@ public class AlgParamDeclWrap extends DeclWrap<AlgParameter> {
         if (isCheckedFull()) {
             return;
         }
+
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, scope, tchecker);
+        mmDecl.getVariable().getAnnotations().addAll(annos);
 
         // Check for single-value type.
         CifType type = mmDecl.getVariable().getType();

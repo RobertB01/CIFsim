@@ -104,17 +104,23 @@ group g1:
 end
 
 @a(x: 1, x: 2)
-automaton def ADef():
+automaton def ADef(
+  @a(x: 11, x: 22)
+  alg int p
+):
   location:
-    initial;
+    initial p > 0;
 end
 
 @a(x: 3, x: 4)
-group def GDef():
+group def GDef(
+  @a(x: 33, x: 44)
+  alg int p
+):
 end
 
 @a(x: 5, x: 6)
-ainst: ADef();
+ainst: ADef(55);
 
 @a(x: 7, x: 8)
-ginst: GDef();
+ginst: GDef(77);
