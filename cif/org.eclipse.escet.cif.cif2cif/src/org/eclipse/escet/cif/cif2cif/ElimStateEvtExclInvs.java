@@ -187,8 +187,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
     }
 
     /**
-     * Rewrites state/event exclusion 'disables' invariants to state/event exclusion 'needs' invariants. Existing
-     * 'needs' invariants are not modified.
+     * Rewrites state/event exclusion 'disables' invariants to state/event exclusion 'needs' invariants.
      *
      * @param invs The invariants. Are rewritten in-place.
      */
