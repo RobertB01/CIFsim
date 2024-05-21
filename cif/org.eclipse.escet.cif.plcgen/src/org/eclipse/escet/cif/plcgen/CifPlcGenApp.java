@@ -259,7 +259,6 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             for (String line = headerTextFile.readLine(); line != null; line = headerTextFile.readLine()) {
                 lines.add(line.stripTrailing());
             }
-            // File is closed by leaving the scope.
         } catch (FileNotFoundException ex) {
             String msgText = fmt("Program header text file \"%s\" does not exist, is a directory rather than a file, "
                     + "or could not be opened for reading.", paths.userPath);
@@ -275,7 +274,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      * Process the read header lines.
      *
      * <p>
-     * Expand the text patterns. Also, remove non-printable ASCII, drop trailing whitespace and disable PLC comment.
+     * Expand the text patterns. Also, remove non-printable ASCII, drop trailing whitespace and disable PLC comments.
+     * Finally, drop leading and trailing empty text lines.
      * </p>
      *
      * @param rawHeaderLines Lines of the header text to process.
@@ -362,6 +362,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         {
             // Do nothing.
         }
+
         return (firstNonEmpty > lastNonEmpty) ? Collections.emptyList()
                 : headerLines.subList(firstNonEmpty, lastNonEmpty + 1);
     }
@@ -374,16 +375,16 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      * @param texts New text parts forming one paragraph that should be added.
      */
     private void formatText(List<String> dest, String... texts) {
-        // Reformat the new texts to lines of 75 characters and add the new lines as well.
         for (String line: wrap(75, String.join(" ", texts))) {
             dest.add(line);
         }
     }
 
     /**
-     * Perform cleanup of the text line, disable PLC comment brackets, and add to the end of the result lines.
+     * Perform cleanup of the text line, disable PLC comment brackets, and add it to the end of the program header text
+     * lines.
      *
-     * @param headerLines Text lines of the program header text.
+     * @param headerLines Text lines of the program header text, is extended in-place.
      * @param line Text line to process.
      */
     private void postProcessLine(List<String> headerLines, String line) {
