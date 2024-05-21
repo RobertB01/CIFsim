@@ -18,11 +18,12 @@ contvars.c5 6
 
 Inputs
 ------
-i1 1
-i2 2
-i3 3
-i4 4
-i5 5
+i1              1
+i2              2
+i3              3
+i4              4
+i5              5
+preconditions.i 6
 
 Outputs
 -------

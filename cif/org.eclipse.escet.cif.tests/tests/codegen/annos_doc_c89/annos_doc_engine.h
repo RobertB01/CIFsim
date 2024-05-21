@@ -181,6 +181,13 @@ extern BoolType i4_;
  */
 extern BoolType i5_;
 
+/**
+ * Input variable "bool preconditions.i".
+ *
+ * {}
+ */
+extern BoolType preconditions_i_;
+
 extern void annos_doc_AssignInputVariables();
 
 /* Declaration of internal functions. */
