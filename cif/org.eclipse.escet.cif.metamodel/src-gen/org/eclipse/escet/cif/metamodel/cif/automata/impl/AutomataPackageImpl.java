@@ -822,7 +822,7 @@ public class AutomataPackageImpl extends EPackageImpl implements AutomataPackage
         // Add supertypes to classes
         automatonEClass.getESuperTypes().add(theCifPackage.getComplexComponent());
         locationEClass.getESuperTypes().add(theAnnotationsPackage.getAnnotatedObject());
-        edgeEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
+        edgeEClass.getESuperTypes().add(theAnnotationsPackage.getAnnotatedObject());
         updateEClass.getESuperTypes().add(thePositionPackage.getPositionObject());
         assignmentEClass.getESuperTypes().add(this.getUpdate());
         ifUpdateEClass.getESuperTypes().add(this.getUpdate());

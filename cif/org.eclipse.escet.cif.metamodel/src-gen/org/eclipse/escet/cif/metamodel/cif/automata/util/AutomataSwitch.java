@@ -115,6 +115,7 @@ public class AutomataSwitch<T> extends Switch<T>
             {
                 Edge edge = (Edge)theEObject;
                 T result = caseEdge(edge);
+                if (result == null) result = caseAnnotatedObject(edge);
                 if (result == null) result = casePositionObject(edge);
                 if (result == null) result = defaultCase(theEObject);
                 return result;

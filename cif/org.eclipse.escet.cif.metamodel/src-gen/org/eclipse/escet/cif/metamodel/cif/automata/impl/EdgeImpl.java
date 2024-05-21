@@ -29,6 +29,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import org.eclipse.escet.cif.metamodel.cif.annotations.impl.AnnotatedObjectImpl;
+
 import org.eclipse.escet.cif.metamodel.cif.automata.AutomataPackage;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
@@ -36,8 +38,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-
-import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -56,7 +56,7 @@ import org.eclipse.escet.common.position.metamodel.position.impl.PositionObjectI
  *
  * @generated
  */
-public class EdgeImpl extends PositionObjectImpl implements Edge
+public class EdgeImpl extends AnnotatedObjectImpl implements Edge
 {
     /**
      * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
