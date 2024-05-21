@@ -110,3 +110,4 @@ To further simplify the result, apply additional CIF to CIF transformations, suc
 === Annotations
 
 This transformation does not process, add, or remove any annotations.
+The newly added edges do have any annotations.

@@ -102,7 +102,7 @@ input bool x;
 ----
 
 Annotations are only supported for the following elements in CIF specifications.
-Most require regular annotation names, while some require double at-sign annotation names.
+Most require regular annotation names, while annotations on specifications and annotations on elements of locations require double at-sign annotation names:
 
 [cols="1,2"]
 |===
@@ -131,6 +131,9 @@ Most require regular annotation names, while some require double at-sign annotat
 
 | Discrete variables
 | Regular
+
+| Edges
+| Double at-sign
 
 | Enumeration literals
 | Regular

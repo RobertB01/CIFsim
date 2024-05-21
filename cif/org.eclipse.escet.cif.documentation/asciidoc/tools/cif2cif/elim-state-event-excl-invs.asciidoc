@@ -178,3 +178,4 @@ To simply them, apply the <<tools-cif2cif-chapter-simplify-values>> CIF to CIF t
 This transformation does not process any specific annotations.
 The annotations of unnamed state/event exclusion invariants are removed.
 The annotations of named state/event exclusion invariants are moved to the corresponding newly created automata.
+The elements of the newly created automata do not have any annotations.

@@ -36,7 +36,7 @@ Annotations have two main purposes:
 * Annotations allow for extensibility, as anyone can add annotations, whether it is general purpose, company-specific, or even for private use.
 * Annotations allow to test out language extensions before fully integrating them into the language.
 
-Annotations can be added to most elements of CIF specifications that have a name, or can have a name.
+Annotations can be added to most elements of CIF specifications that have a name (like components and variables), or can have a name (like locations and invariants), as well as some other elements (like edges).
 
 The following built-in annotations are bundled with CIF:
 

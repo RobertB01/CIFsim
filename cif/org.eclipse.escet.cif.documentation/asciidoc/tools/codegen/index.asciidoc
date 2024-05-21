@@ -300,4 +300,4 @@ All annotations in the specification are ignored, except for <<lang-ref-extensio
 
 * The documentation of algebraic parameters, algebraic variables, constants, discrete variables, enumeration literals, events, function parameters, function variables, functions, input variables, locations of automata with at least two locations, and specifications is included in the generated code.
 * The documentation of continuous variables is also included in the generated code, except when generating Simulink code.
-* The documentation of automata, automaton definitions, automaton instantiations, enumerations, groups, group definitions, group instantiations, invariants, locations of automata with only one location, and type declarations is ignored.
+* The documentation of automata, automaton definitions, automaton instantiations, edges, enumerations, groups, group definitions, group instantiations, invariants, locations of automata with only one location, and type declarations is ignored.
