@@ -20,6 +20,7 @@ import java.util.EnumSet;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.CifAnnotationUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
@@ -39,6 +40,9 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
     /** The binary operators, or binary operators operating on certain operand types, to disallow. */
     private final EnumSet<NoSpecificBinaryOp> disalloweds;
 
+    /** Whether to disable checking of binary expressions in annotations. */
+    private boolean ignoreAnnotations;
+
     /**
      * Constructor for the {@link ExprNoSpecificBinaryExprsCheck} class.
      *
@@ -57,8 +61,34 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
         this.disalloweds = disalloweds;
     }
 
+    /**
+     * Disable checking of binary expressions in annotations.
+     *
+     * @return The check instance, for daisy-chaining.
+     */
+    public ExprNoSpecificBinaryExprsCheck ignoreAnnotations() {
+        return ignoreAnnotations(true);
+    }
+
+    /**
+     * Configure whether to disable checking of binary expressions in annotations.
+     *
+     * @param ignore {@code true} to disable, {@code false} to enable.
+     * @return The check instance, for daisy-chaining.
+     */
+    public ExprNoSpecificBinaryExprsCheck ignoreAnnotations(boolean ignore) {
+        this.ignoreAnnotations = ignore;
+        return this;
+    }
+
     @Override
     protected void preprocessBinaryExpression(BinaryExpression binExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(binExpr)) {
+            return;
+        }
+
+        // Do the check.
         BinaryOperator op = binExpr.getOperator();
         CifType ltype = CifTypeUtils.normalizeType(binExpr.getLeft().getType());
         CifType rtype = CifTypeUtils.normalizeType(binExpr.getRight().getType());

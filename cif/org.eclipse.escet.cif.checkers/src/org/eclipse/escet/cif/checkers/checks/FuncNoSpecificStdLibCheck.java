@@ -22,6 +22,7 @@ import java.util.List;
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.common.CifAnnotationUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.StdLibFunction;
@@ -48,6 +49,9 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
     /** The standard library functions, or groups of standard library functions, to disallow. */
     private final EnumSet<NoSpecificStdLib> disalloweds;
 
+    /** Whether to disable checking the use of standard library functions in annotations. */
+    private boolean ignoreAnnotations;
+
     /**
      * Constructor of the {@link FuncNoSpecificStdLibCheck} class.
      *
@@ -66,10 +70,36 @@ public class FuncNoSpecificStdLibCheck extends CifCheck {
         this(EnumSet.copyOf(Arrays.asList(disalloweds)));
     }
 
+    /**
+     * Disable checking the use of standard library functions in annotations.
+     *
+     * @return The check instance, for daisy-chaining.
+     */
+    public FuncNoSpecificStdLibCheck ignoreAnnotations() {
+        return ignoreAnnotations(true);
+    }
+
+    /**
+     * Configure whether to disable checking the use of standard library functions in annotations.
+     *
+     * @param ignore {@code true} to disable, {@code false} to enable.
+     * @return The check instance, for daisy-chaining.
+     */
+    public FuncNoSpecificStdLibCheck ignoreAnnotations(boolean ignore) {
+        this.ignoreAnnotations = ignore;
+        return this;
+    }
+
     @Override
     protected void preprocessStdLibFunctionExpression(StdLibFunctionExpression stdLibRef,
             CifCheckViolations violations)
     {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(stdLibRef)) {
+            return;
+        }
+
+        // Do the check.
         StdLibFunction func = stdLibRef.getFunction();
         FunctionCallExpression funcCallExpr = (FunctionCallExpression)stdLibRef.eContainer();
         List<CifType> argTypes = funcCallExpr.getArguments().stream()

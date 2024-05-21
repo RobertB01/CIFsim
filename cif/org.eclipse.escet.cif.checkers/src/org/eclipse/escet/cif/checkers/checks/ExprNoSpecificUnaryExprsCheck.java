@@ -20,6 +20,7 @@ import java.util.EnumSet;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.CifAnnotationUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
@@ -31,6 +32,9 @@ import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
     /** The unary operators, or unary operators operating on certain operand types, to disallow. */
     private final EnumSet<NoSpecificUnaryOp> disalloweds;
+
+    /** Whether to disable checking of unary expressions in annotations. */
+    private boolean ignoreAnnotations;
 
     /**
      * Constructor for the {@link ExprNoSpecificUnaryExprsCheck} class.
@@ -50,8 +54,34 @@ public class ExprNoSpecificUnaryExprsCheck extends CifCheck {
         this.disalloweds = disalloweds;
     }
 
+    /**
+     * Disable checking of unary expressions in annotations.
+     *
+     * @return The check instance, for daisy-chaining.
+     */
+    public ExprNoSpecificUnaryExprsCheck ignoreAnnotations() {
+        return ignoreAnnotations(true);
+    }
+
+    /**
+     * Configure whether to disable checking of unary expressions in annotations.
+     *
+     * @param ignore {@code true} to disable, {@code false} to enable.
+     * @return The check instance, for daisy-chaining.
+     */
+    public ExprNoSpecificUnaryExprsCheck ignoreAnnotations(boolean ignore) {
+        this.ignoreAnnotations = ignore;
+        return this;
+    }
+
     @Override
     protected void preprocessUnaryExpression(UnaryExpression unExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(unExpr)) {
+            return;
+        }
+
+        // Do the check.
         UnaryOperator op = unExpr.getOperator();
         CifType ctype = CifTypeUtils.normalizeType(unExpr.getChild().getType());
         switch (op) {
