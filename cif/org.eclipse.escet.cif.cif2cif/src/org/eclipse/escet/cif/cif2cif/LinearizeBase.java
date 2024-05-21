@@ -177,8 +177,8 @@ import org.eclipse.escet.common.java.exceptions.UnsupportedException;
  * </p>
  *
  * <p>
- * All annotations of the original automata are lost. The annotations of the original locations are moved to the
- * enumeration literals of the newly created location pointer enumerations.
+ * All annotations of the original automata and edges are lost. The annotations of the original locations are moved to
+ * the enumeration literals of the newly created location pointer enumerations.
  * </p>
  *
  * <p>

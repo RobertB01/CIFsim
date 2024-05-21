@@ -55,7 +55,8 @@ import org.eclipse.escet.cif.metamodel.java.CifWalker;
  * </p>
  *
  * <p>
- * All edges created by this transformation are self-loops, and have no communication, no urgency, and no updates.
+ * All edges created by this transformation are self-loops, and have no annotations, no communication, no urgency, and
+ * no updates.
  * </p>
  *
  * <p>
