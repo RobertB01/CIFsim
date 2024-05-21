@@ -69,6 +69,13 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </p>
  *
  * <p>
+ * For named state/event exclusion invariants in groups (including the root of the specification), their corresponding
+ * automata are created within those same groups. For unnamed state/event exclusion invariants in groups (including the
+ * root of the specification), one new automaton is created per supervisory kind. For state/event exclusion invariants
+ * in automata, the new automata are created as siblings of the original automaton.
+ * </p>
+ *
+ * <p>
  * This transformation introduces location reference expressions, for state/event exclusion invariants specified in
  * locations of automata with more than one location. To eliminate them, apply the {@link ElimLocRefExprs}
  * transformation after this transformation.
@@ -80,8 +87,8 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </p>
  *
  * <p>
- * This transformation removes the names of named state/event exclusion invariants. The annotations of the state/event
- * exclusion invariants are removed as well.
+ * The annotations of unnamed state/event exclusion invariants are removed. The annotations of named state/event
+ * exclusion invariants are moved to the corresponding newly created automata.
  * </p>
  *
  * @see ElimLocRefExprs
@@ -109,6 +116,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
     private void elimStateEvtExclInvs(ComplexComponent comp) {
         // Get state/event exclusion invariants of the component.
         List<Invariant> compInvs = filterInvs(comp.getInvariants());
+        rewriteDisablesInvs(compInvs);
 
         // Get state/event exclusion invariants of the locations, for automata.
         List<Invariant> locInvs = list();
@@ -116,6 +124,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             Automaton aut = (Automaton)comp;
             for (Location loc: aut.getLocations()) {
                 List<Invariant> invs = filterInvs(loc.getInvariants());
+                rewriteDisablesInvs(invs);
                 modifyLocInvs(aut, invs);
                 locInvs.addAll(invs);
             }
@@ -124,10 +133,18 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
         // Combine invariants.
         List<Invariant> invs = concat(compInvs, locInvs);
 
-        // If we have any state/event exclusion invariants, create an
-        // automaton per supervisory kind.
+        // Get named and unnamed invariants.
+        List<Invariant> namedInvs = invs.stream().filter(inv -> inv.getName() != null).toList();
+        List<Invariant> unnamedInvs = invs.stream().filter(inv -> inv.getName() == null).toList();
+
+        // Create an automaton for each named state/event exclusion invariant.
+        for (Invariant inv: namedInvs) {
+            createAutomaton(comp, list(inv));
+        }
+
+        // If we have any unnamed state/event exclusion invariants, create an automaton per supervisory kind.
         if (!invs.isEmpty()) {
-            List<List<Invariant>> supKindsInvs = partitionPerSupKind(invs);
+            List<List<Invariant>> supKindsInvs = partitionPerSupKind(unnamedInvs);
             for (List<Invariant> supKindInvs: supKindsInvs) {
                 createAutomaton(comp, supKindInvs);
             }
@@ -145,8 +162,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
 
         // Apply recursively, for groups.
         if (comp instanceof Group) {
-            // Copy list of child components, as siblings may be added by the
-            // elimination.
+            // Copy list of child components, as siblings may be added by the elimination.
             List<Component> children = copy(((Group)comp).getComponents());
             for (Component child: children) {
                 elimStateEvtExclInvs((ComplexComponent)child);
@@ -171,6 +187,20 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
     }
 
     /**
+     * Rewrites state/event exclusion 'disables' invariants to state/event exclusion 'needs' invariants.
+     *
+     * @param invs The invariants. Are rewritten in-place.
+     */
+    private void rewriteDisablesInvs(List<Invariant> invs) {
+        for (Invariant inv: invs) {
+            if (inv.getInvKind() == InvKind.EVENT_DISABLES) {
+                inv.setInvKind(InvKind.EVENT_NEEDS);
+                inv.setPredicate(CifValueUtils.makeInverse(inv.getPredicate()));
+            }
+        }
+    }
+
+    /**
      * Modifies invariants from locations to make their predicates conditional on the location. Only modifies them if
      * the automaton has at least two locations, as for automata with a single location, the location is always the
      * current location.
@@ -184,8 +214,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             return;
         }
 
-        // Make conditional on the location. At least two locations, so they
-        // all have a name.
+        // Make conditional on the location. At least two locations, so they all have a name.
         for (Invariant inv: invs) {
             // Replace 'pred' by 'loc => pred'.
             Location loc = (Location)inv.eContainer();
@@ -207,8 +236,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
      * @return The invariants, per supervisory kind.
      */
     private List<List<Invariant>> partitionPerSupKind(List<Invariant> invs) {
-        // Construct mapping from supervisory kinds to the invariants with that
-        // supervisory kind.
+        // Construct mapping from supervisory kinds to the invariants with that supervisory kind.
         Map<SupKind, List<Invariant>> invMap = map();
         for (Invariant inv: invs) {
             List<Invariant> kindInvs = invMap.get(inv.getSupKind());
@@ -227,33 +255,53 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
      * Creates an automaton with self loops for the given state/exclusion invariants.
      *
      * @param comp The component from which the invariants originate, or the automaton that contains the location from
-     *     which the invariants originate. A new automaton is created as sibling of this component, or as child if the
-     *     given component is the root of the specification.
-     * @param invs The invariants. There must be at least one invariant, and all the invariants must have the same
-     *     supervisory kind.
+     *     which the invariants originate. If it is the specification or a group, a new automaton is created within it.
+     *     If it is an automaton, a new automaton is created as its sibling.
+     * @param invs The invariants. There must be at least one invariant. If the invariant is named, it must be the only
+     *     invariant. Otherwise, all the invariants must have the same supervisory kind.
      */
     private void createAutomaton(ComplexComponent comp, List<Invariant> invs) {
-        // Get supervisory kind.
+        // Get information about the invariants.
+        boolean invsHaveName = first(invs).getName() != null;
         SupKind supKind = first(invs).getSupKind();
 
+        // Check preconditions.
+        Assert.implies(invsHaveName, invs.size() == 1);
+        Assert.implies(!invsHaveName, invs.stream().allMatch(inv -> inv.getSupKind() == first(invs).getSupKind()));
+
         // Get parent group, or specification itself for the root.
-        PositionObject parent = (comp instanceof Specification) ? comp : CifScopeUtils.getScope(comp);
+        PositionObject parent = (comp instanceof Group) ? comp : CifScopeUtils.getScope(comp);
         Group group = (Group)parent;
 
         // Determine proposed automaton name.
-        String proposedName = (comp instanceof Specification) ? "" : CifTextUtils.getName(comp);
-        if (supKind != SupKind.NONE) {
-            String txt = supKind.getName().toLowerCase(Locale.US);
-            txt = StringUtils.capitalize(txt);
-            proposedName += txt;
+        String name;
+        if (invsHaveName && comp instanceof Group) {
+            // Use name of the invariant.
+            name = first(invs).getName();
+        } else if (invsHaveName) {
+            // Use name of the invariant, prefixed with name of the automaton.
+            name = CifTextUtils.getName(comp) + first(invs).getName();
+        } else {
+            // Use the name of the component, the supervisory kind, and a fixed text.
+            name = (comp instanceof Group) ? "" : CifTextUtils.getName(comp);
+            if (supKind != SupKind.NONE) {
+                String txt = supKind.getName().toLowerCase(Locale.US);
+                txt = StringUtils.capitalize(txt);
+                name += txt;
+            }
+            name += "StateEvtExcls";
         }
-        proposedName += "StateEvtExcls";
 
-        // Determine automaton name, avoiding naming conflicts.
-        String name = proposedName;
-        Set<String> usedNames = CifScopeUtils.getSymbolNamesForScope(parent, null);
-        if (usedNames.contains(name)) {
-            name = CifScopeUtils.getUniqueName(name, usedNames, Collections.emptySet());
+        // Avoid naming conflicts.
+        if (invsHaveName && comp instanceof Group) {
+            // Invariants in groups already have a unique name.
+        } else {
+            // Invariants in an automaton become siblings of the automaton, so they may conflict within that scope.
+            // Automata for unnamed invariants get a new name, which may also conflict.
+            Set<String> usedNames = CifScopeUtils.getSymbolNamesForScope(parent, null);
+            if (usedNames.contains(name)) {
+                name = CifScopeUtils.getUniqueName(name, usedNames, Collections.emptySet());
+            }
         }
 
         // Create and add automaton.
@@ -261,6 +309,11 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
         group.getComponents().add(aut);
         aut.setName(name);
         aut.setKind(supKind);
+
+        // Move annotations of named invariant to the automaton.
+        if (invsHaveName) {
+            aut.getAnnotations().addAll(first(invs).getAnnotations());
+        }
 
         // Add location to the automaton.
         Location loc = newLocation();
@@ -280,9 +333,8 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             evtInvs.add(inv);
         }
 
-        // Add edges to the automaton, per event. We need to combine the
-        // guards for each event, to ensure 'and' semantics, as different
-        // edges for the same event have 'or' semantics.
+        // Add edges to the automaton, per event. We need to combine the guards for each event, to ensure 'and'
+        // semantics, as different edges for the same event have 'or' semantics.
         for (Entry<Event, List<Invariant>> entry: evtMap.entrySet()) {
             // Get event and invariants.
             Event event = entry.getKey();
@@ -291,10 +343,8 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             // Get guards.
             List<Expression> guards = listc(evtInvs.size());
             for (Invariant inv: evtInvs) {
+                Assert.check(inv.getInvKind() == InvKind.EVENT_NEEDS);
                 Expression guard = inv.getPredicate();
-                if (inv.getInvKind() == InvKind.EVENT_DISABLES) {
-                    guard = CifValueUtils.makeInverse(guard);
-                }
                 Assert.notNull(guard);
                 guards.add(guard);
             }

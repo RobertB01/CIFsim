@@ -190,3 +190,111 @@ end
 // Naming conflict for invariants from 'a2', without supervisory kind.
 const int a2StateEvtExcls = 5;
 const int a2StateEvtExcls2 = 6;
+
+// Named and unnamed invariants in a group.
+group named_and_unnamed_grp:
+  event e;
+
+  @doc("1")
+  invariant e needs 1 = 1;
+  @doc("2")
+  invariant NAME2: e needs 2 = 2;
+  @doc("3")
+  invariant 3 = 3 disables e;
+  @doc("4")
+  invariant NAME4: 4 = 4 disables e;
+
+  @doc("5")
+  plant invariant e needs 5 = 5;
+  @doc("6")
+  plant invariant NAME6: e needs 6 = 6;
+  @doc("7")
+  plant invariant 7 = 7 disables e;
+  @doc("8")
+  plant invariant NAME8: 8 = 8 disables e;
+
+  @doc("9")
+  requirement invariant e needs 9 = 9;
+  @doc("10")
+  requirement invariant NAME10: e needs 10 = 10;
+  @doc("11")
+  requirement invariant 11 = 11 disables e;
+  @doc("12")
+  requirement invariant NAME12: 12 = 12 disables e;
+
+  @doc("13")
+  invariant StateEvtExcls: e needs 13 = 13; // Ensure renaming.
+end
+
+// Named and unnamed invariants in an automaton.
+automaton named_and_unnamed_aut:
+  event e;
+
+  @doc("1")
+  invariant e needs 1 = 1;
+  @doc("2")
+  invariant NAME2a: e needs 2 = 2;
+  @doc("3")
+  invariant 3 = 3 disables e;
+  @doc("4")
+  invariant NAME4a: 4 = 4 disables e;
+
+  @doc("5")
+  plant invariant e needs 5 = 5;
+  @doc("6")
+  plant invariant NAME6a: e needs 6 = 6;
+  @doc("7")
+  plant invariant 7 = 7 disables e;
+  @doc("8")
+  plant invariant NAME8a: 8 = 8 disables e;
+
+  @doc("9")
+  requirement invariant e needs 9 = 9;
+  @doc("10")
+  requirement invariant NAME10a: e needs 10 = 10;
+  @doc("11")
+  requirement invariant 11 = 11 disables e;
+  @doc("12")
+  requirement invariant NAME12a: 12 = 12 disables e;
+
+  @doc("13")
+  invariant StateEvtExcls: e needs 13 = 13; // Ensure renaming.
+
+  location loc1:
+    initial;
+
+    @@doc("1")
+    invariant e needs 1 = 1;
+    @@doc("2")
+    invariant NAME2b: e needs 2 = 2;
+    @@doc("3")
+    invariant 3 = 3 disables e;
+    @@doc("4")
+    invariant NAME4b: 4 = 4 disables e;
+
+    @@doc("5")
+    plant invariant e needs 5 = 5;
+    @@doc("6")
+    plant invariant NAME6b: e needs 6 = 6;
+    @@doc("7")
+    plant invariant 7 = 7 disables e;
+    @@doc("8")
+    plant invariant NAME8b: 8 = 8 disables e;
+
+    @@doc("9")
+    requirement invariant e needs 9 = 9;
+    @@doc("10")
+    requirement invariant NAME10b: e needs 10 = 10;
+    @@doc("11")
+    requirement invariant 11 = 11 disables e;
+    @@doc("12")
+    requirement invariant NAME12b: 12 = 12 disables e; // Naming conflict.
+
+    @@doc("13")
+    invariant StateEvtExcls2: e needs 13 = 13; // Ensure renaming.
+
+  location loc2:
+    initial;
+end
+
+const bool named_and_unnamed_autNAME12b = true;
