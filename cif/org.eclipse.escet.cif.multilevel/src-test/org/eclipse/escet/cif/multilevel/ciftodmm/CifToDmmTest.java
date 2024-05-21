@@ -113,7 +113,7 @@ public class CifToDmmTest {
         }
 
         EdgeEvent ee = newEdgeEvent(newEventExpression(event, null, newBoolType()), null);
-        Edge e = newEdge(list(ee), null, null, null, null, null);
+        Edge e = newEdge(null, list(ee), null, null, null, null, null);
         aut.getLocations().get(0).getEdges().add(e);
         return e;
     }
