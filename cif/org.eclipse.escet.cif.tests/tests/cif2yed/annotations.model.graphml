@@ -217,6 +217,15 @@
             </y:PolyLineEdge>
           </data>
         </edge>
+        <edge source="cif:a1::loc0" target="cif:a1::loc0">
+          <data key="eg">
+            <y:PolyLineEdge>
+              <y:Arrows source="none" target="arrow"/>
+              <y:BendStyle smoothed="true"/>
+              <y:EdgeLabel alignment="center" backgroundColor="#eeeeee">&lt;html&gt;&lt;span style="color:#808080;"&gt;@@doc&lt;/span&gt;&lt;span style="color:#000000;"&gt;(&lt;/span&gt;&lt;span style="color:#c00000;"&gt;&amp;quot;edge&amp;quot;&lt;/span&gt;&lt;span style="color:#000000;"&gt;)&lt;/span&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;tau&lt;/span&gt;&lt;/html&gt;</y:EdgeLabel>
+            </y:PolyLineEdge>
+          </data>
+        </edge>
       </graph>
     </node>
     <node id="cif:a2" yfiles.foldertype="group">
