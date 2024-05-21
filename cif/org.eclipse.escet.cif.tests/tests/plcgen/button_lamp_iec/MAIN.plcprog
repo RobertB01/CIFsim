@@ -36,6 +36,10 @@ VAR_TEMP
     timeOut: BOOL;
 END_VAR
 
+(* Header text file for:
+ *  -> (-*-) CIF PLC code generator.
+ *)
+
 (* --- Read input from sensors. -------------------------------------------- *)
 hw_button_bit := in_hw_button_bit;
 

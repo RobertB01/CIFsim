@@ -92,6 +92,9 @@ public class PlcCodeStorage {
     /** The variable that tracks progress is made in performing events. Initialized lazily. */
     private PlcBasicVariable isProgressVariable = null;
 
+    /** Text lines of the PLC program header. */
+    private final List<String> programHeaderTextLines;
+
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
 
@@ -137,6 +140,7 @@ public class PlcCodeStorage {
         this.maxUncontrollableLimit = limitMaxIter(settings.maxUncontrollableLimit, "uncontrollable",
                 settings.warnOutput);
         this.maxControllableLimit = limitMaxIter(settings.maxControllableLimit, "controllable", settings.warnOutput);
+        this.programHeaderTextLines = settings.programHeaderTextLines;
 
         // Create the project and a configuration.
         project = new PlcProject(settings.projectName);
@@ -431,7 +435,7 @@ public class PlcCodeStorage {
 
         // Prepare adding code to the program.
         CodeBox box = mainProgram.body;
-        boolean boxNeedsEmptyLine = false;
+        addProgramHeader(box);
 
         // Add input code if it exists.
         //
@@ -439,9 +443,8 @@ public class PlcCodeStorage {
         // should be consistent and it should be as recent as possible. Therefore, all PLC inputs should be read at the
         // same time, and it should be done just before state computation.
         if (inputFuncCode != null) {
-            generateCommentHeader("Read input from sensors.", '-', boxNeedsEmptyLine, box);
-            boxNeedsEmptyLine = true;
-
+            box.add();
+            generateCommentHeader("Read input from sensors.", '-', box);
             textGenerator.toText(inputFuncCode, box, mainProgram.name, false);
         }
 
@@ -449,8 +452,8 @@ public class PlcCodeStorage {
         if (stateInitializationCode != null) {
             String headerText = (updateContVarsRemainingTimeCode == null) ? "Initialize state."
                     : "Initialize state or update continuous variables.";
-            generateCommentHeader(headerText, '-', boxNeedsEmptyLine, box);
-            boxNeedsEmptyLine = true;
+            box.add();
+            generateCommentHeader(headerText, '-', box);
 
             // Insert code to create the initial state with the "firstRun" boolean to run it only once.
             // The variable is added above, before the variable tables are pushed to the output.
@@ -474,10 +477,10 @@ public class PlcCodeStorage {
         }
 
         // Add event transitions code.
-        boxNeedsEmptyLine = generateEventTransitionsCode(uncontrollableEventTransitionsCode, maxUncontrollableLimit,
-                "uncontrollable", loopCount, loopsKilled, box, boxNeedsEmptyLine);
-        boxNeedsEmptyLine = generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit,
-                "controllable", loopCount, loopsKilled, box, boxNeedsEmptyLine);
+        generateEventTransitionsCode(uncontrollableEventTransitionsCode, maxUncontrollableLimit, "uncontrollable",
+                loopCount, loopsKilled, box);
+        generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit, "controllable", loopCount,
+                loopsKilled, box);
 
         // Generate output code if it exists.
         //
@@ -487,9 +490,8 @@ public class PlcCodeStorage {
         // Secondary advantages of this solution are that it is easier to get it correctly implemented in the generator
         // and it becomes easier to verify the safety requirement in a review of the generated PLC code.
         if (outputFuncCode != null) {
-            generateCommentHeader("Write output to actuators.", '-', boxNeedsEmptyLine, box);
-            boxNeedsEmptyLine = true;
-
+            box.add();
+            generateCommentHeader("Write output to actuators.", '-', box);
             textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
         }
 
@@ -511,21 +513,19 @@ public class PlcCodeStorage {
      * @param loopsKilled PLC variable containing the number of loops that were aborted due to the loop count limit
      *     since the start of the PLC. If {@code null}, the loop count is not recorded.
      * @param box Destination of the generated code.
-     * @param boxNeedsEmptyLine Whether an empty line should be inserted in the box output before generating more code.
-     * @return Whether an empty line should be inserted in the box output before generating more code.
      */
-    private boolean generateEventTransitionsCode(List<PlcStatement> eventTransitionsIterationCode, Integer maxIter,
-            String eventKind, PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box,
-            boolean boxNeedsEmptyLine)
+    private void generateEventTransitionsCode(List<PlcStatement> eventTransitionsIterationCode, Integer maxIter,
+            String eventKind, PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box)
     {
         if (eventTransitionsIterationCode == null) {
-            return boxNeedsEmptyLine;
+            return;
         }
 
         ModelTextGenerator textGenerator = target.getModelTextGenerator();
         PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
 
-        generateCommentHeader("Process " + eventKind + " events.", '-', boxNeedsEmptyLine, box);
+        box.add();
+        generateCommentHeader("Process " + eventKind + " events.", '-', box);
 
         PlcBasicVariable progressVar = getIsProgressVariable();
         box.add("%s := TRUE;", progressVar.varRefText);
@@ -582,7 +582,6 @@ public class PlcCodeStorage {
             box.dedent();
             box.add("END_IF;");
         }
-        return true;
     }
 
     /**
@@ -590,10 +589,9 @@ public class PlcCodeStorage {
      *
      * @param text Text describing what code lines will come next.
      * @param dashChar The character to use as filler, {@code '-'} or {@code '='} are likely useful.
-     * @param addEmptyLine Whether to generate an empty line first.
      * @param box Storage for the generated lines.
      */
-    private void generateCommentHeader(String text, char dashChar, boolean addEmptyLine, CodeBox box) {
+    private void generateCommentHeader(String text, char dashChar, CodeBox box) {
         // Construct header line. As it is mostly constant data, code will be much more efficient than it seems.
         char[] pre = {'(', '*', ' ', dashChar, dashChar, dashChar, ' '};
         char[] post = {dashChar, dashChar, dashChar, ' ', '*', ')'};
@@ -608,10 +606,6 @@ public class PlcCodeStorage {
         System.arraycopy(text.toCharArray(), 0, line, pre.length, text.length());
         System.arraycopy(afterText, 0, line, pre.length + text.length(), afterText.length);
         System.arraycopy(post, 0, line, line.length - post.length, post.length);
-
-        if (addEmptyLine) {
-            box.add();
-        }
         box.add(new String(line));
     }
 
@@ -623,6 +617,28 @@ public class PlcCodeStorage {
     private void addGlobalVariableTable(PlcGlobalVarList varTable) {
         if (varTable != null) {
             resource.globalVarLists.add(varTable);
+        }
+    }
+
+    /**
+     * Copy the program header text lines into a PLC comment block.
+     *
+     * @param box Destination of the text lines.
+     */
+    private void addProgramHeader(CodeBox box) {
+        boolean first = true;
+        for (String line: programHeaderTextLines) {
+            String prefix = first ? "(*" : " *";
+            first = false;
+
+            if (line.isEmpty()) {
+                box.add(prefix);
+            } else {
+                box.add(prefix + " " + line);
+            }
+        }
+        if (!first) {
+            box.add(" *)");
         }
     }
 

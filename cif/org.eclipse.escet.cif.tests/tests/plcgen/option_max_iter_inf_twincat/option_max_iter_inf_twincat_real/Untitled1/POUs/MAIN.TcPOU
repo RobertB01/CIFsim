@@ -14,7 +14,11 @@ VAR_TEMP
     isProgress: BOOL;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* --- Initialize state. --------------------------------------------------- *)
+      <ST><![CDATA[(* Header text file for:
+ *  -> (-*-) CIF PLC code generator.
+ *)
+
+(* --- Initialize state. --------------------------------------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 

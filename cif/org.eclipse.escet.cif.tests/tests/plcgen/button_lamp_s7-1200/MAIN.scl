@@ -27,6 +27,10 @@ ORGANIZATION_BLOCK MAIN
     END_VAR
 
 BEGIN
+    (* Header text file for:
+     *  -> (-*-) CIF PLC code generator.
+     *)
+
     (* --- Read input from sensors. -------------------------------------------- *)
     "DB".hw_button_bit := in_hw_button_bit;
 

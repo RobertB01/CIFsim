@@ -113,6 +113,7 @@ import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Lists;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -204,6 +205,7 @@ public class ExprGeneratorTest {
             String inputPath = "input/path";
             String outputPath = "output/path";
             String ioTablePath = "io/path";
+            List<String> programHeader = List.of("");
             PlcNumberBits intSize = PlcNumberBits.BITS_32;
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
@@ -213,8 +215,9 @@ public class ExprGeneratorTest {
             WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
-                    taskCyceTime, priority, null, null, inputPath, "/" + inputPath, "/" + outputPath, ioTablePath,
-                    "/" + ioTablePath, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
+                    taskCyceTime, priority, null, null, new PathPair(inputPath, "/" + inputPath),
+                    new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath),
+                    programHeader, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
                     warnOutput);
             setup(settings);
         }

@@ -178,6 +178,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./setext/org.eclipse.escet.setext.t
 # Exclude test input files that don't support a header.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./chi/org.eclipse.escet.chi.tests/tests/examples/rlist.dat:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./chi/org.eclipse.escet.chi.tests/tests/spec/global/read_eol_eof.txt:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/plcgen/test_header.txt:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/tchecker/svg_file_io_error_empty.svg:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.tests/tests/tchecker/svg_file_io_error_text_file.svg:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef.tests/tests/interpreter/subdir/.*.txt:0$"
