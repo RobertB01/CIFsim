@@ -812,26 +812,24 @@ public final class CifPrettyPrinter {
     public void add(ComponentDef cdef) {
         // Preparations.
         ComplexComponent compBody = cdef.getBody();
-        boolean isAut = compBody instanceof Automaton;
 
         // Add annotations.
-        add(cdef.getBody().getAnnotations());
+        add(compBody.getAnnotations());
 
         // Add header.
         addHeader(cdef);
 
         // Add body.
         code.indent();
-        if (isAut) {
-            Automaton aut = (Automaton)compBody;
+        if (compBody instanceof Automaton aut) {
             addAutBody(aut.getAlphabet(), aut.getMonitors(), aut.getLocations(), aut.getDeclarations(),
                     aut.getInitials(), aut.getInvariants(), aut.getEquations(), aut.getMarkeds(), aut.getIoDecls());
-        } else {
-            Assert.check(compBody instanceof Group);
-            Group group = (Group)compBody;
+        } else if (compBody instanceof Group group) {
             addCompBody(null, group.getDeclarations(), group.getDefinitions(), group.getComponents(),
                     group.getInitials(), group.getInvariants(), group.getEquations(), group.getMarkeds(),
                     group.getIoDecls());
+        } else {
+            throw new RuntimeException("Unknown component definition body: " + compBody);
         }
 
         // Add end.
@@ -847,7 +845,6 @@ public final class CifPrettyPrinter {
     public void addHeader(ComponentDef cdef) {
         // Preparations.
         ComplexComponent compBody = cdef.getBody();
-        boolean isAut = compBody instanceof Automaton;
 
         // Check whether the parameters have annotations.
         boolean paramsHaveAnnos = cdef.getParameters().stream().anyMatch(
@@ -855,8 +852,8 @@ public final class CifPrettyPrinter {
 
         // Get kind text.
         String kindTxt;
-        if (isAut) {
-            SupKind kind = ((Automaton)compBody).getKind();
+        if (compBody instanceof Automaton autBody) {
+            SupKind kind = autBody.getKind();
             kindTxt = "automaton";
             if (kind != SupKind.NONE) {
                 kindTxt = kindToStr(kind) + " " + kindTxt;
