@@ -506,8 +506,8 @@ LocationElement : @INITIALKW SEMICOLTK
                 | @MARKEDKW SEMICOLTK
                 | @MARKEDKW Expressions SEMICOLTK
                 | @URGENTKW SEMICOLTK
-                | @EDGEKW CoreEdge SEMICOLTK
-                | @EDGEKW CoreEdge GOTOKW Identifier SEMICOLTK
+                | OptDoubleAnnos @EDGEKW CoreEdge SEMICOLTK
+                | OptDoubleAnnos @EDGEKW CoreEdge GOTOKW Identifier SEMICOLTK
                 ;
 
 {List<exprs.AExpression>}
