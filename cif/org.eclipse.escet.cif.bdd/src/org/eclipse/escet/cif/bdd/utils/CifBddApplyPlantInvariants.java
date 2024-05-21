@@ -44,8 +44,7 @@ public class CifBddApplyPlantInvariants {
     public static void applyStateEvtExclPlantsInvs(CifBddSpec cifBddSpec, String behaviorName,
             Supplier<String> sysBehTextSupplier, boolean dbgEnabled)
     {
-        // Update guards to ensure that transitions not allowed by the state/event exclusion plant invariants, are
-        // blocked.
+        // Update guards to block transitions that not allowed by the state/event exclusion plant invariants.
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput()
