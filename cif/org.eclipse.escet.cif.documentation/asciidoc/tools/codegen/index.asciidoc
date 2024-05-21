@@ -168,6 +168,8 @@ SVG input mappings with update are not supported.
 If the specification connects to an SVG image, but no CIF/SVG input or output mappings apply to that image, a warning is printed.
 For the other target languages, a warning is printed if any CIF/SVG declarations are encountered, and these declarations are then ignored.
 
+The restrictions on types and expressions do not apply to their use in values of <<lang-tut-extensions-chapter-annotations-documentation,documentation annotation>> arguments.
+
 Specific target languages may add additional restrictions.
 Check their specific information for the details.
 
@@ -179,6 +181,7 @@ indexterm:[CIF code generator,preprocessing]
 The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-remove-cif-svg-decls>> (if the target language is not HTML)
+* <<tools-cif2cif-chapter-remove-annos>> (all <<lang-tut-extensions-chapter-annotations,annotations>> except <<lang-tut-extensions-chapter-annotations-documentation,documentation annotations>> are removed)
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 * <<tools-cif2cif-chapter-elim-state-event-excl-invs>>
 * <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>>

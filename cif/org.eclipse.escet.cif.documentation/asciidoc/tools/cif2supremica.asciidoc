@@ -132,6 +132,8 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 
 * <<tools-cif2cif-chapter-remove-pos-info>>
 
+* <<tools-cif2cif-chapter-remove-annos>>
+
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
 * <<tools-cif2cif-chapter-elim-state-event-excl-invs>>
