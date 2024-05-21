@@ -54,11 +54,12 @@ public class CifBddApplyPlantInvariants {
         boolean firstDbg = true;
         boolean guardChanged = false;
         for (CifBddEdge edge: cifBddSpec.edges) {
-            // Get additional condition for the edge. Skip for internal events that are not in the original
-            // specification and for trivially true conditions.
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
+
+            // Get additional condition for the edge. Skip for internal events that are not in the original
+            // specification and for trivially true conditions.
             BDD plant = cifBddSpec.stateEvtExclPlants.get(edge.event);
             if (plant == null || plant.isOne() || edge.guard.isZero()) {
                 continue;
