@@ -24,7 +24,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Function;
 
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
@@ -46,12 +50,80 @@ import com.github.javabdd.BDDFactory.CacheStats;
 import com.github.javabdd.BDDFactory.GCStats;
 import com.github.javabdd.BDDFactory.MaxMemoryStats;
 import com.github.javabdd.BDDFactory.MaxUsedBddNodesStats;
+import com.github.javabdd.BDDVarSet;
 
 /** BDD utility methods. */
 public class BddUtils {
     /** Constructor for the {@link BddUtils} class. */
     private BddUtils() {
         // Static class.
+    }
+
+    /**
+     * Free the given BDD if it is not {@code null}.
+     *
+     * @param bdd The BDD. May be {@code null}.
+     * @return {@code null}, to allow using this method as: {@code var = BddUtils.free(var);}.
+     */
+    public static BDD free(BDD bdd) {
+        if (bdd != null) {
+            bdd.free();
+        }
+        return null;
+    }
+
+    /**
+     * Free the BDDs in the given list, if the list is not {@code null}.
+     *
+     * @param bdds The list of BDDs. Both the list and entries in the list may be {@code null}.
+     * @return {@code null}, to allow using this method as: {@code var = BddUtils.free(var);}.
+     */
+    public static List<BDD> free(List<BDD> bdds) {
+        if (bdds != null) {
+            for (BDD bdd: bdds) {
+                if (bdd != null) {
+                    bdd.free();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Free the BDDs in the keys and/or values of the given map, if the map is not {@code null}.
+     *
+     * @param <K> The type of the keys of the map.
+     * @param <V> The type of the values of the map.
+     * @param map The map with BDDs. May be {@code null}.
+     * @param getBddFunc Function to get BDDs to free, from a non-{@code null} map entry. The function may return
+     *     {@code null}, or a collection of BDDs that may contain {@code null} entries.
+     * @return {@code null}, to allow using this method as: {@code var = BddUtils.free(var, ...);}.
+     */
+    public static <K, V> Map<K, V> free(Map<K, V> map, Function<Entry<K, V>, Collection<BDD>> getBddFunc) {
+        if (map != null) {
+            for (Entry<K, V> entry: map.entrySet()) {
+                Collection<BDD> bdds = getBddFunc.apply(entry);
+                for (BDD bdd: bdds) {
+                    if (bdd != null) {
+                        bdd.free();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Free the given BDD variable set if it is not {@code null}.
+     *
+     * @param varSet The BDD variable set. May be {@code null}.
+     * @return {@code null}, to allow using this method as: {@code var = BddUtils.free(var);}.
+     */
+    public static BDDVarSet free(BDDVarSet varSet) {
+        if (varSet != null) {
+            varSet.free();
+        }
+        return null;
     }
 
     /**

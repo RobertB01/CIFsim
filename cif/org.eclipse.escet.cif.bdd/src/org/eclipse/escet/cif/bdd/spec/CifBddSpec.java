@@ -14,12 +14,14 @@
 package org.eclipse.escet.cif.bdd.spec;
 
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
 import com.github.javabdd.BDD;
@@ -322,132 +324,35 @@ public class CifBddSpec {
      * @param freeReqsInvsCompsAndLocs Whether to free {@link #reqInvsComps} and {@link #reqInvsLocs}.
      */
     public void freeIntermediateBDDs(boolean freeReqsInvsCompsAndLocs) {
-        if (plantInvsComps != null) {
-            for (BDD bdd: plantInvsComps) {
-                bdd.free();
-            }
-            plantInvsComps = null;
-        }
-        if (plantInvsLocs != null) {
-            for (BDD bdd: plantInvsLocs) {
-                bdd.free();
-            }
-            plantInvsLocs = null;
-        }
-        if (plantInvComps != null) {
-            plantInvComps.free();
-            plantInvComps = null;
-        }
-        if (plantInvLocs != null) {
-            plantInvLocs.free();
-            plantInvLocs = null;
-        }
+        plantInvsComps = BddUtils.free(plantInvsComps);
+        plantInvsLocs = BddUtils.free(plantInvsLocs);
+        plantInvComps = BddUtils.free(plantInvComps);
+        plantInvLocs = BddUtils.free(plantInvLocs);
 
         if (freeReqsInvsCompsAndLocs) {
-            if (reqInvsComps != null) {
-                for (BDD bdd: reqInvsComps) {
-                    bdd.free();
-                }
-                reqInvsComps = null;
-            }
-            if (reqInvsLocs != null) {
-                for (BDD bdd: reqInvsLocs) {
-                    bdd.free();
-                }
-                reqInvsLocs = null;
-            }
+            reqInvsComps = BddUtils.free(reqInvsComps);
+            reqInvsLocs = BddUtils.free(reqInvsLocs);
         }
-        if (reqInvComps != null) {
-            reqInvComps.free();
-            reqInvComps = null;
-        }
-        if (reqInvLocs != null) {
-            reqInvLocs.free();
-            reqInvLocs = null;
-        }
+        reqInvComps = BddUtils.free(reqInvComps);
+        reqInvLocs = BddUtils.free(reqInvLocs);
 
-        if (initialsVars != null) {
-            for (BDD bdd: initialsVars) {
-                if (bdd != null) {
-                    bdd.free();
-                }
-            }
-            initialsVars = null;
-        }
-        if (initialsComps != null) {
-            for (BDD bdd: initialsComps) {
-                bdd.free();
-            }
-            initialsComps = null;
-        }
-        if (initialsLocs != null) {
-            for (BDD bdd: initialsLocs) {
-                bdd.free();
-            }
-            initialsLocs = null;
-        }
-        if (initialVars != null) {
-            initialVars.free();
-            initialVars = null;
-        }
-        if (initialComps != null) {
-            initialComps.free();
-            initialComps = null;
-        }
-        if (initialLocs != null) {
-            initialLocs.free();
-            initialLocs = null;
-        }
-        if (initialInv != null) {
-            initialInv.free();
-            initialInv = null;
-        }
+        initialsVars = BddUtils.free(initialsVars);
+        initialsComps = BddUtils.free(initialsComps);
+        initialsLocs = BddUtils.free(initialsLocs);
+        initialVars = BddUtils.free(initialVars);
+        initialComps = BddUtils.free(initialComps);
+        initialLocs = BddUtils.free(initialLocs);
+        initialInv = BddUtils.free(initialInv);
 
-        if (markedsComps != null) {
-            for (BDD bdd: markedsComps) {
-                bdd.free();
-            }
-            markedsComps = null;
-        }
-        if (markedsLocs != null) {
-            for (BDD bdd: markedsLocs) {
-                bdd.free();
-            }
-            markedsLocs = null;
-        }
-        if (markedComps != null) {
-            markedComps.free();
-            markedComps = null;
-        }
-        if (markedLocs != null) {
-            markedLocs.free();
-            markedLocs = null;
-        }
-        if (markedPlantInv != null) {
-            markedPlantInv.free();
-            markedPlantInv = null;
-        }
-        if (markedInv != null) {
-            markedInv.free();
-            markedInv = null;
-        }
+        markedsComps = BddUtils.free(markedsComps);
+        markedsLocs = BddUtils.free(markedsLocs);
+        markedComps = BddUtils.free(markedComps);
+        markedLocs = BddUtils.free(markedLocs);
+        markedPlantInv = BddUtils.free(markedPlantInv);
+        markedInv = BddUtils.free(markedInv);
 
-        if (stateEvtExclPlantLists != null) {
-            for (List<BDD> preds: stateEvtExclPlantLists.values()) {
-                for (BDD pred: preds) {
-                    pred.free();
-                }
-            }
-            stateEvtExclPlantLists = null;
-        }
-        if (stateEvtExclReqLists != null) {
-            for (List<BDD> preds: stateEvtExclReqLists.values()) {
-                for (BDD pred: preds) {
-                    pred.free();
-                }
-            }
-            stateEvtExclReqLists = null;
-        }
+        stateEvtExclPlantLists = BddUtils.free(stateEvtExclPlantLists, e -> e.getValue());
+        stateEvtExclReqLists = BddUtils.free(stateEvtExclReqLists, e -> e.getValue());
     }
 
     /** Free all BDDs of this CIF/BDD specification, as well as the {@link #factory}. */
@@ -456,61 +361,20 @@ public class CifBddSpec {
         freeIntermediateBDDs(true);
 
         // Free remaining BDDs.
-        if (initial != null) {
-            initial.free();
-            initial = null;
-        }
-        if (initialPlantInv != null) {
-            initialPlantInv.free();
-            initialPlantInv = null;
-        }
-        if (marked != null) {
-            marked.free();
-            marked = null;
-        }
+        initial = BddUtils.free(initial);
+        initialPlantInv = BddUtils.free(initialPlantInv);
+        marked = BddUtils.free(marked);
 
-        if (plantInv != null) {
-            plantInv.free();
-            plantInv = null;
-        }
-        if (reqInv != null) {
-            reqInv.free();
-            reqInv = null;
-        }
+        plantInv = BddUtils.free(plantInv);
+        reqInv = BddUtils.free(reqInv);
 
-        if (stateEvtExclsReqAuts != null) {
-            for (BDD bdd: stateEvtExclsReqAuts.values()) {
-                bdd.free();
-            }
-            stateEvtExclsReqAuts = null;
-        }
-        if (stateEvtExclsReqInvs != null) {
-            for (BDD bdd: stateEvtExclsReqInvs.values()) {
-                bdd.free();
-            }
-            stateEvtExclsReqInvs = null;
-        }
-        if (stateEvtExclReqs != null) {
-            for (BDD bdd: stateEvtExclReqs.values()) {
-                bdd.free();
-            }
-            stateEvtExclReqs = null;
-        }
-        if (stateEvtExclPlants != null) {
-            for (BDD bdd: stateEvtExclPlants.values()) {
-                bdd.free();
-            }
-            stateEvtExclPlants = null;
-        }
+        stateEvtExclsReqAuts = BddUtils.free(stateEvtExclsReqAuts, e -> Collections.singleton(e.getValue()));
+        stateEvtExclsReqInvs = BddUtils.free(stateEvtExclsReqInvs, e -> Collections.singleton(e.getValue()));
+        stateEvtExclReqs = BddUtils.free(stateEvtExclReqs, e -> Collections.singleton(e.getValue()));
+        stateEvtExclPlants = BddUtils.free(stateEvtExclPlants, e -> Collections.singleton(e.getValue()));
 
-        if (varSetOld != null) {
-            varSetOld.free();
-            varSetOld = null;
-        }
-        if (varSetNew != null) {
-            varSetNew.free();
-            varSetNew = null;
-        }
+        varSetOld = BddUtils.free(varSetOld);
+        varSetNew = BddUtils.free(varSetNew);
 
         for (CifBddEdge edge: edges) {
             edge.freeBDDs();
