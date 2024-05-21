@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
@@ -41,6 +42,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
+import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
 /** CIF event utility methods. */
@@ -174,6 +176,29 @@ public class CifEventUtils {
             alphabets.add(getAlphabet(aut));
         }
         return alphabets;
+    }
+
+    /**
+     * Returns the alphabet for the given specification, i.e., the union of the alphabets of its automata.
+     *
+     * <p>
+     * Note that events that are declared, but that are not in the alphabet of any automaton, are not part of the
+     * alphabet of the specification.
+     * </p>
+     *
+     * <p>
+     * This method does not support specifications that have component definitions/instantiations. In particular, it
+     * can't handle wrapping expressions for event references.
+     * </p>
+     *
+     * @param spec The specification for which to return the alphabet.
+     * @return The alphabet of the specification.
+     */
+    public static Set<Event> getAlphabet(Specification spec) {
+        List<Automaton> automata = CifCollectUtils.collectAutomata(spec, list());
+        List<Set<Event>> alphabets = getAlphabets(automata);
+        Set<Event> alphabet = alphabets.stream().reduce(Sets::union).orElseGet(() -> setc(0));
+        return alphabet;
     }
 
     /**
