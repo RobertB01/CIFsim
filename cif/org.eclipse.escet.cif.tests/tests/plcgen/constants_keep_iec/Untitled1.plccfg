@@ -1,0 +1,11 @@
+CONFIGURATION Untitled1
+    VAR_GLOBAL CONSTANT // CONSTANTS
+        a: DINT := 4;
+        b: DINT := 2;
+        c: DINT := 3;
+        d: DINT := 1;
+        x: DINT := -1;
+    END_VAR
+    TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);
+    PROGRAM MAIN WITH PlcTask: MAIN;
+END_CONFIGURATION

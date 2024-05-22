@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="MAIN">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+    i: DINT;
+    aut_y: DINT;
+    firstRun: BOOL := TRUE;
+END_VAR
+VAR_TEMP
+    current_aut_y: DINT;
+    edge_aut_1: DINT;
+    eventEnabled: BOOL;
+    isProgress: BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Header text file for:
+ *  -> (-*-) CIF PLC code generator.
+ *)
+
+(* --- Initialize state. --------------------------------------------------- *)
+IF firstRun THEN
+    firstRun := FALSE;
+
+    (* Initialize the state variables. *)
+    aut_y := 0;
+END_IF;
+
+(* --- Process controllable events. ---------------------------------------- *)
+isProgress := TRUE;
+(* Perform events until none can be done anymore. *)
+WHILE isProgress DO
+    isProgress := FALSE;
+
+    (*************************************************************
+     * Try to perform event "aut.e".
+     *
+     * - Automaton "aut" must always synchronize.
+     *************************************************************)
+    eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Testing edge of automaton "aut" to synchronize for event "aut.e".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edge being tested:
+     * - Location:
+     *   - 1st edge in the location
+     ***********)
+    IF i + 3 > 3 THEN
+        edge_aut_1 := 1;
+    ELSE
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
+        eventEnabled := FALSE;
+    END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "aut.e" can occur. *)
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+        current_aut_y := aut_y;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* Perform assignments of automaton "aut". *)
+        IF edge_aut_1 = 1 THEN
+            (* Perform assignments of the 1st edge of automaton "aut". *)
+            aut_y := -1;
+        END_IF;
+    END_IF;
+END_WHILE;]]></ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

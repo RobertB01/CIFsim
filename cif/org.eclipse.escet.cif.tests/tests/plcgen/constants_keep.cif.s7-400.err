@@ -1,0 +1,17 @@
+WARNING: Maximum real type size supported by the PLC is less than the CIF real type size. Some values in the program may be truncated.
+ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
+
+  --------------------------
+  (1/1) A list type is used.
+  --------------------------
+   * In the top-level scope of the specification:
+     - initial a + b + c + d + cl[0] + x = 10.0;
+                               ^
+     - invariant a + b + c + d + cl[0] + x = 10.0;
+                                 ^
+   * In automaton "aut":
+     - invariant a + b + c + d + cl[0] + x = 10.0;
+                                 ^
+   * In constant "cl":
+     - const list[3] real cl = [1.0, 1.0, 2.0];
+             ^                 ^
