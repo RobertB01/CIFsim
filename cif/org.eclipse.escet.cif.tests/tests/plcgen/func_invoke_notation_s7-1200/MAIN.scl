@@ -70,7 +70,7 @@ BEGIN
         (* Initialize discrete variable "aut.i3". *)
         "DB".aut_i3 := 1;
         (* Initialize current location of automaton "aut". *)
-        "DB".aut := 0;
+        "DB".aut := aut_l1;
     ELSE
         (* Update remaining time of continuous variable "c". *)
         ton_c.TON(IN := TRUE, PT := "DB".preset_c, Q => timeOut, ET => curValue);
@@ -101,9 +101,9 @@ BEGIN
          *   - 36th edge in the location
          *   - 37th edge in the location
          ***********)
-        IF "DB".aut = 0 AND ("DB".aut_b OR "DB".aut_b) THEN
+        IF "DB".aut = aut_l1 AND ("DB".aut_b OR "DB".aut_b) THEN
             edge_aut_1 := 1;
-        ELSIF "DB".aut = 0 AND "DB".aut_b THEN
+        ELSIF "DB".aut = aut_l1 AND "DB".aut_b THEN
             edge_aut_1 := 2;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -177,75 +177,75 @@ BEGIN
          *   - 34th edge in the location
          *   - 35th edge in the location
          ***********)
-        IF "DB".aut = 0 THEN
+        IF "DB".aut = aut_l1 THEN
             edge_aut_1 := 1;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 2;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 3;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 4;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 5;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 6;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 7;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 8;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 9;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 10;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 11;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 12;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 13;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 14;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 15;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 16;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 17;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 18;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 19;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 20;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 21;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 22;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 23;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 24;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 25;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 26;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 27;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 28;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 29;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 30;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 31;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 32;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 33;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 34;
-        ELSIF "DB".aut = 0 THEN
+        ELSIF "DB".aut = aut_l1 THEN
             edge_aut_1 := 35;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -273,7 +273,7 @@ BEGIN
                 (* Perform update of discrete variable "aut.r". *)
                 "DB".aut_r := "DB".inp + -1.0;
                 (* Perform update of current location of automaton "aut". *)
-                "DB".aut := 1;
+                "DB".aut := aut_l2;
             ELSIF edge_aut_1 = 3 THEN
                 (* Perform assignments of the 3rd edge in location "aut.l1". *)
                 (* Perform update of discrete variable "aut.r". *)
