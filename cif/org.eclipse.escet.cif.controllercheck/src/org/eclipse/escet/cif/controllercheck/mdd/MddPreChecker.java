@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.controllercheck.mdd;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.EdgeNoMultiAssignCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeNoPartialVarAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
@@ -34,7 +36,11 @@ public class MddPreChecker extends CifPreconditionChecker {
                 new VarNoContinuousCheck(),
 
                 // Functions are not supported.
-                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.INTERNAL, NoSpecificUserDefFunc.INTERNAL)
+                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.INTERNAL, NoSpecificUserDefFunc.INTERNAL),
+
+                // Multi-assignments and partial variable assignments are not supported.
+                new EdgeNoMultiAssignCheck(),
+                new EdgeNoPartialVarAssignCheck()
         //
         );
     }
@@ -57,24 +63,6 @@ public class MddPreChecker extends CifPreconditionChecker {
 //            String msg = "CIF controller properties checker failed due to unsatisfied preconditions:\n - "
 //                    + String.join("\n - ", sortedstrings(problems));
 //            throw new UnsupportedException(msg);
-//        }
-//    }
-//
-//    @Override
-//    protected void preprocessAssignment(Assignment asgn) {
-//        // Check for multi-assignment and partial variable assignment.
-//        if (asgn.getAddressable() instanceof TupleExpression) {
-//            // Multi-assignment unsupported.
-//            Location loc = getContainingLocation(asgn);
-//            String msg = fmt("Unsupported %s: edges with multi-assignments are currently unsupported.",
-//                    getLocationText1(loc));
-//            problems.add(msg);
-//        } else if (asgn.getAddressable() instanceof ProjectionExpression) {
-//            // Partial variable assignment unsupported.
-//            Location loc = getContainingLocation(asgn);
-//            String msg = fmt("Unsupported %s: edges with partial variable assignments are currently unsupported.",
-//                    getLocationText1(loc));
-//            problems.add(msg);
 //        }
 //    }
 //
