@@ -211,7 +211,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             }
 
             // Non-determinism check.
-            new MddDeterminismChecker().check(mddSpec);
+            new MddDeterminismChecker().reportPreconditionViolations(mddSpec, absSpecPath,
+                    "CIF controller properties checker");
             if (isTerminationRequested()) {
                 return 0;
             }
