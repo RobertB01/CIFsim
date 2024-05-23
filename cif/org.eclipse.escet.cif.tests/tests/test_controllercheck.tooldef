@@ -68,7 +68,8 @@ for test in tests:
     for confluence_enabled, finite_response_enabled in checks_enabled_variants:
         // Get test specific options.
         list string options = default_options;
-        options = options + ["--bounded-response-check=false"];
+        bool bounded_response_enabled = false;
+        if not bounded_response_enabled:: options = options + ["--bounded-response-check=false"];
         if not confluence_enabled::       options = options + ["--confluence-check=false"];
         if not finite_response_enabled::  options = options + ["--finite-response-check=false"];
         list string extra_options;
@@ -77,8 +78,9 @@ for test in tests:
 
         // Determine path postfix.
         string postfix = "";
-        if confluence_enabled:      postfix = postfix + "C"; else postfix = postfix + "x"; end
-        if finite_response_enabled: postfix = postfix + "F"; else postfix = postfix + "x"; end
+        if bounded_response_enabled: postfix = postfix + "B"; else postfix = postfix + "x"; end
+        if confluence_enabled:       postfix = postfix + "C"; else postfix = postfix + "x"; end
+        if finite_response_enabled:  postfix = postfix + "F"; else postfix = postfix + "x"; end
 
         // Print what we are testing.
         outln("Testing \"%s\" using checks \"%s\" and options \"%s\"...", test, postfix, join(extra_options, " "));
