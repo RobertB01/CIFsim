@@ -18,6 +18,8 @@ import org.eclipse.escet.cif.checkers.checks.EdgeNoMultiAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoPartialVarAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
@@ -85,6 +87,56 @@ public class MddPreChecker extends CifPreconditionChecker {
                         NoSpecificExpr.STRING_LITS,
                         NoSpecificExpr.TIME_VAR_REFS,
                         NoSpecificExpr.TUPLE_LITS)
+                                .ignoreAnnotations(),
+
+                // Restrict allowed binary expressions:
+                // - Only the following binary operators are supported: logical equivalence (<=>), logical implication
+                //   (=>), logical conjunction ('and') on boolean operands, logical disjunction ('or') on boolean
+                //   operands), addition (+) on integer operands, subtraction (-) on integer operands, multiplication
+                //   (*) on integer operands, integer division (div), integer modulus (mod), equality (=) on boolean,
+                //   integer or enumeration operands, inequality (!=) on boolean, integer or enumeration operands, less
+                //   than (<) on integer operands, less than or equal to (<=) on integer operands, greater than (>) on
+                //   integer operands, and greater than or equal to (>=) on integer operands.
+                new ExprNoSpecificBinaryExprsCheck(
+                        NoSpecificBinaryOp.ADDITION_INTS_RANGELESS,
+                        NoSpecificBinaryOp.ADDITION_REALS,
+                        NoSpecificBinaryOp.ADDITION_LISTS,
+                        NoSpecificBinaryOp.ADDITION_STRINGS,
+                        NoSpecificBinaryOp.ADDITION_DICTS,
+                        NoSpecificBinaryOp.CONJUNCTION_SETS,
+                        NoSpecificBinaryOp.DISJUNCTION_SETS,
+                        NoSpecificBinaryOp.DIVISION,
+                        NoSpecificBinaryOp.ELEMENT_OF,
+                        NoSpecificBinaryOp.EQUAL_DICT,
+                        NoSpecificBinaryOp.EQUAL_LIST,
+                        NoSpecificBinaryOp.EQUAL_REAL,
+                        NoSpecificBinaryOp.EQUAL_SET,
+                        NoSpecificBinaryOp.EQUAL_STRING,
+                        NoSpecificBinaryOp.EQUAL_TUPLE,
+                        NoSpecificBinaryOp.GREATER_EQUAL_INTS_RANGELESS,
+                        NoSpecificBinaryOp.GREATER_EQUAL_REALS,
+                        NoSpecificBinaryOp.GREATER_THAN_INTS_RANGELESS,
+                        NoSpecificBinaryOp.GREATER_THAN_REALS,
+                        NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS,
+                        NoSpecificBinaryOp.LESS_EQUAL_INTS_RANGELESS,
+                        NoSpecificBinaryOp.LESS_EQUAL_REALS,
+                        NoSpecificBinaryOp.LESS_THAN_INTS_RANGELESS,
+                        NoSpecificBinaryOp.LESS_THAN_REALS,
+                        NoSpecificBinaryOp.MODULUS_INTS_RANGELESS,
+                        NoSpecificBinaryOp.MULTIPLICATION_INTS_RANGELESS,
+                        NoSpecificBinaryOp.MULTIPLICATION_REALS,
+                        NoSpecificBinaryOp.SUBSET,
+                        NoSpecificBinaryOp.SUBTRACTION_INTS_RANGELESS,
+                        NoSpecificBinaryOp.SUBTRACTION_REALS,
+                        NoSpecificBinaryOp.SUBTRACTION_LISTS,
+                        NoSpecificBinaryOp.SUBTRACTION_SETS,
+                        NoSpecificBinaryOp.SUBTRACTION_DICTS,
+                        NoSpecificBinaryOp.UNEQUAL_DICT,
+                        NoSpecificBinaryOp.UNEQUAL_LIST,
+                        NoSpecificBinaryOp.UNEQUAL_REAL,
+                        NoSpecificBinaryOp.UNEQUAL_SET,
+                        NoSpecificBinaryOp.UNEQUAL_STRING,
+                        NoSpecificBinaryOp.UNEQUAL_TUPLE)
                                 .ignoreAnnotations()
         //
         );
@@ -129,79 +181,6 @@ public class MddPreChecker extends CifPreconditionChecker {
 //    // Type checks.
 //
 //    // Expression checks.
-//
-//    @Override
-//    protected void preprocessBinaryExpression(BinaryExpression expr) {
-//        BinaryOperator op = expr.getOperator();
-//        switch (op) {
-//            // Always boolean.
-//            case IMPLICATION:
-//            case BI_CONDITIONAL:
-//                return;
-//
-//            // Check boolean arguments.
-//            case CONJUNCTION:
-//            case DISJUNCTION: {
-//                CifType ltype = normalizeType(expr.getLeft().getType());
-//                CifType rtype = normalizeType(expr.getRight().getType());
-//                if (ltype instanceof BoolType && rtype instanceof BoolType) {
-//                    return;
-//                }
-//                break;
-//            }
-//
-//            // Check rangeless integer arguments.
-//            case ADDITION:
-//            case SUBTRACTION:
-//            case MULTIPLICATION:
-//            case INTEGER_DIVISION:
-//            case MODULUS: {
-//                CifType ltype = normalizeType(expr.getLeft().getType());
-//                CifType rtype = normalizeType(expr.getRight().getType());
-//                if (ltype instanceof IntType && !isRangeless((IntType)ltype) && rtype instanceof IntType
-//                        && !isRangeless((IntType)rtype))
-//                {
-//                    return;
-//                }
-//                break;
-//            }
-//
-//            // Always OK, as same type operands, and types of operands checked elsewhere.
-//            case EQUAL:
-//            case UNEQUAL:
-//                return;
-//
-//            // Check rangeless integer arguments.
-//            case GREATER_EQUAL:
-//            case GREATER_THAN:
-//            case LESS_EQUAL:
-//            case LESS_THAN: {
-//                CifType ltype = normalizeType(expr.getLeft().getType());
-//                CifType rtype = normalizeType(expr.getRight().getType());
-//                if (ltype instanceof IntType && !isRangeless((IntType)ltype) && rtype instanceof IntType
-//                        && !isRangeless((IntType)rtype))
-//                {
-//                    return;
-//                }
-//                break;
-//            }
-//
-//            // Unsupported, regardless of types of operands.
-//            case DIVISION: // Real division.
-//            case ELEMENT_OF:
-//            case SUBSET:
-//                break;
-//
-//            // Error.
-//            default:
-//                throw new RuntimeException("Unknown bin op: " + op);
-//        }
-//
-//        // Unsupported.
-//        String msg = fmt("Unsupported expression \"%s\": binary operator \"%s\" is currently not supported, "
-//                + "or is not supported for the operands that are used.", exprToStr(expr), operatorToStr(op));
-//        problems.add(msg);
-//    }
 //
 //    @Override
 //    protected void preprocessUnaryExpression(UnaryExpression expr) {
