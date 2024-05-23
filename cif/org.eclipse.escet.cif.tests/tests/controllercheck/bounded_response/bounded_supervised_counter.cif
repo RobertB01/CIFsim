@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Uncontrollables bound: 3.
+// Controllables bound: 1.
+
+uncontrollable u_a, u_b, u_c, u_d;
+controllable c_a, c_b, c_c, c_d;
+
+plant p:
+  disc int[0..5] x;
+  location:
+    initial;
+    edge u_a when x = 0 do x := x + 1;
+    edge u_b when x = 1 do x := x + 1;
+    edge u_c when x = 2 do x := x + 1;
+    edge u_d when x = 3 do x := x + 1; // Disabled below.
+    edge c_a when x = 4 do x := x - 1;
+    edge c_b when x = 3 do x := x - 1;
+    edge c_c when x = 2 do x := x - 1; // Disabled below.
+    edge c_d when x = 1 do x := x - 1;
+end
+
+supervisor s:
+  location:
+    initial;
+    marked;
+    edge u_d when false;
+end
+
+plant true disables c_c;

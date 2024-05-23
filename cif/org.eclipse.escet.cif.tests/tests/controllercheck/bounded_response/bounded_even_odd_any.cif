@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Uncontrollables bound: 1.
+// Controllables bound: 1.
+
+uncontrollable u_inc_odd, u_dec_odd;
+controllable c_inc_even, c_dec_even;
+
+plant p:
+  disc int[0..25] counter in any;
+  location:
+    initial;
+    marked;
+    edge u_inc_odd  when counter < 25 and counter mod 2 = 1 do counter := counter + 1;
+    edge u_dec_odd  when counter > 0  and counter mod 2 = 1 do counter := counter - 1;
+    edge c_inc_even when counter < 25 and counter mod 2 = 0 do counter := counter + 1;
+    edge c_dec_even when counter > 0  and counter mod 2 = 0 do counter := counter - 1;
+end

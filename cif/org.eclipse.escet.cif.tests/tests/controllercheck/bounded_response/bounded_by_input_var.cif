@@ -1,0 +1,27 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Uncontrollables bound: 1.
+// Controllables bound: 0.
+
+input bool sensor;
+
+uncontrollable u_on, u_off;
+plant p:
+  location Off:
+    initial;
+    marked;
+    edge u_on when sensor goto On;
+  location On:
+    edge u_off when not sensor goto Off;
+end

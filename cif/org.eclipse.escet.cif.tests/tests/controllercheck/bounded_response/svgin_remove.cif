@@ -1,0 +1,27 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Uncontrollables bound: 0.
+// Controllables cycle.
+
+svgfile "svgin_remove.svg";
+svgin id "box" event c_e;
+
+controllable c_e;
+
+plant p:
+  location:
+    initial;
+    marked;
+    edge c_e;
+end
