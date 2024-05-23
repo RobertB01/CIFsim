@@ -22,6 +22,8 @@ import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
@@ -137,6 +139,17 @@ public class MddPreChecker extends CifPreconditionChecker {
                         NoSpecificBinaryOp.UNEQUAL_SET,
                         NoSpecificBinaryOp.UNEQUAL_STRING,
                         NoSpecificBinaryOp.UNEQUAL_TUPLE)
+                                .ignoreAnnotations(),
+
+                // Restrict allowed unary expressions:
+                // - Only the following unary operators are supported: logical inverse (not), negation (-) on an integer
+                //   operand, and plus (+) on an integer operand.
+                new ExprNoSpecificUnaryExprsCheck(
+                        NoSpecificUnaryOp.NEGATE_INTS_RANGELESS,
+                        NoSpecificUnaryOp.NEGATE_REALS,
+                        NoSpecificUnaryOp.PLUS_INTS_RANGELESS,
+                        NoSpecificUnaryOp.PLUS_REALS,
+                        NoSpecificUnaryOp.SAMPLE)
                                 .ignoreAnnotations()
         //
         );
@@ -182,36 +195,4 @@ public class MddPreChecker extends CifPreconditionChecker {
 //
 //    // Expression checks.
 //
-//    @Override
-//    protected void preprocessUnaryExpression(UnaryExpression expr) {
-//        UnaryOperator op = expr.getOperator();
-//        switch (op) {
-//            // Always boolean.
-//            case INVERSE:
-//                return;
-//
-//            // Check rangeless integer argument.
-//            case NEGATE:
-//            case PLUS: {
-//                CifType ctype = normalizeType(expr.getChild().getType());
-//                if (ctype instanceof IntType && !isRangeless((IntType)ctype)) {
-//                    return;
-//                }
-//                break;
-//            }
-//
-//            // Unsupported.
-//            case SAMPLE:
-//                break;
-//
-//            // Error.
-//            default:
-//                throw new RuntimeException("Unknown un op: " + op);
-//        }
-//
-//        // Unsupported.
-//        String msg = fmt("Unsupported expression \"%s\": unary operator \"%s\" is currently not supported, "
-//                + "or is not supported for the operand that is used.", exprToStr(expr), operatorToStr(op));
-//        problems.add(msg);
-//    }
 }
