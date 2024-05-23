@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.controllercheck.mdd;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
 
 /**
  * Pre-condition checker for the controller properties checker, for checks that use an MDD representation of the CIF
@@ -25,7 +26,10 @@ public class MddPreChecker extends CifPreconditionChecker {
     public MddPreChecker() {
         super(
                 // Channels (events with data types) are not supported.
-                new EventNoChannelsCheck()
+                new EventNoChannelsCheck(),
+
+                // Continuous variables are not supported.
+                new VarNoContinuousCheck()
         //
         );
     }
@@ -83,14 +87,6 @@ public class MddPreChecker extends CifPreconditionChecker {
 //    }
 //
 //    // Declaration checks.
-//
-//    @Override
-//    protected void preprocessContVariable(ContVariable var) {
-//        // Continuous variables not supported.
-//        String msg = fmt("Unsupported declaration \"%s\": continuous variables are currently unsupported.",
-//                getAbsName(var));
-//        problems.add(msg);
-//    }
 //
 //    @Override
 //    protected void preprocessFunction(Function func) {
