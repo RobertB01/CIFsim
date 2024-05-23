@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.controllercheck.mdd;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 
 /**
  * Pre-condition checker for the controller properties checker, for checks that use an MDD representation of the CIF
@@ -23,7 +24,8 @@ public class MddPreChecker extends CifPreconditionChecker {
     /** Constructor for the {@link MddPreChecker} class. */
     public MddPreChecker() {
         super(
-
+                // Channels (events with data types) are not supported.
+                new EventNoChannelsCheck()
         //
         );
     }
@@ -81,15 +83,6 @@ public class MddPreChecker extends CifPreconditionChecker {
 //    }
 //
 //    // Declaration checks.
-//
-//    @Override
-//    protected void preprocessEvent(Event event) {
-//        // Event must not have a data type.
-//        if (event.getType() != null) {
-//            String msg = fmt("Unsupported event \"%s\": event is a channel (has a data type).", getAbsName(event));
-//            problems.add(msg);
-//        }
-//    }
 //
 //    @Override
 //    protected void preprocessContVariable(ContVariable var) {
