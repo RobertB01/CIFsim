@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.controllercheck.mdd;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
 
 /**
@@ -29,7 +31,10 @@ public class MddPreChecker extends CifPreconditionChecker {
                 new EventNoChannelsCheck(),
 
                 // Continuous variables are not supported.
-                new VarNoContinuousCheck()
+                new VarNoContinuousCheck(),
+
+                // Functions are not supported.
+                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.INTERNAL, NoSpecificUserDefFunc.INTERNAL)
         //
         );
     }
@@ -87,14 +92,6 @@ public class MddPreChecker extends CifPreconditionChecker {
 //    }
 //
 //    // Declaration checks.
-//
-//    @Override
-//    protected void preprocessFunction(Function func) {
-//        // User-defined functions are unsupported.
-//        String msg = fmt("Unsupported function \"%s\": user-defined functions are currently unsupported.",
-//                getAbsName(func));
-//        problems.add(msg);
-//    }
 //
 //    @Override
 //    protected void preprocessEquation(Equation eqn) {
