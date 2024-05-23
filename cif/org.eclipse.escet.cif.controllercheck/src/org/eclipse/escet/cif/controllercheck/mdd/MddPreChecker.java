@@ -13,63 +13,21 @@
 
 package org.eclipse.escet.cif.controllercheck.mdd;
 
-import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText1;
-import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
-import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
-import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
-import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
-import static org.eclipse.escet.common.java.Sets.set;
-import static org.eclipse.escet.common.java.Sets.sortedstrings;
-import static org.eclipse.escet.common.java.Strings.fmt;
-
-import java.util.Set;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.escet.cif.common.CifTypeUtils;
-import org.eclipse.escet.cif.common.RangeCompat;
-import org.eclipse.escet.cif.metamodel.cif.Equation;
-import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
-import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.DictExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ListExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.RealExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SetExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.SliceExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.StringExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TimeExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
-import org.eclipse.escet.cif.metamodel.cif.functions.Function;
-import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.metamodel.cif.types.DictType;
-import org.eclipse.escet.cif.metamodel.cif.types.DistType;
-import org.eclipse.escet.cif.metamodel.cif.types.FuncType;
-import org.eclipse.escet.cif.metamodel.cif.types.IntType;
-import org.eclipse.escet.cif.metamodel.cif.types.ListType;
-import org.eclipse.escet.cif.metamodel.cif.types.RealType;
-import org.eclipse.escet.cif.metamodel.cif.types.SetType;
-import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
-import org.eclipse.escet.cif.metamodel.java.CifWalker;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 
 /**
  * Pre-condition checker for the controller properties checker, for checks that use an MDD representation of the CIF
  * specification.
  */
-public class MddPreChecker extends CifWalker {
+public class MddPreChecker extends CifPreconditionChecker {
+    /** Constructor for the {@link MddPreChecker} class. */
+    public MddPreChecker() {
+        super(
+
+        //
+        );
+    }
+
 //    /** Precondition violations found so far. */
 //    public Set<String> problems = set();
 //

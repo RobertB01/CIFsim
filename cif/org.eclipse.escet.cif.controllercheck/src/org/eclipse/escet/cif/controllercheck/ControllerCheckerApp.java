@@ -199,7 +199,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             }
 
             // Pre-check.
-            new MddPreChecker().check(mddSpec);
+            new MddPreChecker().reportPreconditionViolations(mddSpec, absSpecPath, "CIF controller properties checker");
             if (isTerminationRequested()) {
                 return 0;
             }
