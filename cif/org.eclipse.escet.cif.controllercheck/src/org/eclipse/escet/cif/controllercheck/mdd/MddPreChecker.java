@@ -154,45 +154,4 @@ public class MddPreChecker extends CifPreconditionChecker {
         //
         );
     }
-
-//    /** Precondition violations found so far. */
-//    public Set<String> problems = set();
-//
-//    /**
-//     * Checks the CIF specification to make sure it satisfies the preconditions for the checker.
-//     *
-//     * @param spec The CIF specification to check.
-//     * @throws UnsupportedException If a precondition is violated.
-//     */
-//    public void check(Specification spec) {
-//        // Find precondition violations.
-//        walkSpecification(spec);
-//
-//        // If we have any problems, the specification is unsupported.
-//        if (!problems.isEmpty()) {
-//            String msg = "CIF controller properties checker failed due to unsatisfied preconditions:\n - "
-//                    + String.join("\n - ", sortedstrings(problems));
-//            throw new UnsupportedException(msg);
-//        }
-//    }
-//
-//    /**
-//     * Find the containing {@link Location} instance of an object.
-//     *
-//     * @param obj Object in a location.
-//     * @return The containing {@link Location} instance.
-//     */
-//    private Location getContainingLocation(EObject obj) {
-//        while (!(obj instanceof Location)) {
-//            obj = obj.eContainer();
-//        }
-//        return (Location)obj;
-//    }
-//
-//    // Declaration checks.
-//
-//    // Type checks.
-//
-//    // Expression checks.
-//
 }
