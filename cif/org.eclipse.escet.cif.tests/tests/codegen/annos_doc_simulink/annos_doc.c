@@ -1303,11 +1303,19 @@ struct WorkStruct {
      */
     BoolType i5_;
 
+    /**
+     * Input variable "bool preconditions.i".
+     *
+     * {}
+     */
+    BoolType preconditions_i_;
+
     unsigned char input_loaded00;
     unsigned char input_loaded01;
     unsigned char input_loaded02;
     unsigned char input_loaded03;
     unsigned char input_loaded04;
+    unsigned char input_loaded05;
 };
 /* }}} */
 
@@ -1805,6 +1813,7 @@ static void ClearInputFlags(struct WorkStruct *work) {
     work->input_loaded02 = FALSE;
     work->input_loaded03 = FALSE;
     work->input_loaded04 = FALSE;
+    work->input_loaded05 = FALSE;
 }
 
 /* Time-dependent guards. */
@@ -1947,16 +1956,17 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     if (ssGetNumSFcnParams(sim_struct) != ssGetSFcnParamsCount(sim_struct)) return;
 
     /* Inputs. */
-    if (!ssSetNumInputPorts(sim_struct, 5)) return;
+    if (!ssSetNumInputPorts(sim_struct, 6)) return;
 
     ssSetInputPortWidth(sim_struct, 0, 1);
     ssSetInputPortWidth(sim_struct, 1, 1);
     ssSetInputPortWidth(sim_struct, 2, 1);
     ssSetInputPortWidth(sim_struct, 3, 1);
     ssSetInputPortWidth(sim_struct, 4, 1);
+    ssSetInputPortWidth(sim_struct, 5, 1);
 
     int idx;
-    for (idx = 0; idx < 5; idx++) {
+    for (idx = 0; idx < 6; idx++) {
         ssSetInputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetInputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
         ssSetInputPortDirectFeedThrough(sim_struct, idx, 1); /* Assume always feed-through. */

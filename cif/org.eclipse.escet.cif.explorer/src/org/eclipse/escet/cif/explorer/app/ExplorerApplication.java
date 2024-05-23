@@ -27,6 +27,7 @@ import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.checkers.CifChecker;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesNoRefsOptimized;
 import org.eclipse.escet.cif.explorer.CifAutomatonBuilder;
@@ -273,6 +274,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         // Perform preprocessing. For value simplification, constants are
         // not inlined, and the optimized variant is used for performance
         // reasons.
+        new RemoveAnnotations().transform(spec);
         new ElimComponentDefInst().transform(spec);
         new ElimSelf().transform(spec);
         new SimplifyValuesNoRefsOptimized().transform(spec);

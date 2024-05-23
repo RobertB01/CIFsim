@@ -214,6 +214,7 @@ This property can be checked using the <<tools-chapter-controller-checker,contro
 
 To enlarge the accepted set of CIF files, the following transformations are first performed:
 
+* <<tools-cif2cif-chapter-remove-annos>> (all <<lang-tut-extensions-chapter-annotations,annotations>> except <<lang-tut-extensions-chapter-annotations-documentation,documentation annotations>> are removed)
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 * <<tools-cif2cif-chapter-elim-state-event-excl-invs>>
 * <<tools-cif2cif-chapter-simplify-values>> (if _Simplify values_ option is enabled)
@@ -252,6 +253,8 @@ This rejects events declared without `controllable` or `uncontrollable` keyword,
 ** Restricted continuous variables, see the <<tools-plcgen-continuous-behavior,continuous behavior>> section for details.
 
 * For expressions and data types, the following conditions must be met:
++
+--
 ** No sets, dictionaries, strings, and stochastic distributions.
 ** Only arrays, so no non-array lists.
 ** Arrays must have at least one element, since `list[0]` cannot be expressed in a PLC system.
@@ -262,7 +265,8 @@ This rejects events declared without `controllable` or `uncontrollable` keyword,
 ** No functions used as data values or stored in variables.
 Functions must thus only be used to call the function.
 ** No use of variable `time`.
-
+--
+The restrictions on types and expressions do not apply to their use in values of <<lang-tut-extensions-chapter-annotations-documentation,documentation annotation>> arguments.
 +
 Depending on the PLC target type, additional restrictions may apply.
 Please consult the next section for details.

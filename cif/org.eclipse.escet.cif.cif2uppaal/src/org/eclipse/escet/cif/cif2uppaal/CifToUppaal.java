@@ -40,6 +40,7 @@ import org.eclipse.escet.cif.cif2cif.ElimMonitors;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.ElimTauEvent;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
@@ -149,6 +150,7 @@ public class CifToUppaal {
         }
 
         // Perform preprocessing.
+        new RemoveAnnotations().transform(spec);
         new ElimComponentDefInst().transform(spec);
         new ElimTauEvent().transform(spec);
         new ElimStateEvtExclInvs().transform(spec);

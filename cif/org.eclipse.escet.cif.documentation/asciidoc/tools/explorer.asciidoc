@@ -150,6 +150,8 @@ Prior to exploration, the following <<tools-cif2cif-chapter-index,CIF to CIF tra
 
 * <<tools-cif2cif-chapter-remove-io-decls>>
 
+* <<tools-cif2cif-chapter-remove-annos>>
+
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
 * <<tools-cif2cif-chapter-elim-self>>

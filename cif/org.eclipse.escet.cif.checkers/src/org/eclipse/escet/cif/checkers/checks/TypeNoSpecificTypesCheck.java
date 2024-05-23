@@ -19,6 +19,7 @@ import java.util.EnumSet;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.CifAnnotationUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BaseFunctionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ExpressionsPackage;
@@ -45,6 +46,9 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
     /** The types, or sub-types, to disallow. */
     private final EnumSet<NoSpecificType> disalloweds;
 
+    /** Whether to disable checking of types in annotations. */
+    private boolean ignoreAnnotations;
+
     /**
      * Constructor for the {@link TypeNoSpecificTypesCheck} class.
      *
@@ -63,8 +67,34 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
         this.disalloweds = disalloweds;
     }
 
+    /**
+     * Disable checking of types in annotations.
+     *
+     * @return The check instance, for daisy-chaining.
+     */
+    public TypeNoSpecificTypesCheck ignoreAnnotations() {
+        return ignoreAnnotations(true);
+    }
+
+    /**
+     * Configure whether to disable checking of types in annotations.
+     *
+     * @param ignore {@code true} to disable, {@code false} to enable.
+     * @return The check instance, for daisy-chaining.
+     */
+    public TypeNoSpecificTypesCheck ignoreAnnotations(boolean ignore) {
+        this.ignoreAnnotations = ignore;
+        return this;
+    }
+
     @Override
     protected void preprocessComponentDefType(ComponentDefType compDefType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(compDefType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.COMP_DEF_TYPES)) {
             violations.add(compDefType, "A component definition type is used");
         }
@@ -72,6 +102,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessComponentType(ComponentType compType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(compType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.COMP_TYPES)) {
             violations.add(compType, "A component type is used");
         }
@@ -79,6 +115,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessDictType(DictType dictType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(dictType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.DICT_TYPES)) {
             violations.add(dictType, "A dictionary type is used");
         }
@@ -86,6 +128,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessDistType(DistType distType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(distType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.DIST_TYPES)) {
             violations.add(distType, "A distribution type is used");
         }
@@ -93,6 +141,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessEnumType(EnumType enumType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(enumType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.ENUM_TYPES)) {
             violations.add(enumType, "An enumeration type is used");
         }
@@ -100,6 +154,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessFuncType(FuncType funcType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(funcType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.FUNC_TYPES)) {
             violations.add(funcType, "A function type is used");
         } else if (disalloweds.contains(NoSpecificType.FUNC_TYPES_AS_DATA) && !isUsedInFunctionCallContext(funcType)) {
@@ -124,6 +184,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessIntType(IntType intType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(intType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.INT_TYPES)) {
             violations.add(intType, "An integer type is used");
         } else if (disalloweds.contains(NoSpecificType.INT_TYPES_RANGELESS) && CifTypeUtils.isRangeless(intType)) {
@@ -133,6 +199,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessListType(ListType listType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(listType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.LIST_TYPES)) {
             violations.add(listType, "A list type is used");
         } else if (disalloweds.contains(NoSpecificType.LIST_TYPES_NON_ARRAY) && !CifTypeUtils.isArrayType(listType)) {
@@ -142,6 +214,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessRealType(RealType realType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(realType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.REAL_TYPES)) {
             violations.add(realType, "A real type is used");
         }
@@ -149,6 +227,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessSetType(SetType setType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(setType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.SET_TYPES)) {
             violations.add(setType, "A set type is used");
         }
@@ -156,6 +240,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessStringType(StringType stringType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(stringType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.STRING_TYPES)) {
             violations.add(stringType, "A string type is used");
         }
@@ -163,6 +253,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessTupleType(TupleType tupleType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(tupleType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.TUPLE_TYPES)) {
             violations.add(tupleType, "A tuple type is used");
         }
@@ -170,6 +266,12 @@ public class TypeNoSpecificTypesCheck extends CifCheck {
 
     @Override
     protected void preprocessVoidType(VoidType voidType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(voidType)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificType.VOID_TYPES)) {
             violations.add(voidType, "A void type is used");
         }

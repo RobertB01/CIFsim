@@ -22,6 +22,9 @@ void annos_doc_AssignInputVariables(void) {
 
     /* Input variable "i5". */
     i5_ = FALSE;
+
+    /* Input variable "preconditions.i". */
+    preconditions_i_ = FALSE;
 }
 
 void annos_doc_InfoEvent(annos_doc_Event_ event, BoolType pre) {

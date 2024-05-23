@@ -1,0 +1,15 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ----------------------------------------------
+  (1/2) Integer type lower bound is less than 5.
+  ----------------------------------------------
+   * In constant "c1":
+     - const int[4..4] c1 = 4;
+             ^              ^
+
+  ----------------------------------------------
+  (2/2) Integer type upper bound is less than 5.
+  ----------------------------------------------
+   * In constant "c1":
+     - const int[4..4] c1 = 4;
+             ^              ^

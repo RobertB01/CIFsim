@@ -1,0 +1,8 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ------------------------------------------------------------
+  (1/1) Binary operator "+" is used on a string typed operand.
+  ------------------------------------------------------------
+   * In constant "c":
+     - const string c = "text1" + "text2";
+                                ^

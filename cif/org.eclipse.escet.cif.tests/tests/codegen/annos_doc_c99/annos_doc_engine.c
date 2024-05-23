@@ -321,6 +321,13 @@ BoolType i4_;
  */
 BoolType i5_;
 
+/**
+ * Input variable "bool preconditions.i".
+ *
+ * {}
+ */
+BoolType preconditions_i_;
+
 /* State variables. */
 
 /** Continuous variable "real contvars.c1". */

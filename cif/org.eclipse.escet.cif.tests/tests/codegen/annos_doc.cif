@@ -214,3 +214,10 @@ group funcs:
     return v2;
   end
 end
+
+group preconditions:
+  // Set type, set literal, set subtraction, and size of set are all disallowed by preconditions.
+  // But they are allowed for 'doc' annotations.
+  @doc(fmt("%s", {1, 2} - {2, size({1})}))
+  input bool i;
+end

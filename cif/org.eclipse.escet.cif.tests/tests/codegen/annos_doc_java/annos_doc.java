@@ -230,6 +230,15 @@ public abstract class annos_doc {
      */
     public boolean i5_;
 
+    /**
+     * Input variable "preconditions.i".
+     *
+     * <p>
+     * {}
+     * </p>
+     */
+    public boolean preconditions_i_;
+
     /** Constructor for the {@link annos_doc} class. */
     public annos_doc() {
         firstExec = true;

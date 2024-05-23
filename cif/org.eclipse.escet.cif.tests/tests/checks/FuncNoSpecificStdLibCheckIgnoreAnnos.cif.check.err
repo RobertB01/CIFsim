@@ -1,0 +1,8 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ----------------------------------------------
+  (1/1) Standard library function "fmt" is used.
+  ----------------------------------------------
+   * In constant "c":
+     - const string c = fmt("%d", 123);
+                        ^

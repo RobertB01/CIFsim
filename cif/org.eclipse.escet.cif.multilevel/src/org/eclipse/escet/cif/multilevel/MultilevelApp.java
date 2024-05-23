@@ -75,6 +75,7 @@ import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesOptimized;
 import org.eclipse.escet.cif.io.CifReader;
@@ -172,6 +173,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         // Specification transformations.
+        new RemoveAnnotations().transform(spec);
         new ElimComponentDefInst().transform(spec);
         new ElimSelf().transform(spec);
 

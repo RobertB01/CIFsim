@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.CifAnnotationUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -77,6 +78,9 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
     /** The expressions to disallow. */
     private final EnumSet<NoSpecificExpr> disalloweds;
 
+    /** Whether to disable checking of expressions in annotations. */
+    private boolean ignoreAnnotations;
+
     /**
      * Constructor for the {@link ExprNoSpecificExprsCheck} class.
      *
@@ -95,8 +99,34 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
         this.disalloweds = disalloweds;
     }
 
+    /**
+     * Disable checking of expressions in annotations.
+     *
+     * @return The check instance, for daisy-chaining.
+     */
+    public ExprNoSpecificExprsCheck ignoreAnnotations() {
+        return ignoreAnnotations(true);
+    }
+
+    /**
+     * Configure whether to disable checking of expressions in annotations.
+     *
+     * @param ignore {@code true} to disable, {@code false} to enable.
+     * @return The check instance, for daisy-chaining.
+     */
+    public ExprNoSpecificExprsCheck ignoreAnnotations(boolean ignore) {
+        this.ignoreAnnotations = ignore;
+        return this;
+    }
+
     @Override
     protected void preprocessAlgVariableExpression(AlgVariableExpression algRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(algRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.ALG_VAR_REFS)) {
             violations.add(algRef, "An algebraic variable reference is used");
         }
@@ -104,6 +134,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessFunctionExpression(FunctionExpression userDefFuncRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(userDefFuncRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.FUNC_REFS)) {
             violations.add(userDefFuncRef, "A function reference is used");
         } else if (disalloweds.contains(NoSpecificExpr.FUNC_REFS_USER_DEF)) {
@@ -146,6 +182,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
     protected void preprocessStdLibFunctionExpression(StdLibFunctionExpression stdLibRef,
             CifCheckViolations violations)
     {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(stdLibRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.FUNC_REFS)) {
             violations.add(stdLibRef, "A function reference is used");
         } else if (disalloweds.contains(NoSpecificExpr.FUNC_REFS_STD_LIB)) {
@@ -155,6 +197,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessBinaryExpression(BinaryExpression binExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(binExpr)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.BINARY_EXPRS)) {
             violations.add(binExpr, "A binary expression is used");
         }
@@ -162,6 +210,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessBoolExpression(BoolExpression boolLit, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(boolLit)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.BOOL_LITS)) {
             violations.add(boolLit, "A boolean literal is used");
         }
@@ -169,6 +223,11 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessCastExpression(CastExpression castExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(castExpr)) {
+            return;
+        }
+
         // Existence of the cast is not allowed.
         if (disalloweds.contains(NoSpecificExpr.CAST_EXPRS)) {
             violations.add(castExpr, "A cast expression is used");
@@ -263,6 +322,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessComponentExpression(ComponentExpression compRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(compRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.COMP_REFS)) {
             violations.add(compRef, "A component reference is used");
         } else if (disalloweds.contains(NoSpecificExpr.COMP_REFS_EXPLICIT)) {
@@ -272,6 +337,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessCompParamExpression(CompParamExpression compParamRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(compParamRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.COMP_PARAM_REFS)) {
             violations.add(compParamRef, "A component parameter reference is used");
         }
@@ -279,6 +350,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessConstantExpression(ConstantExpression constRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(constRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.CONST_REFS)) {
             violations.add(constRef, "A constant reference is used");
         }
@@ -286,6 +363,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessContVariableExpression(ContVariableExpression contRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(contRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.CONT_VAR_REFS)) {
             violations.add(contRef, "A continuous variable reference is used");
         }
@@ -293,6 +376,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessDictExpression(DictExpression dictLit, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(dictLit)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.DICT_LITS)) {
             violations.add(dictLit, "A dictionary literal is used");
         }
@@ -300,6 +389,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessDiscVariableExpression(DiscVariableExpression discRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(discRef)) {
+            return;
+        }
+
+        // Do the check.
         EObject parent = discRef.getVariable().eContainer();
         if (parent instanceof ComplexComponent) {
             if (disalloweds.contains(NoSpecificExpr.DISC_VAR_REFS)) {
@@ -320,6 +415,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessEnumLiteralExpression(EnumLiteralExpression enumLitRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(enumLitRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.ENUM_LIT_REFS)) {
             violations.add(enumLitRef, "An enumeration literal reference is used");
         }
@@ -327,6 +428,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessFieldExpression(FieldExpression fieldRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(fieldRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.TUPLE_FIELD_REFS)) {
             violations.add(fieldRef, "A tuple field reference is used");
         }
@@ -334,6 +441,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessFunctionCallExpression(FunctionCallExpression funcCall, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(funcCall)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.FUNC_CALLS)) {
             violations.add(funcCall, "A function call is used");
         }
@@ -341,6 +454,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessIfExpression(IfExpression ifExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(ifExpr)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.IF_EXPRS)) {
             violations.add(ifExpr, "An 'if' expression is used");
         }
@@ -348,6 +467,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessInputVariableExpression(InputVariableExpression inputRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(inputRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.INPUT_VAR_REFS)) {
             violations.add(inputRef, "An input variable reference is used");
         }
@@ -355,6 +480,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessIntExpression(IntExpression intLit, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(intLit)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.INT_LITS)) {
             violations.add(intLit, "An integer number literal is used");
         }
@@ -362,6 +493,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessListExpression(ListExpression listLit, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(listLit)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.LIST_LITS)) {
             violations.add(listLit, "A list literal is used");
         }
@@ -369,6 +506,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessLocationExpression(LocationExpression locRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(locRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.LOC_REFS)) {
             violations.add(locRef, "A location reference is used");
         }
@@ -376,6 +519,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessProjectionExpression(ProjectionExpression projExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(projExpr)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.PROJECTION_EXPRS)) {
             violations.add(projExpr, "A projection expression is used");
         } else {
@@ -429,6 +578,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessRealExpression(RealExpression realLit, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(realLit)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.REAL_LITS)) {
             violations.add(realLit, "A real number literal is used");
         }
@@ -436,6 +591,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessReceivedExpression(ReceivedExpression receivedExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(receivedExpr)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.RECEIVE_EXPRS)) {
             violations.add(receivedExpr, "A received value expression is used");
         }
@@ -443,6 +604,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessSelfExpression(SelfExpression selfRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(selfRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.COMP_REFS)) {
             violations.add(selfRef, "A component reference is used");
         } else if (disalloweds.contains(NoSpecificExpr.COMP_REFS_SELF)) {
@@ -452,6 +619,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessSetExpression(SetExpression setLit, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(setLit)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.SET_LITS)) {
             violations.add(setLit, "A set literal is used");
         }
@@ -459,6 +632,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessSliceExpression(SliceExpression sliceExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(sliceExpr)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.SLICE_EXPRS)) {
             violations.add(sliceExpr, "A slice expression is used");
         }
@@ -466,6 +645,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessStringExpression(StringExpression stringLit, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(stringLit)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.STRING_LITS)) {
             violations.add(stringLit, "A string literal is used");
         }
@@ -473,6 +658,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessSwitchExpression(SwitchExpression switchExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(switchExpr)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS)) {
             violations.add(switchExpr, "A switch expression is used");
         }
@@ -480,6 +671,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessTimeExpression(TimeExpression timeRef, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(timeRef)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.TIME_VAR_REFS)) {
             violations.add(timeRef, "A 'time' variable reference is used");
         }
@@ -487,6 +684,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessTupleExpression(TupleExpression tupleLit, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(tupleLit)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.TUPLE_LITS)) {
             violations.add(tupleLit, "A tuple literal is used");
         }
@@ -494,6 +697,12 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
     @Override
     protected void preprocessUnaryExpression(UnaryExpression unExpr, CifCheckViolations violations) {
+        // Skip the check, if applicable.
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(unExpr)) {
+            return;
+        }
+
+        // Do the check.
         if (disalloweds.contains(NoSpecificExpr.UNARY_EXPRS)) {
             violations.add(unExpr, "A unary expression is used");
         }

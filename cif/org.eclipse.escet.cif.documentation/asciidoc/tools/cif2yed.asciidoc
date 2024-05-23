@@ -336,6 +336,8 @@ For instance, if a discrete variable is initialized using the value of an algebr
 Similarly, if in a continuous variable is used in a guard, there will be an edge from the continuous variable to the location that contains the edge.
 Duplicate edges are avoided.
 
+Relations via <<lang-ref-extensions-annotations,annotation>> argument values are ignored.
+
 As an example consider the following relations diagram of the CIF 'machine/buffer' example, showing only the event relations:
 
 image::{tools-imgsdir}/cif2yed/machine_buffer.events.layouted.png[]

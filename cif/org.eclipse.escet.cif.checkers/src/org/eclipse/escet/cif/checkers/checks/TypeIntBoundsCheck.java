@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.checkers.checks;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.CifAnnotationUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 
@@ -34,6 +35,9 @@ public class TypeIntBoundsCheck extends CifCheck {
 
     /** Largest allowed value of the upper bound of an integer type {@code null} means {@link Integer#MAX_VALUE}. */
     private final int maxUpper;
+
+    /** Whether to disable checking of integer types in annotations. */
+    private boolean ignoreAnnotations;
 
     /**
      * Constructor of the {@link TypeIntBoundsCheck} class.
@@ -58,12 +62,37 @@ public class TypeIntBoundsCheck extends CifCheck {
         maxUpper = (maxUpperBound == null) ? Integer.MAX_VALUE : maxUpperBound;
     }
 
+    /**
+     * Disable checking of integer types in annotations.
+     *
+     * @return The check instance, for daisy-chaining.
+     */
+    public TypeIntBoundsCheck ignoreAnnotations() {
+        return ignoreAnnotations(true);
+    }
+
+    /**
+     * Configure whether to disable checking of integer types in annotations.
+     *
+     * @param ignore {@code true} to disable, {@code false} to enable.
+     * @return The check instance, for daisy-chaining.
+     */
+    public TypeIntBoundsCheck ignoreAnnotations(boolean ignore) {
+        this.ignoreAnnotations = ignore;
+        return this;
+    }
+
     @Override
     protected void preprocessIntType(IntType intType, CifCheckViolations violations) {
+        // Skip the check, if applicable.
         if (!checkRangeless && CifTypeUtils.isRangeless(intType)) {
             return;
         }
+        if (ignoreAnnotations && CifAnnotationUtils.isObjInAnnotation(intType)) {
+            return;
+        }
 
+        // Do the check.
         int lower = CifTypeUtils.getLowerBound(intType);
         if (lower < minLower) {
             violations.add(intType, "Integer type lower bound is less than %d", minLower);

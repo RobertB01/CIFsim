@@ -79,3 +79,13 @@ ginst1: G();
 
 @doc("ginst2")
 ginst2: G();
+
+group ignore_annos1:
+  const bool c = true;
+  alg bool a = c;
+end
+
+group ignore_annos2:
+  @doc(fmt("%s", ignore_annos1.a))
+  input bool i;
+end

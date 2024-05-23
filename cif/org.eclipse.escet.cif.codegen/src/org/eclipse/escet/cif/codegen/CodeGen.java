@@ -48,6 +48,7 @@ import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
 import org.eclipse.escet.cif.cif2cif.MergeEnums;
 import org.eclipse.escet.cif.cif2cif.PrintFileIntoDecls;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveCifSvgDecls;
 import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
@@ -735,6 +736,10 @@ public abstract class CodeGen {
                 warn("The specification contains CIF/SVG input declarations. These will be ignored.");
             }
         }
+
+        // Remove annotations, except documentation annotations.
+        // Avoids having to deal with them.
+        new RemoveAnnotations("doc").transform(spec);
 
         // Eliminate component definition/instantiation, to get a concrete
         // specification, without via references, etc.

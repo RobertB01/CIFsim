@@ -27,6 +27,7 @@ import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
 import org.eclipse.escet.cif.cif2cif.ElimMonitors;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.cif2mcrl2.options.DebugFileOption;
@@ -110,6 +111,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         // Perform preprocessing on the specification. The most expensive
         // variant of value simplification is used, to inline (and thus
         // support) constants, and get the most simple result.
+        new RemoveAnnotations().transform(spec);
         new ElimComponentDefInst().transform(spec);
         new ElimSelf().transform(spec);
         new ElimAlgVariables().transform(spec);

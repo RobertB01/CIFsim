@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.simulator.compiler;
 import static org.eclipse.escet.cif.simulator.output.DebugOutputType.PARSER;
 
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
+import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.io.CifReader;
@@ -47,6 +48,9 @@ public class CifCompiler {
         // Remove position information from CIF specification, to free some
         // memory. This takes CPU time, though.
         new RemovePositionInfo().transform(cifSpec);
+
+        // Remove annotations to avoid having to deal with them.
+        new RemoveAnnotations().transform(cifSpec);
 
         // Eliminate component definition/instantiation from the CIF
         // specification.
