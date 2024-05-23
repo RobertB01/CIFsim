@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.controllercheck.mdd;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoMultiAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoPartialVarAssignCheck;
+import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
@@ -40,7 +41,10 @@ public class MddPreChecker extends CifPreconditionChecker {
 
                 // Multi-assignments and partial variable assignments are not supported.
                 new EdgeNoMultiAssignCheck(),
-                new EdgeNoPartialVarAssignCheck()
+                new EdgeNoPartialVarAssignCheck(),
+
+                // Equations are not supported.
+                new EqnNotAllowedCheck()
         //
         );
     }
@@ -80,13 +84,6 @@ public class MddPreChecker extends CifPreconditionChecker {
 //    }
 //
 //    // Declaration checks.
-//
-//    @Override
-//    protected void preprocessEquation(Equation eqn) {
-//        // Equations are unsupported.
-//        String msg = fmt("Unsupported equation \"%s\": equations are currently unsupported.", getAbsName(eqn));
-//        problems.add(msg);
-//    }
 //
 //    // Type checks.
 //
