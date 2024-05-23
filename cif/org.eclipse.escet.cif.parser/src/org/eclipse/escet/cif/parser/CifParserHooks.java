@@ -160,13 +160,13 @@ import org.eclipse.escet.setext.runtime.exceptions.CustomSyntaxException;
 /**
  * Call back hook methods for:
  * <ul>
- * <li>{@link CifScanner}</li>
- * <li>{@link CifParser}</li>
+ *  <li>{@link CifScanner}</li>
+ *  <li>{@link CifParser}</li>
  * </ul>
  */
 public final class CifParserHooks
-        implements CifScanner.Hooks,
-        CifParser.Hooks
+implements CifScanner.Hooks,
+           CifParser.Hooks
 {
     /** The parser that owns the call back hooks. */
     private Parser<?> parser;
