@@ -20,6 +20,8 @@ import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
 
 /**
@@ -44,7 +46,24 @@ public class MddPreChecker extends CifPreconditionChecker {
                 new EdgeNoPartialVarAssignCheck(),
 
                 // Equations are not supported.
-                new EqnNotAllowedCheck()
+                new EqnNotAllowedCheck(),
+
+                // Restrict allowed types:
+                // - Only boolean, ranged integer, and enumeration types are supported.
+                // - Component types (in switch expressions) are allowed as well.
+                // - No need to disallow component definition types, as component definitions are already eliminated.
+                // - No need to disallow void types of channel uses, as channel declarations are already disallowed.
+                new TypeNoSpecificTypesCheck(
+                        NoSpecificType.DICT_TYPES,
+                        NoSpecificType.DIST_TYPES,
+                        NoSpecificType.FUNC_TYPES,
+                        NoSpecificType.INT_TYPES_RANGELESS,
+                        NoSpecificType.LIST_TYPES,
+                        NoSpecificType.REAL_TYPES,
+                        NoSpecificType.SET_TYPES,
+                        NoSpecificType.STRING_TYPES,
+                        NoSpecificType.TUPLE_TYPES)
+                                .ignoreAnnotations()
         //
         );
     }
@@ -86,66 +105,6 @@ public class MddPreChecker extends CifPreconditionChecker {
 //    // Declaration checks.
 //
 //    // Type checks.
-//
-//    @Override
-//    protected void preprocessDictType(DictType type) {
-//        String msg = fmt("Unsupported type \"%s\": dictionary types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessDistType(DistType type) {
-//        String msg = fmt("Unsupported type \"%s\": distribution types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessFuncType(FuncType type) {
-//        // User-defined functions as well as all standard library functions are unsupported.
-//        String msg = fmt("Unsupported type \"%s\": function types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessIntType(IntType type) {
-//        // Rangeless integer types unsupported.
-//        if (isRangeless(type)) {
-//            String msg = fmt("Unsupported type \"%s\": rangeless integer types are currently not supported.",
-//                    typeToStr(type));
-//            problems.add(msg);
-//        }
-//    }
-//
-//    @Override
-//    protected void preprocessListType(ListType type) {
-//        String msg = fmt("Unsupported type \"%s\": list types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessRealType(RealType type) {
-//        String msg = fmt("Unsupported type \"%s\": real types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessSetType(SetType type) {
-//        String msg = fmt("Unsupported type \"%s\": set types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessStringType(StringType type) {
-//        String msg = fmt("Unsupported type \"%s\": string types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessTupleType(TupleType type) {
-//        // Tuples, tuple types, and multi-assignments are unsupported.
-//        String msg = fmt("Unsupported type \"%s\": tuple types are currently not supported.", typeToStr(type));
-//        problems.add(msg);
-//    }
 //
 //    // Expression checks.
 //
