@@ -42,6 +42,7 @@ import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecke
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.options.EnableBoundedResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
@@ -306,6 +307,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
         List<Option> checkOpts = list();
         checkOpts.add(Options.getInstance(InputFileOption.class));
+        checkOpts.add(Options.getInstance(EnableBoundedResponseChecking.class));
         checkOpts.add(Options.getInstance(EnableFiniteResponseChecking.class));
         checkOpts.add(Options.getInstance(PrintControlLoopsOutputOption.class));
         checkOpts.add(Options.getInstance(EnableConfluenceChecking.class));
