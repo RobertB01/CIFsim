@@ -1,0 +1,108 @@
+Loading CIF specification "controllercheck/bounded_response/cycle_counter_3.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind               Type        Name       Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----------  ---------  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..25]  p.counter  0      5 * 2     26 * 2      32 * 2      ~81%
+  -----  -----------------  ----------  ---------  -----  --------  ----------  ----------  -----------
+  Total                                            1      10        52          64          ~81%
+
+Skipping variable ordering: only one variable present.
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Preparing for MDD-based checks...
+Analyzing automaton "p"...
+    Initializing the automaton data for event "c_inc"...
+    Initializing the automaton data for event "c_dec"...
+    Processing edges from the location of automaton "p"...
+    Updating global guards and updates for event "c_inc"...
+    Updating global guards and updates for event "c_dec"...
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: p.counter = 3 [initial states predicate]
+Forward reachability: iteration 1.
+Reachable states: p.counter = 3 -> p.counter = 4 or p.counter = 3 [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Reachable states: p.counter = 4 or p.counter = 3 -> p.counter = 4 or (p.counter = 2 or p.counter = 3) [forward reach with edge: (event: c_dec) (guard: p.counter != 0) (assignments: p.counter := p.counter - 1)]
+Forward reachability: iteration 2.
+Reachable states: p.counter = 4 or (p.counter = 2 or p.counter = 3) -> p.counter = 4 or p.counter = 5 or (p.counter = 2 or p.counter = 3) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Reachable states: p.counter = 4 or p.counter = 5 or (p.counter = 2 or p.counter = 3) -> p.counter = 4 or p.counter = 2 or (p.counter = 1 or (p.counter = 5 or p.counter = 3)) [forward reach with edge: (event: c_dec) (guard: p.counter != 0) (assignments: p.counter := p.counter - 1)]
+Forward reachability: iteration 3.
+Reachable states: p.counter = 4 or p.counter = 2 or (p.counter = 1 or (p.counter = 5 or p.counter = 3)) -> p.counter = 4 or (p.counter = 2 or p.counter = 6) or (p.counter = 1 or (p.counter = 5 or p.counter = 3)) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Reachable states: p.counter = 4 or (p.counter = 2 or p.counter = 6) or (p.counter = 1 or (p.counter = 5 or p.counter = 3)) -> p.counter = 0 or (p.counter = 2 or p.counter = 4) or (p.counter = 6 or p.counter = 1 or (p.counter = 5 or p.counter = 3)) [forward reach with edge: (event: c_dec) (guard: p.counter != 0) (assignments: p.counter := p.counter - 1)]
+Forward reachability: iteration 4.
+Reachable states: p.counter = 0 or (p.counter = 2 or p.counter = 4) or (p.counter = 6 or p.counter = 1 or (p.counter = 5 or p.counter = 3)) -> 0 <= p.counter and p.counter <= 7 [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 5.
+Reachable states: 0 <= p.counter and p.counter <= 7 -> p.counter = 0 or p.counter = 8 or (p.counter = 4 or p.counter = 2) or (p.counter = 6 or p.counter = 1 or (p.counter = 3 or (p.counter = 5 or p.counter = 7))) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 6.
+Reachable states: p.counter = 0 or p.counter = 8 or (p.counter = 4 or p.counter = 2) or (p.counter = 6 or p.counter = 1 or (p.counter = 3 or (p.counter = 5 or p.counter = 7))) -> p.counter = 0 or p.counter = 1 or (p.counter = 8 or (p.counter = 9 or p.counter = 4)) or (p.counter = 5 or p.counter = 2 or (p.counter = 3 or (p.counter = 6 or p.counter = 7))) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 7.
+Reachable states: p.counter = 0 or p.counter = 1 or (p.counter = 8 or (p.counter = 9 or p.counter = 4)) or (p.counter = 5 or p.counter = 2 or (p.counter = 3 or (p.counter = 6 or p.counter = 7))) -> p.counter = 0 or p.counter = 2 or (p.counter = 8 or (p.counter = 10 or p.counter = 4)) or (p.counter = 6 or (p.counter = 1 or p.counter = 9) or (p.counter = 5 or (p.counter = 3 or p.counter = 7))) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 8.
+Reachable states: p.counter = 0 or p.counter = 2 or (p.counter = 8 or (p.counter = 10 or p.counter = 4)) or (p.counter = 6 or (p.counter = 1 or p.counter = 9) or (p.counter = 5 or (p.counter = 3 or p.counter = 7))) -> 0 <= p.counter and p.counter <= 3 or (8 <= p.counter and p.counter <= 11 or 4 <= p.counter and p.counter <= 7) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 9.
+Reachable states: 0 <= p.counter and p.counter <= 3 or (8 <= p.counter and p.counter <= 11 or 4 <= p.counter and p.counter <= 7) -> p.counter = 0 or (p.counter = 4 or p.counter = 8) or (p.counter = 12 or (p.counter = 2 or p.counter = 10)) or (p.counter = 6 or (p.counter = 1 or p.counter = 3) or (p.counter = 9 or p.counter = 11 or (p.counter = 5 or p.counter = 7))) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 10.
+Reachable states: p.counter = 0 or (p.counter = 4 or p.counter = 8) or (p.counter = 12 or (p.counter = 2 or p.counter = 10)) or (p.counter = 6 or (p.counter = 1 or p.counter = 3) or (p.counter = 9 or p.counter = 11 or (p.counter = 5 or p.counter = 7))) -> (0 <= p.counter and p.counter <= 15 or p.counter = 18 or (p.counter = 19 or (p.counter = 22 or p.counter = 23))) and not(p.counter = 18 or p.counter = 19) and (not(p.counter = 22 or p.counter = 23) and not(p.counter = 14 or p.counter = 15)) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 11.
+Reachable states: (0 <= p.counter and p.counter <= 15 or p.counter = 18 or (p.counter = 19 or (p.counter = 22 or p.counter = 23))) and not(p.counter = 18 or p.counter = 19) and (not(p.counter = 22 or p.counter = 23) and not(p.counter = 14 or p.counter = 15)) -> not(p.counter = 16 or p.counter = 18 or (p.counter = 20 or (p.counter = 22 or p.counter = 24))) and not(p.counter = 17 or (p.counter = 21 or p.counter = 25)) and (p.counter != 19 and (p.counter != 23 and p.counter != 15)) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 12.
+Reachable states: not(p.counter = 16 or p.counter = 18 or (p.counter = 20 or (p.counter = 22 or p.counter = 24))) and not(p.counter = 17 or (p.counter = 21 or p.counter = 25)) and (p.counter != 19 and (p.counter != 23 and p.counter != 15)) -> 0 <= p.counter and p.counter <= 15 [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 13.
+Reachable states: 0 <= p.counter and p.counter <= 15 -> p.counter != 24 and p.counter != 20 and (not(p.counter = 18 or p.counter = 22) and (0 <= p.counter and p.counter <= 16 or p.counter = 18 or (p.counter = 20 or (p.counter = 22 or p.counter = 24)))) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 14.
+Reachable states: p.counter != 24 and p.counter != 20 and (not(p.counter = 18 or p.counter = 22) and (0 <= p.counter and p.counter <= 16 or p.counter = 18 or (p.counter = 20 or (p.counter = 22 or p.counter = 24)))) -> 0 <= p.counter and p.counter <= 23 and (not(p.counter = 20 or p.counter = 21) and not(p.counter = 18 or p.counter = 19 or (p.counter = 22 or p.counter = 23))) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 15.
+Reachable states: 0 <= p.counter and p.counter <= 23 and (not(p.counter = 20 or p.counter = 21) and not(p.counter = 18 or p.counter = 19 or (p.counter = 22 or p.counter = 23))) -> p.counter != 24 and not(p.counter = 20 or p.counter = 22) and (p.counter != 25 and (p.counter != 21 and not(p.counter = 19 or p.counter = 23))) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 16.
+Reachable states: p.counter != 24 and not(p.counter = 20 or p.counter = 22) and (p.counter != 25 and (p.counter != 21 and not(p.counter = 19 or p.counter = 23))) -> 0 <= p.counter and (p.counter <= 23 and not(20 <= p.counter and p.counter <= 23)) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 17.
+Reachable states: 0 <= p.counter and (p.counter <= 23 and not(20 <= p.counter and p.counter <= 23)) -> p.counter != 24 and p.counter != 22 and (p.counter != 25 and not(p.counter = 21 or p.counter = 23)) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 18.
+Reachable states: p.counter != 24 and p.counter != 22 and (p.counter != 25 and not(p.counter = 21 or p.counter = 23)) -> 0 <= p.counter and (p.counter <= 23 and not(p.counter = 22 or p.counter = 23)) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 19.
+Reachable states: 0 <= p.counter and (p.counter <= 23 and not(p.counter = 22 or p.counter = 23)) -> p.counter != 24 and (p.counter != 25 and p.counter != 23) [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 20.
+Reachable states: p.counter != 24 and (p.counter != 25 and p.counter != 23) -> 0 <= p.counter and p.counter <= 23 [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 21.
+Reachable states: 0 <= p.counter and p.counter <= 23 -> p.counter != 25 [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 22.
+Reachable states: p.counter != 25 -> true [forward reach with edge: (event: c_inc) (guard: p.counter != 25) (assignments: p.counter := p.counter + 1)]
+Forward reachability: iteration 23.
+Reachable states: true [fixed point].
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: true).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: true).
+
+Bounded response check completed.
+
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton p:
+        (c_inc), which is not controllable unconnectable.
+        (c_dec), which is not controllable unconnectable.
+
+Checking for confluence...
+
+Independent event pairs:
+    (c_dec, c_inc)
+
+CONCLUSION:
+    [OK] The specification has bounded response for uncontrollable events (bound: 0).
+    [ERROR] The specification does NOT have bounded response for controllable events.
+
+    [ERROR] The specification may NOT have finite response.
+    
+        At least one controllable-event loop was found.
+        The following events might still occur in a controllable-event loop:
+            - c_dec
+            - c_inc
+
+    [OK] The specification has confluence.

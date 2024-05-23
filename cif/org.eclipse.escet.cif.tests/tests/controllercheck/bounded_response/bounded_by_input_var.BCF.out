@@ -1,0 +1,140 @@
+Loading CIF specification "controllercheck/bounded_response/bounded_by_input_var.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      input variable    bool  sensor  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   p       1      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                  2      4         8           8           100%
+
+Applying variable ordering:
+  Applying 4 orderers, sequentially:
+    Applying sorted variable order:
+      Effect: both
+
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
+      Effect: var-order
+      Number of hyper-edges: 2
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+        Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+        Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+          Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 2
+
+          Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+          Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [reversed]
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+          Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 2
+
+          Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+          Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 2
+      Maximum number of iterations: 10
+
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [iteration 1]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 2
+      Window length: 2
+
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   p       0      1 * 2     2 * 2       2 * 2       100%
+  2      input variable    bool  sensor  1      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                  2      4         8           8           100%
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Preparing for MDD-based checks...
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: p.Off [initial states predicate]
+Forward reachability: iteration 1.
+Reachable states: p.Off -> p.Off or sensor [forward reach with edge: (event: u_on) (guard: p.Off and sensor) (assignments: p := p.On)]
+Reachable states: p.Off or sensor -> true [forward reach with edge: (event: sensor) (guard: true) (assignments: sensor+ != sensor)]
+Forward reachability: iteration 2.
+Reachable states: true [fixed point].
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: true).
+Bounded response check round 2 (states before round: (p.On or not sensor) and (p.Off or sensor)).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: true).
+
+Bounded response check completed.
+
+Checking for finite response...
+
+Checking for confluence...
+
+CONCLUSION:
+    [OK] The specification has bounded response for uncontrollable events (bound: 1).
+    [OK] The specification has bounded response for controllable events (bound: 0).
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.

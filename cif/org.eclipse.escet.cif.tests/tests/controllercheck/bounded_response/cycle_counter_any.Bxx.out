@@ -1,0 +1,34 @@
+Loading CIF specification "controllercheck/bounded_response/cycle_counter_any.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind               Type        Name       Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----------  ---------  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..25]  p.counter  0      5 * 2     26 * 2      32 * 2      ~81%
+  -----  -----------------  ----------  ---------  -----  --------  ----------  ----------  -----------
+  Total                                            1      10        52          64          ~81%
+
+Skipping variable ordering: only one variable present.
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: true [initial states predicate]
+Forward reachability: iteration 1.
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: true).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: true).
+
+Bounded response check completed.
+
+CONCLUSION:
+    [OK] The specification has bounded response for uncontrollable events (bound: 0).
+    [ERROR] The specification does NOT have bounded response for controllable events.
+
+    Finite response checking was disabled, finite response property is unknown.
+    Confluence checking was disabled, confluence property is unknown.
