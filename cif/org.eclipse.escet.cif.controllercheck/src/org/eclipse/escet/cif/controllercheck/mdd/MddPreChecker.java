@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.controllercheck.mdd;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoMultiAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoPartialVarAssignCheck;
-import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
@@ -50,9 +49,6 @@ public class MddPreChecker extends CifPreconditionChecker {
                 // Multi-assignments and partial variable assignments are not supported.
                 new EdgeNoMultiAssignCheck(),
                 new EdgeNoPartialVarAssignCheck(),
-
-                // Equations are not supported.
-                new EqnNotAllowedCheck(),
 
                 // Restrict allowed types:
                 // - Only boolean, ranged integer, and enumeration types are supported.
