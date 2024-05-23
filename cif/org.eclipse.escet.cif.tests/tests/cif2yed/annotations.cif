@@ -22,6 +22,9 @@ automaton a1:
   @doc("a")
   location:
     initial;
+
+    @@doc("edge")
+    edge tau;
 end
 
 automaton a2:

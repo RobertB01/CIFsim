@@ -214,8 +214,8 @@ LocationElement : "initial" ";"
                 | "marked" ";"
                 | "marked" Expressions ";"
                 | "urgent" ";"
-                | "edge" CoreEdge ";"
-                | "edge" CoreEdge "goto" Identifier ";"
+                | OptDoubleAnnos "edge" CoreEdge ";"
+                | OptDoubleAnnos "edge" CoreEdge "goto" Identifier ";"
                 ;
 
 CompInstArgs : "(" ")"

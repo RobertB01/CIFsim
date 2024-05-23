@@ -51,6 +51,8 @@ Disabling forward reachability may lead to false negatives, i.e. such cases may 
 The resulting supervisor may have an initialization predicate that restricts the states in which the system may be initialized (may start), on top of the initialization constraints already present in the uncontrolled system.
 For more information on this initialization predicate, see the <<tools-datasynth-init,section about initialization>>.
 
+The added supervisor automaton and all its elements do not have any annotations.
+
 [[tools-datasynth-supervisor-namespace]]
 === Namespace
 

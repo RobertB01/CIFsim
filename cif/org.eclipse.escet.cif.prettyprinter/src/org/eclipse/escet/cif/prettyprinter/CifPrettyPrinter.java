@@ -1099,8 +1099,10 @@ public final class CifPrettyPrinter {
      * @param loc The location.
      */
     public void add(Location loc) {
+        // Add annotations.
         add(loc.getAnnotations());
 
+        // Add location.
         boolean isEmpty = loc.getEdges().isEmpty() && loc.getInitials().isEmpty() && loc.getInvariants().isEmpty()
                 && loc.getEquations().isEmpty() && loc.getMarkeds().isEmpty() && !loc.isUrgent();
 
@@ -1138,6 +1140,10 @@ public final class CifPrettyPrinter {
      * @param edge The edge.
      */
     public void add(Edge edge) {
+        // Add annotations.
+        add(edge.getAnnotations());
+
+        // Add edge.
         StringBuilder txt = new StringBuilder();
         txt.append("edge ");
 
@@ -2100,6 +2106,9 @@ public final class CifPrettyPrinter {
             doubleAtSign = true;
         } else if (parent instanceof Invariant && parent.eContainer() instanceof Location) {
             // Invariant in a location.
+            doubleAtSign = true;
+        } else if (parent instanceof Edge) {
+            // Edge.
             doubleAtSign = true;
         }
 

@@ -1264,14 +1264,14 @@ implements CifScanner.Hooks,
         return new AUrgentLocationElement(t1.position);
     }
 
-    @Override // LocationElement : @EDGEKW CoreEdge SEMICOLTK;
-    public ALocationElement parseLocationElement8(Token t1, ACoreEdge a2) {
-        return new AEdgeLocationElement(a2, null, t1.position);
+    @Override // LocationElement : OptDoubleAnnos @EDGEKW CoreEdge SEMICOLTK;
+    public ALocationElement parseLocationElement8(List<AAnnotation> l1, Token t2, ACoreEdge a3) {
+        return new AEdgeLocationElement(l1, a3, null, t2.position);
     }
 
-    @Override // LocationElement : @EDGEKW CoreEdge GOTOKW Identifier SEMICOLTK;
-    public ALocationElement parseLocationElement9(Token t1, ACoreEdge a2, AIdentifier a4) {
-        return new AEdgeLocationElement(a2, a4, t1.position);
+    @Override // LocationElement : OptDoubleAnnos @EDGEKW CoreEdge GOTOKW Identifier SEMICOLTK;
+    public ALocationElement parseLocationElement9(List<AAnnotation> l1, Token t2, ACoreEdge a3, AIdentifier a5) {
+        return new AEdgeLocationElement(l1, a3, a5, t2.position);
     }
 
     @Override // CompInstArgs : PAROPENTK PARCLOSETK;

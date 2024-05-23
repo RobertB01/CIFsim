@@ -16,9 +16,9 @@ package org.eclipse.escet.cif.metamodel.cif.automata;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 
-import org.eclipse.escet.common.position.metamodel.position.PositionObject;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +40,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * @model
  * @generated
  */
-public interface Edge extends PositionObject
+public interface Edge extends AnnotatedObject
 {
     /**
      * Returns the value of the '<em><b>Target</b></em>' reference.

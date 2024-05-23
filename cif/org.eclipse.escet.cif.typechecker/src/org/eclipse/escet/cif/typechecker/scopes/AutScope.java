@@ -486,6 +486,10 @@ public class AutScope extends ParentScope<Automaton> {
         edge.setPosition(astEdge.createPosition());
         loc.getEdges().add(edge);
 
+        // Type check and add the annotations.
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astEdge.annotations, autScope, tchecker);
+        edge.getAnnotations().addAll(annos);
+
         // Process urgency.
         edge.setUrgent(astEdge.coreEdge.urgentPos != null);
         if (loc.isUrgent() && edge.isUrgent()) {

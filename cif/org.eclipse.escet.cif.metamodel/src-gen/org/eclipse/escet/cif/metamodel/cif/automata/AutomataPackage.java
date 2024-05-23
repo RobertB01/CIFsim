@@ -346,7 +346,16 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int EDGE__POSITION = PositionPackage.POSITION_OBJECT__POSITION;
+    int EDGE__POSITION = AnnotationsPackage.ANNOTATED_OBJECT__POSITION;
+
+    /**
+     * The feature id for the '<em><b>Annotations</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EDGE__ANNOTATIONS = AnnotationsPackage.ANNOTATED_OBJECT__ANNOTATIONS;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -355,7 +364,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int EDGE__TARGET = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 0;
+    int EDGE__TARGET = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Events</b></em>' containment reference list.
@@ -364,7 +373,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int EDGE__EVENTS = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 1;
+    int EDGE__EVENTS = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Guards</b></em>' containment reference list.
@@ -373,7 +382,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int EDGE__GUARDS = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 2;
+    int EDGE__GUARDS = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Updates</b></em>' containment reference list.
@@ -382,7 +391,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int EDGE__UPDATES = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 3;
+    int EDGE__UPDATES = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Urgent</b></em>' attribute.
@@ -391,7 +400,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int EDGE__URGENT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 4;
+    int EDGE__URGENT = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 4;
 
     /**
      * The number of structural features of the '<em>Edge</em>' class.
@@ -400,7 +409,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int EDGE_FEATURE_COUNT = PositionPackage.POSITION_OBJECT_FEATURE_COUNT + 5;
+    int EDGE_FEATURE_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_FEATURE_COUNT + 5;
 
     /**
      * The number of operations of the '<em>Edge</em>' class.
@@ -409,7 +418,7 @@ public interface AutomataPackage extends EPackage
      * @generated
      * @ordered
      */
-    int EDGE_OPERATION_COUNT = PositionPackage.POSITION_OBJECT_OPERATION_COUNT + 0;
+    int EDGE_OPERATION_COUNT = AnnotationsPackage.ANNOTATED_OBJECT_OPERATION_COUNT + 0;
 
     /**
      * The meta object id for the '{@link org.eclipse.escet.cif.metamodel.cif.automata.impl.UpdateImpl <em>Update</em>}' class.

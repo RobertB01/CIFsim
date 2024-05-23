@@ -53,6 +53,8 @@ automaton a1:
   @a(b: 1)
   location:
     initial;
+    @@a(b: 2)
+    edge tau;
 end
 @a(b: 1)
 plant automaton p1:

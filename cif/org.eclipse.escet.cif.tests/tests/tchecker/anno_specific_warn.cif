@@ -44,6 +44,9 @@ automaton a1:
   @cif:typechecker:tests:anno1(x: true)
   location:
     initial;
+
+    @@cif:typechecker:tests:anno1(x: true)
+    edge tau;
 end
 
 automaton a2:

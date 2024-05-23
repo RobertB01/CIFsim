@@ -832,9 +832,16 @@ public class CifToYedModelDiagram extends CifToYedDiagram {
 
         // Initialize label texts. Optimized for pure event-based models.
         List<String> texts = listc(1);
-        CifPrettyPrinter pprinter = new CifPrettyPrinter(null);
+        MemoryCodeBox annoBox = new MemoryCodeBox(CifPrettyPrinter.INDENT);
+        CifPrettyPrinter pprinter = new CifPrettyPrinter(annoBox);
         List<Expression> guards = edge.getGuards();
         List<Update> updates = edge.getUpdates();
+
+        // Add annotations label text.
+        if (!edge.getAnnotations().isEmpty()) {
+            pprinter.add(edge.getAnnotations());
+            texts.addAll(annoBox.getLines());
+        }
 
         // Add events label text.
         List<EdgeEvent> edgeEvents = edge.getEvents();
