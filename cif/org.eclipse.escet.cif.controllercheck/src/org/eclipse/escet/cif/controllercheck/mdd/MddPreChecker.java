@@ -18,6 +18,8 @@ import org.eclipse.escet.cif.checkers.checks.EdgeNoMultiAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoPartialVarAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
@@ -63,6 +65,26 @@ public class MddPreChecker extends CifPreconditionChecker {
                         NoSpecificType.SET_TYPES,
                         NoSpecificType.STRING_TYPES,
                         NoSpecificType.TUPLE_TYPES)
+                                .ignoreAnnotations(),
+
+                // Restrict allowed expressions:
+                // - Only the following expressions are supported: boolean literal values ('true' and 'false'), integer
+                //   literal values, enumeration literal values, binary expressions (partially, see other check), unary
+                //   expressions (partially, see other check), casts that don't change the type, 'if' expressions,
+                //   'switch' expressions, and references to constants, discrete variables, input variables, algebraic
+                //   variables, and locations.
+                new ExprNoSpecificExprsCheck(
+                        NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE,
+                        NoSpecificExpr.DICT_LITS,
+                        NoSpecificExpr.FUNC_CALLS,
+                        NoSpecificExpr.LIST_LITS,
+                        NoSpecificExpr.PROJECTION_EXPRS,
+                        NoSpecificExpr.REAL_LITS,
+                        NoSpecificExpr.SET_LITS,
+                        NoSpecificExpr.SLICE_EXPRS,
+                        NoSpecificExpr.STRING_LITS,
+                        NoSpecificExpr.TIME_VAR_REFS,
+                        NoSpecificExpr.TUPLE_LITS)
                                 .ignoreAnnotations()
         //
         );
@@ -178,89 +200,6 @@ public class MddPreChecker extends CifPreconditionChecker {
 //        // Unsupported.
 //        String msg = fmt("Unsupported expression \"%s\": binary operator \"%s\" is currently not supported, "
 //                + "or is not supported for the operands that are used.", exprToStr(expr), operatorToStr(op));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessCastExpression(CastExpression expr) {
-//        CifType ctype = expr.getChild().getType();
-//        CifType rtype = expr.getType();
-//        if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
-//            // Ignore casting to the child type.
-//            return;
-//        }
-//
-//        String msg = fmt("Unsupported expression \"%s\": cast expressions are currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessDictExpression(DictExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": dictionary expressions are currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessFunctionCallExpression(FunctionCallExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": function calls are currently not supported.", exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessListExpression(ListExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": list expressions are currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessProjectionExpression(ProjectionExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": projection expressions are currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessRealExpression(RealExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": real number expressions are currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessSetExpression(SetExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": set expressions are currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessSliceExpression(SliceExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": slice expressions are currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessStringExpression(StringExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": string literal expressions are currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessTimeExpression(TimeExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": the use of variable \"time\" is currently not supported.",
-//                exprToStr(expr));
-//        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessTupleExpression(TupleExpression expr) {
-//        String msg = fmt("Unsupported expression \"%s\": tuple expressions are currently not supported.",
-//                exprToStr(expr));
 //        problems.add(msg);
 //    }
 //
