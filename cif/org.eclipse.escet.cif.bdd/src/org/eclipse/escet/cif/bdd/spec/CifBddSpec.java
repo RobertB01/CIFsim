@@ -14,12 +14,14 @@
 package org.eclipse.escet.cif.bdd.spec;
 
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
 import com.github.javabdd.BDD;
@@ -312,6 +314,74 @@ public class CifBddSpec {
      */
     public CifBddSpec(CifBddSettings settings) {
         this.settings = settings;
+    }
+
+    /**
+     * Free the intermediate BDDs of this CIF/BDD specification, that were collected during conversion of the CIF
+     * specification to this CIF/BDD specification. This information has been aggregated and will thus still be
+     * available in aggregated form.
+     *
+     * @param freeReqsInvsCompsAndLocs Whether to free {@link #reqInvsComps} and {@link #reqInvsLocs}.
+     */
+    public void freeIntermediateBDDs(boolean freeReqsInvsCompsAndLocs) {
+        plantInvsComps = BddUtils.free(plantInvsComps);
+        plantInvsLocs = BddUtils.free(plantInvsLocs);
+        plantInvComps = BddUtils.free(plantInvComps);
+        plantInvLocs = BddUtils.free(plantInvLocs);
+
+        if (freeReqsInvsCompsAndLocs) {
+            reqInvsComps = BddUtils.free(reqInvsComps);
+            reqInvsLocs = BddUtils.free(reqInvsLocs);
+        }
+        reqInvComps = BddUtils.free(reqInvComps);
+        reqInvLocs = BddUtils.free(reqInvLocs);
+
+        initialsVars = BddUtils.free(initialsVars);
+        initialsComps = BddUtils.free(initialsComps);
+        initialsLocs = BddUtils.free(initialsLocs);
+        initialVars = BddUtils.free(initialVars);
+        initialComps = BddUtils.free(initialComps);
+        initialLocs = BddUtils.free(initialLocs);
+        initialInv = BddUtils.free(initialInv);
+
+        markedsComps = BddUtils.free(markedsComps);
+        markedsLocs = BddUtils.free(markedsLocs);
+        markedComps = BddUtils.free(markedComps);
+        markedLocs = BddUtils.free(markedLocs);
+        markedPlantInv = BddUtils.free(markedPlantInv);
+        markedInv = BddUtils.free(markedInv);
+
+        stateEvtExclPlantLists = BddUtils.free(stateEvtExclPlantLists, e -> e.getValue());
+        stateEvtExclReqLists = BddUtils.free(stateEvtExclReqLists, e -> e.getValue());
+    }
+
+    /** Free all BDDs of this CIF/BDD specification, as well as the {@link #factory}. */
+    public void freeAllBDDs() {
+        // Free intermediate BDDs.
+        freeIntermediateBDDs(true);
+
+        // Free remaining BDDs.
+        initial = BddUtils.free(initial);
+        initialPlantInv = BddUtils.free(initialPlantInv);
+        marked = BddUtils.free(marked);
+
+        plantInv = BddUtils.free(plantInv);
+        reqInv = BddUtils.free(reqInv);
+
+        stateEvtExclsReqAuts = BddUtils.free(stateEvtExclsReqAuts, e -> Collections.singleton(e.getValue()));
+        stateEvtExclsReqInvs = BddUtils.free(stateEvtExclsReqInvs, e -> Collections.singleton(e.getValue()));
+        stateEvtExclReqs = BddUtils.free(stateEvtExclReqs, e -> Collections.singleton(e.getValue()));
+        stateEvtExclPlants = BddUtils.free(stateEvtExclPlants, e -> Collections.singleton(e.getValue()));
+
+        varSetOld = BddUtils.free(varSetOld);
+        varSetNew = BddUtils.free(varSetNew);
+
+        for (CifBddEdge edge: edges) {
+            edge.freeBDDs();
+        }
+
+        // Clean up the BDD factory.
+        factory.done();
     }
 
     @Override

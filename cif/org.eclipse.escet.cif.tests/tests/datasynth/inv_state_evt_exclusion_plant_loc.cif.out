@@ -179,7 +179,7 @@ Uncontrolled system (state/event exclusion plants not applied yet):
     Edge: (event: l) (guard: a.l2)
     Edge: (event: c) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Edge (event: f) (guard: a.l1): guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1 [plant: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
 Edge (event: f) (guard: a.l2): guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2 [plant: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].

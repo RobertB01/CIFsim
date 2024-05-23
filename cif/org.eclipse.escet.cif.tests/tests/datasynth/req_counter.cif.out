@@ -153,7 +153,7 @@ Uncontrolled system:
     Edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1)
     Edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: count_max3.cnt = 0 and adder.l1.

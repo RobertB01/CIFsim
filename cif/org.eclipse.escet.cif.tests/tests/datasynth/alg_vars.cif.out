@@ -168,7 +168,7 @@ Uncontrolled system:
     Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
     Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: r1.inactive and r2.inactive and (r3.inactive and q.l1).

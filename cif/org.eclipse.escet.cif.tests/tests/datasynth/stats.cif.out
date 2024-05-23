@@ -50,7 +50,7 @@ Uncontrolled system:
     Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
     Edge: (event: f) (guard: true)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: a.x = 1.

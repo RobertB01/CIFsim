@@ -162,7 +162,7 @@ Uncontrolled system:
     Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
     Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off).

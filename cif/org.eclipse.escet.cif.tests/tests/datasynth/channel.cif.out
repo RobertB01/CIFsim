@@ -151,7 +151,7 @@ Uncontrolled system:
     Edge: (event: e) (guard: false) (assignments: rcv1.x := 2)
     Edge: (event: e) (guard: cnt.c = 2) (assignments: rcv2.x := 2)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0).

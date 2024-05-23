@@ -139,9 +139,9 @@ Uncontrolled system:
     Edge: (event: u2) (guard: true) (assignments: A.Vu2 := A.Vu2 + 1)
     Edge: (event: u3) (guard: true) (assignments: A.Vu3 := A.Vu3 + 1)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
-Restricting uncontrolled behavior using state plant invariants.
+Restricting uncontrolled system behavior using state plant invariants.
 
 Edge (event: u1) (guard: A.Vu1 != 4) (assignments: A.Vu1 := A.Vu1 + 1): guard: A.Vu1 != 4 -> <bdd 10n 36p>.
 Edge (event: u2) (guard: true) (assignments: A.Vu2 := A.Vu2 + 1): guard: true -> (1 <= A.Vu2 and A.Vu2 <= 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and A.Vu2 != 2 and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and (A.Vu2 != 3 or A.Vu3 != 4)).

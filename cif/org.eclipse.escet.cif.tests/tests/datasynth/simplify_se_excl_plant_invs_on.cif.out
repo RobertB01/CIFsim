@@ -55,7 +55,7 @@ Uncontrolled system (state/event exclusion plants not applied yet):
     Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5)
     Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3))
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3)): guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5 [plant: p.x = 4 or p.x = 5].
 

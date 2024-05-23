@@ -232,6 +232,46 @@ public class CifBddEdge {
         Assert.check(updateGuardRestricted == null);
     }
 
+    /** Free all BDDs of this CIF/BDD edge. */
+    public void freeBDDs() {
+        if (origGuard != null) {
+            origGuard.free();
+            origGuard = null;
+        }
+        if (guard != null) {
+            guard.free();
+            guard = null;
+        }
+        if (guardError != null) {
+            guardError.free();
+            guardError = null;
+        }
+        if (update != null) {
+            update.free();
+            update = null;
+        }
+        if (updateGuard != null) {
+            updateGuard.free();
+            updateGuard = null;
+        }
+        if (updateGuardErrorNot != null) {
+            updateGuardErrorNot.free();
+            updateGuardErrorNot = null;
+        }
+        if (updateGuardRestricted != null) {
+            updateGuardRestricted.free();
+            updateGuardRestricted = null;
+        }
+        if (error != null) {
+            error.free();
+            error = null;
+        }
+        if (errorNot != null) {
+            errorNot.free();
+            errorNot = null;
+        }
+    }
+
     /**
      * Applies the assignments of the edge, to a given predicate. The assignments can be applied forward (normally) or
      * backward (reversed).

@@ -49,7 +49,7 @@ Uncontrolled system:
   State: (controlled-behavior: ?)
     Edge: (event: e) (guard: true)
 
-Restricting behavior using state/event exclusion plants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9)).
