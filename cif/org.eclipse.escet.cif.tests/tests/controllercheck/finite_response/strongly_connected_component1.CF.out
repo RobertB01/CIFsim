@@ -67,6 +67,8 @@ Skippable event pairs:
     (A.m, A.o), (A.n, A.o)
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
+
     [ERROR] The specification may NOT have finite response.
     
         At least one controllable-event loop was found.

@@ -26,5 +26,6 @@ Iteration 1.
         (X.a X.b X.c), which is controllable unconnectable.
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
     [OK] The specification has finite response.
     Confluence checking was disabled, confluence property is unknown.

@@ -33,6 +33,8 @@ Update equivalent event pairs:
     (A.a, A.b), (A.c, A.d)
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
+
     [ERROR] The specification may NOT have finite response.
     
         At least one controllable-event loop was found.

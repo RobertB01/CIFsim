@@ -4,5 +4,6 @@ Preparing for MDD-based checks...
 Checking for finite response...
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
     [OK] The specification has finite response.
     Confluence checking was disabled, confluence property is unknown.

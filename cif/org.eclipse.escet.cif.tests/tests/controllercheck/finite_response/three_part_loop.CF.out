@@ -31,5 +31,6 @@ Mutual exclusive event pairs:
     (X.a, X.b), (X.a, X.c), (X.b, X.c)
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
     [OK] The specification has finite response.
     [OK] The specification has confluence.

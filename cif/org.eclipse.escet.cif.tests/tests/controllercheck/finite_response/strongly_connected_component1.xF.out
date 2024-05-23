@@ -59,6 +59,8 @@ Iteration 2.
         (A.k A.l), which is not controllable unconnectable.
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
+
     [ERROR] The specification may NOT have finite response.
     
         At least one controllable-event loop was found.

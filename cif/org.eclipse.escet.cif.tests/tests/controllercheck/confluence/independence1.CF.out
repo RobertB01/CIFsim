@@ -20,5 +20,6 @@ Independent event pairs:
     (AutDifferenLocs.a, AutDifferenLocs.b)
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
     [OK] The specification has finite response.
     [OK] The specification has confluence.

@@ -31,6 +31,8 @@ Mutual exclusive event pairs:
     (Actuator.c_off, Actuator.c_on)
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
+
     [ERROR] The specification may NOT have finite response.
     
         At least one controllable-event loop was found.

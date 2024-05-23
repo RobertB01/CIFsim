@@ -19,5 +19,6 @@ Skippable event pairs:
     (OptionalChangeBool.a, OptionalChangeBool.b)
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
     [OK] The specification has finite response.
     [OK] The specification has confluence.

@@ -26,5 +26,6 @@ Mutual exclusive event pairs:
     (Actuator.c_off, Actuator.c_on)
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
     [OK] The specification has finite response.
     [OK] The specification has confluence.

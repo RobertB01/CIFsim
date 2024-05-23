@@ -14,5 +14,6 @@ Checking for finite response...
 Iteration 1.
 
 CONCLUSION:
+    Bounded response checking was disabled, bounded response property is unknown.
     [OK] The specification has finite response.
     Confluence checking was disabled, confluence property is unknown.
