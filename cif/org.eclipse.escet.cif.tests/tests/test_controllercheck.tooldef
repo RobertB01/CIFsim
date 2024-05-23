@@ -53,22 +53,23 @@ for test in tests:
     // Test with certain checks enabled/disabled:
     // - Root folder: all checks enabled, each individual check enabled.
     // - Sub-folders: all checks enabled, only that specific check enabled.
-    list tuple(bool, bool) checks_enabled_variants; // Entries contain check enablements: confluence, finite response.
-    if contains(replace(test, "\\", "/"), "/confluence/"):
-        checks_enabled_variants = [(true, true), (true, false)];
+    //
+    // Get the enablements, with per enablement entry: bounded response, confluence, finite response:
+    list tuple(bool, bool, bool) checks_enabled_variants;
+    if contains(replace(test, "\\", "/"), "/bounded_response/"):
+        checks_enabled_variants = [(true, true, true), (true, false, false)];
+    elif contains(replace(test, "\\", "/"), "/confluence/"):
+        checks_enabled_variants = [(true, true, true), (false, true, false)];
     elif contains(replace(test, "\\", "/"), "/finite_response/"):
-        checks_enabled_variants = [(true, true), (false, true)];
-    elif contains(replace(test, "\\", "/"), "/mdd/"):
-        checks_enabled_variants = [(true, true), (true, false), (false, true)];
+        checks_enabled_variants = [(true, true, true), (false, false, true)];
     else
-        checks_enabled_variants = [(true, true), (true, false), (false, true)];
+        checks_enabled_variants = [(true, true, true), (true, false, false), (false, true, false), (false, false, true)];
     end
 
     // Test per enablement combination:
-    for confluence_enabled, finite_response_enabled in checks_enabled_variants:
+    for bounded_response_enabled, confluence_enabled, finite_response_enabled in checks_enabled_variants:
         // Get test specific options.
         list string options = default_options;
-        bool bounded_response_enabled = false;
         if not bounded_response_enabled:: options = options + ["--bounded-response-check=false"];
         if not confluence_enabled::       options = options + ["--confluence-check=false"];
         if not finite_response_enabled::  options = options + ["--finite-response-check=false"];
