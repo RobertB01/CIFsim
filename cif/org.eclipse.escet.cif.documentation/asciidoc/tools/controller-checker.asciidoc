@@ -87,7 +87,7 @@ Kindless and requirement invariants are not supported.
 * Multi-assignments on edges (such as ``do (x, y) := (1, 2)``) are not supported.
 However, it is allowed to use multiple assignments on an edge (such as ``do x := 1, y := 2``).
 
-* Only discrete/input variables with a boolean, ranged integer (e.g. ``int[0..5]``), or enumeration type are supported.
+* Only discrete, input and algebraic variables with a boolean, ranged integer (e.g. ``int[0..5]``), or enumeration type are supported.
 
 * Only the following expressions are supported: boolean literal values (``true`` and ``false``), integer literal values, enumeration literal values, binary expressions (partially, see below), unary expressions (partially, see below), casts that don't change the type, `if` expressions, `switch` expressions, and references to constants, discrete variables, input variables, algebraic variables, and locations.
 
