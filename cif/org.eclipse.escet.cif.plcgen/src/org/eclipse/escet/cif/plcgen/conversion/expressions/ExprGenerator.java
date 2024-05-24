@@ -337,10 +337,10 @@ public class ExprGenerator {
     public ExprAddressableResult convertVariableAddressable(Expression expr) {
         if (expr instanceof DiscVariableExpression de) {
             // TODO This may not work for user-defined internal function parameters and local variables.
-            return new ExprAddressableResult(this)
+            return new ExprAddressableResult(de.getVariable(), false, this)
                     .setValue(currentCifDataProvider.getAddressableForDiscVar(de.getVariable()));
         } else if (expr instanceof ContVariableExpression ce) {
-            return new ExprAddressableResult(this)
+            return new ExprAddressableResult(ce.getVariable(), ce.isDerivative(), this)
                     .setValue(currentCifDataProvider.getAddressableForContvar(ce.getVariable(), ce.isDerivative()));
         }
         // Intentionally leaving out writing to an input variable, as such expressions should not exist in CIF.
