@@ -15,6 +15,8 @@ package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 
+import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -31,7 +33,7 @@ public class DocumentingSupport {
 
     /**
      * Get a description of a CIF element in PLC context. This function supports continuous variables, discrete
-     * variables, input variables and events.
+     * variables, input variables, events and complex components.
      *
      * <p>
      * This function can only describe the value of a derivative variable. To get a description for the derivative of a
@@ -47,7 +49,7 @@ public class DocumentingSupport {
 
     /**
      * Get a description of a CIF element in PLC context. This function supports continuous variables, discrete
-     * variables, input variables and events.
+     * variables, input variables, events and complex components.
      *
      * @param posObj CIF element to describe.
      * @param isDerivative Whether the derivative of the CIF element is intended. Is only used if the {@code posObj} is
@@ -75,6 +77,12 @@ public class DocumentingSupport {
             } else {
                 return "uncontrollable event \"" + getAbsName(posObj, false) + "\"";
             }
+        } else if (posObj instanceof Automaton) {
+            return "automaton \"" + getAbsName(posObj, false) + "\"";
+        } else if (posObj instanceof Specification) {
+            return "specification (top-level group)";
+        } else if (posObj instanceof Group) {
+            return "group \"" + getAbsName(posObj, false) + "\"";
         } else {
             throw new AssertionError("Unexpected position object \"" + posObj + "\" found.");
         }

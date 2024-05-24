@@ -16,9 +16,12 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
@@ -61,5 +64,46 @@ public class ComponentDocData {
                 uncontrollableEvents.add(evt);
             }
         }
+    }
+
+    /**
+     * Get the full name of the component.
+     *
+     * @return The full name of the component.
+     */
+    public String getComponentName() {
+        return CifTextUtils.getAbsName(component, false);
+    }
+
+    /**
+     * Determine whether the component has no variables to report.
+     *
+     * @return Whether the component has no variables to report.
+     */
+    public boolean isEmptyVariables() {
+        return variables.isEmpty() && edgeVariableName == null;
+    }
+
+    /**
+     * Determine whether the component has nothing useful to report.
+     *
+     * @return Whether the component has nothing useful to report.
+     */
+    public boolean isEmpty() {
+        boolean empty = isEmptyVariables();
+        if (component instanceof Automaton) {
+            empty &= uncontrollableEvents.isEmpty();
+            empty &= controllableEvents.isEmpty();
+        }
+        return empty;
+    }
+
+    /** Sort the contents of the component. */
+    public void sortData() {
+        Collections.sort(variables, (v1, v2) -> v1.getName().compareTo(v2.getName()));
+        Collections.sort(uncontrollableEvents,
+                (e1, e2) -> CifTextUtils.getAbsName(e1, false).compareTo(CifTextUtils.getAbsName(e2, false)));
+        Collections.sort(controllableEvents,
+                (e1, e2) -> CifTextUtils.getAbsName(e1, false).compareTo(CifTextUtils.getAbsName(e2, false)));
     }
 }
