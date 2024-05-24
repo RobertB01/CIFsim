@@ -40,6 +40,56 @@ END_VAR
  *  -> (-*-) CIF PLC code generator.
  *)
 
+(*------------------------------------------------------
+ * Model overview:
+ *
+ * Automaton "hw_button":
+ *    - Current location of automaton "hw_button".
+ *    - Input variable "hw_button.bit".
+ *
+ *    - PLC edge selection variable "edge_hw_button".
+ *
+ *    - Uncontrollable event "button.push".
+ *    - Uncontrollable event "button.release".
+ *
+ *    - No use of controllable events.
+ *
+ * Automaton "hw_lamp":
+ *    - Current location of automaton "hw_lamp".
+ *    - Discrete variable "hw_lamp.bit".
+ *
+ *    - PLC edge selection variable "edge_hw_lamp".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "lamp.off".
+ *    - Controllable event "lamp.on".
+ *
+ * Automaton "sup":
+ *    - Current location of automaton "sup".
+ *
+ *    - PLC edge selection variable "edge_sup_1".
+ *
+ *    - Uncontrollable event "button.push".
+ *    - Uncontrollable event "button.release".
+ *    - Uncontrollable event "timer.timeout".
+ *
+ *    - Controllable event "lamp.off".
+ *    - Controllable event "lamp.on".
+ *    - Controllable event "timer.start".
+ *
+ * Automaton "timer":
+ *    - Current location of automaton "timer".
+ *    - Continuous variable "timer.t".
+ *
+ *    - PLC edge selection variable "edge_timer_1".
+ *
+ *    - Uncontrollable event "timer.timeout".
+ *
+ *    - Controllable event "timer.start".
+ *
+ *------------------------------------------------------ *)
+
 (* --- Read input from sensors. -------------------------------------------- *)
 (* Read PLC input and write it to input variable "hw_button.bit". *)
 hw_button_bit := in_hw_button_bit;

@@ -28,6 +28,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newReceivedEx
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
+import static org.eclipse.escet.common.java.Maps.map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -165,6 +166,7 @@ public class TransitionGeneratorTest {
         target.getVarStorage().addStateVariable(otherVar, otherVar.getType());
         target.getVarStorage().addStateVariable(tupVar, tupVar.getType());
         transitionGenerator = new DefaultTransitionGenerator(target);
+        target.getCodeStorage().addComponentDatas(map());
     }
 
     @Test

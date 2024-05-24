@@ -13,6 +13,20 @@ BEGIN
      *  -> (-*-) CIF PLC code generator.
      *)
 
+    (*------------------------------------------------------
+     * Model overview:
+     *
+     * Automaton "p":
+     *    - Discrete variable "p.x".
+     *
+     *    - PLC edge selection variable "edge_p_1".
+     *
+     *    - Uncontrollable event "u".
+     *
+     *    - Controllable event "e".
+     *
+     *------------------------------------------------------ *)
+
     (* --- Initialize state. --------------------------------------------------- *)
     IF "DB".firstRun THEN
         "DB".firstRun := FALSE;

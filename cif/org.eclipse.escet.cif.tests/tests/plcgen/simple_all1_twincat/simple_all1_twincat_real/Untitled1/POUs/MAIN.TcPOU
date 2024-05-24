@@ -43,6 +43,34 @@ END_VAR]]></Declaration>
  *  -> (-*-) CIF PLC code generator.
  *)
 
+(*------------------------------------------------------
+ * Model overview:
+ *
+ * Group "g":
+ *    - Input variable "g.inp".
+ *
+ * Automaton "p":
+ *    - Current location of automaton "p".
+ *    - Discrete variable "p.b".
+ *    - Discrete variable "p.j".
+ *    - Discrete variable "p.r".
+ *    - Continuous variable "p.t".
+ *    - Discrete variable "p.tv".
+ *    - Discrete variable "p.v1".
+ *    - Discrete variable "p.v2".
+ *    - Discrete variable "p.v3".
+ *    - Discrete variable "p.ve".
+ *    - Discrete variable "p.x".
+ *    - Discrete variable "p.y".
+ *
+ *    - PLC edge selection variable "edge_p".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "p.evt".
+ *
+ *------------------------------------------------------ *)
+
 (* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;

@@ -20,6 +20,21 @@ END_VAR
  *  -> (-*-) CIF PLC code generator.
  *)
 
+(*------------------------------------------------------
+ * Model overview:
+ *
+ * Automaton "p":
+ *    - Continuous variable "p.t".
+ *    - Discrete variable "p.x".
+ *
+ *    - PLC edge selection variable "edge_p".
+ *
+ *    - Uncontrollable event "e".
+ *
+ *    - No use of controllable events.
+ *
+ *------------------------------------------------------ *)
+
 (* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;

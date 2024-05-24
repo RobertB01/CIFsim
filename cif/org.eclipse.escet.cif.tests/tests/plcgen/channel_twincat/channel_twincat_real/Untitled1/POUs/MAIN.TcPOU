@@ -39,6 +39,83 @@ END_VAR]]></Declaration>
  *  -> (-*-) CIF PLC code generator.
  *)
 
+(*------------------------------------------------------
+ * Model overview:
+ *
+ * Automaton "M1":
+ *    - Discrete variable "M1.vm1".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "c".
+ *
+ * Automaton "M2":
+ *    - Current location of automaton "M2".
+ *    - Discrete variable "M2.vm2".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "c".
+ *
+ * Automaton "R1":
+ *    - Discrete variable "R1.vr1".
+ *
+ *    - PLC edge selection variable "edge_R1".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "c".
+ *
+ * Automaton "R2":
+ *    - Current location of automaton "R2".
+ *    - Discrete variable "R2.vr2".
+ *
+ *    - PLC edge selection variable "edge_R2".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "c".
+ *
+ * Automaton "S1":
+ *    - Discrete variable "S1.vs1".
+ *
+ *    - PLC edge selection variable "edge_S1".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "c".
+ *
+ * Automaton "S2":
+ *    - Current location of automaton "S2".
+ *    - Discrete variable "S2.vs2".
+ *
+ *    - PLC edge selection variable "edge_S2".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "c".
+ *
+ * Automaton "Y1":
+ *    - Discrete variable "Y1.vy1".
+ *
+ *    - PLC edge selection variable "edge_Y1".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "c".
+ *
+ * Automaton "Y2":
+ *    - Current location of automaton "Y2".
+ *    - Discrete variable "Y2.vy2".
+ *
+ *    - PLC edge selection variable "edge_Y2".
+ *
+ *    - No use of uncontrollable events.
+ *
+ *    - Controllable event "c".
+ *
+ *------------------------------------------------------ *)
+
 (* --- Initialize state. --------------------------------------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
