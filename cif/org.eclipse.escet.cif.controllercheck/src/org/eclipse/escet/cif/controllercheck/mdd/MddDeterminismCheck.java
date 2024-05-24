@@ -100,6 +100,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
         }
 
         // Verify that the guards of the different edges do not overlap.
+        EVENT:
         for (Entry<Event, List<List<Expression>>> entry: edgesPredsByEvent.entrySet()) {
             if (env.isTerminationRequested()) {
                 violations.clear();
@@ -137,6 +138,9 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
                         // Not mutually exclusive, which implies overlapping guards.
                         violations.add(loc, "Non-deterministic edges with overlapping guards within a location, "
                                 + "for controllable event \"%s\"", CifTextUtils.getAbsName(event));
+
+                        // Once we have a violation for the event, we can continue to the next one.
+                        continue EVENT;
                     }
                 }
             }
