@@ -33,12 +33,31 @@ public class DocumentingSupport {
      * Get a description of a CIF element in PLC context. This function supports continuous variables, discrete
      * variables, input variables and events.
      *
+     * <p>
+     * This function can only describe the value of a derivative variable. To get a description for the derivative of a
+     * continuous variable, use {@link #getDescription(PositionObject, boolean)}.
+     * </p>
+     *
      * @param posObj CIF element to describe.
      * @return The description of the given object.
      */
     public static String getDescription(PositionObject posObj) {
+        return getDescription(posObj, false);
+    }
+
+    /**
+     * Get a description of a CIF element in PLC context. This function supports continuous variables, discrete
+     * variables, input variables and events.
+     *
+     * @param posObj CIF element to describe.
+     * @param isDerivative Whether the derivative of the CIF element is intended. Is only used if the {@code posObj} is
+     *     a continuous variable.
+     * @return The description of the given object.
+     */
+    public static String getDescription(PositionObject posObj, boolean isDerivative) {
         if (posObj instanceof ContVariable) {
-            return "continuous variable \"" + getAbsName(posObj, false) + "\"";
+            String text = "continuous variable \"" + getAbsName(posObj, false) + "\"";
+            return (isDerivative ? "derivative of " : "") + text;
         } else if (posObj instanceof DiscVariable dvar) {
             if (dvar.getName().isEmpty()) { // ElimLocRef transformation introduces variables with enpty name.
                 Automaton aut = (Automaton)posObj.eContainer();

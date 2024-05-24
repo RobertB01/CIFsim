@@ -1084,6 +1084,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
                     // Compute and assign the sent value if it exists.
                     if (channelValueVar != null) {
+                        thenStatements.add(new PlcCommentLine("Compute sent channel value."));
                         genAssignExpr(new PlcVarExpression(channelValueVar), edge.sendValue, thenStatements);
                     }
 
@@ -1202,6 +1203,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 lhsResult = mainExprGen.convertVariableAddressable(lhs);
                 contvar = null;
             }
+            String varDesc = DocumentingSupport.getDescription(lhsResult.varDecl, lhsResult.isDerivativeAssigned());
+            statements.add(new PlcCommentLine(fmt("Perform update of %s.", varDesc)));
             statements.addAll(lhsResult.code);
             lhsResult.releaseCodeVariables();
             genAssignExpr(lhsResult.value, rhs, statements);
@@ -1256,6 +1259,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         if (!(lhs instanceof TupleExpression lhsTuple)) {
             // Left side is a single destination, the entire right side must be assigned to it.
             ExprAddressableResult lhsResult = mainExprGen.convertVariableAddressable(lhs);
+            String varDesc = DocumentingSupport.getDescription(lhsResult.varDecl, lhsResult.isDerivativeAssigned());
+            statements.add(new PlcCommentLine(fmt("Perform update of %s.", varDesc)));
             statements.addAll(lhsResult.code);
             lhsResult.releaseCodeVariables();
 
