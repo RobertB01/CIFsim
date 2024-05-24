@@ -15,7 +15,10 @@ package org.eclipse.escet.cif.plcgen.generators;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
@@ -94,6 +97,9 @@ public class PlcCodeStorage {
 
     /** Text lines of the PLC program header. */
     private final List<String> programHeaderTextLines;
+
+    /** Documentation data about complex components. */
+    private Map<ComplexComponent, ComponentDocData> componentDatas = null;
 
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
@@ -640,6 +646,26 @@ public class PlcCodeStorage {
         if (!first) {
             box.add(" *)");
         }
+    }
+
+    /**
+     * Store the given component documentation data.
+     *
+     * @param componentDatas Data to store.
+     */
+    public void addComponentDatas(Map<ComplexComponent, ComponentDocData> componentDatas) {
+        this.componentDatas = componentDatas;
+    }
+
+    /**
+     * Set the name of the edge selection variable of the automaton.
+     *
+     * @param aut Automaton that is related to the given edge selection variable.
+     * @param edgeVariableName Name of the edge selection variable.
+     */
+    public void setAutomatonEdgeVariableName(Automaton aut, String edgeVariableName) {
+        ComponentDocData compData = componentDatas.computeIfAbsent(aut, c -> new ComponentDocData(c));
+        compData.edgeVariableName = edgeVariableName;
     }
 
     /**

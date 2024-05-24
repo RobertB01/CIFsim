@@ -228,7 +228,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         if (edgeSelectionVariables.containsKey(aut)) {
             return;
         }
+
+        // Automaton does not have an edge variable yet, add it.
         String edgeVariableName = nameGen.generateGlobalName("edge_" + aut.getName(), false);
+        target.getCodeStorage().setAutomatonEdgeVariableName(aut, edgeVariableName);
 
         // TODO: Use a smaller integer for edge indexing.
         PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, PlcElementaryType.DINT_TYPE);
