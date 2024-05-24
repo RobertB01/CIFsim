@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Map;
@@ -183,7 +184,8 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             PlcBasicVariable b = exprGen.getTempVariable("timeOut", PlcElementaryType.BOOL_TYPE);
 
             List<PlcStatement> statements = listc(3);
-            statements.add(new PlcCommentLine("Update remaining time of \"" + plcContVar.variable.varName + "\"."));
+            statements.add(new PlcCommentLine(
+                    fmt("Update remaining time of %s.", DocumentingSupport.getDescription(contVar))));
 
             // Get the current timer state information by calling TON(PT := P, IN := TRUE, Q => B, ET => V);
             List<PlcNamedValue> arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),

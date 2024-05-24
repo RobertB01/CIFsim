@@ -436,7 +436,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private PlcCommentBlock genAnnounceEventBeingTried(CifEventTransition eventTrans) {
         CodeBox box = new MemoryCodeBox();
-        box.add("Try to perform event \"%s\".", getAbsName(eventTrans.event, false));
+        box.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
 
         CifType eventType = eventTrans.event.getType();
         if (eventType != null) {

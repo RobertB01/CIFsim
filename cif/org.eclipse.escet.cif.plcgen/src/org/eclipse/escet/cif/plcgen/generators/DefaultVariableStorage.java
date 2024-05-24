@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Map;
@@ -91,6 +92,11 @@ public class DefaultVariableStorage implements VariableStorage {
         // TODO Initialize the constants if not done in its declaration.
         statements.add(new PlcCommentLine("Initialize the state variables."));
         for (Declaration decl: varOrderer.computeOrder(true)) {
+            // Generate a comment about the CIF variable getting initialized.
+            String commentText = fmt("Initializing %s.", DocumentingSupport.getDescription(decl));
+            statements.add(new PlcCommentLine(commentText));
+
+            // Generate the initialization code.
             ExprValueResult exprResult;
             ContVariable assignedContVar;
             if (decl instanceof DiscVariable discVar) {
