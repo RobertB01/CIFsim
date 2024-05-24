@@ -136,14 +136,17 @@ WHILE isProgress DO
         (* Perform assignments of automaton "timer". *)
         IF edge_timer_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "timer.Running". *)
+            (* Perform update of current location of automaton "timer". *)
             timer := timer_Idle;
         END_IF;
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s6". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s8;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 1st edge in location "sup.s7". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s9;
         END_IF;
     END_IF;
@@ -216,23 +219,29 @@ WHILE isProgress DO
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s1". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s2;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 2nd edge in location "sup.s4". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s2;
         ELSIF edge_sup_1 = 3 THEN
             (* Perform assignments of the 2nd edge in location "sup.s5". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s3;
         ELSIF edge_sup_1 = 4 THEN
             (* Perform assignments of the 2nd edge in location "sup.s7". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s6;
         ELSIF edge_sup_1 = 5 THEN
             (* Perform assignments of the 2nd edge in location "sup.s9". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s8;
         END_IF;
         (* Perform assignments of automaton "hw_button". *)
         IF edge_hw_button_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_button.Released". *)
+            (* Perform update of current location of automaton "hw_button". *)
             hw_button := hw_button_Pushed;
         END_IF;
     END_IF;
@@ -305,23 +314,29 @@ WHILE isProgress DO
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 2nd edge in location "sup.s2". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s4;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 2nd edge in location "sup.s3". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s5;
         ELSIF edge_sup_1 = 3 THEN
             (* Perform assignments of the 2nd edge in location "sup.s6". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s7;
         ELSIF edge_sup_1 = 4 THEN
             (* Perform assignments of the 2nd edge in location "sup.s8". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s9;
         ELSIF edge_sup_1 = 5 THEN
             (* Perform assignments of the 1st edge in location "sup.s10". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s1;
         END_IF;
         (* Perform assignments of automaton "hw_button". *)
         IF edge_hw_button_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_button.Pushed". *)
+            (* Perform update of current location of automaton "hw_button". *)
             hw_button := hw_button_Released;
         END_IF;
     END_IF;
@@ -390,19 +405,23 @@ WHILE isProgress DO
         (* Perform assignments of automaton "timer". *)
         IF edge_timer_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "timer.Idle". *)
+            (* Perform update of continuous variable "timer.t". *)
             timer_t := 3.0;
             (* Reset timer of "timer_t". *)
             preset_timer_t := timer_t;
             ton_timer_t(IN := FALSE, PT := preset_timer_t);
             ton_timer_t(IN := TRUE, PT := preset_timer_t);
+            (* Perform update of current location of automaton "timer". *)
             timer := timer_Running;
         END_IF;
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s3". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s6;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 1st edge in location "sup.s5". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s7;
         END_IF;
     END_IF;
@@ -464,15 +483,19 @@ WHILE isProgress DO
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s2". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s3;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 1st edge in location "sup.s4". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s5;
         END_IF;
         (* Perform assignments of automaton "hw_lamp". *)
         IF edge_hw_lamp_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_lamp.Off". *)
+            (* Perform update of discrete variable "hw_lamp.bit". *)
             hw_lamp_bit := TRUE;
+            (* Perform update of current location of automaton "hw_lamp". *)
             hw_lamp := hw_lamp_On;
         END_IF;
     END_IF;
@@ -534,15 +557,19 @@ WHILE isProgress DO
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s8". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s10;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 1st edge in location "sup.s9". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s1;
         END_IF;
         (* Perform assignments of automaton "hw_lamp". *)
         IF edge_hw_lamp_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_lamp.On". *)
+            (* Perform update of discrete variable "hw_lamp.bit". *)
             hw_lamp_bit := FALSE;
+            (* Perform update of current location of automaton "hw_lamp". *)
             hw_lamp := hw_lamp_Off;
         END_IF;
     END_IF;

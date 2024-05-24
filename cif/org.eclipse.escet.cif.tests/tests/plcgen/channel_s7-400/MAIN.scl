@@ -215,15 +215,19 @@ BEGIN
             IF senderAut = 1 THEN
                 (* Automaton "S1" was selected. *)
                 IF edge_S1_1 = 1 THEN
+                    (* Compute sent channel value. *)
                     channelValue := 1;
                 END_IF;
             ELSIF senderAut = 2 THEN
                 (* Automaton "S2" was selected. *)
                 IF edge_S2_1 = 1 THEN
+                    (* Compute sent channel value. *)
                     channelValue := 2;
                     (* Perform assignments of the 1st edge in location "S2.A". *)
+                    (* Perform update of discrete variable "S2.vs2". *)
                     "DB".S2_vs2 := 2;
                 ELSIF edge_S2_1 = 2 THEN
+                    (* Compute sent channel value. *)
                     channelValue := 3;
                 END_IF;
             END_IF;
@@ -234,15 +238,18 @@ BEGIN
                 (* Automaton "R1" was selected. *)
                 IF edge_R1_1 = 1 THEN
                     (* Perform assignments of the 1st edge of automaton "R1". *)
+                    (* Perform update of discrete variable "R1.vr1". *)
                     "DB".R1_vr1 := channelValue;
                 END_IF;
             ELSIF receiverAut = 2 THEN
                 (* Automaton "R2" was selected. *)
                 IF edge_R2_1 = 1 THEN
                     (* Perform assignments of the 1st edge in location "R2.A". *)
+                    (* Perform update of discrete variable "R2.vr2". *)
                     "DB".R2_vr2 := channelValue;
                 ELSIF edge_R2_1 = 2 THEN
                     (* Perform assignments of the 1st edge in location "R2.B". *)
+                    (* Perform update of discrete variable "R2.vr2". *)
                     "DB".R2_vr2 := channelValue;
                 END_IF;
             END_IF;
@@ -258,6 +265,7 @@ BEGIN
             (* Perform assignments of automaton "M1". *)
             IF current_M1_vm1 = 1 THEN
                 (* Perform assignments of the 1st edge in location "M1.A". *)
+                (* Perform update of discrete variable "M1.vm1". *)
                 "DB".M1_vm1 := 1;
             END_IF;
             (* Automaton "M2" has no assignments to perform. *)

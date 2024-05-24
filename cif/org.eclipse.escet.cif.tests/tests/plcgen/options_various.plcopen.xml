@@ -155,6 +155,7 @@ WHILE isProgress AND loopCount &lt; 101 DO
         (* Perform assignments of automaton "p". *)
         IF edge_p_1 = 1 THEN
             (* Perform assignments of the 1st edge of automaton "p". *)
+            (* Perform update of continuous variable "p.t". *)
             p_t := 7.0;
             (* Reset timer of "p_t". *)
             preset_p_t := p_t;

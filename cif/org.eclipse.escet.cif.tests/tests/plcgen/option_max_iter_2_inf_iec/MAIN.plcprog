@@ -70,6 +70,7 @@ WHILE isProgress AND loopCount < 2 DO
         (* Perform assignments of automaton "p". *)
         IF edge_p_1 = 1 THEN
             (* Perform assignments of the 2nd edge of automaton "p". *)
+            (* Perform update of discrete variable "p.x". *)
             p_x := 11 - current_p_x;
         END_IF;
     END_IF;
@@ -119,6 +120,7 @@ WHILE isProgress DO
         (* Perform assignments of automaton "p". *)
         IF edge_p_1 = 1 THEN
             (* Perform assignments of the 1st edge of automaton "p". *)
+            (* Perform update of discrete variable "p.x". *)
             p_x := 7;
         END_IF;
     END_IF;
