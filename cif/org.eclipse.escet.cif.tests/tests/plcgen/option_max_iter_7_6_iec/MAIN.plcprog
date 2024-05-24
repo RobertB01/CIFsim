@@ -23,6 +23,7 @@ IF firstRun THEN
     loopsKilled := 0;
 
     (* Initialize the state variables. *)
+    (* Initializing discrete variable "p.x". *)
     p_x := 5;
 END_IF;
 
@@ -36,7 +37,7 @@ WHILE isProgress AND loopCount < 7 DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "u".
+     * Try to perform uncontrollable event "u".
      *
      * - Automaton "p" must always synchronize.
      *************************************************************)
@@ -88,7 +89,7 @@ WHILE isProgress AND loopCount < 6 DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "e".
+     * Try to perform controllable event "e".
      *
      * - Automaton "p" must always synchronize.
      *************************************************************)

@@ -45,32 +45,44 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    (* Initializing discrete variable "p.b". *)
     p_b := TRUE;
+    (* Initializing discrete variable "p.x". *)
     p_x := 0;
+    (* Initializing discrete variable "p.y". *)
     p_y := 1.23;
+    (* Initializing discrete variable "p.ve". *)
     p_ve := 0;
+    (* Initializing discrete variable "p.v1". *)
     p_v1 := 0;
+    (* Initializing discrete variable "p.v2". *)
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
     p_v2 := litStruct;
+    (* Initializing discrete variable "p.v3". *)
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
     litStruct_1.field1 := litStruct;
     litStruct_1.field2 := 0.0;
     p_v3 := litStruct_1;
+    (* Initializing discrete variable "p.tv". *)
     litStruct_2.field1 := 0;
     litStruct_2.field2 := 0;
     p_tv := litStruct_2;
+    (* Initializing discrete variable "p.j". *)
     p_j := 0;
+    (* Initializing discrete variable "p.r". *)
     p_r := 1000000.0;
+    (* Initializing continuous variable "p.t". *)
     p_t := 0.0;
     (* Reset timer of "p_t". *)
     preset_p_t := p_t;
     ton_p_t(IN := FALSE, PT := preset_p_t);
     ton_p_t(IN := TRUE, PT := preset_p_t);
+    (* Initializing current location of automaton "p". *)
     p := 0;
 ELSE
-    (* Update remaining time of "p_t". *)
+    (* Update remaining time of continuous variable "p.t". *)
     ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
     p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
 END_IF;
@@ -82,7 +94,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "p.evt".
+     * Try to perform controllable event "p.evt".
      *
      * - Automaton "p" must always synchronize.
      *************************************************************)

@@ -23,6 +23,7 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    (* Initializing discrete variable "p.x". *)
     p_x := 5;
 END_IF;
 
@@ -33,7 +34,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "u".
+     * Try to perform uncontrollable event "u".
      *
      * - Automaton "p" must always synchronize.
      *************************************************************)
@@ -78,7 +79,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "e".
+     * Try to perform controllable event "e".
      *
      * - Automaton "p" must always synchronize.
      *************************************************************)

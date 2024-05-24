@@ -44,17 +44,29 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    (* Initializing discrete variable "S1.vs1". *)
     S1_vs1 := 0;
+    (* Initializing discrete variable "S2.vs2". *)
     S2_vs2 := 0;
+    (* Initializing current location of automaton "S2". *)
     S2 := S2_A;
+    (* Initializing discrete variable "R1.vr1". *)
     R1_vr1 := 0;
+    (* Initializing discrete variable "R2.vr2". *)
     R2_vr2 := 0;
+    (* Initializing current location of automaton "R2". *)
     R2 := S2_A;
+    (* Initializing discrete variable "Y1.vy1". *)
     Y1_vy1 := 0;
+    (* Initializing discrete variable "Y2.vy2". *)
     Y2_vy2 := 0;
+    (* Initializing current location of automaton "Y2". *)
     Y2 := S2_A;
+    (* Initializing discrete variable "M1.vm1". *)
     M1_vm1 := 0;
+    (* Initializing discrete variable "M2.vm2". *)
     M2_vm2 := 0;
+    (* Initializing current location of automaton "M2". *)
     M2 := S2_A;
 END_IF;
 
@@ -65,7 +77,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "c".
+     * Try to perform controllable event "c".
      *
      * - One automaton must send a value.
      *    - Automaton "S1" may send a value.

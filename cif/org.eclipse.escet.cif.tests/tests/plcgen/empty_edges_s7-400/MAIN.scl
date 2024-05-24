@@ -23,6 +23,7 @@ BEGIN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
+        (* Initializing discrete variable "Good.x". *)
         "DB".Good_x := 0;
     END_IF;
 
@@ -33,7 +34,7 @@ BEGIN
         isProgress := FALSE;
 
         (*************************************************************
-         * Try to perform event "noSync".
+         * Try to perform controllable event "noSync".
          *
          * - Automaton "Good" must always synchronize.
          * - Automaton "Block" must always synchronize.
@@ -84,7 +85,7 @@ BEGIN
         END_IF;
 
         (*************************************************************
-         * Try to perform event "noMonitor".
+         * Try to perform controllable event "noMonitor".
          *
          * - Automaton "Good" must always synchronize.
          *
@@ -129,7 +130,7 @@ BEGIN
         END_IF;
 
         (*************************************************************
-         * Try to perform event "channel".
+         * Try to perform controllable event "channel".
          *
          * - An automaton that must send a value is missing, so the event cannot occur.
          *

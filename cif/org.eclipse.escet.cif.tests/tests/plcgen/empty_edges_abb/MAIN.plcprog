@@ -25,6 +25,7 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    (* Initializing discrete variable "Good.x". *)
     Good_x := 0;
 END_IF;
 
@@ -35,7 +36,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "noSync".
+     * Try to perform controllable event "noSync".
      *
      * - Automaton "Good" must always synchronize.
      * - Automaton "Block" must always synchronize.
@@ -86,7 +87,7 @@ WHILE isProgress DO
     END_IF;
 
     (*************************************************************
-     * Try to perform event "noMonitor".
+     * Try to perform controllable event "noMonitor".
      *
      * - Automaton "Good" must always synchronize.
      *
@@ -131,7 +132,7 @@ WHILE isProgress DO
     END_IF;
 
     (*************************************************************
-     * Try to perform event "channel".
+     * Try to perform controllable event "channel".
      *
      * - An automaton that must send a value is missing, so the event cannot occur.
      *

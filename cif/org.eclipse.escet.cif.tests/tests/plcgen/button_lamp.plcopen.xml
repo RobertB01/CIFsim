@@ -242,6 +242,7 @@
  *)
 
 (* --- Read input from sensors. -------------------------------------------- *)
+(* Read PLC input and write it to input variable "hw_button.bit". *)
 hw_button_bit := in_hw_button_bit;
 
 (* --- Initialize state or update continuous variables. -------------------- *)
@@ -249,18 +250,24 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    (* Initializing continuous variable "timer.t". *)
     timer_t := 0.0;
     (* Reset timer of "timer_t". *)
     preset_timer_t := timer_t;
     ton_timer_t(IN := FALSE, PT := preset_timer_t);
     ton_timer_t(IN := TRUE, PT := preset_timer_t);
+    (* Initializing current location of automaton "timer". *)
     timer := timer_Idle;
+    (* Initializing current location of automaton "sup". *)
     sup := sup_s1;
+    (* Initializing current location of automaton "hw_button". *)
     hw_button := hw_button_Released;
+    (* Initializing discrete variable "hw_lamp.bit". *)
     hw_lamp_bit := FALSE;
+    (* Initializing current location of automaton "hw_lamp". *)
     hw_lamp := hw_lamp_Off;
 ELSE
-    (* Update remaining time of "timer_t". *)
+    (* Update remaining time of continuous variable "timer.t". *)
     ton_timer_t(IN := TRUE, PT := preset_timer_t, Q =&gt; timeOut, ET =&gt; curValue);
     timer_t := SEL(timeOut, preset_timer_t - curValue, 0.0);
 END_IF;
@@ -272,7 +279,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "timer.timeout".
+     * Try to perform uncontrollable event "timer.timeout".
      *
      * - Automaton "timer" must always synchronize.
      * - Automaton "sup" must always synchronize.
@@ -340,7 +347,7 @@ WHILE isProgress DO
     END_IF;
 
     (*************************************************************
-     * Try to perform event "button.push".
+     * Try to perform uncontrollable event "button.push".
      *
      * - Automaton "sup" must always synchronize.
      * - Automaton "hw_button" must always synchronize.
@@ -429,7 +436,7 @@ WHILE isProgress DO
     END_IF;
 
     (*************************************************************
-     * Try to perform event "button.release".
+     * Try to perform uncontrollable event "button.release".
      *
      * - Automaton "sup" must always synchronize.
      * - Automaton "hw_button" must always synchronize.
@@ -525,7 +532,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "timer.start".
+     * Try to perform controllable event "timer.start".
      *
      * - Automaton "timer" must always synchronize.
      * - Automaton "sup" must always synchronize.
@@ -599,7 +606,7 @@ WHILE isProgress DO
     END_IF;
 
     (*************************************************************
-     * Try to perform event "lamp.on".
+     * Try to perform controllable event "lamp.on".
      *
      * - Automaton "sup" must always synchronize.
      * - Automaton "hw_lamp" must always synchronize.
@@ -669,7 +676,7 @@ WHILE isProgress DO
     END_IF;
 
     (*************************************************************
-     * Try to perform event "lamp.off".
+     * Try to perform controllable event "lamp.off".
      *
      * - Automaton "sup" must always synchronize.
      * - Automaton "hw_lamp" must always synchronize.
@@ -740,6 +747,7 @@ WHILE isProgress DO
 END_WHILE;
 
 (* --- Write output to actuators. ------------------------------------------ *)
+(* Write discrete variable "hw_lamp.bit" to PLC output. *)
 out_hw_lamp_bit := hw_lamp_bit;</xhtml>
           </ST>
         </body>

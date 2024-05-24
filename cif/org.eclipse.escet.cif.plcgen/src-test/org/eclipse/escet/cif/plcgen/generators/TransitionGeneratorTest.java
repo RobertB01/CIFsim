@@ -202,7 +202,7 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (*************************************************************
-                 * Try to perform event "sendEvent".
+                 * Try to perform controllable event "sendEvent".
                  *
                  * - One automaton must send a value.
                  *    - Automaton "aut1" may send a value.
@@ -313,7 +313,7 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (*************************************************************
-                 * Try to perform event "channelEvent".
+                 * Try to perform controllable event "channelEvent".
                  *
                  * - One automaton must send a value.
                  *    - Automaton "sender1" may send a value.

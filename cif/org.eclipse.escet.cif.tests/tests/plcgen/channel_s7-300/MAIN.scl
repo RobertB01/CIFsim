@@ -28,17 +28,29 @@ BEGIN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
+        (* Initializing discrete variable "S1.vs1". *)
         "DB".S1_vs1 := 0;
+        (* Initializing discrete variable "S2.vs2". *)
         "DB".S2_vs2 := 0;
+        (* Initializing current location of automaton "S2". *)
         "DB".S2 := 0;
+        (* Initializing discrete variable "R1.vr1". *)
         "DB".R1_vr1 := 0;
+        (* Initializing discrete variable "R2.vr2". *)
         "DB".R2_vr2 := 0;
+        (* Initializing current location of automaton "R2". *)
         "DB".R2 := 0;
+        (* Initializing discrete variable "Y1.vy1". *)
         "DB".Y1_vy1 := 0;
+        (* Initializing discrete variable "Y2.vy2". *)
         "DB".Y2_vy2 := 0;
+        (* Initializing current location of automaton "Y2". *)
         "DB".Y2 := 0;
+        (* Initializing discrete variable "M1.vm1". *)
         "DB".M1_vm1 := 0;
+        (* Initializing discrete variable "M2.vm2". *)
         "DB".M2_vm2 := 0;
+        (* Initializing current location of automaton "M2". *)
         "DB".M2 := 0;
     END_IF;
 
@@ -49,7 +61,7 @@ BEGIN
         isProgress := FALSE;
 
         (*************************************************************
-         * Try to perform event "c".
+         * Try to perform controllable event "c".
          *
          * - One automaton must send a value.
          *    - Automaton "S1" may send a value.

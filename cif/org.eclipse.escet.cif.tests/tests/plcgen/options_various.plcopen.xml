@@ -98,14 +98,16 @@ IF firstRun THEN
     loopsKilled := 0;
 
     (* Initialize the state variables. *)
+    (* Initializing discrete variable "p.x". *)
     p_x := 5;
+    (* Initializing continuous variable "p.t". *)
     p_t := 0.0;
     (* Reset timer of "p_t". *)
     preset_p_t := p_t;
     ton_p_t(IN := FALSE, PT := preset_p_t);
     ton_p_t(IN := TRUE, PT := preset_p_t);
 ELSE
-    (* Update remaining time of "p_t". *)
+    (* Update remaining time of continuous variable "p.t". *)
     ton_p_t(IN := TRUE, PT := preset_p_t, Q =&gt; timeOut, ET =&gt; curValue);
     p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
 END_IF;
@@ -120,7 +122,7 @@ WHILE isProgress AND loopCount &lt; 101 DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "e".
+     * Try to perform uncontrollable event "e".
      *
      * - Automaton "p" must always synchronize.
      *************************************************************)

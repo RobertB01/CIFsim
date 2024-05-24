@@ -30,32 +30,44 @@ BEGIN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
+        (* Initializing discrete variable "p.b". *)
         "DB".p_b := TRUE;
+        (* Initializing discrete variable "p.x". *)
         "DB".p_x := 0;
+        (* Initializing discrete variable "p.y". *)
         "DB".p_y := 1.23;
+        (* Initializing discrete variable "p.ve". *)
         "DB".p_ve := 0;
+        (* Initializing discrete variable "p.v1". *)
         "DB".p_v1 := 0;
+        (* Initializing discrete variable "p.v2". *)
         litStruct.field1 := 0.0;
         litStruct.field2 := 0.0;
         "DB".p_v2 := litStruct;
+        (* Initializing discrete variable "p.v3". *)
         litStruct.field1 := 0.0;
         litStruct.field2 := 0.0;
         litStruct_1.field1 := litStruct;
         litStruct_1.field2 := 0.0;
         "DB".p_v3 := litStruct_1;
+        (* Initializing discrete variable "p.tv". *)
         litStruct_2.field1 := 0;
         litStruct_2.field2 := 0;
         "DB".p_tv := litStruct_2;
+        (* Initializing discrete variable "p.j". *)
         "DB".p_j := 0;
+        (* Initializing discrete variable "p.r". *)
         "DB".p_r := 1000000.0;
+        (* Initializing continuous variable "p.t". *)
         "DB".p_t := 0.0;
         (* Reset timer of "p_t". *)
         "DB".preset_p_t := "DB".p_t;
         ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
+        (* Initializing current location of automaton "p". *)
         "DB".p := 0;
     ELSE
-        (* Update remaining time of "p_t". *)
+        (* Update remaining time of continuous variable "p.t". *)
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
         "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
@@ -67,7 +79,7 @@ BEGIN
         isProgress := FALSE;
 
         (*************************************************************
-         * Try to perform event "p.evt".
+         * Try to perform controllable event "p.evt".
          *
          * - Automaton "p" must always synchronize.
          *************************************************************)

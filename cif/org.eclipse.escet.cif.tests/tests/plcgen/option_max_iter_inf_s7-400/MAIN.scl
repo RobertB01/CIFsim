@@ -18,6 +18,7 @@ BEGIN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
+        (* Initializing discrete variable "p.x". *)
         "DB".p_x := 5;
     END_IF;
 
@@ -28,7 +29,7 @@ BEGIN
         isProgress := FALSE;
 
         (*************************************************************
-         * Try to perform event "u".
+         * Try to perform uncontrollable event "u".
          *
          * - Automaton "p" must always synchronize.
          *************************************************************)
@@ -73,7 +74,7 @@ BEGIN
         isProgress := FALSE;
 
         (*************************************************************
-         * Try to perform event "e".
+         * Try to perform controllable event "e".
          *
          * - Automaton "p" must always synchronize.
          *************************************************************)

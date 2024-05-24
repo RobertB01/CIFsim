@@ -36,22 +36,30 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    (* Initializing continuous variable "c". *)
     c := 0.0;
     (* Reset timer of "c". *)
     preset_c := c;
     ton_c(IN := FALSE, PT := preset_c);
     ton_c(IN := TRUE, PT := preset_c);
+    (* Initializing discrete variable "aut.r". *)
     aut_r := 0.0;
+    (* Initializing discrete variable "aut.b". *)
     aut_b := FALSE;
+    (* Initializing discrete variable "aut.i". *)
     aut_i := 0;
+    (* Initializing discrete variable "aut.tii". *)
     litStruct.field1 := 0;
     litStruct.field2 := 0;
     aut_tii := litStruct;
+    (* Initializing discrete variable "aut.i2". *)
     aut_i2 := 1;
+    (* Initializing discrete variable "aut.i3". *)
     aut_i3 := 1;
+    (* Initializing current location of automaton "aut". *)
     aut := aut_l1;
 ELSE
-    (* Update remaining time of "c". *)
+    (* Update remaining time of continuous variable "c". *)
     ton_c(IN := TRUE, PT := preset_c, Q => timeOut, ET => curValue);
     c := SEL(timeOut, preset_c - curValue, 0.0);
 END_IF;
@@ -63,7 +71,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "aut.f".
+     * Try to perform uncontrollable event "aut.f".
      *
      * - Automaton "aut" must always synchronize.
      *************************************************************)
@@ -106,7 +114,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "aut.e".
+     * Try to perform controllable event "aut.e".
      *
      * - Automaton "aut" must always synchronize.
      *************************************************************)
