@@ -984,7 +984,8 @@ class AsciiDocHtmlModifier {
                     // file. Note that the page source ID may be 'null' if this virtual TOC entry is a virtual TOC entry
                     // with a target on the root page.
                     Verify.verifyNotNull(breadcrumbRefId);
-                    Verify.verify(breadcrumbRefId.startsWith(VIRTUAL_TOC_ENTRY_PREFIX), breadcrumbRefId);
+                    Verify.verify(breadcrumbRefId.startsWith(VIRTUAL_TOC_ENTRY_PREFIX),
+                            breadcrumbRefId + " / " + pageSourceId);
                     singlePageId = VIRTUAL_TOC_TARGET_PREFIX
                             + breadcrumbRefId.substring(VIRTUAL_TOC_ENTRY_PREFIX.length());
                 }
