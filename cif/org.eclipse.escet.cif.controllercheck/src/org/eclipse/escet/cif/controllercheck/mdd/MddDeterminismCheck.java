@@ -81,7 +81,6 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
         for (Edge edge: loc.getEdges()) {
             for (EdgeEvent ee: edge.getEvents()) {
                 if (env.isTerminationRequested()) {
-                    violations.clear();
                     return;
                 }
 
@@ -103,7 +102,6 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
         EVENT:
         for (Entry<Event, List<List<Expression>>> entry: edgesPredsByEvent.entrySet()) {
             if (env.isTerminationRequested()) {
-                violations.clear();
                 return;
             }
 
@@ -119,7 +117,6 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
                 Node edgeGuardsNode = builder.getExpressionConvertor().convert(edgeGuards).get(1);
                 edgesGuardsNodes.add(edgeGuardsNode);
                 if (env.isTerminationRequested()) {
-                    violations.clear();
                     return;
                 }
             }
@@ -130,7 +127,6 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
                 for (int j = i + 1; j < edgesGuardsNodes.size(); j++) {
                     Node overlap = builder.tree.conjunct(edgesGuardsNodes.get(i), edgesGuardsNodes.get(j));
                     if (env.isTerminationRequested()) {
-                        violations.clear();
                         return;
                     }
 

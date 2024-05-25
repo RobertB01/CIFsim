@@ -69,15 +69,6 @@ public class CifCheckViolations {
     }
 
     /**
-     * Removes all violations collected so far. This method should generally not be used, as checks should only collect
-     * more violations. But, it may be useful in case of long-running checks, to not report partial violations in case
-     * of a termination request.
-     */
-    public void clear() {
-        violations.clear();
-    }
-
-    /**
      * Add a violation.
      *
      * @param reportObject The CIF object for which the violation is to be reported.
