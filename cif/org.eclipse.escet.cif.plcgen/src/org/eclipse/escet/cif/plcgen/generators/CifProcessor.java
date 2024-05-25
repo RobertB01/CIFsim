@@ -24,6 +24,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
@@ -112,6 +113,9 @@ public class CifProcessor {
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
 
+    /** Callback that indicates whether execution should be terminated on user request. */
+    private final BooleanSupplier shouldTerminate;
+
     /** CIF specification being processed, is {@code null} until the specification has been checked and normalized. */
     private Specification spec = null;
 
@@ -126,6 +130,7 @@ public class CifProcessor {
         inputPaths = settings.inputPaths;
         simplifyValues = settings.simplifyValues;
         warnOutput = settings.warnOutput;
+        shouldTerminate = settings.shouldTerminate;
     }
 
     /** Process the input CIF specification, extracting the relevant information for PLC code generation. */
@@ -133,7 +138,7 @@ public class CifProcessor {
         // Read CIF specification.
         Specification spec = new CifReader().init(inputPaths.userPath, inputPaths.systemPath, false).read();
         widenSpec(spec);
-        preCheckSpec(spec, inputPaths.systemPath);
+        preCheckSpec(spec, inputPaths.systemPath, shouldTerminate);
         normalizeSpec(spec);
         this.spec = spec; // Store the specification for querying.
 
@@ -542,9 +547,10 @@ public class CifProcessor {
      *
      * @param spec Specification to check.
      * @param absSpecPath The absolute local file system path to the CIF file to check.
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      */
-    private void preCheckSpec(Specification spec, String absSpecPath) {
-        PlcGenPreChecker checker = new PlcGenPreChecker(target.supportsArrays());
+    private void preCheckSpec(Specification spec, String absSpecPath, BooleanSupplier shouldTerminate) {
+        PlcGenPreChecker checker = new PlcGenPreChecker(target.supportsArrays(), shouldTerminate);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF PLC code generator");
     }
 
@@ -554,9 +560,11 @@ public class CifProcessor {
          * Constructor of the {@link PlcGenPreChecker} class.
          *
          * @param supportArrays Whether the target supports arrays.
+         * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
          */
-        public PlcGenPreChecker(boolean supportArrays) {
-            super(
+        public PlcGenPreChecker(boolean supportArrays, BooleanSupplier shouldTerminate) {
+            super(shouldTerminate,
+
                     // At least one automaton.
                     new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
 

@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.controllercheck.mdd;
 
+import java.util.function.BooleanSupplier;
+
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoMultiAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoPartialVarAssignCheck;
@@ -34,9 +36,14 @@ import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
  * specification.
  */
 public class MddPreChecker extends CifPreconditionChecker {
-    /** Constructor for the {@link MddPreChecker} class. */
-    public MddPreChecker() {
-        super(
+    /**
+     * Constructor for the {@link MddPreChecker} class.
+     *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     */
+    public MddPreChecker(BooleanSupplier shouldTerminate) {
+        super(shouldTerminate,
+
                 // Channels (events with data types) are not supported.
                 new EventNoChannelsCheck(),
 

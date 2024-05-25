@@ -86,6 +86,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
@@ -158,7 +159,7 @@ public class CifToUppaal {
         new EnumsToInts().transform(spec);
 
         // Check preconditions.
-        CifToUppaalPreChecker checker = new CifToUppaalPreChecker();
+        CifToUppaalPreChecker checker = new CifToUppaalPreChecker(() -> AppEnv.isTerminationRequested());
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF to UPPAAL transformation");
 
         // Collect various things from the CIF specification.

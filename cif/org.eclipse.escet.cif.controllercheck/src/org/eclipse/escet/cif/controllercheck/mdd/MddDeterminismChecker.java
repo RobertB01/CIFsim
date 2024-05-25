@@ -28,6 +28,6 @@ public class MddDeterminismChecker extends CifPreconditionChecker {
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      */
     public MddDeterminismChecker(BooleanSupplier shouldTerminate) {
-        super(new MddDeterminismCheck(shouldTerminate));
+        super(shouldTerminate, new MddDeterminismCheck(shouldTerminate));
     }
 }

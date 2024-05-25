@@ -29,7 +29,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
@@ -181,7 +181,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         ConvertEnums enumConversion = ConvertEnumsOption.getValue();
 
         // Required invariant: Once it returns true, it must return true on subsequent calls.
-        Supplier<Boolean> shouldTerminate = () -> AppEnv.isTerminationRequested();
+        BooleanSupplier shouldTerminate = () -> AppEnv.isTerminationRequested();
 
         boolean warnOnRename = RenameWarningsOption.isEnabled();
         WarnOutput warnOutput = OutputProvider.getWarningOutputStream();
