@@ -16,13 +16,18 @@ include::../_part_attributes.asciidoc[]
 [[tools-controller-checker-confluence]]
 == Confluence
 
-The confluence property of a model says that a computed decision is always the same, no matter how you computed it.
-While computing a response, a model may have several different edges enabled at the same time.
-A controller then has a choice which edge to perform first.
-With the confluence property, the controller may make any choice between edges that it desires, but the reached decision is always the same.
+The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for having confluence.
+
+The confluence property holds if for each execution of the controllable events, it does not matter in which order the <<sbe-approaches-synthesis-based-events,controllable events>> are executed, as the same state is reached regardless.
+Thus, if multiple transitions for controllable events are enabled at the same, it does not matter which transitions for controllable event are chosen and in which order, as the end result is the same.
+This property ensures that if the code generator makes a choice to execute events in a certain order, this does not affect the <<sbe-approaches-synthesis-based-properties,guarantees of synthesis>>.
+
+This check does not check for confluence of the <<sbe-approaches-synthesis-based-events,uncontrollable events>>.
+Furthermore, the check may produce <<tools-controller-checker-confluence-falsenegs,false negatives>>.
+
+=== Examples
 
 The check verifies that for every state in the model with several edges enabled at the same time, any taken edge will lead to the same decision.
-
 The `Actuator` automaton below has two different edges with controllable events from the same location, but only one of them can be enabled at the same time since the `Sensor` automaton cannot be in two locations at the same time.
 As a result, the automaton does not need to choose between edges and the model is confluent.
 
@@ -49,10 +54,8 @@ plant Sensor:
 end
 ----
 
-Note that the confluence property can only hold for models with finite response.
-The controller must first always reach a decision before you can consider uniqueness of it.
-
-indexterm:[controller properties checker confluence property,implementation]
+Note that the confluence property can only hold for models with <<tools-controller-checker-finite-response,finite response>>.
+Only if a controller determines it control responses in a finite number of steps, does it matter whether the control response is then always the same.
 
 === Implementation details
 
@@ -68,7 +71,7 @@ edge a when x = 10 goto ...;
 
 edge b when x = 12 goto ...;
 ----
-The guard holds for at most one of the edges, it is impossible to pick a 'wrong' edge.
+The guard holds for at most one of the edges, and thus it is impossible to pick a 'wrong' edge.
 This case also applies if the edges start from different locations in the same automaton.
 
 Update equivalence::
@@ -80,7 +83,7 @@ edge a do x := 5 goto P;
 
 edge b do x := 5 goto P;
 ----
-As either event has the same effect, which edge is taken does not matter.
+As either event has the same effect, it does not matter which edge is taken.
 
 Independence::
 The edge with the first event leads to a state with an edge with the second event and vice versa.
@@ -118,8 +121,8 @@ A pair of unrelated events may or may not occur.
 +
 [source,cif]
 ----
-location P:
-  edge a goto Q;
+  location P:
+    edge a goto Q;
 
 automaton Z:
   location A:
@@ -132,14 +135,12 @@ However, if the edge with event `b` is taken first, then after event `a`, a thir
 Therefore it does not matter whether events `b` and `c` are taken, since they cancel each other out.
 
 If a match can be found for all pairs, the checker concludes that the confluence property holds.
-Otherwise, it says that a proof of the confluence property could not be found.
-As the check is an over-approximation, there may be <<tools-controllercheck-confluence-falsenegs,false negatives>> (the property holds but that could not be proven due to limitations in the checks).
+Otherwise, it indicates that a proof of the confluence property could not be found.
+As the check is an over-approximation, there may be <<tools-controller-checker-confluence-falsenegs,false negatives>> (the property holds but that could not be proven due to limitations in the checks).
 
 This algorithm is based on <<reijnen19>>.
 
-indexterm:[controller properties checker confluence property,false negatives]
-
-[[tools-controllercheck-confluence-falsenegs]]
+[[tools-controller-checker-confluence-falsenegs]]
 === False negatives
 
 The confluence check is an over-approximation of edges for controllable event pairs.
@@ -154,3 +155,5 @@ False negatives may be reported in the following situations:
 * Guard conditions or assigned values have no effect if you take the reachable state space into account.
 
 By using the <<tools-chapter-cif-explorer,CIF explorer>> before performing the check some of the above causes are eliminated.
+
+Note that besides false negatives, the result of this check may be <<tools-controller-checker-runtime-errors,incorrect for models with runtime errors>>.

@@ -32,15 +32,17 @@ The controller properties checker assume a certain structure of code generated b
 
 The controller checker can check the following properties:
 
-Confluence::
+<<tools-controller-checker-confluence,Confluence>>::
 The confluence property holds if for each execution of the controllable events, it does not matter in which order the controllable events are executed, as the same state is reached regardless.
 This property ensures that if the code generator makes a choice to execute events in a certain order, this does not affect the <<sbe-approaches-synthesis-based-properties,guarantees of synthesis>>.
 In other words, it does not matter which transitions for controllable event are chosen and in which order, as the end result is the same.
 +
 This check does not check for confluence of the uncontrollable events.
 Furthermore, the check may produce false negatives.
++
+Read more about this check on the <<tools-controller-checker-confluence,confluence check>> page.
 
-Finite response::
+<<tools-controller-checker-finite-response,Finite response>>::
 The finite response property holds if for each execution of the code, the number of controllable events to execute is finite.
 This property ensures that the code that executes the controllable events always terminates.
 That is, the system has no loops with only controllable events.
@@ -48,6 +50,8 @@ In other words, there is no <<lang-tut-time-livelock,livelock>> for controllable
 +
 This check does not check for finite response of the uncontrollable events.
 Furthermore, the check may produce false negatives.
++
+Read more about this check on the <<tools-controller-checker-finite-response,finite response check>> page.
 
 indexterm:[controller properties checker,start]
 
@@ -73,13 +77,13 @@ Besides the general application options, this application has the following opti
 
 * _Input file path_: The absolute or relative file system path to the input CIF specification.
 
+* _Enable confluence checking_: If set (the default), confluence is checked in the CIF specification.
+If unset, confluence checking is not performed.
+
 * _Enable finite response checking_: If set (the default), finite response is checked in the CIF specification.
 If unset, finite response checking is not performed.
 
 * _Print control loops_: If set (the default), during finite response checking the events that may still occur in a controllable-event loop are printed to the console.
-
-* _Enable confluence checking_: If set (the default), confluence is checked in the CIF specification.
-If unset, confluence checking is not performed.
 
 At least one of the checks must be enabled.
 
@@ -161,11 +165,11 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 
 indexterm:[controller properties checker property,runtime errors]
 
-[tools-controllercheck-runtime-errors]
+[[tools-controller-checker-runtime-errors]]
 === Runtime errors
 
 The model is assumed not to contain runtime errors, such as division by zero, modulus of zero, or assigning out of bounds values.
-The checker silently discards any such behavior.
+Since the checker silently discards any such behavior, the outcome of the various checks may be incorrect if the model exhibits behavior leading to runtime errors.
 
 When PLC code is generated for models with runtime errors, the properties cannot be guaranteed as the resulting code may not behave as the CIF specification (see <<tools-cif2plc-generatedcode,generated code>>).
 
