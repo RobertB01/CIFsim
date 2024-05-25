@@ -32,6 +32,16 @@ The controller properties checker assume a certain structure of code generated b
 
 The controller checker can check the following properties:
 
+<<tools-controller-checker-bounded-response,Bounded response>>::
+The bounded response property holds if for each execution of the code, the number of uncontrollable and controllable events to execute are both bounded.
+This property ensures that the code that executes the uncontrollable events, as well as the code that executes the controllable events, always terminate.
+That is, the system has no loops with only uncontrollable events, or with only controllable events.
+In other words, there is no <<lang-tut-time-livelock,livelock>> for uncontrollable events, nor for controllable events.
++
+This check does not produce false negatives.
++
+Read more about this check on the <<tools-controller-checker-bounded-response,bounded response check>> page.
+
 <<tools-controller-checker-confluence,Confluence>>::
 The confluence property holds if for each execution of the controllable events, it does not matter in which order the controllable events are executed, as the same state is reached regardless.
 This property ensures that if the code generator makes a choice to execute events in a certain order, this does not affect the <<sbe-approaches-synthesis-based-properties,guarantees of synthesis>>.
@@ -50,6 +60,7 @@ In other words, there is no <<lang-tut-time-livelock,livelock>> for controllable
 +
 This check does not check for finite response of the uncontrollable events.
 Furthermore, the check may produce false negatives.
+Hence, it is recommended to use the bounded response check instead.
 +
 Read more about this check on the <<tools-controller-checker-finite-response,finite response check>> page.
 
@@ -76,6 +87,9 @@ indexterm:[controller properties checker,options]
 Besides the general application options, this application has the following options:
 
 * _Input file path_: The absolute or relative file system path to the input CIF specification.
+
+* _Enable bounded response checking_: If set (the default), bounded response is checked in the CIF specification.
+If unset, bounded response checking is not performed.
 
 * _Enable confluence checking_: If set (the default), confluence is checked in the CIF specification.
 If unset, confluence checking is not performed.

@@ -722,6 +722,8 @@ include::tools/controller-checker/index.asciidoc[]
 
 :leveloffset: +2
 
+include::tools/controller-checker/bounded-response.asciidoc[]
+
 include::tools/controller-checker/confluence.asciidoc[]
 
 include::tools/controller-checker/finite-response.asciidoc[]

@@ -25,6 +25,7 @@ In other words, there is no <<lang-tut-time-livelock,livelock>> for controllable
 
 This check does not check for finite response of the <<sbe-approaches-synthesis-based-events,uncontrollable events>>.
 Furthermore, the check may produce <<tools-controller-checker-finite-response-falsenegs,false negatives>>.
+Hence, it is recommended to use the <<tools-controller-checker-bounded-response,bounded response check>> instead.
 
 === Examples
 
@@ -102,6 +103,7 @@ This algorithm is based on <<reijnen19>>.
 The finite response check is an over-approximation of the existence of controllable event-loops.
 As a result, the check might indicate that the specification may not have finite response, while in reality it has finite response.
 When the check indicates that there is finite response, this is always correct.
+The <<tools-controller-checker-finite-response,bounded response check>> does not suffer from false negatives, and is recommended to be used instead of the finite response check.
 
 False negatives may be reported in the following situations:
 * Loops exist in the non-reachable part of the statespace.

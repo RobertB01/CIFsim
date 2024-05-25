@@ -1,0 +1,100 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-controller-checker-bounded-response]]
+== Bounded response check
+
+The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for having bounded response.
+
+The bounded response property holds if for each execution of the code, the number of <<sbe-approaches-synthesis-based-events,uncontrollable and controllable events>> to execute are both bounded.
+This property ensures that the code that executes the uncontrollable events, as well as the code that executes the controllable events, always terminate.
+That is, the system has no loops with only uncontrollable events, or with only controllable events.
+In other words, there is no <<lang-tut-time-livelock,livelock>> for uncontrollable events, nor for controllable events.
+
+=== Examples
+
+The check verifies lack of event loops that consist of only uncontrollable or only controllable events.
+For example, the `Actuator` automaton in the example below has bounded response, because between event `c_on` and `c_off`, the location of `Sensor` has to change via an uncontrollable event.
+The `Sensor` automaton does not have bounded response, as the sensor can keep go on and off forever, without restrictions.
+
+[source, cif]
+----
+plant Actuator:
+  controllable c_on, c_off;
+
+  location Off:
+    initial;
+    edge c_on when Sensor.On goto On;
+  location On:
+    edge c_off when Sensor.Off goto Off;
+end
+
+plant Sensor:
+  uncontrollable u_on, u_off;
+
+  location Off:
+    initial;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end
+----
+
+The model below also does not have bounded response.
+Whenever `StartButton` and `StopButton` are both equal to `true`, the motor keeps starting and stopping.
+
+[source, cif]
+----
+input bool StartButton, StopButton;
+
+plant Motor:
+  controllable c_on, c_off;
+
+  location Off:
+    initial;
+    edge c_on when StartButton goto On;
+  location On:
+    edge c_off when StopButton goto Off;
+end
+----
+
+=== Implementation details
+
+Bounded response for a model is determined as follows:
+
+* Compute the reachable states (`R`) of the system.
++
+Transitions for all events are considered.
+Input variables can also change their value to any other value, at any time.
+* Compute the bound for the uncontrollable events.
+* Compute the bound for the controllable events.
+
+Given the reachable states, computing a bound is done as follows:
+
+. If there are no reachable states, the system can't be initialized, and the bound is zero.
+. Consider the reachable states _R_ as states that can be reached after applying zero transitions from any reachable state.
+We call these states _R0_.
+. Take all possible transitions from states in _R0_.
+The resulting states are the states reachable with one transition from the states in _R_, and we call these states _R1_.
+. Take all possible transitions from states in _R1_.
+The resulting states are the states reachable with two transitions from the states in _R_, and we call these states _R2_.
+. And so on, to compute _R3_, _R4_, etc.
+. If the specification has bounded response, then some _Rx_ will be an empty set of states, as no more transitions are possible.
+The bound is _x - 1_, since no states could be reached with _x_ transitions from _R_, while there are states that could be reached with _x - 1_ transitions from _R_.
+. If the specification does not have bounded response, it has at least one cycle of states.
+The states within a cycle will with one transition go to the next state in their cycle.
+Cycles are thus preserved with step.
+If all bounded sequences at some point end, then only the cycles remain.
+Then a fixed point will be reached (_Rx_ and _Ry_ with _x + 1 = y_ are the same set of states) and there is no bounded response.
