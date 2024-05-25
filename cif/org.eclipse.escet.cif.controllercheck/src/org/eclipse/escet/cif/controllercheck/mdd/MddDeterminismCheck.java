@@ -21,6 +21,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifCheckNoCompDefInst;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
@@ -33,8 +34,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
@@ -54,11 +53,20 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
  * </p>
  */
 public class MddDeterminismCheck extends CifCheckNoCompDefInst {
-    /** The application context to use. */
-    private final AppEnvData env = AppEnv.getData();
+    /** Callback that indicates whether execution should be terminated on user request. */
+    private final BooleanSupplier shouldTerminate;
 
     /** The MDD tree builder to use, or {@code null} if not yet available. */
     private MddSpecBuilder builder;
+
+    /**
+     * Constructor for the {@link MddDeterminismCheck} class.
+     *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     */
+    MddDeterminismCheck(BooleanSupplier shouldTerminate) {
+        this.shouldTerminate = shouldTerminate;
+    }
 
     @Override
     protected void preprocessSpecification(Specification spec, CifCheckViolations violations) {
@@ -80,7 +88,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
         Map<Event, List<List<Expression>>> edgesPredsByEvent = map();
         for (Edge edge: loc.getEdges()) {
             for (EdgeEvent ee: edge.getEvents()) {
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.getAsBoolean()) {
                     return;
                 }
 
@@ -101,7 +109,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
         // Verify that the guards of the different edges do not overlap.
         EVENT:
         for (Entry<Event, List<List<Expression>>> entry: edgesPredsByEvent.entrySet()) {
-            if (env.isTerminationRequested()) {
+            if (shouldTerminate.getAsBoolean()) {
                 return;
             }
 
@@ -116,7 +124,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
             for (List<Expression> edgeGuards: edgesGuards) {
                 Node edgeGuardsNode = builder.getExpressionConvertor().convert(edgeGuards).get(1);
                 edgesGuardsNodes.add(edgeGuardsNode);
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.getAsBoolean()) {
                     return;
                 }
             }
@@ -126,7 +134,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
             for (int i = 0; i < edgesGuardsNodes.size() - 1; i++) {
                 for (int j = i + 1; j < edgesGuardsNodes.size(); j++) {
                     Node overlap = builder.tree.conjunct(edgesGuardsNodes.get(i), edgesGuardsNodes.get(j));
-                    if (env.isTerminationRequested()) {
+                    if (shouldTerminate.getAsBoolean()) {
                         return;
                     }
 

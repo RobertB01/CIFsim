@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.controllercheck.mdd;
 
+import java.util.function.BooleanSupplier;
+
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 
 /**
@@ -20,8 +22,12 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
  * specification.
  */
 public class MddDeterminismChecker extends CifPreconditionChecker {
-    /** Constructor for the {@link MddDeterminismChecker} class. */
-    public MddDeterminismChecker() {
-        super(new MddDeterminismCheck());
+    /**
+     * Constructor for the {@link MddDeterminismChecker} class.
+     *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     */
+    public MddDeterminismChecker(BooleanSupplier shouldTerminate) {
+        super(new MddDeterminismCheck(shouldTerminate));
     }
 }

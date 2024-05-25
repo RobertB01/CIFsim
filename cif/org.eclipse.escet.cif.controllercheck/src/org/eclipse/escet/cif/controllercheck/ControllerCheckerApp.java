@@ -51,6 +51,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -211,8 +212,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             }
 
             // Non-determinism check.
-            new MddDeterminismChecker().reportPreconditionViolations(mddSpec, absSpecPath,
-                    "CIF controller properties checker");
+            new MddDeterminismChecker(() -> AppEnv.isTerminationRequested())
+                    .reportPreconditionViolations(mddSpec, absSpecPath, "CIF controller properties checker");
             if (isTerminationRequested()) {
                 return 0;
             }
