@@ -14,8 +14,10 @@
 package org.eclipse.escet.cif.checkers;
 
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
@@ -27,19 +29,21 @@ public class CifPreconditionChecker extends CifChecker {
     /**
      * Constructor for the {@link CifPreconditionChecker} class.
      *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      * @param preconditions The preconditions to check.
      */
-    public CifPreconditionChecker(List<CifCheck> preconditions) {
-        super(preconditions);
+    public CifPreconditionChecker(BooleanSupplier shouldTerminate, List<CifCheck> preconditions) {
+        super(shouldTerminate, preconditions);
     }
 
     /**
      * Constructor for the {@link CifPreconditionChecker} class.
      *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      * @param preconditions The preconditions to check.
      */
-    public CifPreconditionChecker(CifCheck... preconditions) {
-        super(preconditions);
+    public CifPreconditionChecker(BooleanSupplier shouldTerminate, CifCheck... preconditions) {
+        super(shouldTerminate, preconditions);
     }
 
     /**
@@ -58,8 +62,12 @@ public class CifPreconditionChecker extends CifChecker {
 
         // Report unsupported specification, if there are any precondition violations.
         if (violations.hasViolations()) {
+            String incompleteTxt = "";
+            if (violations.isIncomplete()) {
+                incompleteTxt = " (checking was prematurely terminated, so the report below may be incomplete)";
+            }
             List<String> lines = list();
-            lines.add(toolName + " failed due to unsatisfied preconditions:");
+            lines.add(toolName + fmt(" failed due to unsatisfied preconditions%s:", incompleteTxt));
             lines.addAll(violations.createReport());
             throw new UnsupportedException(String.join("\n", lines));
         }
