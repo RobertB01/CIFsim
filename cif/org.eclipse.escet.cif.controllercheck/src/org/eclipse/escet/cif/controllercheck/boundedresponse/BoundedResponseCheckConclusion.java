@@ -62,27 +62,25 @@ public class BoundedResponseCheckConclusion implements CheckConclusion {
         if (uncontrollableBound.isBounded()) {
             int bound = uncontrollableBound.getBound();
             if (bound == 0) {
-                out("[OK] No transitions are possible for uncontrollable events.");
-            } else if (bound == 1) {
-                out("[OK] A sequence of at most 1 transition is possible for uncontrollable events.");
+                out("- No transitions are possible for uncontrollable events.");
             } else {
-                out("[OK] A sequence of at most %,d transitions is possible for uncontrollable events.", bound);
+                out("- A sequence of at most %,d transition%s is possible for uncontrollable events.",
+                        bound, (bound == 1) ? "" : "s");
             }
         } else {
-            out("[ERROR] An infinite sequence of transitions is possible for uncontrollable events.");
+            out("- An infinite sequence of transitions is possible for uncontrollable events.");
         }
 
         if (controllableBound.isBounded()) {
             int bound = controllableBound.getBound();
             if (bound == 0) {
-                out("[OK] No transitions are possible for controllable events.");
-            } else if (bound == 1) {
-                out("[OK] A sequence of at most 1 transition is possible for controllable events.");
+                out("- No transitions are possible for controllable events.");
             } else {
-                out("[OK] A sequence of at most %,d transitions is possible for controllable events.", bound);
+                out("- A sequence of at most %,d transition%s is possible for controllable events.",
+                        bound, (bound == 1) ? "" : "s");
             }
         } else {
-            out("[ERROR] An infinite sequence of transitions is possible for controllable events.");
+            out("- An infinite sequence of transitions is possible for controllable events.");
         }
 
         dout();
