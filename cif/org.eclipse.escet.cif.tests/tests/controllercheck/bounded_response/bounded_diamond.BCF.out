@@ -193,7 +193,10 @@ Independent event pairs:
     (c_e1, c_e2), (c_e1, c_e3), (c_e1, c_e4), (c_e1, c_e5), (c_e2, c_e3), (c_e2, c_e4), (c_e2, c_e5), (c_e3, c_e4), (c_e3, c_e5), (c_e4, c_e5)
 
 CONCLUSION:
-    [OK] The specification has bounded response for uncontrollable events (bound: 4).
-    [OK] The specification has bounded response for controllable events (bound: 5).
+    [OK] The specification has bounded response.
+    
+        [OK] A sequence of at most 4 transitions is possible for uncontrollable events.
+        [OK] A sequence of at most 5 transitions is possible for controllable events.
+
     [OK] The specification has finite response.
     [OK] The specification has confluence.

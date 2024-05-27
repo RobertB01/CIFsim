@@ -261,8 +261,10 @@ Independent event pairs:
     (Aut1.c_b, Aut2.c_b), (Aut1.c_b, Aut4.c_b), (Aut1.c_b, Aut5.c_b), (Aut2.c_b, Aut4.c_b), (Aut2.c_b, Aut5.c_b), (Aut4.c_b, Aut5.c_b)
 
 CONCLUSION:
-    [OK] The specification has bounded response for uncontrollable events (bound: 0).
-    [ERROR] The specification does NOT have bounded response for controllable events.
+    [ERROR] The specification does NOT have bounded response.
+    
+        [OK] No transitions are possible for uncontrollable events.
+        [ERROR] An infinite sequence of transitions is possible for controllable events.
 
     [ERROR] The specification may NOT have finite response.
     

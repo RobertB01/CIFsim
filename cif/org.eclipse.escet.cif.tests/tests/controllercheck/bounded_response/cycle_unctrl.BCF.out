@@ -36,8 +36,10 @@ Checking for finite response...
 Checking for confluence...
 
 CONCLUSION:
-    [ERROR] The specification does NOT have bounded response for uncontrollable events.
-    [OK] The specification has bounded response for controllable events (bound: 0).
+    [ERROR] The specification does NOT have bounded response.
+    
+        [ERROR] An infinite sequence of transitions is possible for uncontrollable events.
+        [OK] No transitions are possible for controllable events.
 
     [OK] The specification has finite response.
     [OK] The specification has confluence.

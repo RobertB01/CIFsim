@@ -149,8 +149,10 @@ Independent event pairs:
     (A.a, B.a), (A.b, B.a)
 
 CONCLUSION:
-    [OK] The specification has bounded response for uncontrollable events (bound: 0).
-    [ERROR] The specification does NOT have bounded response for controllable events.
+    [ERROR] The specification does NOT have bounded response.
+    
+        [OK] No transitions are possible for uncontrollable events.
+        [ERROR] An infinite sequence of transitions is possible for controllable events.
 
     [ERROR] The specification may NOT have finite response.
     

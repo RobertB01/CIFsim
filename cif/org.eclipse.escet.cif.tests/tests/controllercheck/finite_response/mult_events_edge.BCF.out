@@ -65,8 +65,10 @@ Update equivalent event pairs:
     (A.a, A.b), (A.c, A.d)
 
 CONCLUSION:
-    [OK] The specification has bounded response for uncontrollable events (bound: 1).
-    [ERROR] The specification does NOT have bounded response for controllable events.
+    [ERROR] The specification does NOT have bounded response.
+    
+        [OK] A sequence of at most 1 transition is possible for uncontrollable events.
+        [ERROR] An infinite sequence of transitions is possible for controllable events.
 
     [ERROR] The specification may NOT have finite response.
     

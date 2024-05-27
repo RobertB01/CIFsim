@@ -164,8 +164,10 @@ Mutual exclusive event pairs:
     (Actuator.c_off, Actuator.c_on)
 
 CONCLUSION:
-    [ERROR] The specification does NOT have bounded response for uncontrollable events.
-    [OK] The specification has bounded response for controllable events (bound: 1).
+    [ERROR] The specification does NOT have bounded response.
+    
+        [ERROR] An infinite sequence of transitions is possible for uncontrollable events.
+        [OK] A sequence of at most 1 transition is possible for controllable events.
 
     [OK] The specification has finite response.
     [OK] The specification has confluence.

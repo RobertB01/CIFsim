@@ -52,7 +52,10 @@ Mutual exclusive event pairs:
     (DifferentLocs.a, DifferentLocs.b)
 
 CONCLUSION:
-    [OK] The specification has bounded response for uncontrollable events (bound: 1).
-    [OK] The specification has bounded response for controllable events (bound: 1).
+    [OK] The specification has bounded response.
+    
+        [OK] A sequence of at most 1 transition is possible for uncontrollable events.
+        [OK] A sequence of at most 1 transition is possible for controllable events.
+
     [OK] The specification has finite response.
     [OK] The specification has confluence.
