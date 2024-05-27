@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Support class for generating documentation comments for CIF elements. */
@@ -36,7 +37,7 @@ public class DocumentingSupport {
      * variables, input variables, events and complex components.
      *
      * <p>
-     * This function can only describe the value of a derivative variable. To get a description for the derivative of a
+     * This function can only describe the value of a continuous variable. To get a description for the derivative of a
      * continuous variable, use {@link #getDescription(PositionObject, boolean)}.
      * </p>
      *
