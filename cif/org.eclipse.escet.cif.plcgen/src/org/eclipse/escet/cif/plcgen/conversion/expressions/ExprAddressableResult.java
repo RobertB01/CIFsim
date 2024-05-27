@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.conversion.expressions;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
+import org.eclipse.escet.common.java.Assert;
 
 /** Storage of a write-only converted CIF expression. */
 public class ExprAddressableResult extends ExprGenResult<PlcVarExpression, ExprAddressableResult> {
@@ -23,7 +24,7 @@ public class ExprAddressableResult extends ExprGenResult<PlcVarExpression, ExprA
     public final Declaration varDecl;
 
     /**
-     * Whether the derivative of {@link #varDecl} is updated. Is only valid if {@link #varDecl} is a continuous
+     * Whether the derivative of {@link #varDecl} is updated. Can only hold if the {@link #varDecl} is a continuous
      * variable.
      */
     private final boolean isDerivative;
@@ -44,6 +45,8 @@ public class ExprAddressableResult extends ExprGenResult<PlcVarExpression, ExprA
         super(generator, parentResults);
         this.varDecl = varDecl;
         this.isDerivative = isDerivative;
+
+        Assert.implies(isDerivative, varDecl instanceof ContVariable);
     }
 
     /**
@@ -52,6 +55,6 @@ public class ExprAddressableResult extends ExprGenResult<PlcVarExpression, ExprA
      * @return Whether a derivative is updated in the result.
      */
     public boolean isDerivativeAssigned() {
-        return isDerivative && varDecl instanceof ContVariable;
+        return isDerivative;
     }
 }
