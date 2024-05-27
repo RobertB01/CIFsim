@@ -48,14 +48,14 @@ public class BoundedResponseChecker {
         // Compute bounds.
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing bound for uncontrollable events...");
-        Integer uncontrollableBound = computeBound(cifBddSpec, reachableStates, false);
+        Bound uncontrollableBound = computeBound(cifBddSpec, reachableStates, false);
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
 
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing bound for controllable events...");
-        Integer controllableBound = computeBound(cifBddSpec, reachableStates, true);
+        Bound controllableBound = computeBound(cifBddSpec, reachableStates, true);
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
@@ -102,18 +102,16 @@ public class BoundedResponseChecker {
      * @param reachableStates The BDD predicate indicating the reachable states of the specification.
      * @param controllableEvents {@code true} to compute bounded response for controllable events, {@code false} to
      *     compute it for uncontrollable events.
-     * @return The computed on the number of events per cycle. Is {@code -1} if the system can not be initialized, a
-     *     non-negative integer indicating the bound if it has bounded response, and {@code null} if it does not have
-     *     bounded response. Also returns {@code null} if termination is requested.
+     * @return The computed bound. Returns {@code null} if termination is requested.
      * @throws UnsupportedException If the bound is so high, it can't be represented as a integer.
      */
-    private Integer computeBound(CifBddSpec cifBddSpec, BDD reachableStates, boolean controllableEvents) {
+    private Bound computeBound(CifBddSpec cifBddSpec, BDD reachableStates, boolean controllableEvents) {
         // The algorithm works as follows:
         // - We start with all reachable states, to account for execution starting in any of the reachable states. For
         //   instance, at the start of a PLC cycle, the system could be in any reachable state.
-        // - If there are no reachable states, the system can't be initialized, and we have a bound of '-1'. Otherwise,
-        //   the reachable states are the states were we can be after applying zero transitions from the start of the
-        //   execution (bound zero).
+        // - If there are no reachable states, the system can't be initialized, and we have a bound of '0', since no
+        //   events can be executed (the state space is empty). Otherwise, the reachable states are the states were we
+        //   can be after applying zero transitions from the start of the execution (bound zero).
         // - We find the bound by in each round taking transitions for the relevant events. In each round, we thus
         //   compute the states reachable after applying transitions 'round' times.
         // - If the specification has bounded response, all sequences are of finite length, and at some point they end.
@@ -210,13 +208,13 @@ public class BoundedResponseChecker {
             }
         }
 
-        // Return the result:
+        // Return the result.
         if (round == null) {
-            return null; // Cycles found, so no bounded response.
+            // Cycles found, so no bounded response.
+            return new Bound(true, false, null);
         } else {
-            // No cycles, so the specification has bounded response. The bound is non-negative if the specification
-            // could be initialized, and is '-1' otherwise.
-            return round - 1;
+            // No cycles, so bounded response.
+            return new Bound(round > 0, true, Math.max(0, round - 1));
         }
     }
 }

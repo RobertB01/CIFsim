@@ -17,67 +17,49 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
-import org.eclipse.escet.common.java.Assert;
 
 /** Conclusion of the bounded response check. */
 public class BoundedResponseCheckConclusion implements CheckConclusion {
-    /**
-     * The bound on the number of uncontrollable events per cycle. Is {@code -1} if the system cannot be initialized, a
-     * non-negative integer indicating the bound if it has bounded response, and {@code null} if it does not have
-     * bounded response.
-     */
-    private final Integer uncontrollableBound;
+    /** The bound on the number of transitions that can be executed for uncontrollable events. */
+    private final Bound uncontrollableBound;
 
-    /**
-     * The bound on the number of controllable events per cycle. Is {@code -1} if the system cannot be initialized, a
-     * non-negative integer indicating the bound if it has bounded response, and {@code null} if it does not have
-     * bounded response.
-     */
-    private final Integer controllableBound;
+    /** The bound on the number of transitions that can be executed for controllable events. */
+    private final Bound controllableBound;
 
     /**
      * Constructor for the {@link BoundedResponseCheckConclusion} class.
      *
-     * @param uncontrollableBound The bound on the number of uncontrollable events per cycle. Is {@code -1} if the
-     *     system cannot be initialized, a non-negative integer indicating the bound if it has bounded response, and
-     *     {@code null} if it does not have bounded response.
-     * @param controllableBound The bound on the number of controllable events per cycle. Is {@code -1} if the system
-     *     cannot be initialized, a non-negative integer indicating the bound if it has bounded response, and
-     *     {@code null} if it does not have bounded response.
+     * @param uncontrollableBound The bound on the number of transitions that can be executed for uncontrollable events.
+     * @param controllableBound The bound on the number of transitions that can be executed for controllable events.
      */
-    public BoundedResponseCheckConclusion(Integer uncontrollableBound, Integer controllableBound) {
+    public BoundedResponseCheckConclusion(Bound uncontrollableBound, Bound controllableBound) {
         this.uncontrollableBound = uncontrollableBound;
         this.controllableBound = controllableBound;
-
-        Assert.check(uncontrollableBound == null || uncontrollableBound >= -1);
-        Assert.check(controllableBound == null || controllableBound >= -1);
     }
 
     @Override
     public boolean propertyHolds() {
-        return uncontrollableBound != null && controllableBound != null;
+        return uncontrollableBound.isBounded() && controllableBound.isBounded();
     }
 
     @Override
     public void printDetails() {
-        if ((uncontrollableBound != null && uncontrollableBound == -1)
-                || (controllableBound != null && controllableBound == -1))
-        {
+        if (!uncontrollableBound.hasInitialState() || !controllableBound.hasInitialState()) {
             warn("The specification can not be initialized.");
         }
 
-        if (uncontrollableBound == null) {
-            out("[ERROR] The specification does NOT have bounded response for uncontrollable events.");
-        } else {
+        if (uncontrollableBound.isBounded()) {
             out("[OK] The specification has bounded response for uncontrollable events (bound: %,d).",
-                    Math.max(0, uncontrollableBound));
+                    uncontrollableBound.getBound());
+        } else {
+            out("[ERROR] The specification does NOT have bounded response for uncontrollable events.");
         }
 
-        if (controllableBound == null) {
-            out("[ERROR] The specification does NOT have bounded response for controllable events.");
-        } else {
+        if (controllableBound.isBounded()) {
             out("[OK] The specification has bounded response for controllable events (bound: %,d).",
-                    Math.max(0, controllableBound));
+                    controllableBound.getBound());
+        } else {
+            out("[ERROR] The specification does NOT have bounded response for controllable events.");
         }
     }
 }
