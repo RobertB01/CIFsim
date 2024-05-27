@@ -41,6 +41,6 @@ Iteration 2.
         (Actuator2.c_on Actuator2.c_off), which is controllable unconnectable.
 
 CONCLUSION:
-    Bounded response checking was disabled, bounded response property is unknown.
+    [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
     [OK] The specification has finite response.
-    Confluence checking was disabled, confluence property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.

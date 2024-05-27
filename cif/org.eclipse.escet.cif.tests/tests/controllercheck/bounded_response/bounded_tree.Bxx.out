@@ -139,5 +139,5 @@ Bounded response check completed.
 CONCLUSION:
     [OK] The specification has bounded response for uncontrollable events (bound: 2).
     [OK] The specification has bounded response for controllable events (bound: 3).
-    Finite response checking was disabled, finite response property is unknown.
-    Confluence checking was disabled, confluence property is unknown.
+    [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.

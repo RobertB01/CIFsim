@@ -59,7 +59,7 @@ Iteration 2.
         (A.k A.l), which is not controllable unconnectable.
 
 CONCLUSION:
-    Bounded response checking was disabled, bounded response property is unknown.
+    [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
 
     [ERROR] The specification may NOT have finite response.
     
@@ -76,4 +76,4 @@ CONCLUSION:
             - A.m
             - A.o
 
-    Confluence checking was disabled, confluence property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.

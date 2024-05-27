@@ -5,6 +5,6 @@ Analyzing automaton "p"...
 Checking for finite response...
 
 CONCLUSION:
-    Bounded response checking was disabled, bounded response property is unknown.
+    [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
     [OK] The specification has finite response.
-    Confluence checking was disabled, confluence property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.

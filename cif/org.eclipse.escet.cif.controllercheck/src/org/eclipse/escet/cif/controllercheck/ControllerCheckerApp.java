@@ -388,7 +388,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         if (boundedResponseConclusion != null) {
             boundedResponseConclusion.printDetails();
         } else {
-            out("Bounded response checking was disabled, bounded response property is unknown.");
+            out("[UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.");
         }
         dout();
 
@@ -400,7 +400,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         if (finiteResponseConclusion != null) {
             finiteResponseConclusion.printDetails();
         } else {
-            out("Finite response checking was disabled, finite response property is unknown.");
+            out("[UNKNOWN] Finite response checking was disabled, finite response property is unknown.");
         }
         dout();
 
@@ -412,7 +412,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         if (confluenceConclusion != null) {
             confluenceConclusion.printDetails();
         } else {
-            out("Confluence checking was disabled, confluence property is unknown.");
+            out("[UNKNOWN] Confluence checking was disabled, confluence property is unknown.");
         }
         dout();
 
