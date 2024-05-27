@@ -71,9 +71,8 @@ public class DocumentingSupport {
         } else if (posObj instanceof InputVariable) {
             return "input variable \"" + getAbsName(posObj, false) + "\"";
         } else if (posObj instanceof Event evt) {
-            if (evt.getControllable() == null) {
-                return "event \"" + getAbsName(posObj, false) + "\"";
-            } else if (evt.getControllable()) {
+            Assert.notNull(evt.getControllable());
+            if (evt.getControllable()) {
                 return "controllable event \"" + getAbsName(posObj, false) + "\"";
             } else {
                 return "uncontrollable event \"" + getAbsName(posObj, false) + "\"";
