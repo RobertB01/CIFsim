@@ -33,7 +33,7 @@ public class ComponentDocData {
     /** Variables of the component. */
     public final List<Declaration> variables = list();
 
-    /** The uncontrollable events of the automaton. */
+    /** The uncontrollable events of the automaton, if the component is an automaton. */
     public final List<Event> uncontrollableEvents = list();
 
     /** The controllable events of the automaton. */

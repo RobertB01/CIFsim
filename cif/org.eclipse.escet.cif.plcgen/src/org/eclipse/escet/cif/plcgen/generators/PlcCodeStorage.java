@@ -104,7 +104,7 @@ public class PlcCodeStorage {
     /** Text lines of the PLC program header. */
     private final List<String> programHeaderTextLines;
 
-    /** Documentation data about complex components. */
+    /** Documentation data about complex components, or {@code null} if not yet set. */
     private Map<ComplexComponent, ComponentDocData> componentDatas = null;
 
     /** If not {@code null}, code for initializing the state variables. */
@@ -666,7 +666,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Set the name of the edge selection variable of the automaton.
+     * Set the name of the edge selection variable of an automaton.
      *
      * @param aut Automaton that is related to the given edge selection variable.
      * @param edgeVariableName Name of the edge selection variable.
@@ -677,7 +677,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Generate documentation about the CIF complex components in the generated PLC code.
+     * Generate documentation in the generated PLC code about the CIF complex components.
      *
      * @param box Storage of generated text.
      */
@@ -702,10 +702,10 @@ public class PlcCodeStorage {
             allComponentsEmpty = false;
 
             // Sort the content of the component for a nicer output.
-            compData.sortData(); //
+            compData.sortData();
 
             // Print a line describing the component.
-            box.add(" *"); // As empty components are skipped, the last stored line is always non-empty comment.
+            box.add(" *"); // As empty components are skipped, the last stored line is always non-empty.
             box.add(" * %s:", makeInitialUppercase(DocumentingSupport.getDescription(compData.component)));
             boolean needEmpty = false; // Add the first entry directly to the header.
 

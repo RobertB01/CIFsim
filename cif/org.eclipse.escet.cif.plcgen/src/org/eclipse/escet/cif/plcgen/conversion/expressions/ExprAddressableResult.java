@@ -19,7 +19,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 
 /** Storage of a write-only converted CIF expression. */
 public class ExprAddressableResult extends ExprGenResult<PlcVarExpression, ExprAddressableResult> {
-    /** CIF Variable that is updated. */
+    /** CIF variable that is updated. */
     public final Declaration varDecl;
 
     /**
@@ -31,7 +31,7 @@ public class ExprAddressableResult extends ExprGenResult<PlcVarExpression, ExprA
     /**
      * Constructor of the {@link ExprAddressableResult} class.
      *
-     * @param varDecl Variable that is updated.
+     * @param varDecl CIF variable that is updated.
      * @param isDerivative Whether the derivative of {@link #varDecl} is updated. Is only valid if {@link #varDecl} is a
      *     continuous variable.
      * @param generator Expression generator managing the temporary variables.

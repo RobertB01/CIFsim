@@ -61,7 +61,7 @@ public class DocumentingSupport {
             String text = "continuous variable \"" + getAbsName(posObj, false) + "\"";
             return (isDerivative ? "derivative of " : "") + text;
         } else if (posObj instanceof DiscVariable dvar) {
-            if (dvar.getName().isEmpty()) { // ElimLocRef transformation introduces variables with enpty name.
+            if (dvar.getName().isEmpty()) { // ElimLocRefExpr transformation introduces variables with empty name.
                 Automaton aut = (Automaton)posObj.eContainer();
                 return "current location of automaton \"" + getAbsName(aut, false) + "\"";
             } else {
