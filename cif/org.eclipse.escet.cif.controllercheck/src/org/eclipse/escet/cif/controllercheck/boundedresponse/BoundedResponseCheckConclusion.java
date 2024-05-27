@@ -51,9 +51,9 @@ public class BoundedResponseCheckConclusion implements CheckConclusion {
         }
 
         if (uncontrollableBound.isBounded() && controllableBound.isBounded()) {
-            out("[OK] The specification has bounded response.");
+            out("[OK] The specification has bounded response:");
         } else {
-            out("[ERROR] The specification does NOT have bounded response.");
+            out("[ERROR] The specification does NOT have bounded response:");
         }
 
         out();

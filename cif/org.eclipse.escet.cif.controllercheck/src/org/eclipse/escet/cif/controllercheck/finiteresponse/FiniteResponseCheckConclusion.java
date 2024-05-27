@@ -48,7 +48,7 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
         if (unprovenEvents.isEmpty()) {
             out("[OK] The specification has finite response.");
         } else {
-            out("[ERROR] The specification may NOT have finite response.");
+            out("[ERROR] The specification may NOT have finite response:");
             out();
 
             iout();
