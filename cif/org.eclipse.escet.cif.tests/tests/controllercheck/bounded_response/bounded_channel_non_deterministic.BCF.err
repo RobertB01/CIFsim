@@ -1,5 +1,12 @@
 WARNING: The alphabet of the specification contains no controllable events.
 WARNING: The alphabet of the specification contains no uncontrollable events.
 ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
- - Unsupported event "c_chan": event is a channel (has a data type).
- - Unsupported event "u_chan": event is a channel (has a data type).
+
+  -------------------------
+  (1/1) Event is a channel.
+  -------------------------
+   * In the top-level scope of the specification:
+     - uncontrollable bool u_chan;
+                           ^
+     - controllable bool c_chan;
+                         ^

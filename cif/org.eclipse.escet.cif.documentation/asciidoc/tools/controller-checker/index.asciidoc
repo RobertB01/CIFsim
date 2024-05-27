@@ -312,11 +312,11 @@ The following restrictions apply only to the confluence and finite response chec
 
 * Functions (both standard library functions and user-defined ones) are not supported.
 
-* Only discrete/input variables with a boolean, ranged integer (e.g. ``int[0..5]``), or enumeration type are supported.
+* Only discrete, input and algebraic variables with a boolean, ranged integer (e.g. ``int[0..5]``), or enumeration type are supported.
 
 * Only the following expressions are supported: boolean literal values (``true`` and ``false``), integer literal values, enumeration literal values, binary expressions (partially, see below), unary expressions (partially, see below), casts that don't change the type, `if` expressions, `switch` expressions, and references to constants, discrete variables, input variables, algebraic variables, and locations.
 
-* Only the following binary operators are supported: logical equivalence (`+<=>+`), logical implication (`+=>+`), logical conjunction (`and` on boolean operands), logical disjunction (`or` on boolean operands), addition (`+`) on integer operands, subtraction (`-`) on integer operands, multiplication (`*`) on integer operands, integer division (`div`), integer modulus (`mod`), equality (`=`) on integer, integer or enumeration operands, inequality (`!=`) on boolean, integer or enumeration operands, less than (`<`) on integer operands, less than or equal to (`+<=+`) on integer operands, greater than (`>`) on integer operands, and greater than or equal to (`>=`) on integer operands.
+* Only the following binary operators are supported: logical equivalence (`+<=>+`), logical implication (`+=>+`), logical conjunction (`and` on boolean operands), logical disjunction (`or` on boolean operands), addition (`+`) on integer operands, subtraction (`-`) on integer operands, multiplication (`*`) on integer operands, integer division (`div`), integer modulus (`mod`), equality (`=`) on boolean, integer or enumeration operands, inequality (`!=`) on boolean, integer or enumeration operands, less than (`<`) on integer operands, less than or equal to (`+<=+`) on integer operands, greater than (`>`) on integer operands, and greater than or equal to (`>=`) on integer operands.
 
 * Only the following unary operators are supported: logical inverse (`not`), negation (`-`) on an integer operand, and plus (`+`) on an integer operand.
 
