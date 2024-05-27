@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
 import org.eclipse.escet.cif.controllercheck.CheckConclusion;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 import com.github.javabdd.BDD;
 
@@ -104,6 +105,7 @@ public class BoundedResponseChecker {
      * @return The computed on the number of events per cycle. Is {@code -1} if the system can not be initialized, a
      *     non-negative integer indicating the bound if it has bounded response, and {@code null} if it does not have
      *     bounded response. Also returns {@code null} if termination is requested.
+     * @throws UnsupportedException If the bound is so high, it can't be represented as a integer.
      */
     private Integer computeBound(CifBddSpec cifBddSpec, BDD reachableStates, boolean controllableEvents) {
         // The algorithm works as follows:
@@ -161,6 +163,13 @@ public class BoundedResponseChecker {
             prevRoundStates.free();
             prevRoundStates = roundStates;
             roundStates = null;
+
+            // Check for too many rounds (integer overflow).
+            if (round < 0) {
+                throw new UnsupportedException("Failed to compute bounded response, as the bound is too high.");
+            }
+
+            // Output debug information.
             cifBddSpec.settings.getDebugOutput().line("Bounded response check round %,d (states before round: %s).",
                     round, BddUtils.bddToStr(prevRoundStates, cifBddSpec));
 
