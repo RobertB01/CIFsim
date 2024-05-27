@@ -51,6 +51,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -133,7 +134,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         new ElimComponentDefInst().transform(spec);
 
         // Check preconditions that apply to all checks.
-        ControllerCheckerPreChecker checker = new ControllerCheckerPreChecker();
+        ControllerCheckerPreChecker checker = new ControllerCheckerPreChecker(() -> AppEnv.isTerminationRequested());
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF controller properties checker");
         if (isTerminationRequested()) {
             return 0;
@@ -199,7 +200,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             }
 
             // Pre-check.
-            new MddPreChecker().check(mddSpec);
+            new MddPreChecker(() -> AppEnv.isTerminationRequested())
+                    .reportPreconditionViolations(mddSpec, absSpecPath, "CIF controller properties checker");
             if (isTerminationRequested()) {
                 return 0;
             }
@@ -211,7 +213,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             }
 
             // Non-determinism check.
-            new MddDeterminismChecker().check(mddSpec);
+            new MddDeterminismChecker(() -> AppEnv.isTerminationRequested())
+                    .reportPreconditionViolations(mddSpec, absSpecPath, "CIF controller properties checker");
             if (isTerminationRequested()) {
                 return 0;
             }

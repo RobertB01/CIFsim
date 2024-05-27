@@ -42,12 +42,43 @@ public class CifCheckViolations {
     private final List<String> specLines;
 
     /**
+     * Whether the violations are incomplete due to the checks being prematurely terminated after a termination request.
+     *
+     * <p>
+     * This incompleteness relates only to termination requests, not to progress in performing the checks.
+     * </p>
+     */
+    private boolean incomplete = false;
+
+    /**
      * Constructor for the {@link CifCheckViolations} class.
      *
      * @param specLines The lines of text of the CIF specification.
      */
     public CifCheckViolations(List<String> specLines) {
         this.specLines = specLines;
+    }
+
+    /**
+     * Mark the violations as being incomplete due to the checks being prematurely terminated after a termination
+     * request.
+     */
+    public void markAsIncomplete() {
+        this.incomplete = true;
+    }
+
+    /**
+     * Returns whether the violations are incomplete due to the checks being prematurely terminated after a termination
+     * request.
+     *
+     * <p>
+     * This incompleteness relates only to termination requests, not to progress in performing the checks.
+     * </p>
+     *
+     * @return {@code true} if the violations may be incomplete due to a termination request, {@code true} otherwise.
+     */
+    public boolean isIncomplete() {
+        return this.incomplete;
     }
 
     /**

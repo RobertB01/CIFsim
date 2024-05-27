@@ -23,6 +23,7 @@ import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.
 
 import java.util.BitSet;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -63,17 +64,23 @@ public class CifToDmm {
      *
      * @param spec Specification to check.
      * @param absSpecPath The absolute local file system path to the CIF file to check.
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      */
-    public static void checkSpec(Specification spec, String absSpecPath) {
-        CifPreconditionChecker checker = new CifToDmmPreChecker();
+    public static void checkSpec(Specification spec, String absSpecPath, BooleanSupplier shouldTerminate) {
+        CifPreconditionChecker checker = new CifToDmmPreChecker(shouldTerminate);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF to DMM transformation");
     }
 
     /** CIF checker class to check pre-conditions of the CIF to DMM transformation. */
     private static class CifToDmmPreChecker extends CifPreconditionChecker {
-        /** Constructor of the {@link CifToDmm.CifToDmmPreChecker} class. */
-        public CifToDmmPreChecker() {
-            super(
+        /**
+         * Constructor of the {@link CifToDmm.CifToDmmPreChecker} class.
+         *
+         * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+         */
+        public CifToDmmPreChecker(BooleanSupplier shouldTerminate) {
+            super(shouldTerminate,
+
                     // Ensure there are no relations between elements hidden in initialization expressions.
                     // TODO: Decide the semantics of these expressions in relating plant and/or requirements.
                     new AutOnlyWithOneInitLocCheck(), //

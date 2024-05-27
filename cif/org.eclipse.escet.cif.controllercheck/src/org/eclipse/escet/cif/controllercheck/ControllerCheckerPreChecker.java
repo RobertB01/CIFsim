@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
+import java.util.function.BooleanSupplier;
+
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
@@ -25,9 +27,14 @@ import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** Precondition checker for the CIF controller properties checker. */
 public class ControllerCheckerPreChecker extends CifPreconditionChecker {
-    /** Constructor for the {@link ControllerCheckerPreChecker} class. */
-    public ControllerCheckerPreChecker() {
-        super(
+    /**
+     * Constructor for the {@link ControllerCheckerPreChecker} class.
+     *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     */
+    public ControllerCheckerPreChecker(BooleanSupplier shouldTerminate) {
+        super(shouldTerminate,
+
                 // Controllers should not have only plants and supervisors. Requirement are not allowed, and neither is
                 // not defining the supervisory kind.
                 new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.SUPERVISOR), //

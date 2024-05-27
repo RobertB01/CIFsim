@@ -95,6 +95,7 @@ import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.java.CifConstructors;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
@@ -766,7 +767,7 @@ public abstract class CodeGen {
         // after elimination of component definition/instantiation, to make it
         // easier to check. Do this after some simplification, to support more
         // specifications.
-        CifPreconditionChecker checker = new CodeGenPreChecker(language);
+        CifPreconditionChecker checker = new CodeGenPreChecker(language, () -> AppEnv.isTerminationRequested());
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF code generator");
 
         // Linearize, to get rid of parallelism.

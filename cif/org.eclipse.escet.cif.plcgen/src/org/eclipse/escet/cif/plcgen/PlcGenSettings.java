@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.plcgen;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
@@ -81,7 +81,7 @@ public class PlcGenSettings {
     public final ConvertEnums enumConversion;
 
     /** Callback that indicates whether execution should be terminated on user request. */
-    public final Supplier<Boolean> shouldTerminate;
+    public final BooleanSupplier shouldTerminate;
 
     /** Whether to warn the user when renaming CIF identifiers. */
     public final boolean warnOnRename;
@@ -121,7 +121,7 @@ public class PlcGenSettings {
             int taskCycleTime, int taskPriority, Integer maxUncontrollableLimit, Integer maxControllableLimit,
             PathPair inputPaths, PathPair outputPaths, PathPair ioTablePaths, List<String> programHeaderTextLines,
             PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
-            Supplier<Boolean> shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
+            BooleanSupplier shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
         this.configurationName = configurationName;

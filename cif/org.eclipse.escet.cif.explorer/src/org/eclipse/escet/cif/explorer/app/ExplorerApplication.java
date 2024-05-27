@@ -17,12 +17,15 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.ArrayDeque;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Queue;
+import java.util.function.BooleanSupplier;
 
+import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.checkers.CifChecker;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
@@ -50,6 +53,7 @@ import org.eclipse.escet.cif.explorer.runtime.ExplorerBuilder;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
@@ -291,11 +295,18 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         }
 
         // Warn about features of the specification that may lead to an unexpected resulting state space.
-        CifCheckViolations warnings = new CifChecker(new RequirementAsPlantChecker()).check(spec, absSpecPath);
+        BooleanSupplier shouldTerminate = () -> AppEnv.isTerminationRequested();
+        CifCheck[] checks = {new RequirementAsPlantChecker()};
+        CifCheckViolations warnings = new CifChecker(shouldTerminate, checks).check(spec, absSpecPath);
         if (warnings.hasViolations()) {
+            String incompleteTxt = "";
+            if (warnings.isIncomplete()) {
+                incompleteTxt = " (checking was prematurely terminated, so the report below may be incomplete)";
+            }
             warn(String.join("\n",
-                    concat("The CIF specification has features that may cause an unexpected resulting state space:",
-                            warnings.createReport())));
+                    concat(fmt(
+                            "The CIF specification has features that may cause an unexpected resulting state space%s:",
+                            incompleteTxt), warnings.createReport())));
         }
         if (isTerminationRequested()) {
             return 0;

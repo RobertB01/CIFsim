@@ -12,8 +12,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 plant p:
-  controllable a, b;
+  controllable a, b, c;
   input bool x, y;
+  disc int[0..5] v;
   location:
     initial;
     // Non-deterministic.
@@ -23,4 +24,9 @@ plant p:
     // Deterministic.
     edge b when x;
     edge b when not x;
+
+    // Non-deterministic with more than two edges.
+    edge c when v >= 1;
+    edge c when v = 3;
+    edge c when v <= 4;
 end

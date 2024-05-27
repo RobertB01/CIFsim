@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
@@ -341,9 +342,10 @@ public class CifToPlcTrans {
      *
      * @param spec The CIF specification. Is modified in-place as a side-effect of preprocessing.
      * @param absSpecPath The absolute local file system path to the CIF file.
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      * @return The PLC project resulting from the transformation.
      */
-    public static PlcProject transform(Specification spec, String absSpecPath) {
+    public static PlcProject transform(Specification spec, String absSpecPath, BooleanSupplier shouldTerminate) {
         // Initialize transformation.
         CifToPlcTrans trans = new CifToPlcTrans();
 
@@ -384,7 +386,7 @@ public class CifToPlcTrans {
         // linearization etc may change the specification, the precondition
         // checker should be enough to ensure only supported features are
         // encountered during transformation.
-        CifToPlcPreChecker checker = new CifToPlcPreChecker();
+        CifToPlcPreChecker checker = new CifToPlcPreChecker(shouldTerminate);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF PLC code generator");
 
         // Linearize the specification, to get rid of parallel composition, event synchronization, and channels. We

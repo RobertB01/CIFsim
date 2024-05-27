@@ -40,6 +40,7 @@ import org.eclipse.escet.cif.cif2plc.writers.S7Writer;
 import org.eclipse.escet.cif.cif2plc.writers.TwinCatWriter;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -109,7 +110,7 @@ public class CifToPlcApp extends Application<IOutputComponent> {
         // Generate PLC code.
         PlcProject project;
         try {
-            project = CifToPlcTrans.transform(spec, absSpecPath);
+            project = CifToPlcTrans.transform(spec, absSpecPath, () -> AppEnv.isTerminationRequested());
             if (isTerminationRequested()) {
                 return 0;
             }

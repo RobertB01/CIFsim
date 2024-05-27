@@ -43,6 +43,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -131,9 +132,12 @@ public class CifToSupremica {
      * @param absSpecPath The absolute local file system path to the CIF file.
      * @param moduleName The name of the Supremica module to generate.
      * @param elimEnums Should enumerations be eliminated?
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      * @return The Supremica XML document.
      */
-    public static Document transform(Specification spec, String absSpecPath, String moduleName, boolean elimEnums) {
+    public static Document transform(Specification spec, String absSpecPath, String moduleName, boolean elimEnums,
+            BooleanSupplier shouldTerminate)
+    {
         // Remove/ignore I/O declarations, to increase the supported subset.
         RemoveIoDecls removeIoDecls = new RemoveIoDecls();
         removeIoDecls.transform(spec);
@@ -142,7 +146,7 @@ public class CifToSupremica {
         }
 
         // Check preconditions.
-        CifToSupremicaPreChecker checker = new CifToSupremicaPreChecker();
+        CifToSupremicaPreChecker checker = new CifToSupremicaPreChecker(shouldTerminate);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF to Supremica transformation");
 
         // Perform further preprocessing.

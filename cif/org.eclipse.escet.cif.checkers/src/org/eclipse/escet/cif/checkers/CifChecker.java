@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.checkers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.io.CifReader;
@@ -28,25 +29,31 @@ import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 
 /** CIF checker. Checks whether a given CIF specification satisfies certain {@link CifCheck conditions}. */
 public class CifChecker extends CompositeCifWithArgWalker<CifCheckViolations> {
+    /** Callback that indicates whether execution should be terminated on user request. */
+    private final BooleanSupplier shouldTerminate;
+
     /** Whether all checks can handle component definitions and instantiations properly. */
     private final boolean supportCompDefInst;
 
     /**
      * Constructor for the {@link CifChecker} class.
      *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      * @param conditions The conditions to check.
      */
-    public CifChecker(List<CifCheck> conditions) {
-        this(conditions.toArray(n -> new CifCheck[n]));
+    public CifChecker(BooleanSupplier shouldTerminate, List<CifCheck> conditions) {
+        this(shouldTerminate, conditions.toArray(n -> new CifCheck[n]));
     }
 
     /**
      * Constructor for the {@link CifChecker} class.
      *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      * @param conditions The conditions to check.
      */
-    public CifChecker(CifCheck... conditions) {
+    public CifChecker(BooleanSupplier shouldTerminate, CifCheck... conditions) {
         super(conditions);
+        this.shouldTerminate = shouldTerminate;
         supportCompDefInst = Arrays.stream(conditions).allMatch(chk -> chk.supportsCompDefInst());
     }
 
@@ -78,6 +85,9 @@ public class CifChecker extends CompositeCifWithArgWalker<CifCheckViolations> {
         // Check for violations, and report them back.
         CifCheckViolations violations = new CifCheckViolations(box.getLines());
         walkSpecification(newSpec, violations);
+        if (shouldTerminate.getAsBoolean()) {
+            violations.markAsIncomplete();
+        }
         return violations;
     }
 }

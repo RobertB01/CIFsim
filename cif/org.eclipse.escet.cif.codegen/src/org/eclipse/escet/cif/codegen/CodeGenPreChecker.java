@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.codegen;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
@@ -53,9 +54,10 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
      * Constructor for the {@link CodeGenPreChecker} class.
      *
      * @param language The target language.
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      */
-    public CodeGenPreChecker(TargetLanguage language) {
-        super(getChecks(language));
+    public CodeGenPreChecker(TargetLanguage language, BooleanSupplier shouldTerminate) {
+        super(shouldTerminate, getChecks(language));
     }
 
     /**
