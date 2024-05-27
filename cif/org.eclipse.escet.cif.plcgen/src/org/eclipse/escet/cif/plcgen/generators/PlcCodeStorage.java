@@ -459,7 +459,7 @@ public class PlcCodeStorage {
         // same time, and it should be done just before state computation.
         if (inputFuncCode != null) {
             box.add();
-            generateCommentHeader("Read input from sensors.", '-', box);
+            generateCommentHeader("Read PLC inputs.", '-', box);
             textGenerator.toText(inputFuncCode, box, mainProgram.name, false);
         }
 
@@ -506,7 +506,7 @@ public class PlcCodeStorage {
         // and it becomes easier to verify the safety requirement in a review of the generated PLC code.
         if (outputFuncCode != null) {
             box.add();
-            generateCommentHeader("Write output to actuators.", '-', box);
+            generateCommentHeader("Write PLC outputs.", '-', box);
             textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
         }
 
@@ -688,8 +688,6 @@ public class PlcCodeStorage {
         compDatas.addAll(componentDatas.values());
         Collections.sort(compDatas, Comparator.comparing(cd -> cd.getComponentName()));
 
-        final String entryIndent = "   "; // Indentation of an entry in a main topic.
-
         // Open the comment, and add a header.
         box.add("(*------------------------------------------------------");
         box.add(" * Model overview:");
@@ -713,17 +711,17 @@ public class PlcCodeStorage {
             // List the variables.
             if (compData.isEmptyVariables()) {
                 needEmpty = insertEmpty(needEmpty, box);
-                box.add(" * %s- No variables in this component.", entryIndent);
+                box.add(" * - No variables in this component.");
                 needEmpty = true;
             } else {
                 needEmpty = insertEmpty(needEmpty, !compData.variables.isEmpty(), box);
                 for (Declaration var: compData.variables) {
-                    box.add(" * %s- %s.", entryIndent, makeInitialUppercase(DocumentingSupport.getDescription(var)));
+                    box.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(var)));
                     needEmpty = true;
                 }
                 if (compData.edgeVariableName != null) {
                     needEmpty = insertEmpty(needEmpty, box);
-                    box.add(" * %s- PLC edge selection variable \"%s\".", entryIndent, compData.edgeVariableName);
+                    box.add(" * - PLC edge selection variable \"%s\".", compData.edgeVariableName);
                     needEmpty = true;
                 }
             }
@@ -736,11 +734,11 @@ public class PlcCodeStorage {
             // List the uncontrollable events of the component.
             needEmpty = insertEmpty(needEmpty, box);
             if (compData.uncontrollableEvents.isEmpty()) {
-                box.add(" * %s- No use of uncontrollable events.", entryIndent);
+                box.add(" * - No use of uncontrollable events.");
                 needEmpty = true;
             } else {
                 for (Event evt: compData.uncontrollableEvents) {
-                    box.add(" * %s- %s.", entryIndent, makeInitialUppercase(DocumentingSupport.getDescription(evt)));
+                    box.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
                     needEmpty = true;
                 }
             }
@@ -748,11 +746,11 @@ public class PlcCodeStorage {
             // List the controllable events of the component.
             needEmpty = insertEmpty(needEmpty, box);
             if (compData.controllableEvents.isEmpty()) {
-                box.add(" * %s- No use of controllable events.", entryIndent);
+                box.add(" * - No use of controllable events.");
                 needEmpty = true;
             } else {
                 for (Event evt: compData.controllableEvents) {
-                    box.add(" * %s- %s.", entryIndent, makeInitialUppercase(DocumentingSupport.getDescription(evt)));
+                    box.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
                     needEmpty = true;
                 }
             }
