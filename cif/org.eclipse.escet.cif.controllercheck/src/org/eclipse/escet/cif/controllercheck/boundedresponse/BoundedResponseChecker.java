@@ -200,7 +200,9 @@ public class BoundedResponseChecker {
             }
         }
 
-        // Cleanup edges for being applied.
+        // Cleanup.
+        prevRoundStates.free();
+        roundStates.free();
         for (CifBddEdge edge: edgesToPrepare) {
             edge.postApply(forward);
             if (cifBddSpec.settings.getShouldTerminate().get()) {
