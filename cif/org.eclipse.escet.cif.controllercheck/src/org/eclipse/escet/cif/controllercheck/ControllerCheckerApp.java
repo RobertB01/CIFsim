@@ -392,8 +392,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
         dout();
 
-        if (!boundedResponseHolds || !finiteResponseHolds) {
-            out(); // Empty line between conclusions if an error occurs.
+        if (boundedResponseConclusion != null || !finiteResponseHolds) {
+            out(); // Empty line between conclusions, if they both provide details.
         }
 
         iout();
@@ -405,7 +405,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         dout();
 
         if (!finiteResponseHolds || !confluenceHolds) {
-            out(); // Empty line between conclusions if an error occurs.
+            out(); // Empty line between conclusions, if they both provide details.
         }
 
         iout();

@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.controllercheck.boundedresponse;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 
@@ -45,21 +47,44 @@ public class BoundedResponseCheckConclusion implements CheckConclusion {
     @Override
     public void printDetails() {
         if (!uncontrollableBound.hasInitialState() || !controllableBound.hasInitialState()) {
-            warn("The specification can not be initialized.");
+            warn("The specification cannot be initialized.");
         }
 
-        if (uncontrollableBound.isBounded()) {
-            out("[OK] The specification has bounded response for uncontrollable events (bound: %,d).",
-                    uncontrollableBound.getBound());
+        if (uncontrollableBound.isBounded() && controllableBound.isBounded()) {
+            out("[OK] The specification has bounded response.");
         } else {
-            out("[ERROR] The specification does NOT have bounded response for uncontrollable events.");
+            out("[ERROR] The specification does NOT have bounded response.");
+        }
+
+        out();
+        iout();
+
+        if (uncontrollableBound.isBounded()) {
+            int bound = uncontrollableBound.getBound();
+            if (bound == 0) {
+                out("[OK] No transitions are possible for uncontrollable events.");
+            } else if (bound == 1) {
+                out("[OK] A sequence of at most 1 transition is possible for uncontrollable events.");
+            } else {
+                out("[OK] A sequence of at most %,d transitions is possible for uncontrollable events.", bound);
+            }
+        } else {
+            out("[ERROR] An infinite sequence of transitions is possible for uncontrollable events.");
         }
 
         if (controllableBound.isBounded()) {
-            out("[OK] The specification has bounded response for controllable events (bound: %,d).",
-                    controllableBound.getBound());
+            int bound = controllableBound.getBound();
+            if (bound == 0) {
+                out("[OK] No transitions are possible for controllable events.");
+            } else if (bound == 1) {
+                out("[OK] A sequence of at most 1 transition is possible for controllable events.");
+            } else {
+                out("[OK] A sequence of at most %,d transitions is possible for controllable events.", bound);
+            }
         } else {
-            out("[ERROR] The specification does NOT have bounded response for controllable events.");
+            out("[ERROR] An infinite sequence of transitions is possible for controllable events.");
         }
+
+        dout();
     }
 }
