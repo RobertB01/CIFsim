@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.cif2uppaal;
 
+import java.util.function.BooleanSupplier;
+
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
@@ -37,9 +39,14 @@ import org.eclipse.escet.cif.checkers.checks.VarNoInputCheck;
 
 /** CIF to UPPAAL transformation precondition checker. */
 public class CifToUppaalPreChecker extends CifPreconditionChecker {
-    /** Constructor for the {@link CifToUppaalPreChecker} class. */
-    public CifToUppaalPreChecker() {
-        super(
+    /**
+     * Constructor for the {@link CifToUppaalPreChecker} class.
+     *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     */
+    public CifToUppaalPreChecker(BooleanSupplier shouldTerminate) {
+        super(shouldTerminate,
+
                 // Specifications without automata are not supported.
                 new SpecAutomataCountsCheck().setMinMaxAuts(1, Integer.MAX_VALUE),
 

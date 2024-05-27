@@ -39,6 +39,7 @@ import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -93,6 +94,7 @@ import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
 import org.eclipse.escet.cif.multilevel.options.DmmOutputFileOption;
 import org.eclipse.escet.cif.multilevel.options.PartialSpecsOutputDirectoryOption;
 import org.eclipse.escet.cif.multilevel.partialspecs.PartialSpecsBuilder;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -190,7 +192,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         // Verify pre-conditions.
-        checkSpec(spec, absSpecPath);
+        checkSpec(spec, absSpecPath, () -> AppEnv.isTerminationRequested());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -388,17 +390,23 @@ public class MultilevelApp extends Application<IOutputComponent> {
      *
      * @param spec Specification to check.
      * @param absSpecPath The absolute local file system path to the CIF file to check.
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      */
-    public static void checkSpec(Specification spec, String absSpecPath) {
-        CifPreconditionChecker checker = new MultiLevelPreChecker();
+    public static void checkSpec(Specification spec, String absSpecPath, BooleanSupplier shouldTerminate) {
+        CifPreconditionChecker checker = new MultiLevelPreChecker(shouldTerminate);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF multi-level synthesis");
     }
 
     /** CIF checker class to check pre-conditions of the multi-level synthesis. */
     private static class MultiLevelPreChecker extends CifPreconditionChecker {
-        /** Constructor of the {@link MultiLevelPreChecker} class. */
-        public MultiLevelPreChecker() {
-            super(
+        /**
+         * Constructor of the {@link MultiLevelPreChecker} class.
+         *
+         * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+         */
+        public MultiLevelPreChecker(BooleanSupplier shouldTerminate) {
+            super(shouldTerminate,
+
                     // Constraints from CIF to DMM:
 
                     // Ensure there are no relations between elements hidden in initialization expressions.

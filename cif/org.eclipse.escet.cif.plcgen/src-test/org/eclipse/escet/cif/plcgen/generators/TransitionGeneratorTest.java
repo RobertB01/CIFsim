@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -84,7 +84,7 @@ public class TransitionGeneratorTest {
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
             ConvertEnums enumConversion = ConvertEnums.KEEP;
-            Supplier<Boolean> shouldTerminate = () -> false;
+            BooleanSupplier shouldTerminate = () -> false;
             boolean warnOnRename = false;
             WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 

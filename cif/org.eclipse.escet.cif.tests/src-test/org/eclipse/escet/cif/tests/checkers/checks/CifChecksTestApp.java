@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.cif2cif.CifToCifTransformation;
 import org.eclipse.escet.cif.cif2cif.app.CifToCifTransOption;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -106,7 +107,8 @@ public class CifChecksTestApp extends Application<IOutputComponent> {
         }
 
         // Perform check.
-        new CifPreconditionChecker(checks).reportPreconditionViolations(spec, absSpecPath, "CIF checks tester");
+        new CifPreconditionChecker(() -> AppEnv.isTerminationRequested(), checks)
+                .reportPreconditionViolations(spec, absSpecPath, "CIF checks tester");
 
         // All done.
         return 0;

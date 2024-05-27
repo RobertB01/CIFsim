@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.cif2plc;
 
+import java.util.function.BooleanSupplier;
+
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
@@ -42,9 +44,14 @@ import org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption;
 
 /** CIF PLC code generator precondition checker. Does not support component definition/instantiation. */
 public class CifToPlcPreChecker extends CifPreconditionChecker {
-    /** Constructor of the {@link CifToPlcPreChecker} class. */
-    public CifToPlcPreChecker() {
-        super(
+    /**
+     * Constructor of the {@link CifToPlcPreChecker} class.
+     *
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     */
+    public CifToPlcPreChecker(BooleanSupplier shouldTerminate) {
+        super(shouldTerminate,
+
                 // At least one automaton.
                 new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
 

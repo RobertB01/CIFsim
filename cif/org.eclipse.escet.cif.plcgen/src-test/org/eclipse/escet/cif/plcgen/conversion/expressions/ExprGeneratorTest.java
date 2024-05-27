@@ -59,7 +59,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -210,7 +210,7 @@ public class ExprGeneratorTest {
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
             ConvertEnums enumConversion = ConvertEnums.KEEP;
-            Supplier<Boolean> shouldTerminate = () -> false;
+            BooleanSupplier shouldTerminate = () -> false;
             boolean warnOnRename = false;
             WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 

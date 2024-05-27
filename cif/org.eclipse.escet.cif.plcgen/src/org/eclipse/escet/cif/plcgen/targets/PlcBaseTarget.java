@@ -192,37 +192,37 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
-        if (settings.shouldTerminate.get()) {
+        if (settings.shouldTerminate.getAsBoolean()) {
             return;
         }
 
         // Add code and data to variable storage for the previously supplied continuous variables.
         continuousVariablesGenerator.process();
-        if (settings.shouldTerminate.get()) {
+        if (settings.shouldTerminate.getAsBoolean()) {
             return;
         }
 
         // Generate input and output code.
         ioGenerator.process();
-        if (settings.shouldTerminate.get()) {
+        if (settings.shouldTerminate.getAsBoolean()) {
             return;
         }
 
         // Make the globally used variables ready for use in the PLC code.
         varStorage.process();
-        if (settings.shouldTerminate.get()) {
+        if (settings.shouldTerminate.getAsBoolean()) {
             return;
         }
 
         // Generate the event transition functions.
         transitionGenerator.generate();
-        if (settings.shouldTerminate.get()) {
+        if (settings.shouldTerminate.getAsBoolean()) {
             return;
         }
 
         // Prepare the PLC program for getting saved to the file system.
         codeStorage.finishPlcProgram();
-        if (settings.shouldTerminate.get()) {
+        if (settings.shouldTerminate.getAsBoolean()) {
             return;
         }
 
