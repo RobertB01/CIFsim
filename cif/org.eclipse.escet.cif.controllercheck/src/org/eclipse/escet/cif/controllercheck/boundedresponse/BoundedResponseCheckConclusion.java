@@ -49,12 +49,8 @@ public class BoundedResponseCheckConclusion implements CheckConclusion {
         this.uncontrollableBound = uncontrollableBound;
         this.controllableBound = controllableBound;
 
-        if (uncontrollableBound != null) {
-            Assert.check(uncontrollableBound >= -1);
-        }
-        if (controllableBound != null) {
-            Assert.check(controllableBound >= -1);
-        }
+        Assert.check(uncontrollableBound == null || uncontrollableBound >= -1);
+        Assert.check(controllableBound == null || controllableBound >= -1);
     }
 
     @Override

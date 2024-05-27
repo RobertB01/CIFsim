@@ -139,9 +139,9 @@ public class BoundedResponseChecker {
         }
 
         // Prepare the edges to be applied.
-        Collection<CifBddEdge> edgesToPrepare = //
-                (cifBddSpec.settings.getEdgeOrderAllowDuplicateEvents() == EdgeOrderDuplicateEventAllowance.ALLOWED)
-                        ? list2set(edgesToApply) : edgesToApply;
+        EdgeOrderDuplicateEventAllowance duplicatesAllowance = cifBddSpec.settings.getEdgeOrderAllowDuplicateEvents();
+        boolean duplicatesAllowed = duplicatesAllowance == EdgeOrderDuplicateEventAllowance.ALLOWED;
+        Collection<CifBddEdge> edgesToPrepare = duplicatesAllowed ? list2set(edgesToApply) : edgesToApply;
         boolean forward = true;
         BDD restriction = null;
         for (CifBddEdge edge: edgesToPrepare) {
