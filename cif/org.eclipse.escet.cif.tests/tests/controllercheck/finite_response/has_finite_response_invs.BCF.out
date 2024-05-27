@@ -166,8 +166,8 @@ Mutual exclusive event pairs:
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
     
-        [ERROR] An infinite sequence of transitions is possible for uncontrollable events.
-        [OK] A sequence of at most 1 transition is possible for controllable events.
+        - An infinite sequence of transitions is possible for uncontrollable events.
+        - A sequence of at most 1 transition is possible for controllable events.
 
     [OK] The specification has finite response.
     [OK] The specification has confluence.

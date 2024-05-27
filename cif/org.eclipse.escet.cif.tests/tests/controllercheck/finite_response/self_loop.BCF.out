@@ -31,8 +31,8 @@ Checking for confluence...
 CONCLUSION:
     [OK] The specification has bounded response:
     
-        [OK] No transitions are possible for uncontrollable events.
-        [OK] No transitions are possible for controllable events.
+        - No transitions are possible for uncontrollable events.
+        - No transitions are possible for controllable events.
 
     [OK] The specification has finite response.
     [OK] The specification has confluence.

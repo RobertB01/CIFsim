@@ -25,8 +25,8 @@ Checking for confluence...
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
     
-        [ERROR] An infinite sequence of transitions is possible for uncontrollable events.
-        [OK] No transitions are possible for controllable events.
+        - An infinite sequence of transitions is possible for uncontrollable events.
+        - No transitions are possible for controllable events.
 
     [OK] The specification has finite response.
     [OK] The specification has confluence.

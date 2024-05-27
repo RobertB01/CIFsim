@@ -17,8 +17,8 @@ Bounded response check completed.
 CONCLUSION:
     [OK] The specification has bounded response:
     
-        [OK] No transitions are possible for uncontrollable events.
-        [OK] No transitions are possible for controllable events.
+        - No transitions are possible for uncontrollable events.
+        - No transitions are possible for controllable events.
 
     [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
     [UNKNOWN] Confluence checking was disabled, confluence property is unknown.

@@ -173,8 +173,8 @@ Checking for confluence...
 CONCLUSION:
     [OK] The specification has bounded response:
     
-        [OK] A sequence of at most 4 transitions is possible for uncontrollable events.
-        [OK] A sequence of at most 5 transitions is possible for controllable events.
+        - A sequence of at most 4 transitions is possible for uncontrollable events.
+        - A sequence of at most 5 transitions is possible for controllable events.
 
     [ERROR] The specification may NOT have finite response:
     

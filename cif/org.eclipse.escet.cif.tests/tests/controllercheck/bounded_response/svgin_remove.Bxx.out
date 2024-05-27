@@ -19,8 +19,8 @@ Bounded response check completed.
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
     
-        [OK] No transitions are possible for uncontrollable events.
-        [ERROR] An infinite sequence of transitions is possible for controllable events.
+        - No transitions are possible for uncontrollable events.
+        - An infinite sequence of transitions is possible for controllable events.
 
     [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
     [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
