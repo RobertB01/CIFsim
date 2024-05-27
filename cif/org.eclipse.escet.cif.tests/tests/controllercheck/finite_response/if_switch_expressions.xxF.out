@@ -88,7 +88,7 @@ Iteration 2.
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
 
-    [ERROR] The specification may NOT have finite response.
+    [ERROR] The specification may NOT have finite response:
     
         At least one controllable-event loop was found.
         The following events might still occur in a controllable-event loop:

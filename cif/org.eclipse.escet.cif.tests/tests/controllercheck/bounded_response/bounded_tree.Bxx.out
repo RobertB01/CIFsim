@@ -137,7 +137,7 @@ Bounded response check round 4 (states before round: (p2.loc2 or (p2.loc4 or p2.
 Bounded response check completed.
 
 CONCLUSION:
-    [OK] The specification has bounded response.
+    [OK] The specification has bounded response:
     
         [OK] A sequence of at most 2 transitions is possible for uncontrollable events.
         [OK] A sequence of at most 3 transitions is possible for controllable events.

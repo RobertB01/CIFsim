@@ -30,7 +30,7 @@ Bounded response check round 1 (states before round: true).
 Bounded response check completed.
 
 CONCLUSION:
-    [ERROR] The specification does NOT have bounded response.
+    [ERROR] The specification does NOT have bounded response:
     
         [OK] No transitions are possible for uncontrollable events.
         [ERROR] An infinite sequence of transitions is possible for controllable events.

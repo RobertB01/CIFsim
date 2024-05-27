@@ -16,7 +16,7 @@ Bounded response check round 1 (states before round: true).
 Bounded response check completed.
 
 CONCLUSION:
-    [OK] The specification has bounded response.
+    [OK] The specification has bounded response:
     
         [OK] No transitions are possible for uncontrollable events.
         [OK] No transitions are possible for controllable events.

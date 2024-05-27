@@ -153,7 +153,7 @@ Bounded response check round 6 (states before round: pc1.loc2 and pc2.loc2 and (
 Bounded response check completed.
 
 CONCLUSION:
-    [OK] The specification has bounded response.
+    [OK] The specification has bounded response:
     
         [OK] A sequence of at most 4 transitions is possible for uncontrollable events.
         [OK] A sequence of at most 5 transitions is possible for controllable events.

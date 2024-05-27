@@ -76,12 +76,12 @@ Mutual exclusive event pairs:
     (c_c1, c_c2), (c_c1, c_e1), (c_c1, c_e2), (c_c1, c_e3), (c_c2, c_e1), (c_c2, c_e2), (c_c2, c_e3), (c_e1, c_e2), (c_e1, c_e3), (c_e2, c_e3)
 
 CONCLUSION:
-    [ERROR] The specification does NOT have bounded response.
+    [ERROR] The specification does NOT have bounded response:
     
         [ERROR] An infinite sequence of transitions is possible for uncontrollable events.
         [ERROR] An infinite sequence of transitions is possible for controllable events.
 
-    [ERROR] The specification may NOT have finite response.
+    [ERROR] The specification may NOT have finite response:
     
         At least one controllable-event loop was found.
         The following events might still occur in a controllable-event loop:

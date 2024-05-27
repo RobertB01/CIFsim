@@ -261,12 +261,12 @@ Independent event pairs:
     (Aut1.c_b, Aut2.c_b), (Aut1.c_b, Aut4.c_b), (Aut1.c_b, Aut5.c_b), (Aut2.c_b, Aut4.c_b), (Aut2.c_b, Aut5.c_b), (Aut4.c_b, Aut5.c_b)
 
 CONCLUSION:
-    [ERROR] The specification does NOT have bounded response.
+    [ERROR] The specification does NOT have bounded response:
     
         [OK] No transitions are possible for uncontrollable events.
         [ERROR] An infinite sequence of transitions is possible for controllable events.
 
-    [ERROR] The specification may NOT have finite response.
+    [ERROR] The specification may NOT have finite response:
     
         At least one controllable-event loop was found.
         The following events might still occur in a controllable-event loop:
@@ -275,7 +275,7 @@ CONCLUSION:
             - Aut4.c_a
             - Aut4.c_b
 
-    [ERROR] The specification may NOT have confluence.
+    [ERROR] The specification may NOT have confluence:
     
         Confluence of the following event pairs could not be decided:
             (Aut1.c_a, Aut2.c_b), (Aut1.c_a, Aut3.c_a), (Aut1.c_a, Aut3.c_b), (Aut1.c_a, Aut4.c_a), (Aut1.c_a, Aut4.c_b), (Aut1.c_a, Aut5.c_b), (Aut1.c_a, Aut6.c_a), (Aut1.c_a, Aut6.c_b), (Aut1.c_b, Aut3.c_a), (Aut1.c_b, Aut3.c_b), (Aut1.c_b, Aut4.c_a), (Aut1.c_b, Aut6.c_a), (Aut1.c_b, Aut6.c_b), (Aut2.c_b, Aut3.c_a), (Aut2.c_b, Aut3.c_b), (Aut2.c_b, Aut4.c_a), (Aut2.c_b, Aut6.c_a), (Aut2.c_b, Aut6.c_b), (Aut3.c_a, Aut4.c_a), (Aut3.c_a, Aut4.c_b), (Aut3.c_a, Aut5.c_b), (Aut3.c_a, Aut6.c_a), (Aut3.c_b, Aut4.c_a), (Aut3.c_b, Aut4.c_b), (Aut3.c_b, Aut5.c_b), (Aut3.c_b, Aut6.c_b), (Aut4.c_a, Aut5.c_b), (Aut4.c_a, Aut6.c_a), (Aut4.c_a, Aut6.c_b), (Aut4.c_b, Aut6.c_a), (Aut4.c_b, Aut6.c_b), (Aut5.c_b, Aut6.c_a), (Aut5.c_b, Aut6.c_b)

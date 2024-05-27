@@ -78,12 +78,12 @@ Mutual exclusive event pairs:
     (c_a, c_b), (c_a, c_c), (c_a, c_d), (c_b, c_c), (c_b, c_d), (c_c, c_d)
 
 CONCLUSION:
-    [OK] The specification has bounded response.
+    [OK] The specification has bounded response:
     
         [OK] A sequence of at most 3 transitions is possible for uncontrollable events.
         [OK] A sequence of at most 1 transition is possible for controllable events.
 
-    [ERROR] The specification may NOT have finite response.
+    [ERROR] The specification may NOT have finite response:
     
         At least one controllable-event loop was found.
         The following events might still occur in a controllable-event loop:

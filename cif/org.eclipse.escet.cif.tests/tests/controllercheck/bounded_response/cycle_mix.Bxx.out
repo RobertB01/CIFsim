@@ -40,7 +40,7 @@ Bounded response check round 4 (states before round: p.loc1 or p.loc2).
 Bounded response check completed.
 
 CONCLUSION:
-    [ERROR] The specification does NOT have bounded response.
+    [ERROR] The specification does NOT have bounded response:
     
         [ERROR] An infinite sequence of transitions is possible for uncontrollable events.
         [ERROR] An infinite sequence of transitions is possible for controllable events.

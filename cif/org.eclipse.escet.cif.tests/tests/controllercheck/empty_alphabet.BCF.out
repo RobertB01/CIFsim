@@ -23,7 +23,7 @@ Checking for finite response...
 Checking for confluence...
 
 CONCLUSION:
-    [OK] The specification has bounded response.
+    [OK] The specification has bounded response:
     
         [OK] No transitions are possible for uncontrollable events.
         [OK] No transitions are possible for controllable events.
