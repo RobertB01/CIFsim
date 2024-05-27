@@ -26,14 +26,14 @@ The controller properties checker assume a certain structure of code generated b
 * Some code for the model is executed, and after a fixed or variable time, the code is executed again, and so on.
 * Every time the code is executed:
 ** First the external inputs are read.
-** Then transitions for <<sbe-approaches-synthesis-based-events,uncontrollable events>> are executed to update the state based on the inputs.
-** Then transitions for <<sbe-approaches-synthesis-based-events,controllable events>> are executed to compute the control response, and update the state to reflect it.
+** Then <<lang-tut-basics-trans,transitions>> for <<sbe-approaches-synthesis-based-events,uncontrollable events>> are executed to update the state based on the inputs.
+** Then <<lang-tut-basics-trans,transitions>> for <<sbe-approaches-synthesis-based-events,controllable events>> are executed to compute the control response, and update the state to reflect it.
 ** And finally, the external outputs are written.
 
 The controller checker can check the following properties:
 
 <<tools-controller-checker-bounded-response,Bounded response>>::
-The bounded response property holds if for each execution of the code, the number of uncontrollable and controllable events to execute are both bounded.
+The bounded response property holds if for each execution of the code, the number of transitions to execute for uncontrollable and controllable events are both bounded.
 This property ensures that the code that executes the uncontrollable events, as well as the code that executes the controllable events, always terminate.
 That is, the system has no loops with only uncontrollable events, or with only controllable events.
 In other words, there is no <<lang-tut-time-livelock,livelock>> for uncontrollable events, nor for controllable events.
@@ -44,8 +44,8 @@ Read more about this check on the <<tools-controller-checker-bounded-response,bo
 
 <<tools-controller-checker-confluence,Confluence>>::
 The confluence property holds if for each execution of the controllable events, it does not matter in which order the controllable events are executed, as the same state is reached regardless.
-This property ensures that if the code generator makes a choice to execute events in a certain order, this does not affect the <<sbe-approaches-synthesis-based-properties,guarantees of synthesis>>.
-In other words, it does not matter which transitions for controllable event are chosen and in which order, as the end result is the same.
+This property ensures that that the controller can make any choice between controllable events without losing the <<sbe-approaches-synthesis-based-properties,guarantees of synthesis>>.
+By extension, this means that code generators may generate code for the controller that executes the controllable events in any order.
 +
 This check does not check for confluence of the uncontrollable events.
 Furthermore, the check may produce false negatives.
@@ -53,7 +53,7 @@ Furthermore, the check may produce false negatives.
 Read more about this check on the <<tools-controller-checker-confluence,confluence check>> page.
 
 <<tools-controller-checker-finite-response,Finite response>>::
-The finite response property holds if for each execution of the code, the number of controllable events to execute is finite.
+The finite response property holds if for each execution of the code, the number of transitions to execute for controllable events is finite.
 This property ensures that the code that executes the controllable events always terminates.
 That is, the system has no loops with only controllable events.
 In other words, there is no <<lang-tut-time-livelock,livelock>> for controllable events.

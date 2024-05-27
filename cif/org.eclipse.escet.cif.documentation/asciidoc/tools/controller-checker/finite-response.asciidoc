@@ -18,7 +18,7 @@ include::../_part_attributes.asciidoc[]
 
 The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for having finite response.
 
-The finite response property holds if for each execution of the code, the number of <<sbe-approaches-synthesis-based-events,controllable events>> to execute is finite.
+The finite response property holds if for each execution of the code, the number of <<lang-tut-basics-trans,transitions>> to execute for <<sbe-approaches-synthesis-based-events,controllable events>> is finite.
 This property ensures that the code that executes the controllable events always terminates.
 That is, the system has no loops with only controllable events.
 In other words, there is no <<lang-tut-time-livelock,livelock>> for controllable events.

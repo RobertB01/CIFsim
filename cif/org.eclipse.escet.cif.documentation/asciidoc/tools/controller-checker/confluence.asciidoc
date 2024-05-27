@@ -19,8 +19,8 @@ include::../_part_attributes.asciidoc[]
 The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for having confluence.
 
 The confluence property holds if for each execution of the controllable events, it does not matter in which order the <<sbe-approaches-synthesis-based-events,controllable events>> are executed, as the same state is reached regardless.
-Thus, if multiple transitions for controllable events are enabled at the same, it does not matter which transitions for controllable event are chosen and in which order, as the end result is always the same.
-This property ensures that if the code generator makes a choice to execute events in a certain order, this does not affect the <<sbe-approaches-synthesis-based-properties,guarantees of synthesis>>.
+This property ensures that that the controller can make any choice between controllable events without losing the <<sbe-approaches-synthesis-based-properties,guarantees of synthesis>>.
+By extension, this means that code generators may generate code for the controller that executes the controllable events in any order.
 
 This check does not check for confluence of the <<sbe-approaches-synthesis-based-events,uncontrollable events>>.
 Furthermore, the check may produce <<tools-controller-checker-confluence-falsenegs,false negatives>>.

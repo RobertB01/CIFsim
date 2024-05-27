@@ -18,15 +18,15 @@ include::../_part_attributes.asciidoc[]
 
 The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for having bounded response.
 
-The bounded response property holds if for each execution of the code, the number of <<sbe-approaches-synthesis-based-events,uncontrollable and controllable events>> to execute are both bounded.
+The bounded response property holds if for each execution of the code, the number of <<lang-tut-basics-trans,transitions>> to execute for <<sbe-approaches-synthesis-based-events,uncontrollable and controllable events>> are both bounded.
 This property ensures that the code that executes the uncontrollable events, as well as the code that executes the controllable events, always terminate.
 That is, the system has no loops with only uncontrollable events, or with only controllable events.
 In other words, there is no <<lang-tut-time-livelock,livelock>> for uncontrollable events, nor for controllable events.
 
 === Examples
 
-The check verifies lack of event loops that consist of only uncontrollable or only controllable events.
-For example, the `Actuator` automaton in the example below has bounded response, because between event `c_on` and `c_off`, the location of `Sensor` has to change via an uncontrollable event.
+The check verifies lack of transition loops that consist of only uncontrollable or only controllable events.
+For example, the `Actuator` automaton in the example below has bounded response, because between transitions for events `c_on` and `c_off`, the location of `Sensor` has to change via an uncontrollable event.
 The `Sensor` automaton does not have bounded response, as the sensor can keep go on and off forever, without restrictions.
 
 [source, cif]
@@ -74,7 +74,7 @@ end
 
 Bounded response for a model is determined as follows:
 
-* Compute the reachable states (`R`) of the system.
+* Compute the reachable states (_R0_) of the system.
 +
 Transitions for all events are considered.
 Input variables can also change their value to any other value, at any time.
@@ -84,17 +84,16 @@ Input variables can also change their value to any other value, at any time.
 Given the reachable states, computing a bound is done as follows:
 
 . If there are no reachable states, the system can't be initialized, and the bound is zero.
-. Consider the reachable states _R_ as states that can be reached after applying zero transitions from any reachable state.
-We call these states _R0_.
+. The reachable states _R0_ are the states that can be reached after applying zero transitions from any reachable state.
 . Take all possible transitions from states in _R0_.
-The resulting states are the states reachable with one transition from the states in _R_, and we call these states _R1_.
+The resulting states are the states reachable with one transition from the states in _R0_, and we call these states _R1_.
 . Take all possible transitions from states in _R1_.
-The resulting states are the states reachable with two transitions from the states in _R_, and we call these states _R2_.
+The resulting states are the states reachable with two transitions from the states in _R0_, and we call these states _R2_.
 . And so on, to compute _R3_, _R4_, etc.
 . If the specification has bounded response, then some _Rx_ will be an empty set of states, as no more transitions are possible.
-The bound is _x - 1_, since no states could be reached with _x_ transitions from _R_, while there are states that could be reached with _x - 1_ transitions from _R_.
+The bound is _x - 1_, since no states could be reached with _x_ transitions from _R0_, while there are states that could be reached with _x - 1_ transitions from _R0_.
 . If the specification does not have bounded response, it has at least one cycle of states.
 The states within a cycle will with one transition go to the next state in their cycle.
-Cycles are thus preserved with step.
+Cycles are thus preserved with each step.
 If all bounded sequences at some point end, then only the cycles remain.
 Then a fixed point will be reached (_Rx_ and _Ry_ with _x + 1 = y_ are the same set of states) and there is no bounded response.
