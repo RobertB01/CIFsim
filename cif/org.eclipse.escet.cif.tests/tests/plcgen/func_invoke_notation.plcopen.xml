@@ -178,23 +178,23 @@
  * Model overview:
  *
  * Specification (top-level group):
- *    - Continuous variable "c".
- *    - Input variable "inp".
+ * - Continuous variable "c".
+ * - Input variable "inp".
  *
  * Automaton "aut":
- *    - Current location of automaton "aut".
- *    - Discrete variable "aut.b".
- *    - Discrete variable "aut.i".
- *    - Discrete variable "aut.i2".
- *    - Discrete variable "aut.i3".
- *    - Discrete variable "aut.r".
- *    - Discrete variable "aut.tii".
+ * - Current location of automaton "aut".
+ * - Discrete variable "aut.b".
+ * - Discrete variable "aut.i".
+ * - Discrete variable "aut.i2".
+ * - Discrete variable "aut.i3".
+ * - Discrete variable "aut.r".
+ * - Discrete variable "aut.tii".
  *
- *    - PLC edge selection variable "edge_aut_1".
+ * - PLC edge selection variable "edge_aut_1".
  *
- *    - Uncontrollable event "aut.f".
+ * - Uncontrollable event "aut.f".
  *
- *    - Controllable event "aut.e".
+ * - Controllable event "aut.e".
  *
  *------------------------------------------------------ *)
 
@@ -203,27 +203,27 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
-    (* Initializing continuous variable "c". *)
+    (* Initialize continuous variable "c". *)
     c := 0.0;
     (* Reset timer of "c". *)
     preset_c := c;
     ton_c(IN := FALSE, PT := preset_c);
     ton_c(IN := TRUE, PT := preset_c);
-    (* Initializing discrete variable "aut.r". *)
+    (* Initialize discrete variable "aut.r". *)
     aut_r := 0.0;
-    (* Initializing discrete variable "aut.b". *)
+    (* Initialize discrete variable "aut.b". *)
     aut_b := FALSE;
-    (* Initializing discrete variable "aut.i". *)
+    (* Initialize discrete variable "aut.i". *)
     aut_i := 0;
-    (* Initializing discrete variable "aut.tii". *)
+    (* Initialize discrete variable "aut.tii". *)
     litStruct.field1 := 0;
     litStruct.field2 := 0;
     aut_tii := litStruct;
-    (* Initializing discrete variable "aut.i2". *)
+    (* Initialize discrete variable "aut.i2". *)
     aut_i2 := 1;
-    (* Initializing discrete variable "aut.i3". *)
+    (* Initialize discrete variable "aut.i3". *)
     aut_i3 := 1;
-    (* Initializing current location of automaton "aut". *)
+    (* Initialize current location of automaton "aut". *)
     aut := aut_l1;
 ELSE
     (* Update remaining time of continuous variable "c". *)
@@ -247,7 +247,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "aut" to synchronize for event "aut.f".
+     * Test edges of automaton "aut" to synchronize for event "aut.f".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -290,7 +290,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "aut" to synchronize for event "aut.e".
+     * Test edges of automaton "aut" to synchronize for event "aut.e".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:

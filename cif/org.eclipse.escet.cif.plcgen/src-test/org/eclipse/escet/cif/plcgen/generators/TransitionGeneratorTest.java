@@ -218,7 +218,7 @@ public class TransitionGeneratorTest {
                 senderAut := 0;
                 IF senderAut = 0 THEN
                     (***********
-                     * Testing edge of automaton "aut1" to provide a value for the channel for event "sendEvent".
+                     * Test edge of automaton "aut1" to provide a value for the channel for event "sendEvent".
                      * At least one sending automaton must have an edge with a true guard to allow the event.
                      *
                      * Edge being tested:
@@ -332,7 +332,7 @@ public class TransitionGeneratorTest {
                 senderAut := 0;
                 IF senderAut = 0 THEN
                     (***********
-                     * Testing edge of automaton "sender1" to provide a value for the channel for event "channelEvent".
+                     * Test edge of automaton "sender1" to provide a value for the channel for event "channelEvent".
                      * At least one sending automaton must have an edge with a true guard to allow the event.
                      *
                      * Edge being tested:
@@ -355,7 +355,7 @@ public class TransitionGeneratorTest {
                     receiverAut := 0;
                     IF receiverAut = 0 THEN
                         (***********
-                         * Testing edge of automaton "receiver1" to accept a value from the channel for event "channelEvent".
+                         * Test edge of automaton "receiver1" to accept a value from the channel for event "channelEvent".
                          * At least one receiving automaton must have an edge with a true guard to allow the event.
                          *
                          * Edge being tested:
@@ -369,7 +369,7 @@ public class TransitionGeneratorTest {
                     END_IF;
                     IF receiverAut = 0 THEN
                         (***********
-                         * Testing edge of automaton "receiver2" to accept a value from the channel for event "channelEvent".
+                         * Test edge of automaton "receiver2" to accept a value from the channel for event "channelEvent".
                          * At least one receiving automaton must have an edge with a true guard to allow the event.
                          *
                          * Edge being tested:
@@ -426,7 +426,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testTwoSyncers() {
-        Event event = newEvent(null, null, "event", null, null);
+        Event event = newEvent(null, true, "event", null, null);
         spec.getDeclarations().add(event);
 
         // automaton syncer1: edge event when otherVar = 1 do otherVar := 2;
@@ -479,7 +479,7 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (*************************************************************
-                 * Try to perform event "event".
+                 * Try to perform controllable event "event".
                  *
                  * - Automaton "syncer1" must always synchronize.
                  * - Automaton "syncer2" must always synchronize.
@@ -489,7 +489,7 @@ public class TransitionGeneratorTest {
                  * Check each synchronizing automaton for having an edge with a true guard.
                  *******************************)
                 (***********
-                 * Testing edges of automaton "syncer1" to synchronize for event "event".
+                 * Test edges of automaton "syncer1" to synchronize for event "event".
                  * This automaton must have an edge with a true guard to allow the event.
                  *
                  * Edges being tested:
@@ -507,7 +507,7 @@ public class TransitionGeneratorTest {
                 END_IF;
                 IF eventEnabled THEN
                     (***********
-                     * Testing edge of automaton "syncer2" to synchronize for event "event".
+                     * Test edge of automaton "syncer2" to synchronize for event "event".
                      * This automaton must have an edge with a true guard to allow the event.
                      *
                      * Edge being tested:
@@ -551,7 +551,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testOneMonitor() {
-        Event event = newEvent(null, null, "event", null, null);
+        Event event = newEvent(null, true, "event", null, null);
         spec.getDeclarations().add(event);
 
         // automaton monitor: edge event when otherVar = 1 do otherVar := 2;
@@ -579,7 +579,7 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (*************************************************************
-                 * Try to perform event "event".
+                 * Try to perform controllable event "event".
                  *
                  * - Automaton "monitor" may synchronize.
                  *************************************************************)
@@ -604,7 +604,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testMultiAssignUnfold() {
-        Event event = newEvent(null, null, "event", null, null);
+        Event event = newEvent(null, false, "event", null, null);
         spec.getDeclarations().add(event);
 
         // Pairwise assignment.
@@ -642,7 +642,7 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (*************************************************************
-                 * Try to perform event "event".
+                 * Try to perform uncontrollable event "event".
                  *
                  * - Automaton "aut" must always synchronize.
                  *************************************************************)
@@ -651,7 +651,7 @@ public class TransitionGeneratorTest {
                  * Check each synchronizing automaton for having an edge with a true guard.
                  *******************************)
                 (***********
-                 * Testing edge of automaton "aut" to synchronize for event "event".
+                 * Test edge of automaton "aut" to synchronize for event "event".
                  * This automaton must have an edge with a true guard to allow the event.
                  *
                  * Edge being tested:
@@ -686,7 +686,7 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testMultiAssignProject() {
-        Event event = newEvent(null, null, "event", null, null);
+        Event event = newEvent(null, false, "event", null, null);
         spec.getDeclarations().add(event);
 
         // Unpack "true" tuple.
@@ -720,7 +720,7 @@ public class TransitionGeneratorTest {
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
                 (*************************************************************
-                 * Try to perform event "event".
+                 * Try to perform uncontrollable event "event".
                  *
                  * - Automaton "aut" must always synchronize.
                  *************************************************************)
@@ -729,7 +729,7 @@ public class TransitionGeneratorTest {
                  * Check each synchronizing automaton for having an edge with a true guard.
                  *******************************)
                 (***********
-                 * Testing edge of automaton "aut" to synchronize for event "event".
+                 * Test edge of automaton "aut" to synchronize for event "event".
                  * This automaton must have an edge with a true guard to allow the event.
                  *
                  * Edge being tested:

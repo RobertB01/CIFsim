@@ -44,27 +44,27 @@ END_VAR
  * Model overview:
  *
  * Group "g":
- *    - Input variable "g.inp".
+ * - Input variable "g.inp".
  *
  * Automaton "p":
- *    - Current location of automaton "p".
- *    - Discrete variable "p.b".
- *    - Discrete variable "p.j".
- *    - Discrete variable "p.r".
- *    - Continuous variable "p.t".
- *    - Discrete variable "p.tv".
- *    - Discrete variable "p.v1".
- *    - Discrete variable "p.v2".
- *    - Discrete variable "p.v3".
- *    - Discrete variable "p.ve".
- *    - Discrete variable "p.x".
- *    - Discrete variable "p.y".
+ * - Current location of automaton "p".
+ * - Discrete variable "p.b".
+ * - Discrete variable "p.j".
+ * - Discrete variable "p.r".
+ * - Continuous variable "p.t".
+ * - Discrete variable "p.tv".
+ * - Discrete variable "p.v1".
+ * - Discrete variable "p.v2".
+ * - Discrete variable "p.v3".
+ * - Discrete variable "p.ve".
+ * - Discrete variable "p.x".
+ * - Discrete variable "p.y".
  *
- *    - PLC edge selection variable "edge_p".
+ * - PLC edge selection variable "edge_p".
  *
- *    - No use of uncontrollable events.
+ * - No use of uncontrollable events.
  *
- *    - Controllable event "p.evt".
+ * - Controllable event "p.evt".
  *
  *------------------------------------------------------ *)
 
@@ -73,41 +73,41 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
-    (* Initializing discrete variable "p.b". *)
+    (* Initialize discrete variable "p.b". *)
     p_b := TRUE;
-    (* Initializing discrete variable "p.x". *)
+    (* Initialize discrete variable "p.x". *)
     p_x := 0;
-    (* Initializing discrete variable "p.y". *)
+    (* Initialize discrete variable "p.y". *)
     p_y := 1.23;
-    (* Initializing discrete variable "p.ve". *)
+    (* Initialize discrete variable "p.ve". *)
     p_ve := 0;
-    (* Initializing discrete variable "p.v1". *)
+    (* Initialize discrete variable "p.v1". *)
     p_v1 := 0;
-    (* Initializing discrete variable "p.v2". *)
+    (* Initialize discrete variable "p.v2". *)
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
     p_v2 := litStruct;
-    (* Initializing discrete variable "p.v3". *)
+    (* Initialize discrete variable "p.v3". *)
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
     litStruct_1.field1 := litStruct;
     litStruct_1.field2 := 0.0;
     p_v3 := litStruct_1;
-    (* Initializing discrete variable "p.tv". *)
+    (* Initialize discrete variable "p.tv". *)
     litStruct_2.field1 := 0;
     litStruct_2.field2 := 0;
     p_tv := litStruct_2;
-    (* Initializing discrete variable "p.j". *)
+    (* Initialize discrete variable "p.j". *)
     p_j := 0;
-    (* Initializing discrete variable "p.r". *)
+    (* Initialize discrete variable "p.r". *)
     p_r := 1000000.0;
-    (* Initializing continuous variable "p.t". *)
+    (* Initialize continuous variable "p.t". *)
     p_t := 0.0;
     (* Reset timer of "p_t". *)
     preset_p_t := p_t;
     ton_p_t(IN := FALSE, PT := preset_p_t);
     ton_p_t(IN := TRUE, PT := preset_p_t);
-    (* Initializing current location of automaton "p". *)
+    (* Initialize current location of automaton "p". *)
     p := 0;
 ELSE
     (* Update remaining time of continuous variable "p.t". *)
@@ -131,7 +131,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "p" to synchronize for event "p.evt".
+     * Test edges of automaton "p" to synchronize for event "p.evt".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:

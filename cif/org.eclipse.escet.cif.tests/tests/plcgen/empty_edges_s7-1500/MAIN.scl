@@ -22,29 +22,29 @@ BEGIN
      * Model overview:
      *
      * Automaton "Block":
-     *    - PLC edge selection variable "edge_Block".
+     * - PLC edge selection variable "edge_Block".
      *
-     *    - No use of uncontrollable events.
+     * - No use of uncontrollable events.
      *
-     *    - Controllable event "noMonitor".
-     *    - Controllable event "noSync".
+     * - Controllable event "noMonitor".
+     * - Controllable event "noSync".
      *
      * Automaton "Good":
-     *    - Discrete variable "Good.x".
+     * - Discrete variable "Good.x".
      *
-     *    - PLC edge selection variable "edge_Good".
+     * - PLC edge selection variable "edge_Good".
      *
-     *    - No use of uncontrollable events.
+     * - No use of uncontrollable events.
      *
-     *    - Controllable event "noMonitor".
-     *    - Controllable event "noSync".
+     * - Controllable event "noMonitor".
+     * - Controllable event "noSync".
      *
      * Automaton "UseChannel":
-     *    - PLC edge selection variable "edge_UseChannel".
+     * - PLC edge selection variable "edge_UseChannel".
      *
-     *    - No use of uncontrollable events.
+     * - No use of uncontrollable events.
      *
-     *    - Controllable event "channel".
+     * - Controllable event "channel".
      *
      *------------------------------------------------------ *)
 
@@ -53,7 +53,7 @@ BEGIN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
-        (* Initializing discrete variable "Good.x". *)
+        (* Initialize discrete variable "Good.x". *)
         "DB".Good_x := 0;
     END_IF;
 
@@ -74,7 +74,7 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "Good" to synchronize for event "noSync".
+         * Test edge of automaton "Good" to synchronize for event "noSync".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -89,7 +89,7 @@ BEGIN
         END_IF;
         IF eventEnabled THEN
             (***********
-             * Testing edges of automaton "Block" to synchronize for event "noSync".
+             * Test edges of automaton "Block" to synchronize for event "noSync".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edges being tested:
@@ -127,7 +127,7 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "Good" to synchronize for event "noMonitor".
+         * Test edge of automaton "Good" to synchronize for event "noMonitor".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -194,7 +194,7 @@ BEGIN
          *******************************)
         IF eventEnabled THEN
             (***********
-             * Testing edges of automaton "UseChannel" to synchronize for event "channel".
+             * Test edges of automaton "UseChannel" to synchronize for event "channel".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edges being tested:

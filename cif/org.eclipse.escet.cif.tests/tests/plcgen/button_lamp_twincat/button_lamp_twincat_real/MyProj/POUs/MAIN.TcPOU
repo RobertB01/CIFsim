@@ -47,53 +47,53 @@ END_VAR]]></Declaration>
  * Model overview:
  *
  * Automaton "hw_button":
- *    - Current location of automaton "hw_button".
- *    - Input variable "hw_button.bit".
+ * - Current location of automaton "hw_button".
+ * - Input variable "hw_button.bit".
  *
- *    - PLC edge selection variable "edge_hw_button".
+ * - PLC edge selection variable "edge_hw_button".
  *
- *    - Uncontrollable event "button.push".
- *    - Uncontrollable event "button.release".
+ * - Uncontrollable event "button.push".
+ * - Uncontrollable event "button.release".
  *
- *    - No use of controllable events.
+ * - No use of controllable events.
  *
  * Automaton "hw_lamp":
- *    - Current location of automaton "hw_lamp".
- *    - Discrete variable "hw_lamp.bit".
+ * - Current location of automaton "hw_lamp".
+ * - Discrete variable "hw_lamp.bit".
  *
- *    - PLC edge selection variable "edge_hw_lamp".
+ * - PLC edge selection variable "edge_hw_lamp".
  *
- *    - No use of uncontrollable events.
+ * - No use of uncontrollable events.
  *
- *    - Controllable event "lamp.off".
- *    - Controllable event "lamp.on".
+ * - Controllable event "lamp.off".
+ * - Controllable event "lamp.on".
  *
  * Automaton "sup":
- *    - Current location of automaton "sup".
+ * - Current location of automaton "sup".
  *
- *    - PLC edge selection variable "edge_sup_1".
+ * - PLC edge selection variable "edge_sup_1".
  *
- *    - Uncontrollable event "button.push".
- *    - Uncontrollable event "button.release".
- *    - Uncontrollable event "timer.timeout".
+ * - Uncontrollable event "button.push".
+ * - Uncontrollable event "button.release".
+ * - Uncontrollable event "timer.timeout".
  *
- *    - Controllable event "lamp.off".
- *    - Controllable event "lamp.on".
- *    - Controllable event "timer.start".
+ * - Controllable event "lamp.off".
+ * - Controllable event "lamp.on".
+ * - Controllable event "timer.start".
  *
  * Automaton "timer":
- *    - Current location of automaton "timer".
- *    - Continuous variable "timer.t".
+ * - Current location of automaton "timer".
+ * - Continuous variable "timer.t".
  *
- *    - PLC edge selection variable "edge_timer_1".
+ * - PLC edge selection variable "edge_timer_1".
  *
- *    - Uncontrollable event "timer.timeout".
+ * - Uncontrollable event "timer.timeout".
  *
- *    - Controllable event "timer.start".
+ * - Controllable event "timer.start".
  *
  *------------------------------------------------------ *)
 
-(* --- Read input from sensors. -------------------------------------------- *)
+(* --- Read PLC inputs. ---------------------------------------------------- *)
 (* Read PLC input and write it to input variable "hw_button.bit". *)
 hw_button_bit := in_hw_button_bit;
 
@@ -102,21 +102,21 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
-    (* Initializing continuous variable "timer.t". *)
+    (* Initialize continuous variable "timer.t". *)
     timer_t := 0.0;
     (* Reset timer of "timer_t". *)
     preset_timer_t := timer_t;
     ton_timer_t(IN := FALSE, PT := preset_timer_t);
     ton_timer_t(IN := TRUE, PT := preset_timer_t);
-    (* Initializing current location of automaton "timer". *)
+    (* Initialize current location of automaton "timer". *)
     timer := timer_Idle;
-    (* Initializing current location of automaton "sup". *)
+    (* Initialize current location of automaton "sup". *)
     sup := sup_s1;
-    (* Initializing current location of automaton "hw_button". *)
+    (* Initialize current location of automaton "hw_button". *)
     hw_button := hw_button_Released;
-    (* Initializing discrete variable "hw_lamp.bit". *)
+    (* Initialize discrete variable "hw_lamp.bit". *)
     hw_lamp_bit := FALSE;
-    (* Initializing current location of automaton "hw_lamp". *)
+    (* Initialize current location of automaton "hw_lamp". *)
     hw_lamp := hw_lamp_Off;
 ELSE
     (* Update remaining time of continuous variable "timer.t". *)
@@ -141,7 +141,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edge of automaton "timer" to synchronize for event "timer.timeout".
+     * Test edge of automaton "timer" to synchronize for event "timer.timeout".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edge being tested:
@@ -156,7 +156,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edges of automaton "sup" to synchronize for event "timer.timeout".
+         * Test edges of automaton "sup" to synchronize for event "timer.timeout".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
@@ -212,7 +212,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "sup" to synchronize for event "button.push".
+     * Test edges of automaton "sup" to synchronize for event "button.push".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -243,7 +243,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edge of automaton "hw_button" to synchronize for event "button.push".
+         * Test edge of automaton "hw_button" to synchronize for event "button.push".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -307,7 +307,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "sup" to synchronize for event "button.release".
+     * Test edges of automaton "sup" to synchronize for event "button.release".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -338,7 +338,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edge of automaton "hw_button" to synchronize for event "button.release".
+         * Test edge of automaton "hw_button" to synchronize for event "button.release".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -409,7 +409,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edge of automaton "timer" to synchronize for event "timer.start".
+     * Test edge of automaton "timer" to synchronize for event "timer.start".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edge being tested:
@@ -424,7 +424,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edges of automaton "sup" to synchronize for event "timer.start".
+         * Test edges of automaton "sup" to synchronize for event "timer.start".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
@@ -487,7 +487,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "sup" to synchronize for event "lamp.on".
+     * Test edges of automaton "sup" to synchronize for event "lamp.on".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -506,7 +506,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edge of automaton "hw_lamp" to synchronize for event "lamp.on".
+         * Test edge of automaton "hw_lamp" to synchronize for event "lamp.on".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -561,7 +561,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "sup" to synchronize for event "lamp.off".
+     * Test edges of automaton "sup" to synchronize for event "lamp.off".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -580,7 +580,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edge of automaton "hw_lamp" to synchronize for event "lamp.off".
+         * Test edge of automaton "hw_lamp" to synchronize for event "lamp.off".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -625,7 +625,7 @@ WHILE isProgress DO
     END_IF;
 END_WHILE;
 
-(* --- Write output to actuators. ------------------------------------------ *)
+(* --- Write PLC outputs. -------------------------------------------------- *)
 (* Write discrete variable "hw_lamp.bit" to PLC output. *)
 out_hw_lamp_bit := hw_lamp_bit;]]></ST>
     </Implementation>

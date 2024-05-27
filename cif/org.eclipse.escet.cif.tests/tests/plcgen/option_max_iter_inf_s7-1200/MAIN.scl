@@ -17,13 +17,13 @@ BEGIN
      * Model overview:
      *
      * Automaton "p":
-     *    - Discrete variable "p.x".
+     * - Discrete variable "p.x".
      *
-     *    - PLC edge selection variable "edge_p_1".
+     * - PLC edge selection variable "edge_p_1".
      *
-     *    - Uncontrollable event "u".
+     * - Uncontrollable event "u".
      *
-     *    - Controllable event "e".
+     * - Controllable event "e".
      *
      *------------------------------------------------------ *)
 
@@ -32,7 +32,7 @@ BEGIN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
-        (* Initializing discrete variable "p.x". *)
+        (* Initialize discrete variable "p.x". *)
         "DB".p_x := 5;
     END_IF;
 
@@ -52,7 +52,7 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "p" to synchronize for event "u".
+         * Test edge of automaton "p" to synchronize for event "u".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -98,7 +98,7 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "p" to synchronize for event "e".
+         * Test edge of automaton "p" to synchronize for event "e".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
