@@ -24,6 +24,7 @@ import static org.eclipse.escet.common.java.Numbers.toOrdinal;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -515,7 +516,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Sort declarations on absolute name.
         List<Declaration> assignedVarList = set2list(assignedVariables);
-        Collections.sort(assignedVarList, (a, b) -> getAbsName(a, false).compareTo(getAbsName(b, false)));
+        Collections.sort(assignedVarList, Comparator.comparing(v -> getAbsName(v, false)));
 
         // Add comment to the generated code to explain the partial state copy.
         if (!assignedVariables.isEmpty()) {

@@ -17,6 +17,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -100,10 +101,8 @@ public class ComponentDocData {
 
     /** Sort the contents of the component. */
     public void sortData() {
-        Collections.sort(variables, (v1, v2) -> v1.getName().compareTo(v2.getName()));
-        Collections.sort(uncontrollableEvents,
-                (e1, e2) -> CifTextUtils.getAbsName(e1, false).compareTo(CifTextUtils.getAbsName(e2, false)));
-        Collections.sort(controllableEvents,
-                (e1, e2) -> CifTextUtils.getAbsName(e1, false).compareTo(CifTextUtils.getAbsName(e2, false)));
+        Collections.sort(variables, Comparator.comparing(v -> v.getName()));
+        Collections.sort(uncontrollableEvents, Comparator.comparing(e -> CifTextUtils.getAbsName(e, false)));
+        Collections.sort(controllableEvents, Comparator.comparing(e -> CifTextUtils.getAbsName(e, false)));
     }
 }

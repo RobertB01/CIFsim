@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.makeInitialUppercase;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -685,7 +686,7 @@ public class PlcCodeStorage {
         // Order the components by name.
         List<ComponentDocData> compDatas = listc(componentDatas.size());
         compDatas.addAll(componentDatas.values());
-        Collections.sort(compDatas, (cd1, cd2) -> cd1.getComponentName().compareTo(cd2.getComponentName()));
+        Collections.sort(compDatas, Comparator.comparing(cd -> cd.getComponentName()));
 
         final String entryIndent = "   "; // Indentation of an entry in a main topic.
 

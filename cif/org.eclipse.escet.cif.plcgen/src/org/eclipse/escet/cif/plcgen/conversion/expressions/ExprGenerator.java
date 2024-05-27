@@ -28,6 +28,7 @@ import static org.eclipse.escet.common.java.Sets.set;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -287,7 +288,7 @@ public class ExprGenerator {
         }
 
         // Sort variables on name.
-        Collections.sort(tempVars, (a, b) -> a.varName.compareTo(b.varName));
+        Collections.sort(tempVars, Comparator.comparing(v -> v.varName));
         return tempVars;
     }
 
