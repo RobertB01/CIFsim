@@ -1124,11 +1124,12 @@ The indices of the projections of the addressables are evaluated in the
 
 \begin{constraints}
 \citem{Assignment.addressableSyntax}
-  Addressables on edges may be discrete and continuous variable references 
+  Addressables on edges may be discrete and continuous variable references
   (possibly wrapped) with projections, and addressables in CIF/SVG input mappings may
   be input variable references (possibly wrapped) with projections. The variable
   references may optionally be wrapped in tuples (possibly multiple times). Projected
-  string typed variables are not allowed.
+  string typed variables are not allowed. Assignments to derivatives of continuous
+  variables are not allowed.
 \citem{Assignment.variablesInScope}
   The variables that are assigned on edges must be discrete or continuous
   variables declared in the automaton that contains the source location of the

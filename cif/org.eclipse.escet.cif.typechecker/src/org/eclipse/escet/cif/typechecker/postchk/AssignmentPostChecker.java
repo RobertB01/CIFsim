@@ -228,6 +228,7 @@ public class AssignmentPostChecker {
             if (expr instanceof DiscVariableExpression dvarExpr) {
                 var = dvarExpr.getVariable();
             } else if (expr instanceof ContVariableExpression cvarExpr) {
+                Assert.check(!cvarExpr.isDerivative()); // Parser doesn't allow this.
                 var = cvarExpr.getVariable();
             } else if (expr instanceof ReceivedExpression) {
                 throw new RuntimeException("Parser doesn't allow this.");
