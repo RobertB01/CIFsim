@@ -101,6 +101,7 @@ public class ComponentDocData {
 
     /** Sort the contents of the component. */
     public void sortData() {
+        // Variables are stored by their containing component, thus their absolute name prefixes are all the same.
         Collections.sort(variables, Comparator.comparing(v -> v.getName()));
         Collections.sort(uncontrollableEvents, Comparator.comparing(e -> CifTextUtils.getAbsName(e, false)));
         Collections.sort(controllableEvents, Comparator.comparing(e -> CifTextUtils.getAbsName(e, false)));
