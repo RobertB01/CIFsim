@@ -37,7 +37,7 @@ public class ComponentDocData {
     /** The uncontrollable events of the automaton, if the component is an automaton. */
     public final List<Event> uncontrollableEvents = list();
 
-    /** The controllable events of the automaton. */
+    /** The controllable events of the automaton, if the component is an automaton. */
     public final List<Event> controllableEvents = list();
 
     /** If not {@code null}, the name of the PLC variable used to select edges of the automaton. */
