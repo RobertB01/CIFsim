@@ -19,11 +19,20 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
+import org.eclipse.escet.cif.bdd.conversion.CifToBddConverter;
+import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.utils.CifBddApplyPlantInvariants;
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
@@ -34,14 +43,17 @@ import org.eclipse.escet.cif.cif2cif.ElimSelf;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
+import org.eclipse.escet.cif.cif2cif.RelabelSupervisorsAsPlants;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseChecker;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.options.EnableBoundedResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
@@ -65,6 +77,8 @@ import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
+
+import com.github.javabdd.BDDFactory;
 
 /** Controller properties checker application. */
 public class ControllerCheckerApp extends Application<IOutputComponent> {
@@ -105,12 +119,14 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
     @Override
     protected int runInternal() {
         // Determine checks to perform.
+        boolean checkBoundedResponse = EnableBoundedResponseChecking.checkBoundedResponse();
         boolean checkFiniteResponse = EnableFiniteResponseChecking.checkFiniteResponse();
         boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
+        boolean hasBddBasedChecks = checkBoundedResponse;
         boolean hasMddBasedChecks = checkFiniteResponse || checkConfluence;
 
         // Ensure at least one check is enabled.
-        if (!checkFiniteResponse && !checkConfluence) {
+        if (!checkBoundedResponse && !checkFiniteResponse && !checkConfluence) {
             throw new InvalidOptionException(
                     "No checks enabled. Enable one of the checks for the controller properties checker to check.");
         }
@@ -150,11 +166,79 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             warn("The alphabet of the specification contains no uncontrollable events.");
         }
 
-        // Prepare for the checks.
+        // Prepare for the checks. Some check use BDDs, other use MDDs, which influences the preparations to perform.
+        // Preparations for both representations may be performed, depending on which checks are enabled.
+        Specification bddSpec = null; // Used for BDD-based checks.
         Specification mddSpec = null; // Used for MDD-based checks.
+        CifBddSpec cifBddSpec = null; // Used for BDD-based checks.
         MddPrepareChecks prepareChecks = null; // Used for MDD-based checks.
 
+        // Preparations for BDD-based checks.
+        if (hasBddBasedChecks) {
+            OutputProvider.dbg("Preparing for BDD-based checks...");
+
+            // Use a dedicated copy of the specification.
+            bddSpec = EMFHelper.deepclone(spec);
+            if (isTerminationRequested()) {
+                return 0;
+            }
+
+            // Relabel supervisors as plants, to deal with them in the same way.
+            new RelabelSupervisorsAsPlants().transform(bddSpec);
+
+            // Get CIF/BDD settings.
+            CifBddSettings settings = new CifBddSettings();
+            settings.setShouldTerminate(() -> AppEnv.isTerminationRequested());
+            settings.setDebugOutput(OutputProvider.getDebugOutputStream());
+            settings.setNormalOutput(OutputProvider.getNormalOutputStream());
+            settings.setWarnOutput(OutputProvider.getWarningOutputStream());
+            settings.setAllowNonDeterminism(AllowNonDeterminism.ALL);
+            settings.setCifBddStatistics(EnumSet.noneOf(CifBddStatistics.class));
+            settings.setDoPlantsRefReqsWarn(false);
+
+            settings.setModificationAllowed(false);
+
+            // Pre-process the CIF specification:
+            // - Does not warn about CIF/SVG specifications, as they have been removed already.
+            // - Does not warn about plants referring to requirement state, as we disabled that check.
+            CifToBddConverter.preprocess(bddSpec, settings.getWarnOutput(), settings.getDoPlantsRefReqsWarn());
+
+            // Convert the CIF specification to its BDD representation.
+            BDDFactory factory = CifToBddConverter.createFactory(settings, Collections.emptyList(),
+                    Collections.emptyList());
+            CifToBddConverter converter = new CifToBddConverter("CIF controller properties checker");
+            cifBddSpec = converter.convert(bddSpec, settings, factory);
+            if (isTerminationRequested()) {
+                return 0;
+            }
+
+            // Clean up no longer needed BDD predicates.
+            cifBddSpec.freeIntermediateBDDs(true);
+            if (isTerminationRequested()) {
+                return 0;
+            }
+
+            // Apply the plant state/event exclusion invariants.
+            CifBddApplyPlantInvariants.applyStateEvtExclPlantsInvs(cifBddSpec, "system", () -> null,
+                    settings.getDebugOutput().isEnabled());
+            if (isTerminationRequested()) {
+                return 0;
+            }
+
+            // Initialize applying edges.
+            boolean doForward = true;
+            for (CifBddEdge edge: cifBddSpec.edges) {
+                edge.initApply(doForward);
+                if (isTerminationRequested()) {
+                    return 0;
+                }
+            }
+        }
+
         // Preparations for MDD-based checks.
+        if (hasBddBasedChecks && hasMddBasedChecks) {
+            OutputProvider.dbg();
+        }
         if (hasMddBasedChecks) {
             OutputProvider.dbg("Preparing for MDD-based checks...");
 
@@ -232,6 +316,36 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         int checksPerformed = 0;
         boolean allChecksHold = true;
 
+        // Check bounded response.
+        CheckConclusion boundedResponseConclusion = null;
+        boolean boundedResponseHolds = true; // Is true if it holds or was not checked, false otherwise.
+        if (checkBoundedResponse) {
+            // Check the bounded response property.
+            if (dbgEnabled || checksPerformed > 0) {
+                OutputProvider.out();
+            }
+            OutputProvider.out("Checking for bounded response...");
+            boundedResponseConclusion = new BoundedResponseChecker().checkSystem(cifBddSpec);
+            checksPerformed++;
+            if (boundedResponseConclusion == null || isTerminationRequested()) {
+                return 0;
+            }
+            boundedResponseHolds = boundedResponseConclusion.propertyHolds();
+        }
+        allChecksHold &= boundedResponseHolds;
+
+        // Clean up the BDD representation of the specification, now that it is not needed anymore.
+        if (cifBddSpec != null) {
+            for (CifBddEdge edge: cifBddSpec.edges) {
+                edge.cleanupApply();
+            }
+            cifBddSpec.freeAllBDDs();
+            cifBddSpec = null;
+            if (isTerminationRequested()) {
+                return 0;
+            }
+        }
+
         // Check finite response.
         CheckConclusion finiteResponseConclusion = null;
         boolean finiteResponseHolds = true; // Is true if it holds or was not checked, false otherwise.
@@ -273,22 +387,34 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         out("CONCLUSION:");
 
         iout();
+        if (boundedResponseConclusion != null) {
+            boundedResponseConclusion.printDetails();
+        } else {
+            out("[UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.");
+        }
+        dout();
+
+        if (boundedResponseConclusion != null || !finiteResponseHolds) {
+            out(); // Empty line between conclusions, if they both provide details.
+        }
+
+        iout();
         if (finiteResponseConclusion != null) {
             finiteResponseConclusion.printDetails();
         } else {
-            out("Finite response checking was disabled, finite response property is unknown.");
+            out("[UNKNOWN] Finite response checking was disabled, finite response property is unknown.");
         }
         dout();
 
         if (!finiteResponseHolds || !confluenceHolds) {
-            out(); // Empty line between conclusions if an error occurs.
+            out(); // Empty line between conclusions, if they both provide details.
         }
 
         iout();
         if (confluenceConclusion != null) {
             confluenceConclusion.printDetails();
         } else {
-            out("Confluence checking was disabled, confluence property is unknown.");
+            out("[UNKNOWN] Confluence checking was disabled, confluence property is unknown.");
         }
         dout();
 
@@ -309,6 +435,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
         List<Option> checkOpts = list();
         checkOpts.add(Options.getInstance(InputFileOption.class));
+        checkOpts.add(Options.getInstance(EnableBoundedResponseChecking.class));
         checkOpts.add(Options.getInstance(EnableFiniteResponseChecking.class));
         checkOpts.add(Options.getInstance(PrintControlLoopsOutputOption.class));
         checkOpts.add(Options.getInstance(EnableConfluenceChecking.class));

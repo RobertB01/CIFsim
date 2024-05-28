@@ -718,7 +718,17 @@ include::tools/cif2mcrl2.asciidoc[]
 
 include::tools/cif2uppaal.asciidoc[]
 
-include::tools/controller-checker.asciidoc[]
+include::tools/controller-checker/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/controller-checker/bounded-response.asciidoc[]
+
+include::tools/controller-checker/confluence.asciidoc[]
+
+include::tools/controller-checker/finite-response.asciidoc[]
+
+:leveloffset: -1
 
 :leveloffset: -2
 

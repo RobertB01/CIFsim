@@ -1,0 +1,159 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-controller-checker-confluence]]
+== Confluence
+
+The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for having confluence.
+
+The confluence property holds if for each execution of the controllable events, it does not matter in which order the <<sbe-approaches-synthesis-based-events,controllable events>> are executed, as the same state is reached regardless.
+This property ensures that that the controller can make any choice between controllable events without losing the <<sbe-approaches-synthesis-based-properties,guarantees of synthesis>>.
+By extension, this means that code generators may generate code for the controller that executes the controllable events in any order.
+
+This check does not check for confluence of the <<sbe-approaches-synthesis-based-events,uncontrollable events>>.
+Furthermore, the check may produce <<tools-controller-checker-confluence-falsenegs,false negatives>>.
+
+=== Examples
+
+The check verifies that for every state in the model with several edges enabled at the same time, any taken edge will lead to the same decision.
+The `Actuator` automaton below has two different edges with controllable events from the same location, but only one of them can be enabled at the same time since the `Sensor` automaton cannot be in two locations at the same time.
+As a result, the automaton does not need to choose between edges and the model is confluent.
+
+[source, cif]
+----
+plant Actuator:
+  controllable events c_a, c_b;
+  disc bool on = false;
+
+  location A:
+    initial;
+    edge c_a when Sensor.On do on := true;
+    edge c_b when Sensor.Off do on := false;
+end
+
+plant Sensor:
+  uncontrollable u_on, u_off;
+
+  location Off:
+    initial;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end
+----
+
+Note that the confluence property can only hold for models with <<tools-controller-checker-finite-response,finite response>>.
+Only if a controller determines it control responses in a finite number of steps, does it matter whether the control response is then always the same.
+
+=== Implementation details
+
+Confluence is determined by checking that for all edge pairs with different controllable events, one of the following cases holds:
+
+Mutual exclusiveness::
+If the edge with the first event is never enabled at the same time as the edge with the second event, this case applies.
+Only one of the edges can be taken at any time, there is never a choice between the edges.
++
+[source,cif]
+----
+edge a when x = 10 goto ...;
+
+edge b when x = 12 goto ...;
+----
+The guard holds for at most one of the edges, and thus it is impossible to pick a 'wrong' edge.
+This case also applies if the edges start from different locations in the same automaton.
+
+Update equivalence::
+The edge with the first event is enabled at the same time as the edge with the second event, but they both change the system state in the same way.
++
+[source,cif]
+----
+edge a do x := 5 goto P;
+
+edge b do x := 5 goto P;
+----
+As either event has the same effect, it does not matter which edge is taken.
+
+Independence::
+The edge with the first event leads to a state with an edge with the second event and vice versa.
+Both sequences make the same changes.
++
+[source,cif]
+----
+  edge a do x := 5 goto P;
+
+  edge b do y := 7 goto Q;
+
+location P:
+  edge b do y := 7 goto R;
+location Q:
+  edge a do x := 5 goto R;
+----
+While first taking the `a` edge leads to a different state than first taking the `b` edge, they converge again after the next edge.
+
+Skippable::
+The edge with the second event may be taken, but its change is overridden.
++
+[source,cif]
+----
+  edge a do x := 6 goto Q;
+
+  edge b do x := 1 goto P;
+
+location P:
+  edge a do x := 6 goto Q;
+----
+The edge with event `b` temporarily changes `x` and jumps to a different location, but there an edge with the `a` event can be taken and it overwrites all changes made by the `b` edge.
+
+Reversible::
+A pair of unrelated events may or may not occur.
++
+[source,cif]
+----
+  location P:
+    edge a goto Q;
+
+automaton Z:
+  location A:
+    edge b when P goto B;
+  location B:
+    edge c when Q goto A;
+----
+Here the choice between events `a` and `b` matters, since taking the edge with event `a` disables event `b`.
+However, if the edge with event `b` is taken first, then after event `a`, a third event `c` reverts the change made by the edge with event `b`.
+Therefore it does not matter whether events `b` and `c` are taken, since they cancel each other out.
+
+If a match can be found for all pairs, the checker concludes that the confluence property holds.
+Otherwise, it indicates that a proof of the confluence property could not be found.
+As the check is an over-approximation, there may be <<tools-controller-checker-confluence-falsenegs,false negatives>> (the property holds but that could not be proven due to limitations in the checks).
+
+This algorithm is based on <<reijnen19>>.
+
+[[tools-controller-checker-confluence-falsenegs]]
+=== False negatives
+
+The confluence check is an over-approximation of edges for controllable event pairs.
+As a result, the check might indicate that the specification may not be confluent, while in reality it is confluent.
+When the check indicates that there is confluence, this is always correct.
+
+False negatives may be reported in the following situations:
+
+* Checked edge pairs may be in the non-reachable part of the state space.
+* The system continues to behave in the same way after diverging.
+* Not all edges of an event pair match with the same case.
+* Guard conditions or assigned values have no effect if you take the reachable state space into account.
+
+By using the <<tools-chapter-cif-explorer,CIF explorer>> before performing the check some of the above causes are eliminated.
+
+Note that besides false negatives, the result of this check may be <<tools-controller-checker-runtime-errors,incorrect for models with runtime errors>>.

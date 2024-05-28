@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Uncontrollables bound: 4.
+// Controllables bound: 5.
+
+plant def P(event e):
+  location loc1:
+    initial;
+    edge e goto loc2;
+  location loc2:
+    marked;
+end
+
+uncontrollable u_e1, u_e2, u_e3, u_e4;
+controllable c_e1, c_e2, c_e3, c_e4, c_e5;
+
+pu1: P(u_e1);
+pu2: P(u_e2);
+pu3: P(u_e3);
+pu4: P(u_e4);
+
+pc1: P(c_e1);
+pc2: P(c_e2);
+pc3: P(c_e3);
+pc4: P(c_e4);
+pc5: P(c_e5);

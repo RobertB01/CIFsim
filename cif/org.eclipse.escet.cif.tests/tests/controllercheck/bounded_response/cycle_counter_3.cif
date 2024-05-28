@@ -1,0 +1,26 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Uncontrollables bound: 0.
+// Controllables cycle.
+
+controllable c_inc, c_dec;
+
+plant p:
+  disc int[0..25] counter = 3;
+  location:
+    initial;
+    marked;
+    edge c_inc when counter < 25 do counter := counter + 1;
+    edge c_dec when counter > 0  do counter := counter - 1;
+end

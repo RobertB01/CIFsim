@@ -1,0 +1,24 @@
+Loading CIF specification "controllercheck/bounded_response/no_init.cif"...
+Preparing for BDD-based checks...
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: false [initial states predicate]
+Forward reachability: iteration 1.
+
+Computing bound for uncontrollable events...
+
+Computing bound for controllable events...
+
+Bounded response check completed.
+
+CONCLUSION:
+    [OK] The specification has bounded response:
+    
+        - No transitions are possible for uncontrollable events.
+        - No transitions are possible for controllable events.
+
+    [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.

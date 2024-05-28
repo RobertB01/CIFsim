@@ -47,7 +47,7 @@ public class ConfluenceCheckConclusion implements CheckConclusion {
         if (cannotProvePairs.isEmpty()) {
             out("[OK] The specification has confluence.");
         } else {
-            out("[ERROR] The specification may NOT have confluence.");
+            out("[ERROR] The specification may NOT have confluence:");
             out();
 
             iout();

@@ -1,0 +1,131 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-controller-checker-finite-response]]
+== Finite response check
+
+The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for having finite response.
+
+The finite response property holds if for each execution of the code, the number of <<lang-tut-basics-trans,transitions>> to execute for <<sbe-approaches-synthesis-based-events,controllable events>> is finite.
+This property ensures that the code that executes the controllable events always terminates.
+That is, the system has no loops with only controllable events.
+In other words, there is no <<lang-tut-time-livelock,livelock>> for controllable events.
+
+This check does not check for finite response of the <<sbe-approaches-synthesis-based-events,uncontrollable events>>.
+Furthermore, the check may produce <<tools-controller-checker-finite-response-falsenegs,false negatives>>.
+Hence, it is recommended to use the <<tools-controller-checker-bounded-response,bounded response check>> instead.
+
+=== Examples
+
+The check verifies lack of event loops that consist of only controllable events.
+For example, the `Actuator` automaton in the example below has finite response, because between event `c_on` and `c_off`, the location of `Sensor` has to change via an uncontrollable event.
+
+[source, cif]
+----
+plant Actuator:
+  controllable c_on, c_off;
+
+  location Off:
+    initial;
+    edge c_on when Sensor.On goto On;
+  location On:
+    edge c_off when Sensor.Off goto Off;
+end
+
+plant Sensor:
+  uncontrollable u_on, u_off;
+
+  location Off:
+    initial;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end
+----
+
+The model below does not have finite response.
+Whenever `StartButton` and `StopButton` are both equal to `true`, the motor keeps starting and stopping.
+
+[source, cif]
+----
+input bool StartButton, StopButton;
+
+plant Motor:
+  controllable c_on, c_off;
+
+  location Off:
+    initial;
+    edge c_on when StartButton goto On;
+  location On:
+    edge c_off when StopButton goto Off;
+end
+----
+
+=== Implementation details
+
+Finite response for a model is determined as follows:
+
+. Find controllable-event loops in automata.
+For this, guards and updates are omitted, also see <<tools-controller-checker-finite-response-falsenegs,false negatives>>.
+
+. Find variables that are never updated by controllable events.
+This includes by definition all input variables.
+
+. For all events in a controllable-event loop, determine whether the guards are mutually exclusive.
+For this, only the variables found in step 2 are considered.
+For the guards, all other edge guards and state/event exclusion conditions are included.
+
+. If there are events in the alphabet of an automaton, but not in any of its controllable-event loops, this event is removed from the set of controllable events.
+
+. If the set of controllable events changed, repeat the process.
+
+. If the set of controllable events is empty, the model has finite response.
+Otherwise, it can not be concluded there is finite response.
+Note that the check is an over-approximation, and there may be <<tools-controller-checker-finite-response-falsenegs,false negatives>>.
+
+This algorithm is based on <<reijnen19>>.
+
+[[tools-controller-checker-finite-response-falsenegs]]
+=== False negatives
+
+The finite response check is an over-approximation of the existence of controllable event-loops.
+As a result, the check might indicate that the specification may not have finite response, while in reality it has finite response.
+When the check indicates that there is finite response, this is always correct.
+The <<tools-controller-checker-finite-response,bounded response check>> does not suffer from false negatives, and is recommended to be used instead of the finite response check.
+
+False negatives may be reported in the following situations:
+* Loops exist in the non-reachable part of the statespace.
+* Edges contain guards or updates.
+
+While determining loops in the automata, only explicit loops are considered.
+That is, the algorithm omits guards and updates of the variables.
+For that reason, in the example below, `c_on` and `c_off` are two independent loops (instead of `c_on, c_off` if the guards and update were included).
+
+[source, cif]
+----
+plant Actuator:
+  controllable c_on, c_off;
+  disc bool on = false;
+  location:
+    initial;
+    edge c_on  when not on do on := true;
+    edge c_off when     on do on := false;
+end
+----
+
+To reduce the number of false negatives, it is advised to use locations instead of variables whenever possible.
+False negatives may also be avoided by using the <<tools-chapter-cif-explorer,CIF explorer>> on the input specification before performing the check.
+
+Note that besides false negatives, the result of this check may be <<tools-controller-checker-runtime-errors,incorrect for models with runtime errors>>.

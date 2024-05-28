@@ -162,6 +162,7 @@ In other words, the controlled system permits all safe, controllable, and non-bl
 indexterm:[supervisor]
 indexterm:[controller]
 
+[[sbe-approaches-synthesis-based-supervisor-vs-controller]]
 In practice the terms _supervisor_ and _controller_ are often used interchangeably.
 Formally however, they can be different.
 A _supervisor_ is maximally permissive and may still allow multiple (safe) choices, for instance between enabling multiple different actuators, or between enabling one actuator and disabling another one.

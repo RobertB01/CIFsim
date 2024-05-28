@@ -1,0 +1,16 @@
+WARNING: The alphabet of the specification contains no uncontrollable events.
+ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
+
+  ------------------------------------------------------------------------------------------------------
+  (1/2) Non-deterministic edges with overlapping guards within a location, for controllable event "p.a".
+  ------------------------------------------------------------------------------------------------------
+   * In automaton "p":
+     - location:
+       ^
+
+  ------------------------------------------------------------------------------------------------------
+  (2/2) Non-deterministic edges with overlapping guards within a location, for controllable event "p.c".
+  ------------------------------------------------------------------------------------------------------
+   * In automaton "p":
+     - location:
+       ^

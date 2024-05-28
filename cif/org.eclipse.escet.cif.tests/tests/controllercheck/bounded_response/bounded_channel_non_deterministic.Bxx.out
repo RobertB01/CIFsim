@@ -1,0 +1,173 @@
+Loading CIF specification "controllercheck/bounded_response/bounded_channel_non_deterministic.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   usend1  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   usend2  1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer  n/a   usend3  2      1 * 2     2 * 2       2 * 2       100%
+  4      location pointer  n/a   urecv1  3      1 * 2     2 * 2       2 * 2       100%
+  5      location pointer  n/a   urecv2  4      1 * 2     2 * 2       2 * 2       100%
+  6      location pointer  n/a   urecv3  5      1 * 2     2 * 2       2 * 2       100%
+  7      location pointer  n/a   urecv4  6      1 * 2     2 * 2       2 * 2       100%
+  8      location pointer  n/a   csend1  7      1 * 2     2 * 2       2 * 2       100%
+  9      location pointer  n/a   csend2  8      1 * 2     2 * 2       2 * 2       100%
+  10     location pointer  n/a   csend3  9      1 * 2     2 * 2       2 * 2       100%
+  11     location pointer  n/a   csend4  10     1 * 2     2 * 2       2 * 2       100%
+  12     location pointer  n/a   crecv1  11     1 * 2     2 * 2       2 * 2       100%
+  13     location pointer  n/a   crecv2  12     1 * 2     2 * 2       2 * 2       100%
+  14     location pointer  n/a   crecv3  13     1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                  14     28        56          56          100%
+
+Applying variable ordering:
+  Applying 4 orderers, sequentially:
+    Applying sorted variable order:
+      Effect: both
+
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
+      Effect: var-order
+      Number of hyper-edges: 2
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 42
+
+        Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [before]
+        Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 42
+
+        Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [before]
+        Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 42
+
+          Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [before]
+          Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 2
+
+          Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [before]
+          Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [reversed]
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 42
+
+          Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [before]
+          Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 2
+
+          Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [before]
+          Total span:   12 (total)   6.00 (avg/edge) / WES:   0.678571 (total)   0.339286 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 24
+      Maximum number of iterations: 30
+
+      Total span:   84 (total)   3.50 (avg/edge) / WES:   0.388605 (total)   0.016192 (avg/edge) [before]
+      Total span:   56 (total)   2.33 (avg/edge) / WES:   0.272109 (total)   0.011338 (avg/edge) [iteration 1]
+      Total span:   56 (total)   2.33 (avg/edge) / WES:   0.272109 (total)   0.011338 (avg/edge) [iteration 2]
+      Total span:   56 (total)   2.33 (avg/edge) / WES:   0.272109 (total)   0.011338 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 24
+      Window length: 4
+
+      Total span:   56 (total)   2.33 (avg/edge) / WES:   0.272109 (total)   0.011338 (avg/edge) [before]
+      Total span:   56 (total)   2.33 (avg/edge) / WES:   0.272109 (total)   0.011338 (avg/edge) [after]
+
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   csend1  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   crecv1  1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer  n/a   csend2  2      1 * 2     2 * 2       2 * 2       100%
+  4      location pointer  n/a   crecv2  3      1 * 2     2 * 2       2 * 2       100%
+  5      location pointer  n/a   csend3  4      1 * 2     2 * 2       2 * 2       100%
+  6      location pointer  n/a   crecv3  5      1 * 2     2 * 2       2 * 2       100%
+  7      location pointer  n/a   csend4  6      1 * 2     2 * 2       2 * 2       100%
+  8      location pointer  n/a   urecv1  7      1 * 2     2 * 2       2 * 2       100%
+  9      location pointer  n/a   usend1  8      1 * 2     2 * 2       2 * 2       100%
+  10     location pointer  n/a   urecv2  9      1 * 2     2 * 2       2 * 2       100%
+  11     location pointer  n/a   usend2  10     1 * 2     2 * 2       2 * 2       100%
+  12     location pointer  n/a   urecv3  11     1 * 2     2 * 2       2 * 2       100%
+  13     location pointer  n/a   usend3  12     1 * 2     2 * 2       2 * 2       100%
+  14     location pointer  n/a   urecv4  13     1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                  14     28        56          56          100%
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: <bdd 14n 1p> [initial states predicate]
+Forward reachability: iteration 1.
+Reachable states: <bdd 14n 1p> -> <bdd 28n 13p> [forward reach with edge: (event: u_chan) (guard: <bdd 12n 12p>) (assignments: usend1 := usend1.loc2, urecv1 := urecv1.loc2 / usend1 := usend1.loc2, urecv2 := urecv2.loc2 / usend1 := usend1.loc2, urecv3 := urecv3.loc2 / usend1 := usend1.loc2, urecv4 := urecv4.loc2 / usend2 := usend2.loc2, urecv1 := urecv1.loc2 / usend2 := usend2.loc2, urecv2 := urecv2.loc2 / usend2 := usend2.loc2, urecv3 := urecv3.loc2 / usend2 := usend2.loc2, urecv4 := urecv4.loc2 / usend3 := usend3.loc2, urecv1 := urecv1.loc2 / usend3 := usend3.loc2, urecv2 := urecv2.loc2 / usend3 := usend3.loc2, urecv3 := urecv3.loc2 / usend3 := usend3.loc2, urecv4 := urecv4.loc2)]
+Reachable states: <bdd 28n 13p> -> <bdd 42n 169p> [forward reach with edge: (event: c_chan) (guard: <bdd 12n 12p>) (assignments: csend1 := csend1.loc2, crecv1 := crecv1.loc2 / csend1 := csend1.loc2, crecv2 := crecv2.loc2 / csend1 := csend1.loc2, crecv3 := crecv3.loc2 / csend2 := csend2.loc2, crecv1 := crecv1.loc2 / csend2 := csend2.loc2, crecv2 := crecv2.loc2 / csend2 := csend2.loc2, crecv3 := crecv3.loc2 / csend3 := csend3.loc2, crecv1 := crecv1.loc2 / csend3 := csend3.loc2, crecv2 := crecv2.loc2 / csend3 := csend3.loc2, crecv3 := crecv3.loc2 / csend4 := csend4.loc2, crecv1 := crecv1.loc2 / csend4 := csend4.loc2, crecv2 := crecv2.loc2 / csend4 := csend4.loc2, crecv3 := crecv3.loc2)]
+Forward reachability: iteration 2.
+Reachable states: <bdd 42n 169p> -> <bdd 46n 403p> [forward reach with edge: (event: u_chan) (guard: <bdd 12n 12p>) (assignments: usend1 := usend1.loc2, urecv1 := urecv1.loc2 / usend1 := usend1.loc2, urecv2 := urecv2.loc2 / usend1 := usend1.loc2, urecv3 := urecv3.loc2 / usend1 := usend1.loc2, urecv4 := urecv4.loc2 / usend2 := usend2.loc2, urecv1 := urecv1.loc2 / usend2 := usend2.loc2, urecv2 := urecv2.loc2 / usend2 := usend2.loc2, urecv3 := urecv3.loc2 / usend2 := usend2.loc2, urecv4 := urecv4.loc2 / usend3 := usend3.loc2, urecv1 := urecv1.loc2 / usend3 := usend3.loc2, urecv2 := urecv2.loc2 / usend3 := usend3.loc2, urecv3 := urecv3.loc2 / usend3 := usend3.loc2, urecv4 := urecv4.loc2)]
+Reachable states: <bdd 46n 403p> -> <bdd 50n 961p> [forward reach with edge: (event: c_chan) (guard: <bdd 12n 12p>) (assignments: csend1 := csend1.loc2, crecv1 := crecv1.loc2 / csend1 := csend1.loc2, crecv2 := crecv2.loc2 / csend1 := csend1.loc2, crecv3 := crecv3.loc2 / csend2 := csend2.loc2, crecv1 := crecv1.loc2 / csend2 := csend2.loc2, crecv2 := crecv2.loc2 / csend2 := csend2.loc2, crecv3 := crecv3.loc2 / csend3 := csend3.loc2, crecv1 := crecv1.loc2 / csend3 := csend3.loc2, crecv2 := crecv2.loc2 / csend3 := csend3.loc2, crecv3 := crecv3.loc2 / csend4 := csend4.loc2, crecv1 := crecv1.loc2 / csend4 := csend4.loc2, crecv2 := crecv2.loc2 / csend4 := csend4.loc2, crecv3 := crecv3.loc2)]
+Forward reachability: iteration 3.
+Reachable states: <bdd 50n 961p> -> <bdd 44n 1,085p> [forward reach with edge: (event: u_chan) (guard: <bdd 12n 12p>) (assignments: usend1 := usend1.loc2, urecv1 := urecv1.loc2 / usend1 := usend1.loc2, urecv2 := urecv2.loc2 / usend1 := usend1.loc2, urecv3 := urecv3.loc2 / usend1 := usend1.loc2, urecv4 := urecv4.loc2 / usend2 := usend2.loc2, urecv1 := urecv1.loc2 / usend2 := usend2.loc2, urecv2 := urecv2.loc2 / usend2 := usend2.loc2, urecv3 := urecv3.loc2 / usend2 := usend2.loc2, urecv4 := urecv4.loc2 / usend3 := usend3.loc2, urecv1 := urecv1.loc2 / usend3 := usend3.loc2, urecv2 := urecv2.loc2 / usend3 := usend3.loc2, urecv3 := urecv3.loc2 / usend3 := usend3.loc2, urecv4 := urecv4.loc2)]
+Reachable states: <bdd 44n 1,085p> -> <bdd 38n 1,225p> [forward reach with edge: (event: c_chan) (guard: <bdd 12n 12p>) (assignments: csend1 := csend1.loc2, crecv1 := crecv1.loc2 / csend1 := csend1.loc2, crecv2 := crecv2.loc2 / csend1 := csend1.loc2, crecv3 := crecv3.loc2 / csend2 := csend2.loc2, crecv1 := crecv1.loc2 / csend2 := csend2.loc2, crecv2 := crecv2.loc2 / csend2 := csend2.loc2, crecv3 := crecv3.loc2 / csend3 := csend3.loc2, crecv1 := crecv1.loc2 / csend3 := csend3.loc2, crecv2 := crecv2.loc2 / csend3 := csend3.loc2, crecv3 := crecv3.loc2 / csend4 := csend4.loc2, crecv1 := crecv1.loc2 / csend4 := csend4.loc2, crecv2 := crecv2.loc2 / csend4 := csend4.loc2, crecv3 := crecv3.loc2)]
+Forward reachability: iteration 4.
+Reachable states: <bdd 38n 1,225p> [fixed point].
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: <bdd 38n 1,225p>).
+Bounded response check round 2 (states before round: <bdd 42n 1,190p>).
+Bounded response check round 3 (states before round: <bdd 44n 770p>).
+Bounded response check round 4 (states before round: <bdd 32n 140p>).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: <bdd 38n 1,225p>).
+Bounded response check round 2 (states before round: <bdd 42n 1,190p>).
+Bounded response check round 3 (states before round: <bdd 44n 770p>).
+Bounded response check round 4 (states before round: <bdd 32n 140p>).
+
+Bounded response check completed.
+
+CONCLUSION:
+    [OK] The specification has bounded response:
+    
+        - A sequence of at most 3 transitions is possible for uncontrollable events.
+        - A sequence of at most 3 transitions is possible for controllable events.
+
+    [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.

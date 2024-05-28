@@ -1,0 +1,83 @@
+WARNING: File "controllercheck/mdd/invalid1.cif": Semantic warning at line 16, column 26: Event "g.e2" is not used anywhere in the specification.
+WARNING: The alphabet of the specification contains no controllable events.
+ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
+
+  ------------------------------
+  (1/11) A list literal is used.
+  ------------------------------
+   * In discrete variable "g.p0.lb":
+     - disc list bool lb = [true];
+                           ^
+
+  ---------------------------
+  (2/11) A list type is used.
+  ---------------------------
+   * In location "g.p0.l1":
+     - edge e1 do lb[0] := true;
+                  ^
+   * In discrete variable "g.p0.lb":
+     - disc list bool lb = [true];
+            ^              ^
+
+  ---------------------------------------
+  (3/11) A projection expression is used.
+  ---------------------------------------
+   * In location "g.p0.l1":
+     - edge e1 do lb[0] := true;
+                    ^
+
+  -------------------------------------
+  (4/11) A real number literal is used.
+  -------------------------------------
+   * In continuous variable "g.p0.cnt":
+     - cont cnt der 1.0;
+                    ^
+
+  ---------------------------
+  (5/11) A real type is used.
+  ---------------------------
+   * In continuous variable "g.p0.cnt":
+     - cont cnt der 1.0;
+                    ^
+
+  -------------------------------
+  (6/11) A tuple literal is used.
+  -------------------------------
+   * In location "g.p0.l1":
+     - edge e1 do (x1, x2) := (1, 2);
+                  ^           ^
+
+  ----------------------------
+  (7/11) A tuple type is used.
+  ----------------------------
+   * In location "g.p0.l1":
+     - edge e1 do (x1, x2) := (1, 2);
+                  ^           ^
+
+  -----------------------------------
+  (8/11) Edge has a multi-assignment.
+  -----------------------------------
+   * In location "g.p0.l1":
+     - edge e1 do (x1, x2) := (1, 2);
+                           ^
+
+  ----------------------------------------------
+  (9/11) Edge has a partial variable assignment.
+  ----------------------------------------------
+   * In location "g.p0.l1":
+     - edge e1 do lb[0] := true;
+                    ^
+
+  ---------------------------
+  (10/11) Event is a channel.
+  ---------------------------
+   * In group "g":
+     - controllable int[0..5] e2;
+                              ^
+
+  ------------------------------------------
+  (11/11) Variable is a continuous variable.
+  ------------------------------------------
+   * In automaton "g.p0":
+     - cont cnt der 1.0;
+            ^
