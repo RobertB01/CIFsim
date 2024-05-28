@@ -40,37 +40,77 @@ END_VAR
  *  -> (-*-) CIF PLC code generator.
  *)
 
+(*------------------------------------------------------
+ * Model overview:
+ *
+ * Group "g":
+ * - Input variable "g.inp".
+ *
+ * Automaton "p":
+ * - Current location of automaton "p".
+ * - Discrete variable "p.b".
+ * - Discrete variable "p.j".
+ * - Discrete variable "p.r".
+ * - Continuous variable "p.t".
+ * - Discrete variable "p.tv".
+ * - Discrete variable "p.v1".
+ * - Discrete variable "p.v2".
+ * - Discrete variable "p.v3".
+ * - Discrete variable "p.ve".
+ * - Discrete variable "p.x".
+ * - Discrete variable "p.y".
+ *
+ * - PLC edge selection variable "edge_p".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "p.evt".
+ *
+ *------------------------------------------------------ *)
+
 (* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    (* Initialize discrete variable "p.b". *)
     p_b := TRUE;
+    (* Initialize discrete variable "p.x". *)
     p_x := 0;
+    (* Initialize discrete variable "p.y". *)
     p_y := 1.23;
+    (* Initialize discrete variable "p.ve". *)
     p_ve := g_LIT1;
+    (* Initialize discrete variable "p.v1". *)
     p_v1 := 0;
+    (* Initialize discrete variable "p.v2". *)
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
     p_v2 := litStruct;
+    (* Initialize discrete variable "p.v3". *)
     litStruct.field1 := 0.0;
     litStruct.field2 := 0.0;
     litStruct_1.field1 := litStruct;
     litStruct_1.field2 := 0.0;
     p_v3 := litStruct_1;
+    (* Initialize discrete variable "p.tv". *)
     litStruct_2.field1 := 0;
     litStruct_2.field2 := 0;
     p_tv := litStruct_2;
+    (* Initialize discrete variable "p.j". *)
     p_j := 0;
+    (* Initialize discrete variable "p.r". *)
     p_r := 1000000.0;
+    (* Initialize continuous variable "p.t". *)
     p_t := 0.0;
     (* Reset timer of "p_t". *)
     preset_p_t := p_t;
     ton_p_t(IN := FALSE, PT := preset_p_t);
     ton_p_t(IN := TRUE, PT := preset_p_t);
+    (* Initialize current location of automaton "p". *)
     p := p_l1;
 ELSE
-    (* Update remaining time of "p_t". *)
+    (* Update remaining time of continuous variable "p.t". *)
     ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
     p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
 END_IF;
@@ -82,7 +122,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "p.evt".
+     * Try to perform controllable event "p.evt".
      *
      * - Automaton "p" must always synchronize.
      *************************************************************)
@@ -91,7 +131,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "p" to synchronize for event "p.evt".
+     * Test edges of automaton "p" to synchronize for event "p.evt".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -162,59 +202,84 @@ WHILE isProgress DO
         (* Perform assignments of automaton "p". *)
         IF edge_p_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "p.l1". *)
+            (* Perform update of discrete variable "p.tv". *)
             litStruct_2.field1 := 1;
             litStruct_2.field2 := 2;
             p_tv := litStruct_2;
+            (* Perform update of current location of automaton "p". *)
             p := p_l6;
         ELSIF edge_p_1 = 2 THEN
             (* Perform assignments of the 1st edge in location "p.l6". *)
+            (* Perform update of discrete variable "p.x". *)
             p_x := 3;
+            (* Perform update of discrete variable "p.j". *)
             p_j := 4;
+            (* Perform update of current location of automaton "p". *)
             p := p_l7;
         ELSIF edge_p_1 = 3 THEN
             (* Perform assignments of the 1st edge in location "p.l7". *)
             rightValue := current_p_tv;
+            (* Perform update of discrete variable "p.x". *)
             p_x := rightValue.field1;
+            (* Perform update of discrete variable "p.j". *)
             p_j := rightValue.field2;
+            (* Perform update of current location of automaton "p". *)
             p := p_l8;
         ELSIF edge_p_1 = 4 THEN
             (* Perform assignments of the 1st edge in location "p.l8". *)
+            (* Perform update of discrete variable "p.tv". *)
             p_tv.field1 := 5;
+            (* Perform update of current location of automaton "p". *)
             p := p_l9;
         ELSIF edge_p_1 = 5 THEN
             (* Perform assignments of the 1st edge in location "p.l9". *)
+            (* Perform update of discrete variable "p.tv". *)
             p_tv.field2 := 6;
+            (* Perform update of discrete variable "p.j". *)
             p_j := 7;
+            (* Perform update of current location of automaton "p". *)
             p := p_l10;
         ELSIF edge_p_1 = 6 THEN
             (* Perform assignments of the 1st edge in location "p.l10". *)
+            (* Perform update of discrete variable "p.v3". *)
             p_v3.field1.field2 := 7.8;
+            (* Perform update of current location of automaton "p". *)
             p := p_l11;
         ELSIF edge_p_1 = 7 THEN
             (* Perform assignments of the 1st edge in location "p.l11". *)
+            (* Perform update of discrete variable "p.v3". *)
             litStruct.field1 := 1.2;
             litStruct.field2 := 3.4;
             litStruct_1.field1 := litStruct;
             litStruct_1.field2 := 5.6;
             p_v3 := litStruct_1;
+            (* Perform update of current location of automaton "p". *)
             p := p_l12;
         ELSIF edge_p_1 = 8 THEN
             (* Perform assignments of the 1st edge in location "p.l12". *)
+            (* Perform update of discrete variable "p.j". *)
             p_j := current_p_j + 1;
+            (* Perform update of current location of automaton "p". *)
             p := p_l13;
         ELSIF edge_p_1 = 9 THEN
             (* Perform assignments of the 1st edge in location "p.l13". *)
+            (* Perform update of discrete variable "p.b". *)
             p_b := FALSE;
+            (* Perform update of current location of automaton "p". *)
             p := p_l14;
         ELSIF edge_p_1 = 10 THEN
             (* Perform assignments of the 1st edge in location "p.l14". *)
             IF NOT current_p_b THEN
+                (* Perform update of discrete variable "p.ve". *)
                 p_ve := g_LIT2;
             END_IF;
+            (* Perform update of current location of automaton "p". *)
             p := p_l15;
         ELSIF edge_p_1 = 11 THEN
             (* Perform assignments of the 1st edge in location "p.l15". *)
+            (* Perform update of discrete variable "p.r". *)
             p_r := DINT_TO_LREAL(g_inp) + 10.0;
+            (* Perform update of current location of automaton "p". *)
             p := p_l16;
         END_IF;
     END_IF;

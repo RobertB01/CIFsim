@@ -13,18 +13,48 @@
 
 package org.eclipse.escet.cif.plcgen.conversion.expressions;
 
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
+import org.eclipse.escet.common.java.Assert;
 
 /** Storage of a write-only converted CIF expression. */
 public class ExprAddressableResult extends ExprGenResult<PlcVarExpression, ExprAddressableResult> {
+    /** CIF variable that is updated. */
+    public final Declaration varDecl;
+
+    /**
+     * Whether the derivative of {@link #varDecl} is updated. Can only hold if the {@link #varDecl} is a continuous
+     * variable.
+     */
+    private final boolean isDerivative;
+
     /**
      * Constructor of the {@link ExprAddressableResult} class.
      *
+     * @param varDecl CIF variable that is updated.
+     * @param isDerivative Whether the derivative of {@link #varDecl} is updated. Is only valid if {@link #varDecl} is a
+     *     continuous variable.
      * @param generator Expression generator managing the temporary variables.
      * @param parentResults Results of child sub-expressions. Their code, code variables and value variables are copied
      *     into this result in the specified order.
      */
-    public ExprAddressableResult(ExprGenerator generator, ExprGenResult<?, ?>... parentResults) {
+    public ExprAddressableResult(Declaration varDecl, boolean isDerivative, ExprGenerator generator,
+            ExprGenResult<?, ?>... parentResults)
+    {
         super(generator, parentResults);
+        this.varDecl = varDecl;
+        this.isDerivative = isDerivative;
+
+        Assert.implies(isDerivative, varDecl instanceof ContVariable);
+    }
+
+    /**
+     * Return whether a derivative is updated in the result.
+     *
+     * @return Whether a derivative is updated in the result.
+     */
+    public boolean isDerivativeAssigned() {
+        return isDerivative;
     }
 }

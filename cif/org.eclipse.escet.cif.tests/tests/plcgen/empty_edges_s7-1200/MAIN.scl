@@ -18,11 +18,42 @@ BEGIN
      *  -> (-*-) CIF PLC code generator.
      *)
 
+    (*------------------------------------------------------
+     * Model overview:
+     *
+     * Automaton "Block":
+     * - PLC edge selection variable "edge_Block".
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "noMonitor".
+     * - Controllable event "noSync".
+     *
+     * Automaton "Good":
+     * - Discrete variable "Good.x".
+     *
+     * - PLC edge selection variable "edge_Good".
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "noMonitor".
+     * - Controllable event "noSync".
+     *
+     * Automaton "UseChannel":
+     * - PLC edge selection variable "edge_UseChannel".
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "channel".
+     *
+     *------------------------------------------------------ *)
+
     (* --- Initialize state. --------------------------------------------------- *)
     IF "DB".firstRun THEN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
+        (* Initialize discrete variable "Good.x". *)
         "DB".Good_x := 0;
     END_IF;
 
@@ -33,7 +64,7 @@ BEGIN
         isProgress := FALSE;
 
         (*************************************************************
-         * Try to perform event "noSync".
+         * Try to perform controllable event "noSync".
          *
          * - Automaton "Good" must always synchronize.
          * - Automaton "Block" must always synchronize.
@@ -43,7 +74,7 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "Good" to synchronize for event "noSync".
+         * Test edge of automaton "Good" to synchronize for event "noSync".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -58,7 +89,7 @@ BEGIN
         END_IF;
         IF eventEnabled THEN
             (***********
-             * Testing edges of automaton "Block" to synchronize for event "noSync".
+             * Test edges of automaton "Block" to synchronize for event "noSync".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edges being tested:
@@ -78,13 +109,14 @@ BEGIN
             (* Perform assignments of automaton "Good". *)
             IF edge_Good_1 = 1 THEN
                 (* Perform assignments of the 1st edge in location "Good.G". *)
+                (* Perform update of discrete variable "Good.x". *)
                 "DB".Good_x := (current_Good_x + 1) MOD 6;
             END_IF;
             (* Automaton "Block" has no assignments to perform. *)
         END_IF;
 
         (*************************************************************
-         * Try to perform event "noMonitor".
+         * Try to perform controllable event "noMonitor".
          *
          * - Automaton "Good" must always synchronize.
          *
@@ -95,7 +127,7 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "Good" to synchronize for event "noMonitor".
+         * Test edge of automaton "Good" to synchronize for event "noMonitor".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -119,6 +151,7 @@ BEGIN
             (* Perform assignments of automaton "Good". *)
             IF edge_Good_1 = 1 THEN
                 (* Perform assignments of the 2nd edge in location "Good.G". *)
+                (* Perform update of discrete variable "Good.x". *)
                 "DB".Good_x := (current_Good_x_1 + 5) MOD 6;
             END_IF;
             (*******************************
@@ -129,7 +162,7 @@ BEGIN
         END_IF;
 
         (*************************************************************
-         * Try to perform event "channel".
+         * Try to perform controllable event "channel".
          *
          * - An automaton that must send a value is missing, so the event cannot occur.
          *
@@ -161,7 +194,7 @@ BEGIN
          *******************************)
         IF eventEnabled THEN
             (***********
-             * Testing edges of automaton "UseChannel" to synchronize for event "channel".
+             * Test edges of automaton "UseChannel" to synchronize for event "channel".
              * This automaton must have an edge with a true guard to allow the event.
              *
              * Edges being tested:

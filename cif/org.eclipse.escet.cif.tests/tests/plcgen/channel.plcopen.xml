@@ -183,22 +183,111 @@
  *  -&gt; (-*-) CIF PLC code generator.
  *)
 
+(*------------------------------------------------------
+ * Model overview:
+ *
+ * Automaton "M1":
+ * - Discrete variable "M1.vm1".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "c".
+ *
+ * Automaton "M2":
+ * - Current location of automaton "M2".
+ * - Discrete variable "M2.vm2".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "c".
+ *
+ * Automaton "R1":
+ * - Discrete variable "R1.vr1".
+ *
+ * - PLC edge selection variable "edge_R1".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "c".
+ *
+ * Automaton "R2":
+ * - Current location of automaton "R2".
+ * - Discrete variable "R2.vr2".
+ *
+ * - PLC edge selection variable "edge_R2".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "c".
+ *
+ * Automaton "S1":
+ * - Discrete variable "S1.vs1".
+ *
+ * - PLC edge selection variable "edge_S1".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "c".
+ *
+ * Automaton "S2":
+ * - Current location of automaton "S2".
+ * - Discrete variable "S2.vs2".
+ *
+ * - PLC edge selection variable "edge_S2".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "c".
+ *
+ * Automaton "Y1":
+ * - Discrete variable "Y1.vy1".
+ *
+ * - PLC edge selection variable "edge_Y1".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "c".
+ *
+ * Automaton "Y2":
+ * - Current location of automaton "Y2".
+ * - Discrete variable "Y2.vy2".
+ *
+ * - PLC edge selection variable "edge_Y2".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "c".
+ *
+ *------------------------------------------------------ *)
+
 (* --- Initialize state. --------------------------------------------------- *)
 IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    (* Initialize discrete variable "S1.vs1". *)
     S1_vs1 := 0;
+    (* Initialize discrete variable "S2.vs2". *)
     S2_vs2 := 0;
+    (* Initialize current location of automaton "S2". *)
     S2 := S2_A;
+    (* Initialize discrete variable "R1.vr1". *)
     R1_vr1 := 0;
+    (* Initialize discrete variable "R2.vr2". *)
     R2_vr2 := 0;
+    (* Initialize current location of automaton "R2". *)
     R2 := S2_A;
+    (* Initialize discrete variable "Y1.vy1". *)
     Y1_vy1 := 0;
+    (* Initialize discrete variable "Y2.vy2". *)
     Y2_vy2 := 0;
+    (* Initialize current location of automaton "Y2". *)
     Y2 := S2_A;
+    (* Initialize discrete variable "M1.vm1". *)
     M1_vm1 := 0;
+    (* Initialize discrete variable "M2.vm2". *)
     M2_vm2 := 0;
+    (* Initialize current location of automaton "M2". *)
     M2 := S2_A;
 END_IF;
 
@@ -209,7 +298,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "c".
+     * Try to perform controllable event "c".
      *
      * - One automaton must send a value.
      *    - Automaton "S1" may send a value.
@@ -232,7 +321,7 @@ WHILE isProgress DO
     senderAut := 0;
     IF senderAut = 0 THEN
         (***********
-         * Testing edge of automaton "S1" to provide a value for the channel for event "c".
+         * Test edge of automaton "S1" to provide a value for the channel for event "c".
          * At least one sending automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -246,7 +335,7 @@ WHILE isProgress DO
     END_IF;
     IF senderAut = 0 THEN
         (***********
-         * Testing edges of automaton "S2" to provide a value for the channel for event "c".
+         * Test edges of automaton "S2" to provide a value for the channel for event "c".
          * At least one sending automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
@@ -274,7 +363,7 @@ WHILE isProgress DO
         receiverAut := 0;
         IF receiverAut = 0 THEN
             (***********
-             * Testing edge of automaton "R1" to accept a value from the channel for event "c".
+             * Test edge of automaton "R1" to accept a value from the channel for event "c".
              * At least one receiving automaton must have an edge with a true guard to allow the event.
              *
              * Edge being tested:
@@ -288,7 +377,7 @@ WHILE isProgress DO
         END_IF;
         IF receiverAut = 0 THEN
             (***********
-             * Testing edges of automaton "R2" to accept a value from the channel for event "c".
+             * Test edges of automaton "R2" to accept a value from the channel for event "c".
              * At least one receiving automaton must have an edge with a true guard to allow the event.
              *
              * Edges being tested:
@@ -315,7 +404,7 @@ WHILE isProgress DO
      *******************************)
     IF eventEnabled THEN
         (***********
-         * Testing edge of automaton "Y1" to synchronize for event "c".
+         * Test edge of automaton "Y1" to synchronize for event "c".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -331,7 +420,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edges of automaton "Y2" to synchronize for event "c".
+         * Test edges of automaton "Y2" to synchronize for event "c".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
@@ -363,15 +452,19 @@ WHILE isProgress DO
         IF senderAut = 1 THEN
             (* Automaton "S1" was selected. *)
             IF edge_S1_1 = 1 THEN
+                (* Compute sent channel value. *)
                 channelValue := 1;
             END_IF;
         ELSIF senderAut = 2 THEN
             (* Automaton "S2" was selected. *)
             IF edge_S2_1 = 1 THEN
+                (* Compute sent channel value. *)
                 channelValue := 2;
                 (* Perform assignments of the 1st edge in location "S2.A". *)
+                (* Perform update of discrete variable "S2.vs2". *)
                 S2_vs2 := 2;
             ELSIF edge_S2_1 = 2 THEN
+                (* Compute sent channel value. *)
                 channelValue := 3;
             END_IF;
         END_IF;
@@ -382,15 +475,18 @@ WHILE isProgress DO
             (* Automaton "R1" was selected. *)
             IF edge_R1_1 = 1 THEN
                 (* Perform assignments of the 1st edge of automaton "R1". *)
+                (* Perform update of discrete variable "R1.vr1". *)
                 R1_vr1 := channelValue;
             END_IF;
         ELSIF receiverAut = 2 THEN
             (* Automaton "R2" was selected. *)
             IF edge_R2_1 = 1 THEN
                 (* Perform assignments of the 1st edge in location "R2.A". *)
+                (* Perform update of discrete variable "R2.vr2". *)
                 R2_vr2 := channelValue;
             ELSIF edge_R2_1 = 2 THEN
                 (* Perform assignments of the 1st edge in location "R2.B". *)
+                (* Perform update of discrete variable "R2.vr2". *)
                 R2_vr2 := channelValue;
             END_IF;
         END_IF;
@@ -406,6 +502,7 @@ WHILE isProgress DO
         (* Perform assignments of automaton "M1". *)
         IF current_M1_vm1 = 1 THEN
             (* Perform assignments of the 1st edge in location "M1.A". *)
+            (* Perform update of discrete variable "M1.vm1". *)
             M1_vm1 := 1;
         END_IF;
         (* Automaton "M2" has no assignments to perform. *)

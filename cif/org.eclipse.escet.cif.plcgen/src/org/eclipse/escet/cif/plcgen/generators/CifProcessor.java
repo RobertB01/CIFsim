@@ -70,6 +70,7 @@ import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.io.CifReader;
+import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -142,15 +143,27 @@ public class CifProcessor {
         normalizeSpec(spec);
         this.spec = spec; // Store the specification for querying.
 
+        // While collecting the information for performing events, also store the information by component to enable
+        // generating documentation for them in the PLC code.
+        Map<ComplexComponent, ComponentDocData> componentDatas = map();
+
         // Collect or convert the declarations of the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
+            // Store the found variable in the data of its complex component.
+            ComponentDocData compData = componentDatas.computeIfAbsent((ComplexComponent)decl.eContainer(),
+                    comp -> new ComponentDocData(comp));
+
+            // Tell other generators about the variable.
             if (decl instanceof DiscVariable discVar) {
+                compData.variables.add(decl);
                 target.getVarStorage().addStateVariable(decl, discVar.getType());
             } else if (decl instanceof InputVariable inpVar) {
+                compData.variables.add(decl);
                 target.getVarStorage().addStateVariable(decl, inpVar.getType());
             } else if (decl instanceof EnumDecl enumDecl) {
                 target.getTypeGenerator().convertEnumDecl(enumDecl);
             } else if (decl instanceof ContVariable contVar) {
+                compData.variables.add(decl);
                 target.getVarStorage().addStateVariable(contVar, newRealType());
                 target.getContinuousVariablesGenerator().addVariable(contVar);
             }
@@ -165,6 +178,11 @@ public class CifProcessor {
         for (Automaton aut: collectAutomata(spec, list())) {
             // Classify the role of the automaton, per relevant event.
             Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = classifyAutomatonRole(aut);
+
+            // Store event information in the component data.
+            ComponentDocData compData = componentDatas.computeIfAbsent(aut,
+                    comp -> new ComponentDocData(comp));
+            compData.addEvents(autRoleInfoPerEvent.keySet());
 
             // Merge the found data into the collection.
             for (AutomatonRoleInfo autRoleInfo: autRoleInfoPerEvent.values()) {
@@ -189,11 +207,12 @@ public class CifProcessor {
             }
         }
 
-        // Construct the result to pass into the transition generator,
+        // Give the component data to the code storage generator.
+        target.getCodeStorage().addComponentDatas(componentDatas);
+
+        // Construct the result to pass into the transition generator and give the result to it.
         List<CifEventTransition> cifEventTransitions = listc(eventTransitions.values().size());
         cifEventTransitions.addAll(eventTransitions.values());
-
-        // And give the result to the transition generator.
         target.getTransitionGenerator().setTransitions(cifEventTransitions);
     }
 

@@ -13,9 +13,19 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import java.util.Arrays;
-import java.util.List;
+import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Strings.makeInitialUppercase;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
@@ -94,6 +104,9 @@ public class PlcCodeStorage {
 
     /** Text lines of the PLC program header. */
     private final List<String> programHeaderTextLines;
+
+    /** Documentation data about complex components, or {@code null} if not yet set. */
+    private Map<ComplexComponent, ComponentDocData> componentDatas = null;
 
     /** If not {@code null}, code for initializing the state variables. */
     private List<PlcStatement> stateInitializationCode = null;
@@ -436,6 +449,8 @@ public class PlcCodeStorage {
         // Prepare adding code to the program.
         CodeBox box = mainProgram.body;
         addProgramHeader(box);
+        box.add();
+        addComponentDocumentation(box);
 
         // Add input code if it exists.
         //
@@ -444,7 +459,7 @@ public class PlcCodeStorage {
         // same time, and it should be done just before state computation.
         if (inputFuncCode != null) {
             box.add();
-            generateCommentHeader("Read input from sensors.", '-', box);
+            generateCommentHeader("Read PLC inputs.", '-', box);
             textGenerator.toText(inputFuncCode, box, mainProgram.name, false);
         }
 
@@ -491,7 +506,7 @@ public class PlcCodeStorage {
         // and it becomes easier to verify the safety requirement in a review of the generated PLC code.
         if (outputFuncCode != null) {
             box.add();
-            generateCommentHeader("Write output to actuators.", '-', box);
+            generateCommentHeader("Write PLC outputs.", '-', box);
             textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
         }
 
@@ -640,6 +655,143 @@ public class PlcCodeStorage {
         if (!first) {
             box.add(" *)");
         }
+    }
+
+    /**
+     * Store the given component documentation data.
+     *
+     * @param componentDatas Data to store.
+     */
+    public void addComponentDatas(Map<ComplexComponent, ComponentDocData> componentDatas) {
+        this.componentDatas = componentDatas;
+    }
+
+    /**
+     * Set the name of the edge selection variable of an automaton.
+     *
+     * @param aut Automaton that is related to the given edge selection variable.
+     * @param edgeVariableName Name of the edge selection variable.
+     */
+    public void setAutomatonEdgeVariableName(Automaton aut, String edgeVariableName) {
+        ComponentDocData compData = componentDatas.computeIfAbsent(aut, c -> new ComponentDocData(c));
+        compData.edgeVariableName = edgeVariableName;
+    }
+
+    /**
+     * Generate documentation in the generated PLC code about the CIF complex components.
+     *
+     * @param box Storage of generated text.
+     */
+    private void addComponentDocumentation(CodeBox box) {
+        // Order the components by name.
+        List<ComponentDocData> compDatas = listc(componentDatas.size());
+        compDatas.addAll(componentDatas.values());
+        Collections.sort(compDatas, Comparator.comparing(cd -> cd.getComponentName()));
+
+        // Open the comment, and add a header.
+        box.add("(*------------------------------------------------------");
+        box.add(" * Model overview:");
+
+        // Add the documentation text of each component.
+        boolean allComponentsEmpty = true;
+        for (ComponentDocData compData: compDatas) {
+            if (compData.isEmpty()) {
+                continue; // Nothing to say about this component, skip it.
+            }
+            allComponentsEmpty = false;
+
+            // Sort the content of the component for a nicer output.
+            compData.sortData();
+
+            // Print a line describing the component.
+            box.add(" *"); // As empty components are skipped, the last stored line is always non-empty.
+            box.add(" * %s:", makeInitialUppercase(DocumentingSupport.getDescription(compData.component)));
+            boolean needEmpty = false; // Add the first entry directly to the header.
+
+            // List the variables.
+            if (compData.isEmptyVariables()) {
+                needEmpty = insertEmpty(needEmpty, box);
+                box.add(" * - No variables in this component.");
+                needEmpty = true;
+            } else {
+                needEmpty = insertEmpty(needEmpty, !compData.variables.isEmpty(), box);
+                for (Declaration var: compData.variables) {
+                    box.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(var)));
+                    needEmpty = true;
+                }
+                if (compData.edgeVariableName != null) {
+                    needEmpty = insertEmpty(needEmpty, box);
+                    box.add(" * - PLC edge selection variable \"%s\".", compData.edgeVariableName);
+                    needEmpty = true;
+                }
+            }
+
+            // If printing a group, there is nothing more to list here.
+            if (!(compData.component instanceof Automaton)) {
+                continue;
+            }
+
+            // List the uncontrollable events of the component.
+            needEmpty = insertEmpty(needEmpty, box);
+            if (compData.uncontrollableEvents.isEmpty()) {
+                box.add(" * - No use of uncontrollable events.");
+                needEmpty = true;
+            } else {
+                for (Event evt: compData.uncontrollableEvents) {
+                    box.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
+                    needEmpty = true;
+                }
+            }
+
+            // List the controllable events of the component.
+            needEmpty = insertEmpty(needEmpty, box);
+            if (compData.controllableEvents.isEmpty()) {
+                box.add(" * - No use of controllable events.");
+                needEmpty = true;
+            } else {
+                for (Event evt: compData.controllableEvents) {
+                    box.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
+                    needEmpty = true;
+                }
+            }
+        }
+        if (allComponentsEmpty) {
+            // Completely empty model information.
+            box.add(" *");
+            box.add(" * No groups or automata to report.");
+        }
+        box.add(" *");
+        box.add(" *------------------------------------------------------ *)");
+    }
+
+    /**
+     * Insert an empty comment line before the next non-empty comment line if it is needed, under the assumption that
+     * the next code will add at least one non-empty comment line.
+     *
+     * @param needEmpty Whether the output needs an empty line.
+     * @param box Storage of the output.
+     * @return Whether the output needs an empty comment line (always {@code false}).
+     */
+    private boolean insertEmpty(boolean needEmpty, CodeBox box) {
+        return insertEmpty(needEmpty, true, box);
+    }
+
+    /**
+     * Insert an empty comment line before the next non-empty comment line if it is needed.
+     *
+     * @param needEmpty Whether the output needs an empty line.
+     * @param willAddText Whether the next code will add at least one text line to the output.
+     * @param box Storage of the output.
+     * @return Whether the output needs an empty comment line.
+     */
+    private boolean insertEmpty(boolean needEmpty, boolean willAddText, CodeBox box) {
+        if (!willAddText) {
+            return needEmpty;
+        }
+        if (needEmpty) {
+            box.add(" *");
+        }
+        return false;
     }
 
     /**

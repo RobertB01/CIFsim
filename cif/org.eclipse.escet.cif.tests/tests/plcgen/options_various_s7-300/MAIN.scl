@@ -15,20 +15,37 @@ BEGIN
      *  -> (-*-) CIF PLC code generator.
      *)
 
+    (*------------------------------------------------------
+     * Model overview:
+     *
+     * Automaton "p":
+     * - Continuous variable "p.t".
+     * - Discrete variable "p.x".
+     *
+     * - PLC edge selection variable "edge_p".
+     *
+     * - Uncontrollable event "e".
+     *
+     * - No use of controllable events.
+     *
+     *------------------------------------------------------ *)
+
     (* --- Initialize state or update continuous variables. -------------------- *)
     IF "DB".firstRun THEN
         "DB".firstRun := FALSE;
         "DB".loopsKilled := 0;
 
         (* Initialize the state variables. *)
+        (* Initialize discrete variable "p.x". *)
         "DB".p_x := 5;
+        (* Initialize continuous variable "p.t". *)
         "DB".p_t := 0.0;
         (* Reset timer of "p_t". *)
         "DB".preset_p_t := "DB".p_t;
         ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
     ELSE
-        (* Update remaining time of "p_t". *)
+        (* Update remaining time of continuous variable "p.t". *)
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
         "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
     END_IF;
@@ -43,7 +60,7 @@ BEGIN
         isProgress := FALSE;
 
         (*************************************************************
-         * Try to perform event "e".
+         * Try to perform uncontrollable event "e".
          *
          * - Automaton "p" must always synchronize.
          *************************************************************)
@@ -52,7 +69,7 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "p" to synchronize for event "e".
+         * Test edge of automaton "p" to synchronize for event "e".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -76,6 +93,7 @@ BEGIN
             (* Perform assignments of automaton "p". *)
             IF edge_p_1 = 1 THEN
                 (* Perform assignments of the 1st edge of automaton "p". *)
+                (* Perform update of continuous variable "p.t". *)
                 "DB".p_t := 7.0;
                 (* Reset timer of "p_t". *)
                 "DB".preset_p_t := "DB".p_t;

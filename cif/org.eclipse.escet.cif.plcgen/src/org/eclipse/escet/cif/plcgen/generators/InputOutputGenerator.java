@@ -44,6 +44,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
@@ -362,6 +363,12 @@ public class InputOutputGenerator {
 
             // Construct the assignment to perform the I/O.
             if (isInput) { // state-var := io-var;
+                // Generate a comment what CIF variable is written.
+                String commentText = fmt("Read PLC input and write it to %s.",
+                        DocumentingSupport.getDescription(entry.cifObject));
+                stats.add(new PlcCommentLine(commentText));
+
+                // Perform the assignment.
                 PlcVarExpression leftSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
                     leftSide = cifDataProvider.getAddressableForDiscVar(discVar);
@@ -370,12 +377,15 @@ public class InputOutputGenerator {
                 } else {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
                 }
-
                 PlcExpression rightSide = new PlcVarExpression(ioVar);
                 stats.add(new PlcAssignmentStatement(leftSide, rightSide));
             } else { // io-var := state-var;
-                PlcVarExpression leftSide = new PlcVarExpression(ioVar);
+                // Generate a comment what CIF variable is read.
+                String commentText = fmt("Write %s to PLC output.", DocumentingSupport.getDescription(entry.cifObject));
+                stats.add(new PlcCommentLine(commentText));
 
+                // Perform the assignment.
+                PlcVarExpression leftSide = new PlcVarExpression(ioVar);
                 PlcExpression rightSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
                     rightSide = cifDataProvider.getValueForDiscVar(discVar);

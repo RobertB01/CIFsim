@@ -24,6 +24,7 @@ import static org.eclipse.escet.common.java.Numbers.toOrdinal;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -228,7 +229,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         if (edgeSelectionVariables.containsKey(aut)) {
             return;
         }
+
+        // Automaton does not have an edge variable yet, add it.
         String edgeVariableName = nameGen.generateGlobalName("edge_" + aut.getName(), false);
+        target.getCodeStorage().setAutomatonEdgeVariableName(aut, edgeVariableName);
 
         // TODO: Use a smaller integer for edge indexing.
         PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, PlcElementaryType.DINT_TYPE);
@@ -436,7 +440,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private PlcCommentBlock genAnnounceEventBeingTried(CifEventTransition eventTrans) {
         CodeBox box = new MemoryCodeBox();
-        box.add("Try to perform event \"%s\".", getAbsName(eventTrans.event, false));
+        box.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
 
         CifType eventType = eventTrans.event.getType();
         if (eventType != null) {
@@ -512,7 +516,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Sort declarations on absolute name.
         List<Declaration> assignedVarList = set2list(assignedVariables);
-        Collections.sort(assignedVarList, (a, b) -> getAbsName(a, false).compareTo(getAbsName(b, false)));
+        Collections.sort(assignedVarList, Comparator.comparing(v -> getAbsName(v, false)));
 
         // Add comment to the generated code to explain the partial state copy.
         if (!assignedVariables.isEmpty()) {
@@ -991,7 +995,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private PlcCommentBlock genEdgeTestsDocumentation(Event event, TransitionAutomaton transAut) {
         CodeBox box = new MemoryCodeBox();
         String edgePluralText = (transAut.transitionEdges.size() != 1) ? "s" : "";
-        box.add("Testing edge%s of automaton \"%s\" to %s for event \"%s\".", edgePluralText,
+        box.add("Test edge%s of automaton \"%s\" to %s for event \"%s\".", edgePluralText,
                 getAbsName(transAut.aut, false), transAut.purpose.purposeText, getAbsName(event, false));
 
         switch (transAut.purpose) {
@@ -1084,6 +1088,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
                     // Compute and assign the sent value if it exists.
                     if (channelValueVar != null) {
+                        thenStatements.add(new PlcCommentLine("Compute sent channel value."));
                         genAssignExpr(new PlcVarExpression(channelValueVar), edge.sendValue, thenStatements);
                     }
 
@@ -1202,6 +1207,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 lhsResult = mainExprGen.convertVariableAddressable(lhs);
                 contvar = null;
             }
+            String varDesc = DocumentingSupport.getDescription(lhsResult.varDecl, lhsResult.isDerivativeAssigned());
+            statements.add(new PlcCommentLine(fmt("Perform update of %s.", varDesc)));
             statements.addAll(lhsResult.code);
             lhsResult.releaseCodeVariables();
             genAssignExpr(lhsResult.value, rhs, statements);
@@ -1256,6 +1263,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         if (!(lhs instanceof TupleExpression lhsTuple)) {
             // Left side is a single destination, the entire right side must be assigned to it.
             ExprAddressableResult lhsResult = mainExprGen.convertVariableAddressable(lhs);
+            String varDesc = DocumentingSupport.getDescription(lhsResult.varDecl, lhsResult.isDerivativeAssigned());
+            statements.add(new PlcCommentLine(fmt("Perform update of %s.", varDesc)));
             statements.addAll(lhsResult.code);
             lhsResult.releaseCodeVariables();
 

@@ -40,7 +40,58 @@ END_VAR
  *  -> (-*-) CIF PLC code generator.
  *)
 
-(* --- Read input from sensors. -------------------------------------------- *)
+(*------------------------------------------------------
+ * Model overview:
+ *
+ * Automaton "hw_button":
+ * - Current location of automaton "hw_button".
+ * - Input variable "hw_button.bit".
+ *
+ * - PLC edge selection variable "edge_hw_button".
+ *
+ * - Uncontrollable event "button.push".
+ * - Uncontrollable event "button.release".
+ *
+ * - No use of controllable events.
+ *
+ * Automaton "hw_lamp":
+ * - Current location of automaton "hw_lamp".
+ * - Discrete variable "hw_lamp.bit".
+ *
+ * - PLC edge selection variable "edge_hw_lamp".
+ *
+ * - No use of uncontrollable events.
+ *
+ * - Controllable event "lamp.off".
+ * - Controllable event "lamp.on".
+ *
+ * Automaton "sup":
+ * - Current location of automaton "sup".
+ *
+ * - PLC edge selection variable "edge_sup_1".
+ *
+ * - Uncontrollable event "button.push".
+ * - Uncontrollable event "button.release".
+ * - Uncontrollable event "timer.timeout".
+ *
+ * - Controllable event "lamp.off".
+ * - Controllable event "lamp.on".
+ * - Controllable event "timer.start".
+ *
+ * Automaton "timer":
+ * - Current location of automaton "timer".
+ * - Continuous variable "timer.t".
+ *
+ * - PLC edge selection variable "edge_timer_1".
+ *
+ * - Uncontrollable event "timer.timeout".
+ *
+ * - Controllable event "timer.start".
+ *
+ *------------------------------------------------------ *)
+
+(* --- Read PLC inputs. ---------------------------------------------------- *)
+(* Read PLC input and write it to input variable "hw_button.bit". *)
 hw_button_bit := in_hw_button_bit;
 
 (* --- Initialize state or update continuous variables. -------------------- *)
@@ -48,18 +99,24 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
+    (* Initialize continuous variable "timer.t". *)
     timer_t := 0.0;
     (* Reset timer of "timer_t". *)
     preset_timer_t := timer_t;
     ton_timer_t(IN := FALSE, PT := preset_timer_t);
     ton_timer_t(IN := TRUE, PT := preset_timer_t);
+    (* Initialize current location of automaton "timer". *)
     timer := timer_Idle;
+    (* Initialize current location of automaton "sup". *)
     sup := sup_s1;
+    (* Initialize current location of automaton "hw_button". *)
     hw_button := hw_button_Released;
+    (* Initialize discrete variable "hw_lamp.bit". *)
     hw_lamp_bit := FALSE;
+    (* Initialize current location of automaton "hw_lamp". *)
     hw_lamp := hw_lamp_Off;
 ELSE
-    (* Update remaining time of "timer_t". *)
+    (* Update remaining time of continuous variable "timer.t". *)
     ton_timer_t(IN := TRUE, PT := preset_timer_t, Q => timeOut, ET => curValue);
     timer_t := SEL(timeOut, preset_timer_t - curValue, 0.0);
 END_IF;
@@ -71,7 +128,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "timer.timeout".
+     * Try to perform uncontrollable event "timer.timeout".
      *
      * - Automaton "timer" must always synchronize.
      * - Automaton "sup" must always synchronize.
@@ -81,7 +138,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edge of automaton "timer" to synchronize for event "timer.timeout".
+     * Test edge of automaton "timer" to synchronize for event "timer.timeout".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edge being tested:
@@ -96,7 +153,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edges of automaton "sup" to synchronize for event "timer.timeout".
+         * Test edges of automaton "sup" to synchronize for event "timer.timeout".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
@@ -126,20 +183,23 @@ WHILE isProgress DO
         (* Perform assignments of automaton "timer". *)
         IF edge_timer_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "timer.Running". *)
+            (* Perform update of current location of automaton "timer". *)
             timer := timer_Idle;
         END_IF;
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s6". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s8;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 1st edge in location "sup.s7". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s9;
         END_IF;
     END_IF;
 
     (*************************************************************
-     * Try to perform event "button.push".
+     * Try to perform uncontrollable event "button.push".
      *
      * - Automaton "sup" must always synchronize.
      * - Automaton "hw_button" must always synchronize.
@@ -149,7 +209,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "sup" to synchronize for event "button.push".
+     * Test edges of automaton "sup" to synchronize for event "button.push".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -180,7 +240,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edge of automaton "hw_button" to synchronize for event "button.push".
+         * Test edge of automaton "hw_button" to synchronize for event "button.push".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -206,29 +266,35 @@ WHILE isProgress DO
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s1". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s2;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 2nd edge in location "sup.s4". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s2;
         ELSIF edge_sup_1 = 3 THEN
             (* Perform assignments of the 2nd edge in location "sup.s5". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s3;
         ELSIF edge_sup_1 = 4 THEN
             (* Perform assignments of the 2nd edge in location "sup.s7". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s6;
         ELSIF edge_sup_1 = 5 THEN
             (* Perform assignments of the 2nd edge in location "sup.s9". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s8;
         END_IF;
         (* Perform assignments of automaton "hw_button". *)
         IF edge_hw_button_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_button.Released". *)
+            (* Perform update of current location of automaton "hw_button". *)
             hw_button := hw_button_Pushed;
         END_IF;
     END_IF;
 
     (*************************************************************
-     * Try to perform event "button.release".
+     * Try to perform uncontrollable event "button.release".
      *
      * - Automaton "sup" must always synchronize.
      * - Automaton "hw_button" must always synchronize.
@@ -238,7 +304,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "sup" to synchronize for event "button.release".
+     * Test edges of automaton "sup" to synchronize for event "button.release".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -269,7 +335,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edge of automaton "hw_button" to synchronize for event "button.release".
+         * Test edge of automaton "hw_button" to synchronize for event "button.release".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -295,23 +361,29 @@ WHILE isProgress DO
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 2nd edge in location "sup.s2". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s4;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 2nd edge in location "sup.s3". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s5;
         ELSIF edge_sup_1 = 3 THEN
             (* Perform assignments of the 2nd edge in location "sup.s6". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s7;
         ELSIF edge_sup_1 = 4 THEN
             (* Perform assignments of the 2nd edge in location "sup.s8". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s9;
         ELSIF edge_sup_1 = 5 THEN
             (* Perform assignments of the 1st edge in location "sup.s10". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s1;
         END_IF;
         (* Perform assignments of automaton "hw_button". *)
         IF edge_hw_button_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_button.Pushed". *)
+            (* Perform update of current location of automaton "hw_button". *)
             hw_button := hw_button_Released;
         END_IF;
     END_IF;
@@ -324,7 +396,7 @@ WHILE isProgress DO
     isProgress := FALSE;
 
     (*************************************************************
-     * Try to perform event "timer.start".
+     * Try to perform controllable event "timer.start".
      *
      * - Automaton "timer" must always synchronize.
      * - Automaton "sup" must always synchronize.
@@ -334,7 +406,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edge of automaton "timer" to synchronize for event "timer.start".
+     * Test edge of automaton "timer" to synchronize for event "timer.start".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edge being tested:
@@ -349,7 +421,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edges of automaton "sup" to synchronize for event "timer.start".
+         * Test edges of automaton "sup" to synchronize for event "timer.start".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edges being tested:
@@ -380,25 +452,29 @@ WHILE isProgress DO
         (* Perform assignments of automaton "timer". *)
         IF edge_timer_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "timer.Idle". *)
+            (* Perform update of continuous variable "timer.t". *)
             timer_t := 3.0;
             (* Reset timer of "timer_t". *)
             preset_timer_t := timer_t;
             ton_timer_t(IN := FALSE, PT := preset_timer_t);
             ton_timer_t(IN := TRUE, PT := preset_timer_t);
+            (* Perform update of current location of automaton "timer". *)
             timer := timer_Running;
         END_IF;
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s3". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s6;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 1st edge in location "sup.s5". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s7;
         END_IF;
     END_IF;
 
     (*************************************************************
-     * Try to perform event "lamp.on".
+     * Try to perform controllable event "lamp.on".
      *
      * - Automaton "sup" must always synchronize.
      * - Automaton "hw_lamp" must always synchronize.
@@ -408,7 +484,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "sup" to synchronize for event "lamp.on".
+     * Test edges of automaton "sup" to synchronize for event "lamp.on".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -427,7 +503,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edge of automaton "hw_lamp" to synchronize for event "lamp.on".
+         * Test edge of automaton "hw_lamp" to synchronize for event "lamp.on".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -454,21 +530,25 @@ WHILE isProgress DO
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s2". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s3;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 1st edge in location "sup.s4". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s5;
         END_IF;
         (* Perform assignments of automaton "hw_lamp". *)
         IF edge_hw_lamp_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_lamp.Off". *)
+            (* Perform update of discrete variable "hw_lamp.bit". *)
             hw_lamp_bit := TRUE;
+            (* Perform update of current location of automaton "hw_lamp". *)
             hw_lamp := hw_lamp_On;
         END_IF;
     END_IF;
 
     (*************************************************************
-     * Try to perform event "lamp.off".
+     * Try to perform controllable event "lamp.off".
      *
      * - Automaton "sup" must always synchronize.
      * - Automaton "hw_lamp" must always synchronize.
@@ -478,7 +558,7 @@ WHILE isProgress DO
      * Check each synchronizing automaton for having an edge with a true guard.
      *******************************)
     (***********
-     * Testing edges of automaton "sup" to synchronize for event "lamp.off".
+     * Test edges of automaton "sup" to synchronize for event "lamp.off".
      * This automaton must have an edge with a true guard to allow the event.
      *
      * Edges being tested:
@@ -497,7 +577,7 @@ WHILE isProgress DO
     END_IF;
     IF eventEnabled THEN
         (***********
-         * Testing edge of automaton "hw_lamp" to synchronize for event "lamp.off".
+         * Test edge of automaton "hw_lamp" to synchronize for event "lamp.off".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -524,20 +604,25 @@ WHILE isProgress DO
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "sup.s8". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s10;
         ELSIF edge_sup_1 = 2 THEN
             (* Perform assignments of the 1st edge in location "sup.s9". *)
+            (* Perform update of current location of automaton "sup". *)
             sup := sup_s1;
         END_IF;
         (* Perform assignments of automaton "hw_lamp". *)
         IF edge_hw_lamp_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_lamp.On". *)
+            (* Perform update of discrete variable "hw_lamp.bit". *)
             hw_lamp_bit := FALSE;
+            (* Perform update of current location of automaton "hw_lamp". *)
             hw_lamp := hw_lamp_Off;
         END_IF;
     END_IF;
 END_WHILE;
 
-(* --- Write output to actuators. ------------------------------------------ *)
+(* --- Write PLC outputs. -------------------------------------------------- *)
+(* Write discrete variable "hw_lamp.bit" to PLC output. *)
 out_hw_lamp_bit := hw_lamp_bit;
 END_PROGRAM

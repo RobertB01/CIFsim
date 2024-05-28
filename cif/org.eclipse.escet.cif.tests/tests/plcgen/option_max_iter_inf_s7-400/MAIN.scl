@@ -13,11 +13,26 @@ BEGIN
      *  -> (-*-) CIF PLC code generator.
      *)
 
+    (*------------------------------------------------------
+     * Model overview:
+     *
+     * Automaton "p":
+     * - Discrete variable "p.x".
+     *
+     * - PLC edge selection variable "edge_p_1".
+     *
+     * - Uncontrollable event "u".
+     *
+     * - Controllable event "e".
+     *
+     *------------------------------------------------------ *)
+
     (* --- Initialize state. --------------------------------------------------- *)
     IF "DB".firstRun THEN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
+        (* Initialize discrete variable "p.x". *)
         "DB".p_x := 5;
     END_IF;
 
@@ -28,7 +43,7 @@ BEGIN
         isProgress := FALSE;
 
         (*************************************************************
-         * Try to perform event "u".
+         * Try to perform uncontrollable event "u".
          *
          * - Automaton "p" must always synchronize.
          *************************************************************)
@@ -37,7 +52,7 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "p" to synchronize for event "u".
+         * Test edge of automaton "p" to synchronize for event "u".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -61,6 +76,7 @@ BEGIN
             (* Perform assignments of automaton "p". *)
             IF edge_p_1 = 1 THEN
                 (* Perform assignments of the 2nd edge of automaton "p". *)
+                (* Perform update of discrete variable "p.x". *)
                 "DB".p_x := 11 - current_p_x;
             END_IF;
         END_IF;
@@ -73,7 +89,7 @@ BEGIN
         isProgress := FALSE;
 
         (*************************************************************
-         * Try to perform event "e".
+         * Try to perform controllable event "e".
          *
          * - Automaton "p" must always synchronize.
          *************************************************************)
@@ -82,7 +98,7 @@ BEGIN
          * Check each synchronizing automaton for having an edge with a true guard.
          *******************************)
         (***********
-         * Testing edge of automaton "p" to synchronize for event "e".
+         * Test edge of automaton "p" to synchronize for event "e".
          * This automaton must have an edge with a true guard to allow the event.
          *
          * Edge being tested:
@@ -106,6 +122,7 @@ BEGIN
             (* Perform assignments of automaton "p". *)
             IF edge_p_1 = 1 THEN
                 (* Perform assignments of the 1st edge of automaton "p". *)
+                (* Perform update of discrete variable "p.x". *)
                 "DB".p_x := 7;
             END_IF;
         END_IF;
