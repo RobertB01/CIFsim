@@ -1,0 +1,25 @@
+Loading CIF specification "controllercheck/svg_input_decl_removed.cif"...
+Preparing for MDD-based checks...
+Analyzing automaton "p"...
+    Initializing the automaton data for event "p.c"...
+    Processing edges from the location of automaton "p"...
+    Updating global guards and updates for event "p.c"...
+
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton p:
+        (p.c), which is not controllable unconnectable.
+
+CONCLUSION:
+    [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
+
+    [ERROR] The specification may NOT have finite response:
+    
+        At least one controllable-event loop was found.
+        The following events might still occur in a controllable-event loop:
+            - p.c
+
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
+
+The model with the check results has been written to "controllercheck/svg_input_decl_removed.xxF.out.cif.real".

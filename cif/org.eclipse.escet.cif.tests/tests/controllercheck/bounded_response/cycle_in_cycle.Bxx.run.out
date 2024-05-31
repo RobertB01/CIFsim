@@ -1,0 +1,131 @@
+Loading CIF specification "controllercheck/bounded_response/cycle_in_cycle.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   pu    0      2 * 2     4 * 2       4 * 2       100%
+  2      location pointer  n/a   pc    1      2 * 2     3 * 2       4 * 2       75%
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  Total                                2      8         14          16          ~88%
+
+Applying variable ordering:
+  Applying 4 orderers, sequentially:
+    Applying sorted variable order:
+      Effect: both
+
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
+      Effect: var-order
+      Number of hyper-edges: 9
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 0
+
+        Skipping algorithm: no graph edges.
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 0
+
+        Skipping algorithm: no graph edges.
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 0
+
+          Skipping algorithm: no graph edges.
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 9
+
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [reversed]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 0
+
+          Skipping algorithm: no graph edges.
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 9
+
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 9
+      Maximum number of iterations: 10
+
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [before]
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [iteration 1]
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 9
+      Window length: 2
+
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [before]
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [after]
+
+Variable order unchanged.
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: pu.loc1 and pc.loc1 [initial states predicate]
+Forward reachability: iteration 1.
+Reachable states: pu.loc1 and pc.loc1 -> (pu.loc1 or pu.loc2) and pc.loc1 [forward reach with edge: (event: u_e1) (guard: pu.loc1) (assignments: pu := pu.loc2)]
+Reachable states: (pu.loc1 or pu.loc2) and pc.loc1 -> (pu.loc1 or pu.loc3) and pc.loc1 or pu.loc2 and pc.loc1 [forward reach with edge: (event: u_e2) (guard: pu.loc2) (assignments: pu := pu.loc3)]
+Reachable states: (pu.loc1 or pu.loc3) and pc.loc1 or pu.loc2 and pc.loc1 -> pc.loc1 [forward reach with edge: (event: u_e4) (guard: pu.loc3) (assignments: pu := pu.loc4)]
+Reachable states: pc.loc1 -> not pc.loc3 [forward reach with edge: (event: c_e1) (guard: pc.loc1) (assignments: pc := pc.loc2)]
+Reachable states: not pc.loc3 -> true [forward reach with edge: (event: c_e3) (guard: pc.loc2) (assignments: pc := pc.loc3)]
+Forward reachability: iteration 2.
+Reachable states: true [fixed point].
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: true).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: true).
+
+Bounded response check completed.
+
+CONCLUSION:
+    [ERROR] The specification does NOT have bounded response:
+    
+        - An infinite sequence of transitions is possible for uncontrollable events.
+        - An infinite sequence of transitions is possible for controllable events.
+
+    [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
+
+The model with the check results has been written to "controllercheck/bounded_response/cycle_in_cycle.Bxx.out.cif.real".
