@@ -48,14 +48,14 @@ public class BoundedResponseChecker {
         // Compute bounds.
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing bound for uncontrollable events...");
-        Bound uncontrollableBound = computeBound(cifBddSpec, reachableStates, false);
+        Bound uncontrollablesBound = computeBound(cifBddSpec, reachableStates, false);
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
 
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing bound for controllable events...");
-        Bound controllableBound = computeBound(cifBddSpec, reachableStates, true);
+        Bound controllablesBound = computeBound(cifBddSpec, reachableStates, true);
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
@@ -66,7 +66,7 @@ public class BoundedResponseChecker {
         reachableStates.free();
 
         // Return check result.
-        return new BoundedResponseCheckConclusion(uncontrollableBound, controllableBound);
+        return new BoundedResponseCheckConclusion(uncontrollablesBound, controllablesBound);
     }
 
     /**
