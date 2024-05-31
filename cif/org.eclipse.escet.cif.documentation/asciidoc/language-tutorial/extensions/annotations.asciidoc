@@ -40,12 +40,16 @@ Annotations can be added to most elements of CIF specifications that have a name
 
 The following built-in annotations are bundled with CIF:
 
-[cols="2,1"]
+[cols="1,1"]
 |===
 | Category | Annotation
 
+| <<lang-tut-extensions-chapter-annotations-controller,Controller>>
+| `controller:properties`
+
 | <<lang-tut-extensions-chapter-annotations-documentation,Documentation>>
 | `doc`
+
 | <<lang-tut-extensions-chapter-annotations-state,State>>
 | `state`
 |===
@@ -57,6 +61,24 @@ Different people could define the same annotation in different ways, such that t
 Hence, a specification with such annotations may be valid in one installation, and invalid in another.
 
 For more detailed information on annotations, see the <<lang-ref-extensions-annotations,reference manual>>.
+
+indexterm:[annotation, controller]
+indexterm:[controller, annotation]
+
+[[lang-tut-extensions-chapter-annotations-controller]]
+=== Controller annotations
+
+A controller properties annotation can be added to a CIF specification that represents a controller that satisfies certain properties.
+The annotation should not be manually added to specifications.
+Instead, it should be added by tools such as the <<tools-chapter-controller-checker,CIF controller properties checker>> tool, once the tool has checked that the properties hold for the specification.
+For instance, such a tool may add the following to a CIF specification that has <<tools-controller-checker-bounded-response,bounded response>>:
+
+[source, cif]
+----
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 2, controllablesBound: 5)
+----
+
+For more detailed information on controller properties annotations, see the <<lang-ref-extensions-annotations-controller,reference manual>>.
 
 indexterm:[annotation, doc]
 indexterm:[doc, annotation]

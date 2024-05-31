@@ -21,12 +21,16 @@ Their design may change in a backward incompatible manner.
 
 The following built-in <<lang-ref-extensions-annotations,annotations>> are bundled with CIF:
 
-[cols="2,1"]
+[cols="1,1"]
 |===
 | Category | Annotation
 
+| <<lang-ref-extensions-annotations-controller,Controller>>
+| `controller:properties`
+
 | <<lang-ref-extensions-annotations-documentation,Documentation>>
 | `doc`
+
 | <<lang-ref-extensions-annotations-state,State>>
 | `state`
 |===
