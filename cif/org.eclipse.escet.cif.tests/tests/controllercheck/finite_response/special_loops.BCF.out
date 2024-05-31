@@ -166,3 +166,5 @@ CONCLUSION:
     
         Confluence of the following event pair could not be decided:
             (A.a, A.b)
+
+The model with the check results has been written to "controllercheck/finite_response/special_loops.checked.cif".

@@ -43,3 +43,5 @@ CONCLUSION:
             - p.c
 
     [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/svg_input_decl_removed.checked.cif".

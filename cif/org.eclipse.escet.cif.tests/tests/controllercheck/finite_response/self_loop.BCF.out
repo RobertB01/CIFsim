@@ -36,3 +36,5 @@ CONCLUSION:
 
     [OK] The specification has finite response.
     [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/finite_response/self_loop.checked.cif".

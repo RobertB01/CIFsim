@@ -183,3 +183,5 @@ CONCLUSION:
             - c
 
     [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/bounded_response/bounded_state_evt_excl_inv.checked.cif".

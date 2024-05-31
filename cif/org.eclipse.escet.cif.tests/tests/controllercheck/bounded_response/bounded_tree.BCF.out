@@ -177,3 +177,5 @@ CONCLUSION:
     
         Confluence of the following event pairs could not be decided:
             (c_b, c_d), (c_c, c_e)
+
+The model with the check results has been written to "controllercheck/bounded_response/bounded_tree.checked.cif".

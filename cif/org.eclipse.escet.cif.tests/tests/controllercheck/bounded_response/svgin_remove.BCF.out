@@ -43,3 +43,5 @@ CONCLUSION:
             - c_e
 
     [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/bounded_response/svgin_remove.checked.cif".

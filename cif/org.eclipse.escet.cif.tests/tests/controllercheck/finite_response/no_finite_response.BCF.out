@@ -188,3 +188,5 @@ CONCLUSION:
             - Actuator.c_on
 
     [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/finite_response/no_finite_response.checked.cif".

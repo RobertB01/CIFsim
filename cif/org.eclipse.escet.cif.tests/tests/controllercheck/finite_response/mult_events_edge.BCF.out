@@ -81,3 +81,5 @@ CONCLUSION:
             - A.e
 
     [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/finite_response/mult_events_edge.checked.cif".

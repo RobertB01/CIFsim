@@ -92,3 +92,5 @@ CONCLUSION:
             - c_d
 
     [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/bounded_response/bounded_supervised_counter.checked.cif".

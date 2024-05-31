@@ -41,3 +41,5 @@ CONCLUSION:
             - p.e
 
     [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/bounded_response/no_init.checked.cif".

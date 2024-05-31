@@ -127,3 +127,5 @@ CONCLUSION:
     
         Confluence of the following event pairs could not be decided:
             (A.b, A.c), (A.b, A.d), (A.c, A.d), (A.e, A.f), (A.g, A.h), (A.i, A.j), (A.m, A.n)
+
+The model with the check results has been written to "controllercheck/finite_response/strongly_connected_component1.checked.cif".
