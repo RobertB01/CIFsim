@@ -1,0 +1,75 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Non-channel.
+
+event a, b;
+
+automaton aut:
+  disc int x;
+  location:
+    initial;
+    edge a do x := x + 1;
+end
+
+invariant true;
+
+invariant a needs false; // OK
+invariant a needs true; // OK
+invariant a needs aut.x = 3; // OK
+
+invariant b needs false; // Warning
+invariant b needs true; // Warning
+invariant b needs aut.x = 3; // Warning
+
+group g:
+  invariant g.a.c needs aut.x = 4; // Warning
+
+  group g:
+    invariant a.c needs aut.x = 5; // Warning
+
+    automaton a:
+      event c;
+      invariant c needs aut.x = 6; // Warning
+
+      location:
+        initial;
+        invariant c needs aut.x = 7; // Warning
+    end
+  end
+end
+
+// Channel.
+
+event bool chan1, chan2;
+
+automaton send1:
+  location:
+    initial;
+    edge chan1!true;
+end
+
+automaton send2:
+  location:
+    initial;
+    edge chan1!false;
+end
+
+automaton receive:
+  location:
+    initial;
+    edge chan1?;
+end
+
+invariant chan1 needs aut.x = 8; // OK
+invariant chan2 needs aut.x = 8; // Warning
