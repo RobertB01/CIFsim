@@ -1,0 +1,28 @@
+@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: true)
+plant automaton Actuator:
+  controllable c_on;
+  controllable c_off;
+  location Off:
+    initial;
+    edge c_on goto On;
+  location On:
+    edge c_off goto Off;
+end
+plant automaton Sensor:
+  uncontrollable u_on;
+  uncontrollable u_off;
+  location Off:
+    initial;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end
+supervisor automaton sup:
+  location Off:
+    initial;
+    edge Sensor.u_on goto On;
+    edge Actuator.c_off;
+  location On:
+    edge Sensor.u_off goto Off;
+    edge Actuator.c_on;
+end

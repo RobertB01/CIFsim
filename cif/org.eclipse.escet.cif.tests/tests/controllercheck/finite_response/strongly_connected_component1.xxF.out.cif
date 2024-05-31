@@ -1,0 +1,42 @@
+@@controller:properties(finiteResponse: false)
+plant automaton A:
+  controllable a;
+  controllable b;
+  controllable c;
+  controllable d;
+  controllable e;
+  controllable f;
+  controllable g;
+  controllable h;
+  controllable i;
+  controllable j;
+  controllable k;
+  controllable l;
+  controllable m;
+  controllable n;
+  controllable o;
+  location l0:
+    initial;
+    edge a goto l1;
+  location l1:
+    edge b goto l2;
+    edge c goto l4;
+    edge d goto l5;
+  location l2:
+    edge e goto l3;
+    edge f goto l6;
+  location l3:
+    edge g goto l2;
+    edge h goto l7;
+  location l4:
+    edge i goto l0;
+    edge j goto l5;
+  location l5:
+    edge k goto l6;
+  location l6:
+    edge l goto l5;
+  location l7:
+    edge m goto l3;
+    edge n goto l6;
+    edge o goto l7;
+end

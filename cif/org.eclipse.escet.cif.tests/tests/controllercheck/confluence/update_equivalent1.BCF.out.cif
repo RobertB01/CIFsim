@@ -1,0 +1,12 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 1, confluence: true, finiteResponse: true)
+plant automaton SingleAut:
+  controllable a;
+  controllable b;
+  disc bool z;
+  location p:
+    initial;
+    edge a do z := true goto q;
+    edge b do z := true goto q;
+  location q:
+    marked;
+end

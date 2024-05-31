@@ -1,0 +1,29 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 3, controllablesBound: 1, confluence: true, finiteResponse: false)
+uncontrollable u_a;
+uncontrollable u_b;
+uncontrollable u_c;
+uncontrollable u_d;
+controllable c_a;
+controllable c_b;
+controllable c_c;
+controllable c_d;
+plant automaton p:
+  disc int[0..5] x;
+  location:
+    initial;
+    edge u_a when x = 0 do x := x + 1;
+    edge u_b when x = 1 do x := x + 1;
+    edge u_c when x = 2 do x := x + 1;
+    edge u_d when x = 3 do x := x + 1;
+    edge c_a when x = 4 do x := x - 1;
+    edge c_b when x = 3 do x := x - 1;
+    edge c_c when x = 2 do x := x - 1;
+    edge c_d when x = 1 do x := x - 1;
+end
+supervisor automaton s:
+  location:
+    initial;
+    marked;
+    edge u_d when false;
+end
+plant invariant true disables c_c;

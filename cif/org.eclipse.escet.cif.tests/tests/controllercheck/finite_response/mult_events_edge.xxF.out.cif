@@ -1,0 +1,16 @@
+@@controller:properties(finiteResponse: false)
+plant automaton A:
+  controllable a;
+  controllable b;
+  controllable c;
+  controllable d;
+  controllable e;
+  uncontrollable f;
+  location l0:
+    initial;
+    edge a, b goto l1;
+  location l1:
+    edge c, d goto l2;
+  location l2:
+    edge e, f goto l0;
+end

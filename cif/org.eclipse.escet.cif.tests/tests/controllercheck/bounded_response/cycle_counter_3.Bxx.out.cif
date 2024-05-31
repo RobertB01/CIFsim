@@ -1,0 +1,11 @@
+@@controller:properties(boundedResponse: false)
+controllable c_inc;
+controllable c_dec;
+plant automaton p:
+  disc int[0..25] counter = 3;
+  location:
+    initial;
+    marked;
+    edge c_inc when counter < 25 do counter := counter + 1;
+    edge c_dec when counter > 0 do counter := counter - 1;
+end
