@@ -144,6 +144,8 @@ requirement automaton autRequirementStateEvtExcls:
 end
 ----
 
+If a specification has state/event exclusion invariants for events that are not in the synchronization alphabet of the specification, then after this transformation these events do become part of the synchronization alphabet, and there may then be transitions possible for these events, while that was not the case before the transformation.
+
 indexterm:[eliminate state/event exclusion invariants,renaming]
 
 [[tools-cif2cif-elim-state-event-excl-invs-renaming]]
