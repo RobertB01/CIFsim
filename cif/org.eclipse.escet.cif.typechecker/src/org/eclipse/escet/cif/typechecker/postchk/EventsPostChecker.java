@@ -21,7 +21,11 @@ import static org.eclipse.escet.common.java.Pair.pair;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
+import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
@@ -30,6 +34,7 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -44,6 +49,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
@@ -59,6 +65,8 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * Also warns about the following dubious situations:
  * <ul>
  * <li>Event in explicit alphabet not on edge.</li>
+ * <li>Event in state/event exclusion invariant that is not in the alphabet of the specification, considering the
+ * synchronization, send and receive alphabets.</li>
  * <li>Monitored event not on edge.</li>
  * <li>Monitoring an empty alphabet.</li>
  * </ul>
@@ -70,43 +78,65 @@ public class EventsPostChecker {
     /** The set of state/event exclusion invariants (disables variant) per event. Is filled during checking. */
     private Map<Event, List<Pair<EventExpression, Expression>>> eventPredicatesDisables = map();
 
+    /** The synchronization, send and receive alphabet of the specification, or {@code null} if not yet computed. */
+    private Set<Event> specSyncSendRecvAlphabet;
+
     /**
-     * Checks the specification for various constraints and dubious situations (see {@link EventsPostChecker}).
+     * Check a specification for various constraints and dubious situations (see {@link EventsPostChecker}).
      *
      * <p>
      * We need to check this after the elimination of component definition/instantiation to ensure proper equality
      * checking of events (mostly related to event parameters and component parameters).
      * </p>
      *
+     * @param spec The specification to check. The specification must not include any component
+     *     definitions/instantiations.
+     * @param env The post check environment to use.
+     */
+    public void check(Specification spec, CifPostCheckEnv env) {
+        // Get the sync/send/receive alphabet of the specification.
+        List<Alphabets> alphabets = CifEventUtils.getAllAlphabets(spec);
+        specSyncSendRecvAlphabet = alphabets.stream()
+                .flatMap(a -> Stream.concat(Stream.concat(a.syncAlphabet.stream(), a.sendAlphabet.stream()),
+                        a.recvAlphabet.stream()))
+                .collect(Sets.toSet());
+
+        // Check the specification.
+        checkComponent(spec, env);
+    }
+
+    /**
+     * Check a component for various constraints and dubious situations (see {@link EventsPostChecker}).
+     *
      * @param comp The component to check, recursively. The component must not include any component
      *     definitions/instantiations.
      * @param env The post check environment to use.
      */
-    public void check(ComplexComponent comp, CifPostCheckEnv env) {
+    private void checkComponent(ComplexComponent comp, CifPostCheckEnv env) {
         // Check invariants.
-        check(comp.getInvariants(), true, env);
+        checkInvariants(comp.getInvariants(), true, env);
 
         if (comp instanceof Group) {
             // Check child components.
             for (Component child: ((Group)comp).getComponents()) {
-                check((ComplexComponent)child, env);
+                checkComponent((ComplexComponent)child, env);
             }
         } else if (comp instanceof Automaton) {
             // Check for automaton.
-            check((Automaton)comp, env);
+            checkAutomaton((Automaton)comp, env);
         }
     }
 
     /**
-     * Checks the automaton for various constraints and dubious situations (see {@link EventsPostChecker}).
+     * Check an automaton for various constraints and dubious situations (see {@link EventsPostChecker}).
      *
      * @param aut The automaton to check.
      * @param env The post check environment to use.
      */
-    private void check(Automaton aut, CifPostCheckEnv env) {
+    private void checkAutomaton(Automaton aut, CifPostCheckEnv env) {
         // Check invariants in locations.
         for (Location loc: aut.getLocations()) {
-            check(loc.getInvariants(), false, env);
+            checkInvariants(loc.getInvariants(), false, env);
         }
 
         // Check whether there is an explicit alphabet declaration. If there is, collect the events in a set and check
@@ -242,18 +272,33 @@ public class EventsPostChecker {
     }
 
     /**
-     * Checks the invariants for duplicates.
+     * Check invariants for various constraints and dubious situations (see {@link EventsPostChecker}).
      *
      * @param invariants The invariants to check.
      * @param checkGlobalDuplication Whether to check for duplication in other collected invariants {@code true}, or
      *     only in the provided list {@code false}.
      * @param env The post check environment to use.
      */
-    private void check(List<Invariant> invariants, boolean checkGlobalDuplication, CifPostCheckEnv env) {
-        // Initialize mapping from an event to all its predicates.
+    private void checkInvariants(List<Invariant> invariants, boolean checkGlobalDuplication, CifPostCheckEnv env) {
+        // Check for state/event exclusion invariants with events that are not in the alphabet of the specification,
+        // considering the synchronization, send and receive alphabets.
+        for (Invariant invariant: invariants) {
+            Expression eventRef = invariant.getEvent();
+            if (eventRef != null) {
+                Event event = ((EventExpression)eventRef).getEvent();
+                if (!specSyncSendRecvAlphabet.contains(event)) {
+                    env.addProblem(ErrMsg.INV_EVENT_NOT_IN_ALPHABET, eventRef.getPosition(), getAbsName(event));
+                    // Non-fatal problem.
+                }
+            }
+        }
+
+        // Check for duplicate invariants.
+        // First, initialize the mapping from an event to all its predicates.
         Map<Event, List<Pair<EventExpression, Expression>>> localEventPredicatesDisables = map();
         Map<Event, List<Pair<EventExpression, Expression>>> localEventPredicatesNeeds = map();
 
+        // Then, check the invariants.
         for (Invariant invariant: invariants) {
             // For components look for global duplications, for locations don't do that, as the invariant is only
             // 'active' in that location.
