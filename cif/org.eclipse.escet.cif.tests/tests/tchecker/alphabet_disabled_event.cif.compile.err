@@ -16,6 +16,7 @@ WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 2
 WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 24: Duplicate event "g.q1.r.e1" in alphabet of automaton "g.q1.p1".
 WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 31: Duplicate event "g.q1.r.e2" in alphabet of automaton "g.q1.p1".
 WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 20, column 38: Duplicate event "g.q1.r.e2" in alphabet of automaton "g.q1.p1".
+WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 56, column 15: Event "g.q2.e4" is not in the synchronization, send or receive alphabet of the specification, and thus won't ever occur; restricting it has no effect.
 WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 72, column 14: Duplicate event "g.p1.e" in alphabet of automaton "g.q4".
 WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 72, column 20: Duplicate event "g.p1.e" in alphabet of automaton "g.q4".
 WARNING: File "tchecker/alphabet_disabled_event.cif": Semantic warning at line 72, column 20: The alphabet of automaton "g.q3" globally disables event "g.p2.e", as the event is not used on any of the edges of the automaton.

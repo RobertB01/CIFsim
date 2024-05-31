@@ -804,6 +804,7 @@ automaton ref_aut:
   location l:
     initial;
     edge do cont_var := cont_var';
+    edge event1;
 end
 
 // Operator priorities.

@@ -190,6 +190,7 @@ automaton aut8:
     invariant inv4: true;
     invariant inv5: evt11 needs true;
     invariant inv6: false disables evt11;
+    edge evt18, evt11;
 end
 invariant const5[field1][field1] = 1;
 invariant const5[field1][field2] = 2;

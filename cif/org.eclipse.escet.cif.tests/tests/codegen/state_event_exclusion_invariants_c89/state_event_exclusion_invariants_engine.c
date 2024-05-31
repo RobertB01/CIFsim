@@ -84,7 +84,7 @@ static void PrintOutput(state_event_exclusion_invariants_Event_ event, BoolType 
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
-    BoolType guard = (((x_) > (1)) && (((x_) <= (1)) && (((x_) > (1)) && ((x_) <= (1))))) && ((((x_) > (1)) && ((x_) <= (1))) && (((x_) > (1)) && ((x_) <= (1))));
+    BoolType guard = (((x_) > (1)) && (((x_) <= (1)) && ((x_) > (1)))) && ((((x_) <= (1)) && ((x_) > (1))) && (((x_) <= (1)) && (((x_) > (1)) && ((x_) <= (1)))));
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT

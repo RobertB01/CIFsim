@@ -17,6 +17,12 @@
 
 event e;
 
+automaton aut:
+  location:
+    initial;
+    edge e;
+end
+
 plant e needs true; // Plant 'needs' state/event exclusion invariant.
 requirement true;
 

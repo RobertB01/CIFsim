@@ -13,6 +13,12 @@
 
 event e;
 
+automaton aut:
+  location:
+    initial;
+    edge e;
+end
+
 // All different supervisory and invariant kinds, in top level scope.
             invariant         101 = 101;
             invariant         102 = 102;
@@ -163,6 +169,10 @@ automaton a4:
   event e1;
   event e2;
 
+  location x0:
+    initial;
+    edge e1, e2;
+
   location x1:
     initial;
     invariant e1 needs 701 = 701;
@@ -194,6 +204,12 @@ const int a2StateEvtExcls2 = 6;
 // Named and unnamed invariants in a group.
 group named_and_unnamed_grp:
   event e;
+
+  automaton aut:
+    location:
+      initial;
+      edge e;
+  end
 
   @doc("1")
   invariant e needs 1 = 1;
@@ -262,6 +278,7 @@ automaton named_and_unnamed_aut:
 
   location loc1:
     initial;
+    edge e;
 
     @@doc("1")
     invariant e needs 1 = 1;

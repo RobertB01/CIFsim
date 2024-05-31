@@ -12,6 +12,13 @@
 //////////////////////////////////////////////////////////////////////////////
 
 event e;
+
+automaton aut:
+  location:
+    initial;
+    edge e;
+end
+
 input int x;
 
 invariant e needs x > 1;              // Needs in specification.
