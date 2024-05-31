@@ -20,6 +20,11 @@
    <extension
          point="org.eclipse.escet.cif.annotations">
       <provider
+            annotationName="controller:properties"
+            class="org.eclipse.escet.cif.typechecker.annotations.builtin.ControllerPropertiesAnnotationProvider"
+            plugin="org.eclipse.escet.cif.typechecker">
+      </provider>
+      <provider
             annotationName="doc"
             class="org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider"
             plugin="org.eclipse.escet.cif.typechecker">
