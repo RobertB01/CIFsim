@@ -1,0 +1,15 @@
+@@controller:properties(boundedResponse: false, confluence: false, finiteResponse: false)
+controllable c;
+controllable a;
+controllable b;
+uncontrollable u;
+plant automaton p:
+  disc bool v;
+  location loc1:
+    initial;
+    edge c, u;
+    edge a do v := v goto loc2;
+    edge b do v := not v goto loc2;
+  location loc2:
+    marked;
+end
