@@ -47,6 +47,7 @@ import org.eclipse.escet.cif.cif2cif.RelabelSupervisorsAsPlants;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseChecker;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
@@ -58,11 +59,13 @@ import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.io.CifReader;
+import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.ControllerPropertiesAnnotationProvider;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -71,6 +74,7 @@ import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
+import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
@@ -131,9 +135,11 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
                     "No checks enabled. Enable one of the checks for the controller properties checker to check.");
         }
 
-        // Load specification.
+        // Load specification. Copy it to keep the original.
         OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
-        Specification spec = new CifReader().init().read();
+        CifReader cifReader = new CifReader();
+        Specification origSpec = cifReader.init().read();
+        Specification spec = EMFHelper.deepclone(origSpec);
         String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
@@ -317,7 +323,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         boolean allChecksHold = true;
 
         // Check bounded response.
-        CheckConclusion boundedResponseConclusion = null;
+        BoundedResponseCheckConclusion boundedResponseConclusion = null;
         boolean boundedResponseHolds = true; // Is true if it holds or was not checked, false otherwise.
         if (checkBoundedResponse) {
             // Check the bounded response property.
@@ -418,6 +424,30 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
         dout();
 
+        // Update specification for outcome of the checks. If a check was not performed, don't update the annotation
+        // for that check, but keep the existing result. That way, we can do checks one by one, or we can only redo a
+        // certain check.
+        if (boundedResponseConclusion != null) {
+            Integer unctrlBound = boundedResponseConclusion.propertyHolds()
+                    ? boundedResponseConclusion.uncontrollablesBound.getBound() : null;
+            Integer ctrlBound = boundedResponseConclusion.propertyHolds()
+                    ? boundedResponseConclusion.controllablesBound.getBound() : null;
+            ControllerPropertiesAnnotationProvider.setBoundedResponse(origSpec, unctrlBound, ctrlBound);
+        }
+        if (confluenceConclusion != null) {
+            ControllerPropertiesAnnotationProvider.setConfluence(origSpec, confluenceHolds);
+        }
+        if (finiteResponseConclusion != null) {
+            ControllerPropertiesAnnotationProvider.setFiniteResponse(origSpec, finiteResponseHolds);
+        }
+
+        // Write the output file.
+        String outPath = OutputFileOption.getDerivedPath(".cif", ".checked.cif");
+        String absOutPath = Paths.resolve(outPath);
+        CifWriter.writeCifSpec(origSpec, absOutPath, cifReader.getAbsDirPath());
+        out();
+        out("The model with the check results has been written to \"%s\".", outPath);
+
         // Return the application exit code, indicating whether the specification satisfies all the checks that were
         // performed.
         return allChecksHold ? 0 : 1;
@@ -439,6 +469,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         checkOpts.add(Options.getInstance(EnableFiniteResponseChecking.class));
         checkOpts.add(Options.getInstance(PrintControlLoopsOutputOption.class));
         checkOpts.add(Options.getInstance(EnableConfluenceChecking.class));
+        checkOpts.add(Options.getInstance(OutputFileOption.class));
 
         OptionCategory checksCat;
         checksCat = new OptionCategory("Checks", "Controller properties checker options.", list(), checkOpts);

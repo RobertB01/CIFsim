@@ -23,10 +23,10 @@ import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 /** Conclusion of the bounded response check. */
 public class BoundedResponseCheckConclusion implements CheckConclusion {
     /** The bound on the number of transitions that can be executed for uncontrollable events. */
-    private final Bound uncontrollablesBound;
+    public final Bound uncontrollablesBound;
 
     /** The bound on the number of transitions that can be executed for controllable events. */
-    private final Bound controllablesBound;
+    public final Bound controllablesBound;
 
     /**
      * Constructor for the {@link BoundedResponseCheckConclusion} class.

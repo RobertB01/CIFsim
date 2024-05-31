@@ -24,7 +24,6 @@ import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 import com.github.javabdd.BDD;
@@ -37,7 +36,7 @@ public class BoundedResponseChecker {
      * @param cifBddSpec The CIF/BDD specification to check.
      * @return The conclusion of the bounded response check, or {@code null} if the check is aborted.
      */
-    public CheckConclusion checkSystem(CifBddSpec cifBddSpec) {
+    public BoundedResponseCheckConclusion checkSystem(CifBddSpec cifBddSpec) {
         // Compute reachable states.
         cifBddSpec.settings.getDebugOutput().line("Computing reachable states...");
         BDD reachableStates = computeReachableStates(cifBddSpec);
