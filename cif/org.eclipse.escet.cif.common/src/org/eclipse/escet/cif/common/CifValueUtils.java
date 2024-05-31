@@ -2355,15 +2355,25 @@ public class CifValueUtils {
     }
 
     /**
+     * Returns a newly created {@link BoolExpression} with a given value, without position information.
+     *
+     * @param value The boolean value of the new boolean literal.
+     * @return The boolean literal.
+     */
+    public static BoolExpression makeBool(boolean value) {
+        BoolExpression rslt = newBoolExpression();
+        rslt.setValue(value);
+        rslt.setType(newBoolType());
+        return rslt;
+    }
+
+    /**
      * Returns a newly created {@link BoolExpression} with 'false' value, without position information.
      *
      * @return The 'false' literal.
      */
     public static BoolExpression makeFalse() {
-        BoolExpression rslt = newBoolExpression();
-        rslt.setValue(false);
-        rslt.setType(newBoolType());
-        return rslt;
+        return makeBool(false);
     }
 
     /**
@@ -2372,10 +2382,7 @@ public class CifValueUtils {
      * @return The 'true' literal.
      */
     public static BoolExpression makeTrue() {
-        BoolExpression rslt = newBoolExpression();
-        rslt.setValue(true);
-        rslt.setType(newBoolType());
-        return rslt;
+        return makeBool(true);
     }
 
     /**
