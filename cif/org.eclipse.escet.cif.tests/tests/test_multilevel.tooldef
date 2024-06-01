@@ -73,7 +73,7 @@ for test in tests:
     string test1_err_exp  = chfileext(test, "cif", "err");
     string test1_err_real = chfileext(test, "cif", "err.real");
     string test1_dir_exp  = replace(test, ".cif", "_expected_specs");
-    string test1_dir_real = replace(test, ".cif", "_partial_specs");
+    string test1_dir_real = replace(test, ".cif", "_actual_specs");
 
     // Execute.
     list string options1 = options + ["--specs-dir=" + test1_dir_real, "--dmm-file=" + test1_dmm_real];
