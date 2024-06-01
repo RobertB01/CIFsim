@@ -139,7 +139,6 @@ for test in tests:
         bool check_ok = exit_code2_ok and file2_written;
 
         // Cleanup.
-        if check_ok:: rmfile(spec_real_ok);
         if check_ok and exists(file2_out_real):: rmfile(file2_out_real);
 
         // Update counts.
@@ -152,6 +151,11 @@ for test in tests:
     // Cleanup.
     // ========
 
+    if size(spec_files) == size(specs_real_ok):
+        for spec_real_ok in specs_real_ok:
+            rmfile(spec_real_ok);
+        end
+    end
     if exists(test1_dir_real) and empty(find(test1_dir_real)):: rmdir(test1_dir_real);
 end
 
