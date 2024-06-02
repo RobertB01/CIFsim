@@ -27,6 +27,8 @@ import org.eclipse.escet.cif.eventdisabler.options.SvgInputEventsOption;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
+import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -40,6 +42,7 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
+import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** CIF event disabler application. */
 public class EventDisablerApplication extends Application<IOutputComponent> {
@@ -99,9 +102,20 @@ public class EventDisablerApplication extends Application<IOutputComponent> {
                 return 0;
             }
 
-            // Write output specification.
+            // Get output path.
             String outPath = OutputFileOption.getDerivedPath(".cif", ".disabled.cif");
             outPath = Paths.resolve(outPath);
+
+            // Check CIF specification to output.
+            CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "output");
+            try {
+                new CifAnnotationsPostChecker(env).check(spec);
+            } catch (SemanticException ex) {
+                // Ignore.
+            }
+            env.throwUnsupportedExceptionIfAnyErrors(null);
+
+            // Write output specification.
             CifWriter.writeCifSpec(spec, outPath, cifReader.getAbsDirPath());
         } catch (ApplicationException e) {
             String msg = fmt("Failed to disable events for CIF file \"%s\".", InputFileOption.getPath());

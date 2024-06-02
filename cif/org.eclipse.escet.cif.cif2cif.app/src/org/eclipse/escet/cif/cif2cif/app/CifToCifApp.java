@@ -23,6 +23,8 @@ import org.eclipse.escet.cif.cif2cif.CifToCifTransformation;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
+import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -33,6 +35,7 @@ import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
+import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** CIF to CIF transformation application. */
 public class CifToCifApp extends Application<IOutputComponent> {
@@ -95,9 +98,20 @@ public class CifToCifApp extends Application<IOutputComponent> {
             }
         }
 
-        // Write output file.
+        // Get output path.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".transformed.cif");
         outPath = Paths.resolve(outPath);
+
+        // Check CIF specification to output.
+        CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "transformed");
+        try {
+            new CifAnnotationsPostChecker(env).check(spec);
+        } catch (SemanticException ex) {
+            // Ignore.
+        }
+        env.throwUnsupportedExceptionIfAnyErrors("Transforming the CIF specification failed.");
+
+        // Write output file.
         CifWriter.writeCifSpec(spec, outPath, cifReader.getAbsDirPath());
 
         // All done.
