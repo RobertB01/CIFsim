@@ -31,6 +31,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.typechecker.postchk.AssignmentPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifSvgPostChecker;
+import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
 import org.eclipse.escet.cif.typechecker.postchk.CyclePostChecker;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -156,8 +157,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
         }
 
         // Perform post phase type checking on the merged specification.
-        CifMergerPostCheckEnv env = new CifMergerPostCheckEnv(mergedAbsDirPath);
-
+        CifToolPostCheckEnv env = new CifToolPostCheckEnv(mergedAbsDirPath, "merged");
         try {
             // Same checks as CIF type checker, in same order.
             CyclePostChecker.check(mergedSpec, env);
@@ -171,18 +171,7 @@ public class CifMergerApp extends Application<IOutputComponent> {
         } catch (SemanticException ex) {
             // Ignore.
         }
-
-        env.printErrors();
-        if (!env.errors.isEmpty()) {
-            List<String> paths = listc(mergedPaths.size());
-            for (String path: mergedPaths) {
-                paths.add("\"" + path + "\"");
-            }
-            String mergedPathsTxt = String.join(", ", paths);
-
-            String msg = fmt("Merging CIF specifications %s failed.", mergedPathsTxt);
-            throw new UnsupportedException(msg);
-        }
+        env.throwUnsupportedExceptionIfAnyErrors("Merging CIF specifications failed.");
 
         // Get output file path.
         String outPath = OutputFileOption.getPath();
