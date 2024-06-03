@@ -46,3 +46,4 @@ end
 copy_dirs("cif2plc", "_real", "");
 copy_dirs("plcgen", "_real", "");
 copy_dirs("codegen", "_real", "");
+copy_dirs("multilevel", "_actual_specs", "_expected_specs");

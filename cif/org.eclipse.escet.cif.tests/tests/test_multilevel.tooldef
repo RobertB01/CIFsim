@@ -11,6 +11,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+from "lib:cif" import cif2cif;
+
 tool int multilevel(string... args, string stdin = "-", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
     return app("org.eclipse.escet.cif.multilevel", "org.eclipse.escet.cif.multilevel.MultilevelApp", args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
@@ -28,10 +30,14 @@ map(string:list string) test_options = {};
 set string test_skip = {};
 
 // Initialize counts.
-int count = 0;
-int successes = 0;
-int failures = 0;
-int skipped = 0;
+int run_count = 0;
+int run_successes = 0;
+int run_failures = 0;
+int run_skipped = 0;
+
+int check_count = 0;
+int check_successes = 0;
+int check_failures = 0;
 
 // Find tests.
 list string tests = find(test_path, test_pattern, recursive=false);
@@ -39,13 +45,17 @@ for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", 
 for i in reverse(range(tests)):
     if contains(test_skip, tests[i]):
         tests = delidx(tests, i);
-        count = count + 1;
-        skipped = skipped + 1;
+        run_count = run_count + 1;
+        run_skipped = run_skipped + 1;
     end
 end
 
 // Test all tests.
 for test in tests:
+    // ====
+    // Run.
+    // ====
+
     // Get test specific options.
     list string options = default_options;
     list string extra_options;
@@ -53,74 +63,126 @@ for test in tests:
     options = options + extra_options;
 
     // Print what we are testing.
-    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+    outln("Testing \"%s\" (run) using options \"%s\"...", test, join(extra_options, " "));
 
     // Get paths.
-    string test_dmm_exp  = chfileext(test, oldext="cif", newext="dmms.expected.txt");
-    string test_out_exp  = chfileext(test, oldext="cif", newext="out");
-    string test_err_exp  = chfileext(test, oldext="cif", newext="err");
-    string test_dmm_real = chfileext(test, oldext="cif", newext="dmms.txt");
-    string test_out_real = chfileext(test, oldext="cif", newext="out.real");
-    string test_err_real = chfileext(test, oldext="cif", newext="err.real");
-    string dir_specs_exp = replace(test, oldtext=".cif", newtext="_expected_specs");
-    string dir_specs_real = replace(test, oldtext=".cif", newtext="_partial_specs");
+    string test1_dmm_exp  = chfileext(test, "cif", "dmms.expected.txt");
+    string test1_dmm_real = chfileext(test, "cif", "dmms.txt");
+    string test1_out_exp  = chfileext(test, "cif", "out");
+    string test1_out_real = chfileext(test, "cif", "out.real");
+    string test1_err_exp  = chfileext(test, "cif", "err");
+    string test1_err_real = chfileext(test, "cif", "err.real");
+    string test1_dir_exp  = replace(test, ".cif", "_expected_specs");
+    string test1_dir_real = replace(test, ".cif", "_actual_specs");
 
     // Execute.
-    list string full_options = options + ["--specs-dir=" + dir_specs_real, "--dmm-file=" + test_dmm_real];
-    multilevel([test] + full_options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+    list string options1 = options + ["--specs-dir=" + test1_dir_real, "--dmm-file=" + test1_dmm_real];
+    int exit_code1 = multilevel([test] + options1, stdout=test1_out_real, stderr=test1_err_real, ignoreNonZeroExitCode=true);
 
     // Compare output.
-    bool dmm_diff = diff(test_dmm_exp, test_dmm_real, missingAsEmpty=true, warnOnDiff=true);
-    bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
-    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
-    if not dmm_diff:: rmfile(test_dmm_real, true);
-    if not stdout_diff:: rmfile(test_out_real);
-    if not stderr_diff:: rmfile(test_err_real);
+    bool dmm1_diff    = diff(test1_dmm_exp, test1_dmm_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout1_diff = diff(test1_out_exp, test1_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stderr1_diff = diff(test1_err_exp, test1_err_real, missingAsEmpty=true, warnOnDiff=true);
+    if not dmm1_diff:: rmfile(test1_dmm_real, true);
+    if not stdout1_diff:: rmfile(test1_out_real);
+    if not stderr1_diff:: rmfile(test1_err_real);
 
     // Collect all CIF files in the partial and expected specs directories.
     set string spec_files = {};
-    if exists(dir_specs_exp):: for cif_file in find(dir_specs_exp, "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
-    if exists(dir_specs_real):: for cif_file in find(dir_specs_real, "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
+    if exists(test1_dir_exp)::  for cif_file in find(test1_dir_exp,  "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
+    if exists(test1_dir_real):: for cif_file in find(test1_dir_real, "*.cif", false, true, false):: spec_files = spec_files or {basename(cif_file)};
 
-    // Assuming both directories contain the same files, compare all. Count errors, and delete good real specifications.
+    // Assuming both directories contain the same files, compare all.
+    // Count errors and collect good real specifications (to remove later).
     int specs_diff_count = 0;
+    set string specs_real_ok = {};
     for cif_file in spec_files:
-        string real_spec = replace(pathjoin(dir_specs_real, cif_file), "\\", "/");
-        string exp_spec = replace(pathjoin(dir_specs_exp, cif_file), "\\", "/");
+        string real_spec = replace(pathjoin(test1_dir_real, cif_file), "\\", "/");
+        string exp_spec = replace(pathjoin(test1_dir_exp, cif_file), "\\", "/");
         bool spec_diff = diff(exp_spec, real_spec, missingAsEmpty=true, warnOnDiff=true);
         if spec_diff:
-    	    specs_diff_count = specs_diff_count + 1;
+            specs_diff_count = specs_diff_count + 1;
         else
-            rmfile(real_spec);
+            specs_real_ok = specs_real_ok or {real_spec};
         end
     end
-    if specs_diff_count == 0 and exists(dir_specs_real):: rmdir(dir_specs_real);
 
     // Update counts.
-    int diff_count = specs_diff_count;
-    if dmm_diff:: diff_count = diff_count + 1;
-    if stdout_diff:: diff_count = diff_count + 1;
-    if stderr_diff:: diff_count = diff_count + 1;
+    int run_diff_count = specs_diff_count;
+    if dmm1_diff::    run_diff_count = run_diff_count + 1;
+    if stdout1_diff:: run_diff_count = run_diff_count + 1;
+    if stderr1_diff:: run_diff_count = run_diff_count + 1;
 
-    count = count + 1;
-    if diff_count == 0:: successes = successes + 1;
-    if diff_count > 0:: failures = failures + 1;
+    run_count = run_count + 1;
+    if run_diff_count == 0:: run_successes = run_successes + 1;
+    if run_diff_count > 0:: run_failures = run_failures + 1;
+
+    // ==========================
+    // Check produced CIF models.
+    // ==========================
+
+    for spec_real_ok in specs_real_ok:
+        // Get paths.
+        string test2          = spec_real_ok;
+        string file2_out_real = chfileext(test, "cif", "check.out.real.cif");
+
+        // Print what we are testing.
+        outln("Testing \"%s\" (check, \"%s\")...", test, basename(test2));
+
+        // Execute.
+        list string options2 = ["--devmode=1", "--output-mode=error", "-o", file2_out_real];
+        int exit_code2 = cif2cif([test2] + options2, ignoreNonZeroExitCode=true);
+
+        // Check output.
+        bool exit_code2_ok = (exit_code2 == 0);
+        bool file2_written = isfile(file2_out_real) and filesize(file2_out_real) > 0;
+        bool check_ok = exit_code2_ok and file2_written;
+
+        // Cleanup.
+        if check_ok and exists(file2_out_real):: rmfile(file2_out_real);
+
+        // Update counts.
+        check_count = check_count + 1;
+        if     check_ok:: check_successes = check_successes + 1;
+        if not check_ok:: check_failures  = check_failures  + 1;
+    end
+
+    // ========
+    // Cleanup.
+    // ========
+
+    if size(spec_files) == size(specs_real_ok):
+        for spec_real_ok in specs_real_ok:
+            rmfile(spec_real_ok);
+        end
+    end
+    if exists(test1_dir_real) and empty(find(test1_dir_real)):: rmdir(test1_dir_real);
 end
 
-// Get result message.
-string rslt;
-if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+// Get result messages.
+string run_rslt;
+string check_rslt;
+if run_failures   == 0: run_rslt   = "SUCCESS"; else run_rslt   = "FAILURE"; end
+if check_failures == 0: check_rslt = "SUCCESS"; else check_rslt = "FAILURE"; end
 
-string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
-                 rslt, test_path, count, successes, failures, skipped);
+string run_msg   = fmt("Test %s (%s, run):   %d tests, %d successes, %d failures, %d skipped.",
+                       run_rslt, test_path, run_count, run_successes, run_failures, run_skipped);
+string check_msg = fmt("Test %s (%s, check): %d tests, %d successes, %d failures.",
+                       check_rslt, test_path, check_count, check_successes, check_failures);
 
-// Output result message.
-if failures == 0:
-    outln(msg);
+// Output result messages.
+if run_failures == 0:
+    outln(run_msg);
 else
-    errln(msg);
+    errln(run_msg);
+end
+
+if check_failures == 0:
+    outln(check_msg);
+else
+    errln(check_msg);
 end
 
 // Return number of failures as exit code. No failures means zero exit code,
 // any failures means non-zero exit code.
-exit failures;
+exit run_failures + check_failures;
