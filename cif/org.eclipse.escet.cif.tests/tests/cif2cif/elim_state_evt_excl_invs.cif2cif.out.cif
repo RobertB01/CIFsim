@@ -2,10 +2,14 @@ event e;
 const int[5..5] a2StateEvtExcls = 5;
 const int[6..6] a2StateEvtExcls2 = 6;
 const bool named_and_unnamed_autNAME12b = true;
+event abc;
+event bool chan1;
+event bool chan2;
 automaton aut:
+  disc int x;
   location:
     initial;
-    edge e;
+    edge e do x := x + 1;
 end
 group g:
   automaton StateEvtExcls:
@@ -169,6 +173,36 @@ automaton named_and_unnamed_aut:
     edge e;
   location loc2:
     initial;
+end
+group g2:
+  group g:
+    automaton a:
+      event b;
+      location:
+        initial;
+    end
+  end
+end
+automaton send1:
+  location:
+    initial;
+    edge chan1!true;
+end
+automaton send2:
+  location:
+    initial;
+    edge chan1!false;
+end
+automaton receive:
+  location:
+    initial;
+    edge chan1?;
+end
+automaton CHAN1:
+  location:
+    initial;
+    marked;
+    edge chan1 when aut.x = 8;
 end
 automaton StateEvtExcls:
   location:
