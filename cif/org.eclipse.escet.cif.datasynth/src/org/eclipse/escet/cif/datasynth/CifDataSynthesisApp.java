@@ -312,13 +312,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             factory.done();
         }
 
-        // Get output path.
-        String outPath = OutputFileOption.getDerivedPath(".cif", ".ctrlsys.cif");
-        if (dbgEnabled) {
-            dbg("Writing output CIF file \"%s\".", outPath);
-        }
-        outPath = Paths.resolve(outPath);
-
         // Check CIF specification to output.
         CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "synthesized");
         try {
@@ -329,6 +322,12 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         env.throwUnsupportedExceptionIfAnyErrors("Supervisory controller synthesis failed.");
 
         // Write output CIF specification.
+        String outPath = OutputFileOption.getDerivedPath(".cif", ".ctrlsys.cif");
+        if (dbgEnabled) {
+            dbg("Writing output CIF file \"%s\".", outPath);
+        }
+        outPath = Paths.resolve(outPath);
+
         if (doTiming) {
             timing.outputWrite.start();
         }

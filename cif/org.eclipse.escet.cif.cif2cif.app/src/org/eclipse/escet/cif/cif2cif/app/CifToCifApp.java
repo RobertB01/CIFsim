@@ -98,10 +98,6 @@ public class CifToCifApp extends Application<IOutputComponent> {
             }
         }
 
-        // Get output path.
-        String outPath = OutputFileOption.getDerivedPath(".cif", ".transformed.cif");
-        outPath = Paths.resolve(outPath);
-
         // Check CIF specification to output.
         CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "transformed");
         try {
@@ -112,6 +108,8 @@ public class CifToCifApp extends Application<IOutputComponent> {
         env.throwUnsupportedExceptionIfAnyErrors("Transforming the CIF specification failed.");
 
         // Write output file.
+        String outPath = OutputFileOption.getDerivedPath(".cif", ".transformed.cif");
+        outPath = Paths.resolve(outPath);
         CifWriter.writeCifSpec(spec, outPath, cifReader.getAbsDirPath());
 
         // All done.

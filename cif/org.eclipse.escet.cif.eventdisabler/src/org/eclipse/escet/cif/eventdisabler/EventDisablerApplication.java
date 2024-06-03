@@ -102,10 +102,6 @@ public class EventDisablerApplication extends Application<IOutputComponent> {
                 return 0;
             }
 
-            // Get output path.
-            String outPath = OutputFileOption.getDerivedPath(".cif", ".disabled.cif");
-            outPath = Paths.resolve(outPath);
-
             // Check CIF specification to output.
             CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "output");
             try {
@@ -116,6 +112,8 @@ public class EventDisablerApplication extends Application<IOutputComponent> {
             env.throwUnsupportedExceptionIfAnyErrors(null);
 
             // Write output specification.
+            String outPath = OutputFileOption.getDerivedPath(".cif", ".disabled.cif");
+            outPath = Paths.resolve(outPath);
             CifWriter.writeCifSpec(spec, outPath, cifReader.getAbsDirPath());
         } catch (ApplicationException e) {
             String msg = fmt("Failed to disable events for CIF file \"%s\".", InputFileOption.getPath());
