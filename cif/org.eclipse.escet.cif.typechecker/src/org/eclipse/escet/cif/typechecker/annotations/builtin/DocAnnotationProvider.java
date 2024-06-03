@@ -155,8 +155,13 @@ public class DocAnnotationProvider extends AnnotationProvider {
             return (String)value;
         } catch (CifEvalException e) {
             AnnotatedObject annotatedObj = (AnnotatedObject)docAnnoArg.eContainer().eContainer();
-            throw new InvalidModelException(fmt("Failed to evaluate an argument of the \"doc\" annotation of \"%s\".",
-                    CifTextUtils.getAbsName(annotatedObj)), e);
+            if (CifTextUtils.hasName(annotatedObj)) {
+                String msg = fmt("Failed to evaluate an argument of the \"doc\" annotation of \"%s\".",
+                        CifTextUtils.getAbsName(annotatedObj));
+                throw new InvalidModelException(msg, e);
+            } else {
+                throw new InvalidModelException("Failed to evaluate an argument of a \"doc\" annotation.", e);
+            }
         }
     }
 }
