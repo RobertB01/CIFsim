@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.escet.cif.common.CifAnnotationUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -127,7 +128,7 @@ public class DocAnnotationProvider extends AnnotationProvider {
      * @throws InvalidModelException If a documentation text can not be evaluated.
      */
     public static List<String> getDocs(AnnotatedObject obj) {
-        return obj.getAnnotations().stream().filter(a -> a.getName().equals("doc")).map(a -> getDoc(a)).toList();
+        return CifAnnotationUtils.getAnnotations(obj, "doc").map(a -> getDoc(a)).toList();
     }
 
     /**

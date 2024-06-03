@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.typechecker.annotations.builtin;
 
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAnnotation;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.common.CifAnnotationUtils;
@@ -225,7 +224,7 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
     @Override
     public final void checkGlobal(Specification spec, AnnotationProblemReporter reporter) {
         // Make sure there is only one controller properties annotation on the specification.
-        long count = spec.getAnnotations().stream().filter(anno -> anno.getName().equals(annotationName)).count();
+        long count = CifAnnotationUtils.getAnnotations(spec, annotationName).count();
         if (count > 1) {
             reporter.reportProblem(annotationName,
                     fmt("the specification has more than one controller properties annotation, namely %d.",
@@ -236,45 +235,6 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
     }
 
     /**
-     * Adds a controller properties annotation to the given specification.
-     *
-     * <p>
-     * The specification must not yet contain a controller properties annotation. The added annotation does not have any
-     * arguments.
-     * </p>
-     *
-     * @param spec The specification.
-     * @return The newly created controller properties annotation that is added to the specification.
-     */
-    private static Annotation addControllerProperties(Specification spec) {
-        Annotation anno = newAnnotation();
-        anno.setName("controller:properties");
-        spec.getAnnotations().add(anno);
-        return anno;
-    }
-
-    /**
-     * Get the controller properties annotation of the given specification, if it has one.
-     *
-     * @param spec The specification.
-     * @return The controller properties annotation, or {@code null} if it has none.
-     */
-    public static Annotation getControllerProperties(Specification spec) {
-        return spec.getAnnotations().stream().filter(anno -> anno.getName().equals("controller:properties"))
-                .findFirst().orElse(null);
-    }
-
-    /**
-     * Does the given specification have controller properties?
-     *
-     * @param spec The specification.
-     * @return {@code true} if the specification has controller properties, {@code false} if it does not.
-     */
-    public static boolean hasControllerProperties(Specification spec) {
-        return getControllerProperties(spec) != null;
-    }
-
-    /**
      * Returns whether the given specification has bounded response, if known.
      *
      * @param spec The specification.
@@ -282,15 +242,9 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
      *     response, or {@code null} if it is not known whether the specification has bounded response.
      */
     public static Boolean hasBoundedResponse(Specification spec) {
-        Annotation anno = getControllerProperties(spec);
-        if (anno == null) {
-            return null;
-        }
-        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno, "boundedResponse");
-        if (arg == null) {
-            return null;
-        }
-        return ((BoolExpression)arg.getValue()).isValue();
+        Annotation anno = CifAnnotationUtils.tryGetSingleAnnotation(spec, "controller:properties");
+        AnnotationArgument arg = (anno == null) ? null : CifAnnotationUtils.tryGetArgument(anno, "boundedResponse");
+        return (arg == null) ? null : ((BoolExpression)arg.getValue()).isValue();
     }
 
     /**
@@ -301,15 +255,9 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
      *     have confluence, or {@code null} if it is not known whether the specification has confluence.
      */
     public static Boolean hasConfluence(Specification spec) {
-        Annotation anno = getControllerProperties(spec);
-        if (anno == null) {
-            return null;
-        }
-        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno, "confluence");
-        if (arg == null) {
-            return null;
-        }
-        return ((BoolExpression)arg.getValue()).isValue();
+        Annotation anno = CifAnnotationUtils.tryGetSingleAnnotation(spec, "controller:properties");
+        AnnotationArgument arg = (anno == null) ? null : CifAnnotationUtils.tryGetArgument(anno, "confluence");
+        return (arg == null) ? null : ((BoolExpression)arg.getValue()).isValue();
     }
 
     /**
@@ -320,15 +268,9 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
      *     or {@code null} if it is not known whether the specification has finite response.
      */
     public static Boolean hasFiniteResponse(Specification spec) {
-        Annotation anno = getControllerProperties(spec);
-        if (anno == null) {
-            return null;
-        }
-        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno, "finiteResponse");
-        if (arg == null) {
-            return null;
-        }
-        return ((BoolExpression)arg.getValue()).isValue();
+        Annotation anno = CifAnnotationUtils.tryGetSingleAnnotation(spec, "controller:properties");
+        AnnotationArgument arg = (anno == null) ? null : CifAnnotationUtils.tryGetArgument(anno, "finiteResponse");
+        return (arg == null) ? null : ((BoolExpression)arg.getValue()).isValue();
     }
 
     /**
@@ -339,15 +281,10 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
      *     have bounded response, or it is not known whether it has bounded response).
      */
     public static Integer getUncontrollablesBound(Specification spec) {
-        Annotation anno = getControllerProperties(spec);
-        if (anno == null) {
-            return null;
-        }
-        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno, "uncontrollablesBound");
-        if (arg == null) {
-            return null;
-        }
-        return ((IntExpression)arg.getValue()).getValue();
+        Annotation anno = CifAnnotationUtils.tryGetSingleAnnotation(spec, "controller:properties");
+        AnnotationArgument arg = (anno == null) ? null
+                : CifAnnotationUtils.tryGetArgument(anno, "uncontrollablesBound");
+        return (arg == null) ? null : ((IntExpression)arg.getValue()).getValue();
     }
 
     /**
@@ -358,15 +295,9 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
      *     have bounded response, or it is not known whether it has bounded response).
      */
     public static Integer getControllablesBound(Specification spec) {
-        Annotation anno = getControllerProperties(spec);
-        if (anno == null) {
-            return null;
-        }
-        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno, "controllablesBound");
-        if (arg == null) {
-            return null;
-        }
-        return ((IntExpression)arg.getValue()).getValue();
+        Annotation anno = CifAnnotationUtils.tryGetSingleAnnotation(spec, "controller:properties");
+        AnnotationArgument arg = (anno == null) ? null : CifAnnotationUtils.tryGetArgument(anno, "controllablesBound");
+        return (arg == null) ? null : ((IntExpression)arg.getValue()).getValue();
     }
 
     /**
@@ -388,10 +319,7 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
 
         // Set 'boundedResponse'.
         boolean boundedResponse = controllablesBound != null;
-        Annotation anno = getControllerProperties(spec);
-        if (anno == null) {
-            anno = addControllerProperties(spec);
-        }
+        Annotation anno = CifAnnotationUtils.getOrCreateSingleAnnotation(spec, "controller:properties");
         CifAnnotationUtils.setArgument(anno, "boundedResponse", CifValueUtils.makeBool(boundedResponse));
 
         // Set or remove '(un)controllablesBound'.
@@ -399,8 +327,8 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
             CifAnnotationUtils.setArgument(anno, "uncontrollablesBound", CifValueUtils.makeInt(uncontrollablesBound));
             CifAnnotationUtils.setArgument(anno, "controllablesBound", CifValueUtils.makeInt(controllablesBound));
         } else {
-            CifAnnotationUtils.removeArgument(anno, "uncontrollablesBound");
-            CifAnnotationUtils.removeArgument(anno, "controllablesBound");
+            CifAnnotationUtils.tryRemoveArgument(anno, "uncontrollablesBound");
+            CifAnnotationUtils.tryRemoveArgument(anno, "controllablesBound");
         }
     }
 
@@ -411,10 +339,7 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
      * @param confluence Whether the specification has confluence ({@code true}) or may not have it ({@code false}).
      */
     public static void setConfluence(Specification spec, boolean confluence) {
-        Annotation anno = getControllerProperties(spec);
-        if (anno == null) {
-            anno = addControllerProperties(spec);
-        }
+        Annotation anno = CifAnnotationUtils.getOrCreateSingleAnnotation(spec, "controller:properties");
         CifAnnotationUtils.setArgument(anno, "confluence", CifValueUtils.makeBool(confluence));
     }
 
@@ -426,10 +351,7 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
      *     ({@code false}).
      */
     public static void setFiniteResponse(Specification spec, boolean finiteResponse) {
-        Annotation anno = getControllerProperties(spec);
-        if (anno == null) {
-            anno = addControllerProperties(spec);
-        }
+        Annotation anno = CifAnnotationUtils.getOrCreateSingleAnnotation(spec, "controller:properties");
         CifAnnotationUtils.setArgument(anno, "finiteResponse", CifValueUtils.makeBool(finiteResponse));
     }
 }
