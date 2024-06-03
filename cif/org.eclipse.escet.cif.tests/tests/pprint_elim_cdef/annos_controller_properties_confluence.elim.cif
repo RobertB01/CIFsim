@@ -1,0 +1,8 @@
+@@controller:properties(confluence: false)
+controllable c_evt;
+plant automaton p:
+  location:
+    initial;
+    marked;
+    edge c_evt;
+end

@@ -1,0 +1,64 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-ref-extensions-annotations-controller]]
+== Controller annotations
+
+WARNING: Annotations are currently an experimental work-in-progress language feature.
+Their design may change in a backward incompatible manner.
+
+Controller properties <<lang-ref-extensions-annotations,annotations>> add properties of a controller to a specification.
+For basic information on controller properties annotations, see the <<lang-tut-extensions-chapter-annotations-controller,language tutorial>>.
+Here we discuss further details.
+
+Controller properties annotations (`@@controller:properties`) can only be added to the specification itself, not to elements of the specification.
+
+The annotation has the following constraints, in addition to the <<lang-ref-extensions-annotations-constraints,general constraints>> that apply to all annotations:
+
+* A specification may have at most one controller properties annotation.
+* It is allowed for the annotation to not have any arguments, but in that case the annotation can also just be removed.
+* The annotation supports the following arguments, and no other arguments are allowed:
+** `boundedResponse`:
++
+Indicates whether the specification has <<tools-controller-checker-bounded-response,bounded response>>.
++
+Must have a boolean literal value.
+A `true` value indicates the specification has bounded response, and a `false` value indicates it does not have bounded response.
+If this argument is present and its value is `true`, then the `uncontrollablesBound` and `controllablesBound` arguments must also be present.
+If the argument is not present, or its value is `false`, these other two arguments must not be present.
+** `uncontrollablesBound`:
++
+Indicates the bound on the number of transitions for uncontrollable events, if the specification has <<tools-controller-checker-bounded-response,bounded response>>.
++
+Must have a non-negative integer literal value.
+This argument may only be present if the `boundedResponse` argument is also present, and its value is `true`.
+** `controllablesBound`:
++
+Indicates the bound on the number of transitions for controllable events, if the specification has <<tools-controller-checker-bounded-response,bounded response>>.
++
+Must have a non-negative integer literal value.
+This argument may only be present if the `boundedResponse` argument is also present, and its value is `true`.
+** `confluence`:
++
+Indicates whether the specification has <<tools-controller-checker-confluence,confluence>>.
++
+Must have a boolean literal value.
+A `true` value indicates the specification has confluence, and a `false` value indicates it may not have confluence.
+** `finiteResponse`:
++
+Indicates whether the specification has <<tools-controller-checker-finite-response,finite response>>.
++
+Must have a boolean literal value.
+A `true` value indicates the specification has finite response, and a `false` value indicates it may not have finite response.

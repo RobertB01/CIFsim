@@ -1,0 +1,14 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 4, controllablesBound: 5)
+uncontrollable u;
+controllable c;
+plant automaton p:
+  disc int[0..7] xu;
+  disc int[0..7] xc;
+  location:
+    initial;
+    marked;
+    edge u do xu := xu + 1;
+    edge c do xc := xc + 1;
+end
+plant invariant u needs p.xu < 4;
+supervisor invariant c needs p.xc < 5;

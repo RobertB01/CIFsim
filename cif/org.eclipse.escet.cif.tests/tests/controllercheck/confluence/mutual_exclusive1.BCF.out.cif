@@ -1,0 +1,14 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 1, confluence: true, finiteResponse: true)
+plant automaton DifferentLocs:
+  controllable a;
+  controllable b;
+  uncontrollable u;
+  location p:
+    initial;
+    edge a goto r;
+    edge u goto q;
+  location q:
+    edge b goto r;
+  location r:
+    marked;
+end

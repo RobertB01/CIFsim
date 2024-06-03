@@ -23,34 +23,35 @@ import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 /** Conclusion of the bounded response check. */
 public class BoundedResponseCheckConclusion implements CheckConclusion {
     /** The bound on the number of transitions that can be executed for uncontrollable events. */
-    private final Bound uncontrollableBound;
+    public final Bound uncontrollablesBound;
 
     /** The bound on the number of transitions that can be executed for controllable events. */
-    private final Bound controllableBound;
+    public final Bound controllablesBound;
 
     /**
      * Constructor for the {@link BoundedResponseCheckConclusion} class.
      *
-     * @param uncontrollableBound The bound on the number of transitions that can be executed for uncontrollable events.
-     * @param controllableBound The bound on the number of transitions that can be executed for controllable events.
+     * @param uncontrollablesBound The bound on the number of transitions that can be executed for uncontrollable
+     *     events.
+     * @param controllablesBound The bound on the number of transitions that can be executed for controllable events.
      */
-    public BoundedResponseCheckConclusion(Bound uncontrollableBound, Bound controllableBound) {
-        this.uncontrollableBound = uncontrollableBound;
-        this.controllableBound = controllableBound;
+    public BoundedResponseCheckConclusion(Bound uncontrollablesBound, Bound controllablesBound) {
+        this.uncontrollablesBound = uncontrollablesBound;
+        this.controllablesBound = controllablesBound;
     }
 
     @Override
     public boolean propertyHolds() {
-        return uncontrollableBound.isBounded() && controllableBound.isBounded();
+        return uncontrollablesBound.isBounded() && controllablesBound.isBounded();
     }
 
     @Override
     public void printDetails() {
-        if (!uncontrollableBound.hasInitialState() || !controllableBound.hasInitialState()) {
+        if (!uncontrollablesBound.hasInitialState() || !controllablesBound.hasInitialState()) {
             warn("The specification cannot be initialized.");
         }
 
-        if (uncontrollableBound.isBounded() && controllableBound.isBounded()) {
+        if (uncontrollablesBound.isBounded() && controllablesBound.isBounded()) {
             out("[OK] The specification has bounded response:");
         } else {
             out("[ERROR] The specification does NOT have bounded response:");
@@ -59,8 +60,8 @@ public class BoundedResponseCheckConclusion implements CheckConclusion {
         out();
         iout();
 
-        if (uncontrollableBound.isBounded()) {
-            int bound = uncontrollableBound.getBound();
+        if (uncontrollablesBound.isBounded()) {
+            int bound = uncontrollablesBound.getBound();
             if (bound == 0) {
                 out("- No transitions are possible for uncontrollable events.");
             } else {
@@ -71,8 +72,8 @@ public class BoundedResponseCheckConclusion implements CheckConclusion {
             out("- An infinite sequence of transitions is possible for uncontrollable events.");
         }
 
-        if (controllableBound.isBounded()) {
-            int bound = controllableBound.getBound();
+        if (controllablesBound.isBounded()) {
+            int bound = controllablesBound.getBound();
             if (bound == 0) {
                 out("- No transitions are possible for controllable events.");
             } else {

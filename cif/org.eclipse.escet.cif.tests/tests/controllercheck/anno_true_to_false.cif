@@ -1,0 +1,30 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 0, confluence: true, finiteResponse: true)
+
+controllable c, a, b;
+uncontrollable u;
+
+plant automaton p:
+  disc bool v;
+
+  location loc1:
+    initial;
+    edge c, u;
+    edge a do v :=     v goto loc2;
+    edge b do v := not v goto loc2;
+
+  location loc2:
+    marked;
+end

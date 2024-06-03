@@ -24,7 +24,6 @@ import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 import com.github.javabdd.BDD;
@@ -37,7 +36,7 @@ public class BoundedResponseChecker {
      * @param cifBddSpec The CIF/BDD specification to check.
      * @return The conclusion of the bounded response check, or {@code null} if the check is aborted.
      */
-    public CheckConclusion checkSystem(CifBddSpec cifBddSpec) {
+    public BoundedResponseCheckConclusion checkSystem(CifBddSpec cifBddSpec) {
         // Compute reachable states.
         cifBddSpec.settings.getDebugOutput().line("Computing reachable states...");
         BDD reachableStates = computeReachableStates(cifBddSpec);
@@ -48,14 +47,14 @@ public class BoundedResponseChecker {
         // Compute bounds.
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing bound for uncontrollable events...");
-        Bound uncontrollableBound = computeBound(cifBddSpec, reachableStates, false);
+        Bound uncontrollablesBound = computeBound(cifBddSpec, reachableStates, false);
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
 
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing bound for controllable events...");
-        Bound controllableBound = computeBound(cifBddSpec, reachableStates, true);
+        Bound controllablesBound = computeBound(cifBddSpec, reachableStates, true);
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
@@ -66,7 +65,7 @@ public class BoundedResponseChecker {
         reachableStates.free();
 
         // Return check result.
-        return new BoundedResponseCheckConclusion(uncontrollableBound, controllableBound);
+        return new BoundedResponseCheckConclusion(uncontrollablesBound, controllablesBound);
     }
 
     /**

@@ -1,0 +1,26 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 4, controllablesBound: 5)
+uncontrollable u_e1;
+uncontrollable u_e2;
+uncontrollable u_e3;
+uncontrollable u_e4;
+controllable c_e1;
+controllable c_e2;
+controllable c_e3;
+controllable c_e4;
+controllable c_e5;
+plant automaton def P(event e):
+  location loc1:
+    initial;
+    edge e goto loc2;
+  location loc2:
+    marked;
+end
+pu1: P(u_e1);
+pu2: P(u_e2);
+pu3: P(u_e3);
+pu4: P(u_e4);
+pc1: P(c_e1);
+pc2: P(c_e2);
+pc3: P(c_e3);
+pc4: P(c_e4);
+pc5: P(c_e5);

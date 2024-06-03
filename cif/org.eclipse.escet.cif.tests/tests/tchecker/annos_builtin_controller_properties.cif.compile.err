@@ -1,0 +1,32 @@
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 1, column 1: Annotation "controller:properties": the specification has more than one controller properties annotation, namely 19.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 21, column 25: Annotation "controller:properties": unsupported unnamed argument.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 21, column 76: Annotation "controller:properties": unsupported unnamed argument.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 21, column 102: Annotation "controller:properties": unsupported unnamed argument.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 26, column 5: Annotation "controller:properties": unsupported argument named "a".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 30, column 5: Annotation "controller:properties": unsupported argument named "b".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 33, column 5: Annotation "controller:properties": unsupported argument named "c".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 38, column 42: Annotation "controller:properties": argument value must be a boolean literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 38, column 67: Annotation "controller:properties": argument value must be an integer literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 38, column 93: Annotation "controller:properties": argument value must be an integer literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 39, column 42: Annotation "controller:properties": argument value must be a boolean literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 39, column 74: Annotation "controller:properties": argument value must be an integer literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 39, column 100: Annotation "controller:properties": argument value must be an integer literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 40, column 37: Annotation "controller:properties": argument value must be a boolean literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 41, column 37: Annotation "controller:properties": argument value must be a boolean literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 42, column 41: Annotation "controller:properties": argument value must be a boolean literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 43, column 41: Annotation "controller:properties": argument value must be a boolean literal.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 47, column 25: Annotation "controller:properties": missing an argument named "controllablesBound", since "boundedResponse" is "true".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 47, column 25: Annotation "controller:properties": missing an argument named "uncontrollablesBound", since "boundedResponse" is "true".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 48, column 25: Annotation "controller:properties": missing an argument named "controllablesBound", since "boundedResponse" is "true".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 49, column 25: Annotation "controller:properties": missing an argument named "uncontrollablesBound", since "boundedResponse" is "true".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 53, column 25: Annotation "controller:properties": unsupported argument named "uncontrollablesBound", since "boundedResponse" is not indicated.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 53, column 50: Annotation "controller:properties": unsupported argument named "controllablesBound", since "boundedResponse" is not indicated.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 54, column 25: Annotation "controller:properties": unsupported argument named "uncontrollablesBound", since "boundedResponse" is not indicated.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 55, column 25: Annotation "controller:properties": unsupported argument named "controllablesBound", since "boundedResponse" is not indicated.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 57, column 49: Annotation "controller:properties": unsupported argument named "uncontrollablesBound", since "boundedResponse" is "false".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 57, column 74: Annotation "controller:properties": unsupported argument named "controllablesBound", since "boundedResponse" is "false".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 58, column 49: Annotation "controller:properties": unsupported argument named "uncontrollablesBound", since "boundedResponse" is "false".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 59, column 49: Annotation "controller:properties": unsupported argument named "controllablesBound", since "boundedResponse" is "false".
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 63, column 1: Annotation "controller:properties": controller properties annotation must be on the specification.
+ERROR: File "tchecker/annos_builtin_controller_properties.cif": Semantic error at line 67, column 3: Annotation "controller:properties": controller properties annotation must be on the specification.
+ERROR: Failed to load CIF file "tchecker/annos_builtin_controller_properties.cif": the file has errors.

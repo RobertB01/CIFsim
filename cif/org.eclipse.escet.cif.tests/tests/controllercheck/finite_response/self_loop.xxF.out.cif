@@ -1,0 +1,7 @@
+@@controller:properties(finiteResponse: true)
+plant automaton test:
+  controllable c;
+  location:
+    initial;
+    edge c when false;
+end

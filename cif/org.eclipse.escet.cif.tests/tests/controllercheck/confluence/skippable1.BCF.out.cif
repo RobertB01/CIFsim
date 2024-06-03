@@ -1,0 +1,14 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 2, confluence: true, finiteResponse: true)
+plant automaton OptionalChangeBool:
+  controllable a;
+  controllable b;
+  disc int[0..2] v;
+  location p:
+    initial;
+    edge a do v := 1 goto q;
+    edge b do v := 2 goto r;
+  location q:
+    edge b do v := 2 goto r;
+  location r:
+    marked;
+end

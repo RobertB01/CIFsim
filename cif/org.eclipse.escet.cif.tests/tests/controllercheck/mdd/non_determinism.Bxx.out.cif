@@ -1,0 +1,18 @@
+@@controller:properties(boundedResponse: false)
+plant automaton p:
+  controllable a;
+  controllable b;
+  controllable c;
+  input bool x;
+  input bool y;
+  disc int[0..5] v;
+  location:
+    initial;
+    edge a when x;
+    edge a when not x or y;
+    edge b when x;
+    edge b when not x;
+    edge c when v >= 1;
+    edge c when v = 3;
+    edge c when v <= 4;
+end

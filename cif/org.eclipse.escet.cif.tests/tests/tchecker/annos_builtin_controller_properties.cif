@@ -1,0 +1,70 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// There must be at most one controller properties annotation.
+
+@@controller:properties(confluence: true)
+@@controller:properties(confluence: false)
+
+// Arguments must be named.
+
+@@controller:properties(1, boundedResponse: true, uncontrollablesBound: 2, 3, controllablesBound: 4, true)
+
+// Arguments must have supported names.
+
+@@controller:properties(
+    a: 1,
+    boundedResponse: true,
+    uncontrollablesBound: 2,
+    controllablesBound: 3,
+    b: 4,
+    confluence: true,
+    finiteResponse: false,
+    c: 5
+)
+
+// Arguments must have supported values.
+
+@@controller:properties(boundedResponse: 1, uncontrollablesBound: true, controllablesBound: "a")
+@@controller:properties(boundedResponse: not true, uncontrollablesBound: -1, controllablesBound: 1 + 1)
+@@controller:properties(confluence: "a")
+@@controller:properties(confluence: not true)
+@@controller:properties(finiteResponse: [true])
+@@controller:properties(finiteResponse: not false)
+
+// Check for combinations of arguments (missing arguments).
+
+@@controller:properties(boundedResponse: true)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 1)
+@@controller:properties(boundedResponse: true, controllablesBound: 1)
+
+// Check for combinations of arguments (unsupported arguments).
+
+@@controller:properties(uncontrollablesBound: 1, controllablesBound: 2)
+@@controller:properties(uncontrollablesBound: 1)
+@@controller:properties(controllablesBound: 1)
+
+@@controller:properties(boundedResponse: false, uncontrollablesBound: 1, controllablesBound: 2)
+@@controller:properties(boundedResponse: false, uncontrollablesBound: 1)
+@@controller:properties(boundedResponse: false, controllablesBound: 1)
+
+// The annotation must only be on a specification.
+
+@controller:properties
+input bool i;
+
+automaton aut:
+  @controller:properties
+  location:
+    initial;
+end
