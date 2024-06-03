@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProblemReporter;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider;
+import org.eclipse.escet.cif.typechecker.annotations.AnnotationProviderHelper;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 
@@ -127,19 +128,20 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
         // Check each supported argument, if present.
         boolean argsOk = true;
         if (boundedResponse != null) {
-            argsOk &= checkBoolArg(annotation, boundedResponse, reporter);
+            argsOk &= AnnotationProviderHelper.checkBoolLiteralArg(annotation, boundedResponse, reporter);
         }
         if (uncontrollablesBound != null) {
-            argsOk &= checkIntArg(annotation, uncontrollablesBound, reporter);
+            argsOk &= AnnotationProviderHelper.checkNonNegativeIntLiteralArg(annotation, uncontrollablesBound,
+                    reporter);
         }
         if (controllablesBound != null) {
-            argsOk &= checkIntArg(annotation, controllablesBound, reporter);
+            argsOk &= AnnotationProviderHelper.checkNonNegativeIntLiteralArg(annotation, controllablesBound, reporter);
         }
         if (confluence != null) {
-            argsOk &= checkBoolArg(annotation, confluence, reporter);
+            argsOk &= AnnotationProviderHelper.checkBoolLiteralArg(annotation, confluence, reporter);
         }
         if (finiteResponse != null) {
-            argsOk &= checkBoolArg(annotation, finiteResponse, reporter);
+            argsOk &= AnnotationProviderHelper.checkBoolLiteralArg(annotation, finiteResponse, reporter);
         }
 
         // Check for combinations of arguments.
@@ -178,47 +180,6 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
                 // Non-fatal problem.
             }
         }
-    }
-
-    /**
-     * Check an boolean-typed argument.
-     *
-     * @param annotation The annotation that has the annotation argument.
-     * @param arg The annotation argument to check.
-     * @param reporter The reporter to use to report problems in the annotation argument.
-     * @return Whether the argument is OK, and no violations are reported for it by this method.
-     */
-    private boolean checkBoolArg(Annotation annotation, AnnotationArgument arg, AnnotationProblemReporter reporter) {
-        // Make sure the argument is a boolean literal.
-        if (!(arg.getValue() instanceof BoolExpression)) {
-            reporter.reportProblem(annotation, "argument value must be a boolean literal.",
-                    arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
-            // Non-fatal problem.
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Check an integer-typed argument.
-     *
-     * @param annotation The annotation that has the annotation argument.
-     * @param arg The annotation argument to check.
-     * @param reporter The reporter to use to report problems in the annotation argument.
-     * @return Whether the argument is OK, and no violations are reported for it by this method.
-     */
-    private boolean checkIntArg(Annotation annotation, AnnotationArgument arg, AnnotationProblemReporter reporter) {
-        // Make sure the argument is an integer literal.
-        if (!(arg.getValue() instanceof IntExpression intLiteral)) {
-            reporter.reportProblem(annotation, "argument value must be an integer literal.",
-                    arg.getValue().getPosition(), SemanticProblemSeverity.ERROR);
-            // Non-fatal problem.
-            return false;
-        }
-
-        // All CIF integer literals must have non-negative values. Just do a sanity check.
-        Assert.check(intLiteral.getValue() >= 0);
-        return true;
     }
 
     @Override

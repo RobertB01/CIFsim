@@ -44,6 +44,8 @@ import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
  * Each annotation provider must have a constructor with a single argument of type {@link String}, the name of the
  * annotations handled by this annotation provider.
  * </p>
+ *
+ * @see AnnotationProviderHelper
  */
 public abstract class AnnotationProvider {
     /** The name of the annotations handled by this annotation provider. */
