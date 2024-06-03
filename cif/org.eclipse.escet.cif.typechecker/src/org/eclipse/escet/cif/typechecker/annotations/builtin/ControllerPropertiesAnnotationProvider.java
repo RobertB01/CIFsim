@@ -151,33 +151,38 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
             String boundedResponseText = (boundedResponse == null) ? "is not indicated"
                     : ((BoolExpression)boundedResponse.getValue()).isValue() ? "is \"true\"" : "is \"false\"";
 
-            if (hasBoundedResponse && uncontrollablesBound == null) {
-                reporter.reportProblem(annotation,
-                        fmt("missing an argument named \"uncontrollablesBound\", since \"boundedResponse\" %s.",
-                                boundedResponseText),
-                        boundedResponse.getPosition(), SemanticProblemSeverity.ERROR);
-                // Non-fatal problem.
-            }
-            if (hasBoundedResponse && controllablesBound == null) {
-                reporter.reportProblem(annotation,
-                        fmt("missing an argument named \"controllablesBound\", since \"boundedResponse\" %s.",
-                                boundedResponseText),
-                        boundedResponse.getPosition(), SemanticProblemSeverity.ERROR);
-                // Non-fatal problem.
-            }
-            if (!hasBoundedResponse && uncontrollablesBound != null) {
-                reporter.reportProblem(annotation,
-                        fmt("unsupported argument named \"uncontrollablesBound\", since \"boundedResponse\" %s.",
-                                boundedResponseText),
-                        uncontrollablesBound.getPosition(), SemanticProblemSeverity.ERROR);
-                // Non-fatal problem.
-            }
-            if (!hasBoundedResponse && controllablesBound != null) {
-                reporter.reportProblem(annotation,
-                        fmt("unsupported argument named \"controllablesBound\", since \"boundedResponse\" %s.",
-                                boundedResponseText),
-                        controllablesBound.getPosition(), SemanticProblemSeverity.ERROR);
-                // Non-fatal problem.
+            if (hasBoundedResponse) {
+                // Check for missing arguments.
+                if (uncontrollablesBound == null) {
+                    String msg = fmt("missing an argument named \"uncontrollablesBound\", " +
+                            "since \"boundedResponse\" %s.", boundedResponseText);
+                    reporter.reportProblem(annotation, msg, boundedResponse.getPosition(),
+                            SemanticProblemSeverity.ERROR);
+                    // Non-fatal problem.
+                }
+                if (controllablesBound == null) {
+                    String msg = fmt("missing an argument named \"controllablesBound\", since \"boundedResponse\" %s.",
+                            boundedResponseText);
+                    reporter.reportProblem(annotation, msg, boundedResponse.getPosition(),
+                            SemanticProblemSeverity.ERROR);
+                    // Non-fatal problem.
+                }
+            } else {
+                // Check for not allowed arguments.
+                if (uncontrollablesBound != null) {
+                    String msg = fmt("unsupported argument named \"uncontrollablesBound\", " +
+                            "since \"boundedResponse\" %s.", boundedResponseText);
+                    reporter.reportProblem(annotation, msg, uncontrollablesBound.getPosition(),
+                            SemanticProblemSeverity.ERROR);
+                    // Non-fatal problem.
+                }
+                if (controllablesBound != null) {
+                    String msg = fmt("unsupported argument named \"controllablesBound\", since \"boundedResponse\" %s.",
+                            boundedResponseText);
+                    reporter.reportProblem(annotation, msg, controllablesBound.getPosition(),
+                            SemanticProblemSeverity.ERROR);
+                    // Non-fatal problem.
+                }
             }
         }
     }
