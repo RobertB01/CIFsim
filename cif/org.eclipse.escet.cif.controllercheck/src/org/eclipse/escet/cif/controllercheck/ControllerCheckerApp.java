@@ -66,6 +66,8 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.typechecker.annotations.builtin.ControllerPropertiesAnnotationProvider;
+import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
+import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -81,6 +83,7 @@ import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.typechecker.SemanticException;
 
 import com.github.javabdd.BDDFactory;
 
@@ -440,6 +443,15 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         if (finiteResponseConclusion != null) {
             ControllerPropertiesAnnotationProvider.setFiniteResponse(origSpec, finiteResponseHolds);
         }
+
+        // Check CIF specification to output.
+        CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "output");
+        try {
+            new CifAnnotationsPostChecker(env).check(spec);
+        } catch (SemanticException ex) {
+            // Ignore.
+        }
+        env.throwUnsupportedExceptionIfAnyErrors("Checking the specification for certain properties failed.");
 
         // Write the output file.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".checked.cif");
