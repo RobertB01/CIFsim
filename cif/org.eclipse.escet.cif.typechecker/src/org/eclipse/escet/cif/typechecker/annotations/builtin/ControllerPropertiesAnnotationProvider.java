@@ -288,11 +288,11 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
         if (anno.isEmpty()) {
             return Optional.empty();
         }
-        Optional<AnnotationArgument> arg = CifAnnotationUtils.getArgument(anno.get(), "boundedResponse");
-        if (arg.isEmpty()) {
+        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno.get(), "boundedResponse");
+        if (arg == null) {
             return Optional.empty();
         }
-        return Optional.of(((BoolExpression)arg.get().getValue()).isValue());
+        return Optional.of(((BoolExpression)arg.getValue()).isValue());
     }
 
     /**
@@ -307,11 +307,11 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
         if (anno.isEmpty()) {
             return Optional.empty();
         }
-        Optional<AnnotationArgument> arg = CifAnnotationUtils.getArgument(anno.get(), "confluence");
-        if (arg.isEmpty()) {
+        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno.get(), "confluence");
+        if (arg == null) {
             return Optional.empty();
         }
-        return Optional.of(((BoolExpression)arg.get().getValue()).isValue());
+        return Optional.of(((BoolExpression)arg.getValue()).isValue());
     }
 
     /**
@@ -326,11 +326,11 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
         if (anno.isEmpty()) {
             return Optional.empty();
         }
-        Optional<AnnotationArgument> arg = CifAnnotationUtils.getArgument(anno.get(), "finiteResponse");
-        if (arg.isEmpty()) {
+        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno.get(), "finiteResponse");
+        if (arg == null) {
             return Optional.empty();
         }
-        return Optional.of(((BoolExpression)arg.get().getValue()).isValue());
+        return Optional.of(((BoolExpression)arg.getValue()).isValue());
     }
 
     /**
@@ -345,11 +345,11 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
         if (anno.isEmpty()) {
             return Optional.empty();
         }
-        Optional<AnnotationArgument> arg = CifAnnotationUtils.getArgument(anno.get(), "uncontrollablesBound");
-        if (arg.isEmpty()) {
+        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno.get(), "uncontrollablesBound");
+        if (arg == null) {
             return Optional.empty();
         }
-        return Optional.of(((IntExpression)arg.get().getValue()).getValue());
+        return Optional.of(((IntExpression)arg.getValue()).getValue());
     }
 
     /**
@@ -364,11 +364,11 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
         if (anno.isEmpty()) {
             return Optional.empty();
         }
-        Optional<AnnotationArgument> arg = CifAnnotationUtils.getArgument(anno.get(), "controllablesBound");
-        if (arg.isEmpty()) {
+        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno.get(), "controllablesBound");
+        if (arg == null) {
             return Optional.empty();
         }
-        return Optional.of(((IntExpression)arg.get().getValue()).getValue());
+        return Optional.of(((IntExpression)arg.getValue()).getValue());
     }
 
     /**

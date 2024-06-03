@@ -15,8 +15,6 @@ package org.eclipse.escet.cif.common;
 
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAnnotationArgument;
 
-import java.util.Optional;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotationArgument;
@@ -36,11 +34,11 @@ public class CifAnnotationUtils {
      *
      * @param anno The annotation.
      * @param argName The annotation argument name. Must not be {@code null}.
-     * @return The annotation argument, if present.
+     * @return The annotation argument, or {@code null} if not present.
      */
-    public static Optional<AnnotationArgument> getArgument(Annotation anno, String argName) {
+    public static AnnotationArgument getArgument(Annotation anno, String argName) {
         Assert.notNull(argName);
-        return anno.getArguments().stream().filter(arg -> argName.equals(arg.getName())).findFirst();
+        return anno.getArguments().stream().filter(arg -> argName.equals(arg.getName())).findFirst().orElse(null);
     }
 
     /**
@@ -54,16 +52,14 @@ public class CifAnnotationUtils {
      */
     public static AnnotationArgument setArgument(Annotation anno, String argName, Expression value) {
         Assert.notNull(argName);
-        Optional<AnnotationArgument> optArg = CifAnnotationUtils.getArgument(anno, argName);
-        if (optArg.isEmpty()) {
-            AnnotationArgument arg = newAnnotationArgument(argName, null, value);
+        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno, argName);
+        if (arg == null) {
+            arg = newAnnotationArgument(argName, null, value);
             anno.getArguments().add(arg);
-            return arg;
         } else {
-            AnnotationArgument arg = optArg.get();
             arg.setValue(value);
-            return arg;
         }
+        return arg;
     }
 
     /**
@@ -71,13 +67,13 @@ public class CifAnnotationUtils {
      *
      * @param anno The annotation.
      * @param argName The annotation argument name. Must not be {@code null}.
-     * @return The annotation argument that was removed, if applicable.
+     * @return The annotation argument that was removed, or {@code null} if the argument was not present.
      */
-    public static Optional<AnnotationArgument> removeArgument(Annotation anno, String argName) {
+    public static AnnotationArgument removeArgument(Annotation anno, String argName) {
         Assert.notNull(argName);
-        Optional<AnnotationArgument> arg = CifAnnotationUtils.getArgument(anno, argName);
-        if (arg.isPresent()) {
-            EMFHelper.removeFromParentContainment(arg.get());
+        AnnotationArgument arg = CifAnnotationUtils.getArgument(anno, argName);
+        if (arg != null) {
+            EMFHelper.removeFromParentContainment(arg);
         }
         return arg;
     }
