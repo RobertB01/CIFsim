@@ -451,7 +451,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         } catch (SemanticException ex) {
             // Ignore.
         }
-        env.throwUnsupportedExceptionIfAnyErrors("Checking the specification for certain properties failed.");
+        env.throwUnsupportedExceptionIfAnyErrors("Checking the specification for the requested properties failed.");
 
         // Write the output file.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".checked.cif");
