@@ -55,6 +55,11 @@ public class PlcEnumType extends PlcType implements PlcDeclaredType {
         return typeName.hashCode() + 19 * literals.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "PlcEnumType(" + typeName + ")";
+    }
+
     /**
      * Get an enum literal by its index.
      *

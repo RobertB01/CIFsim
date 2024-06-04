@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.types;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.function.Predicate;
 
 /** Generic type. */
@@ -62,6 +64,11 @@ public class PlcGenericType extends PlcAbstractType {
     @Override
     public int hashCode() {
         return kind.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return fmt("PlcGenericType(%s)", kind);
     }
 
     /** Available kinds of generic type. */

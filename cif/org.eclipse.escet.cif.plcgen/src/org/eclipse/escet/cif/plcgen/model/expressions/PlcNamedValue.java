@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 /** A value with a name. */
 public class PlcNamedValue {
     /** Name of the value. */
@@ -30,5 +32,10 @@ public class PlcNamedValue {
     public PlcNamedValue(String name, PlcExpression value) {
         this.name = name;
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return fmt("PlcNamedValue(\"%s\")", name);
     }
 }

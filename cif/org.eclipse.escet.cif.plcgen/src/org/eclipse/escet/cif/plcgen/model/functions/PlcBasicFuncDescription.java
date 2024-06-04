@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Arrays;
 import java.util.EnumSet;
 
@@ -187,6 +188,11 @@ public abstract class PlcBasicFuncDescription {
             this.name = name;
             this.direction = direction;
             this.type = type;
+        }
+
+        @Override
+        public String toString() {
+            return fmt("PlcParameterDescription(\"%s\", %s)", name, type);
         }
     }
 

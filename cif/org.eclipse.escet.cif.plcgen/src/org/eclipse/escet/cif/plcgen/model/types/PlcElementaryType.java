@@ -64,6 +64,11 @@ public class PlcElementaryType extends PlcType {
         return name.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "PlcElementaryType(" + name + ")";
+    }
+
     /**
      * Retrieve the integer type that uses the given number of bits in PLC memory.
      *

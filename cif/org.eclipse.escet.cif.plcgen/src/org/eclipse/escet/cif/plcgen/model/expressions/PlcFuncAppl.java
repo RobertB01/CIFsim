@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.model.expressions;
 
 import static org.eclipse.escet.common.java.Maps.mapc;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,5 +53,10 @@ public class PlcFuncAppl extends PlcExpression {
         // All supplied arguments should have a matching parameter.
         long paramMatches = Arrays.stream(function.parameters).filter(arg -> arguments.containsKey(arg.name)).count();
         Assert.areEqual(Math.toIntExact(paramMatches), argumentList.size());
+    }
+
+    @Override
+    public String toString() {
+        return fmt("PlcFuncAppl(%s -> %s)", String.join(", ", arguments.keySet()), type);
     }
 }
