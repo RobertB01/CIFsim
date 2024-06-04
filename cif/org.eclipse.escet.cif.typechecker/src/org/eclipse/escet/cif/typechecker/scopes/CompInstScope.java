@@ -339,7 +339,8 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
         }
 
         // Type check and add the annotations.
-        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(compInstDecl.annotations, this, tchecker);
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(compInstDecl.annotations, getParent(),
+                tchecker);
         obj.getAnnotations().addAll(annos);
 
         // Scope is now fully checked.
