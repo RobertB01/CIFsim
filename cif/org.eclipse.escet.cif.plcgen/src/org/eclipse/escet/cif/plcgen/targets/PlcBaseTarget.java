@@ -308,26 +308,12 @@ public abstract class PlcBaseTarget extends PlcTarget {
         return !baseIsInt; // First parameter must always have a real type.
     }
 
-    /**
-     * Get the size of the largest supported integer type.
-     *
-     * @return Number of bits used for storing the largest supported integer type.
-     */
-    protected abstract int getMaxIntegerTypeSize();
-
     @Override
     public PlcElementaryType getIntegerType() {
         int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
         int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
         return PlcElementaryType.getIntTypeBySize(userSpecifiedIntSize);
     }
-
-    /**
-     * Get the size of the largest supported real type.
-     *
-     * @return Number of bits used for storing the largest supported real type.
-     */
-    protected abstract int getMaxRealTypeSize();
 
     @Override
     public PlcElementaryType getRealType() {

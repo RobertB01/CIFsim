@@ -30,6 +30,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
@@ -181,7 +182,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         @Override
         public List<PlcStatement> generateRemainingUpdate() {
             ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
-            PlcBasicVariable v = exprGen.getTempVariable("curValue", target.getRealType());
+            PlcBasicVariable v = exprGen.getTempVariable("curValue", PlcElementaryType.TIME_TYPE);
             PlcBasicVariable b = exprGen.getTempVariable("timeOut", PlcElementaryType.BOOL_TYPE);
 
             List<PlcStatement> statements = listc(3);
@@ -194,11 +195,19 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
                     new PlcNamedValue("ET", new PlcVarExpression(v)));
             statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonVar, arguments)));
 
-            // Compute updated remaining time R := SEL(B, P - V, 0.0);
+            // Compute updated remaining time as a real in seconds.
+            // Conceptually: R := SEL(B, P - V, 0.0);
+            // Additional concerns:
+            // - P and V are of type TIME, thus P - V must be converted to real seconds.
+            // - As the conversion is a computation with reals, ensure the result is never negative.
             PlcExpression subExpr = plcFuncAppls.subtractFuncAppl(new PlcVarExpression(presetVar),
                     new PlcVarExpression(v));
-            subExpr = plcFuncAppls.selFuncAppl(new PlcVarExpression(b), subExpr, target.makeStdReal("0.0"));
-            statements.add(new PlcAssignmentStatement(plcContVar, subExpr));
+            subExpr = atLeast0(timeToReal(subExpr));
+
+            // Apply the selection.
+            PlcExpression selExpr = plcFuncAppls.selFuncAppl(new PlcVarExpression(b), subExpr,
+                    target.makeStdReal("0.0"));
+            statements.add(new PlcAssignmentStatement(plcContVar, selExpr));
 
             return statements;
         }
@@ -208,7 +217,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             // Assign new value to P and R;
             List<PlcStatement> statements = listc(4);
             statements.add(new PlcCommentLine("Reset timer of \"" + plcContVar.variable.varName + "\"."));
-            statements.add(new PlcAssignmentStatement(presetVar, plcContVar));
+            statements.add(new PlcAssignmentStatement(presetVar, realToTime(plcContVar)));
 
             // Reset the timer with TON(PT := P, IN := FALSE);
             List<PlcNamedValue> arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),
@@ -221,6 +230,61 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonVar, arguments)));
 
             return statements;
+        }
+
+        /**
+         * Convert a TIME value to a real value in seconds.
+         *
+         * @param timeMillis Value to convert.
+         * @return The conversion expression.
+         */
+        private PlcExpression timeToReal(PlcExpression timeMillis) {
+            // Get the largest available integer type to get maximum accuracy.
+            PlcElementaryType intType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
+
+            // TIME are integer milliseconds while reals are seconds. Therefore
+            // 1. Cast to integer
+            // 2. Cast to real.
+            // 3. divide by 1000.0
+            PlcExpression intMillis = plcFuncAppls.castFunctionAppl(timeMillis, intType);
+            PlcExpression realMillis = plcFuncAppls.castFunctionAppl(intMillis, target.getRealType()); // Contvar type.
+            PlcExpression real1000 = new PlcRealLiteral("1000.0", target.getRealType()); // Cont-var type.
+            return plcFuncAppls.divideFuncAppl(realMillis, real1000);
+        }
+
+        /**
+         * Convert a value interpreted as real value in seconds to {@code TIME} type.
+         *
+         * @param realSecs Value to convert.
+         * @return The conversion expression.
+         */
+        private PlcExpression realToTime(PlcExpression realSecs) {
+            // Get the largest available integer type to get maximum accuracy.
+            PlcElementaryType maxIntType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
+
+            // Reals are seconds, while PLC TIME are integer milliseconds. Therefore
+            // 1. Multiply by 1000.0
+            // 2. Cast to integer
+            // 3. Cast to time.
+            PlcExpression real1000 = new PlcRealLiteral("1000.0", target.getRealType());
+            PlcExpression realMillis = plcFuncAppls.multiplyFuncAppl(realSecs, real1000);
+            PlcExpression intMillis = plcFuncAppls.castFunctionAppl(realMillis, maxIntType);
+            return plcFuncAppls.castFunctionAppl(intMillis, PlcElementaryType.TIME_TYPE);
+        }
+
+        /**
+         * Ensure a real value is at least 0.0.
+         *
+         * @param value Value to force to non-negative.
+         * @return The expression that computes the answer.
+         */
+        private PlcExpression atLeast0(PlcExpression value) {
+            if (PlcElementaryType.isRealType(value.type)) {
+                PlcExpression zero = new PlcRealLiteral("0.0", value.type);
+                return plcFuncAppls.maxFuncAppl(value, zero);
+            } else {
+                throw new AssertionError("Unexpected type encountered: \"" + value.type + "\".");
+            }
         }
     }
 }

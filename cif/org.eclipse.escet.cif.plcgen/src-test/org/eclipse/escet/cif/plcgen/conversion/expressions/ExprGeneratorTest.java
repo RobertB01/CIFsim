@@ -267,12 +267,12 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        protected int getMaxIntegerTypeSize() {
+        public int getMaxIntegerTypeSize() {
             return 32;
         }
 
         @Override
-        protected int getMaxRealTypeSize() {
+        public int getMaxRealTypeSize() {
             return 64;
         }
 

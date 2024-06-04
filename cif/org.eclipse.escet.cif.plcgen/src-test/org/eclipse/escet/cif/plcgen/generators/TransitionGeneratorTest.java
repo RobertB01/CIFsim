@@ -126,12 +126,12 @@ public class TransitionGeneratorTest {
         }
 
         @Override
-        protected int getMaxIntegerTypeSize() {
+        public int getMaxIntegerTypeSize() {
             return 64;
         }
 
         @Override
-        protected int getMaxRealTypeSize() {
+        public int getMaxRealTypeSize() {
             return 64;
         }
     }
