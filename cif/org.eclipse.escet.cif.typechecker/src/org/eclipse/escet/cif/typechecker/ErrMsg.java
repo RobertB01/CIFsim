@@ -302,6 +302,10 @@ public enum ErrMsg {
     // Invariant.unique
     INV_DUPL_STATE("Duplicate state invariant.", 0, WARNING),
 
+    // Invariant.eventInAlphabet
+    INV_EVENT_NOT_IN_ALPHABET("Event \"%s\" is not in the synchronization, send or receive alphabet of the "
+            + "specification, and thus will never occur; restricting it has no effect.", 1, WARNING),
+
     // UnaryExpression.type
     UNOP_INVALID_CHILD_TYPE("Unary operator \"%s\" can not be applied to a value of type \"%s\".", 2, ERROR),
 

@@ -11,15 +11,18 @@ automaton x_y:
   disc bool v;
   location l:
     initial;
+    edge x_y_z, x_y_z2, x_y_a, x_y_u;
 end
 automaton x:
   location l:
     initial;
+    edge x_y_z3, x_b, x_c;
 end
 automaton t:
   disc t_e v;
   location l:
     initial;
+    edge t_e2;
 end
 invariant x_y_z needs true;
 invariant x_y_z2 needs true;

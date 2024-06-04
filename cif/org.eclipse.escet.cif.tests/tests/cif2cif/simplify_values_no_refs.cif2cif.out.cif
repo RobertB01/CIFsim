@@ -1074,6 +1074,14 @@ group p16:
   requirement invariant not p5.X disables e3;
   supervisor invariant true disables e4;
 end
+automaton aut17:
+  location:
+    initial;
+    edge p13.e1, p13.e2, p13.e3, p13.e4;
+    edge p14.e1, p14.e2, p14.e3, p14.e4;
+    edge p15.e1, p15.e2, p15.e3, p15.e4;
+    edge p16.e1, p16.e2, p16.e3, p16.e4;
+end
 initial false;
 marked false;
 invariant false;

@@ -1,5 +1,10 @@
 event e;
 event f;
+automaton aut:
+  location:
+    initial;
+    edge e, f;
+end
 group g:
   automaton a:
     invariant 1 = 1;

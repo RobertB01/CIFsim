@@ -20,7 +20,8 @@ automaton def P1():
     initial;
     marked;
     edge e_a1 goto l2;
-  location l2;
+  location l2:
+    edge c_c2, u_u2, c_d2, u_v2, e_a2, c_c1, u_u1, c_d1, u_v1;
 end
 group def P2(alg bool b; location l; P1 p):
   invariant b or l;

@@ -13,6 +13,12 @@
 
 controllable e, f;
 
+plant aut:
+  location:
+    initial;
+    edge e, f;
+end
+
 automaton a:
   controllable c;
   uncontrollable u;

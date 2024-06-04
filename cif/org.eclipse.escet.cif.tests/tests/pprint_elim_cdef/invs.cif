@@ -13,6 +13,12 @@
 
 event e, f;
 
+automaton aut:
+  location:
+    initial;
+    edge e, f;
+end
+
             invariant 1 = 1;
 plant       invariant 2 = 2;
 requirement invariant 3 = 3, 4 = 4;
