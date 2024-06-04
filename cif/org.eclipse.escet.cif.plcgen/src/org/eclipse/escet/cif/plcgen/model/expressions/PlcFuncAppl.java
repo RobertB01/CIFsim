@@ -16,12 +16,10 @@ package org.eclipse.escet.cif.plcgen.model.expressions;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
-import org.eclipse.escet.common.java.Assert;
 
 /** Function application expression. */
 public class PlcFuncAppl extends PlcExpression {
@@ -38,6 +36,7 @@ public class PlcFuncAppl extends PlcExpression {
      * @param argumentList Arguments of the function application.
      */
     public PlcFuncAppl(PlcBasicFuncDescription function, List<PlcNamedValue> argumentList) {
+        super(function.deriveResultType(argumentList));
         this.function = function;
 
         // Store the supplied arguments.
@@ -46,13 +45,7 @@ public class PlcFuncAppl extends PlcExpression {
             arguments.put(arg.name, arg);
         }
 
-        // Verify there is at least one argument and no duplicates.
-        Assert.check(!argumentList.isEmpty()); // PLCs don't support calls without arguments.
-        Assert.areEqual(arguments.size(), argumentList.size());
-
-        // All supplied arguments should have a matching parameter.
-        long paramMatches = Arrays.stream(function.parameters).filter(arg -> arguments.containsKey(arg.name)).count();
-        Assert.areEqual(Math.toIntExact(paramMatches), argumentList.size());
+        // Arguments sanity checks are done in the "deriveResultType" function in the super call.
     }
 
     @Override

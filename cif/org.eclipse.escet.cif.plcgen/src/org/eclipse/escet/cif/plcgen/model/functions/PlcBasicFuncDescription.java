@@ -13,12 +13,19 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
+import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
 
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcGenericType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.common.java.Assert;
 
 /**
@@ -64,6 +71,68 @@ public abstract class PlcBasicFuncDescription {
         this.parameters = parameters;
         this.notations = notations;
         this.resultType = resultType;
+    }
+
+    /**
+     * Compute the result type of a function application with the given arguments.
+     *
+     * @param argumentList Arguments of the function call to examine.
+     * @return The result type of that function call.
+     */
+    public PlcType deriveResultType(List<PlcNamedValue> argumentList) {
+        // Make arguments available by name.
+        Map<String, PlcNamedValue> arguments = mapc(argumentList.size());
+        for (PlcNamedValue arg: argumentList) {
+            arguments.put(arg.name, arg);
+        }
+
+        // Verify there is at least one argument and no duplicates.
+        Assert.check(!argumentList.isEmpty()); // PLCs don't support calls without arguments.
+        Assert.areEqual(arguments.size(), argumentList.size());
+
+        // All supplied arguments should have a matching parameter.
+        long paramMatches = Arrays.stream(parameters).filter(arg -> arguments.containsKey(arg.name)).count();
+        Assert.areEqual(Math.toIntExact(paramMatches), argumentList.size());
+
+        // Verify argument types against parameter types. Generic types get resolved as well.
+        Map<PlcGenericType, PlcType> genericTypeMap = map(); // Mapping of generic types to their concrete type.
+
+        // Check the argument types while resolving generic parameter types.
+        for (PlcParameterDescription paramDesc: parameters) {
+            PlcNamedValue argument = arguments.get(paramDesc.name);
+            if (argument == null) {
+                // Argument is not supplied, ignore the parameter.
+                continue;
+            }
+
+            if (paramDesc.type instanceof PlcType) {
+                // Concrete types must match.
+                Assert.areEqual(paramDesc.type, argument.value.type,
+                        fmt("Parameter type %s does not match argument type %s for argument \"%s\".",
+                                paramDesc.type, argument.value.type, paramDesc.name));
+
+            } else if (paramDesc.type instanceof PlcGenericType genericType) {
+                // Check that the concrete type is allowed in the generic type.
+                Assert.check(genericType.checkMatch(argument.value.type),
+                        fmt("Concrete type %s does not fit in generic type %s.", argument.value.type, genericType));
+
+                // The same generic type must be replaced by the same concrete type everywhere in the call.
+                PlcType mappedType = genericTypeMap.computeIfAbsent(genericType, t -> argument.value.type);
+                Assert.areEqual(mappedType, argument.value.type);
+            } else {
+                throw new AssertionError("Unexpected parameter type found: " + paramDesc.type);
+            }
+        }
+
+        // Derive the result type and check it exists.
+        PlcType concreteResultType;
+        if (resultType instanceof PlcGenericType genericType) {
+            concreteResultType = genericTypeMap.get(genericType);
+        } else {
+            concreteResultType = (PlcType)resultType;
+        }
+        Assert.notNull(concreteResultType);
+        return concreteResultType;
     }
 
     /** Operator priority and associativity of an expression node. */

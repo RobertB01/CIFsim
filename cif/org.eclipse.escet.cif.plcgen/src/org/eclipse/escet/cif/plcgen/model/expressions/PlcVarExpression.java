@@ -64,9 +64,6 @@ public class PlcVarExpression extends PlcExpression {
      */
     private static PlcType deriveType(PlcType resultType, List<PlcProjection> projections) {
         for (PlcProjection proj: projections) {
-            if (resultType == null) { // TODO Remove this after expressions always have a type.
-                return resultType;
-            }
             resultType = proj.getProjectedType(resultType);
         }
         return resultType;
