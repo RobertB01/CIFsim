@@ -56,7 +56,7 @@
             </variable>
             <variable name="curValue">
               <type>
-                <REAL/>
+                <TIME/>
               </type>
             </variable>
             <variable name="current_p_t">
@@ -118,13 +118,13 @@ IF firstRun THEN
     (* Initialize continuous variable "p.t". *)
     p_t := 0.0;
     (* Reset timer of "p_t". *)
-    preset_p_t := p_t;
+    preset_p_t := LINT_TO_TIME(REAL_TO_LINT(p_t * 1000.0));
     ton_p_t(IN := FALSE, PT := preset_p_t);
     ton_p_t(IN := TRUE, PT := preset_p_t);
 ELSE
     (* Update remaining time of continuous variable "p.t". *)
     ton_p_t(IN := TRUE, PT := preset_p_t, Q =&gt; timeOut, ET =&gt; curValue);
-    p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
+    p_t := SEL(timeOut, MAX(LINT_TO_REAL(TIME_TO_LINT(preset_p_t - curValue)) / 1000.0, 0.0), 0.0);
 END_IF;
 
 (* --- Process uncontrollable events. -------------------------------------- *)
@@ -173,7 +173,7 @@ WHILE isProgress AND loopCount &lt; 101 DO
             (* Perform update of continuous variable "p.t". *)
             p_t := 7.0;
             (* Reset timer of "p_t". *)
-            preset_p_t := p_t;
+            preset_p_t := LINT_TO_TIME(REAL_TO_LINT(p_t * 1000.0));
             ton_p_t(IN := FALSE, PT := preset_p_t);
             ton_p_t(IN := TRUE, PT := preset_p_t);
         END_IF;

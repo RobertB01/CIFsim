@@ -108,7 +108,7 @@
           <tempVars>
             <variable name="curValue">
               <type>
-                <LREAL/>
+                <TIME/>
               </type>
             </variable>
             <variable name="current_aut">
@@ -206,7 +206,7 @@ IF firstRun THEN
     (* Initialize continuous variable "c". *)
     c := 0.0;
     (* Reset timer of "c". *)
-    preset_c := c;
+    preset_c := LINT_TO_TIME(LREAL_TO_LINT(c * 1000.0));
     ton_c(IN := FALSE, PT := preset_c);
     ton_c(IN := TRUE, PT := preset_c);
     (* Initialize discrete variable "aut.r". *)
@@ -228,7 +228,7 @@ IF firstRun THEN
 ELSE
     (* Update remaining time of continuous variable "c". *)
     ton_c(IN := TRUE, PT := preset_c, Q =&gt; timeOut, ET =&gt; curValue);
-    c := SEL(timeOut, preset_c - curValue, 0.0);
+    c := SEL(timeOut, MAX(LINT_TO_LREAL(TIME_TO_LINT(preset_c - curValue)) / 1000.0, 0.0), 0.0);
 END_IF;
 
 (* --- Process uncontrollable events. -------------------------------------- *)
