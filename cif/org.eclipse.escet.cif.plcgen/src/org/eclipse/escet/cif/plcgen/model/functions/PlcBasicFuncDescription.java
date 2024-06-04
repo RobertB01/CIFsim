@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.model.functions;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.Arrays;
 import java.util.EnumSet;
 
@@ -25,7 +26,10 @@ import org.eclipse.escet.common.java.Assert;
  * contains allowed notation forms of the function application.
  */
 public abstract class PlcBasicFuncDescription {
-    /** Name of the function in prefix notation, or {@code null} if the prefix form does not exist. */
+    /**
+     * Name of the function in prefix notation, the empty string if the function name should not be used, or
+     * {@code null} if the prefix form does not exist.
+     */
     public final String prefixFuncName;
 
     /** Parameters of the function. */
@@ -40,7 +44,8 @@ public abstract class PlcBasicFuncDescription {
     /**
      * Constructor of the {@link PlcBasicFuncDescription} class.
      *
-     * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
+     * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
+     *     be used, or {@code null} if the prefix form does not exist.
      * @param parameters Parameters of the function.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.

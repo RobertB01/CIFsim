@@ -32,7 +32,8 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
     /**
      * Constructor of the {@link PlcPlainFuncDescription} class.
      *
-     * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
+     * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
+     *     be used, or {@code null} if the prefix form does not exist.
      * @param parameters Parameters of the function.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
      * @param infixBinding Binding of the function application for laying out the infix notation. Use
@@ -55,7 +56,8 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
     /**
      * Restrict available function application notations based on available function names.
      *
-     * @param prefixFuncName Name of the function in prefix notation, or {@code null} if the prefix form does not exist.
+     * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
+     *     be used, or {@code null} if the prefix form does not exist.
      * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.

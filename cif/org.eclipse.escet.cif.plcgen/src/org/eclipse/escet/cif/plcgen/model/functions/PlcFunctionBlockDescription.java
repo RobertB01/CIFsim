@@ -13,24 +13,26 @@
 
 package org.eclipse.escet.cif.plcgen.model.functions;
 
-import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
 
 /** Description of an instantiated function block. */
 public class PlcFunctionBlockDescription extends PlcBasicFuncDescription {
-    /** The name of the type of function block. */
-    public final PlcType funcBlockType;
+    /** Name of the function block type. */
+    public final String typeName;
 
     /**
      * Constructor of the {@link PlcFunctionBlockDescription} class.
      *
-     * @param prefixFuncName Name of the function.
-     * @param funcBlockType Type of the function block.
+     * @param typeName Name of the function block type.
+     * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
+     *     be used, or {@code null} if the prefix form does not exist.
      * @param parameters Parameters of the function block type.
+     * @param resultType Type of the result of the function.
      */
-    public PlcFunctionBlockDescription(String prefixFuncName, PlcType funcBlockType,
-            PlcParameterDescription[] parameters)
+    public PlcFunctionBlockDescription(String typeName, String prefixFuncName,
+            PlcParameterDescription[] parameters, PlcAbstractType resultType)
     {
-        super(prefixFuncName, parameters, PlcFuncNotation.FORMAL_ONLY, null); // TODO Fix the null value.
-        this.funcBlockType = funcBlockType;
+        super(prefixFuncName, parameters, PlcFuncNotation.FORMAL_ONLY, resultType);
+        this.typeName = typeName;
     }
 }
