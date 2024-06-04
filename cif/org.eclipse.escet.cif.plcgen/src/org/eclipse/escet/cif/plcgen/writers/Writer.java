@@ -24,7 +24,6 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -36,6 +35,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
@@ -219,8 +219,6 @@ public abstract class Writer {
     protected Box toVarDeclBox(PlcBasicVariable variable) {
         if (variable instanceof PlcDataVariable dataVar) {
             return toVarDeclBox(dataVar);
-        } else if (variable instanceof PlcFuncBlockInstanceVar funBlockVar) {
-            return toVarDeclBox(funBlockVar);
         } else {
             throw new AssertionError("Unexpected kind of variable \"" + variable + "\".");
         }
@@ -237,17 +235,6 @@ public abstract class Writer {
         String valueTxt = (dataVar.value == null) ? ""
                 : " := " + target.getModelTextGenerator().toString(dataVar.value);
         String txt = fmt("%s%s: %s%s;", dataVar.varName, addrTxt, toTypeRefBox(dataVar.type), valueTxt);
-        return new TextBox(txt);
-    }
-
-    /**
-     * Convert a {@link PlcFuncBlockInstanceVar} instance to a {@link Box} text.
-     *
-     * @param fnBlockVar Function block instance variable to convert.
-     * @return The generated box representation.
-     */
-    protected Box toVarDeclBox(PlcFuncBlockInstanceVar fnBlockVar) {
-        String txt = fmt("%s: %s;", fnBlockVar.varName, toTypeRefBox(fnBlockVar.type));
         return new TextBox(txt);
     }
 
@@ -354,6 +341,8 @@ public abstract class Writer {
             return toTypeRefBox(enumType);
         } else if (type instanceof PlcStructType structType) {
             return toTypeRefBox(structType);
+        } else if (type instanceof PlcFuncBlockType blockType) {
+            return toTypeRefBox(blockType);
         } else {
             String typeText = (type == null) ? "null" : type.getClass().toString();
             throw new AssertionError("Unexpected PlcType, found: " + typeText + ".");
@@ -475,5 +464,15 @@ public abstract class Writer {
      */
     protected Box toTypeRefBox(PlcEnumType enumType) {
         return new TextBox(enumType.typeName);
+    }
+
+    /**
+     * Convert a {@link PlcFuncBlockType} reference to a {@link Box} text.
+     *
+     * @param blockType Function block type to convert.
+     * @return The generated box representation.
+     */
+    protected Box toTypeRefBox(PlcFuncBlockType blockType) {
+        return new TextBox(blockType.typeName);
     }
 }

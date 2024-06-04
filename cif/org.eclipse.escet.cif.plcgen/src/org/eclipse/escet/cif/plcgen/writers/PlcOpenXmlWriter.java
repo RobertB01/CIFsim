@@ -59,6 +59,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
@@ -314,6 +315,11 @@ public class PlcOpenXmlWriter extends Writer {
             Element bt = parent.getOwnerDocument().createElement("baseType");
             array.appendChild(bt);
             transType(atype.elemType, bt);
+        } else if (type instanceof PlcFuncBlockType blockType) {
+            Element derived = parent.getOwnerDocument().createElement("derived");
+            parent.appendChild(derived);
+
+            derived.setAttribute("name", blockType.typeName);
         } else {
             throw new RuntimeException("Unknown plc type: " + type);
         }

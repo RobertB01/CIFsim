@@ -32,8 +32,8 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
-import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -140,7 +140,8 @@ public class S7Writer extends Writer {
         // Generate timer data blocks to the database.
         for (PlcBasicVariable timerVar: timerVariables) {
             // Don't let any non-TON block slip through.
-            Assert.check(timerVar.type instanceof PlcDerivedType der && der.name.equals("TON"));
+            Assert.check(timerVar.type instanceof PlcFuncBlockType blockType
+                    && blockType.funcBlockcDescription.typeName.equals("TON"));
 
             // Generate the data block for the TON timer.
             c.add("DATA_BLOCK \"%s\"", timerVar.varName);
