@@ -1,0 +1,7 @@
+ERROR: File "tchecker/annos_scope.cif": Semantic error at line 20, column 6: Annotation "doc": argument cannot be evaluated statically.
+ERROR: File "tchecker/annos_scope.cif": Semantic error at line 25, column 6: Annotation "doc": argument cannot be evaluated statically.
+ERROR: File "tchecker/annos_scope.cif": Semantic error at line 32, column 8: Annotation "doc": argument cannot be evaluated statically.
+ERROR: File "tchecker/annos_scope.cif": Semantic error at line 39, column 8: Annotation "doc": argument cannot be evaluated statically.
+ERROR: File "tchecker/annos_scope.cif": Semantic error at line 47, column 8: Annotation "doc": argument cannot be evaluated statically.
+ERROR: File "tchecker/annos_scope.cif": Semantic error at line 53, column 8: Annotation "doc": argument cannot be evaluated statically.
+ERROR: Failed to load CIF file "tchecker/annos_scope.cif": the file has errors.
