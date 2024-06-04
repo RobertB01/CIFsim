@@ -29,14 +29,12 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
-import org.eclipse.escet.cif.plcgen.conversion.PlcInstantiatedFunctionBlockData;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.PlcModelUtils;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcFuncBlockInstanceVar;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcGlobalVarList.PlcVarListKind;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
@@ -49,9 +47,9 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
-import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
@@ -68,9 +66,6 @@ public class PlcCodeStorage {
 
     /** PLC target to generate code for. */
     private final PlcTarget target;
-
-    /** Function application generator. */
-    private final PlcFunctionAppls plcFuncAppls;
 
     /** Project with PLC code. */
     private final PlcProject project;
@@ -149,7 +144,6 @@ public class PlcCodeStorage {
      */
     public PlcCodeStorage(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
-        this.plcFuncAppls = new PlcFunctionAppls(target);
         this.maxUncontrollableLimit = limitMaxIter(settings.maxUncontrollableLimit, "uncontrollable",
                 settings.warnOutput);
         this.maxControllableLimit = limitMaxIter(settings.maxControllableLimit, "controllable", settings.warnOutput);
@@ -304,21 +298,16 @@ public class PlcCodeStorage {
     /**
      * Add a variable to the timer variables table.
      *
-     * @param varName Name of the variable instance containing the instantiated TON function block. Name is assumed to
-     *     be unique.
-     * @return The instantiated function TON function block.
+     * @param variable Variable to add.
      */
-    public PlcInstantiatedFunctionBlockData addTimerVariable(String varName) {
+    public void addTimerVariable(PlcBasicVariable variable) {
         if (globalTimerVars == null) {
             // S7 needs timer function blocks as a separate list. Other timer related data should be stored in other
             // variable lists.
             globalTimerVars = new PlcGlobalVarList("TIMERS", PlcVarListKind.TIMERS);
         }
-
-        PlcFunctionBlockDescription tonFuncDescr = plcFuncAppls.makeTonBlock(varName);
-        PlcFuncBlockInstanceVar timerVar = new PlcFuncBlockInstanceVar(varName, tonFuncDescr);
-        globalTimerVars.variables.add(timerVar);
-        return new PlcInstantiatedFunctionBlockData(tonFuncDescr, timerVar);
+        Assert.check(variable.type instanceof PlcFuncBlockType);
+        globalTimerVars.variables.add(variable);
     }
 
     /**
