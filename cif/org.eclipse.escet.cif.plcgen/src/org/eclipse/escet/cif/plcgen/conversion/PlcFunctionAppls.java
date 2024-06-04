@@ -14,16 +14,21 @@
 package org.eclipse.escet.cif.plcgen.conversion;
 
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.BOOL_TYPE;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.TIME_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_ELEMENTARY_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_NUM_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_REAL_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_TYPE;
 
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncBlockAppl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
@@ -34,9 +39,10 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Lists;
 
@@ -44,6 +50,9 @@ import org.eclipse.escet.common.java.Lists;
 public class PlcFunctionAppls {
     /** PLC to generate code for. */
     private final PlcTarget target;
+
+    /** The type of a TON function block instance variable. Lazily created. */
+    private PlcFuncBlockType tonBlockType = null;
 
     /**
      * Constructor of the {@link PlcFunctionAppls} class.
@@ -450,24 +459,38 @@ public class PlcFunctionAppls {
     }
 
     /**
-     * Instantiate a TON function block.
+     * Obtain the function block description of a TON function block.
      *
-     * @param prefixFuncName Name of the function.
-     * @return The function block instance description.
+     * @return The created or retrieved TON function block.
      */
-    public PlcFunctionBlockDescription makeTonBlock(String prefixFuncName) {
-        PlcParameterDescription[] params = { //
-                // Use 'false' for reset, or 'true' for measuring time.
-                new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, BOOL_TYPE),
-                // End time.
-                new PlcParameterDescription("PT", PlcParamDirection.INPUT_ONLY, target.getRealType()),
-                // End time has been reached.
-                new PlcParameterDescription("Q", PlcParamDirection.OUTPUT_ONLY, BOOL_TYPE),
-                // Amount of time since last reset, caps at PT.
-                new PlcParameterDescription("ET", PlcParamDirection.OUTPUT_ONLY, target.getRealType())};
+    public PlcFuncBlockType getTonFuncBlockType() {
+        if (tonBlockType == null) {
+            // Define the parameters of the TON block.
+            PlcParameterDescription[] params = {
+                    // Use 'false' for reset, or 'true' for measuring time.
+                    new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, BOOL_TYPE),
+                    // End time.
+                    new PlcParameterDescription("PT", PlcParamDirection.INPUT_ONLY, TIME_TYPE),
+                    // End time has been reached.
+                    new PlcParameterDescription("Q", PlcParamDirection.OUTPUT_ONLY, BOOL_TYPE),
+                    // Amount of time since last reset, caps at PT.
+                    new PlcParameterDescription("ET", PlcParamDirection.OUTPUT_ONLY, TIME_TYPE)
+            };
 
-        return new PlcFunctionBlockDescription(prefixFuncName + target.getTonFuncBlockCallSuffix(),
-                new PlcDerivedType("TON"), params);
+            // Derive whether an S7 target is used.
+            Set<PlcTargetType> s7Targets = EnumSet.of(
+                    PlcTargetType.S7_300, PlcTargetType.S7_400,
+                    PlcTargetType.S7_1200, PlcTargetType.S7_1500);
+
+            // Construct a fitting TON function block description for the target.
+            PlcFunctionBlockDescription tonBlockDescr = s7Targets.contains(target.getTargetType())
+                    ? new PlcFunctionBlockDescription("TON", "TON", params, TIME_TYPE)
+                    : new PlcFunctionBlockDescription("TON", "", params, TIME_TYPE);
+
+            // And construct the variable type.
+            tonBlockType = new PlcFuncBlockType(tonBlockDescr);
+        }
+        return tonBlockType;
     }
 
     /**
@@ -623,11 +646,11 @@ public class PlcFunctionAppls {
     /**
      * Perform a function application to a function block.
      *
-     * @param funcBlkDesc Description of the instantiated function block.
+     * @param variable Variable containing the function block instance.
      * @param arguments Arguments of the instantiated function block.
      * @return The constructed function application.
      */
-    public PlcFuncAppl funcBlockAppl(PlcFunctionBlockDescription funcBlkDesc, List<PlcNamedValue> arguments) {
-        return new PlcFuncAppl(funcBlkDesc, arguments);
+    public PlcFuncBlockAppl funcBlockAppl(PlcBasicVariable variable, List<PlcNamedValue> arguments) {
+        return new PlcFuncBlockAppl(variable, arguments);
     }
 }

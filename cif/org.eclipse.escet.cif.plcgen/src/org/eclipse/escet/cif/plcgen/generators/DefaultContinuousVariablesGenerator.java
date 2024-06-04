@@ -26,11 +26,11 @@ import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
-import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
@@ -144,11 +144,11 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         /** Continuous variable being handled here. */
         public final ContVariable contVar;
 
+        /** TON function block instance variable. */
+        public final PlcBasicVariable tonVar;
+
         /** The PLC state variable for the continuous variable. */
         public final PlcVarExpression plcContVar;
-
-        /** Parameter description of the TON function block. */
-        private final PlcFunctionBlockDescription tonFuncBlock;
 
         /** PLC variable storing the last set preset value. */
         private final PlcBasicVariable presetVar;
@@ -171,9 +171,10 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             PlcCodeStorage codeStorage = target.getCodeStorage();
 
             String cvarName = getAbsName(contVar, false);
-            String tonName = nameGen.generateGlobalName("ton_" + cvarName, false);
+            String tonVarName = nameGen.generateGlobalName("ton_" + cvarName, false);
             String presetName = nameGen.generateGlobalName("preset_" + cvarName, false);
-            tonFuncBlock = codeStorage.addTimerVariable(tonName).funcBlockDescription;
+            tonVar = new PlcDataVariable("", tonVarName, plcFuncAppls.getTonFuncBlockType(), null, null);
+            codeStorage.addTimerVariable(tonVar);
             presetVar = codeStorage.addStateVariable(presetName, PlcElementaryType.TIME_TYPE);
         }
 
@@ -191,7 +192,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             List<PlcNamedValue> arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),
                     new PlcNamedValue("IN", new PlcBoolLiteral(true)), new PlcNamedValue("Q", new PlcVarExpression(b)),
                     new PlcNamedValue("ET", new PlcVarExpression(v)));
-            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonFuncBlock, arguments)));
+            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonVar, arguments)));
 
             // Compute updated remaining time R := SEL(B, P - V, 0.0);
             PlcExpression subExpr = plcFuncAppls.subtractFuncAppl(new PlcVarExpression(presetVar),
@@ -212,12 +213,12 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             // Reset the timer with TON(PT := P, IN := FALSE);
             List<PlcNamedValue> arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),
                     new PlcNamedValue("IN", new PlcBoolLiteral(false)));
-            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonFuncBlock, arguments)));
+            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonVar, arguments)));
 
             // Start the timer with TON(PT := P, IN := TRUE);
             arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),
                     new PlcNamedValue("IN", new PlcBoolLiteral(true)));
-            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonFuncBlock, arguments)));
+            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonVar, arguments)));
 
             return statements;
         }
