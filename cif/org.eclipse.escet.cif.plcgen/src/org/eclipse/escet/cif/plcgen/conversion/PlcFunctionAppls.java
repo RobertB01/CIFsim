@@ -143,9 +143,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl subtractFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC type allows more types.
-        return funcAppl(PlcFuncOperation.SUBTRACT_OP, "SUB", "-", ExprBinding.MUL_EXPR, ANY_NUM_TYPE,
+        return funcAppl(PlcFuncOperation.SUBTRACT_OP, "SUB", "-", ExprBinding.MUL_EXPR, ANY_ELEMENTARY_TYPE,
                 new PlcExpression[]
-                {in1, in2}, ANY_NUM_TYPE);
+                {in1, in2}, ANY_ELEMENTARY_TYPE);
     }
 
     /**
@@ -158,8 +158,7 @@ public class PlcFunctionAppls {
     public PlcFuncAppl lessThanFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
         return funcAppl(PlcFuncOperation.LESS_THAN_OP, "LT", "<", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -172,8 +171,7 @@ public class PlcFunctionAppls {
     public PlcFuncAppl lessEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
         return funcAppl(PlcFuncOperation.LESS_EQUAL_OP, "LE", "<=", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -186,8 +184,7 @@ public class PlcFunctionAppls {
     public PlcFuncAppl greaterThanFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
         return funcAppl(PlcFuncOperation.GREATER_THAN_OP, "GT", ">", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -200,8 +197,7 @@ public class PlcFunctionAppls {
     public PlcFuncAppl greaterEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
         return funcAppl(PlcFuncOperation.GREATER_EQUAL_OP, "GE", ">=", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -213,9 +209,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl equalFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.EQUAL_OP, "EQ", "=", ExprBinding.EQUAL_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+        // Use ANY_TYPE to also support enumeration value comparisons.
+        return funcAppl(PlcFuncOperation.EQUAL_OP, "EQ", "=", ExprBinding.EQUAL_EXPR, ANY_TYPE,
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -226,9 +222,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl unEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.UNEQUAL_OP, "NE", "<>", ExprBinding.EQUAL_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+        // Use ANY_TYPE to also support enumeration value comparisons.
+        return funcAppl(PlcFuncOperation.UNEQUAL_OP, "NE", "<>", ExprBinding.EQUAL_EXPR, ANY_TYPE,
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
