@@ -180,7 +180,7 @@ public class FuncApplsTest {
     @Test
     public void castFuncApplTest() {
         assertEquals("DINT_TO_LREAL(1)",
-                toStr(funcAppls.castFunctionAppl(num1, PlcElementaryType.DINT_TYPE, PlcElementaryType.LREAL_TYPE)));
+                toStr(funcAppls.castFunctionAppl(num1, PlcElementaryType.LREAL_TYPE)));
     }
 
     @Test

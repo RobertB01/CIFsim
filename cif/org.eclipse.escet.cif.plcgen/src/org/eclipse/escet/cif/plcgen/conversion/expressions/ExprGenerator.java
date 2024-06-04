@@ -428,8 +428,7 @@ public class ExprGenerator {
         CifType ctype = normalizeType(castExpr.getChild().getType());
         CifType rtype = normalizeType(castExpr.getType());
         if (ctype instanceof IntType && rtype instanceof RealType) {
-            return result
-                    .setValue(funcAppls.castFunctionAppl(result.value, target.getIntegerType(), target.getRealType()));
+            return result.setValue(funcAppls.castFunctionAppl(result.value, target.getRealType()));
         }
         if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
             // Ignore cast expression.
@@ -1109,12 +1108,11 @@ public class ExprGenerator {
                 // Convert both sides if needed.
                 PlcExpression baseSide = argumentResults.get(0).value;
                 if (baseIsInt && !plcBaseIsInt) {
-                    baseSide = funcAppls.castFunctionAppl(baseSide, target.getIntegerType(), target.getRealType());
+                    baseSide = funcAppls.castFunctionAppl(baseSide, target.getRealType());
                 }
                 PlcExpression exponentSide = argumentResults.get(1).value;
                 if (exponentIsInt && !plcExponentIsInt) {
-                    exponentSide = funcAppls.castFunctionAppl(exponentSide, target.getIntegerType(),
-                            target.getRealType());
+                    exponentSide = funcAppls.castFunctionAppl(exponentSide, target.getRealType());
                 }
 
                 // Generate the call.
@@ -1124,7 +1122,7 @@ public class ExprGenerator {
                 // Convert the result back if CIF and PLC types are not the same. Note that the PLC cannot reach an
                 // integer typed result if CIF does not have it as the PLC sides are never changed to integer type.
                 if (cifIntResult && !plcIntResult) {
-                    powCall = funcAppls.castFunctionAppl(powCall, target.getRealType(), target.getIntegerType());
+                    powCall = funcAppls.castFunctionAppl(powCall, target.getIntegerType());
                 }
 
                 ExprValueResult result = new ExprValueResult(this, argumentResults.get(0), argumentResults.get(1));
@@ -1301,7 +1299,7 @@ public class ExprGenerator {
      */
     private PlcExpression unifyTypeOfExpr(PlcExpression expr, CifType myType, CifType otherType) {
         if (myType instanceof IntType && otherType instanceof RealType) {
-            return funcAppls.castFunctionAppl(expr, target.getIntegerType(), target.getRealType());
+            return funcAppls.castFunctionAppl(expr, target.getRealType());
         }
         return expr;
     }

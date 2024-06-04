@@ -275,15 +275,14 @@ public class PlcFunctionAppls {
      * Construct a function application for casting.
      *
      * @param in The input argument of the function.
-     * @param inType The type of the input value.
      * @param outType The type of the output value.
      * @return The constructed function application.
      */
-    public PlcFuncAppl castFunctionAppl(PlcExpression in, PlcElementaryType inType, PlcElementaryType outType) {
+    public PlcFuncAppl castFunctionAppl(PlcExpression in, PlcElementaryType outType) {
         PlcFuncOperation operation = PlcFuncOperation.CAST_OP;
         Assert.check(target.supportsOperation(operation, 1));
 
-        PlcBasicFuncDescription func = new PlcCastFunctionDescription(inType, outType);
+        PlcBasicFuncDescription func = new PlcCastFunctionDescription((PlcElementaryType)in.type, outType);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
