@@ -32,7 +32,7 @@ public class PlcArrayLiteral extends PlcExpression {
         super(new PlcArrayType(0, values.size() - 1, values.get(0).type));
         this.values = Collections.unmodifiableList(values);
 
-        // Check other values for equal types.
+        // Check all values for equal types.
         values.stream().allMatch(v -> v.type.equals(values.get(0).type));
     }
 }
