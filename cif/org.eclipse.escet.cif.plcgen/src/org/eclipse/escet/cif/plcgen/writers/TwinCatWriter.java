@@ -559,9 +559,7 @@ public class TwinCatWriter extends Writer {
 
         // Generate XML document.
         Document doc = createXmlDoc();
-        Element rootElem = doc.createElement("TcPlcObject");
-        doc.appendChild(rootElem);
-
+        Element rootElem = makeRoot(doc, "TcPlcObject");
         rootElem.setAttribute("Version", "1.1.0.1");
         rootElem.setAttribute("ProductVersion", "3.1.0.18");
 
