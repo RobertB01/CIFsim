@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.plcgen.model.types;
 
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 
-/** Tyoe describing a function or function block. */
+/** Type describing a function block. */
 public class PlcFuncBlockType extends PlcType {
     /** Name of the function block type. */
     public final String typeName;

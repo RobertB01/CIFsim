@@ -454,9 +454,9 @@ public class PlcFunctionAppls {
     }
 
     /**
-     * Obtain the function block description of a TON function block.
+     * Obtain the function block type of a TON function block.
      *
-     * @return The created or retrieved TON function block.
+     * @return The created or retrieved TON function block type.
      */
     public PlcFuncBlockType getTonFuncBlockType() {
         if (tonBlockType == null) {
@@ -482,7 +482,7 @@ public class PlcFunctionAppls {
                     ? new PlcFunctionBlockDescription("TON", "TON", params, TIME_TYPE)
                     : new PlcFunctionBlockDescription("TON", "", params, TIME_TYPE);
 
-            // And construct the variable type.
+            // Construct and store the TON function block type.
             tonBlockType = new PlcFuncBlockType(tonBlockDescr);
         }
         return tonBlockType;

@@ -233,7 +233,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         }
 
         /**
-         * Convert a TIME value to a real value in seconds.
+         * Convert a {@code TIME} value to a real value in seconds.
          *
          * @param timeMillis Value to convert.
          * @return The conversion expression.
@@ -242,10 +242,10 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             // Get the largest available integer type to get maximum accuracy.
             PlcElementaryType intType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
 
-            // TIME are integer milliseconds while reals are seconds. Therefore
+            // TIME are integer milliseconds while reals are seconds. Therefore:
             // 1. Cast to integer
             // 2. Cast to real.
-            // 3. divide by 1000.0
+            // 3. Divide by 1000.0
             PlcExpression intMillis = plcFuncAppls.castFunctionAppl(timeMillis, intType);
             PlcExpression realMillis = plcFuncAppls.castFunctionAppl(intMillis, target.getRealType()); // Contvar type.
             PlcExpression real1000 = new PlcRealLiteral("1000.0", target.getRealType()); // Cont-var type.
@@ -262,7 +262,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             // Get the largest available integer type to get maximum accuracy.
             PlcElementaryType maxIntType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
 
-            // Reals are seconds, while PLC TIME are integer milliseconds. Therefore
+            // Reals are seconds, while PLC TIME are integer milliseconds. Therefore:
             // 1. Multiply by 1000.0
             // 2. Cast to integer
             // 3. Cast to time.
