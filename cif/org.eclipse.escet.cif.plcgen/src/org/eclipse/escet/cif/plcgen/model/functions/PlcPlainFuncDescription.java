@@ -75,4 +75,14 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
         }
         return notations;
     }
+
+    @Override
+    public String getFuncName() {
+        if (prefixFuncName != null && !prefixFuncName.isEmpty()) {
+            return super.getFuncName();
+        } else if (infixFuncName != null) {
+            return "infix-\"" + infixFuncName + "\"";
+        }
+        return super.getFuncName();
+    }
 }

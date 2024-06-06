@@ -74,6 +74,21 @@ public abstract class PlcBasicFuncDescription {
     }
 
     /**
+     * Get a function name description.
+     *
+     * @return A description of the function name.
+     */
+    public String getFuncName() {
+        if (prefixFuncName == null) {
+            return "prefix-N/A";
+        } else if (prefixFuncName.isEmpty()) {
+            return "prefix-dont_use";
+        } else {
+            return "prefix-\"" + prefixFuncName + "\"";
+        }
+    }
+
+    /**
      * Compute the result type of a function application with the given arguments.
      *
      * @param argumentList Arguments of the function call to examine.

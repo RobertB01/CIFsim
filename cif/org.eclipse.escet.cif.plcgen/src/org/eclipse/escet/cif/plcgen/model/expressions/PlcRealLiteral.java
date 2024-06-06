@@ -30,4 +30,9 @@ public class PlcRealLiteral extends PlcExpression {
         super(type);
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "PlcRealLiteral(\"}" + value + "\")";
+    }
 }

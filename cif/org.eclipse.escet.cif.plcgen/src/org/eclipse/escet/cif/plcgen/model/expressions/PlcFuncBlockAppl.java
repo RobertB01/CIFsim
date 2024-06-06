@@ -47,6 +47,12 @@ public class PlcFuncBlockAppl extends PlcFuncAppl {
         if (!(variable.type instanceof PlcFuncBlockType blockType)) {
             throw new AssertionError(fmt("Variable \"%s\" is not a function block instance.", variable.varName));
         }
-        return blockType.funcBlockcDescription;
+        return blockType.funcBlockDescription;
+    }
+
+    @Override
+    public String toString() {
+        return fmt("PlcFuncAppl(\"%s\".%s(%s) -> %s)", variable.varName, function.getFuncName(),
+                String.join(", ", arguments.keySet()), type);
     }
 }

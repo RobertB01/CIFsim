@@ -36,6 +36,6 @@ public class PlcNamedValue {
 
     @Override
     public String toString() {
-        return fmt("PlcNamedValue(\"%s\")", name);
+        return fmt("PlcNamedValue(\"%s\", %s)", name, value);
     }
 }

@@ -50,6 +50,6 @@ public class PlcFuncAppl extends PlcExpression {
 
     @Override
     public String toString() {
-        return fmt("PlcFuncAppl(%s -> %s)", String.join(", ", arguments.keySet()), type);
+        return fmt("PlcFuncAppl(%s(%s) -> %s)", function.getFuncName(), String.join(", ", arguments.keySet()), type);
     }
 }

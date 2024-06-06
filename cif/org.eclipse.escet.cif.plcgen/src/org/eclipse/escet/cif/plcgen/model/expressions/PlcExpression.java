@@ -31,4 +31,17 @@ public abstract class PlcExpression {
 
         Assert.notNull(type);
     }
+
+    @Override
+    public int hashCode() {
+        throw new AssertionError("Hashing is not generally supported.");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        throw new AssertionError("Equality is not generally supported.");
+    }
+
+    @Override
+    public abstract String toString();
 }

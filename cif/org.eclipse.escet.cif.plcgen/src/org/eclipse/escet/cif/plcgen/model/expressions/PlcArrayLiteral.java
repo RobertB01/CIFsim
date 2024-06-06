@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.model.expressions;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 
@@ -35,4 +36,10 @@ public class PlcArrayLiteral extends PlcExpression {
         // Check all values for equal types.
         values.stream().allMatch(v -> v.type.equals(values.get(0).type));
     }
+
+    @Override
+    public String toString() {
+        String s = values.stream().map(v -> v.toString()).collect(Collectors.joining(", "));
+        return "PlcArrayLiteral(" + s + ")";
+        }
 }
