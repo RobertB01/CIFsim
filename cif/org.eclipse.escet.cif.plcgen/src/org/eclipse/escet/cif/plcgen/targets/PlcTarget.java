@@ -111,11 +111,11 @@ public abstract class PlcTarget {
     public abstract String getStateVariablePrefix();
 
     /**
-     * Get the suffix text to append after the block instance variable name to call the TON function block.
+     * Get the name to use to call the {@code TON} function within the instance variable of the block function.
      *
-     * @return The suffix text.
+     * @return The name to use to call the {@code TON} function within the instance variable of the block function.
      */
-    public abstract String getTonFuncBlockCallSuffix();
+    public abstract String getTonFuncBlockCallName();
 
     /**
      * Returns whether the target supports arrays.

@@ -20,9 +20,7 @@ import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_NUM_TY
 import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_REAL_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_TYPE;
 
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
@@ -42,7 +40,6 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Lists;
 
@@ -472,17 +469,9 @@ public class PlcFunctionAppls {
                     new PlcParameterDescription("ET", PlcParamDirection.OUTPUT_ONLY, TIME_TYPE)
             };
 
-            // Derive whether an S7 target is used.
-            Set<PlcTargetType> s7Targets = EnumSet.of(
-                    PlcTargetType.S7_300, PlcTargetType.S7_400,
-                    PlcTargetType.S7_1200, PlcTargetType.S7_1500);
-
-            // Construct a fitting TON function block description for the target.
-            PlcFunctionBlockDescription tonBlockDescr = s7Targets.contains(target.getTargetType())
-                    ? new PlcFunctionBlockDescription("TON", "TON", params, TIME_TYPE)
-                    : new PlcFunctionBlockDescription("TON", "", params, TIME_TYPE);
-
             // Construct and store the TON function block type.
+            PlcFunctionBlockDescription tonBlockDescr;
+            tonBlockDescr = new PlcFunctionBlockDescription("TON", target.getTonFuncBlockCallName(), params, TIME_TYPE);
             tonBlockType = new PlcFuncBlockType(tonBlockDescr);
         }
         return tonBlockType;
