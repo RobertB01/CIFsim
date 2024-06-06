@@ -1,4 +1,9 @@
 event e;
+automaton a1:
+  location:
+    initial;
+    edge e;
+end
 group g:
   invariant inv1_1: true;
   invariant inv1_2: e needs true;
@@ -19,6 +24,11 @@ automaton x:
     invariant inv1_7: true;
     invariant inv1_8: e needs true;
     invariant inv1_9: false disables e;
+end
+automaton a2:
+  location:
+    initial;
+    edge e;
 end
 invariant inv1_10: true;
 invariant inv1_11: e needs true;

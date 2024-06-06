@@ -462,7 +462,7 @@ automaton Timer:
 
   location timed_out:
     initial;
-    edge reset do t := 10; goto running;
+    edge reset do t := 10 goto running;
 
   location running:
     edge reset do t := 10;

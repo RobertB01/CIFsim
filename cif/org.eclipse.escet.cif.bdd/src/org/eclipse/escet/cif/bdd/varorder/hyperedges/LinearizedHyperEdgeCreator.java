@@ -46,6 +46,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
@@ -74,7 +75,7 @@ public class LinearizedHyperEdgeCreator extends HyperEdgeCreator {
 
         // Convert state/event exclusion invariants to automata. They will then be taken into account for the linearized
         // edges, similar to how they are also part of the linearized edges of the CIF/BDD specification.
-        new ElimStateEvtExclInvs().transform(spec);
+        new ElimStateEvtExclInvs(new BlackHoleOutputProvider().getWarnOutput()).transform(spec);
 
         // Collect all automata and alphabets.
         List<Automaton> automata = CifCollectUtils.collectAutomata(spec, list());

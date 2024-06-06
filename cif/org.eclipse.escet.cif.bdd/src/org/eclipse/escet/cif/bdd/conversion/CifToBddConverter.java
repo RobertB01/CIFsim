@@ -1592,13 +1592,6 @@ public class CifToBddConverter {
             // Check that event is in the alphabet.
             Event event = ((EventExpression)inv.getEvent()).getEvent();
             if (!cifBddSpec.alphabet.contains(event)) {
-                String msg = fmt(
-                        "State/event exclusion invariant \"%s\" of %s has no effect, as event \"%s\" is not "
-                                + "in the alphabet of any automaton.",
-                        CifTextUtils.invToStr(inv, false), CifTextUtils.getComponentText2(comp),
-                        CifTextUtils.getAbsName(event));
-                cifBddSpec.settings.getWarnOutput().line(msg);
-
                 // Skip the rest as we won't use this invariant any further.
                 continue;
             }
@@ -1670,13 +1663,6 @@ public class CifToBddConverter {
                     // Check that event is in the alphabet.
                     Event event = ((EventExpression)inv.getEvent()).getEvent();
                     if (!cifBddSpec.alphabet.contains(event)) {
-                        String msg = fmt(
-                                "State/event exclusion invariant \"%s\" of %s has no effect, as event \"%s\" is not in "
-                                        + "the alphabet of any automaton.",
-                                CifTextUtils.invToStr(inv, false), CifTextUtils.getLocationText2(loc),
-                                CifTextUtils.getAbsName(event));
-                        cifBddSpec.settings.getWarnOutput().line(msg);
-
                         // Skip the rest as we won't use this invariant any further.
                         continue;
                     }

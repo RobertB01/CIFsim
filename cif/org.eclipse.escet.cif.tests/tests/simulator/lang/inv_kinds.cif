@@ -42,6 +42,7 @@ automaton a:
   location:
     initial;
     urgent;
+    edge e when false;
 end
 
 event e;

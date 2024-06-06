@@ -13,6 +13,13 @@
 
 event e;
 
+automaton aut:
+  disc int x;
+  location:
+    initial;
+    edge e do x := x + 1;
+end
+
 // All different supervisory and invariant kinds, in top level scope.
             invariant         101 = 101;
             invariant         102 = 102;
@@ -163,6 +170,10 @@ automaton a4:
   event e1;
   event e2;
 
+  location x0:
+    initial;
+    edge e1, e2;
+
   location x1:
     initial;
     invariant e1 needs 701 = 701;
@@ -194,6 +205,12 @@ const int a2StateEvtExcls2 = 6;
 // Named and unnamed invariants in a group.
 group named_and_unnamed_grp:
   event e;
+
+  automaton aut:
+    location:
+      initial;
+      edge e;
+  end
 
   @doc("1")
   invariant e needs 1 = 1;
@@ -262,6 +279,7 @@ automaton named_and_unnamed_aut:
 
   location loc1:
     initial;
+    edge e;
 
     @@doc("1")
     invariant e needs 1 = 1;
@@ -298,3 +316,55 @@ automaton named_and_unnamed_aut:
 end
 
 const bool named_and_unnamed_autNAME12b = true;
+
+// State/event exclusion invariants with non-channel events not in the synchronization/send/receive alphabet of the
+// specification.
+
+event abc;
+
+invariant abc needs false; // Removed
+invariant abc needs true; // Removed
+invariant abc needs aut.x = 3; // Removed
+
+group g2:
+  invariant g.a.b needs aut.x = 4; // Removed
+
+  group g:
+    invariant a.b needs aut.x = 5; // Removed
+
+    automaton a:
+      event b;
+      invariant b needs aut.x = 6; // Removed
+
+      location:
+        initial;
+        invariant b needs aut.x = 7; // Removed
+    end
+  end
+end
+
+// State/event exclusion invariants with channel events not in the synchronization/send/receive alphabet of the
+// specification.
+
+event bool chan1, chan2;
+
+automaton send1:
+  location:
+    initial;
+    edge chan1!true;
+end
+
+automaton send2:
+  location:
+    initial;
+    edge chan1!false;
+end
+
+automaton receive:
+  location:
+    initial;
+    edge chan1?;
+end
+
+invariant CHAN1: chan1 needs aut.x = 8;
+invariant CHAN2: chan2 needs aut.x = 8; // Removed

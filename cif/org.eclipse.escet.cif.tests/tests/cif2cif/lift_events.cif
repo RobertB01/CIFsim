@@ -20,6 +20,7 @@ automaton x_y:
   disc bool v;
   location l:
     initial;
+    edge x_y_z, z, a, u;
 end
 
 automaton x:
@@ -27,6 +28,7 @@ automaton x:
   controllable c;
   location l:
     initial;
+    edge y_z, b, c;
 end
 
 automaton t:
@@ -34,6 +36,7 @@ automaton t:
   event e;
   location l:
     initial;
+    edge e;
 end
 
 invariant {x_y_z, x_y.z, x_y.a, x_y.u} needs true;

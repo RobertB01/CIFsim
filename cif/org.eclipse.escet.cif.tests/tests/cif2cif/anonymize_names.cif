@@ -256,4 +256,5 @@ automaton aut_invs:
     invariant inv4: true;
     invariant inv5: e needs true;
     invariant inv6: false disables e;
+    edge .e, e;
 end

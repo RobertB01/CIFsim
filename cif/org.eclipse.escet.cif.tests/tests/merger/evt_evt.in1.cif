@@ -35,6 +35,11 @@ group annos:
   @cif:typechecker:tests:anno3
   event e;
 
+  automaton a1:
+    location:
+      initial;
+      edge e;
+  end
+
   invariant e needs true;
 end
-
