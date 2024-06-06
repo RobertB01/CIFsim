@@ -28,11 +28,11 @@ public class PlcFuncBlockType extends PlcType {
     /**
      * Constructor of the {@link PlcFuncBlockType} class.
      *
-     * @param funcBlockcDescription Description of the function block.
+     * @param funcBlockDescription Description of the function block.
      */
-    public PlcFuncBlockType(PlcFunctionBlockDescription funcBlockcDescription) {
-        this.funcBlockDescription = funcBlockcDescription;
-        typeName = funcBlockcDescription.typeName;
+    public PlcFuncBlockType(PlcFunctionBlockDescription funcBlockDescription) {
+        this.funcBlockDescription = funcBlockDescription;
+        typeName = funcBlockDescription.typeName;
     }
 
     @Override
