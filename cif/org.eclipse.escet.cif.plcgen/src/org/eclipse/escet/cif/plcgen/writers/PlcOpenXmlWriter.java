@@ -247,8 +247,7 @@ public class PlcOpenXmlWriter extends Writer {
      */
     private void transType(PlcType type, Element parent) {
         if (type instanceof PlcElementaryType eType) {
-            Element elem = makeChild(parent, eType.name);
-            parent.appendChild(elem);
+            makeChild(parent, eType.name);
 
         } else if (type instanceof PlcDerivedType dType) {
             Element derived = makeChild(parent, "derived");
