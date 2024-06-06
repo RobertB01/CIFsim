@@ -147,7 +147,7 @@ public class ExprGeneratorTest {
     private static DiscVariable tupVar = newDiscVariable(null, "tupVar", null, makeTupleType(3), null);
 
     private static PlcStructType stateStruct = new PlcStructType("stateStruct",
-            List.of(new PlcStructField(discVar.getName(), PlcElementaryType.REAL_TYPE),
+            List.of(new PlcStructField(discVar.getName(), PlcElementaryType.LREAL_TYPE),
                     new PlcStructField(tupVar.getName(), makeStructType("struct3", 3))));
 
     private static ContVariable contVar = newContVariable(null, newRealExpression(null, newRealType(), "1.0"), "timer",
@@ -613,10 +613,10 @@ public class ExprGeneratorTest {
     public void testBinaryUnEqualConversion() {
         // 100 != 200.0
         Expression left = newIntExpression(null, newIntType(), 100);
-        Expression right = newRealExpression(null, newRealType(), "200.0");
+        Expression right = newIntExpression(null, newIntType(), 200);
         Expression expr = newBinaryExpression(left, BinaryOperator.UNEQUAL, null, right, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> 100 <> 200.0";
+        String expectedText = "==> 100 <> 200";
         assertEquals(expectedText, realText);
     }
 

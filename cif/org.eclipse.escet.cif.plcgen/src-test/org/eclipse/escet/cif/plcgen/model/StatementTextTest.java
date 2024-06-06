@@ -104,7 +104,7 @@ public class StatementTextTest {
     @Test
     @SuppressWarnings("javadoc")
     public void assignmentStatementTest() {
-        PlcVarExpression lhs = new PlcVarExpression(new PlcDataVariable("my_var", null));
+        PlcVarExpression lhs = new PlcVarExpression(new PlcDataVariable("my_var", PlcElementaryType.BOOL_TYPE));
         PlcExpression trueValue = new PlcBoolLiteral(true);
         assertEquals("my_var := TRUE;", toStr(new PlcAssignmentStatement(lhs, trueValue)));
     }
