@@ -20,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
@@ -202,26 +201,12 @@ public abstract class Writer {
         c.add("VAR_GLOBAL%s // %s", (globVarList.listKind == PlcVarListKind.CONSTANTS) ? " CONSTANT" : "",
                 globVarList.name);
         c.indent();
-        for (PlcBasicVariable variable: globVarList.variables) {
+        for (PlcDataVariable variable: globVarList.variables) {
             c.add(toVarDeclBox(variable));
         }
         c.dedent();
         c.add("END_VAR");
         return c;
-    }
-
-    /**
-     * Convert a {@link PlcBasicVariable} instance to a {@link Box} text.
-     *
-     * @param variable Variable to convert.
-     * @return The generated box representation.
-     */
-    protected Box toVarDeclBox(PlcBasicVariable variable) {
-        if (variable instanceof PlcDataVariable dataVar) {
-            return toVarDeclBox(dataVar);
-        } else {
-            throw new AssertionError("Unexpected kind of variable \"" + variable + "\".");
-        }
     }
 
     /**
@@ -288,7 +273,7 @@ public abstract class Writer {
         if (!pou.inputVars.isEmpty()) {
             c.add("VAR_INPUT");
             c.indent();
-            for (PlcBasicVariable var: pou.inputVars) {
+            for (PlcDataVariable var: pou.inputVars) {
                 c.add(toVarDeclBox(var));
             }
             c.dedent();
@@ -297,7 +282,7 @@ public abstract class Writer {
         if (!pou.outputVars.isEmpty()) {
             c.add("VAR_OUTPUT");
             c.indent();
-            for (PlcBasicVariable var: pou.outputVars) {
+            for (PlcDataVariable var: pou.outputVars) {
                 c.add(toVarDeclBox(var));
             }
             c.dedent();
@@ -306,7 +291,7 @@ public abstract class Writer {
         if (!pou.localVars.isEmpty()) {
             c.add("VAR");
             c.indent();
-            for (PlcBasicVariable var: pou.localVars) {
+            for (PlcDataVariable var: pou.localVars) {
                 c.add(toVarDeclBox(var));
             }
             c.dedent();
@@ -315,7 +300,7 @@ public abstract class Writer {
         if (!pou.tempVars.isEmpty()) {
             c.add("VAR_TEMP");
             c.indent();
-            for (PlcBasicVariable var: pou.tempVars) {
+            for (PlcDataVariable var: pou.tempVars) {
                 c.add(toVarDeclBox(var));
             }
             c.dedent();

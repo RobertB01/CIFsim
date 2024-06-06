@@ -42,7 +42,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
@@ -327,23 +326,23 @@ public class PlcOpenXmlWriter extends Writer {
      * @param var The variable.
      * @param parent The parent element in which to generate new elements.
      */
-    private void transVariable(PlcBasicVariable var, Element parent) {
+    private void transVariable(PlcDataVariable var, Element parent) {
         Element varElem = parent.getOwnerDocument().createElement("variable");
         parent.appendChild(varElem);
 
         varElem.setAttribute("name", var.varName);
-        if (var instanceof PlcDataVariable dataVar && dataVar.address != null) {
-            varElem.setAttribute("address", dataVar.address);
+        if (var.address != null) {
+            varElem.setAttribute("address", var.address);
         }
 
         Element type = parent.getOwnerDocument().createElement("type");
         varElem.appendChild(type);
         transType(var.type, type);
 
-        if (var instanceof PlcDataVariable dataVar && dataVar.value != null) {
+        if (var.value != null) {
             Element value = parent.getOwnerDocument().createElement("initialValue");
             varElem.appendChild(value);
-            transValue(dataVar.value, value);
+            transValue(var.value, value);
         }
     }
 
@@ -413,7 +412,7 @@ public class PlcOpenXmlWriter extends Writer {
             Element e = parent.getOwnerDocument().createElement("inputVars");
             iface.appendChild(e);
 
-            for (PlcBasicVariable var: pou.inputVars) {
+            for (PlcDataVariable var: pou.inputVars) {
                 transVariable(var, e);
             }
         }
@@ -422,7 +421,7 @@ public class PlcOpenXmlWriter extends Writer {
             Element e = parent.getOwnerDocument().createElement("outputVars");
             iface.appendChild(e);
 
-            for (PlcBasicVariable var: pou.outputVars) {
+            for (PlcDataVariable var: pou.outputVars) {
                 transVariable(var, e);
             }
         }
@@ -431,7 +430,7 @@ public class PlcOpenXmlWriter extends Writer {
             Element e = parent.getOwnerDocument().createElement("localVars");
             iface.appendChild(e);
 
-            for (PlcBasicVariable var: pou.localVars) {
+            for (PlcDataVariable var: pou.localVars) {
                 transVariable(var, e);
             }
         }
@@ -440,7 +439,7 @@ public class PlcOpenXmlWriter extends Writer {
             Element e = parent.getOwnerDocument().createElement("tempVars");
             iface.appendChild(e);
 
-            for (PlcBasicVariable var: pou.tempVars) {
+            for (PlcDataVariable var: pou.tempVars) {
                 transVariable(var, e);
             }
         }
@@ -506,7 +505,7 @@ public class PlcOpenXmlWriter extends Writer {
 
         gv.setAttribute("name", varList.name);
         gv.setAttribute("constant", (varList.listKind == PlcVarListKind.CONSTANTS) ? "true" : "false");
-        for (PlcBasicVariable var: varList.variables) {
+        for (PlcDataVariable var: varList.variables) {
             transVariable(var, gv);
         }
     }

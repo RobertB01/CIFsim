@@ -227,7 +227,7 @@ public class PlcCodeStorage {
      *
      * @param plcVar Variable to add. Name is assumed to be unique.
      */
-    public void addConstant(PlcBasicVariable plcVar) {
+    public void addConstant(PlcDataVariable plcVar) {
         Assert.check(target.supportsConstants());
 
         if (globalConstants == null) {
@@ -241,7 +241,7 @@ public class PlcCodeStorage {
      *
      * @param variable Variable to add. Name is assumed to be unique.
      */
-    public void addInputVariable(PlcBasicVariable variable) {
+    public void addInputVariable(PlcDataVariable variable) {
         if (globalInputs == null) {
             globalInputs = new PlcGlobalVarList("INPUTS", PlcVarListKind.INPUT_OUTPUT);
         }
@@ -253,7 +253,7 @@ public class PlcCodeStorage {
      *
      * @param variable Variable to add. Name is assumed to be unique.
      */
-    public void addOutputVariable(PlcBasicVariable variable) {
+    public void addOutputVariable(PlcDataVariable variable) {
         if (globalOutputs == null) {
             globalOutputs = new PlcGlobalVarList("OUTPUTS", PlcVarListKind.INPUT_OUTPUT);
         }
@@ -267,7 +267,7 @@ public class PlcCodeStorage {
      * @param type Type of the new variable.
      * @return The added new variable.
      */
-    public PlcBasicVariable addStateVariable(String name, PlcType type) {
+    public PlcDataVariable addStateVariable(String name, PlcType type) {
         return addStateVariable(name, type, null, null);
     }
 
@@ -280,8 +280,8 @@ public class PlcCodeStorage {
      * @param initValue If not {@code null}, the initial value of the new variable.
      * @return The added new variable.
      */
-    public PlcBasicVariable addStateVariable(String name, PlcType type, String address, PlcExpression initValue) {
-        PlcBasicVariable plcVar = new PlcDataVariable(target.getStateVariablePrefix(), name, type, address, initValue);
+    public PlcDataVariable addStateVariable(String name, PlcType type, String address, PlcExpression initValue) {
+        PlcDataVariable plcVar = new PlcDataVariable(target.getStateVariablePrefix(), name, type, address, initValue);
         mainProgram.localVars.add(plcVar);
         return plcVar;
     }
@@ -291,7 +291,7 @@ public class PlcCodeStorage {
      *
      * @param variable Variable to add. Name is assumed to be unique.
      */
-    public void addTempVariable(PlcBasicVariable variable) {
+    public void addTempVariable(PlcDataVariable variable) {
         mainProgram.tempVars.add(variable);
     }
 
@@ -300,7 +300,7 @@ public class PlcCodeStorage {
      *
      * @param variable Variable to add.
      */
-    public void addTimerVariable(PlcBasicVariable variable) {
+    public void addTimerVariable(PlcDataVariable variable) {
         if (globalTimerVars == null) {
             // S7 needs timer function blocks as a separate list. Other timer related data should be stored in other
             // variable lists.
@@ -414,7 +414,7 @@ public class PlcCodeStorage {
         }
 
         // Construct loop and killed counters.
-        PlcBasicVariable loopCount = null;
+        PlcDataVariable loopCount = null;
         PlcBasicVariable loopsKilled = null;
         if (maxUncontrollableLimit != null || maxControllableLimit != null) {
             // Construct a "loopsKilled" variable, ensure the maximum value fits in the type.

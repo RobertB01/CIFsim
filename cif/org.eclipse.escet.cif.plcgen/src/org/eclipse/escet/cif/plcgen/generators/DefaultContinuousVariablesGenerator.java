@@ -146,7 +146,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         public final ContVariable contVar;
 
         /** TON function block instance variable. */
-        public final PlcBasicVariable tonVar;
+        public final PlcDataVariable tonVar;
 
         /** The PLC state variable for the continuous variable. */
         public final PlcVarExpression plcContVar;

@@ -107,7 +107,7 @@ public class ExprGenerator {
     private final Map<String, Integer> localNameGenMap = map();
 
     /** Local and temporary variables of the generator. */
-    private final List<PlcBasicVariable> variables = list();
+    private final List<PlcDataVariable> variables = list();
 
     /** Map of variable names to their {@link #variables} index. */
     private final Map<String, Integer> varNameToVarIndex = map();
@@ -200,7 +200,7 @@ public class ExprGenerator {
      * @param plcType Type of the returned variable.
      * @return The created variable.
      */
-    public PlcBasicVariable makeLocalVariable(String prefix, PlcType plcType) {
+    public PlcDataVariable makeLocalVariable(String prefix, PlcType plcType) {
         return createVariable(prefix, plcType, null, null, false);
     }
 
@@ -213,7 +213,7 @@ public class ExprGenerator {
      * @param value The initial value of the variable, or {@code null} if not specified.
      * @return The created variable.
      */
-    public PlcBasicVariable makeLocalVariable(String prefix, PlcType plcType, String address, PlcExpression value) {
+    public PlcDataVariable makeLocalVariable(String prefix, PlcType plcType, String address, PlcExpression value) {
         return createVariable(prefix, plcType, address, value, false);
     }
 
@@ -228,11 +228,11 @@ public class ExprGenerator {
      * @return The created variable.
      * @note The new variable is not marked as available.
      */
-    private PlcBasicVariable createVariable(String prefix, PlcType plcType, String address, PlcExpression value,
+    private PlcDataVariable createVariable(String prefix, PlcType plcType, String address, PlcExpression value,
             boolean isTempVar)
     {
         String name = target.getNameGenerator().generateLocalName(prefix, localNameGenMap);
-        PlcBasicVariable newVar = new PlcDataVariable(name, plcType, address, value);
+        PlcDataVariable newVar = new PlcDataVariable(name, plcType, address, value);
         int newVarIndex = variables.size();
         variables.add(newVar);
         varNameToVarIndex.put(newVar.varName, newVarIndex);
@@ -281,8 +281,8 @@ public class ExprGenerator {
      *
      * @return The created temporary variables of the expression generator.
      */
-    public List<PlcBasicVariable> getCreatedTempVariables() {
-        List<PlcBasicVariable> tempVars = listc(variableIsTemp.cardinality());
+    public List<PlcDataVariable> getCreatedTempVariables() {
+        List<PlcDataVariable> tempVars = listc(variableIsTemp.cardinality());
         for (int idx: new BitSetIterator(variableIsTemp)) {
             tempVars.add(variables.get(idx));
         }
