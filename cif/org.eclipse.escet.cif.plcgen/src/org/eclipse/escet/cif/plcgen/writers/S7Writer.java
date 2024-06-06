@@ -141,7 +141,7 @@ public class S7Writer extends Writer {
         for (PlcBasicVariable timerVar: timerVariables) {
             // Don't let any non-TON block slip through.
             Assert.check(timerVar.type instanceof PlcFuncBlockType blockType
-                    && blockType.funcBlockcDescription.typeName.equals("TON"));
+                    && blockType.funcBlockDescription.typeName.equals("TON"));
 
             // Generate the data block for the TON timer.
             c.add("DATA_BLOCK \"%s\"", timerVar.varName);

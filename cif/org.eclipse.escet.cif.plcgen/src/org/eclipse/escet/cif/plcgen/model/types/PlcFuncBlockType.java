@@ -23,7 +23,7 @@ public class PlcFuncBlockType extends PlcType {
     public final String typeName;
 
     /** Description of the function block. */
-    public final PlcFunctionBlockDescription funcBlockcDescription;
+    public final PlcFunctionBlockDescription funcBlockDescription;
 
     /**
      * Constructor of the {@link PlcFuncBlockType} class.
@@ -31,19 +31,19 @@ public class PlcFuncBlockType extends PlcType {
      * @param funcBlockcDescription Description of the function block.
      */
     public PlcFuncBlockType(PlcFunctionBlockDescription funcBlockcDescription) {
-        this.funcBlockcDescription = funcBlockcDescription;
+        this.funcBlockDescription = funcBlockcDescription;
         typeName = funcBlockcDescription.typeName;
     }
 
     @Override
     public boolean equals(Object other) {
         return (other instanceof PlcFuncBlockType othFuncBlkType)
-                && funcBlockcDescription == othFuncBlkType.funcBlockcDescription;
+                && funcBlockDescription == othFuncBlkType.funcBlockDescription;
     }
 
     @Override
     public int hashCode() {
-        return funcBlockcDescription.hashCode();
+        return funcBlockDescription.hashCode();
     }
 
     @Override
