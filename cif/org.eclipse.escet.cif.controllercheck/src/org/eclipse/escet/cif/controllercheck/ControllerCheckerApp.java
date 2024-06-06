@@ -138,15 +138,23 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
                     "No checks enabled. Enable one of the checks for the controller properties checker to check.");
         }
 
-        // Load specification. Copy it to keep the original.
+        // Load specification.
         OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
         CifReader cifReader = new CifReader();
         Specification origSpec = cifReader.init().read();
-        Specification spec = EMFHelper.deepclone(origSpec);
         String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
+
+        // Eliminate component definition/instantiation. This allows to perform precondition checks, as well as perform
+        // annotation post checking.
+        new ElimComponentDefInst().transform(origSpec);
+
+        // Get the output specification, and the internal specification on which to perform the checks.
+        // Copy the internal specification, to preserve the output specification.
+        Specification outputSpec = origSpec;
+        Specification spec = EMFHelper.deepclone(origSpec);
 
         // Remove/ignore I/O declarations, to increase the supported subset.
         RemoveIoDecls removeIoDecls = new RemoveIoDecls();
@@ -154,9 +162,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
             warn("The specification contains CIF/SVG input declarations. These will be ignored.");
         }
-
-        // Eliminate component definition/instantiation, to allow performing precondition checks.
-        new ElimComponentDefInst().transform(spec);
 
         // Check preconditions that apply to all checks.
         ControllerCheckerPreChecker checker = new ControllerCheckerPreChecker(() -> AppEnv.isTerminationRequested());
@@ -435,19 +440,19 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
                     ? boundedResponseConclusion.uncontrollablesBound.getBound() : null;
             Integer ctrlBound = boundedResponseConclusion.propertyHolds()
                     ? boundedResponseConclusion.controllablesBound.getBound() : null;
-            ControllerPropertiesAnnotationProvider.setBoundedResponse(origSpec, unctrlBound, ctrlBound);
+            ControllerPropertiesAnnotationProvider.setBoundedResponse(outputSpec, unctrlBound, ctrlBound);
         }
         if (confluenceConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setConfluence(origSpec, confluenceHolds);
+            ControllerPropertiesAnnotationProvider.setConfluence(outputSpec, confluenceHolds);
         }
         if (finiteResponseConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setFiniteResponse(origSpec, finiteResponseHolds);
+            ControllerPropertiesAnnotationProvider.setFiniteResponse(outputSpec, finiteResponseHolds);
         }
 
         // Check CIF specification to output.
         CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "output");
         try {
-            new CifAnnotationsPostChecker(env).check(spec);
+            new CifAnnotationsPostChecker(env).check(outputSpec);
         } catch (SemanticException ex) {
             // Ignore.
         }
@@ -456,7 +461,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         // Write the output file.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".checked.cif");
         String absOutPath = Paths.resolve(outPath);
-        CifWriter.writeCifSpec(origSpec, absOutPath, cifReader.getAbsDirPath());
+        CifWriter.writeCifSpec(outputSpec, absOutPath, cifReader.getAbsDirPath());
         out();
         out("The model with the check results has been written to \"%s\".", outPath);
 
