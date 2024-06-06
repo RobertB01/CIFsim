@@ -202,7 +202,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             // - As the conversion is a computation with reals, ensure the result is never negative.
             PlcExpression subExpr = plcFuncAppls.subtractFuncAppl(new PlcVarExpression(presetVar),
                     new PlcVarExpression(v));
-            subExpr = atLeast0(timeToReal(subExpr));
+            subExpr = atLeast0(timeToReal(subExpr, (PlcElementaryType)plcContVar.type));
 
             // Apply the selection.
             PlcExpression selExpr = plcFuncAppls.selFuncAppl(new PlcVarExpression(b), subExpr,
@@ -236,19 +236,20 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
          * Convert a {@code TIME} value to a real value in seconds.
          *
          * @param timeMillis Value to convert.
+         * @param destRealType The real type to convert to.
          * @return The conversion expression.
          */
-        private PlcExpression timeToReal(PlcExpression timeMillis) {
+        private PlcExpression timeToReal(PlcExpression timeMillis, PlcElementaryType destRealType) {
             // Get the largest available integer type to get maximum accuracy.
             PlcElementaryType intType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
 
             // TIME are integer milliseconds while reals are seconds. Therefore:
-            // 1. Cast to integer
+            // 1. Cast to integer.
             // 2. Cast to real.
-            // 3. Divide by 1000.0
+            // 3. Divide by 1000.0.
             PlcExpression intMillis = plcFuncAppls.castFunctionAppl(timeMillis, intType);
-            PlcExpression realMillis = plcFuncAppls.castFunctionAppl(intMillis, target.getRealType()); // Contvar type.
-            PlcExpression real1000 = new PlcRealLiteral("1000.0", target.getRealType()); // Cont-var type.
+            PlcExpression realMillis = plcFuncAppls.castFunctionAppl(intMillis, destRealType);
+            PlcExpression real1000 = new PlcRealLiteral("1000.0", destRealType);
             return plcFuncAppls.divideFuncAppl(realMillis, real1000);
         }
 
@@ -263,10 +264,10 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             PlcElementaryType maxIntType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
 
             // Reals are seconds, while PLC TIME are integer milliseconds. Therefore:
-            // 1. Multiply by 1000.0
-            // 2. Cast to integer
+            // 1. Multiply by 1000.0.
+            // 2. Cast to integer.
             // 3. Cast to time.
-            PlcExpression real1000 = new PlcRealLiteral("1000.0", target.getRealType());
+            PlcExpression real1000 = new PlcRealLiteral("1000.0", realSecs.type);
             PlcExpression realMillis = plcFuncAppls.multiplyFuncAppl(realSecs, real1000);
             PlcExpression intMillis = plcFuncAppls.castFunctionAppl(realMillis, maxIntType);
             return plcFuncAppls.castFunctionAppl(intMillis, PlcElementaryType.TIME_TYPE);
