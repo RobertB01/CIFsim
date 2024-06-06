@@ -66,7 +66,7 @@ public class PlcElementaryType extends PlcType {
 
     @Override
     public String toString() {
-        return "PlcElementaryType(" + name + ")";
+        return "PlcElementaryType(\"" + name + "\")";
     }
 
     /**

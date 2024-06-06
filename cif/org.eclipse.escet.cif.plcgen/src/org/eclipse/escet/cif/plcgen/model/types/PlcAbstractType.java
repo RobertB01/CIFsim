@@ -20,4 +20,7 @@ public abstract class PlcAbstractType {
 
     @Override
     public abstract int hashCode();
+
+    @Override
+    public abstract String toString();
 }

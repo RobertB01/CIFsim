@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.types;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 
 /** Type describing a function block. */
@@ -42,5 +44,10 @@ public class PlcFuncBlockType extends PlcType {
     @Override
     public int hashCode() {
         return funcBlockcDescription.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return fmt("PlcFuncBlockType(\"%s\")", typeName);
     }
 }

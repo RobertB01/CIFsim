@@ -57,7 +57,7 @@ public class PlcEnumType extends PlcType implements PlcDeclaredType {
 
     @Override
     public String toString() {
-        return "PlcEnumType(" + typeName + ")";
+        return "PlcEnumType(\"" + typeName + "\")";
     }
 
     /**
