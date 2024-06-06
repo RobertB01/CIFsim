@@ -281,16 +281,14 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transType(PlcType type, Element parent) {
-        if (type instanceof PlcElementaryType) {
-            PlcElementaryType etype = (PlcElementaryType)type;
-            Element elem = parent.getOwnerDocument().createElement(etype.name);
+        if (type instanceof PlcElementaryType eType) {
+            Element elem = parent.getOwnerDocument().createElement(eType.name);
             parent.appendChild(elem);
-        } else if (type instanceof PlcDerivedType) {
+        } else if (type instanceof PlcDerivedType dType) {
             Element derived = parent.getOwnerDocument().createElement("derived");
             parent.appendChild(derived);
 
-            PlcDerivedType dtype = (PlcDerivedType)type;
-            derived.setAttribute("name", dtype.name);
+            derived.setAttribute("name", dType.name);
         } else if (type instanceof PlcStructType structType) {
             Element derived = parent.getOwnerDocument().createElement("derived");
             parent.appendChild(derived);
@@ -301,20 +299,18 @@ public class PlcOpenXmlWriter extends Writer {
             parent.appendChild(derived);
 
             derived.setAttribute("name", enumType.typeName);
-        } else if (type instanceof PlcArrayType) {
+        } else if (type instanceof PlcArrayType aType) {
             Element array = parent.getOwnerDocument().createElement("array");
             parent.appendChild(array);
 
-            PlcArrayType atype = (PlcArrayType)type;
-
             Element dim = parent.getOwnerDocument().createElement("dimension");
             array.appendChild(dim);
-            dim.setAttribute("lower", str(atype.lower));
-            dim.setAttribute("upper", str(atype.upper));
+            dim.setAttribute("lower", str(aType.lower));
+            dim.setAttribute("upper", str(aType.upper));
 
             Element bt = parent.getOwnerDocument().createElement("baseType");
             array.appendChild(bt);
-            transType(atype.elemType, bt);
+            transType(aType.elemType, bt);
         } else if (type instanceof PlcFuncBlockType blockType) {
             Element derived = parent.getOwnerDocument().createElement("derived");
             parent.appendChild(derived);
