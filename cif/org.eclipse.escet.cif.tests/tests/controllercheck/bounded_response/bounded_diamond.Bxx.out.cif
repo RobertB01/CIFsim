@@ -8,19 +8,66 @@ controllable c_e2;
 controllable c_e3;
 controllable c_e4;
 controllable c_e5;
-plant automaton def P(event e):
+plant automaton pu1:
   location loc1:
     initial;
-    edge e goto loc2;
+    edge u_e1 goto loc2;
   location loc2:
     marked;
 end
-pu1: P(u_e1);
-pu2: P(u_e2);
-pu3: P(u_e3);
-pu4: P(u_e4);
-pc1: P(c_e1);
-pc2: P(c_e2);
-pc3: P(c_e3);
-pc4: P(c_e4);
-pc5: P(c_e5);
+plant automaton pu2:
+  location loc1:
+    initial;
+    edge u_e2 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pu3:
+  location loc1:
+    initial;
+    edge u_e3 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pu4:
+  location loc1:
+    initial;
+    edge u_e4 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc1:
+  location loc1:
+    initial;
+    edge c_e1 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc2:
+  location loc1:
+    initial;
+    edge c_e2 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc3:
+  location loc1:
+    initial;
+    edge c_e3 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc4:
+  location loc1:
+    initial;
+    edge c_e4 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc5:
+  location loc1:
+    initial;
+    edge c_e5 goto loc2;
+  location loc2:
+    marked;
+end

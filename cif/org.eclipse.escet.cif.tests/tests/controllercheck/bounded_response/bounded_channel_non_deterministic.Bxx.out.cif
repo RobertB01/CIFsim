@@ -1,31 +1,101 @@
 @@controller:properties(boundedResponse: true, uncontrollablesBound: 3, controllablesBound: 3)
 uncontrollable bool u_chan;
 controllable bool c_chan;
-plant automaton def Sender(event bool e!):
+plant automaton usend1:
   location loc1:
     initial;
-    edge e!true goto loc2;
+    edge u_chan!true goto loc2;
   location loc2:
     marked;
 end
-plant automaton def Receiver(event bool e?):
+plant automaton usend2:
   location loc1:
     initial;
-    edge e? goto loc2;
+    edge u_chan!true goto loc2;
   location loc2:
     marked;
 end
-usend1: Sender(u_chan);
-usend2: Sender(u_chan);
-usend3: Sender(u_chan);
-urecv1: Receiver(u_chan);
-urecv2: Receiver(u_chan);
-urecv3: Receiver(u_chan);
-urecv4: Receiver(u_chan);
-csend1: Sender(c_chan);
-csend2: Sender(c_chan);
-csend3: Sender(c_chan);
-csend4: Sender(c_chan);
-crecv1: Receiver(c_chan);
-crecv2: Receiver(c_chan);
-crecv3: Receiver(c_chan);
+plant automaton usend3:
+  location loc1:
+    initial;
+    edge u_chan!true goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton urecv1:
+  location loc1:
+    initial;
+    edge u_chan? goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton urecv2:
+  location loc1:
+    initial;
+    edge u_chan? goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton urecv3:
+  location loc1:
+    initial;
+    edge u_chan? goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton urecv4:
+  location loc1:
+    initial;
+    edge u_chan? goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton csend1:
+  location loc1:
+    initial;
+    edge c_chan!true goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton csend2:
+  location loc1:
+    initial;
+    edge c_chan!true goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton csend3:
+  location loc1:
+    initial;
+    edge c_chan!true goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton csend4:
+  location loc1:
+    initial;
+    edge c_chan!true goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton crecv1:
+  location loc1:
+    initial;
+    edge c_chan? goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton crecv2:
+  location loc1:
+    initial;
+    edge c_chan? goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton crecv3:
+  location loc1:
+    initial;
+    edge c_chan? goto loc2;
+  location loc2:
+    marked;
+end
