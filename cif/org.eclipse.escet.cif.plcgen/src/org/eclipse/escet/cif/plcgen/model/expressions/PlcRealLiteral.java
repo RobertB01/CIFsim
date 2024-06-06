@@ -33,6 +33,6 @@ public class PlcRealLiteral extends PlcExpression {
 
     @Override
     public String toString() {
-        return "PlcRealLiteral(\"}" + value + "\")";
+        return "PlcRealLiteral(\"" + value + "\")";
     }
 }

@@ -43,6 +43,6 @@ public class PlcEnumLiteral extends PlcExpression {
 
     @Override
     public String toString() {
-        return "PlcEnumLiteral(\"}" + value + "\")";
+        return "PlcEnumLiteral(\"" + value + "\")";
     }
 }

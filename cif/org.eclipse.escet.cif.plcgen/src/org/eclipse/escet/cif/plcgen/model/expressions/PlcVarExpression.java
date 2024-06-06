@@ -73,7 +73,7 @@ public class PlcVarExpression extends PlcExpression {
     @Override
     public String toString() {
         String s = projections.stream().map(p -> p.toString()).collect(Collectors.joining());
-        return "PlcVarExpression(\"" + variable.varName + "\"" + s;
+        return "PlcVarExpression(\"" + variable.varName + "\"" + s + ")";
     }
 
     /** Projection in the value of the referenced variable. */
