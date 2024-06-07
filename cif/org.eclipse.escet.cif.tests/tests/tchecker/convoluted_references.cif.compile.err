@@ -34,3 +34,5 @@ WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 58,
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 62, column 17: Convoluted reference to local function. Use "f" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 63, column 17: Convoluted reference to local function. Use "f" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 64, column 18: Convoluted reference to local function. Use "f" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 74, column 17: Convoluted reference to local group definition. Use "gdef1" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 74, column 28: Convoluted reference to local group definition. Use "gdef1" instead.
