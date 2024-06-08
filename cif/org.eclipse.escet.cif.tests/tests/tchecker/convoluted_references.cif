@@ -67,3 +67,14 @@ group r:
     return true;
   end
 end
+
+group def gdef1():
+  const int c5 = 5;
+end
+group def gdef2(^gdef1 p1; .gdef1 p2; gdef1 p3):
+  invariant p1.c5 + p2.c5 + p3.c5 = 0;
+end
+inst1a: gdef1();
+inst1b: gdef1();
+inst1c: gdef1();
+inst2: gdef2(inst1a, inst1b, inst1c);

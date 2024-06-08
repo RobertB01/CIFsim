@@ -17,6 +17,7 @@ WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 34,
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 34, column 22: Convoluted reference to local declaration. Use "x3" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 35, column 10: Convoluted reference to local declaration. Use "$event" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 35, column 24: Convoluted reference to local declaration. Use "$disc" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 44, column 15: Convoluted reference to local automaton definition. Use "D" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 50, column 8: Convoluted reference to local automaton definition. Use "D" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 50, column 13: Convoluted reference to local declaration. Use "x" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 51, column 8: Convoluted reference to local automaton definition. Use "D" instead.
@@ -33,3 +34,5 @@ WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 58,
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 62, column 17: Convoluted reference to local function. Use "f" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 63, column 17: Convoluted reference to local function. Use "f" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 64, column 18: Convoluted reference to local function. Use "f" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 74, column 17: Convoluted reference to local group definition. Use "gdef1" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 74, column 28: Convoluted reference to local group definition. Use "gdef1" instead.
