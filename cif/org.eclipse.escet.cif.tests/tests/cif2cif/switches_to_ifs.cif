@@ -128,3 +128,21 @@ alg real y2 = switch g2.b2:
                 case m2: 5.0
                 else     6.0
               end;
+
+enum E = L1, L2, L3, L4;
+
+alg E switch_in_switch1 =
+    switch switch 1 + 1: case 1: "a" else switch 1.0: case 1.0: "b" else "c" end end:
+      case switch [sqrt(1)]: case [1.0]: "a" else "b" end: switch {1 + 1}: case {2}: L1 else L2 end
+      case "c": L3
+      else L4
+    end;
+
+alg bool switch_in_switch2 = switch a1_named:
+                               case l: switch a1_named:
+                                         case l: switch true and true:
+                                                   case true: true
+                                                   else false
+                                                 end
+                                       end
+                             end;
