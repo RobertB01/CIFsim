@@ -538,7 +538,7 @@ public class CifProcessor {
         new ElimComponentDefInst().transform(spec);
 
         // Eliminate state/event exclusion invariants, to avoid having to handle them.
-        // TODO For tracability, it might be better to keep this, and convert it to an additional test in the event
+        // TODO For traceability, it might be better to keep this, and convert it to an additional test in the event
         // function labeled with the invariant.
         new ElimStateEvtExclInvs(warnOutput).transform(spec);
 
