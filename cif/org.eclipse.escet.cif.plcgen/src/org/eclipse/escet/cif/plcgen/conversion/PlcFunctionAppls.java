@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.conversion;
 
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.BOOL_TYPE;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.TIME_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_ELEMENTARY_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_NUM_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_REAL_TYPE;
@@ -22,8 +23,10 @@ import static org.eclipse.escet.cif.plcgen.model.types.PlcGenericType.ANY_TYPE;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncBlockAppl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
@@ -34,8 +37,8 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Lists;
@@ -44,6 +47,9 @@ import org.eclipse.escet.common.java.Lists;
 public class PlcFunctionAppls {
     /** PLC to generate code for. */
     private final PlcTarget target;
+
+    /** The type of a TON function block instance variable. Lazily created. */
+    private PlcFuncBlockType tonBlockType = null;
 
     /**
      * Constructor of the {@link PlcFunctionAppls} class.
@@ -134,9 +140,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl subtractFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC type allows more types.
-        return funcAppl(PlcFuncOperation.SUBTRACT_OP, "SUB", "-", ExprBinding.MUL_EXPR, ANY_NUM_TYPE,
+        return funcAppl(PlcFuncOperation.SUBTRACT_OP, "SUB", "-", ExprBinding.MUL_EXPR, ANY_ELEMENTARY_TYPE,
                 new PlcExpression[]
-                {in1, in2}, ANY_NUM_TYPE);
+                {in1, in2}, ANY_ELEMENTARY_TYPE);
     }
 
     /**
@@ -149,8 +155,7 @@ public class PlcFunctionAppls {
     public PlcFuncAppl lessThanFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
         return funcAppl(PlcFuncOperation.LESS_THAN_OP, "LT", "<", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -163,8 +168,7 @@ public class PlcFunctionAppls {
     public PlcFuncAppl lessEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
         return funcAppl(PlcFuncOperation.LESS_EQUAL_OP, "LE", "<=", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -177,8 +181,7 @@ public class PlcFunctionAppls {
     public PlcFuncAppl greaterThanFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
         return funcAppl(PlcFuncOperation.GREATER_THAN_OP, "GT", ">", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -191,8 +194,7 @@ public class PlcFunctionAppls {
     public PlcFuncAppl greaterEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
         return funcAppl(PlcFuncOperation.GREATER_EQUAL_OP, "GE", ">=", ExprBinding.ORDER_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -204,9 +206,9 @@ public class PlcFunctionAppls {
      */
     public PlcFuncAppl equalFuncAppl(PlcExpression in1, PlcExpression in2) {
         // The PLC function allows more than two parameters.
-        return funcAppl(PlcFuncOperation.EQUAL_OP, "EQ", "=", ExprBinding.EQUAL_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+        // Use ANY_TYPE to also support enumeration value comparisons.
+        return funcAppl(PlcFuncOperation.EQUAL_OP, "EQ", "=", ExprBinding.EQUAL_EXPR, ANY_TYPE,
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -217,9 +219,9 @@ public class PlcFunctionAppls {
      * @return The constructed function application.
      */
     public PlcFuncAppl unEqualFuncAppl(PlcExpression in1, PlcExpression in2) {
-        return funcAppl(PlcFuncOperation.UNEQUAL_OP, "NE", "<>", ExprBinding.EQUAL_EXPR, ANY_ELEMENTARY_TYPE,
-                new PlcExpression[]
-                {in1, in2}, ANY_ELEMENTARY_TYPE);
+        // Use ANY_TYPE to also support enumeration value comparisons.
+        return funcAppl(PlcFuncOperation.UNEQUAL_OP, "NE", "<>", ExprBinding.EQUAL_EXPR, ANY_TYPE,
+                new PlcExpression[] {in1, in2}, BOOL_TYPE);
     }
 
     /**
@@ -270,15 +272,14 @@ public class PlcFunctionAppls {
      * Construct a function application for casting.
      *
      * @param in The input argument of the function.
-     * @param inType The type of the input value.
      * @param outType The type of the output value.
      * @return The constructed function application.
      */
-    public PlcFuncAppl castFunctionAppl(PlcExpression in, PlcElementaryType inType, PlcElementaryType outType) {
+    public PlcFuncAppl castFunctionAppl(PlcExpression in, PlcElementaryType outType) {
         PlcFuncOperation operation = PlcFuncOperation.CAST_OP;
         Assert.check(target.supportsOperation(operation, 1));
 
-        PlcBasicFuncDescription func = new PlcCastFunctionDescription(inType, outType);
+        PlcBasicFuncDescription func = new PlcCastFunctionDescription((PlcElementaryType)in.type, outType);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -450,24 +451,30 @@ public class PlcFunctionAppls {
     }
 
     /**
-     * Instantiate a TON function block.
+     * Obtain the function block type of a TON function block.
      *
-     * @param prefixFuncName Name of the function.
-     * @return The function block instance description.
+     * @return The created or retrieved TON function block type.
      */
-    public PlcFunctionBlockDescription makeTonBlock(String prefixFuncName) {
-        PlcParameterDescription[] params = { //
-                // Use 'false' for reset, or 'true' for measuring time.
-                new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, BOOL_TYPE),
-                // End time.
-                new PlcParameterDescription("PT", PlcParamDirection.INPUT_ONLY, target.getRealType()),
-                // End time has been reached.
-                new PlcParameterDescription("Q", PlcParamDirection.OUTPUT_ONLY, BOOL_TYPE),
-                // Amount of time since last reset, caps at PT.
-                new PlcParameterDescription("ET", PlcParamDirection.OUTPUT_ONLY, target.getRealType())};
+    public PlcFuncBlockType getTonFuncBlockType() {
+        if (tonBlockType == null) {
+            // Define the parameters of the TON block.
+            PlcParameterDescription[] params = {
+                    // Use 'false' for reset, or 'true' for measuring time.
+                    new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, BOOL_TYPE),
+                    // End time.
+                    new PlcParameterDescription("PT", PlcParamDirection.INPUT_ONLY, TIME_TYPE),
+                    // End time has been reached.
+                    new PlcParameterDescription("Q", PlcParamDirection.OUTPUT_ONLY, BOOL_TYPE),
+                    // Amount of time since last reset, caps at PT.
+                    new PlcParameterDescription("ET", PlcParamDirection.OUTPUT_ONLY, TIME_TYPE)
+            };
 
-        return new PlcFunctionBlockDescription(prefixFuncName + target.getTonFuncBlockCallSuffix(),
-                new PlcDerivedType("TON"), params);
+            // Construct and store the TON function block type.
+            PlcFunctionBlockDescription tonBlockDescr;
+            tonBlockDescr = new PlcFunctionBlockDescription("TON", target.getTonFuncBlockCallName(), params, TIME_TYPE);
+            tonBlockType = new PlcFuncBlockType(tonBlockDescr);
+        }
+        return tonBlockType;
     }
 
     /**
@@ -623,11 +630,11 @@ public class PlcFunctionAppls {
     /**
      * Perform a function application to a function block.
      *
-     * @param funcBlkDesc Description of the instantiated function block.
+     * @param variable Variable containing the function block instance.
      * @param arguments Arguments of the instantiated function block.
      * @return The constructed function application.
      */
-    public PlcFuncAppl funcBlockAppl(PlcFunctionBlockDescription funcBlkDesc, List<PlcNamedValue> arguments) {
-        return new PlcFuncAppl(funcBlkDesc, arguments);
+    public PlcFuncBlockAppl funcBlockAppl(PlcBasicVariable variable, List<PlcNamedValue> arguments) {
+        return new PlcFuncBlockAppl(variable, arguments);
     }
 }

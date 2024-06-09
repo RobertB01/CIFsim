@@ -39,7 +39,6 @@ import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.generators.io.IoEntry;
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
@@ -354,7 +353,7 @@ public class InputOutputGenerator {
             String varPrefix = isInput ? "in_" : "out_";
             String ioVarName = varPrefix + getAbsName(entry.cifObject, false);
             ioVarName = nameGenerator.generateGlobalName(ioVarName, false);
-            PlcBasicVariable ioVar = new PlcDataVariable(ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
+            PlcDataVariable ioVar = new PlcDataVariable(ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
             if (isInput) {
                 codeStorage.addInputVariable(ioVar);
             } else {

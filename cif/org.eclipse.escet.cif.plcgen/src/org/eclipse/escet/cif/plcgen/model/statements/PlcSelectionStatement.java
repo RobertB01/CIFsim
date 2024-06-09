@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.common.java.Assert;
 
 /** Generic code selection statement. */
 public class PlcSelectionStatement extends PlcStatement {
@@ -90,6 +92,8 @@ public class PlcSelectionStatement extends PlcStatement {
         public PlcSelectChoice(PlcExpression guard, List<PlcStatement> thenStats) {
             this.guard = guard;
             this.thenStats = thenStats;
+
+            Assert.areEqual(guard.type, PlcElementaryType.BOOL_TYPE);
         }
 
         /**

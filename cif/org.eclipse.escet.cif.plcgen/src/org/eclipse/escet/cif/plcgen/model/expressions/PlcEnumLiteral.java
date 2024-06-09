@@ -40,4 +40,9 @@ public class PlcEnumLiteral extends PlcExpression {
     public int hashCode() {
         return value.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "PlcEnumLiteral(\"" + value + "\")";
+    }
 }

@@ -11,7 +11,7 @@ VAR
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP
-    curValue: REAL;
+    curValue: TIME;
     current_hw_button: DINT;
     current_hw_button_1: DINT;
     current_hw_lamp: DINT;
@@ -102,7 +102,7 @@ IF firstRun THEN
     (* Initialize continuous variable "timer.t". *)
     timer_t := 0.0;
     (* Reset timer of "timer_t". *)
-    preset_timer_t := timer_t;
+    preset_timer_t := DINT_TO_TIME(REAL_TO_DINT(timer_t * 1000.0));
     ton_timer_t(IN := FALSE, PT := preset_timer_t);
     ton_timer_t(IN := TRUE, PT := preset_timer_t);
     (* Initialize current location of automaton "timer". *)
@@ -118,7 +118,7 @@ IF firstRun THEN
 ELSE
     (* Update remaining time of continuous variable "timer.t". *)
     ton_timer_t(IN := TRUE, PT := preset_timer_t, Q => timeOut, ET => curValue);
-    timer_t := SEL(timeOut, preset_timer_t - curValue, 0.0);
+    timer_t := SEL(timeOut, MAX(DINT_TO_REAL(TIME_TO_DINT(preset_timer_t - curValue)) / 1000.0, 0.0), 0.0);
 END_IF;
 
 (* --- Process uncontrollable events. -------------------------------------- *)
@@ -455,7 +455,7 @@ WHILE isProgress DO
             (* Perform update of continuous variable "timer.t". *)
             timer_t := 3.0;
             (* Reset timer of "timer_t". *)
-            preset_timer_t := timer_t;
+            preset_timer_t := DINT_TO_TIME(REAL_TO_DINT(timer_t * 1000.0));
             ton_timer_t(IN := FALSE, PT := preset_timer_t);
             ton_timer_t(IN := TRUE, PT := preset_timer_t);
             (* Perform update of current location of automaton "timer". *)

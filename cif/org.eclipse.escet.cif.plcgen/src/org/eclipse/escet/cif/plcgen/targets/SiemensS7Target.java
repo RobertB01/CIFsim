@@ -73,7 +73,7 @@ public class SiemensS7Target extends PlcBaseTarget {
      * @param targetType A Siemens S7 target type.
      */
     public SiemensS7Target(PlcTargetType targetType) {
-        super(targetType, ConvertEnums.CONSTS, "\"DB\".", ".TON");
+        super(targetType, ConvertEnums.CONSTS, "\"DB\".", "TON");
         // TODO Verify settings of the Siemens target.
 
         Assert.check(OUT_SUFFIX_REPLACEMENTS.containsKey(targetType)); // Java can't check existence before super().

@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.plcgen.model.declarations;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
-/** Concrete variable storing plain old data (POD). */
+/** Concrete variable storing plain old data (POD), useful for declaring the variable. */
 public class PlcDataVariable extends PlcBasicVariable {
     /** The address of the variable, or {@code null} if not specified. */
     public final String address;

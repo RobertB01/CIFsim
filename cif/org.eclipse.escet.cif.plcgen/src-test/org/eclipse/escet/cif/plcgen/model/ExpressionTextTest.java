@@ -30,9 +30,11 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcStructLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcArrayProjection;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
+import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.junit.jupiter.api.Test;
 
 /** Pretty-print expressions test. */
@@ -58,15 +60,15 @@ public class ExpressionTextTest {
         assertEquals("FALSE", toStr(new PlcBoolLiteral(false)));
 
         // Integers.
-        assertEquals("1", toStr(new PlcIntLiteral(1, null)));
-        assertEquals("-1", toStr(new PlcIntLiteral(-1, null)));
-        assertEquals("0", toStr(new PlcIntLiteral(0, null)));
+        assertEquals("1", toStr(new PlcIntLiteral(1, PlcElementaryType.DINT_TYPE)));
+        assertEquals("-1", toStr(new PlcIntLiteral(-1, PlcElementaryType.DINT_TYPE)));
+        assertEquals("0", toStr(new PlcIntLiteral(0, PlcElementaryType.DINT_TYPE)));
 
         // Reals.
-        assertEquals("1.390579367798679", toStr(new PlcRealLiteral("1.390579367798679", null)));
-        assertEquals("1.39e-15", toStr(new PlcRealLiteral("1.39e-15", null)));
-        assertEquals("1.0e-15", toStr(new PlcRealLiteral("1e-15", null))); // Inserts a ".0".
-        assertEquals("39.0", toStr(new PlcRealLiteral("39", null))); // Appends a ".0".
+        assertEquals("1.390579367798679", toStr(new PlcRealLiteral("1.390579367798679", PlcElementaryType.LREAL_TYPE)));
+        assertEquals("1.39e-15", toStr(new PlcRealLiteral("1.39e-15", PlcElementaryType.LREAL_TYPE)));
+        assertEquals("1.0e-15", toStr(new PlcRealLiteral("1e-15", PlcElementaryType.LREAL_TYPE))); // Inserts a ".0".
+        assertEquals("39.0", toStr(new PlcRealLiteral("39", PlcElementaryType.LREAL_TYPE))); // Appends a ".0".
 
         // Arrays.
         assertEquals("[0, 1, 2]",
@@ -84,7 +86,11 @@ public class ExpressionTextTest {
                         sType)));
 
         // Variables.
-        PlcBasicVariable aVar = new PlcDataVariable("a", null);
+        PlcType arr5 = new PlcArrayType(0, 6, PlcElementaryType.BOOL_TYPE);
+        PlcType arr35 = new PlcArrayType(0, 4, arr5);
+        PlcType struct35 = new PlcStructType("SomStruct", List.of(new PlcStructField("abc", arr35)));
+        PlcType arr7Struct35 = new PlcArrayType(0, 8, struct35);
+        PlcBasicVariable aVar = new PlcDataVariable("a", arr7Struct35);
         PlcArrayProjection arrayProj7 = new PlcArrayProjection(new PlcIntLiteral(7, PlcElementaryType.DINT_TYPE));
         PlcStructProjection structProj = new PlcStructProjection("abc");
         PlcArrayProjection arrayProj3 = new PlcArrayProjection(new PlcIntLiteral(3, PlcElementaryType.DINT_TYPE));

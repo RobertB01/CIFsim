@@ -271,13 +271,11 @@ public class TwinCatWriter extends Writer {
             List<Node> compiles = execXPath(doc, query);
             if (compiles.isEmpty()) {
                 // Add new 'Compile' entry.
-                Element compileElem = doc.createElement("Compile");
-                compileGroup.appendChild(compileElem);
+                Element compileElem = makeChild(compileGroup, "Compile");
                 compileElem.setAttribute("Include", path);
 
                 // Add new 'SubType' entry.
-                Element subTypeElem = doc.createElement("SubType");
-                compileElem.appendChild(subTypeElem);
+                Element subTypeElem = makeChild(compileElem, "SubType");
                 subTypeElem.setTextContent("Code");
             }
         }
@@ -287,8 +285,7 @@ public class TwinCatWriter extends Writer {
             query = fmt("//ItemGroup/Folder[@Include='%s']", folder);
             List<Node> tasks = execXPath(doc, query);
             if (tasks.isEmpty()) {
-                Element folderElem = doc.createElement("Folder");
-                compileGroup.appendChild(folderElem);
+                Element folderElem = makeChild(compileGroup, "Folder");
                 folderElem.setAttribute("Include", folder);
             }
         }
@@ -354,13 +351,11 @@ public class TwinCatWriter extends Writer {
             if (callNodes.isEmpty()) {
                 // Ensure we have a 'PouCall' element.
                 if (callElem == null) {
-                    callElem = doc.createElement("PouCall");
-                    taskElem.appendChild(callElem);
+                    callElem = makeChild(taskElem, "PouCall");
                 }
 
                 // Add 'Name' element.
-                Element nameElem = doc.createElement("Name");
-                callElem.appendChild(nameElem);
+                Element nameElem = makeChild(callElem, "Name");
                 nameElem.setTextContent(pouInst.name);
             }
         }
@@ -490,32 +485,22 @@ public class TwinCatWriter extends Writer {
     private void genCodeFile(PlcPou pou) {
         // Generate XML document.
         Document doc = createXmlDoc();
-
-        Element rootElem = doc.createElement("TcPlcObject");
-        doc.appendChild(rootElem);
+        Element rootElem = makeRoot(doc, "TcPlcObject");
         rootElem.setAttribute("Version", "1.1.0.1");
         rootElem.setAttribute("ProductVersion", "3.1.0.18");
 
-        Element pouElem = doc.createElement("POU");
-        rootElem.appendChild(pouElem);
+        Element pouElem = makeChild(rootElem, "POU");
         pouElem.setAttribute("Name", pou.name);
 
-        Element declElem = doc.createElement("Declaration");
-        pouElem.appendChild(declElem);
-
+        Element declElem = makeChild(pouElem, "Declaration");
         String headerTxt = headerToBox(pou).toString();
         declElem.appendChild(doc.createCDATASection(headerTxt));
 
-        Element implElem = doc.createElement("Implementation");
-        pouElem.appendChild(implElem);
-
-        Element stElem = doc.createElement("ST");
-        implElem.appendChild(stElem);
-
+        Element implElem = makeChild(pouElem, "Implementation");
+        Element stElem = makeChild(implElem, "ST");
         stElem.appendChild(doc.createCDATASection(pou.body.toString()));
 
-        Element opElem = doc.createElement("ObjectProperties");
-        pouElem.appendChild(opElem);
+        makeChild(pouElem, "ObjectProperties");
 
         // Store new file.
         String fileName = fmt("POUs\\%s.TcPOU", pou.name);
@@ -543,23 +528,17 @@ public class TwinCatWriter extends Writer {
 
         // Generate XML document.
         Document doc = createXmlDoc();
-
-        Element rootElem = doc.createElement("TcPlcObject");
-        doc.appendChild(rootElem);
+        Element rootElem = makeRoot(doc, "TcPlcObject");
         rootElem.setAttribute("Version", "1.1.0.1");
         rootElem.setAttribute("ProductVersion", "3.1.0.18");
 
-        Element pouElem = doc.createElement("DUT");
-        rootElem.appendChild(pouElem);
+        Element pouElem = makeChild(rootElem, "DUT");
         pouElem.setAttribute("Name", typeName);
 
-        Element declElem = doc.createElement("Declaration");
-        pouElem.appendChild(declElem);
-
+        Element declElem = makeChild(pouElem, "Declaration");
         declElem.appendChild(doc.createCDATASection(declarationText));
 
-        Element opElem = doc.createElement("ObjectProperties");
-        pouElem.appendChild(opElem);
+        makeChild(pouElem, "ObjectProperties");
 
         // Store new file.
         String fileName = fmt("DUTs\\%s.TcDUT", typeName);
@@ -580,28 +559,49 @@ public class TwinCatWriter extends Writer {
 
         // Generate XML document.
         Document doc = createXmlDoc();
-
-        Element rootElem = doc.createElement("TcPlcObject");
-        doc.appendChild(rootElem);
+        Element rootElem = makeRoot(doc, "TcPlcObject");
         rootElem.setAttribute("Version", "1.1.0.1");
         rootElem.setAttribute("ProductVersion", "3.1.0.18");
 
-        Element pouElem = doc.createElement("GVL");
-        rootElem.appendChild(pouElem);
+        Element pouElem = makeChild(rootElem, "GVL");
         pouElem.setAttribute("Name", varList.name);
 
-        Element declElem = doc.createElement("Declaration");
-        pouElem.appendChild(declElem);
-
+        Element declElem = makeChild(pouElem, "Declaration");
         declElem.appendChild(doc.createCDATASection(toVarDeclBox(varList).toString()));
 
-        Element opElem = doc.createElement("ObjectProperties");
-        pouElem.appendChild(opElem);
+        makeChild(pouElem, "ObjectProperties");
 
         // Store new file.
         String fileName = fmt("GVLs\\%s.TcGVL", varList.name);
         Document prevDoc = files.put(fileName, doc);
         Assert.check(prevDoc == null, fmt("Duplicate generated file \"%s\".", fileName));
+    }
+
+    /**
+     * Construct a child element from the given parent with the given name, attach the new child to the parent and
+     * return the new child.
+     *
+     * @param parent Parent element to extend with a new child element.
+     * @param childName Name of the child element that should be created.
+     * @return The created child element.
+     */
+    private Element makeChild(Element parent, String childName) {
+        Element child = parent.getOwnerDocument().createElement(childName);
+        parent.appendChild(child);
+        return child;
+    }
+
+    /**
+     * Construct a root element in the document with the given name, and return the root element.
+     *
+     * @param doc Document to give a new root element.
+     * @param rootName Name of the root element that should be created.
+     * @return The created root element.
+     */
+    private Element makeRoot(Document doc, String rootName) {
+        Element rootElem = doc.createElement(rootName);
+        doc.appendChild(rootElem);
+        return rootElem;
     }
 
     /** Removes old code files, and (over)writes the new code files. */

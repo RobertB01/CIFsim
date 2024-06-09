@@ -26,7 +26,7 @@ public class PlcGlobalVarList {
     public final PlcVarListKind listKind;
 
     /** The variables of the global variable list. */
-    public List<PlcBasicVariable> variables = list();
+    public List<PlcDataVariable> variables = list();
 
     /**
      * Constructor for the {@link PlcGlobalVarList} class.

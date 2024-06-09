@@ -42,4 +42,9 @@ public class PlcDerivedType extends PlcType {
     public int hashCode() {
         return name.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "PlcDeriveDtype(\"" + name + "\")";
+    }
 }

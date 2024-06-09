@@ -1,7 +1,7 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'false' }
     VAR_TEMP
-        curValue: REAL;
+        curValue: TIME;
         current_aut: DINT;
         current_aut_b: BOOL;
         current_aut_i: DINT;
@@ -52,7 +52,7 @@ BEGIN
         (* Initialize continuous variable "c". *)
         "DB".c := 0.0;
         (* Reset timer of "c". *)
-        "DB".preset_c := "DB".c;
+        "DB".preset_c := DINT_TO_TIME(REAL_TO_DINT("DB".c * 1000.0));
         ton_c.TON(IN := FALSE, PT := "DB".preset_c);
         ton_c.TON(IN := TRUE, PT := "DB".preset_c);
         (* Initialize discrete variable "aut.r". *)
@@ -74,7 +74,7 @@ BEGIN
     ELSE
         (* Update remaining time of continuous variable "c". *)
         ton_c.TON(IN := TRUE, PT := "DB".preset_c, Q => timeOut, ET => curValue);
-        "DB".c := SEL(timeOut, "DB".preset_c - curValue, 0.0);
+        "DB".c := SEL(timeOut, MAX(DINT_TO_REAL(TIME_TO_DINT("DB".preset_c - curValue)) / 1000.0, 0.0), 0.0);
     END_IF;
 
     (* --- Process uncontrollable events. -------------------------------------- *)
