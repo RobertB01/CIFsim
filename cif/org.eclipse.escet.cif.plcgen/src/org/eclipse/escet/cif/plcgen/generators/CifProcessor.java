@@ -66,6 +66,7 @@ import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
+import org.eclipse.escet.cif.cif2cif.SwitchesToIfs;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
@@ -537,7 +538,7 @@ public class CifProcessor {
         new ElimComponentDefInst().transform(spec);
 
         // Eliminate state/event exclusion invariants, to avoid having to handle them.
-        // TODO For tracability, it might be better to keep this, and convert it to an additional test in the event
+        // TODO For traceability, it might be better to keep this, and convert it to an additional test in the event
         // function labeled with the invariant.
         new ElimStateEvtExclInvs(warnOutput).transform(spec);
 
@@ -724,6 +725,9 @@ public class CifProcessor {
     private void normalizeSpec(Specification spec) {
         // Add default initial values, to simplify the code generation.
         new AddDefaultInitialValues().transform(spec);
+
+        // Transform 'switch' expressions to 'if' expressions, such that we only have to handle 'if' expressions.
+        new SwitchesToIfs().transform(spec);
 
         // Replace locations in expressions by explicit variables.
         new ElimLocRefExprs(a -> "", // Candidate name for location pointer variables.
