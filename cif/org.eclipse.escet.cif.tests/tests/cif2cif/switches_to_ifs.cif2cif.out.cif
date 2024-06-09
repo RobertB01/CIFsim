@@ -3,6 +3,9 @@ alg real x2 = if true = true: 3.0 else 4.0 end;
 alg real x3 = if 5.0 = 6.0: 8.0 elif 5.0 = 7.0: 9.0 else 10.0 end;
 alg real y1 = if g1.b1.m1: 1.0 elif g1.b1.m2: 2.0 else 3.0 end;
 alg real y2 = if g2.b2.m1: 4.0 elif g2.b2.m2: 5.0 else 6.0 end;
+enum E = L1, L2, L3, L4;
+alg E switch_in_switch1 = if if 1 + 1 = 1: "a" else if 1.0 = 1.0: "b" else "c" end end = if [sqrt(1.0)] = [1.0]: "a" else "b" end: if {1 + 1} = {2}: L1 else L2 end elif if 1 + 1 = 1: "a" else if 1.0 = 1.0: "b" else "c" end end = "c": L3 else L4 end;
+alg bool switch_in_switch2 = if (true and true) = true: true else false end;
 automaton def B():
   location m1:
     initial;
