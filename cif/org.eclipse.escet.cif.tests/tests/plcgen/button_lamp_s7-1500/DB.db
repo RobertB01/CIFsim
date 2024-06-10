@@ -3,7 +3,7 @@ DATA_BLOCK "DB"
     VAR
         timer_t: LREAL;
         preset_timer_t: TIME;
-        timer: DINT;
+        timer_1: DINT;
         sup: DINT;
         hw_button_bit: BOOL;
         hw_button: DINT;

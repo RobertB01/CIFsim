@@ -2,7 +2,7 @@ PROGRAM MAIN
 VAR
     timer_t: REAL;
     preset_timer_t: TIME;
-    timer: DINT;
+    timer_1: DINT;
     sup: DINT;
     hw_button_bit: BOOL;
     hw_button: DINT;
@@ -106,7 +106,7 @@ IF firstRun THEN
     ton_timer_t(IN := FALSE, PT := preset_timer_t);
     ton_timer_t(IN := TRUE, PT := preset_timer_t);
     (* Initialize current location of automaton "timer". *)
-    timer := 0;
+    timer_1 := 0;
     (* Initialize current location of automaton "sup". *)
     sup := 0;
     (* Initialize current location of automaton "hw_button". *)
@@ -145,7 +145,7 @@ WHILE isProgress DO
      * - Location "Running":
      *   - 1st edge in the location
      ***********)
-    IF timer = 1 AND timer_t <= 0.0 THEN
+    IF timer_1 = 1 AND timer_t <= 0.0 THEN
         edge_timer_1 := 1;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -176,7 +176,7 @@ WHILE isProgress DO
         isProgress := TRUE;
         (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_sup := sup;
-        current_timer := timer;
+        current_timer := timer_1;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
          *******************************)
@@ -184,7 +184,7 @@ WHILE isProgress DO
         IF edge_timer_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "timer.Running". *)
             (* Perform update of current location of automaton "timer". *)
-            timer := 0;
+            timer_1 := 0;
         END_IF;
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
@@ -413,7 +413,7 @@ WHILE isProgress DO
      * - Location "Idle":
      *   - 1st edge in the location
      ***********)
-    IF timer = 0 THEN
+    IF timer_1 = 0 THEN
         edge_timer_1 := 1;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -444,7 +444,7 @@ WHILE isProgress DO
         isProgress := TRUE;
         (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_sup_3 := sup;
-        current_timer_1 := timer;
+        current_timer_1 := timer_1;
         current_timer_t := timer_t;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
@@ -459,7 +459,7 @@ WHILE isProgress DO
             ton_timer_t(IN := FALSE, PT := preset_timer_t);
             ton_timer_t(IN := TRUE, PT := preset_timer_t);
             (* Perform update of current location of automaton "timer". *)
-            timer := 1;
+            timer_1 := 1;
         END_IF;
         (* Perform assignments of automaton "sup". *)
         IF edge_sup_1 = 1 THEN
