@@ -46,6 +46,10 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcReturnStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
@@ -284,6 +288,14 @@ public class ModelTextGenerator {
 
         } else if (informalNotationAllowed || formalNotationAllowed) {
             // Generate prefix notation.
+            //
+            // Obtain the type extension if relevant.
+            String typeExtension = "";
+            if (basicDescr.typeExtension.testFunction.test(funcAppl.type)) {
+                typeExtension = "_" + getTypeName(funcAppl.type);
+            }
+
+            // Obtain the prefix function name.
             String prefixFuncName;
             if (funcAppl instanceof PlcFuncBlockAppl blockAppl) {
                 prefixFuncName = blockAppl.variable.varName; // As defined by the IEC standard.
@@ -292,10 +304,11 @@ public class ModelTextGenerator {
                     prefixFuncName = prefixFuncName + "." + basicDescr.prefixFuncName;
                 }
             } else {
-                prefixFuncName = basicDescr.prefixFuncName;
+                prefixFuncName = basicDescr.prefixFuncName + typeExtension;
             }
             Assert.notNull(prefixFuncName);
 
+            // Construct the function application.
             textBuilder.append(prefixFuncName);
             textBuilder.append("(");
 
@@ -319,6 +332,24 @@ public class ModelTextGenerator {
         } else {
             throw new AssertionError("Failed to convert the function application to text.");
         }
+    }
+
+    /**
+     * Extract the name of the type from a type if possible.
+     *
+     * @param type Type to examine.
+     * @return The name of the examined type.
+     * @throws AssertionError If no name is available in the type.
+     */
+    private String getTypeName(PlcType type) {
+        if (type instanceof PlcElementaryType elemType) {
+            return elemType.name;
+        } else if (type instanceof PlcEnumType enumType) {
+            return enumType.typeName;
+        } else if (type instanceof PlcStructType structType) {
+            return structType.typeName;
+        }
+        throw new AssertionError("Cannot extract a type name from \"" + type + "\".");
     }
 
     /**

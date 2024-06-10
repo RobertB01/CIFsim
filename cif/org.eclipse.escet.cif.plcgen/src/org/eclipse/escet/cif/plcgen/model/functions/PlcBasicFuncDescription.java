@@ -21,9 +21,11 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcGenericType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.common.java.Assert;
@@ -48,6 +50,9 @@ public abstract class PlcBasicFuncDescription {
     /** Type of the result of the function. */
     public final PlcAbstractType resultType;
 
+    /** Condition for appending a {@code _TYPE} extension to a prefix function name. */
+    public final PlcFuncTypeExtension typeExtension;
+
     /**
      * Constructor of the {@link PlcBasicFuncDescription} class.
      *
@@ -61,6 +66,23 @@ public abstract class PlcBasicFuncDescription {
     public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
             EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)
     {
+        this(prefixFuncName, parameters, notations, resultType, PlcFuncTypeExtension.NEVER);
+    }
+
+    /**
+     * Constructor of the {@link PlcBasicFuncDescription} class.
+     *
+     * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
+     *     be used, or {@code null} if the prefix form does not exist.
+     * @param parameters Parameters of the function.
+     * @param notations Notations of the function that are supported by the target. May get restricted based on
+     *     available infix and prefix function names.
+     * @param resultType Type of the result of the function.
+     * @param typeExtension Condition for appending a {@code _TYPE} extension to a prefix function name.
+     */
+    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
+            EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType, PlcFuncTypeExtension typeExtension)
+    {
         Assert.check(!notations.isEmpty());
 
         // Verify that parameter names are unique.
@@ -71,6 +93,7 @@ public abstract class PlcBasicFuncDescription {
         this.parameters = parameters;
         this.notations = notations;
         this.resultType = resultType;
+        this.typeExtension = typeExtension;
     }
 
     /**
@@ -331,5 +354,26 @@ public abstract class PlcBasicFuncDescription {
 
         /** All notation forms. */
         public static final EnumSet<PlcFuncNotation> ALL = EnumSet.allOf(PlcFuncNotation.class);
+    }
+
+    /** Available conditions for appending a {@code _TYPE} extension to a prefix function name. */
+    public static enum PlcFuncTypeExtension {
+        /** Never extend the function name. */
+        NEVER(t -> false),
+
+        /** Extend the function when the result type is an elementary type that is not {@code BOOL}. */
+        ELEMENTARY_NOT_BOOL(t -> t instanceof PlcElementaryType && t != PlcElementaryType.BOOL_TYPE);
+
+        /** Predicate function that decides if a type extension is needed for the given type. */
+        public final Predicate<PlcType> testFunction;
+
+        /**
+         * Constructor of the {@link PlcFuncTypeExtension} enumeration.
+         *
+         * @param testFunction Predicate function that decides if a type extension is needed for the given type.
+         */
+        private PlcFuncTypeExtension(Predicate<PlcType> testFunction) {
+            this.testFunction = testFunction;
+        }
     }
 }
