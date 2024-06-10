@@ -274,7 +274,7 @@ public class FunctionScope extends ParentScope<Function> {
         }
 
         // Type check and add the annotations.
-        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, getParent(), tchecker);
+        List<Annotation> annos = CifAnnotationsTypeChecker.transAnnotations(astDecl.annotations, this, tchecker);
         obj.getAnnotations().addAll(annos);
     }
 
