@@ -30,6 +30,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncBlockAppl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.ExprBinding;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncTypeExtension;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunctionDescription;
@@ -300,7 +301,7 @@ public class PlcFunctionAppls {
                 new PlcParameterDescription("IN0", PlcParamDirection.INPUT_ONLY, ANY_TYPE),
                 new PlcParameterDescription("IN1", PlcParamDirection.INPUT_ONLY, ANY_TYPE)};
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, "SEL", params,
-                target.getSupportedFuncNotations(operation, 3), ANY_TYPE);
+                target.getSupportedFuncNotations(operation, 3), ANY_TYPE, PlcFuncTypeExtension.ELEMENTARY_NOT_BOOL);
         return new PlcFuncAppl(func,
                 List.of(new PlcNamedValue("G", g), new PlcNamedValue("IN0", in0), new PlcNamedValue("IN1", in1)));
     }
