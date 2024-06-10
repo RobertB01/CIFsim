@@ -1,7 +1,7 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'false' }
     VAR_TEMP
-        curValue: REAL;
+        curValue: TIME;
         current_p: DINT;
         current_p_b: BOOL;
         current_p_j: DINT;
@@ -89,7 +89,7 @@ BEGIN
         (* Initialize continuous variable "p.t". *)
         "DB".p_t := 0.0;
         (* Reset timer of "p_t". *)
-        "DB".preset_p_t := "DB".p_t;
+        "DB".preset_p_t := DINT_TO_TIME(REAL_TO_DINT("DB".p_t * 1000.0));
         ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
         (* Initialize current location of automaton "p". *)
@@ -97,7 +97,7 @@ BEGIN
     ELSE
         (* Update remaining time of continuous variable "p.t". *)
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
-        "DB".p_t := SEL(timeOut, "DB".preset_p_t - curValue, 0.0);
+        "DB".p_t := SEL(timeOut, MAX(DINT_TO_REAL(TIME_TO_DINT("DB".preset_p_t - curValue)) / 1000.0, 0.0), 0.0);
     END_IF;
 
     (* --- Process controllable events. ---------------------------------------- *)

@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
@@ -64,12 +65,15 @@ public class PlcVarExpression extends PlcExpression {
      */
     private static PlcType deriveType(PlcType resultType, List<PlcProjection> projections) {
         for (PlcProjection proj: projections) {
-            if (resultType == null) { // TODO Remove this after expressions always have a type.
-                return resultType;
-            }
             resultType = proj.getProjectedType(resultType);
         }
         return resultType;
+    }
+
+    @Override
+    public String toString() {
+        String s = projections.stream().map(p -> p.toString()).collect(Collectors.joining());
+        return "PlcVarExpression(\"" + variable.varName + "\"" + s + ")";
     }
 
     /** Projection in the value of the referenced variable. */
@@ -81,6 +85,9 @@ public class PlcVarExpression extends PlcExpression {
          * @return The type after applying the pojection.
          */
         protected abstract PlcType getProjectedType(PlcType unprojectedType);
+
+        @Override
+        public abstract String toString();
     }
 
     /** Projection in a structure of the value of the referenced variable. */
@@ -110,6 +117,11 @@ public class PlcVarExpression extends PlcExpression {
             }
             throw new AssertionError("Cannot compute projection on non-struct type \"" + unprojectedType + "\".");
         }
+
+        @Override
+        public String toString() {
+            return ".\"" + fieldName + "\"";
+        }
     }
 
     /** Projection in an array of the value of the referenced variable. */
@@ -132,6 +144,11 @@ public class PlcVarExpression extends PlcExpression {
                 return arayType.elemType;
             }
             throw new AssertionError("Cannot compute projection on non-array type \"" + unprojectedType + "\".");
+        }
+
+        @Override
+        public String toString() {
+            return "[" + indexExpression.toString() + "]";
         }
     }
 }

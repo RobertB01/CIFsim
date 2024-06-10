@@ -37,5 +37,6 @@ The following categories and information is part of the language reference docum
 
 * <<lang-ref-extensions-annotations>>
 * <<lang-ref-extensions-annotations-builtin>>
+** <<lang-ref-extensions-annotations-controller>>
 ** <<lang-ref-extensions-annotations-documentation>>
 ** <<lang-ref-extensions-annotations-state>>

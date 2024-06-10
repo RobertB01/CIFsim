@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcEnumLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncBlockAppl;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
@@ -36,8 +37,6 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.Expr
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
-import org.eclipse.escet.cif.plcgen.model.functions.PlcCastFunctionDescription;
-import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcPlainFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentBlock;
@@ -236,25 +235,10 @@ public class ModelTextGenerator {
             boolean atParentLeft, boolean atParentRight, FuncApplPreference funcApplPreference)
     {
         PlcBasicFuncDescription basicDescr = funcAppl.function;
-
-        PlcBasicFuncDescription.ExprBinding infixBinding;
-        String infixFuncName;
-        if (basicDescr instanceof PlcPlainFuncDescription plainFunc) {
-            infixBinding = plainFunc.infixBinding;
-            infixFuncName = plainFunc.infixFuncName;
-        } else if (basicDescr instanceof PlcFunctionBlockDescription
-                || basicDescr instanceof PlcCastFunctionDescription)
-        {
-            infixBinding = ExprBinding.NO_PRIORITY;
-            infixFuncName = null;
-        } else {
-            throw new AssertionError("Unexpected kind of function description found: \"" + basicDescr + "\".");
-        }
-
         Map<String, PlcNamedValue> arguments = funcAppl.arguments;
-        boolean allArgumentsSupplied = basicDescr.parameters.length == arguments.size();
 
         // Decide what notation forms are allowed. Check there is at least one form available.
+        boolean allArgumentsSupplied = basicDescr.parameters.length == arguments.size();
         boolean infixNotationAllowed = basicDescr.notations.contains(PlcFuncNotation.INFIX)
                 && (funcApplPreference != FuncApplPreference.OUTER_PREFIX) && allArgumentsSupplied;
         boolean informalNotationAllowed = basicDescr.notations.contains(PlcFuncNotation.INFORMAL)
@@ -264,18 +248,27 @@ public class ModelTextGenerator {
 
         // Prefer infix.
         if (infixNotationAllowed) {
+            if (!(basicDescr instanceof PlcPlainFuncDescription plainFunc)) {
+                throw new AssertionError("Function allows infix notation but does not supply infix notation data.");
+            }
+
+            // Obtain the layout information for the infix function application.
+            PlcBasicFuncDescription.ExprBinding infixBinding = plainFunc.infixBinding;
+            String infixFuncName = plainFunc.infixFuncName;
             Assert.notNull(infixFuncName);
 
+            // Decide whether parentheses are needed around the call.
             boolean needsParentheses = infixBinding.needsParentheses(parentBinding, atParentLeft, atParentRight);
             textBuilder.append(needsParentheses ? "(" : "");
 
+            // Handle infix notation with a single argument as a special case.
             int lastArgumentIndex = arguments.size() - 1;
             if (lastArgumentIndex == 0) {
                 // Single parameter infix notation is literally pre-pended to make it a prefix.
                 textBuilder.append(infixFuncName);
             }
 
-            // Write the expressions.
+            // Write the remaining expressions, and possibly the closing parenthesis.
             String infixString = " " + infixFuncName + " ";
             int argNumber = 0;
             for (PlcParameterDescription param: basicDescr.parameters) {
@@ -288,10 +281,22 @@ public class ModelTextGenerator {
                 argNumber++;
             }
             textBuilder.append(needsParentheses ? ")" : "");
-        } else if (informalNotationAllowed || formalNotationAllowed) {
-            Assert.notNull(basicDescr.prefixFuncName);
 
-            textBuilder.append(basicDescr.prefixFuncName);
+        } else if (informalNotationAllowed || formalNotationAllowed) {
+            // Generate prefix notation.
+            String prefixFuncName;
+            if (funcAppl instanceof PlcFuncBlockAppl blockAppl) {
+                prefixFuncName = blockAppl.variable.varName; // As defined by the IEC standard.
+                // Some PLC systems must also have the prefix function name.
+                if (!basicDescr.prefixFuncName.isEmpty()) {
+                    prefixFuncName = prefixFuncName + "." + basicDescr.prefixFuncName;
+                }
+            } else {
+                prefixFuncName = basicDescr.prefixFuncName;
+            }
+            Assert.notNull(prefixFuncName);
+
+            textBuilder.append(prefixFuncName);
             textBuilder.append("(");
 
             int argNumber = 0;

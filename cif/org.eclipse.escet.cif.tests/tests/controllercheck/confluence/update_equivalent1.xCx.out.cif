@@ -1,0 +1,12 @@
+@@controller:properties(confluence: true)
+plant automaton SingleAut:
+  controllable a;
+  controllable b;
+  disc bool z;
+  location p:
+    initial;
+    edge a do z := true goto q;
+    edge b do z := true goto q;
+  location q:
+    marked;
+end

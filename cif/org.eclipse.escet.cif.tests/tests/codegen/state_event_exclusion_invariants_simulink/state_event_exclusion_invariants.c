@@ -1270,7 +1270,7 @@ static BoolType GuardEval00(SimStruct *sim_struct) {
         work->x_ = SimulinkToInt(*uPtrs[0]);
         work->input_loaded00 = TRUE;
     }
-    return (((work->x_) > (1)) && (((work->x_) <= (1)) && (((work->x_) > (1)) && ((work->x_) <= (1))))) && ((((work->x_) > (1)) && ((work->x_) <= (1))) && (((work->x_) > (1)) && ((work->x_) <= (1))));
+    return (((work->x_) > (1)) && (((work->x_) <= (1)) && ((work->x_) > (1)))) && ((((work->x_) <= (1)) && ((work->x_) > (1))) && (((work->x_) <= (1)) && (((work->x_) > (1)) && ((work->x_) <= (1)))));
 }
 
 /* Event execution. */

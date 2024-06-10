@@ -1,0 +1,34 @@
+@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: false)
+uncontrollable u_e1;
+uncontrollable u_e2;
+uncontrollable u_e3;
+uncontrollable u_e4;
+uncontrollable u_e5;
+controllable c_e1;
+controllable c_e2;
+controllable c_e3;
+controllable c_e4;
+plant automaton pu:
+  location loc1:
+    initial;
+    marked;
+    edge u_e1 goto loc2;
+  location loc2:
+    edge u_e2 goto loc3;
+  location loc3:
+    edge u_e3 goto loc2;
+    edge u_e4 goto loc4;
+  location loc4:
+    edge u_e5 goto loc1;
+end
+plant automaton pc:
+  location loc1:
+    initial;
+    marked;
+    edge c_e1 goto loc2;
+  location loc2:
+    edge c_e2;
+    edge c_e3 goto loc3;
+  location loc3:
+    edge c_e4 goto loc1;
+end

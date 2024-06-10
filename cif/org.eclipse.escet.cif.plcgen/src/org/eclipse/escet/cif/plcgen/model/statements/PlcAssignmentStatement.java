@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.model.statements;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
+import org.eclipse.escet.common.java.Assert;
 
 /** Assignment statement to assign (part of) a variable. */
 public class PlcAssignmentStatement extends PlcStatement {
@@ -44,6 +45,8 @@ public class PlcAssignmentStatement extends PlcStatement {
     public PlcAssignmentStatement(PlcVarExpression lhs, PlcExpression value) {
         this.lhs = lhs;
         this.value = value;
+
+        Assert.areEqual(lhs.type, value.type);
     }
 
     @Override

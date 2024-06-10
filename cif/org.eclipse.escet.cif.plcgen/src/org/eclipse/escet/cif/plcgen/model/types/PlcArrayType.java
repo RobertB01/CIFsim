@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.model.types;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import org.eclipse.escet.common.java.Assert;
 
 /** PLC array type. */
@@ -56,5 +58,10 @@ public class PlcArrayType extends PlcType {
     @Override
     public int hashCode() {
         return elemType.hashCode() + upper + lower;
+    }
+
+    @Override
+    public String toString() {
+        return fmt("PlcArrayType(%d, %d, %s)", lower, upper, elemType);
     }
 }

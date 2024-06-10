@@ -26,11 +26,12 @@ import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
-import org.eclipse.escet.cif.plcgen.model.functions.PlcFunctionBlockDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
@@ -144,11 +145,11 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
         /** Continuous variable being handled here. */
         public final ContVariable contVar;
 
+        /** TON function block instance variable. */
+        public final PlcDataVariable tonVar;
+
         /** The PLC state variable for the continuous variable. */
         public final PlcVarExpression plcContVar;
-
-        /** Parameter description of the TON function block. */
-        private final PlcFunctionBlockDescription tonFuncBlock;
 
         /** PLC variable storing the last set preset value. */
         private final PlcBasicVariable presetVar;
@@ -171,16 +172,17 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             PlcCodeStorage codeStorage = target.getCodeStorage();
 
             String cvarName = getAbsName(contVar, false);
-            String tonName = nameGen.generateGlobalName("ton_" + cvarName, false);
+            String tonVarName = nameGen.generateGlobalName("ton_" + cvarName, false);
             String presetName = nameGen.generateGlobalName("preset_" + cvarName, false);
-            tonFuncBlock = codeStorage.addTimerVariable(tonName).funcBlockDescription;
+            tonVar = new PlcDataVariable("", tonVarName, plcFuncAppls.getTonFuncBlockType(), null, null);
+            codeStorage.addTimerVariable(tonVar);
             presetVar = codeStorage.addStateVariable(presetName, PlcElementaryType.TIME_TYPE);
         }
 
         @Override
         public List<PlcStatement> generateRemainingUpdate() {
             ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
-            PlcBasicVariable v = exprGen.getTempVariable("curValue", target.getRealType());
+            PlcBasicVariable v = exprGen.getTempVariable("curValue", PlcElementaryType.TIME_TYPE);
             PlcBasicVariable b = exprGen.getTempVariable("timeOut", PlcElementaryType.BOOL_TYPE);
 
             List<PlcStatement> statements = listc(3);
@@ -191,13 +193,21 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             List<PlcNamedValue> arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),
                     new PlcNamedValue("IN", new PlcBoolLiteral(true)), new PlcNamedValue("Q", new PlcVarExpression(b)),
                     new PlcNamedValue("ET", new PlcVarExpression(v)));
-            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonFuncBlock, arguments)));
+            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonVar, arguments)));
 
-            // Compute updated remaining time R := SEL(B, P - V, 0.0);
+            // Compute updated remaining time as a real in seconds.
+            // Conceptually: R := SEL(B, P - V, 0.0);
+            // Additional concerns:
+            // - P and V are of type TIME, thus P - V must be converted to real seconds.
+            // - As the conversion is a computation with reals, ensure the result is never negative.
             PlcExpression subExpr = plcFuncAppls.subtractFuncAppl(new PlcVarExpression(presetVar),
                     new PlcVarExpression(v));
-            subExpr = plcFuncAppls.selFuncAppl(new PlcVarExpression(b), subExpr, target.makeStdReal("0.0"));
-            statements.add(new PlcAssignmentStatement(plcContVar, subExpr));
+            subExpr = atLeast0(timeToReal(subExpr, (PlcElementaryType)plcContVar.type));
+
+            // Apply the selection.
+            PlcExpression selExpr = plcFuncAppls.selFuncAppl(new PlcVarExpression(b), subExpr,
+                    target.makeStdReal("0.0"));
+            statements.add(new PlcAssignmentStatement(plcContVar, selExpr));
 
             return statements;
         }
@@ -207,19 +217,75 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             // Assign new value to P and R;
             List<PlcStatement> statements = listc(4);
             statements.add(new PlcCommentLine("Reset timer of \"" + plcContVar.variable.varName + "\"."));
-            statements.add(new PlcAssignmentStatement(presetVar, plcContVar));
+            statements.add(new PlcAssignmentStatement(presetVar, realToTime(plcContVar)));
 
             // Reset the timer with TON(PT := P, IN := FALSE);
             List<PlcNamedValue> arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),
                     new PlcNamedValue("IN", new PlcBoolLiteral(false)));
-            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonFuncBlock, arguments)));
+            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonVar, arguments)));
 
             // Start the timer with TON(PT := P, IN := TRUE);
             arguments = List.of(new PlcNamedValue("PT", new PlcVarExpression(presetVar)),
                     new PlcNamedValue("IN", new PlcBoolLiteral(true)));
-            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonFuncBlock, arguments)));
+            statements.add(new PlcFuncApplStatement(plcFuncAppls.funcBlockAppl(tonVar, arguments)));
 
             return statements;
+        }
+
+        /**
+         * Convert a {@code TIME} value to a real value in seconds.
+         *
+         * @param timeMillis Value to convert.
+         * @param destRealType The real type to convert to.
+         * @return The conversion expression.
+         */
+        private PlcExpression timeToReal(PlcExpression timeMillis, PlcElementaryType destRealType) {
+            // Get the largest available integer type to get maximum accuracy.
+            PlcElementaryType intType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
+
+            // TIME are integer milliseconds while reals are seconds. Therefore:
+            // 1. Cast to integer.
+            // 2. Cast to real.
+            // 3. Divide by 1000.0.
+            PlcExpression intMillis = plcFuncAppls.castFunctionAppl(timeMillis, intType);
+            PlcExpression realMillis = plcFuncAppls.castFunctionAppl(intMillis, destRealType);
+            PlcExpression real1000 = new PlcRealLiteral("1000.0", destRealType);
+            return plcFuncAppls.divideFuncAppl(realMillis, real1000);
+        }
+
+        /**
+         * Convert a value interpreted as real value in seconds to {@code TIME} type.
+         *
+         * @param realSecs Value to convert.
+         * @return The conversion expression.
+         */
+        private PlcExpression realToTime(PlcExpression realSecs) {
+            // Get the largest available integer type to get maximum accuracy.
+            PlcElementaryType maxIntType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
+
+            // Reals are seconds, while PLC TIME are integer milliseconds. Therefore:
+            // 1. Multiply by 1000.0.
+            // 2. Cast to integer.
+            // 3. Cast to time.
+            PlcExpression real1000 = new PlcRealLiteral("1000.0", realSecs.type);
+            PlcExpression realMillis = plcFuncAppls.multiplyFuncAppl(realSecs, real1000);
+            PlcExpression intMillis = plcFuncAppls.castFunctionAppl(realMillis, maxIntType);
+            return plcFuncAppls.castFunctionAppl(intMillis, PlcElementaryType.TIME_TYPE);
+        }
+
+        /**
+         * Ensure a real value is at least 0.0.
+         *
+         * @param value Value to force to non-negative.
+         * @return The expression that computes the answer.
+         */
+        private PlcExpression atLeast0(PlcExpression value) {
+            if (PlcElementaryType.isRealType(value.type)) {
+                PlcExpression zero = new PlcRealLiteral("0.0", value.type);
+                return plcFuncAppls.maxFuncAppl(value, zero);
+            } else {
+                throw new AssertionError("Unexpected type encountered: \"" + value.type + "\".");
+            }
         }
     }
 }

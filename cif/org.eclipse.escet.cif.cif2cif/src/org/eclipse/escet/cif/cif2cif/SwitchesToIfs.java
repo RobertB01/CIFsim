@@ -43,7 +43,10 @@ public class SwitchesToIfs extends CifWalker implements CifToCifTransformation {
     }
 
     @Override
-    protected void walkSwitchExpression(SwitchExpression switchExpr) {
+    protected void postprocessSwitchExpression(SwitchExpression switchExpr) {
+        // We override 'postprocessSwitchExpression' rather than 'walkSwitchExpression', to ensure that switch values,
+        // case keys and case values have already had their 'switch' expressions replaced by 'if' expressions.
+
         // Special case for single alternative. No need for an 'if' expression.
         // This makes use of the fact that 'switch' expressions must be
         // statically complete, and this is enforced by the type checker.

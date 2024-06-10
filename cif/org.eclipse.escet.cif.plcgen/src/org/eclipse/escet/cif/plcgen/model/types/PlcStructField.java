@@ -31,4 +31,9 @@ public class PlcStructField {
         this.fieldName = fieldName;
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return fieldName + ": " + type.toString();
+    }
 }

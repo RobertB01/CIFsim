@@ -65,8 +65,8 @@ public abstract class PlcBaseTarget extends PlcTarget {
     /** The prefix string for state variables. */
     protected final String stateVariablePrefix;
 
-    /** Suffix text to append after the block instance variable name to call the TON function block. */
-    protected final String tonFuncBlockCallSuffix;
+    /** Name to use to call the {@code TON} function within the instance variable of the block function. */
+    protected final String tonFuncBlockCallName;
 
     /** User-defined integer type size to use by the PLC. */
     private PlcNumberBits intTypeSize;
@@ -131,16 +131,16 @@ public abstract class PlcBaseTarget extends PlcTarget {
      * @param autoEnumConversion How to convert enumerations when the user selects {@link ConvertEnums#AUTO}. This
      *     should not be {@link ConvertEnums#AUTO}.
      * @param stateVariablePrefix The prefix string for state variables.
-     * @param tonFuncBlockCallSuffix Suffix text to append after the block instance variable name to call the TON
-     *     function block.
+     * @param tonFuncBlockCallName Name to use to call the {@code TON} function within the instance variable of the
+     *     block function.
      */
     public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion, String stateVariablePrefix,
-            String tonFuncBlockCallSuffix)
+            String tonFuncBlockCallName)
     {
         this.targetType = targetType;
         this.autoEnumConversion = autoEnumConversion;
         this.stateVariablePrefix = stateVariablePrefix;
-        this.tonFuncBlockCallSuffix = tonFuncBlockCallSuffix;
+        this.tonFuncBlockCallName = tonFuncBlockCallName;
 
         // Selecting "auto" by the user should result in a concrete preference of the target.
         Assert.check(autoEnumConversion != ConvertEnums.AUTO);
@@ -299,8 +299,8 @@ public abstract class PlcBaseTarget extends PlcTarget {
     }
 
     @Override
-    public String getTonFuncBlockCallSuffix() {
-        return tonFuncBlockCallSuffix;
+    public String getTonFuncBlockCallName() {
+        return tonFuncBlockCallName;
     }
 
     /**
@@ -330,26 +330,12 @@ public abstract class PlcBaseTarget extends PlcTarget {
         return !baseIsInt; // First parameter must always have a real type.
     }
 
-    /**
-     * Get the size of the largest supported integer type.
-     *
-     * @return Number of bits used for storing the largest supported integer type.
-     */
-    protected abstract int getMaxIntegerTypeSize();
-
     @Override
     public PlcElementaryType getIntegerType() {
         int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
         int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
         return PlcElementaryType.getIntTypeBySize(userSpecifiedIntSize);
     }
-
-    /**
-     * Get the size of the largest supported real type.
-     *
-     * @return Number of bits used for storing the largest supported real type.
-     */
-    protected abstract int getMaxRealTypeSize();
 
     @Override
     public PlcElementaryType getRealType() {

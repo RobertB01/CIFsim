@@ -1,0 +1,9 @@
+@@controller:properties(boundedResponse: false, confluence: false, finiteResponse: false)
+uncontrollable u_evt;
+controllable c_evt;
+plant automaton p:
+  location:
+    initial;
+    marked;
+    edge u_evt, c_evt;
+end

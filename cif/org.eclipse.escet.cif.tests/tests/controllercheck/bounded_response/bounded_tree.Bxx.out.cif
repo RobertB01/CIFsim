@@ -1,0 +1,42 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 2, controllablesBound: 3)
+uncontrollable u_a;
+uncontrollable u_b;
+uncontrollable u_c;
+uncontrollable u_d;
+controllable c_a;
+controllable c_b;
+controllable c_c;
+controllable c_d;
+controllable c_e;
+plant automaton p1:
+  location loc1:
+    initial;
+    edge u_a goto loc2;
+    edge u_d goto loc5;
+  location loc2:
+    edge u_b goto loc3;
+    edge u_c goto loc4;
+  location loc3:
+    marked;
+  location loc4:
+    marked;
+  location loc5:
+    marked;
+end
+plant automaton p2:
+  location loc1:
+    initial;
+    edge c_a goto loc2;
+  location loc2:
+    edge c_b goto loc3;
+    edge c_d goto loc5;
+  location loc3:
+    edge c_c goto loc4;
+    edge c_e goto loc6;
+  location loc4:
+    marked;
+  location loc5:
+    marked;
+  location loc6:
+    marked;
+end

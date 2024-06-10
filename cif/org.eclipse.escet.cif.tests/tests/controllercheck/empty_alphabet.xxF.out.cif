@@ -1,0 +1,7 @@
+@@controller:properties(finiteResponse: true)
+controllable c;
+uncontrollable u;
+plant automaton p:
+  location:
+    initial;
+end

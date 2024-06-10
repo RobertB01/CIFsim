@@ -112,11 +112,11 @@ public abstract class PlcTarget {
     public abstract String getStateVariablePrefix();
 
     /**
-     * Get the suffix text to append after the block instance variable name to call the TON function block.
+     * Get the name to use to call the {@code TON} function within the instance variable of the block function.
      *
-     * @return The suffix text.
+     * @return The name to use to call the {@code TON} function within the instance variable of the block function.
      */
-    public abstract String getTonFuncBlockCallSuffix();
+    public abstract String getTonFuncBlockCallName();
 
     /**
      * Returns whether the target supports arrays.
@@ -184,7 +184,18 @@ public abstract class PlcTarget {
     public abstract boolean supportsPower(boolean baseIsInt, boolean exponentIsInt);
 
     /**
+     * Get the size of the largest supported integer type.
+     *
+     * @return Number of bits used for storing the largest supported integer type.
+     */
+    public abstract int getMaxIntegerTypeSize();
+
+    /**
      * Get the type of a standard integer value in the PLC.
+     *
+     * <p>
+     * As CIF uses signed 32 bit integer, a {@code DINT} is recommended.
+     * </p>
      *
      * @return The type of a standard integer value in the PLC.
      */
@@ -201,7 +212,18 @@ public abstract class PlcTarget {
     }
 
     /**
+     * Get the size of the largest supported real type.
+     *
+     * @return Number of bits used for storing the largest supported real type.
+     */
+    public abstract int getMaxRealTypeSize();
+
+    /**
      * Get the type of a standard real value in the PLC.
+     *
+     * <p>
+     * As CIF uses 64 bit reals, an {@code LREAL} is recommended.
+     * </p>
      *
      * @return The type of a standard real value in the PLC.
      */

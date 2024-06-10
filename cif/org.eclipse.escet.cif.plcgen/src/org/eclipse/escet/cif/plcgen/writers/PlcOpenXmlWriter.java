@@ -42,7 +42,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcConfiguration;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
@@ -59,6 +58,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcDerivedType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
@@ -132,8 +132,7 @@ public class PlcOpenXmlWriter extends Writer {
         Element root = doc.getDocumentElement();
 
         // Add required elements and project data.
-        Element fileHeader = doc.createElement("fileHeader");
-        root.appendChild(fileHeader);
+        Element fileHeader = makeChild(root, "fileHeader");
         fileHeader.setAttribute("companyName", "Eclipse Foundation");
         fileHeader.setAttribute("productName", "CIF to Structured Text");
         fileHeader.setAttribute("productVersion", "0.0"); // Dummy version.
@@ -141,51 +140,33 @@ public class PlcOpenXmlWriter extends Writer {
         String formattedDateTime = DateTimeFormatter.ISO_INSTANT.format(instant);
         fileHeader.setAttribute("creationDateTime", formattedDateTime);
 
-        Element contentHeader = doc.createElement("contentHeader");
-        root.appendChild(contentHeader);
+        Element contentHeader = makeChild(root, "contentHeader");
         contentHeader.setAttribute("name", project.name);
 
-        Element coordInfo = doc.createElement("coordinateInfo");
-        contentHeader.appendChild(coordInfo);
+        Element coordInfo = makeChild(contentHeader, "coordinateInfo");
 
-        Element fbd = doc.createElement("fbd");
-        coordInfo.appendChild(fbd);
-
-        Element fbdScaling = doc.createElement("scaling");
-        fbd.appendChild(fbdScaling);
+        Element fbd = makeChild(coordInfo, "fbd");
+        Element fbdScaling = makeChild(fbd, "scaling");
         fbdScaling.setAttribute("x", "1");
         fbdScaling.setAttribute("y", "1");
 
-        Element ld = doc.createElement("ld");
-        coordInfo.appendChild(ld);
-
-        Element ldScaling = doc.createElement("scaling");
-        ld.appendChild(ldScaling);
+        Element ld = makeChild(coordInfo, "ld");
+        Element ldScaling = makeChild(ld, "scaling");
         ldScaling.setAttribute("x", "1");
         ldScaling.setAttribute("y", "1");
 
-        Element sfc = doc.createElement("sfc");
-        coordInfo.appendChild(sfc);
-
-        Element sfcScaling = doc.createElement("scaling");
-        sfc.appendChild(sfcScaling);
+        Element sfc = makeChild(coordInfo, "sfc");
+        Element sfcScaling = makeChild(sfc, "scaling");
         sfcScaling.setAttribute("x", "1");
         sfcScaling.setAttribute("y", "1");
 
-        Element types = doc.createElement("types");
-        root.appendChild(types);
+        Element types = makeChild(root, "types");
+        Element dataTypes = makeChild(types, "dataTypes");
 
-        Element dataTypes = doc.createElement("dataTypes");
-        types.appendChild(dataTypes);
+        Element pous = makeChild(types, "pous");
 
-        Element pous = doc.createElement("pous");
-        types.appendChild(pous);
-
-        Element instances = doc.createElement("instances");
-        root.appendChild(instances);
-
-        Element configurations = doc.createElement("configurations");
-        instances.appendChild(configurations);
+        Element instances = makeChild(root, "instances");
+        Element configurations = makeChild(instances, "configurations");
 
         // Add data types.
         for (PlcDeclaredType declaredType: project.declaredTypes) {
@@ -229,17 +210,11 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transDeclaredType(PlcStructType structType, Element parent) {
-        Element dataType = parent.getOwnerDocument().createElement("dataType");
-        parent.appendChild(dataType);
-
+        Element dataType = makeChild(parent, "dataType");
         dataType.setAttribute("name", structType.typeName);
 
-        Element baseType = dataType.getOwnerDocument().createElement("baseType");
-        dataType.appendChild(baseType);
-
-        Element struct = baseType.getOwnerDocument().createElement("struct");
-        baseType.appendChild(struct);
-
+        Element baseType = makeChild(dataType, "baseType");
+        Element struct = makeChild(baseType, "struct");
         for (PlcStructField field: structType.fields) {
             transStructField(field, struct);
         }
@@ -252,23 +227,14 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transDeclaredType(PlcEnumType enumType, Element parent) {
-        Element dataType = parent.getOwnerDocument().createElement("dataType");
-        parent.appendChild(dataType);
-
+        Element dataType = makeChild(parent, "dataType");
         dataType.setAttribute("name", enumType.typeName);
 
-        Element baseType = dataType.getOwnerDocument().createElement("baseType");
-        dataType.appendChild(baseType);
-
-        Element enumElem = parent.getOwnerDocument().createElement("enum");
-        baseType.appendChild(enumElem);
-
-        Element values = parent.getOwnerDocument().createElement("values");
-        enumElem.appendChild(values);
-
+        Element baseType = makeChild(dataType, "baseType");
+        Element enumElem = makeChild(baseType, "enum");
+        Element values = makeChild(enumElem, "values");
         for (PlcEnumLiteral enumLit: enumType.literals) {
-            Element value = parent.getOwnerDocument().createElement("value");
-            values.appendChild(value);
+            Element value = makeChild(values, "value");
             value.setAttribute("name", enumLit.value);
         }
     }
@@ -280,40 +246,35 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transType(PlcType type, Element parent) {
-        if (type instanceof PlcElementaryType) {
-            PlcElementaryType etype = (PlcElementaryType)type;
-            Element elem = parent.getOwnerDocument().createElement(etype.name);
-            parent.appendChild(elem);
-        } else if (type instanceof PlcDerivedType) {
-            Element derived = parent.getOwnerDocument().createElement("derived");
-            parent.appendChild(derived);
+        if (type instanceof PlcElementaryType eType) {
+            makeChild(parent, eType.name);
 
-            PlcDerivedType dtype = (PlcDerivedType)type;
-            derived.setAttribute("name", dtype.name);
+        } else if (type instanceof PlcDerivedType dType) {
+            Element derived = makeChild(parent, "derived");
+            derived.setAttribute("name", dType.name);
+
         } else if (type instanceof PlcStructType structType) {
-            Element derived = parent.getOwnerDocument().createElement("derived");
-            parent.appendChild(derived);
-
+            Element derived = makeChild(parent, "derived");
             derived.setAttribute("name", structType.typeName);
+
         } else if (type instanceof PlcEnumType enumType) {
-            Element derived = parent.getOwnerDocument().createElement("derived");
-            parent.appendChild(derived);
-
+            Element derived = makeChild(parent, "derived");
             derived.setAttribute("name", enumType.typeName);
-        } else if (type instanceof PlcArrayType) {
-            Element array = parent.getOwnerDocument().createElement("array");
-            parent.appendChild(array);
 
-            PlcArrayType atype = (PlcArrayType)type;
+        } else if (type instanceof PlcArrayType aType) {
+            Element array = makeChild(parent, "array");
 
-            Element dim = parent.getOwnerDocument().createElement("dimension");
-            array.appendChild(dim);
-            dim.setAttribute("lower", str(atype.lower));
-            dim.setAttribute("upper", str(atype.upper));
+            Element dim = makeChild(array, "dimension");
+            dim.setAttribute("lower", str(aType.lower));
+            dim.setAttribute("upper", str(aType.upper));
 
-            Element bt = parent.getOwnerDocument().createElement("baseType");
-            array.appendChild(bt);
-            transType(atype.elemType, bt);
+            Element bt = makeChild(array, "baseType");
+            transType(aType.elemType, bt);
+
+        } else if (type instanceof PlcFuncBlockType blockType) {
+            Element derived = makeChild(parent, "derived");
+            derived.setAttribute("name", blockType.typeName);
+
         } else {
             throw new RuntimeException("Unknown plc type: " + type);
         }
@@ -325,23 +286,19 @@ public class PlcOpenXmlWriter extends Writer {
      * @param var The variable.
      * @param parent The parent element in which to generate new elements.
      */
-    private void transVariable(PlcBasicVariable var, Element parent) {
-        Element varElem = parent.getOwnerDocument().createElement("variable");
-        parent.appendChild(varElem);
-
+    private void transVariable(PlcDataVariable var, Element parent) {
+        Element varElem = makeChild(parent, "variable");
         varElem.setAttribute("name", var.varName);
-        if (var instanceof PlcDataVariable dataVar && dataVar.address != null) {
-            varElem.setAttribute("address", dataVar.address);
+        if (var.address != null) {
+            varElem.setAttribute("address", var.address);
         }
 
-        Element type = parent.getOwnerDocument().createElement("type");
-        varElem.appendChild(type);
+        Element type = makeChild(varElem, "type");
         transType(var.type, type);
 
-        if (var instanceof PlcDataVariable dataVar && dataVar.value != null) {
-            Element value = parent.getOwnerDocument().createElement("initialValue");
-            varElem.appendChild(value);
-            transValue(dataVar.value, value);
+        if (var.value != null) {
+            Element value = makeChild(varElem, "initialValue");
+            transValue(var.value, value);
         }
     }
 
@@ -352,13 +309,10 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transStructField(PlcStructField field, Element parent) {
-        Element varElem = parent.getOwnerDocument().createElement("variable");
-        parent.appendChild(varElem);
-
+        Element varElem = makeChild(parent, "variable");
         varElem.setAttribute("name", field.fieldName);
 
-        Element type = parent.getOwnerDocument().createElement("type");
-        varElem.appendChild(type);
+        Element type = makeChild(varElem, "type");
         transType(field.type, type);
     }
 
@@ -369,9 +323,7 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transValue(PlcExpression value, Element parent) {
-        Element vElem = parent.getOwnerDocument().createElement("simpleValue");
-        parent.appendChild(vElem);
-
+        Element vElem = makeChild(parent, "simpleValue");
         vElem.setAttribute("value", target.getModelTextGenerator().toString(value));
     }
 
@@ -382,9 +334,7 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transPou(PlcPou pou, Element parent) {
-        Element pouElem = parent.getOwnerDocument().createElement("pou");
-        parent.appendChild(pouElem);
-
+        Element pouElem = makeChild(parent, "pou");
         pouElem.setAttribute("name", pou.name);
         String pouTypeText = null;
         switch (pou.pouType) {
@@ -397,48 +347,37 @@ public class PlcOpenXmlWriter extends Writer {
         }
         pouElem.setAttribute("pouType", pouTypeText);
 
-        Element iface = parent.getOwnerDocument().createElement("interface");
-        pouElem.appendChild(iface);
+        Element iface = makeChild(pouElem, "interface");
 
         if (pou.retType != null) {
-            Element rtElem = parent.getOwnerDocument().createElement("returnType");
-            iface.appendChild(rtElem);
-
+            Element rtElem = makeChild(iface, "returnType");
             transType(pou.retType, rtElem);
         }
 
         if (!pou.inputVars.isEmpty()) {
-            Element e = parent.getOwnerDocument().createElement("inputVars");
-            iface.appendChild(e);
-
-            for (PlcBasicVariable var: pou.inputVars) {
+            Element e = makeChild(iface, "inputVars");
+            for (PlcDataVariable var: pou.inputVars) {
                 transVariable(var, e);
             }
         }
 
         if (!pou.outputVars.isEmpty()) {
-            Element e = parent.getOwnerDocument().createElement("outputVars");
-            iface.appendChild(e);
-
-            for (PlcBasicVariable var: pou.outputVars) {
+            Element e = makeChild(iface, "outputVars");
+            for (PlcDataVariable var: pou.outputVars) {
                 transVariable(var, e);
             }
         }
 
         if (!pou.localVars.isEmpty()) {
-            Element e = parent.getOwnerDocument().createElement("localVars");
-            iface.appendChild(e);
-
-            for (PlcBasicVariable var: pou.localVars) {
+            Element e = makeChild(iface, "localVars");
+            for (PlcDataVariable var: pou.localVars) {
                 transVariable(var, e);
             }
         }
 
         if (!pou.tempVars.isEmpty()) {
-            Element e = parent.getOwnerDocument().createElement("tempVars");
-            iface.appendChild(e);
-
-            for (PlcBasicVariable var: pou.tempVars) {
+            Element e = makeChild(iface, "tempVars");
+            for (PlcDataVariable var: pou.tempVars) {
                 transVariable(var, e);
             }
         }
@@ -453,13 +392,10 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transBody(CodeBox body, Element parent) {
-        Element bodyElem = parent.getOwnerDocument().createElement("body");
-        parent.appendChild(bodyElem);
+        Element bodyElem = makeChild(parent, "body");
+        Element st = makeChild(bodyElem, "ST");
 
-        Element st = parent.getOwnerDocument().createElement("ST");
-        bodyElem.appendChild(st);
-
-        Element xhtml = parent.getOwnerDocument().createElementNS(XHTML_NS, "xhtml");
+        Element xhtml = st.getOwnerDocument().createElementNS(XHTML_NS, "xhtml");
         st.appendChild(xhtml);
 
         xhtml.setTextContent(body.toString());
@@ -472,9 +408,7 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transConfig(PlcConfiguration config, Element parent) {
-        Element configElem = parent.getOwnerDocument().createElement("configuration");
-        parent.appendChild(configElem);
-
+        Element configElem = makeChild(parent, "configuration");
         configElem.setAttribute("name", config.name);
 
         for (PlcResource resource: config.resources) {
@@ -499,12 +433,10 @@ public class PlcOpenXmlWriter extends Writer {
         }
 
         // We have variables, so add it.
-        Element gv = parent.getOwnerDocument().createElement("globalVars");
-        parent.appendChild(gv);
-
+        Element gv = makeChild(parent, "globalVars");
         gv.setAttribute("name", varList.name);
         gv.setAttribute("constant", (varList.listKind == PlcVarListKind.CONSTANTS) ? "true" : "false");
-        for (PlcBasicVariable var: varList.variables) {
+        for (PlcDataVariable var: varList.variables) {
             transVariable(var, gv);
         }
     }
@@ -516,9 +448,7 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transResource(PlcResource resource, Element parent) {
-        Element resElem = parent.getOwnerDocument().createElement("resource");
-        parent.appendChild(resElem);
-
+        Element resElem = makeChild(parent, "resource");
         resElem.setAttribute("name", resource.name);
 
         for (PlcTask task: resource.tasks) {
@@ -542,9 +472,7 @@ public class PlcOpenXmlWriter extends Writer {
      * @return The newly created element for the POU instance.
      */
     private Element transPouInstance(PlcPouInstance inst, Element parent) {
-        Element instElem = parent.getOwnerDocument().createElement("pouInstance");
-        parent.appendChild(instElem);
-
+        Element instElem = makeChild(parent, "pouInstance");
         instElem.setAttribute("name", inst.name);
         instElem.setAttribute("typeName", inst.pou.name);
 
@@ -559,9 +487,7 @@ public class PlcOpenXmlWriter extends Writer {
      */
     private void transPouInstanceWithDoc(PlcPouInstance inst, Element parent) {
         Element instElem = transPouInstance(inst, parent);
-
-        Element docElem = instElem.getOwnerDocument().createElement("documentation");
-        instElem.appendChild(docElem);
+        Element docElem = makeChild(instElem, "documentation");
 
         Element xhtml = docElem.getOwnerDocument().createElementNS(XHTML_NS, "xhtml");
         docElem.appendChild(xhtml);
@@ -574,8 +500,7 @@ public class PlcOpenXmlWriter extends Writer {
      * @param parent The parent element in which to generate new elements.
      */
     private void transTask(PlcTask task, Element parent) {
-        Element taskElem = parent.getOwnerDocument().createElement("task");
-        parent.appendChild(taskElem);
+        Element taskElem = makeChild(parent, "task");
 
         taskElem.setAttribute("name", task.name);
         // Interval value is vendor specific, TwinCAT and CODESYS use ISO 8601 Durations.
@@ -587,6 +512,20 @@ public class PlcOpenXmlWriter extends Writer {
             // give an 'object reference not set' error when creating this task element.
             transPouInstanceWithDoc(inst, taskElem);
         }
+    }
+
+    /**
+     * Construct a child element from the given parent with the given name, attach the new child to the parent and
+     * return the new child.
+     *
+     * @param parent Parent element to extend with a new child element.
+     * @param childName Name of the child element that should be created.
+     * @return The created child element.
+     */
+    private Element makeChild(Element parent, String childName) {
+        Element child = parent.getOwnerDocument().createElement(childName);
+        parent.appendChild(child);
+        return child;
     }
 
     /**

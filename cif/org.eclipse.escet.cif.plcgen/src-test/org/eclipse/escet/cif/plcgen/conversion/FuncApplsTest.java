@@ -76,21 +76,19 @@ public class FuncApplsTest {
 
     @Test
     public void powerFuncApplTest() {
-        assertEquals("1 ** 1.0", toStr(funcAppls.powerFuncAppl(num1, real1)));
+        assertEquals("2.0 ** 1", toStr(funcAppls.powerFuncAppl(real2, num1)));
+        assertEquals("2.0 ** 1.0", toStr(funcAppls.powerFuncAppl(real2, real1)));
     }
 
     @Test
     public void multiplyFuncApplTest() {
         assertEquals("1 * 2 * 3", toStr(funcAppls.multiplyFuncAppl(num1, num2, num3)));
         assertEquals("1.0 * 2.0", toStr(funcAppls.multiplyFuncAppl(real1, real2)));
-        assertEquals("1 * 2.0 * 2 * 3", toStr(funcAppls.multiplyFuncAppl(num1, real2, num2, num3)));
     }
 
     @Test
     public void divideFuncApplTest() {
         assertEquals("1 / 2", toStr(funcAppls.divideFuncAppl(num1, num2)));
-        assertEquals("1 / 2.0", toStr(funcAppls.divideFuncAppl(num1, real2)));
-        assertEquals("1.0 / 2", toStr(funcAppls.divideFuncAppl(real1, num2)));
         assertEquals("1.0 / 2.0", toStr(funcAppls.divideFuncAppl(real1, real2)));
     }
 
@@ -103,62 +101,47 @@ public class FuncApplsTest {
     public void addFuncApplTest() {
         assertEquals("1 + 2 + 3", toStr(funcAppls.addFuncAppl(num1, num2, num3)));
         assertEquals("1.0 + 2.0", toStr(funcAppls.addFuncAppl(real1, real2)));
-        assertEquals("1 + 2.0 + 2 + 3", toStr(funcAppls.addFuncAppl(num1, real2, num2, num3)));
     }
 
     @Test
     public void subtractFuncApplTest() {
         assertEquals("1 - 2", toStr(funcAppls.subtractFuncAppl(num1, num2)));
-        assertEquals("1 - 2.0", toStr(funcAppls.subtractFuncAppl(num1, real2)));
-        assertEquals("1.0 - 2", toStr(funcAppls.subtractFuncAppl(real1, num2)));
         assertEquals("1.0 - 2.0", toStr(funcAppls.subtractFuncAppl(real1, real2)));
     }
 
     @Test
     public void lessEqualFuncApplTest() {
         assertEquals("1 <= 2", toStr(funcAppls.lessEqualFuncAppl(num1, num2)));
-        assertEquals("1 <= 2.0", toStr(funcAppls.lessEqualFuncAppl(num1, real2)));
-        assertEquals("1.0 <= 2", toStr(funcAppls.lessEqualFuncAppl(real1, num2)));
         assertEquals("1.0 <= 2.0", toStr(funcAppls.lessEqualFuncAppl(real1, real2)));
     }
 
     @Test
     public void lessThanFuncApplTest() {
         assertEquals("1 < 2", toStr(funcAppls.lessThanFuncAppl(num1, num2)));
-        assertEquals("1 < 2.0", toStr(funcAppls.lessThanFuncAppl(num1, real2)));
-        assertEquals("1.0 < 2", toStr(funcAppls.lessThanFuncAppl(real1, num2)));
         assertEquals("1.0 < 2.0", toStr(funcAppls.lessThanFuncAppl(real1, real2)));
     }
 
     @Test
     public void greaterEqualFuncApplTest() {
         assertEquals("1 >= 2", toStr(funcAppls.greaterEqualFuncAppl(num1, num2)));
-        assertEquals("1 >= 2.0", toStr(funcAppls.greaterEqualFuncAppl(num1, real2)));
-        assertEquals("1.0 >= 2", toStr(funcAppls.greaterEqualFuncAppl(real1, num2)));
         assertEquals("1.0 >= 2.0", toStr(funcAppls.greaterEqualFuncAppl(real1, real2)));
     }
 
     @Test
     public void greaterThanFuncApplTest() {
         assertEquals("1 > 2", toStr(funcAppls.greaterThanFuncAppl(num1, num2)));
-        assertEquals("1 > 2.0", toStr(funcAppls.greaterThanFuncAppl(num1, real2)));
-        assertEquals("1.0 > 2", toStr(funcAppls.greaterThanFuncAppl(real1, num2)));
         assertEquals("1.0 > 2.0", toStr(funcAppls.greaterThanFuncAppl(real1, real2)));
     }
 
     @Test
     public void equalFuncApplTest() {
         assertEquals("1 = 2", toStr(funcAppls.equalFuncAppl(num1, num2)));
-        assertEquals("1 = 2.0", toStr(funcAppls.equalFuncAppl(num1, real2)));
-        assertEquals("1.0 = 2", toStr(funcAppls.equalFuncAppl(real1, num2)));
         assertEquals("1.0 = 2.0", toStr(funcAppls.equalFuncAppl(real1, real2)));
     }
 
     @Test
     public void unEqualFuncApplTest() {
         assertEquals("1 <> 2", toStr(funcAppls.unEqualFuncAppl(num1, num2)));
-        assertEquals("1 <> 2.0", toStr(funcAppls.unEqualFuncAppl(num1, real2)));
-        assertEquals("1.0 <> 2", toStr(funcAppls.unEqualFuncAppl(real1, num2)));
         assertEquals("1.0 <> 2.0", toStr(funcAppls.unEqualFuncAppl(real1, real2)));
     }
 
@@ -180,7 +163,7 @@ public class FuncApplsTest {
     @Test
     public void castFuncApplTest() {
         assertEquals("DINT_TO_LREAL(1)",
-                toStr(funcAppls.castFunctionAppl(num1, PlcElementaryType.DINT_TYPE, PlcElementaryType.LREAL_TYPE)));
+                toStr(funcAppls.castFunctionAppl(num1, PlcElementaryType.LREAL_TYPE)));
     }
 
     @Test
@@ -190,8 +173,10 @@ public class FuncApplsTest {
 
     @Test
     public void parenthesesTest() {
+        PlcFuncAppl realNegate = funcAppls.negateFuncAppl(real2);
         PlcFuncAppl negate = funcAppls.negateFuncAppl(num3);
-        PlcFuncAppl power = funcAppls.powerFuncAppl(num1, real1);
+        PlcFuncAppl power = funcAppls.powerFuncAppl(real1, num1);
+        PlcFuncAppl realMul = funcAppls.multiplyFuncAppl(real1, real2);
         PlcFuncAppl mul = funcAppls.multiplyFuncAppl(num1, num2);
         PlcFuncAppl add = funcAppls.addFuncAppl(num1, num2);
         PlcFuncAppl order = funcAppls.greaterThanFuncAppl(num1, num2);
@@ -201,21 +186,19 @@ public class FuncApplsTest {
         PlcFuncAppl or = funcAppls.orFuncAppl(bool0, bool1);
 
         assertEquals("--3", toStr(funcAppls.negateFuncAppl(negate))); // Same strength.
-        assertEquals("-(1 ** 1.0)", toStr(funcAppls.negateFuncAppl(power))); // Root first.
+        assertEquals("-(1.0 ** 1)", toStr(funcAppls.negateFuncAppl(power))); // Root first.
 
-        assertEquals("-3 ** -3", toStr(funcAppls.powerFuncAppl(negate, negate))); // Children first.
-        assertEquals("(1 ** 1.0) ** (1 ** 1.0)", toStr(funcAppls.powerFuncAppl(power, power))); // Same strength.
-        assertEquals("(1 * 2) ** (1 * 2)", toStr(funcAppls.powerFuncAppl(mul, mul))); // Root first.
+        assertEquals("-2.0 ** -2.0", toStr(funcAppls.powerFuncAppl(realNegate, realNegate))); // Children first.
+        assertEquals("(1.0 ** 1) ** (1.0 ** 1)", toStr(funcAppls.powerFuncAppl(power, power))); // Same strength.
+        assertEquals("(1.0 * 2.0) ** (1.0 * 2.0)", toStr(funcAppls.powerFuncAppl(realMul, realMul))); // Root first.
 
-        assertEquals("1 ** 1.0 * 1 ** 1.0", toStr(funcAppls.multiplyFuncAppl(power, power))); // Children first.
+        assertEquals("1.0 ** 1 * 1.0 ** 1", toStr(funcAppls.multiplyFuncAppl(power, power))); // Children first.
         assertEquals("1 * 2 * (1 * 2)", toStr(funcAppls.multiplyFuncAppl(mul, mul))); // Same strength.
         assertEquals("(1 + 2) * (1 + 2)", toStr(funcAppls.multiplyFuncAppl(add, add))); // Root first.
 
         assertEquals("1 * 2 + 1 * 2", toStr(funcAppls.addFuncAppl(mul, mul))); // Children first.
         assertEquals("1 + 2 + (1 + 2)", toStr(funcAppls.addFuncAppl(add, add))); // Same strength.
-        assertEquals("(1 > 2) + (1 > 2)", toStr(funcAppls.addFuncAppl(order, order))); // Root first.
 
-        assertEquals("1 + 2 > 1 + 2", toStr(funcAppls.greaterThanFuncAppl(add, add))); // Children first.
         assertEquals("(1 > 2) > (1 > 2)", toStr(funcAppls.greaterThanFuncAppl(order, order))); // Same strength.
         assertEquals("(1 = 2) > (1 = 2)", toStr(funcAppls.greaterThanFuncAppl(equal, equal))); // Root first.
 

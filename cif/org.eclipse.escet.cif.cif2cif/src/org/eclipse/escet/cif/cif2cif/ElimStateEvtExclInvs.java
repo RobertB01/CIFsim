@@ -35,9 +35,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifGuardUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -58,7 +61,10 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
@@ -66,6 +72,12 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  *
  * <p>
  * Precondition: Specifications with component definitions/instantiations are currently not supported.
+ * </p>
+ *
+ * <p>
+ * State/event exclusion invariants with events that are not in the sync/send/receive alphabet of the specification
+ * don't restrict the specification. They are removed, rather than transforming them to automata, to prevent changing
+ * the alphabet of the specification. If any are removed, a warning is printed.
  * </p>
  *
  * <p>
@@ -95,6 +107,32 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * @see SimplifyValues
  */
 public class ElimStateEvtExclInvs implements CifToCifTransformation {
+    /** Callback to send warnings to the user. */
+    private final WarnOutput warnOutput;
+
+    /** The synchronization, send and receive alphabet of the specification, or {@code null} if not yet computed. */
+    private Set<Event> specSyncSendRecvAlphabet;
+
+    /** Whether any state/event exclusion invariants were removed to prevent specification alphabet changes. */
+    private boolean anyStateEventExclInvsRemoved;
+
+    /**
+     * Constructor for the {@link ElimStateEvtExclInvs} class. Uses {@link OutputProvider#getWarningOutputStream} as
+     * callback to send warnings to the user.
+     */
+    public ElimStateEvtExclInvs() {
+        this(OutputProvider.getWarningOutputStream());
+    }
+
+    /**
+     * Constructor for the {@link ElimStateEvtExclInvs} class.
+     *
+     * @param warnOutput Callback to send warnings to the user.
+     */
+    public ElimStateEvtExclInvs(WarnOutput warnOutput) {
+        this.warnOutput = warnOutput;
+    }
+
     @Override
     public void transform(Specification spec) {
         // Check no component definition/instantiation precondition.
@@ -104,8 +142,22 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
             throw new CifToCifPreconditionException(msg);
         }
 
+        // Get the sync/send/receive alphabet of the specification.
+        List<Alphabets> alphabets = CifEventUtils.getAllAlphabets(spec);
+        specSyncSendRecvAlphabet = alphabets.stream()
+                .flatMap(a -> Stream.concat(Stream.concat(a.syncAlphabet.stream(), a.sendAlphabet.stream()),
+                        a.recvAlphabet.stream()))
+                .collect(Sets.toSet());
+        anyStateEventExclInvsRemoved = false;
+
         // Perform actual transformation.
         elimStateEvtExclInvs(spec);
+
+        // Print warnings.
+        if (anyStateEventExclInvsRemoved) {
+            warnOutput.line("One or more state/event exclusion invariants were removed, since their events are not " +
+                    "in the synchronization, send or receive alphabet of the specification.");
+        }
     }
 
     /**
@@ -132,6 +184,23 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
 
         // Combine invariants.
         List<Invariant> invs = concat(compInvs, locInvs);
+
+        // Handle state/event exclusion invariants with events that are not in the sync/send/receive alphabet of the
+        // specification. They don't restrict the specification, and thus we remove them, rather than converting them
+        // to automata. This prevent increasing the alphabet of the specification, and possible getting more transitions
+        // in the state space.
+        Iterator<Invariant> invIter = invs.iterator();
+        while (invIter.hasNext()) {
+            Invariant inv = invIter.next();
+            Expression eventRef = inv.getEvent();
+            if (eventRef != null) {
+                Event event = ((EventExpression)eventRef).getEvent();
+                if (!specSyncSendRecvAlphabet.contains(event)) {
+                    invIter.remove();
+                    anyStateEventExclInvsRemoved = true;
+                }
+            }
+        }
 
         // Get named and unnamed invariants.
         List<Invariant> namedInvs = invs.stream().filter(inv -> inv.getName() != null).toList();

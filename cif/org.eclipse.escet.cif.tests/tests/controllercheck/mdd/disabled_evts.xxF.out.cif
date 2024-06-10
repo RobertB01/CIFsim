@@ -1,0 +1,13 @@
+@@controller:properties(finiteResponse: true)
+controllable c_a;
+controllable c_b;
+plant automaton A:
+  alphabet c_a;
+  location l1:
+    initial;
+end
+plant automaton B:
+  location l2:
+    initial;
+    edge c_a;
+end

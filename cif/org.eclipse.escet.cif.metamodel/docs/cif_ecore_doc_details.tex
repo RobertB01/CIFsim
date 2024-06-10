@@ -521,6 +521,9 @@ expressions to be used. See also Section~\ref{sec:scoping}.
   The event reference expression, if set, must refer to an event.
 \citem{Invariant.eventInScope}
   The event reference, if set, must satisfy the scoping rules.
+\citemnf{Invariant.eventInAlphabet}
+  The event, if set, should refer to an event that is in the alphabet of the
+  specification, considering the synchronization, send and receive alphabets.
 \end{constraints}
 }
 

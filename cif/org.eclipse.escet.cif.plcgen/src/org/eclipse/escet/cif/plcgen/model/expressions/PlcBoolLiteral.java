@@ -29,4 +29,9 @@ public class PlcBoolLiteral extends PlcExpression {
         super(PlcElementaryType.BOOL_TYPE);
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "PlcBoolLiteral(" + value + ")";
+    }
 }

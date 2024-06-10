@@ -16,7 +16,7 @@ VAR
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP
-    curValue: LREAL;
+    curValue: TIME;
     current_aut: aut_location;
     current_aut_b: BOOL;
     current_aut_i: DINT;
@@ -66,7 +66,7 @@ IF firstRun THEN
     (* Initialize continuous variable "c". *)
     c := 0.0;
     (* Reset timer of "c". *)
-    preset_c := c;
+    preset_c := LINT_TO_TIME(LREAL_TO_LINT(c * 1000.0));
     ton_c(IN := FALSE, PT := preset_c);
     ton_c(IN := TRUE, PT := preset_c);
     (* Initialize discrete variable "aut.r". *)
@@ -88,7 +88,7 @@ IF firstRun THEN
 ELSE
     (* Update remaining time of continuous variable "c". *)
     ton_c(IN := TRUE, PT := preset_c, Q => timeOut, ET => curValue);
-    c := SEL(timeOut, preset_c - curValue, 0.0);
+    c := SEL(timeOut, MAX(LINT_TO_LREAL(TIME_TO_LINT(preset_c - curValue)) / 1000.0, 0.0), 0.0);
 END_IF;
 
 (* --- Process uncontrollable events. -------------------------------------- *)

@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.plcgen.model.expressions;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
@@ -38,5 +39,11 @@ public class PlcStructLiteral extends PlcExpression {
         Assert.areEqual(values.size(), type.fields.size());
         Assert.check(IntStream.range(0, values.size())
                 .allMatch(i -> values.get(i).name.equals(type.fields.get(i).fieldName)));
+    }
+
+    @Override
+    public String toString() {
+        String s = values.stream().map(v -> v.toString()).collect(Collectors.joining(" "));
+        return "PlcStructLiteral(" + s + ")";
     }
 }

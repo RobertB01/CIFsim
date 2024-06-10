@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.escet.cif.common.CifAnnotationUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -127,7 +128,7 @@ public class DocAnnotationProvider extends AnnotationProvider {
      * @throws InvalidModelException If a documentation text can not be evaluated.
      */
     public static List<String> getDocs(AnnotatedObject obj) {
-        return obj.getAnnotations().stream().filter(a -> a.getName().equals("doc")).map(a -> getDoc(a)).toList();
+        return CifAnnotationUtils.getAnnotations(obj, "doc").map(a -> getDoc(a)).toList();
     }
 
     /**
@@ -154,8 +155,13 @@ public class DocAnnotationProvider extends AnnotationProvider {
             return (String)value;
         } catch (CifEvalException e) {
             AnnotatedObject annotatedObj = (AnnotatedObject)docAnnoArg.eContainer().eContainer();
-            throw new InvalidModelException(fmt("Failed to evaluate an argument of the \"doc\" annotation of \"%s\".",
-                    CifTextUtils.getAbsName(annotatedObj)), e);
+            if (CifTextUtils.hasName(annotatedObj)) {
+                String msg = fmt("Failed to evaluate an argument of the \"doc\" annotation of \"%s\".",
+                        CifTextUtils.getAbsName(annotatedObj));
+                throw new InvalidModelException(msg, e);
+            } else {
+                throw new InvalidModelException("Failed to evaluate an argument of a \"doc\" annotation.", e);
+            }
         }
     }
 }

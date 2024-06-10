@@ -1,0 +1,31 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 3, controllablesBound: 3)
+uncontrollable bool u_chan;
+controllable bool c_chan;
+plant automaton def Sender(event bool e!):
+  location loc1:
+    initial;
+    edge e!true goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton def Receiver(event bool e?):
+  location loc1:
+    initial;
+    edge e? goto loc2;
+  location loc2:
+    marked;
+end
+usend1: Sender(u_chan);
+usend2: Sender(u_chan);
+usend3: Sender(u_chan);
+urecv1: Receiver(u_chan);
+urecv2: Receiver(u_chan);
+urecv3: Receiver(u_chan);
+urecv4: Receiver(u_chan);
+csend1: Sender(c_chan);
+csend2: Sender(c_chan);
+csend3: Sender(c_chan);
+csend4: Sender(c_chan);
+crecv1: Receiver(c_chan);
+crecv2: Receiver(c_chan);
+crecv3: Receiver(c_chan);

@@ -17,7 +17,7 @@ VAR
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP
-    curValue: LREAL;
+    curValue: TIME;
     current_p: p_location;
     current_p_b: BOOL;
     current_p_j: DINT;
@@ -104,7 +104,7 @@ IF firstRun THEN
     (* Initialize continuous variable "p.t". *)
     p_t := 0.0;
     (* Reset timer of "p_t". *)
-    preset_p_t := p_t;
+    preset_p_t := LINT_TO_TIME(LREAL_TO_LINT(p_t * 1000.0));
     ton_p_t(IN := FALSE, PT := preset_p_t);
     ton_p_t(IN := TRUE, PT := preset_p_t);
     (* Initialize current location of automaton "p". *)
@@ -112,7 +112,7 @@ IF firstRun THEN
 ELSE
     (* Update remaining time of continuous variable "p.t". *)
     ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
-    p_t := SEL(timeOut, preset_p_t - curValue, 0.0);
+    p_t := SEL(timeOut, MAX(LINT_TO_LREAL(TIME_TO_LINT(preset_p_t - curValue)) / 1000.0, 0.0), 0.0);
 END_IF;
 
 (* --- Process controllable events. ---------------------------------------- *)

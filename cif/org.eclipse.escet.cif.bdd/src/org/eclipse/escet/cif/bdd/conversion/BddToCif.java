@@ -19,6 +19,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariab
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteralExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariableExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationExpression;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.last;
@@ -34,6 +35,7 @@ import org.eclipse.escet.cif.bdd.spec.CifBddLocPtrVariable;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.spec.CifBddTypedVariable;
 import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
+import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
@@ -52,6 +54,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
+import org.eclipse.escet.cif.typechecker.CifExprsTypeChecker;
 import org.eclipse.escet.common.java.Assert;
 
 import com.github.javabdd.BDD;
@@ -573,22 +576,31 @@ public class BddToCif {
             // operations against the mask ((v & mask) > 0), but such
             // operations are not (yet) available in CIF. So, we use
             // (((v div mask) mod 2) > 0) instead.
+            int mask = 1 << idx;
+
             Expression varRef = createVarRef(var);
+            IntType varType = (IntType)CifTypeUtils.unwrapType(varRef.getType());
+            Assert.check(varType.getLower() != null && varType.getLower() >= 0);
+            Assert.check(varType.getUpper() != null);
 
             BinaryExpression divExpr = newBinaryExpression();
             divExpr.setOperator(BinaryOperator.INTEGER_DIVISION);
             divExpr.setLeft(varRef);
-            divExpr.setRight(CifValueUtils.makeInt(1 << idx));
+            divExpr.setRight(CifValueUtils.makeInt(mask));
+            int[] bounds = CifExprsTypeChecker.getDivResultRange(varType.getLower(), varType.getUpper(), mask, mask);
+            divExpr.setType(newIntType(bounds[0], null, bounds[1]));
 
             BinaryExpression modExpr = newBinaryExpression();
             modExpr.setOperator(BinaryOperator.MODULUS);
             modExpr.setLeft(divExpr);
             modExpr.setRight(CifValueUtils.makeInt(2));
+            modExpr.setType(newIntType(0, null, 1));
 
             BinaryExpression gtExpr = newBinaryExpression();
             gtExpr.setOperator(BinaryOperator.GREATER_THAN);
             gtExpr.setLeft(modExpr);
             gtExpr.setRight(CifValueUtils.makeInt(0));
+            gtExpr.setType(newBoolType());
 
             return gtExpr;
         } else if (type instanceof EnumType) {

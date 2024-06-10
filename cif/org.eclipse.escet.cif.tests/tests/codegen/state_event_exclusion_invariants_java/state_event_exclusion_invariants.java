@@ -157,7 +157,7 @@ public abstract class state_event_exclusion_invariants {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        boolean guard = (((x_) > (1)) && (((x_) <= (1)) && (((x_) > (1)) && ((x_) <= (1))))) && ((((x_) > (1)) && ((x_) <= (1))) && (((x_) > (1)) && ((x_) <= (1))));
+        boolean guard = (((x_) > (1)) && (((x_) <= (1)) && ((x_) > (1)))) && ((((x_) <= (1)) && ((x_) > (1))) && (((x_) <= (1)) && (((x_) > (1)) && ((x_) <= (1)))));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(0, true);

@@ -42,6 +42,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
+import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
@@ -50,6 +51,22 @@ public class CifEventUtils {
     /** Constructor for the {@link CifEventUtils} class. */
     private CifEventUtils() {
         // Static class.
+    }
+
+    /**
+     * Returns all the alphabets of the automata of the given specification.
+     *
+     * <p>
+     * This method does not support specifications that have component definitions/instantiations. In particular, it
+     * can't handle wrapping expressions for event references.
+     * </p>
+     *
+     * @param spec The specification.
+     * @return All the alphabets of the automata of the specification.
+     */
+    public static List<Alphabets> getAllAlphabets(Specification spec) {
+        return CifCollectUtils.collectAutomata(spec, list()).stream().map(aut -> getAllAlphabets(aut, null))
+                .collect(Lists.toList());
     }
 
     /**
@@ -114,8 +131,8 @@ public class CifEventUtils {
     }
 
     /**
-     * Returns the alphabet for the given automaton. If the alphabet is not specified for the automaton, the alphabet is
-     * derived from the non-communication uses of events on the edges of the automaton.
+     * Returns the synchronization alphabet for the given automaton. If the alphabet is not specified for the automaton,
+     * the alphabet is derived from the non-communication uses of events on the edges of the automaton.
      *
      * <p>
      * This method does not support specifications that have component definitions/instantiations. In particular, it
@@ -159,8 +176,8 @@ public class CifEventUtils {
     }
 
     /**
-     * Returns the alphabets for the given automata. If the alphabet is not specified for an automaton, the alphabet is
-     * derived from the non-communication uses of events on the edges of the automaton.
+     * Returns the synchronization alphabets for the given automata. If the alphabet is not specified for an automaton,
+     * the alphabet is derived from the non-communication uses of events on the edges of the automaton.
      *
      * <p>
      * This method does not support specifications that have component definitions/instantiations. In particular, it
@@ -179,7 +196,8 @@ public class CifEventUtils {
     }
 
     /**
-     * Returns the alphabet for the given specification, i.e., the union of the alphabets of its automata.
+     * Returns the synchronization alphabet for the given specification, i.e., the union of the alphabets of its
+     * automata.
      *
      * <p>
      * Note that events that are declared, but that are not in the alphabet of any automaton, are not part of the
@@ -202,8 +220,8 @@ public class CifEventUtils {
     }
 
     /**
-     * Returns the alphabet for the given automaton. If the alphabet is not specified for the automaton, the alphabet is
-     * derived from the non-communication uses of events on the edges of the automaton.
+     * Returns the synchronization alphabet for the given automaton. If the alphabet is not specified for the automaton,
+     * the alphabet is derived from the non-communication uses of events on the edges of the automaton.
      *
      * <p>
      * This method does not support specifications that have component definitions/instantiations. In particular, it

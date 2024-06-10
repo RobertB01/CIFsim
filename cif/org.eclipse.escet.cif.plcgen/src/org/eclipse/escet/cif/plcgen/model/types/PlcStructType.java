@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.model.types;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDeclaredType;
 
@@ -64,5 +65,10 @@ public class PlcStructType extends PlcType implements PlcDeclaredType {
             h = h + 47 * field.fieldName.hashCode() + 23 * field.type.hashCode();
         }
         return h;
+    }
+
+    @Override
+    public String toString() {
+        return "PlcStructType(" + fields.stream().map(f -> f.toString()).collect(Collectors.joining(", ")) + ")";
     }
 }

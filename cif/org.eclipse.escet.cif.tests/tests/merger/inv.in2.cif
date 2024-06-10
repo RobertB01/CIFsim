@@ -13,6 +13,12 @@
 
 event e;
 
+automaton a2:
+  location:
+    initial;
+    edge e;
+end
+
 group g:
   invariant inv2_1: true;
   invariant inv2_2: e needs true;

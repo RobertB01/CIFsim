@@ -1,0 +1,17 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 2, confluence: true, finiteResponse: true)
+input int[0..2] Y;
+plant automaton X:
+  controllable a;
+  controllable b;
+  controllable c;
+  location A:
+    initial;
+    edge a goto B;
+  location B:
+    edge b goto C;
+  location C:
+    edge c goto A;
+end
+supervisor invariant X.a needs Y = 0 or Y = 2;
+supervisor invariant X.b needs Y = 0 or Y = 1;
+supervisor invariant X.c needs Y = 1 or Y = 2;
