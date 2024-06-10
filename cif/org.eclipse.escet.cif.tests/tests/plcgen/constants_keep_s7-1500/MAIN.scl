@@ -5,6 +5,8 @@ ORGANIZATION_BLOCK MAIN
         edge_aut_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
+        litStruct: TupleStruct;
+        litStruct_1: TupleStruct;
     END_VAR
 
 BEGIN
@@ -65,7 +67,7 @@ BEGIN
          * - Location:
          *   - 1st edge in the location
          ***********)
-        IF DINT_TO_LREAL("DB".i) + 3.0 > DINT_TO_LREAL(3) THEN
+        IF DINT_TO_LREAL("DB".i) + c > DINT_TO_LREAL(3) THEN
             edge_aut_1 := 1;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -104,7 +106,9 @@ BEGIN
          * - Location:
          *   - 2nd edge in the location
          ***********)
-        IF "DB".bol = TRUE OR "DB".i = 0 THEN
+        litStruct_1.field1 := 0;
+        litStruct_1.field2 := 0;
+        IF "DB".bol = holds OR "DB".i = litStruct_1.field1 THEN
             edge_aut_1 := 1;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -137,7 +141,7 @@ BEGIN
          * - Location:
          *   - 3rd edge in the location
          ***********)
-        IF "DB".col <> red THEN
+        IF "DB".col <> danger THEN
             edge_aut_1 := 1;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)

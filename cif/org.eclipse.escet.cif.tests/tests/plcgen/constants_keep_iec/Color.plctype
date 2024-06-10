@@ -1,0 +1,3 @@
+TYPE Color:
+    (red, yellow, blue);
+END_TYPE

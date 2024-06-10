@@ -2,6 +2,8 @@ DATA_BLOCK "DB"
 { S7_Optimized_Access := 'false' }
     VAR
         i: DINT;
+        bol: BOOL;
+        col: DINT;
         aut_y: DINT;
         firstRun: BOOL;
     END_VAR

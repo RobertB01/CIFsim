@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='CONSTANTS'>
+    <Constant type='DINT' remark='' value='0'>red</Constant>
+    <Constant type='DINT' remark='' value='1'>yellow</Constant>
+    <Constant type='DINT' remark='' value='2'>blue</Constant>
+</Tagtable>

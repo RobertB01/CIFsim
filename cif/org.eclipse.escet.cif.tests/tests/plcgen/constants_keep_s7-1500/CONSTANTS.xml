@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='CONSTANTS'>
+    <Constant type='DINT' remark='' value='4'>a</Constant>
+    <Constant type='DINT' remark='' value='2'>b</Constant>
+    <Constant type='LREAL' remark='' value='3.0'>c</Constant>
+    <Constant type='DINT' remark='' value='1'>d</Constant>
+    <Constant type='BOOL' remark='' value='TRUE'>holds</Constant>
+    <Constant type='DINT' remark='' value='0'>danger</Constant>
+    <Constant type='DINT' remark='' value='-1'>x</Constant>
+    <Constant type='DINT' remark='' value='0'>red</Constant>
+    <Constant type='DINT' remark='' value='1'>yellow</Constant>
+    <Constant type='DINT' remark='' value='2'>blue</Constant>
+</Tagtable>
