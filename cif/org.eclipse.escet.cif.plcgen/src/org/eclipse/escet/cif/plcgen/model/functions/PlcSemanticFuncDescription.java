@@ -63,6 +63,25 @@ public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
     }
 
     /**
+     * Constructor of the {@link PlcSemanticFuncDescription} class for a function without infix notation.
+     *
+     * @param operation The semantic operation performed by the function application.
+     * @param prefixFuncName Prefix notation properties of the function parameters.
+     * @param parameters Parameters of the function.
+     * @param notations Notations of the function that are supported by the target. May get restricted based on
+     *     available infix and prefix function names.
+     * @param resultType Type of the result of the function.
+     * @param typeExtension Condition for appending a {@code _TYPE} extension to a prefix function name.
+     */
+    public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
+            PlcParameterDescription[] parameters, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType,
+            PlcFuncTypeExtension typeExtension)
+    {
+        this(operation, prefixFuncName, parameters, null, ExprBinding.NO_PRIORITY, notations, resultType,
+                typeExtension);
+    }
+
+    /**
      * Constructor of the {@link PlcSemanticFuncDescription} class.
      *
      * @param operation The semantic operation performed by the function application.
@@ -86,22 +105,4 @@ public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
         this.operation = operation;
     }
 
-    /**
-     * Constructor of the {@link PlcSemanticFuncDescription} class for a function without infix notation.
-     *
-     * @param operation The semantic operation performed by the function application.
-     * @param prefixFuncName Prefix notation properties of the function parameters.
-     * @param parameters Parameters of the function.
-     * @param notations Notations of the function that are supported by the target. May get restricted based on
-     *     available infix and prefix function names.
-     * @param resultType Type of the result of the function.
-     * @param typeExtension Condition for appending a {@code _TYPE} extension to a prefix function name.
-     */
-    public PlcSemanticFuncDescription(PlcFuncOperation operation, String prefixFuncName,
-            PlcParameterDescription[] parameters, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType,
-            PlcFuncTypeExtension typeExtension)
-    {
-        this(operation, prefixFuncName, parameters, null, ExprBinding.NO_PRIORITY, notations, resultType,
-                typeExtension);
-    }
 }
