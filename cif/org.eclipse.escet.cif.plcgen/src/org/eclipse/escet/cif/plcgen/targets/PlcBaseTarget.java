@@ -19,6 +19,7 @@ import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
@@ -307,8 +308,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
      * Common code that decides allowance for a small subset of constants.
      *
      * <p>
-     * Allowed constants are boolean, integer and real literals, possibly prefixed with a unary {@code not}, {@code -}
-     * or {@code +}.
+     * Allowed constants are values of boolean, integer, real and enumeration type.
      * </p>
      *
      * @param constant Constant to consider.
@@ -316,7 +316,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
      */
     protected static boolean commonSupportedConstants(Constant constant) {
         CifType tp = CifTypeUtils.unwrapType(constant.getType());
-        return tp instanceof BoolType || tp instanceof IntType || tp instanceof RealType;
+        return tp instanceof BoolType || tp instanceof IntType || tp instanceof RealType || tp instanceof EnumType;
     }
 
     @Override
