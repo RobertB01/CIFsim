@@ -11,27 +11,31 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-const int a = b * 2; // value 4, third
-const int b = d + 1; // value 2, second
-const int c = a - 1; // value 3, fourth
-const int d = 1;     // value 1, first
+const int a = b * 2;  // value 4, third
+const int b = d + 1;  // value 2, second
+const real c = a - 1; // value 3, fourth
+const int d = 1;      // value 1, first
 
-const list[3] real cl = [1, 1.0, 2];
-
+const bool holds = true;
+const Color danger = red;
 const int x = -1;
 
-input int i;
+const tuple(int a; int b) t = (0, 0);
 
-initial a + b + c + d + cl[0] + x = 10;
-invariant a + b + c + d + cl[0] + x = 10;
+enum Color = red, yellow, blue;
+
+input int i;
+input bool bol;
+input Color col;
 
 automaton aut:
-  controllable e;
+  controllable e, f, g;
   disc int y;
 
   location:
     initial;
-    invariant a + b + c + d + cl[0] + x = 10;
 
     edge e when i + c > 3 do y := -1;
+    edge f when bol = holds or i = t[0];
+    edge g when col != danger;
 end
