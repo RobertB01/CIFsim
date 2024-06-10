@@ -44,7 +44,7 @@ pipeline {
                                    env.TAG_NAME ==~ /v[0-9]+\\.[0-9]+.*/ ?  '30' : // release tags
                                    '30',                                           // other branches and merge requests
         ))
-        timeout(time: 1, unit: 'HOURS')
+        timeout(time: 2, unit: 'HOURS')
         timestamps()
     }
 
