@@ -17,14 +17,14 @@ WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at l
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   -------------------------------------------
-  (1/13) A 'time' variable reference is used.
+  (1/15) A 'time' variable reference is used.
   -------------------------------------------
    * In group "TIME_VAR_REFS":
      - invariant time > 0;
                  ^
 
   --------------------------------------------
-  (2/13) A component 'self' reference is used.
+  (2/15) A component 'self' reference is used.
   --------------------------------------------
    * In automaton "COMP_REFS_SELF":
      - invariant switch self: else true end;
@@ -34,7 +34,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                                ^
 
   -----------------------------------------------
-  (3/13) A continuous variable reference is used.
+  (3/15) A continuous variable reference is used.
   -----------------------------------------------
    * In group "CONT_VAR_REFS":
      - invariant c = 1.0;
@@ -44,7 +44,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                  ^
 
   --------------------------------------------------
-  (4/13) A dictionary projection expression is used.
+  (4/15) A dictionary projection expression is used.
   --------------------------------------------------
    * In group "DICT_LITS":
      - invariant {true: false}[true];
@@ -54,7 +54,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                               ^
 
   ---------------------------------------------
-  (5/13) A discrete variable reference is used.
+  (5/15) A discrete variable reference is used.
   ---------------------------------------------
    * In automaton "DISC_VAR_REFS":
      - invariant v;
@@ -70,7 +70,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                   ^
 
   --------------------------------------------
-  (6/13) A list projection expression is used.
+  (6/15) A list projection expression is used.
   --------------------------------------------
    * In group "PROJECTION_EXPRS_LISTS":
      - invariant [true, false][0];
@@ -83,7 +83,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                                                      ^
 
   ----------------------------------------------
-  (7/13) A string projection expression is used.
+  (7/15) A string projection expression is used.
   ----------------------------------------------
    * In group "PROJECTION_EXPRS_STRINGS":
      - invariant "abc"[0] = "a";
@@ -92,9 +92,26 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                               ^
 
-  ---------------------------------------
-  (8/13) A tuple field reference is used.
-  ---------------------------------------
+  ---------------------------------------------------
+  (8/15) A switch expression is used on an automaton.
+  ---------------------------------------------------
+   * In automaton "COMP_REFS_EXPLICIT":
+     - invariant switch COMP_REFS_EXPLICIT: else true end;
+                 ^
+   * In automaton "COMP_REFS_SELF":
+     - invariant switch self: else true end;
+                 ^
+
+  -----------------------------------------------------------------------------
+  (9/15) A switch expression is used with an integer typed (part of its) value.
+  -----------------------------------------------------------------------------
+   * In group "SWITCH_EXPRS":
+     - invariant switch 5: case 5: true end;
+                 ^
+
+  ----------------------------------------
+  (10/15) A tuple field reference is used.
+  ----------------------------------------
    * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                      ^       ^
@@ -102,9 +119,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant c[a];
                    ^
 
-  ---------------------------------------------
-  (9/13) A tuple projection expression is used.
-  ---------------------------------------------
+  ----------------------------------------------
+  (11/15) A tuple projection expression is used.
+  ----------------------------------------------
    * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                     ^       ^
@@ -124,7 +141,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                               ^
 
   ------------------------------------------------
-  (10/13) An algebraic variable reference is used.
+  (12/15) An algebraic variable reference is used.
   ------------------------------------------------
    * In group "ALG_VAR_REFS":
      - invariant a;
@@ -134,14 +151,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                  ^
 
   -------------------------------------------------
-  (11/13) An enumeration literal reference is used.
+  (13/15) An enumeration literal reference is used.
   -------------------------------------------------
    * In group "ENUM_LIT_REFS":
      - invariant e1 = e2;
                  ^    ^
 
   ------------------------------------------------
-  (12/13) An explicit component reference is used.
+  (14/15) An explicit component reference is used.
   ------------------------------------------------
    * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
@@ -151,7 +168,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                         ^
 
   --------------------------------------------
-  (13/13) An input variable reference is used.
+  (15/15) An input variable reference is used.
   --------------------------------------------
    * In group "INPUT_VAR_REFS":
      - invariant i;

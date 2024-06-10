@@ -17,7 +17,7 @@ WARNING: File "checks/ExprNoSpecificExprsCheckLevel3.cif": Semantic warning at l
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   --------------------------------------------
-  (1/6) A cast expression from string is used.
+  (1/7) A cast expression from string is used.
   --------------------------------------------
    * In group "CAST_EXPRS_STRING_TO_BOOLEAN":
      - invariant not <bool>"false";
@@ -30,7 +30,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                        ^
 
   ------------------------------------------
-  (2/6) A cast expression to string is used.
+  (2/7) A cast expression to string is used.
   ------------------------------------------
    * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
@@ -49,7 +49,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                        ^
 
   ----------------------------------------------------
-  (3/6) A standard library function reference is used.
+  (3/7) A standard library function reference is used.
   ----------------------------------------------------
    * In group "FUNC_CALLS":
      - invariant abs(1) = 1;
@@ -58,8 +58,15 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant abs(1) = 1;
                  ^
 
+  ----------------------------------------------------------------------------------
+  (4/7) A switch expression is used with a ranged integer typed (part of its) value.
+  ----------------------------------------------------------------------------------
+   * In group "SWITCH_EXPRS":
+     - invariant switch 5: case 5: true end;
+                 ^
+
   --------------------------------------------------
-  (4/6) A tuple field-projection expression is used.
+  (5/7) A tuple field-projection expression is used.
   --------------------------------------------------
    * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
@@ -69,7 +76,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                   ^
 
   --------------------------------------------------
-  (5/6) A tuple index-projection expression is used.
+  (6/7) A tuple index-projection expression is used.
   --------------------------------------------------
    * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
@@ -90,7 +97,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                               ^
 
   ------------------------------------------------
-  (6/6) A user-defined function reference is used.
+  (7/7) A user-defined function reference is used.
   ------------------------------------------------
    * In group "FUNC_CALLS":
      - invariant intF(true);
