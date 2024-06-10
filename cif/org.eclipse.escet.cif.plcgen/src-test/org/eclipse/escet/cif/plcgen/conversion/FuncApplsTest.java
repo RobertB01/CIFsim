@@ -168,7 +168,7 @@ public class FuncApplsTest {
 
     @Test
     public void selFuncApplTest() {
-        assertEquals("SEL(TRUE, 1, 2)", toStr(funcAppls.selFuncAppl(bool1, num1, num2)));
+        assertEquals("SEL_DINT(TRUE, 1, 2)", toStr(funcAppls.selFuncAppl(bool1, num1, num2)));
     }
 
     @Test
