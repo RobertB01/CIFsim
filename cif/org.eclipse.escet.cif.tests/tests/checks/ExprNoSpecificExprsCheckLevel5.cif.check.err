@@ -12,8 +12,7 @@ WARNING: File "checks/ExprNoSpecificExprsCheckLevel5.cif": Semantic warning at l
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel5.cif": Semantic warning at line 236, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel5.cif": Semantic warning at line 266, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel5.cif": Semantic warning at line 276, column 3: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificExprsCheckLevel5.cif": Semantic warning at line 320, column 13: The switch expression has only one case, which is deprecated.
-WARNING: File "checks/ExprNoSpecificExprsCheckLevel5.cif": Semantic warning at line 330, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel5.cif": Semantic warning at line 346, column 3: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   ----------------------------------------------------------------

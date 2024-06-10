@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTypeUtils.isAutRefExpr;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -64,9 +65,11 @@ import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.DictType;
+import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
+import org.eclipse.escet.cif.metamodel.cif.types.SetType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 
@@ -666,7 +669,103 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
         // Do the check.
         if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS)) {
             violations.add(switchExpr, "A switch expression is used");
+        } else {
+            // 'switch' value is an automaton.
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_BOOL)) {
+                if (CifTypeUtils.isAutRefExpr(switchExpr.getValue())) {
+                    violations.add(switchExpr, "A switch expression is used on an automaton");
+                }
+            }
+
+            // 'switch' on (part of its) value that has a certain type.
+            CifType valueType = CifTypeUtils.normalizeType(switchExpr.getValue().getType());
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_BOOL)) {
+                if (CifTypeUtils.hasType(valueType, BoolType.class::isInstance)) {
+                    addSwitchValueViolation(switchExpr, "a boolean typed", violations);
+                }
+            }
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_DICT)) {
+                if (CifTypeUtils.hasType(valueType, DictType.class::isInstance)) {
+                    addSwitchValueViolation(switchExpr, "a dictionary typed", violations);
+                }
+            }
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_ENUM)) {
+                if (CifTypeUtils.hasType(valueType, EnumType.class::isInstance)) {
+                    addSwitchValueViolation(switchExpr, "an enumeration typed", violations);
+                }
+            }
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_INT)) {
+                if (CifTypeUtils.hasType(valueType, IntType.class::isInstance)) {
+                    addSwitchValueViolation(switchExpr, "an integer typed", violations);
+                }
+            } else {
+                if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_INT_RANGED)) {
+                    if (CifTypeUtils.hasType(valueType,
+                            t -> t instanceof IntType itype && !CifTypeUtils.isRangeless(itype)))
+                    {
+                        addSwitchValueViolation(switchExpr, "a ranged integer typed", violations);
+                    }
+                }
+                if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_INT_RANGELESS)) {
+                    if (CifTypeUtils.hasType(valueType,
+                            t -> t instanceof IntType itype && CifTypeUtils.isRangeless(itype)))
+                    {
+                        addSwitchValueViolation(switchExpr, "a rangeless integer typed", violations);
+                    }
+                }
+            }
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_LIST)) {
+                if (CifTypeUtils.hasType(valueType, ListType.class::isInstance)) {
+                    addSwitchValueViolation(switchExpr, "a list typed", violations);
+                }
+            } else {
+                if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_LIST_ARRAY)) {
+                    if (CifTypeUtils.hasType(valueType,
+                            t -> t instanceof ListType ltype && CifTypeUtils.isArrayType(ltype)))
+                    {
+                        addSwitchValueViolation(switchExpr, "an array list typed", violations);
+                    }
+                }
+                if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_LIST_NON_ARRAY)) {
+                    if (CifTypeUtils.hasType(valueType,
+                            t -> t instanceof ListType ltype && !CifTypeUtils.isArrayType(ltype)))
+                    {
+                        addSwitchValueViolation(switchExpr, "a non-array list typed", violations);
+                    }
+                }
+            }
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_REAL)) {
+                if (CifTypeUtils.hasType(valueType, RealType.class::isInstance)) {
+                    addSwitchValueViolation(switchExpr, "a real typed", violations);
+                }
+            }
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_SET)) {
+                if (CifTypeUtils.hasType(valueType, SetType.class::isInstance)) {
+                    addSwitchValueViolation(switchExpr, "a set typed", violations);
+                }
+            }
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_STRING)) {
+                if (CifTypeUtils.hasType(valueType, StringType.class::isInstance)) {
+                    addSwitchValueViolation(switchExpr, "a string typed", violations);
+                }
+            }
+            if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_TUPLE)) {
+                if (CifTypeUtils.hasType(valueType, TupleType.class::isInstance)) {
+                    addSwitchValueViolation(switchExpr, "a tuple typed", violations);
+                }
+            }
         }
+    }
+
+    /**
+     * Add a violation for a 'switch' expression with an unsupported (part of its) value.
+     *
+     * @param expr The 'switch' expression.
+     * @param typeDescription The description of the type of the value of (part of its) value.
+     * @param violations The violations collected so far. A violation is added to it.
+     */
+    private void addSwitchValueViolation(SwitchExpression expr, String typeDescription, CifCheckViolations violations) {
+        violations.add(expr, fmt("A switch expression is used with %s (part of its) value", typeDescription));
     }
 
     @Override
@@ -877,6 +976,48 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
 
         /** Disallow switch expressions. */
         SWITCH_EXPRS,
+
+        /** Disallow switch expressions, on automata. */
+        SWITCH_EXPRS_AUT,
+
+        /** Disallow switch expressions, on tuples (recursively in the switch value's type). */
+        SWITCH_EXPRS_BOOL,
+
+        /** Disallow switch expressions, on dictionaries (recursively in the switch value's type). */
+        SWITCH_EXPRS_DICT,
+
+        /** Disallow switch expressions, on enumerations (recursively in the switch value's type). */
+        SWITCH_EXPRS_ENUM,
+
+        /** Disallow switch expressions, on integers (recursively in the switch value's type). */
+        SWITCH_EXPRS_INT,
+
+        /** Disallow switch expressions, on ranged integers (recursively in the switch value's type). */
+        SWITCH_EXPRS_INT_RANGED,
+
+        /** Disallow switch expressions, on rangeless integers (recursively in the switch value's type). */
+        SWITCH_EXPRS_INT_RANGELESS,
+
+        /** Disallow switch expressions, on lists (recursively in the switch value's type). */
+        SWITCH_EXPRS_LIST,
+
+        /** Disallow switch expressions, on array lists (recursively in the switch value's type). */
+        SWITCH_EXPRS_LIST_ARRAY,
+
+        /** Disallow switch expressions, on non-array lists (recursively in the switch value's type). */
+        SWITCH_EXPRS_LIST_NON_ARRAY,
+
+        /** Disallow switch expressions, on reals (recursively in the switch value's type). */
+        SWITCH_EXPRS_REAL,
+
+        /** Disallow switch expressions, on sets (recursively in the switch value's type). */
+        SWITCH_EXPRS_SET,
+
+        /** Disallow switch expressions, on strings (recursively in the switch value's type). */
+        SWITCH_EXPRS_STRING,
+
+        /** Disallow switch expressions, on tuples (recursively in the switch value's type). */
+        SWITCH_EXPRS_TUPLE,
 
         /** Disallow 'time' variable references. */
         TIME_VAR_REFS,

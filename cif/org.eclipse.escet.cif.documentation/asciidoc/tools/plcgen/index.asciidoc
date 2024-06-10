@@ -265,6 +265,7 @@ This rejects events declared without `controllable` or `uncontrollable` keyword,
 ** No functions used as data values or stored in variables.
 Functions must thus only be used to call the function.
 ** No use of variable `time`.
+** No `switch` expressions on array or tuple typed values (or parts of values).
 --
 The restrictions on types and expressions do not apply to their use in values of <<lang-tut-extensions-chapter-annotations-documentation,documentation annotation>> arguments.
 +

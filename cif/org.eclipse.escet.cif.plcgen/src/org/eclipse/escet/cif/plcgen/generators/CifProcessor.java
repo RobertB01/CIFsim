@@ -661,6 +661,8 @@ public class CifProcessor {
                             NoSpecificExpr.SET_LITS, //
                             NoSpecificExpr.STRING_LITS, //
                             NoSpecificExpr.SLICE_EXPRS, //
+                            NoSpecificExpr.SWITCH_EXPRS_LIST_ARRAY, //
+                            NoSpecificExpr.SWITCH_EXPRS_TUPLE, //
                             NoSpecificExpr.TIME_VAR_REFS)
                                     .ignoreAnnotations(),
 

@@ -12,19 +12,25 @@ WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at l
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 236, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 266, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 276, column 3: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 320, column 13: The switch expression has only one case, which is deprecated.
-WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 330, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel4.cif": Semantic warning at line 346, column 3: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   -----------------------------------------------------
-  (1/5) A non-array list projection expression is used.
+  (1/6) A non-array list projection expression is used.
   -----------------------------------------------------
    * In automaton "PROJECTION_EXPRS_LISTS_NON_ARRAY":
      - invariant d[0];
                   ^
 
+  ----------------------------------------------------------------------------------
+  (2/6) A switch expression is used with a non-array list typed (part of its) value.
+  ----------------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_NON_ARRAY":
+     - invariant SWITCH_LIST_NON_ARRAY: switch i4: case [true]: true else false end;
+                                        ^
+
   ----------------------------------------------
-  (2/5) A type-changing cast expression is used.
+  (3/6) A type-changing cast expression is used.
   ----------------------------------------------
    * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
@@ -55,7 +61,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                        ^
 
   ----------------------------------------------------------
-  (3/5) A user-defined function parameter reference is used.
+  (4/6) A user-defined function parameter reference is used.
   ----------------------------------------------------------
    * In user-defined function "FUNC_CALLS.intF":
      - return x;
@@ -71,7 +77,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
               ^
 
   ----------------------------------------------------------
-  (4/5) An external user-defined function reference is used.
+  (5/6) An external user-defined function reference is used.
   ----------------------------------------------------------
    * In group "FUNC_CALLS":
      - invariant extF(true);
@@ -84,7 +90,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                    ^
 
   ----------------------------------------------------------
-  (5/5) An internal user-defined function reference is used.
+  (6/6) An internal user-defined function reference is used.
   ----------------------------------------------------------
    * In group "FUNC_CALLS":
      - invariant intF(true);
