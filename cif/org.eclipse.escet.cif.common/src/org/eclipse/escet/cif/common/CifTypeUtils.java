@@ -949,7 +949,7 @@ public class CifTypeUtils {
             return true;
         }
 
-        // Check recursively.
+        // Since we got here, leaf types don't match.
         if (type instanceof BoolType) {
             return false;
         }
@@ -965,11 +965,22 @@ public class CifTypeUtils {
         if (type instanceof StringType) {
             return false;
         }
+        if (type instanceof ComponentDefType) {
+            return false;
+        }
+        if (type instanceof ComponentType) {
+            return false;
+        }
+        if (type instanceof VoidType) {
+            return false;
+        }
 
+        // For type references, check the type of the type declaration.
         if (type instanceof TypeRef typeRef) {
             return hasType(typeRef.getType().getType(), condition);
         }
 
+        // For container, function and distribution types, check the child types.
         if (type instanceof ListType listType) {
             return hasType(listType.getElementType(), condition);
         }
@@ -987,7 +998,6 @@ public class CifTypeUtils {
             }
             return false;
         }
-
         if (type instanceof FuncType funcType) {
             if (hasType(funcType.getReturnType(), condition)) {
                 return true;
@@ -999,31 +1009,20 @@ public class CifTypeUtils {
             }
             return false;
         }
-
         if (type instanceof DistType distType) {
             return hasType(distType.getSampleType(), condition);
         }
 
-        if (type instanceof ComponentDefType) {
-            return false;
-        }
-        if (type instanceof ComponentType) {
-            return false;
-        }
-
+        // For 'via' reference types, just peel of the wrapper. We don't care about how we reach a type, but only what
+        // type we reach.
         if (type instanceof CompInstWrapType wrapType) {
-            // Just peel of the wrapper. We don't care about how we reach a type, but only what type we reach.
             return hasType(wrapType.getReference(), condition);
         }
         if (type instanceof CompParamWrapType wrapType) {
-            // Just peel of the wrapper. We don't care about how we reach a type, but only what type we reach.
             return hasType(wrapType.getReference(), condition);
         }
 
-        if (type instanceof VoidType) {
-            return false;
-        }
-
+        // Unknown type.
         throw new RuntimeException("Unknown type: " + type);
     }
 
