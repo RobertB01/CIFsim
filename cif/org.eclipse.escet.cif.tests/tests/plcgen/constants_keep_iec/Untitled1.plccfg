@@ -1,0 +1,13 @@
+CONFIGURATION Untitled1
+    VAR_GLOBAL CONSTANT // CONSTANTS
+        a: DINT := 4;
+        b: DINT := 2;
+        c: LREAL := 3.0;
+        d: DINT := 1;
+        holds: BOOL := TRUE;
+        danger: Color := red;
+        x: DINT := -1;
+    END_VAR
+    TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);
+    PROGRAM MAIN WITH PlcTask: MAIN;
+END_CONFIGURATION

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='CONSTANTS'>
+    <Constant type='DINT' remark='' value='0'>g_LIT1</Constant>
+    <Constant type='DINT' remark='' value='1'>g_LIT2</Constant>
+    <Constant type='DINT' remark='' value='0'>p_l1</Constant>
+    <Constant type='DINT' remark='' value='1'>p_l6</Constant>
+    <Constant type='DINT' remark='' value='2'>p_l7</Constant>
+    <Constant type='DINT' remark='' value='3'>p_l8</Constant>
+    <Constant type='DINT' remark='' value='4'>p_l9</Constant>
+    <Constant type='DINT' remark='' value='5'>p_l10</Constant>
+    <Constant type='DINT' remark='' value='6'>p_l11</Constant>
+    <Constant type='DINT' remark='' value='7'>p_l12</Constant>
+    <Constant type='DINT' remark='' value='8'>p_l13</Constant>
+    <Constant type='DINT' remark='' value='9'>p_l14</Constant>
+    <Constant type='DINT' remark='' value='10'>p_l15</Constant>
+    <Constant type='DINT' remark='' value='11'>p_l16</Constant>
+</Tagtable>

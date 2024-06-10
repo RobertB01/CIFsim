@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.writers.AbbWriter;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
@@ -36,7 +37,7 @@ public class AbbTarget extends PlcBaseTarget {
     }
 
     @Override
-    public boolean supportsConstants() {
+    public boolean supportsConstant(Constant constant) {
         return false;
     }
 

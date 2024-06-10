@@ -65,7 +65,7 @@ BEGIN
         (* Initialize discrete variable "p.y". *)
         "DB".p_y := 1.23;
         (* Initialize discrete variable "p.ve". *)
-        "DB".p_ve := 0;
+        "DB".p_ve := g_LIT1;
         (* Initialize discrete variable "p.v1". *)
         "DB".p_v1 := 0;
         (* Initialize discrete variable "p.v2". *)
@@ -93,7 +93,7 @@ BEGIN
         ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
         (* Initialize current location of automaton "p". *)
-        "DB".p := 0;
+        "DB".p := p_l1;
     ELSE
         (* Update remaining time of continuous variable "p.t". *)
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
@@ -143,27 +143,27 @@ BEGIN
          * - Location "l15":
          *   - 1st edge in the location
          ***********)
-        IF "DB".p = 0 THEN
+        IF "DB".p = p_l1 THEN
             edge_p_1 := 1;
-        ELSIF "DB".p = 1 THEN
+        ELSIF "DB".p = p_l6 THEN
             edge_p_1 := 2;
-        ELSIF "DB".p = 2 THEN
+        ELSIF "DB".p = p_l7 THEN
             edge_p_1 := 3;
-        ELSIF "DB".p = 3 THEN
+        ELSIF "DB".p = p_l8 THEN
             edge_p_1 := 4;
-        ELSIF "DB".p = 4 THEN
+        ELSIF "DB".p = p_l9 THEN
             edge_p_1 := 5;
-        ELSIF "DB".p = 5 THEN
+        ELSIF "DB".p = p_l10 THEN
             edge_p_1 := 6;
-        ELSIF "DB".p = 6 THEN
+        ELSIF "DB".p = p_l11 THEN
             edge_p_1 := 7;
-        ELSIF "DB".p = 7 THEN
+        ELSIF "DB".p = p_l12 THEN
             edge_p_1 := 8;
-        ELSIF "DB".p = 8 THEN
+        ELSIF "DB".p = p_l13 THEN
             edge_p_1 := 9;
-        ELSIF "DB".p = 9 THEN
+        ELSIF "DB".p = p_l14 THEN
             edge_p_1 := 10;
-        ELSIF "DB".p = 10 THEN
+        ELSIF "DB".p = p_l15 THEN
             edge_p_1 := 11;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -192,7 +192,7 @@ BEGIN
                 litStruct_2.field2 := 2;
                 "DB".p_tv := litStruct_2;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 1;
+                "DB".p := p_l6;
             ELSIF edge_p_1 = 2 THEN
                 (* Perform assignments of the 1st edge in location "p.l6". *)
                 (* Perform update of discrete variable "p.x". *)
@@ -200,7 +200,7 @@ BEGIN
                 (* Perform update of discrete variable "p.j". *)
                 "DB".p_j := 4;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 2;
+                "DB".p := p_l7;
             ELSIF edge_p_1 = 3 THEN
                 (* Perform assignments of the 1st edge in location "p.l7". *)
                 rightValue := current_p_tv;
@@ -209,13 +209,13 @@ BEGIN
                 (* Perform update of discrete variable "p.j". *)
                 "DB".p_j := rightValue.field2;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 3;
+                "DB".p := p_l8;
             ELSIF edge_p_1 = 4 THEN
                 (* Perform assignments of the 1st edge in location "p.l8". *)
                 (* Perform update of discrete variable "p.tv". *)
                 "DB".p_tv.field1 := 5;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 4;
+                "DB".p := p_l9;
             ELSIF edge_p_1 = 5 THEN
                 (* Perform assignments of the 1st edge in location "p.l9". *)
                 (* Perform update of discrete variable "p.tv". *)
@@ -223,13 +223,13 @@ BEGIN
                 (* Perform update of discrete variable "p.j". *)
                 "DB".p_j := 7;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 5;
+                "DB".p := p_l10;
             ELSIF edge_p_1 = 6 THEN
                 (* Perform assignments of the 1st edge in location "p.l10". *)
                 (* Perform update of discrete variable "p.v3". *)
                 "DB".p_v3.field1.field2 := 7.8;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 6;
+                "DB".p := p_l11;
             ELSIF edge_p_1 = 7 THEN
                 (* Perform assignments of the 1st edge in location "p.l11". *)
                 (* Perform update of discrete variable "p.v3". *)
@@ -239,33 +239,33 @@ BEGIN
                 litStruct_1.field2 := 5.6;
                 "DB".p_v3 := litStruct_1;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 7;
+                "DB".p := p_l12;
             ELSIF edge_p_1 = 8 THEN
                 (* Perform assignments of the 1st edge in location "p.l12". *)
                 (* Perform update of discrete variable "p.j". *)
                 "DB".p_j := current_p_j + 1;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 8;
+                "DB".p := p_l13;
             ELSIF edge_p_1 = 9 THEN
                 (* Perform assignments of the 1st edge in location "p.l13". *)
                 (* Perform update of discrete variable "p.b". *)
                 "DB".p_b := FALSE;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 9;
+                "DB".p := p_l14;
             ELSIF edge_p_1 = 10 THEN
                 (* Perform assignments of the 1st edge in location "p.l14". *)
                 IF NOT current_p_b THEN
                     (* Perform update of discrete variable "p.ve". *)
-                    "DB".p_ve := 1;
+                    "DB".p_ve := g_LIT2;
                 END_IF;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 10;
+                "DB".p := p_l15;
             ELSIF edge_p_1 = 11 THEN
                 (* Perform assignments of the 1st edge in location "p.l15". *)
                 (* Perform update of discrete variable "p.r". *)
                 "DB".p_r := DINT_TO_LREAL("DB".g_inp) + 10.0;
                 (* Perform update of current location of automaton "p". *)
-                "DB".p := 11;
+                "DB".p := p_l16;
             END_IF;
         END_IF;
     END_WHILE;

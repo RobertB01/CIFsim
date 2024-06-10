@@ -228,8 +228,6 @@ public class PlcCodeStorage {
      * @param plcVar Variable to add. Name is assumed to be unique.
      */
     public void addConstant(PlcDataVariable plcVar) {
-        Assert.check(target.supportsConstants());
-
         if (globalConstants == null) {
             globalConstants = new PlcGlobalVarList("CONSTANTS", PlcVarListKind.CONSTANTS);
         }

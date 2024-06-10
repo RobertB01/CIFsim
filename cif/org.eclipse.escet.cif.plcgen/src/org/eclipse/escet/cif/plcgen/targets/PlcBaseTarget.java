@@ -15,6 +15,13 @@ package org.eclipse.escet.cif.plcgen.targets;
 
 import java.util.EnumSet;
 
+import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
+import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
+import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
+import org.eclipse.escet.cif.metamodel.cif.types.IntType;
+import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
@@ -295,6 +302,21 @@ public abstract class PlcBaseTarget extends PlcTarget {
     @Override
     public String getTonFuncBlockCallName() {
         return tonFuncBlockCallName;
+    }
+
+    /**
+     * Common code that decides allowance for a small subset of constants.
+     *
+     * <p>
+     * Allowed constants are values of boolean, integer, real and enumeration type.
+     * </p>
+     *
+     * @param constant Constant to consider.
+     * @return Whether the give constant is part of the subset.
+     */
+    protected static boolean commonSupportedConstants(Constant constant) {
+        CifType tp = CifTypeUtils.unwrapType(constant.getType());
+        return tp instanceof BoolType || tp instanceof IntType || tp instanceof RealType || tp instanceof EnumType;
     }
 
     @Override

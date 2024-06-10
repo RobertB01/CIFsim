@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
@@ -28,6 +29,13 @@ public interface VariableStorage {
      * @param type CIF type of the variable.
      */
     void addStateVariable(Declaration variable, CifType type);
+
+    /**
+     * Add a constant to the storage.
+     *
+     * @param constant Constant to add.
+     */
+    void addConstant(Constant constant);
 
     /** Make the variables ready for use in the PLC code. */
     void process();

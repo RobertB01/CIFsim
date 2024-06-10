@@ -1,0 +1,160 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'false' }
+    VAR_TEMP
+        current_aut_y: DINT;
+        edge_aut_1: DINT;
+        eventEnabled: BOOL;
+        isProgress: BOOL;
+        litStruct: TupleStruct;
+        litStruct_1: TupleStruct;
+    END_VAR
+
+BEGIN
+    (* Header text file for:
+     *  -> (-*-) CIF PLC code generator.
+     *)
+
+    (*------------------------------------------------------
+     * Model overview:
+     *
+     * Specification (top-level group):
+     * - Input variable "bol".
+     * - Input variable "col".
+     * - Input variable "i".
+     *
+     * Automaton "aut":
+     * - Discrete variable "aut.y".
+     *
+     * - PLC edge selection variable "edge_aut".
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "aut.e".
+     * - Controllable event "aut.f".
+     * - Controllable event "aut.g".
+     *
+     *------------------------------------------------------ *)
+
+    (* --- Initialize state. --------------------------------------------------- *)
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
+
+        (* Initialize the state variables. *)
+        (* Initialize discrete variable "aut.y". *)
+        "DB".aut_y := 0;
+    END_IF;
+
+    (* --- Process controllable events. ---------------------------------------- *)
+    isProgress := TRUE;
+    (* Perform events until none can be done anymore. *)
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (*************************************************************
+         * Try to perform controllable event "aut.e".
+         *
+         * - Automaton "aut" must always synchronize.
+         *************************************************************)
+        eventEnabled := TRUE;
+        (*******************************
+         * Check each synchronizing automaton for having an edge with a true guard.
+         *******************************)
+        (***********
+         * Test edge of automaton "aut" to synchronize for event "aut.e".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         * - Location:
+         *   - 1st edge in the location
+         ***********)
+        IF DINT_TO_REAL("DB".i) + c > DINT_TO_REAL(3) THEN
+            edge_aut_1 := 1;
+        ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+        (* All checks have been done. If variable "eventEnabled" still holds, event "aut.e" can occur. *)
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+            current_aut_y := "DB".aut_y;
+            (*******************************
+             * Perform the assignments of each synchronizing automaton.
+             *******************************)
+            (* Perform assignments of automaton "aut". *)
+            IF edge_aut_1 = 1 THEN
+                (* Perform assignments of the 1st edge of automaton "aut". *)
+                (* Perform update of discrete variable "aut.y". *)
+                "DB".aut_y := -1;
+            END_IF;
+        END_IF;
+
+        (*************************************************************
+         * Try to perform controllable event "aut.f".
+         *
+         * - Automaton "aut" must always synchronize.
+         *************************************************************)
+        eventEnabled := TRUE;
+        (*******************************
+         * Check each synchronizing automaton for having an edge with a true guard.
+         *******************************)
+        (***********
+         * Test edge of automaton "aut" to synchronize for event "aut.f".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         * - Location:
+         *   - 2nd edge in the location
+         ***********)
+        litStruct_1.field1 := 0;
+        litStruct_1.field2 := 0;
+        IF "DB".bol = holds OR "DB".i = litStruct_1.field1 THEN
+            edge_aut_1 := 1;
+        ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+        (* All checks have been done. If variable "eventEnabled" still holds, event "aut.f" can occur. *)
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            (*******************************
+             * Perform the assignments of each synchronizing automaton.
+             *******************************)
+            (* There are no assignments to perform for automata that must always synchronize. *)
+            (* Automaton "aut" has no assignments to perform. *)
+        END_IF;
+
+        (*************************************************************
+         * Try to perform controllable event "aut.g".
+         *
+         * - Automaton "aut" must always synchronize.
+         *************************************************************)
+        eventEnabled := TRUE;
+        (*******************************
+         * Check each synchronizing automaton for having an edge with a true guard.
+         *******************************)
+        (***********
+         * Test edge of automaton "aut" to synchronize for event "aut.g".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         * - Location:
+         *   - 3rd edge in the location
+         ***********)
+        IF "DB".col <> danger THEN
+            edge_aut_1 := 1;
+        ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+        (* All checks have been done. If variable "eventEnabled" still holds, event "aut.g" can occur. *)
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            (*******************************
+             * Perform the assignments of each synchronizing automaton.
+             *******************************)
+            (* There are no assignments to perform for automata that must always synchronize. *)
+            (* Automaton "aut" has no assignments to perform. *)
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK

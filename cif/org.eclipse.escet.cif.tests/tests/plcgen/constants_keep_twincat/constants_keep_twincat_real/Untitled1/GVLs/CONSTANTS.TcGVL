@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <GVL Name="CONSTANTS">
+    <Declaration><![CDATA[VAR_GLOBAL CONSTANT // CONSTANTS
+    a: DINT := 4;
+    b: DINT := 2;
+    c: LREAL := 3.0;
+    d: DINT := 1;
+    holds: BOOL := TRUE;
+    danger: Color := red;
+    x: DINT := -1;
+END_VAR]]></Declaration>
+    <ObjectProperties/>
+  </GVL>
+</TcPlcObject>

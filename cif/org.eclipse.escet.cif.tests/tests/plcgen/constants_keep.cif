@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const int a = b * 2;  // value 4, third
+const int b = d + 1;  // value 2, second
+const real c = a - 1; // value 3, fourth
+const int d = 1;      // value 1, first
+
+const bool holds = true;
+const Color danger = red;
+const int x = -1;
+
+const tuple(int a; int b) t = (0, 0);
+
+enum Color = red, yellow, blue;
+
+input int i;
+input bool bol;
+input Color col;
+
+automaton aut:
+  controllable e, f, g;
+  disc int y;
+
+  location:
+    initial;
+
+    edge e when i + c > 3 do y := -1;
+    edge f when bol = holds or i = t[0];
+    edge g when col != danger;
+end

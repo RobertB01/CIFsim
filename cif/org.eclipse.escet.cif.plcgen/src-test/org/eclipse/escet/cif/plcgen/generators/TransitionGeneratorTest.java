@@ -39,6 +39,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
@@ -111,7 +112,7 @@ public class TransitionGeneratorTest {
         }
 
         @Override
-        public boolean supportsConstants() {
+        public boolean supportsConstant(Constant constant) {
             throw new UnsupportedOperationException("Not needed for the test.");
         }
 
