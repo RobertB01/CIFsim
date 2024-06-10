@@ -12,8 +12,7 @@ WARNING: File "checks/ExprNoSpecificExprsCheckLevel1.cif": Semantic warning at l
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel1.cif": Semantic warning at line 236, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel1.cif": Semantic warning at line 266, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel1.cif": Semantic warning at line 276, column 3: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificExprsCheckLevel1.cif": Semantic warning at line 320, column 13: The switch expression has only one case, which is deprecated.
-WARNING: File "checks/ExprNoSpecificExprsCheckLevel1.cif": Semantic warning at line 330, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel1.cif": Semantic warning at line 346, column 3: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   -----------------------------------
@@ -169,9 +168,39 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                     ^     ^
-   * In group "SWITCH_EXPRS":
-     - invariant switch 5: case 5: true end;
-                                   ^
+   * In invariant "SWITCH_EXPRS.SWITCH_BOOL":
+     - invariant SWITCH_BOOL: switch true: case true: true case false: false end;
+                                     ^          ^     ^         ^      ^
+   * In invariant "SWITCH_EXPRS.SWITCH_DICT":
+     - invariant SWITCH_DICT: switch {1: 2}: case {1: 2}: true else false end;
+                                                          ^         ^
+   * In invariant "SWITCH_EXPRS.SWITCH_ENUM":
+     - invariant SWITCH_ENUM: switch ENUM_LIT_REFS.e1: case ENUM_LIT_REFS.e1: true else false end;
+                                                                              ^         ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGED":
+     - invariant SWITCH_INT_RANGED: switch i1: case 3: true else false end;
+                                                       ^         ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGELESS":
+     - invariant SWITCH_INT_RANGELESS: switch i2: case 5: true else false end;
+                                                          ^         ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_ARRAY":
+     - invariant SWITCH_LIST_ARRAY: switch i3: case [true]: true else false end;
+                                                     ^      ^         ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_NON_ARRAY":
+     - invariant SWITCH_LIST_NON_ARRAY: switch i4: case [true]: true else false end;
+                                                         ^      ^         ^
+   * In invariant "SWITCH_EXPRS.SWITCH_REAL":
+     - invariant SWITCH_REAL: switch i5: case 1.0: true else false end;
+                                                   ^         ^
+   * In invariant "SWITCH_EXPRS.SWITCH_SET":
+     - invariant SWITCH_SET: switch {1, 2}: case {1, 2}: true else false end;
+                                                         ^         ^
+   * In invariant "SWITCH_EXPRS.SWITCH_STRING":
+     - invariant SWITCH_STRING: switch "a": case "a": true else false end;
+                                                      ^         ^
+   * In invariant "SWITCH_EXPRS.SWITCH_TUPLE":
+     - invariant SWITCH_TUPLE: switch (true, false): case (true, false): true else false end;
+                                       ^     ^             ^     ^       ^         ^
    * In constant "TUPLE_FIELD_REFS_NAMED.c":
      - const tuple(bool a; bool b) c = (true, false);
                                         ^     ^
@@ -266,6 +295,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "PROJECTION_EXPRS_DICTS":
      - invariant {true: false}[true];
                  ^
+   * In invariant "SWITCH_EXPRS.SWITCH_DICT":
+     - invariant SWITCH_DICT: switch {1: 2}: case {1: 2}: true else false end;
+                                     ^            ^
 
   -------------------------------
   (7/21) A function call is used.
@@ -332,6 +364,12 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SLICE_EXPRS.SLICE_EXPRS_LIST":
      - invariant SLICE_EXPRS_LIST: [true, false][:-1][0];
                                    ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_ARRAY":
+     - invariant SWITCH_LIST_ARRAY: switch i3: case [true]: true else false end;
+                                                    ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_NON_ARRAY":
+     - invariant SWITCH_LIST_NON_ARRAY: switch i4: case [true]: true else false end;
+                                                        ^
 
   -------------------------------------
   (10/21) A location reference is used.
@@ -409,6 +447,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "REAL_LITS":
      - invariant 1.0 = 1.0;
                  ^     ^
+   * In invariant "SWITCH_EXPRS.SWITCH_REAL":
+     - invariant SWITCH_REAL: switch i5: case 1.0: true else false end;
+                                              ^
 
   --------------------------------------------
   (13/21) A received value expression is used.
@@ -423,6 +464,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "SET_LITS":
      - invariant true in {true, false};
                          ^
+   * In invariant "SWITCH_EXPRS.SWITCH_SET":
+     - invariant SWITCH_SET: switch {1, 2}: case {1, 2}: true else false end;
+                                    ^            ^
 
   -----------------------------------
   (15/21) A slice expression is used.
@@ -470,6 +514,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In group "STRING_LITS":
      - invariant "a" = "a";
                  ^     ^
+   * In invariant "SWITCH_EXPRS.SWITCH_STRING":
+     - invariant SWITCH_STRING: switch "a": case "a": true else false end;
+                                       ^         ^
    * In location "X.A":
      - invariant "A" = <string>self;
                  ^
@@ -483,9 +530,39 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In automaton "COMP_REFS_SELF":
      - invariant switch self: else true end;
                  ^
-   * In group "SWITCH_EXPRS":
-     - invariant switch 5: case 5: true end;
-                 ^
+   * In invariant "SWITCH_EXPRS.SWITCH_BOOL":
+     - invariant SWITCH_BOOL: switch true: case true: true case false: false end;
+                              ^
+   * In invariant "SWITCH_EXPRS.SWITCH_DICT":
+     - invariant SWITCH_DICT: switch {1: 2}: case {1: 2}: true else false end;
+                              ^
+   * In invariant "SWITCH_EXPRS.SWITCH_ENUM":
+     - invariant SWITCH_ENUM: switch ENUM_LIT_REFS.e1: case ENUM_LIT_REFS.e1: true else false end;
+                              ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGED":
+     - invariant SWITCH_INT_RANGED: switch i1: case 3: true else false end;
+                                    ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGELESS":
+     - invariant SWITCH_INT_RANGELESS: switch i2: case 5: true else false end;
+                                       ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_ARRAY":
+     - invariant SWITCH_LIST_ARRAY: switch i3: case [true]: true else false end;
+                                    ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_NON_ARRAY":
+     - invariant SWITCH_LIST_NON_ARRAY: switch i4: case [true]: true else false end;
+                                        ^
+   * In invariant "SWITCH_EXPRS.SWITCH_REAL":
+     - invariant SWITCH_REAL: switch i5: case 1.0: true else false end;
+                              ^
+   * In invariant "SWITCH_EXPRS.SWITCH_SET":
+     - invariant SWITCH_SET: switch {1, 2}: case {1, 2}: true else false end;
+                             ^
+   * In invariant "SWITCH_EXPRS.SWITCH_STRING":
+     - invariant SWITCH_STRING: switch "a": case "a": true else false end;
+                                ^
+   * In invariant "SWITCH_EXPRS.SWITCH_TUPLE":
+     - invariant SWITCH_TUPLE: switch (true, false): case (true, false): true else false end;
+                               ^
 
   --------------------------------
   (18/21) A tuple literal is used.
@@ -495,6 +572,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                  ^
      - invariant ((true, false), false)[0][0];
                  ^^
+   * In invariant "SWITCH_EXPRS.SWITCH_TUPLE":
+     - invariant SWITCH_TUPLE: switch (true, false): case (true, false): true else false end;
+                                      ^                   ^
    * In constant "TUPLE_FIELD_REFS_NAMED.c":
      - const tuple(bool a; bool b) c = (true, false);
                                        ^
@@ -575,9 +655,18 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "SLICE_EXPRS.SLICE_EXPRS_STRING":
      - invariant SLICE_EXPRS_STRING: "ab"[:-1][0] = "a";
                                             ^  ^
-   * In group "SWITCH_EXPRS":
-     - invariant switch 5: case 5: true end;
-                        ^       ^
+   * In invariant "SWITCH_EXPRS.SWITCH_DICT":
+     - invariant SWITCH_DICT: switch {1: 2}: case {1: 2}: true else false end;
+                                      ^  ^         ^  ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGED":
+     - invariant SWITCH_INT_RANGED: switch i1: case 3: true else false end;
+                                                    ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGELESS":
+     - invariant SWITCH_INT_RANGELESS: switch i2: case 5: true else false end;
+                                                       ^
+   * In invariant "SWITCH_EXPRS.SWITCH_SET":
+     - invariant SWITCH_SET: switch {1, 2}: case {1, 2}: true else false end;
+                                     ^  ^         ^  ^
    * In group "TIME_VAR_REFS":
      - invariant time > 0;
                         ^

@@ -12,19 +12,18 @@ WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at l
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at line 236, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at line 266, column 3: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at line 276, column 3: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at line 320, column 13: The switch expression has only one case, which is deprecated.
-WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at line 330, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificExprsCheckLevel2.cif": Semantic warning at line 346, column 3: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   -------------------------------------------
-  (1/15) A 'time' variable reference is used.
+  (1/23) A 'time' variable reference is used.
   -------------------------------------------
    * In group "TIME_VAR_REFS":
      - invariant time > 0;
                  ^
 
   --------------------------------------------
-  (2/15) A component 'self' reference is used.
+  (2/23) A component 'self' reference is used.
   --------------------------------------------
    * In automaton "COMP_REFS_SELF":
      - invariant switch self: else true end;
@@ -34,7 +33,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                                ^
 
   -----------------------------------------------
-  (3/15) A continuous variable reference is used.
+  (3/23) A continuous variable reference is used.
   -----------------------------------------------
    * In group "CONT_VAR_REFS":
      - invariant c = 1.0;
@@ -44,7 +43,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                  ^
 
   --------------------------------------------------
-  (4/15) A dictionary projection expression is used.
+  (4/23) A dictionary projection expression is used.
   --------------------------------------------------
    * In group "DICT_LITS":
      - invariant {true: false}[true];
@@ -54,7 +53,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                               ^
 
   ---------------------------------------------
-  (5/15) A discrete variable reference is used.
+  (5/23) A discrete variable reference is used.
   ---------------------------------------------
    * In automaton "DISC_VAR_REFS":
      - invariant v;
@@ -70,7 +69,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                   ^
 
   --------------------------------------------
-  (6/15) A list projection expression is used.
+  (6/23) A list projection expression is used.
   --------------------------------------------
    * In group "PROJECTION_EXPRS_LISTS":
      - invariant [true, false][0];
@@ -83,7 +82,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                                                      ^
 
   ----------------------------------------------
-  (7/15) A string projection expression is used.
+  (7/23) A string projection expression is used.
   ----------------------------------------------
    * In group "PROJECTION_EXPRS_STRINGS":
      - invariant "abc"[0] = "a";
@@ -93,7 +92,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                                               ^
 
   ---------------------------------------------------
-  (8/15) A switch expression is used on an automaton.
+  (8/23) A switch expression is used on an automaton.
   ---------------------------------------------------
    * In automaton "COMP_REFS_EXPLICIT":
      - invariant switch COMP_REFS_EXPLICIT: else true end;
@@ -102,15 +101,92 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant switch self: else true end;
                  ^
 
-  -----------------------------------------------------------------------------
-  (9/15) A switch expression is used with an integer typed (part of its) value.
-  -----------------------------------------------------------------------------
-   * In group "SWITCH_EXPRS":
-     - invariant switch 5: case 5: true end;
-                 ^
+  ----------------------------------------------------------------------------
+  (9/23) A switch expression is used with a boolean typed (part of its) value.
+  ----------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_BOOL":
+     - invariant SWITCH_BOOL: switch true: case true: true case false: false end;
+                              ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_ARRAY":
+     - invariant SWITCH_LIST_ARRAY: switch i3: case [true]: true else false end;
+                                    ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_NON_ARRAY":
+     - invariant SWITCH_LIST_NON_ARRAY: switch i4: case [true]: true else false end;
+                                        ^
+   * In invariant "SWITCH_EXPRS.SWITCH_TUPLE":
+     - invariant SWITCH_TUPLE: switch (true, false): case (true, false): true else false end;
+                               ^
+
+  --------------------------------------------------------------------------------
+  (10/23) A switch expression is used with a dictionary typed (part of its) value.
+  --------------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_DICT":
+     - invariant SWITCH_DICT: switch {1: 2}: case {1: 2}: true else false end;
+                              ^
+
+  --------------------------------------------------------------------------
+  (11/23) A switch expression is used with a list typed (part of its) value.
+  --------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_ARRAY":
+     - invariant SWITCH_LIST_ARRAY: switch i3: case [true]: true else false end;
+                                    ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_NON_ARRAY":
+     - invariant SWITCH_LIST_NON_ARRAY: switch i4: case [true]: true else false end;
+                                        ^
+
+  --------------------------------------------------------------------------
+  (12/23) A switch expression is used with a real typed (part of its) value.
+  --------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_REAL":
+     - invariant SWITCH_REAL: switch i5: case 1.0: true else false end;
+                              ^
+
+  -------------------------------------------------------------------------
+  (13/23) A switch expression is used with a set typed (part of its) value.
+  -------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_SET":
+     - invariant SWITCH_SET: switch {1, 2}: case {1, 2}: true else false end;
+                             ^
+
+  ----------------------------------------------------------------------------
+  (14/23) A switch expression is used with a string typed (part of its) value.
+  ----------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_STRING":
+     - invariant SWITCH_STRING: switch "a": case "a": true else false end;
+                                ^
+
+  ---------------------------------------------------------------------------
+  (15/23) A switch expression is used with a tuple typed (part of its) value.
+  ---------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_TUPLE":
+     - invariant SWITCH_TUPLE: switch (true, false): case (true, false): true else false end;
+                               ^
+
+  ----------------------------------------------------------------------------------
+  (16/23) A switch expression is used with an enumeration typed (part of its) value.
+  ----------------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_ENUM":
+     - invariant SWITCH_ENUM: switch ENUM_LIT_REFS.e1: case ENUM_LIT_REFS.e1: true else false end;
+                              ^
+
+  ------------------------------------------------------------------------------
+  (17/23) A switch expression is used with an integer typed (part of its) value.
+  ------------------------------------------------------------------------------
+   * In invariant "SWITCH_EXPRS.SWITCH_DICT":
+     - invariant SWITCH_DICT: switch {1: 2}: case {1: 2}: true else false end;
+                              ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGED":
+     - invariant SWITCH_INT_RANGED: switch i1: case 3: true else false end;
+                                    ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGELESS":
+     - invariant SWITCH_INT_RANGELESS: switch i2: case 5: true else false end;
+                                       ^
+   * In invariant "SWITCH_EXPRS.SWITCH_SET":
+     - invariant SWITCH_SET: switch {1, 2}: case {1, 2}: true else false end;
+                             ^
 
   ----------------------------------------
-  (10/15) A tuple field reference is used.
+  (18/23) A tuple field reference is used.
   ----------------------------------------
    * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
@@ -120,7 +196,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                    ^
 
   ----------------------------------------------
-  (11/15) A tuple projection expression is used.
+  (19/23) A tuple projection expression is used.
   ----------------------------------------------
    * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
@@ -141,7 +217,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                               ^
 
   ------------------------------------------------
-  (12/15) An algebraic variable reference is used.
+  (20/23) An algebraic variable reference is used.
   ------------------------------------------------
    * In group "ALG_VAR_REFS":
      - invariant a;
@@ -151,14 +227,17 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                  ^
 
   -------------------------------------------------
-  (13/15) An enumeration literal reference is used.
+  (21/23) An enumeration literal reference is used.
   -------------------------------------------------
    * In group "ENUM_LIT_REFS":
      - invariant e1 = e2;
                  ^    ^
+   * In invariant "SWITCH_EXPRS.SWITCH_ENUM":
+     - invariant SWITCH_ENUM: switch ENUM_LIT_REFS.e1: case ENUM_LIT_REFS.e1: true else false end;
+                                     ^                      ^
 
   ------------------------------------------------
-  (14/15) An explicit component reference is used.
+  (22/23) An explicit component reference is used.
   ------------------------------------------------
    * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
@@ -168,8 +247,23 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                         ^
 
   --------------------------------------------
-  (15/15) An input variable reference is used.
+  (23/23) An input variable reference is used.
   --------------------------------------------
    * In group "INPUT_VAR_REFS":
      - invariant i;
                  ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGED":
+     - invariant SWITCH_INT_RANGED: switch i1: case 3: true else false end;
+                                           ^
+   * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGELESS":
+     - invariant SWITCH_INT_RANGELESS: switch i2: case 5: true else false end;
+                                              ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_ARRAY":
+     - invariant SWITCH_LIST_ARRAY: switch i3: case [true]: true else false end;
+                                           ^
+   * In invariant "SWITCH_EXPRS.SWITCH_LIST_NON_ARRAY":
+     - invariant SWITCH_LIST_NON_ARRAY: switch i4: case [true]: true else false end;
+                                               ^
+   * In invariant "SWITCH_EXPRS.SWITCH_REAL":
+     - invariant SWITCH_REAL: switch i5: case 1.0: true else false end;
+                                     ^

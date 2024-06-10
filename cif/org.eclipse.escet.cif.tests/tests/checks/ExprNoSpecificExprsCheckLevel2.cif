@@ -317,7 +317,23 @@ end
 
 // SWITCH_EXPRS.
 group SWITCH_EXPRS:
-  invariant switch 5: case 5: true end;
+  input int[3..5] i1;
+  input int i2;
+  input list[1] bool i3;
+  input list bool i4;
+  input real i5;
+  invariant SWITCH_BOOL: switch true: case true: true case false: false end;
+  invariant SWITCH_DICT: switch {1:2}: case {1:2}: true else false end;
+  invariant SWITCH_ENUM: switch ENUM_LIT_REFS.e1: case ENUM_LIT_REFS.e1: true else false end;
+  invariant SWITCH_INT_RANGED: switch i1: case 3: true else false end;
+  invariant SWITCH_INT_RANGELESS: switch i2: case 5: true else false end;
+  invariant SWITCH_LIST_ARRAY: switch i3: case [true]: true else false end;
+  invariant SWITCH_LIST_NON_ARRAY: switch i4: case [true]: true else false end;
+  invariant SWITCH_REAL: switch i5: case 1.0: true else false end;
+  invariant SWITCH_SET: switch {1,2}: case {1,2}: true else false end;
+  invariant SWITCH_STRING: switch "a": case "a": true else false end;
+  invariant SWITCH_TUPLE: switch (true, false): case (true, false): true else false end;
+  // 'switch' on automata is checked above already.
 end
 
 // TIME_VAR_REFS.
