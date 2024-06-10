@@ -260,7 +260,7 @@ public class DefaultNameGenerator implements NameGenerator {
         String[] functionBlockNames = new String[] { //
                 "rs", "sr", // Set/reset.
                 "ton", "tof", "tp", // Timers.
-                "iec_timer", // Timers S7.
+                "iec_timer", "timer", // Timers S7.
                 "f_trig", "r_trig", // Edge detection.
                 "ctu", "ctu_dint", "ctu_lint", "ctu_udint", "ctu_ulint", // Up counters.
                 "ctd", "ctd_dint", "ctd_lint", "ctd_udint", "ctd_ulint", // Down counters.
