@@ -172,7 +172,7 @@ public class CifProcessor {
                 if (target.supportsConstant(constant)) {
                     target.getVarStorage().addConstant(constant);
                 }
-                // Else ignore it, the expression generator will eliminate it when used.
+                // Else ignore it: the expression generator will inline it when used.
             }
 
             // TODO Extend allowed initial values by computing at runtime.
