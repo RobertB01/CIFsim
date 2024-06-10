@@ -337,21 +337,25 @@ indexterm:[controller properties checker,preprocessing]
 
 To increase the subset of CIF specifications that can be checked, various <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing.
 
-The following are applied for the tool in general, regardless of which checks are performed, and affect the output model:
+The following transformations are applied for the tool in general, regardless of which checks are performed:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+The changes are included in the output model as well.
 
 The following are applied for the tool in general, regardless of which checks are performed, but do not affect the output model:
 
 * <<tools-cif2cif-chapter-remove-io-decls>>
 
 // *** BDD-based checks. ***
-The following are applied, in case bounded response is checked, but do not affect the output model:
+The following transformations are applied, in case bounded response is checked:
 
 * <<tools-cif2cif-chapter-relabel-supervisors-as-plants>>
 
+The changes are not included in the output model.
+
 // *** MDD-based checks. ***
-The following are applied (in the given order), in case confluence or finite response is checked, but do not affect the output model:
+The following are applied (in the given order), in case confluence or finite response is checked:
 
 * <<tools-cif2cif-chapter-elim-state-event-excl-invs>>
 
@@ -372,6 +376,8 @@ The following are applied (in the given order), in case confluence or finite res
 * <<tools-cif2cif-chapter-simplify-values>>
 
 * <<tools-cif2cif-chapter-elim-if-updates>>
+
+The changes are not included in the output model.
 
 indexterm:[controller properties checker property,runtime errors]
 
