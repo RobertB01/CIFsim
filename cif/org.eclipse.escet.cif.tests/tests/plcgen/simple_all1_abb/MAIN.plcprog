@@ -112,7 +112,7 @@ IF firstRun THEN
 ELSE
     (* Update remaining time of continuous variable "p.t". *)
     ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
-    p_t := SEL(timeOut, MAX(DINT_TO_REAL(TIME_TO_DINT(preset_p_t - curValue)) / 1000.0, 0.0), 0.0);
+    p_t := SEL_REAL(timeOut, MAX(DINT_TO_REAL(TIME_TO_DINT(preset_p_t - curValue)) / 1000.0, 0.0), 0.0);
 END_IF;
 
 (* --- Process controllable events. ---------------------------------------- *)

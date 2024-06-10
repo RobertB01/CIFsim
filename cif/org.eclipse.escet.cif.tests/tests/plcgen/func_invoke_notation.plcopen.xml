@@ -228,7 +228,7 @@ IF firstRun THEN
 ELSE
     (* Update remaining time of continuous variable "c". *)
     ton_c(IN := TRUE, PT := preset_c, Q =&gt; timeOut, ET =&gt; curValue);
-    c := SEL(timeOut, MAX(LINT_TO_LREAL(TIME_TO_LINT(preset_c - curValue)) / 1000.0, 0.0), 0.0);
+    c := SEL_LREAL(timeOut, MAX(LINT_TO_LREAL(TIME_TO_LINT(preset_c - curValue)) / 1000.0, 0.0), 0.0);
 END_IF;
 
 (* --- Process uncontrollable events. -------------------------------------- *)
