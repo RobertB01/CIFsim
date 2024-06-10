@@ -32,6 +32,7 @@ import static org.eclipse.escet.common.position.common.PositionUtils.copyPositio
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
@@ -926,6 +927,97 @@ public class CifTypeUtils {
             // type, but only what type we reach.
             CompParamWrapType wrapper = (CompParamWrapType)type;
             return hasDistType(wrapper.getReference());
+        }
+
+        if (type instanceof VoidType) {
+            return false;
+        }
+
+        throw new RuntimeException("Unknown type: " + type);
+    }
+
+    /**
+     * Does the given type have a type, either directly, or indirectly, that matches the given condition?
+     *
+     * @param type The CIF type to check.
+     * @param condition The condition to check for.
+     * @return {@code true} if the CIF type has a type with the given condition, {@code false} otherwise.
+     */
+    public static boolean hasType(CifType type, Predicate<CifType> condition) {
+        // Check the condition.
+        if (condition.test(type)) {
+            return true;
+        }
+
+        // Check recursively.
+        if (type instanceof BoolType) {
+            return false;
+        }
+        if (type instanceof IntType) {
+            return false;
+        }
+        if (type instanceof EnumType) {
+            return false;
+        }
+        if (type instanceof RealType) {
+            return false;
+        }
+        if (type instanceof StringType) {
+            return false;
+        }
+
+        if (type instanceof TypeRef typeRef) {
+            return hasType(typeRef.getType().getType(), condition);
+        }
+
+        if (type instanceof ListType listType) {
+            return hasType(listType.getElementType(), condition);
+        }
+        if (type instanceof SetType setType) {
+            return hasType(setType.getElementType(), condition);
+        }
+        if (type instanceof DictType dictType) {
+            return hasType(dictType.getKeyType(), condition) || hasType(dictType.getValueType(), condition);
+        }
+        if (type instanceof TupleType tupleType) {
+            for (Field field: tupleType.getFields()) {
+                if (hasType(field.getType(), condition)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if (type instanceof FuncType funcType) {
+            if (hasType(funcType.getReturnType(), condition)) {
+                return true;
+            }
+            for (CifType paramType: funcType.getParamTypes()) {
+                if (hasType(paramType, condition)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if (type instanceof DistType distType) {
+            return hasType(distType.getSampleType(), condition);
+        }
+
+        if (type instanceof ComponentDefType) {
+            return false;
+        }
+        if (type instanceof ComponentType) {
+            return false;
+        }
+
+        if (type instanceof CompInstWrapType wrapType) {
+            // Just peel of the wrapper. We don't care about how we reach a type, but only what type we reach.
+            return hasType(wrapType.getReference(), condition);
+        }
+        if (type instanceof CompParamWrapType wrapType) {
+            // Just peel of the wrapper. We don't care about how we reach a type, but only what type we reach.
+            return hasType(wrapType.getReference(), condition);
         }
 
         if (type instanceof VoidType) {
