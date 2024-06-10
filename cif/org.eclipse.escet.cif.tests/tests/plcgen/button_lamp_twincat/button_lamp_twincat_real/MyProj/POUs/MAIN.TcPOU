@@ -121,7 +121,7 @@ IF firstRun THEN
 ELSE
     (* Update remaining time of continuous variable "timer.t". *)
     ton_timer_t(IN := TRUE, PT := preset_timer_t, Q => timeOut, ET => curValue);
-    timer_t := SEL(timeOut, MAX(LINT_TO_LREAL(TIME_TO_LINT(preset_timer_t - curValue)) / 1000.0, 0.0), 0.0);
+    timer_t := SEL_LREAL(timeOut, MAX(LINT_TO_LREAL(TIME_TO_LINT(preset_timer_t - curValue)) / 1000.0, 0.0), 0.0);
 END_IF;
 
 (* --- Process uncontrollable events. -------------------------------------- *)
