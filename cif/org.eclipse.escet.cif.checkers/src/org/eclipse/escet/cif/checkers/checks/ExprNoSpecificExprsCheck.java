@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTypeUtils.isAutRefExpr;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -680,86 +681,91 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
             CifType valueType = CifTypeUtils.normalizeType(switchExpr.getValue().getType());
             if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_BOOL)) {
                 if (CifTypeUtils.hasType(valueType, BoolType.class::isInstance)) {
-                    violations.add(switchExpr, "A switch expression is used with a boolean typed (part of its) value");
+                    addSwitchValueViolation(switchExpr, "a boolean typed", violations);
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_DICT)) {
                 if (CifTypeUtils.hasType(valueType, DictType.class::isInstance)) {
-                    violations.add(switchExpr,
-                            "A switch expression is used with a dictionary typed (part of its) value");
+                    addSwitchValueViolation(switchExpr, "a dictionary typed", violations);
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_ENUM)) {
                 if (CifTypeUtils.hasType(valueType, EnumType.class::isInstance)) {
-                    violations.add(switchExpr,
-                            "A switch expression is used with an enumeration typed (part of its) value");
+                    addSwitchValueViolation(switchExpr, "an enumeration typed", violations);
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_INT)) {
                 if (CifTypeUtils.hasType(valueType, IntType.class::isInstance)) {
-                    violations.add(switchExpr, "A switch expression is used with an integer typed (part of its) value");
+                    addSwitchValueViolation(switchExpr, "an integer typed", violations);
                 }
             } else {
                 if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_INT_RANGED)) {
                     if (CifTypeUtils.hasType(valueType,
                             t -> t instanceof IntType itype && !CifTypeUtils.isRangeless(itype)))
                     {
-                        violations.add(switchExpr,
-                                "A switch expression is used with a ranged integer typed (part of its) value");
+                        addSwitchValueViolation(switchExpr, "a ranged integer typed", violations);
                     }
                 }
                 if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_INT_RANGELESS)) {
                     if (CifTypeUtils.hasType(valueType,
                             t -> t instanceof IntType itype && CifTypeUtils.isRangeless(itype)))
                     {
-                        violations.add(switchExpr,
-                                "A switch expression is used with a rangeless integer typed (part of its) value");
+                        addSwitchValueViolation(switchExpr, "a rangeless integer typed", violations);
                     }
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_LIST)) {
                 if (CifTypeUtils.hasType(valueType, ListType.class::isInstance)) {
-                    violations.add(switchExpr, "A switch expression is used with a list typed (part of its) value");
+                    addSwitchValueViolation(switchExpr, "a list typed", violations);
                 }
             } else {
                 if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_LIST_ARRAY)) {
                     if (CifTypeUtils.hasType(valueType,
                             t -> t instanceof ListType ltype && CifTypeUtils.isArrayType(ltype)))
                     {
-                        violations.add(switchExpr,
-                                "A switch expression is used with an array list typed (part of its) value");
+                        addSwitchValueViolation(switchExpr, "an array list typed", violations);
                     }
                 }
                 if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_LIST_NON_ARRAY)) {
                     if (CifTypeUtils.hasType(valueType,
                             t -> t instanceof ListType ltype && !CifTypeUtils.isArrayType(ltype)))
                     {
-                        violations.add(switchExpr,
-                                "A switch expression is used with a non-array list typed (part of its) value");
+                        addSwitchValueViolation(switchExpr, "a non-array list typed", violations);
                     }
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_REAL)) {
                 if (CifTypeUtils.hasType(valueType, RealType.class::isInstance)) {
-                    violations.add(switchExpr, "A switch expression is used with a real typed (part of its) value");
+                    addSwitchValueViolation(switchExpr, "a real typed", violations);
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_SET)) {
                 if (CifTypeUtils.hasType(valueType, SetType.class::isInstance)) {
-                    violations.add(switchExpr, "A switch expression is used with a set typed (part of its) value");
+                    addSwitchValueViolation(switchExpr, "a set typed", violations);
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_STRING)) {
                 if (CifTypeUtils.hasType(valueType, StringType.class::isInstance)) {
-                    violations.add(switchExpr, "A switch expression is used with a string typed (part of its) value");
+                    addSwitchValueViolation(switchExpr, "a string typed", violations);
                 }
             }
             if (disalloweds.contains(NoSpecificExpr.SWITCH_EXPRS_TUPLE)) {
                 if (CifTypeUtils.hasType(valueType, TupleType.class::isInstance)) {
-                    violations.add(switchExpr, "A switch expression is used with a tuple typed (part of its) value");
+                    addSwitchValueViolation(switchExpr, "a tuple typed", violations);
                 }
             }
         }
+    }
+
+    /**
+     * Add a violation for a 'switch' expression with an unsupported (part of its) value.
+     *
+     * @param expr The 'switch' expression.
+     * @param typeDescription The description of the type of the value of (part of its) value.
+     * @param violations The violations collected so far. A violation is added to it.
+     */
+    private void addSwitchValueViolation(SwitchExpression expr, String typeDescription, CifCheckViolations violations) {
+        violations.add(expr, fmt("A switch expression is used with %s (part of its) value", typeDescription));
     }
 
     @Override
