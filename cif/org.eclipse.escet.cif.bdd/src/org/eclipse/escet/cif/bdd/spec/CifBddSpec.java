@@ -308,6 +308,12 @@ public class CifBddSpec {
     public BDDVarSet varSetNew;
 
     /**
+     * The BDD variable set containing all old and new variables, i.e. '{x, x+, y, y+, z, z+, ...}'. Is {@code null} if
+     * not available.
+     */
+    public BDDVarSet varSetOldAndNew;
+
+    /**
      * Constructor for the {@link CifBddSpec} class.
      *
      * @param settings The settings to use.
@@ -375,6 +381,7 @@ public class CifBddSpec {
 
         varSetOld = BddUtils.free(varSetOld);
         varSetNew = BddUtils.free(varSetNew);
+        varSetOldAndNew = BddUtils.free(varSetOldAndNew);
 
         for (CifBddEdge edge: edges) {
             edge.freeBDDs();
