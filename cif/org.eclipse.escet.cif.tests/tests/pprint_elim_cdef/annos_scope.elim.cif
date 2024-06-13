@@ -1,0 +1,69 @@
+const bool x = true;
+const string y = "y";
+input int i;
+@doc(x)
+automaton a:
+  const string x = "a";
+  location:
+    initial;
+end
+@doc(x)
+@doc(y)
+automaton ainst1:
+  alg string x = "ainst1";
+  invariant x = "adef1";
+  location:
+    initial;
+end
+@doc(x)
+@doc(y)
+automaton ainst2:
+  const string x = "adef2";
+  location:
+    initial;
+end
+@doc(y)
+automaton ainst3:
+  @doc(x)
+  alg string x = "ainst3";
+  invariant x = "adef3";
+  location:
+    initial;
+end
+@doc(y)
+automaton ainst4:
+  const string x = "adef4";
+  @doc(x)
+  alg int p = i;
+  invariant p = 123;
+  location:
+    initial;
+end
+@doc(x)
+group g:
+  const string x = "g";
+end
+@doc(x)
+@doc(y)
+group ginst1:
+  alg string x = "ginst1";
+  invariant x = "gdef1";
+end
+@doc(x)
+@doc(y)
+group ginst2:
+  const string x = "gdef2";
+end
+@doc(y)
+group ginst3:
+  @doc(x)
+  alg string x = "ginst3";
+  invariant x = "gdef3";
+end
+@doc(y)
+group ginst4:
+  const string x = "gdef4";
+  @doc(x)
+  alg int p = i;
+  invariant p = 123;
+end

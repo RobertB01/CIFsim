@@ -1,0 +1,115 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const bool x = true; // Should not get resolved.
+const string y = "y"; // Gets resolved.
+
+input int i;
+
+// Automaton (definition/instantiation).
+
+@doc(x)
+automaton a:
+  const string x = "a";
+  location:
+    initial;
+end
+
+@doc(x)
+automaton def adef1(alg string x):
+  invariant x = "adef1";
+  location:
+    initial;
+end
+
+@doc(x)
+automaton def adef2():
+  const string x = "adef2";
+  location:
+    initial;
+end
+
+automaton def adef3(
+  @doc(x)
+  alg string x
+):
+  invariant x = "adef3";
+  location:
+    initial;
+end
+
+automaton def adef4(
+  @doc(x)
+  alg int p
+):
+  const string x = "adef4";
+  invariant p = 123;
+  location:
+    initial;
+end
+
+@doc(y)
+ainst1: adef1("ainst1");
+
+@doc(y)
+ainst2: adef2();
+
+@doc(y)
+ainst3: adef3("ainst3");
+
+@doc(y)
+ainst4: adef4(i);
+
+// Group (definition/instantiation).
+
+@doc(x)
+group g:
+  const string x = "g";
+end
+
+@doc(x)
+group def gdef1(alg string x):
+  invariant x = "gdef1";
+end
+
+@doc(x)
+group def gdef2():
+  const string x = "gdef2";
+end
+
+group def gdef3(
+  @doc(x)
+  alg string x
+):
+  invariant x = "gdef3";
+end
+
+group def gdef4(
+  @doc(x)
+  alg int p
+):
+  const string x = "gdef4";
+  invariant p = 123;
+end
+
+@doc(y)
+ginst1: gdef1("ginst1");
+
+@doc(y)
+ginst2: gdef2();
+
+@doc(y)
+ginst3: gdef3("ginst3");
+
+@doc(y)
+ginst4: gdef4(i);

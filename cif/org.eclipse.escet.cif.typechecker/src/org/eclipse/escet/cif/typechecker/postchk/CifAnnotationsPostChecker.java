@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.RegistryFactory;
+import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.annotations.AnnotatedObject;
 import org.eclipse.escet.cif.metamodel.cif.annotations.Annotation;
@@ -33,6 +34,7 @@ import org.eclipse.escet.cif.typechecker.ErrMsg;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProblemReporter;
 import org.eclipse.escet.cif.typechecker.annotations.AnnotationProvider;
 import org.eclipse.escet.cif.typechecker.annotations.DoNothingAnnotationProvider;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
@@ -69,6 +71,9 @@ public class CifAnnotationsPostChecker extends CifWalker {
      *     definitions/instantiations.
      */
     public void check(Specification spec) {
+        // Make sure no component definition/instantiation is present.
+        Assert.check(!CifScopeUtils.hasCompDefInst(spec), "Can't post check annotations on spec with comp def/inst.");
+
         // Find all annotations, and type check them using their corresponding annotation providers.
         walkSpecification(spec);
 

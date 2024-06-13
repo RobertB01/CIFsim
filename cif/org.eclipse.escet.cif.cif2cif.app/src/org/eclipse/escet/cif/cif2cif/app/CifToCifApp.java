@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.eclipse.escet.cif.cif2cif.CifToCifPreconditionException;
 import org.eclipse.escet.cif.cif2cif.CifToCifTransformation;
+import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
+import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -34,6 +36,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
@@ -99,9 +102,14 @@ public class CifToCifApp extends Application<IOutputComponent> {
         }
 
         // Check CIF specification to output.
+        Specification postChkSpec = spec;
+        if (CifScopeUtils.hasCompDefInst(postChkSpec)) {
+            postChkSpec = EMFHelper.deepclone(postChkSpec);
+            new ElimComponentDefInst().transform(postChkSpec);
+        }
         CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "transformed");
         try {
-            new CifAnnotationsPostChecker(env).check(spec);
+            new CifAnnotationsPostChecker(env).check(postChkSpec);
         } catch (SemanticException ex) {
             // Ignore.
         }
