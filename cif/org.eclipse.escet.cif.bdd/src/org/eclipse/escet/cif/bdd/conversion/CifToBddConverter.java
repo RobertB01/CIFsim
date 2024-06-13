@@ -1117,6 +1117,7 @@ public class CifToBddConverter {
         }
         cifBddSpec.varSetOld = cifBddSpec.factory.makeSet(varIdxsOld);
         cifBddSpec.varSetNew = cifBddSpec.factory.makeSet(varIdxsNew);
+        cifBddSpec.varSetOldAndNew = cifBddSpec.varSetOld.union(cifBddSpec.varSetNew);
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return;

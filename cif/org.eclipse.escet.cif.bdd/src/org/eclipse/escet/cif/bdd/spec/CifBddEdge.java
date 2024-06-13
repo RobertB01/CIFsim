@@ -32,7 +32,6 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
-import com.github.javabdd.BDDFactory;
 
 /** A CIF/BDD edge. Represents an edge of a linearized CIF specification in a BDD representation. */
 public class CifBddEdge {
@@ -298,28 +297,17 @@ public class CifBddEdge {
             // Applying error predicates during forward reachability is not supported.
             Assert.check(!applyError);
 
-            // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)
-            BDD rslt = updateGuardRestricted.applyEx(pred, BDDFactory.and, cifBddSpec.varSetOld);
+            // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)[x/x+, y/y+, z/z+, ...].
+            BDD rslt = updateGuardRestricted.relnext(pred, cifBddSpec.varSetOldAndNew);
             pred.free();
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
-                return rslt;
-            }
-
-            // rsltOld = rslt[x/x+, y/y+, z/z+, ...]
-            BDD rsltOld = rslt.replaceWith(cifBddSpec.newToOldVarsPairing);
 
             // Return the result of applying the update.
-            return rsltOld;
+            return rslt;
         } else {
-            // predNew = pred[x+/x, y+/y, z+/z, ...]
-            BDD predNew = pred.replaceWith(cifBddSpec.oldToNewVarsPairing);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
-                return predNew;
-            }
+            // rslt = Exists{x+, y+, z+, ...}(guard && update && pred[x+/x, y+/y, z+/z, ...]).
+            BDD rslt = updateGuard.relprev(pred, cifBddSpec.varSetOldAndNew);
+            pred.free();
 
-            // rslt = Exists{x+, y+, z+, ...}(guard && update && predNew)
-            BDD rslt = updateGuard.applyEx(predNew, BDDFactory.and, cifBddSpec.varSetNew);
-            predNew.free();
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return rslt;
             }
