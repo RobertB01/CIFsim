@@ -298,14 +298,14 @@ public class CifBddEdge {
             Assert.check(!applyError);
 
             // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)[x/x+, y/y+, z/z+, ...].
-            BDD rslt = updateGuardRestricted.relnext(pred, cifBddSpec.varSetOldAndNew);
+            BDD rslt = updateGuardRestricted.relnext(pred, null);
             pred.free();
 
             // Return the result of applying the update.
             return rslt;
         } else {
             // rslt = Exists{x+, y+, z+, ...}(guard && update && pred[x+/x, y+/y, z+/z, ...]).
-            BDD rslt = updateGuard.relprev(pred, cifBddSpec.varSetOldAndNew);
+            BDD rslt = updateGuard.relprev(pred, null);
             pred.free();
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
