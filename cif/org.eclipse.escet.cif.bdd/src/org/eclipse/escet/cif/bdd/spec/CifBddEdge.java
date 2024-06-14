@@ -15,10 +15,10 @@ package org.eclipse.escet.cif.bdd.spec;
 
 import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.Lists.concat;
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -70,7 +70,7 @@ public class CifBddEdge {
     public List<List<Assignment>> assignments;
 
     /** The set of variables that are being assigned to by this CIF/BDD edge. */
-    public final Set<CifBddVariable> assignedVariables = new set();
+    public final Set<CifBddVariable> assignedVariables = set();
 
     /**
      * The update predicate that relates old and new values of variables, indicating which combinations of old and new
