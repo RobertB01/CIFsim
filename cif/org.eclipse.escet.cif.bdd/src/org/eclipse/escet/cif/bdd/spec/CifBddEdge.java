@@ -37,6 +37,7 @@ import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
+import com.github.javabdd.BDDVarSet;
 
 /** A CIF/BDD edge. Represents an edge of a linearized CIF specification in a BDD representation. */
 public class CifBddEdge {
@@ -104,6 +105,15 @@ public class CifBddEdge {
     /** Precomputed 'not {@link #error}'. Is {@code null} if not available. */
     public BDD errorNot;
 
+    /** Precomputed BDD variable support for {@link #updateGuard}. Is {@code null} if not available. */
+    private BDDVarSet updateGuardSupport;
+
+    /** Precomputed BDD variable support for {@link #updateGuardErrorNot}. Is {@code null} if not available. */
+    private BDDVarSet updateGuardErrorNotSupport;
+
+    /** Precomputed BDD variable support for {@link #updateGuardRestricted}. Is {@code null} if not available. */
+    private BDDVarSet updateGuardRestrictedSupport;
+
     /**
      * Constructor for the {@link CifBddEdge} class.
      *
@@ -140,14 +150,31 @@ public class CifBddEdge {
         update.free();
         update = null;
 
+        // Precompute the BDD variable support for the 'updateGuard' relation.
+        Assert.check(updateGuardSupport == null);
+        updateGuardSupport = getSupportFor(updateGuard);
+
         // Precompute 'guardError'.
         guardError = guard.and(error);
 
-        // If we allow forward reachability, precompute 'updateGuardErrorNot'.
+        // If we allow forward reachability, precompute 'updateGuardErrorNot' and 'updateGuardErrorNotSupport'.
         Assert.check(updateGuardErrorNot == null);
+        Assert.check(updateGuardErrorNotSupport == null);
+
         if (doForward) {
             updateGuardErrorNot = updateGuard.and(errorNot);
+            updateGuardErrorNotSupport = getSupportFor(updateGuardErrorNot);
         }
+    }
+
+    /**
+     * Returns the variable support for the given relation, including all variables that are assigned to on this edge.
+     *
+     * @param relation The relation for which to compute the BDD variable support.
+     * @return The BDD variable support for the given relation.
+     */
+    private BDDVarSet getSupportFor(BDD relation) {
+        return assignedVariables.stream().map(v -> v.domainNew.set()).reduce(relation.support(), BDDVarSet::unionWith);
     }
 
     /**
@@ -165,10 +192,18 @@ public class CifBddEdge {
         updateGuard.free();
         updateGuard = updateGuardNew;
 
-        // If we allow forward reachability, update 'updateGuardErrorNot'.
+        // Update the BDD variable support for the 'updateGuard' relation.
+        Assert.check(updateGuardSupport != null);
+        updateGuardSupport.free();
+        updateGuardSupport = getSupportFor(updateGuard);
+
+        // If we allow forward reachability, update 'updateGuardErrorNot' and 'updateGuardErrorNotSupport'.
         if (doForward) {
             updateGuardErrorNot.free();
             updateGuardErrorNot = updateGuard.and(errorNot);
+
+            updateGuardErrorNotSupport.free();
+            updateGuardErrorNotSupport = getSupportFor(updateGuardErrorNot);
         }
     }
 
@@ -185,13 +220,17 @@ public class CifBddEdge {
     public void preApply(boolean forward, BDD restriction) {
         Assert.check(updateGuard != null);
         Assert.check(updateGuardRestricted == null);
+        Assert.check(updateGuardRestrictedSupport == null);
+
         if (forward) {
             if (restriction == null) {
                 updateGuardRestricted = updateGuard.id();
+                updateGuardRestrictedSupport = updateGuardSupport.id();
             } else {
                 BDD restrictionNew = restriction.replace(cifBddSpec.oldToNewVarsPairing);
                 updateGuardRestricted = updateGuardErrorNot.and(restrictionNew);
                 restrictionNew.free();
+                updateGuardRestrictedSupport = updateGuardErrorNotSupport.id().unionWith(restriction.support());
             }
         }
     }
@@ -205,12 +244,18 @@ public class CifBddEdge {
      */
     public void postApply(boolean forward) {
         Assert.check(updateGuard != null);
+
         if (forward) {
             Assert.check(updateGuardRestricted != null);
             updateGuardRestricted.free();
             updateGuardRestricted = null;
+
+            Assert.check(updateGuardRestrictedSupport != null);
+            updateGuardRestrictedSupport.free();
+            updateGuardRestrictedSupport = null;
         } else {
             Assert.check(updateGuardRestricted == null);
+            Assert.check(updateGuardRestrictedSupport == null);
         }
     }
 
@@ -228,6 +273,10 @@ public class CifBddEdge {
             updateGuard.free();
             updateGuard = null;
         }
+        if (updateGuardSupport != null) {
+            updateGuardSupport.free();
+            updateGuardSupport = null;
+        }
         if (guardError != null) {
             guardError.free();
             guardError = null;
@@ -236,7 +285,12 @@ public class CifBddEdge {
             updateGuardErrorNot.free();
             updateGuardErrorNot = null;
         }
+        if (updateGuardErrorNotSupport != null) {
+            updateGuardErrorNotSupport.free();
+            updateGuardErrorNotSupport = null;
+        }
         Assert.check(updateGuardRestricted == null);
+        Assert.check(updateGuardRestrictedSupport == null);
     }
 
     /** Free all BDDs of this CIF/BDD edge. */
@@ -306,14 +360,14 @@ public class CifBddEdge {
             Assert.check(!applyError);
 
             // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)[x/x+, y/y+, z/z+, ...].
-            BDD rslt = updateGuardRestricted.relnext(pred, null);
+            BDD rslt = updateGuardRestricted.relnext(pred, updateGuardRestrictedSupport);
             pred.free();
 
             // Return the result of applying the update.
             return rslt;
         } else {
             // rslt = Exists{x+, y+, z+, ...}(guard && update && pred[x+/x, y+/y, z+/z, ...]).
-            BDD rslt = updateGuard.relprev(pred, null);
+            BDD rslt = updateGuard.relprev(pred, updateGuardSupport);
             pred.free();
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
