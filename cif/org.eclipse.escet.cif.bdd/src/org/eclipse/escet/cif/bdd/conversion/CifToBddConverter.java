@@ -2174,7 +2174,7 @@ public class CifToBddConverter {
             }
         }
 
-        // Collect all BDD variables that are being assigned to on this edge.
+        // Collect all BDD variables that are being assigned on this edge.
         for (int i = 0; i < assigned.length; i++) {
             if (assigned[i]) {
                 cifBddEdge.assignedVariables.add(cifBddSpec.variables[i]);

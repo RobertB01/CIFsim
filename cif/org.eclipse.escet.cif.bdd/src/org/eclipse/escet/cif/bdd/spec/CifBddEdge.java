@@ -69,7 +69,7 @@ public class CifBddEdge {
     /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
 
-    /** The set of variables that are being assigned to by this CIF/BDD edge. */
+    /** The set of variables that are being assigned by this CIF/BDD edge. */
     public final Set<CifBddVariable> assignedVariables = set();
 
     /**
@@ -168,7 +168,7 @@ public class CifBddEdge {
     }
 
     /**
-     * Returns the variable support for the given relation, including all variables that are assigned to on this edge.
+     * Returns the variable support for the given relation, including all variables that are assigned on this edge.
      *
      * @param relation The relation for which to compute the BDD variable support.
      * @return The BDD variable support for the given relation.
@@ -562,7 +562,7 @@ public class CifBddEdge {
 
     /**
      * Adds unchanged variable predicates 'x+ = x' to the update of {@code edge1} for every variable 'x' that is being
-     * assigned to on {@code edge2} but not on {@code edge1}.
+     * assigned on {@code edge2} but not on {@code edge1}.
      *
      * @param edge1 The first edge, whose {@link #update} may be modified in-place.
      * @param edge2 The second edge, which is used to determine all unchanged variable predicates.
@@ -570,7 +570,7 @@ public class CifBddEdge {
     private static void addUnchangedVariablePredicates(CifBddEdge edge1, CifBddEdge edge2) {
         List<BDD> predicates = list();
 
-        // Define an 'x+ = x' predicate for every variable 'x' that is being assigned to by 'edge2' but not by 'edge1'.
+        // Define an 'x+ = x' predicate for every variable 'x' that is being assigned by 'edge2' but not by 'edge1'.
         for (CifBddVariable variable: Sets.difference(edge2.assignedVariables, edge1.assignedVariables)) {
             CifBddBitVector vectorOld = CifBddBitVector.createDomain(variable.domain);
             CifBddBitVector vectorNew = CifBddBitVector.createDomain(variable.domainNew);
