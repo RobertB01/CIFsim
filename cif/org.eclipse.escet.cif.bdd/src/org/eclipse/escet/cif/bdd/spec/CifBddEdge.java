@@ -69,8 +69,8 @@ public class CifBddEdge {
     /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
 
-    /** The set of variables that are being assigned to by this CIF/BDD {@link #edges edge}. */
-    public final Set<CifBddVariable> assignedVariables = new LinkedHashSet<>();
+    /** The set of variables that are being assigned to by this CIF/BDD edge. */
+    public final Set<CifBddVariable> assignedVariables = new set();
 
     /**
      * The update predicate that relates old and new values of variables, indicating which combinations of old and new
@@ -528,7 +528,7 @@ public class CifBddEdge {
         mergedEdge.edges = concat(edge1.edges, edge2.edges);
         mergedEdge.assignments = concat(edge1.assignments, edge2.assignments);
 
-        // Add all necessary unchanged variable predicates 'x = x+' to both edges, to allow their updates to be merged.
+        // Add all necessary unchanged variable predicates 'x+ = x' to both edges, to allow their updates to be merged.
         addUnchangedVariablePredicates(edge1, edge2);
         addUnchangedVariablePredicates(edge2, edge1);
 
@@ -568,9 +568,9 @@ public class CifBddEdge {
      * @param edge2 The second edge, which is used to determine all unchanged variable predicates.
      */
     private static void addUnchangedVariablePredicates(CifBddEdge edge1, CifBddEdge edge2) {
-        List<BDD> predicates = new ArrayList<>();
+        List<BDD> predicates = list();
 
-        // Define a 'x = x+' predicate for every variable 'x' that is being assigned to by 'edge2' but not by 'edge1'.
+        // Define an 'x = x+' predicate for every variable 'x' that is being assigned to by 'edge2' but not by 'edge1'.
         for (CifBddVariable variable: Sets.difference(edge2.assignedVariables, edge1.assignedVariables)) {
             CifBddBitVector vectorOld = CifBddBitVector.createDomain(variable.domain);
             CifBddBitVector vectorNew = CifBddBitVector.createDomain(variable.domainNew);
