@@ -571,6 +571,10 @@ public class CifBddEdge {
         List<BDD> predicates = list();
 
         // Define an 'x+ = x' predicate for every variable 'x' that is being assigned by 'edge2' but not by 'edge1'.
+        // Instead of immediately adding these predicates to the update of 'edge1', they are collected in a list and
+        // added later. This might improve performance in case the update relation BDD of 'edge1' is large.
+        // In that case, it may help to first combine all collected predicates into a single predicate, before adding it
+        // to the update relation, since then the relation BDD has to be traversed only once.
         for (CifBddVariable variable: Sets.difference(edge2.assignedVariables, edge1.assignedVariables)) {
             CifBddBitVector vectorOld = CifBddBitVector.createDomain(variable.domain);
             CifBddBitVector vectorNew = CifBddBitVector.createDomain(variable.domainNew);
