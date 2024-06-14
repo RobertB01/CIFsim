@@ -2414,7 +2414,7 @@ public class CifToBddConverter {
             asgn.setAddressable(addr);
             edge.assignments = list(list(asgn));
 
-            // Add the update relation, which is defined to be the predicate 'input != input+' to allow the input
+            // Add the update relation, which is defined to be the predicate 'input+ != input' to allow the input
             // variable to change to any other value, thereby keeping the new value in the CIF variable domain.
             CifBddBitVector vectorOld = CifBddBitVector.createDomain(var.domain);
             CifBddBitVector vectorNew = CifBddBitVector.createDomain(var.domainNew);
