@@ -69,7 +69,7 @@ public class CifBddEdge {
     /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
 
-    /** The set of variables that are being assigned by this CIF/BDD edge. */
+    /** The set of variables that are being assigned on this CIF/BDD edge. */
     public final Set<CifBddVariable> assignedVariables = set();
 
     /**
@@ -582,7 +582,7 @@ public class CifBddEdge {
     private static void addUnchangedVariablePredicates(CifBddEdge edge1, CifBddEdge edge2) {
         List<BDD> predicates = list();
 
-        // Define an 'x+ = x' predicate for every variable 'x' that is being assigned by 'edge2' but not by 'edge1'.
+        // Define an 'x+ = x' predicate for every variable 'x' that is being assigned on 'edge2' but not on 'edge1'.
         // Instead of immediately adding these predicates to the update of 'edge1', they are collected in a list and
         // added later. This might improve performance in case the update relation BDD of 'edge1' is large.
         // In that case, it may help to first combine all collected predicates into a single predicate, before adding it
