@@ -2174,30 +2174,11 @@ public class CifToBddConverter {
             }
         }
 
-        // Add relations to assure variables not being assigned don't change, i.e. won't jump arbitrarily.
-        //
-        // We go through the variables in the reverse order of the variable order. This generally ensures the best
-        // performance, as new updates are added 'on top' of existing updates, allowing reuse of the existing BDDs,
-        // rather than needing to recreate them.
-        for (int i = assigned.length - 1; i >= 0; i--) {
-            // If assigned, skip variable.
+        // Collect all BDD variables that are being assigned to on this edge.
+        for (int i = 0; i < assigned.length; i++) {
             if (assigned[i]) {
-                continue;
+                cifBddEdge.assignedVariables.add(cifBddSpec.variables[i]);
             }
-
-            // If conversion of variable failed, skip it.
-            CifBddVariable var = cifBddSpec.variables[i];
-            if (var == null) {
-                continue;
-            }
-
-            // Unassigned, add 'x = x+' predicate.
-            CifBddBitVector vectorOld = CifBddBitVector.createDomain(var.domain);
-            CifBddBitVector vectorNew = CifBddBitVector.createDomain(var.domainNew);
-            BDD unchangedRelation = vectorOld.equalTo(vectorNew);
-            relation = relation.andWith(unchangedRelation);
-            vectorOld.free();
-            vectorNew.free();
         }
 
         // Store data for the updates.

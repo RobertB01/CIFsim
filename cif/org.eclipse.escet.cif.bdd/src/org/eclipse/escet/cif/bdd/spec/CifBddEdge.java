@@ -17,8 +17,12 @@ import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.escet.cif.bdd.conversion.CifBddBitVector;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
@@ -29,6 +33,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
@@ -62,6 +67,9 @@ public class CifBddEdge {
 
     /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
+
+    /** The set of variables that are being assigned to by this CIF/BDD {@link #edges edge}. */
+    public final Set<CifBddVariable> assignedVariables = new LinkedHashSet<>();
 
     /**
      * The update predicate that relates old and new values of variables, indicating which combinations of old and new
@@ -466,6 +474,10 @@ public class CifBddEdge {
         mergedEdge.edges = concat(edge1.edges, edge2.edges);
         mergedEdge.assignments = concat(edge1.assignments, edge2.assignments);
 
+        // Add all necessary unchanged variable predicates 'x = x+' to both edges, to allow their updates to be merged.
+        addUnchangedVariablePredicates(edge1, edge2);
+        addUnchangedVariablePredicates(edge2, edge1);
+
         // Merge updates. The updates need to be made conditional on their original guards, to ensure that the updates
         // of the correct original edge are applied when the guard of that original edge holds. To support
         // non-determinism, if both guards hold, either of the updates may be applied. If neither of the guards holds,
@@ -474,6 +486,12 @@ public class CifBddEdge {
         BDD update1 = edge1.guard.id().andWith(edge1.update);
         BDD update2 = edge2.guard.id().andWith(edge2.update);
         mergedEdge.update = update1.orWith(update2);
+
+        // Merge the sets of assigned variables.
+        mergedEdge.assignedVariables.addAll(edge1.assignedVariables);
+        mergedEdge.assignedVariables.addAll(edge2.assignedVariables);
+        edge1.assignedVariables.clear();
+        edge2.assignedVariables.clear();
 
         // Merge errors. The errors are combined in a similar way as the updates.
         BDD error1 = edge1.guard.id().andWith(edge1.error);
@@ -486,5 +504,30 @@ public class CifBddEdge {
 
         // Return the merged edge.
         return mergedEdge;
+    }
+
+    /**
+     * Adds unchanged variable predicates 'x = x+' to the update of {@code edge1} for every variable 'x' that is being
+     * assigned to on {@code edge2} but not on {@code edge1}.
+     *
+     * @param edge1 The first edge, whose {@link #update} may be modified in-place.
+     * @param edge2 The second edge, which is used to determine all unchanged variable predicates.
+     */
+    private static void addUnchangedVariablePredicates(CifBddEdge edge1, CifBddEdge edge2) {
+        List<BDD> predicates = new ArrayList<>();
+
+        // Define a 'x = x+' predicate for every variable 'x' that is being assigned to by 'edge2' but not by 'edge1'.
+        for (CifBddVariable variable: Sets.difference(edge2.assignedVariables, edge1.assignedVariables)) {
+            CifBddBitVector vectorOld = CifBddBitVector.createDomain(variable.domain);
+            CifBddBitVector vectorNew = CifBddBitVector.createDomain(variable.domainNew);
+            predicates.add(vectorOld.equalTo(vectorNew));
+            vectorOld.free();
+            vectorNew.free();
+        }
+
+        // If any unchanged variable predicates were defined, update 'edge1' accordingly.
+        if (!predicates.isEmpty()) {
+            edge1.update = edge1.update.andWith(predicates.stream().reduce(BDD::andWith).get());
+        }
     }
 }
