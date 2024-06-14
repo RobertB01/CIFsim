@@ -561,7 +561,7 @@ public class CifBddEdge {
     }
 
     /**
-     * Adds unchanged variable predicates 'x = x+' to the update of {@code edge1} for every variable 'x' that is being
+     * Adds unchanged variable predicates 'x+ = x' to the update of {@code edge1} for every variable 'x' that is being
      * assigned to on {@code edge2} but not on {@code edge1}.
      *
      * @param edge1 The first edge, whose {@link #update} may be modified in-place.
@@ -570,7 +570,7 @@ public class CifBddEdge {
     private static void addUnchangedVariablePredicates(CifBddEdge edge1, CifBddEdge edge2) {
         List<BDD> predicates = list();
 
-        // Define an 'x = x+' predicate for every variable 'x' that is being assigned to by 'edge2' but not by 'edge1'.
+        // Define an 'x+ = x' predicate for every variable 'x' that is being assigned to by 'edge2' but not by 'edge1'.
         for (CifBddVariable variable: Sets.difference(edge2.assignedVariables, edge1.assignedVariables)) {
             CifBddBitVector vectorOld = CifBddBitVector.createDomain(variable.domain);
             CifBddBitVector vectorNew = CifBddBitVector.createDomain(variable.domainNew);
