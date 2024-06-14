@@ -2414,37 +2414,17 @@ public class CifToBddConverter {
             asgn.setAddressable(addr);
             edge.assignments = list(list(asgn));
 
-            // Add update relation.
-            edge.update = cifBddSpec.factory.one();
-            for (CifBddVariable updVar: cifBddSpec.variables) {
-                // If conversion of variable failed, skip it.
-                if (updVar == null) {
-                    continue;
-                }
+            // Add the update relation, which is defined to be the predicate 'input != input+' to allow the input
+            // variable to change to any other value, thereby keeping the new value in the CIF variable domain.
+            CifBddBitVector vectorOld = CifBddBitVector.createDomain(var.domain);
+            CifBddBitVector vectorNew = CifBddBitVector.createDomain(var.domainNew);
+            edge.update = vectorOld.unequalTo(vectorNew);
+            edge.update = edge.update.andWith(BddUtils.getVarDomain(var, true, cifBddSpec.factory));
+            vectorOld.free();
+            vectorNew.free();
 
-                // Get lhs and rhs.
-                CifBddBitVector vectorOld = CifBddBitVector.createDomain(updVar.domain);
-                CifBddBitVector vectorNew = CifBddBitVector.createDomain(updVar.domainNew);
-
-                // Create update predicate for this variable, and add it.
-                BDD varUpdate;
-                if (updVar == var) {
-                    // The input variable: add 'input != input+' to allow it to change to any other value. Also keep the
-                    // new value in the domain.
-                    BDD newInDomain = BddUtils.getVarDomain(updVar, true, cifBddSpec.factory);
-                    varUpdate = vectorOld.unequalTo(vectorNew);
-                    varUpdate = varUpdate.andWith(newInDomain);
-                } else {
-                    // Any other variable: add 'var = var+'.
-                    varUpdate = vectorOld.equalTo(vectorNew);
-                }
-
-                edge.update = edge.update.andWith(varUpdate);
-
-                // Cleanup.
-                vectorOld.free();
-                vectorNew.free();
-            }
+            // Indicate that the current input variable is assigned on this edge.
+            edge.assignedVariables.add(var);
         }
     }
 
