@@ -315,13 +315,25 @@ public class CifBddEdge {
             updateGuard.free();
             updateGuard = null;
         }
+        if (updateGuardSupport != null) {
+            updateGuardSupport.free();
+            updateGuardSupport = null;
+        }
         if (updateGuardErrorNot != null) {
             updateGuardErrorNot.free();
             updateGuardErrorNot = null;
         }
+        if (updateGuardErrorNotSupport != null) {
+            updateGuardErrorNotSupport.free();
+            updateGuardErrorNotSupport = null;
+        }
         if (updateGuardRestricted != null) {
             updateGuardRestricted.free();
             updateGuardRestricted = null;
+        }
+        if (updateGuardRestrictedSupport != null) {
+            updateGuardRestrictedSupport.free();
+            updateGuardRestrictedSupport = null;
         }
         if (error != null) {
             error.free();
