@@ -15,10 +15,14 @@ package org.eclipse.escet.cif.bdd.spec;
 
 import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.Lists.concat;
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.escet.cif.bdd.conversion.CifBddBitVector;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
@@ -29,9 +33,11 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
+import com.github.javabdd.BDDVarSet;
 
 /** A CIF/BDD edge. Represents an edge of a linearized CIF specification in a BDD representation. */
 public class CifBddEdge {
@@ -62,6 +68,9 @@ public class CifBddEdge {
 
     /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
+
+    /** The set of variables that are being assigned on this CIF/BDD edge. */
+    public final Set<CifBddVariable> assignedVariables = set();
 
     /**
      * The update predicate that relates old and new values of variables, indicating which combinations of old and new
@@ -95,6 +104,15 @@ public class CifBddEdge {
 
     /** Precomputed 'not {@link #error}'. Is {@code null} if not available. */
     public BDD errorNot;
+
+    /** Precomputed BDD variable support for {@link #updateGuard}. Is {@code null} if not available. */
+    private BDDVarSet updateGuardSupport;
+
+    /** Precomputed BDD variable support for {@link #updateGuardErrorNot}. Is {@code null} if not available. */
+    private BDDVarSet updateGuardErrorNotSupport;
+
+    /** Precomputed BDD variable support for {@link #updateGuardRestricted}. Is {@code null} if not available. */
+    private BDDVarSet updateGuardRestrictedSupport;
 
     /**
      * Constructor for the {@link CifBddEdge} class.
@@ -132,14 +150,31 @@ public class CifBddEdge {
         update.free();
         update = null;
 
+        // Precompute the BDD variable support for the 'updateGuard' relation.
+        Assert.check(updateGuardSupport == null);
+        updateGuardSupport = getSupportFor(updateGuard);
+
         // Precompute 'guardError'.
         guardError = guard.and(error);
 
-        // If we allow forward reachability, precompute 'updateGuardErrorNot'.
+        // If we allow forward reachability, precompute 'updateGuardErrorNot' and 'updateGuardErrorNotSupport'.
         Assert.check(updateGuardErrorNot == null);
+        Assert.check(updateGuardErrorNotSupport == null);
+
         if (doForward) {
             updateGuardErrorNot = updateGuard.and(errorNot);
+            updateGuardErrorNotSupport = getSupportFor(updateGuardErrorNot);
         }
+    }
+
+    /**
+     * Returns the variable support for the given relation, including all variables that are assigned on this edge.
+     *
+     * @param relation The relation for which to compute the BDD variable support.
+     * @return The BDD variable support for the given relation.
+     */
+    private BDDVarSet getSupportFor(BDD relation) {
+        return assignedVariables.stream().map(v -> v.domainNew.set()).reduce(relation.support(), BDDVarSet::unionWith);
     }
 
     /**
@@ -157,10 +192,18 @@ public class CifBddEdge {
         updateGuard.free();
         updateGuard = updateGuardNew;
 
-        // If we allow forward reachability, update 'updateGuardErrorNot'.
+        // Update the BDD variable support for the 'updateGuard' relation.
+        Assert.check(updateGuardSupport != null);
+        updateGuardSupport.free();
+        updateGuardSupport = getSupportFor(updateGuard);
+
+        // If we allow forward reachability, update 'updateGuardErrorNot' and 'updateGuardErrorNotSupport'.
         if (doForward) {
             updateGuardErrorNot.free();
             updateGuardErrorNot = updateGuard.and(errorNot);
+
+            updateGuardErrorNotSupport.free();
+            updateGuardErrorNotSupport = getSupportFor(updateGuardErrorNot);
         }
     }
 
@@ -177,13 +220,17 @@ public class CifBddEdge {
     public void preApply(boolean forward, BDD restriction) {
         Assert.check(updateGuard != null);
         Assert.check(updateGuardRestricted == null);
+        Assert.check(updateGuardRestrictedSupport == null);
+
         if (forward) {
             if (restriction == null) {
                 updateGuardRestricted = updateGuard.id();
+                updateGuardRestrictedSupport = updateGuardSupport.id();
             } else {
                 BDD restrictionNew = restriction.replace(cifBddSpec.oldToNewVarsPairing);
                 updateGuardRestricted = updateGuardErrorNot.and(restrictionNew);
                 restrictionNew.free();
+                updateGuardRestrictedSupport = updateGuardErrorNotSupport.id().unionWith(restriction.support());
             }
         }
     }
@@ -197,12 +244,18 @@ public class CifBddEdge {
      */
     public void postApply(boolean forward) {
         Assert.check(updateGuard != null);
+
         if (forward) {
             Assert.check(updateGuardRestricted != null);
             updateGuardRestricted.free();
             updateGuardRestricted = null;
+
+            Assert.check(updateGuardRestrictedSupport != null);
+            updateGuardRestrictedSupport.free();
+            updateGuardRestrictedSupport = null;
         } else {
             Assert.check(updateGuardRestricted == null);
+            Assert.check(updateGuardRestrictedSupport == null);
         }
     }
 
@@ -220,6 +273,10 @@ public class CifBddEdge {
             updateGuard.free();
             updateGuard = null;
         }
+        if (updateGuardSupport != null) {
+            updateGuardSupport.free();
+            updateGuardSupport = null;
+        }
         if (guardError != null) {
             guardError.free();
             guardError = null;
@@ -228,7 +285,12 @@ public class CifBddEdge {
             updateGuardErrorNot.free();
             updateGuardErrorNot = null;
         }
+        if (updateGuardErrorNotSupport != null) {
+            updateGuardErrorNotSupport.free();
+            updateGuardErrorNotSupport = null;
+        }
         Assert.check(updateGuardRestricted == null);
+        Assert.check(updateGuardRestrictedSupport == null);
     }
 
     /** Free all BDDs of this CIF/BDD edge. */
@@ -253,13 +315,25 @@ public class CifBddEdge {
             updateGuard.free();
             updateGuard = null;
         }
+        if (updateGuardSupport != null) {
+            updateGuardSupport.free();
+            updateGuardSupport = null;
+        }
         if (updateGuardErrorNot != null) {
             updateGuardErrorNot.free();
             updateGuardErrorNot = null;
         }
+        if (updateGuardErrorNotSupport != null) {
+            updateGuardErrorNotSupport.free();
+            updateGuardErrorNotSupport = null;
+        }
         if (updateGuardRestricted != null) {
             updateGuardRestricted.free();
             updateGuardRestricted = null;
+        }
+        if (updateGuardRestrictedSupport != null) {
+            updateGuardRestrictedSupport.free();
+            updateGuardRestrictedSupport = null;
         }
         if (error != null) {
             error.free();
@@ -298,14 +372,14 @@ public class CifBddEdge {
             Assert.check(!applyError);
 
             // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)[x/x+, y/y+, z/z+, ...].
-            BDD rslt = updateGuardRestricted.relnext(pred, cifBddSpec.varSetOldAndNew);
+            BDD rslt = updateGuardRestricted.relnext(pred, updateGuardRestrictedSupport);
             pred.free();
 
             // Return the result of applying the update.
             return rslt;
         } else {
             // rslt = Exists{x+, y+, z+, ...}(guard && update && pred[x+/x, y+/y, z+/z, ...]).
-            BDD rslt = updateGuard.relprev(pred, cifBddSpec.varSetOldAndNew);
+            BDD rslt = updateGuard.relprev(pred, updateGuardSupport);
             pred.free();
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
@@ -466,6 +540,10 @@ public class CifBddEdge {
         mergedEdge.edges = concat(edge1.edges, edge2.edges);
         mergedEdge.assignments = concat(edge1.assignments, edge2.assignments);
 
+        // Add all necessary unchanged variable predicates 'x+ = x' to both edges, to allow their updates to be merged.
+        addUnchangedVariablePredicates(edge1, edge2);
+        addUnchangedVariablePredicates(edge2, edge1);
+
         // Merge updates. The updates need to be made conditional on their original guards, to ensure that the updates
         // of the correct original edge are applied when the guard of that original edge holds. To support
         // non-determinism, if both guards hold, either of the updates may be applied. If neither of the guards holds,
@@ -474,6 +552,12 @@ public class CifBddEdge {
         BDD update1 = edge1.guard.id().andWith(edge1.update);
         BDD update2 = edge2.guard.id().andWith(edge2.update);
         mergedEdge.update = update1.orWith(update2);
+
+        // Merge the sets of assigned variables.
+        mergedEdge.assignedVariables.addAll(edge1.assignedVariables);
+        mergedEdge.assignedVariables.addAll(edge2.assignedVariables);
+        edge1.assignedVariables.clear();
+        edge2.assignedVariables.clear();
 
         // Merge errors. The errors are combined in a similar way as the updates.
         BDD error1 = edge1.guard.id().andWith(edge1.error);
@@ -486,5 +570,34 @@ public class CifBddEdge {
 
         // Return the merged edge.
         return mergedEdge;
+    }
+
+    /**
+     * Adds unchanged variable predicates 'x+ = x' to the update of {@code edge1} for every variable 'x' that is being
+     * assigned on {@code edge2} but not on {@code edge1}.
+     *
+     * @param edge1 The first edge, whose {@link #update} may be modified in-place.
+     * @param edge2 The second edge, which is used to determine all unchanged variable predicates.
+     */
+    private static void addUnchangedVariablePredicates(CifBddEdge edge1, CifBddEdge edge2) {
+        List<BDD> predicates = list();
+
+        // Define an 'x+ = x' predicate for every variable 'x' that is being assigned on 'edge2' but not on 'edge1'.
+        // Instead of immediately adding these predicates to the update of 'edge1', they are collected in a list and
+        // added later. This might improve performance in case the update relation BDD of 'edge1' is large.
+        // In that case, it may help to first combine all collected predicates into a single predicate, before adding it
+        // to the update relation, since then the relation BDD has to be traversed only once.
+        for (CifBddVariable variable: Sets.difference(edge2.assignedVariables, edge1.assignedVariables)) {
+            CifBddBitVector vectorOld = CifBddBitVector.createDomain(variable.domain);
+            CifBddBitVector vectorNew = CifBddBitVector.createDomain(variable.domainNew);
+            predicates.add(vectorOld.equalTo(vectorNew));
+            vectorOld.free();
+            vectorNew.free();
+        }
+
+        // If any unchanged variable predicates were defined, update 'edge1' accordingly.
+        if (!predicates.isEmpty()) {
+            edge1.update = edge1.update.andWith(predicates.stream().reduce(BDD::andWith).get());
+        }
     }
 }

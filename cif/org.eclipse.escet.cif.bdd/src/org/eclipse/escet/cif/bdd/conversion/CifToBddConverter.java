@@ -1117,7 +1117,6 @@ public class CifToBddConverter {
         }
         cifBddSpec.varSetOld = cifBddSpec.factory.makeSet(varIdxsOld);
         cifBddSpec.varSetNew = cifBddSpec.factory.makeSet(varIdxsNew);
-        cifBddSpec.varSetOldAndNew = cifBddSpec.varSetOld.union(cifBddSpec.varSetNew);
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return;
@@ -2175,30 +2174,11 @@ public class CifToBddConverter {
             }
         }
 
-        // Add relations to assure variables not being assigned don't change, i.e. won't jump arbitrarily.
-        //
-        // We go through the variables in the reverse order of the variable order. This generally ensures the best
-        // performance, as new updates are added 'on top' of existing updates, allowing reuse of the existing BDDs,
-        // rather than needing to recreate them.
-        for (int i = assigned.length - 1; i >= 0; i--) {
-            // If assigned, skip variable.
+        // Collect all BDD variables that are being assigned on this edge.
+        for (int i = 0; i < assigned.length; i++) {
             if (assigned[i]) {
-                continue;
+                cifBddEdge.assignedVariables.add(cifBddSpec.variables[i]);
             }
-
-            // If conversion of variable failed, skip it.
-            CifBddVariable var = cifBddSpec.variables[i];
-            if (var == null) {
-                continue;
-            }
-
-            // Unassigned, add 'x = x+' predicate.
-            CifBddBitVector vectorOld = CifBddBitVector.createDomain(var.domain);
-            CifBddBitVector vectorNew = CifBddBitVector.createDomain(var.domainNew);
-            BDD unchangedRelation = vectorOld.equalTo(vectorNew);
-            relation = relation.andWith(unchangedRelation);
-            vectorOld.free();
-            vectorNew.free();
         }
 
         // Store data for the updates.
@@ -2434,37 +2414,17 @@ public class CifToBddConverter {
             asgn.setAddressable(addr);
             edge.assignments = list(list(asgn));
 
-            // Add update relation.
-            edge.update = cifBddSpec.factory.one();
-            for (CifBddVariable updVar: cifBddSpec.variables) {
-                // If conversion of variable failed, skip it.
-                if (updVar == null) {
-                    continue;
-                }
+            // Add the update relation, which is defined to be the predicate 'input+ != input' to allow the input
+            // variable to change to any other value, thereby keeping the new value in the CIF variable domain.
+            CifBddBitVector vectorOld = CifBddBitVector.createDomain(var.domain);
+            CifBddBitVector vectorNew = CifBddBitVector.createDomain(var.domainNew);
+            edge.update = vectorOld.unequalTo(vectorNew);
+            edge.update = edge.update.andWith(BddUtils.getVarDomain(var, true, cifBddSpec.factory));
+            vectorOld.free();
+            vectorNew.free();
 
-                // Get lhs and rhs.
-                CifBddBitVector vectorOld = CifBddBitVector.createDomain(updVar.domain);
-                CifBddBitVector vectorNew = CifBddBitVector.createDomain(updVar.domainNew);
-
-                // Create update predicate for this variable, and add it.
-                BDD varUpdate;
-                if (updVar == var) {
-                    // The input variable: add 'input != input+' to allow it to change to any other value. Also keep the
-                    // new value in the domain.
-                    BDD newInDomain = BddUtils.getVarDomain(updVar, true, cifBddSpec.factory);
-                    varUpdate = vectorOld.unequalTo(vectorNew);
-                    varUpdate = varUpdate.andWith(newInDomain);
-                } else {
-                    // Any other variable: add 'var = var+'.
-                    varUpdate = vectorOld.equalTo(vectorNew);
-                }
-
-                edge.update = edge.update.andWith(varUpdate);
-
-                // Cleanup.
-                vectorOld.free();
-                vectorNew.free();
-            }
+            // Indicate that the current input variable is assigned on this edge.
+            edge.assignedVariables.add(var);
         }
     }
 
