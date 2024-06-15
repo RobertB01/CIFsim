@@ -91,7 +91,10 @@ The first approach, which is also the default approach (named `normal`), is to u
 This approach has as benefit that for relatively small predicates (usually for small systems), the CIF predicates are often intuitive, and can easily understood.
 The downside is that for larger systems, the CIF predicates often grow exponentially in size.
 
-The second approached (named `nodes`), is to represent the internal BDD nodes directly in CIF.
+The second approach (named `cnf`) always uses the CNF representation.
+The third approach (named `dnf`) always uses the DNF representation.
+
+The fourth approached (named `nodes`), is to represent the internal BDD nodes directly in CIF.
 The BDD is then more or less coded directly in CIF, using some constants and algebraic variables, and is evaluated using a BDD evaluation function.
 The benefit is that for larger systems, this representation remains relatively small, and at the very least doesn't blow up nearly as much as the CNF and DNF representations.
 The downside to this approach, is that it leads to a supervisor that can not be easily understood by inspecting it.
