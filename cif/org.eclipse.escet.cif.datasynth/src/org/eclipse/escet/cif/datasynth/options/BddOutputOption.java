@@ -24,7 +24,9 @@ public class BddOutputOption extends EnumOption<BddOutputMode> {
     public BddOutputOption() {
         super("BDD output mode", "Indicates how to convert BDDs to CIF for the output of synthesis. "
                 + "Specify \"normal\" (default) to convert each BDD to a CIF predicate in conjunctive or disjunctive "
-                + "normal form (CNF/DNF) notation, or \"nodes\" to represent the internal BDD nodes directly in CIF.",
+                + "normal form (CNF/DNF) notation, \"cnf\" to convert each BDD to a CIF predicate in conjunctive "
+                + "normal form (CNF) notation, \"dnf\" to convert each BDD to a CIF predicate in disjunctive "
+                + "normal form (DNF) notation, or \"nodes\" to represent the internal BDD nodes directly in CIF.",
                 't', "bdd-output", "OUTMODE", CifDataSynthesisSettingsDefaults.BDD_OUTPUT_MODE_DEFAULT, true,
                 "Indicates how to convert BDDs to CIF for the output of synthesis.");
     }
@@ -35,6 +37,10 @@ public class BddOutputOption extends EnumOption<BddOutputMode> {
             case NORMAL:
                 return "Convert each BDD to a CIF predicate in conjunctive or disjunctive normal form (CNF/DNF) "
                         + "notation";
+            case CNF:
+                return "Convert each BDD to a CIF predicate in conjunctive normal form (CNF) notation";
+            case DNF:
+                return "Convert each BDD to a CIF predicate in disjunctive normal form (DNF) notation";
             case NODES:
                 return "Represent the internal BDD nodes directly in CIF";
         }
