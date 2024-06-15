@@ -300,7 +300,7 @@ public class SynthesisToCifConverter {
     /** Prepare for the conversion of BDDs to CIF. */
     private void prepareBddToCif() {
         switch (outputMode) {
-            case NORMAL:
+            case NORMAL, CNF, DNF:
                 // Nothing to prepare.
                 return;
 
@@ -541,14 +541,17 @@ public class SynthesisToCifConverter {
     /** Finalize the conversion of BDDs to CIF. */
     private void finalizeBddToCif() {
         switch (outputMode) {
-            case NORMAL:
+            case NORMAL, CNF, DNF:
                 // Nothing to finalize.
                 return;
 
             case NODES:
                 bddNodesType.setLower(bddNodeMap.size());
                 bddNodesType.setUpper(bddNodeMap.size());
+                return;
         }
+
+        throw new RuntimeException("Unknown output mode: " + outputMode);
     }
 
     /**
@@ -561,6 +564,12 @@ public class SynthesisToCifConverter {
         switch (outputMode) {
             case NORMAL:
                 return BddToCif.bddToCifPred(bdd, cifBddSpec);
+
+            case CNF:
+                return BddToCif.bddToCifPred(bdd, cifBddSpec, false);
+
+            case DNF:
+                return BddToCif.bddToCifPred(bdd, cifBddSpec, true);
 
             case NODES: {
                 // Add to node map, and get index.
