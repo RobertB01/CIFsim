@@ -53,6 +53,9 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
  * <li>finiteResponse: Whether the specification has finite response, or may not. Must have a boolean literal value. A
  * {@code true} value indicates the specification has finite response, and a {@code false} value indicates it may not
  * have it.</li>
+ * <li>nonBlockingUnderControl: Whether the specification is non-blocking under control. Must have a boolean literal
+ * value. A {@code true} value indicates the specification is non-blocking under control, and a {@code false} value
+ * indicates is not.</li>
  * </ul>
  * It is allowed for the annotation to not have any arguments, but in that case the annotation can also just be removed.
  * </p>
@@ -86,6 +89,7 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
         AnnotationArgument controllablesBound = null;
         AnnotationArgument confluence = null;
         AnnotationArgument finiteResponse = null;
+        AnnotationArgument nonBlockingUnderControl = null;
         for (AnnotationArgument arg: annotation.getArguments()) {
             // Arguments must be named.
             if (arg.getName() == null) {
@@ -117,6 +121,10 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
                     Assert.check(finiteResponse == null);
                     finiteResponse = arg;
                     break;
+                case "nonBlockingUnderControl":
+                    Assert.check(nonBlockingUnderControl == null);
+                    nonBlockingUnderControl = arg;
+                    break;
                 default:
                     reporter.reportProblem(annotation, fmt("unsupported argument named \"%s\".", arg.getName()),
                             arg.getPosition(), SemanticProblemSeverity.ERROR);
@@ -142,6 +150,9 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
         }
         if (finiteResponse != null) {
             argsOk &= AnnotationProviderHelper.checkBoolLiteralArg(annotation, finiteResponse, reporter);
+        }
+        if (nonBlockingUnderControl != null) {
+            argsOk &= AnnotationProviderHelper.checkBoolLiteralArg(annotation, nonBlockingUnderControl, reporter);
         }
 
         // Check for combinations of arguments.
@@ -240,6 +251,20 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
     }
 
     /**
+     * Returns whether the given specification is non-blocking under control, if known.
+     *
+     * @param spec The specification.
+     * @return {@code true} if the specification is non-blocking under control, {@code false} if it is not non-blocking
+     *     under control, or {@code null} if it is not known whether the specification is non-blocking under control.
+     */
+    public static Boolean isNonBlockingUnderControl(Specification spec) {
+        Annotation anno = CifAnnotationUtils.tryGetSingleAnnotation(spec, "controller:properties");
+        AnnotationArgument arg = (anno == null) ? null
+                : CifAnnotationUtils.tryGetArgument(anno, "nonBlockingUnderControl");
+        return (arg == null) ? null : ((BoolExpression)arg.getValue()).isValue();
+    }
+
+    /**
      * Returns the uncontrollable events bound for the given specification, if known.
      *
      * @param spec The specification.
@@ -319,5 +344,18 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
     public static void setFiniteResponse(Specification spec, boolean finiteResponse) {
         Annotation anno = CifAnnotationUtils.getOrCreateSingleAnnotation(spec, "controller:properties");
         CifAnnotationUtils.setArgument(anno, "finiteResponse", CifValueUtils.makeBool(finiteResponse));
+    }
+
+    /**
+     * Set the non-blocking under control property of the specification.
+     *
+     * @param spec The specification.
+     * @param nonBlockingUnderControl Whether the specification is non-blocking under control ({@code true}) or not
+     *     ({@code false}).
+     */
+    public static void setNonBlockingUnderControl(Specification spec, boolean nonBlockingUnderControl) {
+        Annotation anno = CifAnnotationUtils.getOrCreateSingleAnnotation(spec, "controller:properties");
+        CifAnnotationUtils.setArgument(anno, "nonBlockingUnderControl",
+                CifValueUtils.makeBool(nonBlockingUnderControl));
     }
 }
