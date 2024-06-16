@@ -730,6 +730,8 @@ include::tools/controller-checker/confluence.asciidoc[]
 
 include::tools/controller-checker/finite-response.asciidoc[]
 
+include::tools/controller-checker/non-blocking-under-control.asciidoc[]
+
 :leveloffset: -1
 
 :leveloffset: -2

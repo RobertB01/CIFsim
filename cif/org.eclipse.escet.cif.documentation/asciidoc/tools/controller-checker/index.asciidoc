@@ -64,6 +64,14 @@ Hence, it is recommended to use the bounded response check instead.
 +
 Read more about this check on the <<tools-controller-checker-finite-response,finite response check>> page.
 
+<<tools-controller-checker-non-blocking-under-control,Non-blocking under control>>::
+The non-blocking under control property holds if a <<lang-tut-extensions-synthesis-marked,marked>> state can be reached, even though the transitions for uncontrollable events and controllable events are executed in a specific way in generated code.
+This property ensures that the code is still non-blocking, and this guarantee of synthesis is thus preserved in generated code.
++
+This check does not produce false negatives.
++
+Read more about this check on the <<tools-controller-checker-non-blocking-under-control,non-blocking under control check>> page.
+
 After performing the checks, the controller checker adapts the input model, to encode the results of the checks that were performed in the <<lang-tut-extensions-chapter-annotations-controller,controller properties annotation>> of the model.
 It then writes the modified model to a file.
 If only some of the checks are performed, the earlier results of checks that are skipped are preserved.
@@ -104,6 +112,9 @@ If unset, confluence checking is not performed.
 
 * _Enable finite response checking_: If set (the default), finite response is checked in the CIF specification.
 If unset, finite response checking is not performed.
+
+* _Enable non-blocking under control checking_: If set (the default), non-blocking under control is checked in the CIF specification.
+If unset, non-blocking under control checking is not performed.
 
 * _Print control loops_: If set (the default), during finite response checking the events that may still occur in a controllable-event loop are printed to the console.
 
@@ -149,7 +160,7 @@ A warning is printed if a CIF/SVG input declaration is encountered.
 * Annotations are ignored.
 
 // *** BDD-based checks. ***
-The following restrictions apply only to the bounded response check:
+The following restrictions apply only to the bounded response and non-blocking under control checks:
 
 * Discrete and input variables are supported, but only if they have a boolean type, ranged integer type (e.g. `int[0..5]`), or enumeration type.
 For integer types, ranges that include negative integer values are not supported.
@@ -350,7 +361,7 @@ The following transformations are applied for the tool in general, regardless of
 Any changes they cause are not included in the output model.
 
 // *** BDD-based checks. ***
-The following transformations are applied, in case bounded response is checked:
+The following transformations are applied, in case bounded response or non-blocking under control is checked:
 
 * <<tools-cif2cif-chapter-relabel-supervisors-as-plants>>
 

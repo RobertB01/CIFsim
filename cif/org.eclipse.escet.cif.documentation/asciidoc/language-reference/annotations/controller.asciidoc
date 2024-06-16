@@ -62,3 +62,9 @@ Indicates whether the specification has <<tools-controller-checker-finite-respon
 +
 Must have a boolean literal value.
 A `true` value indicates the specification has finite response, and a `false` value indicates it may not have finite response.
+** `nonBlockingUnderControl`:
++
+Indicates whether the specification is <<tools-controller-checker-non-blocking-under-control,non-blocking under control>>.
++
+Must have a boolean literal value.
+A `true` value indicates the specification is non-blocking under control, and a `false` value indicates it is not non-blocking under control.
