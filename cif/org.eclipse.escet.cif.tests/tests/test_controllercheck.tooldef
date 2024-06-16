@@ -72,7 +72,7 @@ for test in tests:
         checks_enabled_variants = [(true, true, true, true), (false, false, false, false)];
     else
         checks_enabled_variants = [(true, true, true, true), (true, false, false, false), (false, true, false, false),
-                                   (false, false, true, false)];
+                                   (false, false, true, false), (false, false, false, true)];
     end
 
     // Test per enablement combination:
