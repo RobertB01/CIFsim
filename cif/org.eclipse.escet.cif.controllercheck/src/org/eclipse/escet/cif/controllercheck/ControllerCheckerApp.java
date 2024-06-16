@@ -402,31 +402,35 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
         iout();
         if (boundedResponseConclusion != null) {
-            boundedResponseConclusion.printDetails();
+            boundedResponseConclusion.printResult();
         } else {
             out("[UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.");
         }
         dout();
 
-        if (boundedResponseConclusion != null || !finiteResponseHolds) {
-            out(); // Empty line between conclusions, if they both provide details.
+        if ((boundedResponseConclusion != null && boundedResponseConclusion.printsDetails())
+                || (finiteResponseConclusion != null && finiteResponseConclusion.printsDetails()))
+        {
+            out(); // Empty line between conclusions, if either of them prints details.
         }
 
         iout();
         if (finiteResponseConclusion != null) {
-            finiteResponseConclusion.printDetails();
+            finiteResponseConclusion.printResult();
         } else {
             out("[UNKNOWN] Finite response checking was disabled, finite response property is unknown.");
         }
         dout();
 
-        if (!finiteResponseHolds || !confluenceHolds) {
-            out(); // Empty line between conclusions, if they both provide details.
+        if ((finiteResponseConclusion != null && finiteResponseConclusion.printsDetails())
+                || (confluenceConclusion != null && confluenceConclusion.printsDetails()))
+        {
+            out(); // Empty line between conclusions, if either of them prints details.
         }
 
         iout();
         if (confluenceConclusion != null) {
-            confluenceConclusion.printDetails();
+            confluenceConclusion.printResult();
         } else {
             out("[UNKNOWN] Confluence checking was disabled, confluence property is unknown.");
         }

@@ -43,8 +43,13 @@ public class ConfluenceCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public void printDetails() {
-        if (cannotProvePairs.isEmpty()) {
+    public boolean printsDetails() {
+        return !propertyHolds();
+    }
+
+    @Override
+    public void printResult() {
+        if (propertyHolds()) {
             out("[OK] The specification has confluence.");
         } else {
             out("[ERROR] The specification may NOT have confluence:");
