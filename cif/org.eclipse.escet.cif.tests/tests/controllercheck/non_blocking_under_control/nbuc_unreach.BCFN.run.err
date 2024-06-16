@@ -1,0 +1,8 @@
+ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
+
+  -------------------------------------------------------------------------------------------------------------------
+  (1/1) Non-deterministic edges with overlapping guards within a location, for controllable event "Supervisor.c_act".
+  -------------------------------------------------------------------------------------------------------------------
+   * In automaton "Supervisor":
+     - location Unreach2:
+                ^

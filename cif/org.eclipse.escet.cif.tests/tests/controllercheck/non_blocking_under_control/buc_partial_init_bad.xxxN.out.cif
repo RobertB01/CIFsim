@@ -1,0 +1,15 @@
+@@controller:properties(nonBlockingUnderControl: false)
+supervisor automaton Supervisor:
+  input bool i;
+  controllable c_act;
+  uncontrollable u_back;
+  location Start:
+    initial;
+    edge c_act when i goto DoneTrue;
+    edge c_act when not i goto DoneFalse;
+  location DoneTrue:
+    marked;
+    edge u_back goto Start;
+  location DoneFalse:
+    edge u_back goto Start;
+end
