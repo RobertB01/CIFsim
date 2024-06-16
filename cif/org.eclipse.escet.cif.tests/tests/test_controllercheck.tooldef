@@ -59,20 +59,24 @@ for test in tests:
     // - Root folder: all checks enabled, each individual check enabled.
     // - Sub-folders: all checks enabled, only that specific check enabled.
     //
-    // Get the enablements, with per enablement entry: bounded response, confluence, finite response:
-    list tuple(bool, bool, bool) checks_enabled_variants;
+    // Get the enablements, with per enablement entry: bounded response, confluence, finite response, non-blocking
+    // under control:
+    list tuple(bool, bool, bool, bool) checks_enabled_variants;
     if contains(replace(test, "\\", "/"), "/bounded_response/"):
-        checks_enabled_variants = [(true, true, true), (true, false, false)];
+        checks_enabled_variants = [(true, true, true, true), (true, false, false, false)];
     elif contains(replace(test, "\\", "/"), "/confluence/"):
-        checks_enabled_variants = [(true, true, true), (false, true, false)];
+        checks_enabled_variants = [(true, true, true, true), (false, true, false, false)];
     elif contains(replace(test, "\\", "/"), "/finite_response/"):
-        checks_enabled_variants = [(true, true, true), (false, false, true)];
+        checks_enabled_variants = [(true, true, true, true), (false, false, true, false)];
+    elif contains(replace(test, "\\", "/"), "/non_blocking_under_control/"):
+        checks_enabled_variants = [(true, true, true, true), (false, false, false, false)];
     else
-        checks_enabled_variants = [(true, true, true), (true, false, false), (false, true, false), (false, false, true)];
+        checks_enabled_variants = [(true, true, true, true), (true, false, false, false), (false, true, false, false),
+                                   (false, false, true, false)];
     end
 
     // Test per enablement combination:
-    for bounded_response_enabled, confluence_enabled, finite_response_enabled in checks_enabled_variants:
+    for bounded_response_enabled, confluence_enabled, finite_response_enabled, non_blocking_under_control_enabled in checks_enabled_variants:
         // ====
         // Run.
         // ====
@@ -89,9 +93,10 @@ for test in tests:
 
         // Determine path postfix.
         string postfix = "";
-        if bounded_response_enabled: postfix = postfix + "B"; else postfix = postfix + "x"; end
-        if confluence_enabled:       postfix = postfix + "C"; else postfix = postfix + "x"; end
-        if finite_response_enabled:  postfix = postfix + "F"; else postfix = postfix + "x"; end
+        if bounded_response_enabled:            postfix = postfix + "B"; else postfix = postfix + "x"; end
+        if confluence_enabled:                  postfix = postfix + "C"; else postfix = postfix + "x"; end
+        if finite_response_enabled:             postfix = postfix + "F"; else postfix = postfix + "x"; end
+        if non_blocking_under_control_enabled:  postfix = postfix + "N"; else postfix = postfix + "x"; end
 
         // Print what we are testing.
         outln("Testing \"%s\" (run) using checks \"%s\" and options \"%s\"...", test, postfix, join(extra_options, " "));
