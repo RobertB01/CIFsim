@@ -30,6 +30,7 @@
     b: 4,
     confluence: true,
     finiteResponse: false,
+    nonBlockingUnderControl: true,
     c: 5
 )
 
@@ -41,6 +42,8 @@
 @@controller:properties(confluence: not true)
 @@controller:properties(finiteResponse: [true])
 @@controller:properties(finiteResponse: not false)
+@@controller:properties(nonBlockingUnderControl: [true])
+@@controller:properties(nonBlockingUnderControl: not false)
 
 // Check for combinations of arguments (missing arguments).
 
