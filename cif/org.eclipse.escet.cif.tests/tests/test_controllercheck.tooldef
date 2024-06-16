@@ -83,10 +83,10 @@ for test in tests:
 
         // Get test specific options.
         list string options = default_options;
-        if not bounded_response_enabled:: options = options + ["--bounded-response-check=false"];
-        if not confluence_enabled::       options = options + ["--confluence-check=false"];
-        if not finite_response_enabled::  options = options + ["--finite-response-check=false"];
-        options = options + ["--non-blocking-under-control-check=false"];
+        if not bounded_response_enabled::            options = options + ["--bounded-response-check=false"];
+        if not confluence_enabled::                  options = options + ["--confluence-check=false"];
+        if not finite_response_enabled::             options = options + ["--finite-response-check=false"];
+        if not non_blocking_under_control_enabled::  options = options + ["--non-blocking-under-control-check=false"];
         list string extra_options;
         if contains(test_options, test):: extra_options = test_options[test];
         options = options + extra_options;
