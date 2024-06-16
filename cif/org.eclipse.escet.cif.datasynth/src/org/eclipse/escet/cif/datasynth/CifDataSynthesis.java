@@ -1226,6 +1226,7 @@ public class CifDataSynthesis {
                 boolean applyForward; // Whether to apply forward reachability (true) or backward reachability (false).
                 boolean inclCtrl; // Whether to include edges with controllable events in the reachability.
                 final boolean inclUnctrl = true; // Always include edges with uncontrollable events in the reachability.
+                final boolean inclInputVars = true; // Always include input variable edges in the reachability.
                 switch (fixedPointComputation) {
                     case NONBLOCK:
                         predName = "backward controlled-behavior";
@@ -1278,7 +1279,8 @@ public class CifDataSynthesis {
                 BDD reachabilityResult;
                 try {
                     CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName,
-                            restrictionName, restriction, badStates, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
+                            restrictionName, restriction, badStates, applyForward, inclCtrl, inclUnctrl, inclInputVars,
+                            dbgEnabled);
                     reachabilityResult = reachability.performReachability(startPred);
                 } finally {
                     // Stop timing the fixed-point reachability computation.

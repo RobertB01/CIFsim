@@ -124,6 +124,15 @@ public class CifBddEdge {
     }
 
     /**
+     * Returns whether this is an input variable edge, and edge for an input variable that changes value.
+     *
+     * @return {@code true} if this is an input variable edge, {@code false} otherwise.
+     */
+    public boolean isInputVarEdge() {
+        return edges.contains(null);
+    }
+
+    /**
      * Global edge initialization for {@link #apply applying} the edge. Must be invoked only once per edge. Must be
      * invoked before any invocation of {@link #preApply} or {@link #apply}. If the {@link #guard} is changed after
      * invoking this method, {@link #reinitApply} must be invoked to re-initialize the edge for applying, unless
