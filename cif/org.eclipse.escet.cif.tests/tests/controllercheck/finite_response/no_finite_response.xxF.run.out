@@ -27,6 +27,7 @@ Iteration 1.
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
+    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
 
     [ERROR] The specification may NOT have finite response:
     

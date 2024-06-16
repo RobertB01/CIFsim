@@ -155,6 +155,7 @@ CONCLUSION:
         - No transitions are possible for uncontrollable events.
         - A sequence of at most 2 transitions is possible for controllable events.
 
+    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 

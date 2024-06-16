@@ -27,6 +27,7 @@ CONCLUSION:
         - No transitions are possible for uncontrollable events.
         - No transitions are possible for controllable events.
 
+    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 

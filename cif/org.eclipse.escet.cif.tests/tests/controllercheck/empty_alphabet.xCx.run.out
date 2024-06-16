@@ -6,6 +6,7 @@ Checking for confluence...
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
+    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
     [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
     [OK] The specification has confluence.
 

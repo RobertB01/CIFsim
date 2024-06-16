@@ -34,6 +34,7 @@ CONCLUSION:
         - A sequence of at most 1 transition is possible for uncontrollable events.
         - A sequence of at most 1 transition is possible for controllable events.
 
+    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
     [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
     [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
 
