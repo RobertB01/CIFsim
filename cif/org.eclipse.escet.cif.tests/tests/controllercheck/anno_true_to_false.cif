@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 0, confluence: true, finiteResponse: true)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 0, confluence: true, finiteResponse: true, nonBlockingUnderControl: true)
 
 controllable c, a, b;
 uncontrollable u;
@@ -27,4 +27,5 @@ plant automaton p:
 
   location loc2:
     marked;
+    edge c;
 end

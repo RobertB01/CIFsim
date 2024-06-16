@@ -170,6 +170,24 @@ Bounded response check round 4 (states before round: Actuator2.Off and (Actuator
 
 Bounded response check completed.
 
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: Actuator2.Off and (Actuator1.Off and not Sensor) or Actuator2.On and (Actuator1.On and Sensor)
+
+Computing the controllable-complete path states...
+Controllable-complete path states: false [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: false
+
+Computing the bad states...
+Bad states: true [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: true
+
+Computing the result of the non-blocking under control check...
+Initial states: Actuator2.Off and Actuator1.Off
+Bad initial states: Actuator2.Off and Actuator1.Off
+
 Checking for finite response...
 
 Iteration 1.
@@ -196,7 +214,7 @@ CONCLUSION:
         - No transitions are possible for uncontrollable events.
         - A sequence of at most 3 transitions is possible for controllable events.
 
-    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [ERROR] The specification is NOT non-blocking under control.
     [OK] The specification has finite response.
 
     [ERROR] The specification may NOT have confluence:

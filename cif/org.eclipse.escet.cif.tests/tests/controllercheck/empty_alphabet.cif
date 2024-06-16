@@ -17,4 +17,5 @@ uncontrollable u;
 plant p:
   location:
     initial;
+    marked;
 end

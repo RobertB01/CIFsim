@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 2, confluence: true, finiteResponse: true)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 2, confluence: true, finiteResponse: true, nonBlockingUnderControl: true)
 plant automaton AutDifferenLocs:
   controllable a;
   controllable b;

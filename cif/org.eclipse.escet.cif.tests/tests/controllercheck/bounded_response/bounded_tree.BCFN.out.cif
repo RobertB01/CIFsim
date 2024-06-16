@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 2, controllablesBound: 3, confluence: false, finiteResponse: true)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 2, controllablesBound: 3, confluence: false, finiteResponse: true, nonBlockingUnderControl: true)
 uncontrollable u_a;
 uncontrollable u_b;
 uncontrollable u_c;

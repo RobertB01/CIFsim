@@ -160,6 +160,24 @@ Bounded response check round 3 (states before round: StopButton.Pushed and Start
 
 Bounded response check completed.
 
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: (StopButton.Pushed or (Actuator.On or StartButton.Released)) and ((StopButton.Released or (Actuator.On or StartButton.Released)) and (StopButton.Released or Actuator.Off))
+
+Computing the controllable-complete path states...
+Controllable-complete path states: false [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: false
+
+Computing the bad states...
+Bad states: true [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: true
+
+Computing the result of the non-blocking under control check...
+Initial states: StopButton.Released and (Actuator.Off and StartButton.Released)
+Bad initial states: StopButton.Released and (Actuator.Off and StartButton.Released)
+
 Checking for finite response...
 
 Iteration 1.
@@ -180,7 +198,7 @@ CONCLUSION:
         - An infinite sequence of transitions is possible for uncontrollable events.
         - An infinite sequence of transitions is possible for controllable events.
 
-    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [ERROR] The specification is NOT non-blocking under control.
 
     [ERROR] The specification may NOT have finite response:
     

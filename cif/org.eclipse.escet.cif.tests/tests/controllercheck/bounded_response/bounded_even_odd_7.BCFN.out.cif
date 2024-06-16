@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 1, confluence: false, finiteResponse: false)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 1, confluence: false, finiteResponse: false, nonBlockingUnderControl: true)
 uncontrollable u_inc_odd;
 uncontrollable u_dec_odd;
 controllable c_inc_even;

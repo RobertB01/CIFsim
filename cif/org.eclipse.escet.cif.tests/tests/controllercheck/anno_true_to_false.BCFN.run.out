@@ -78,23 +78,23 @@ Applying variable ordering:
       Metric: total-span
       Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 4
+      Number of hyper-edges: 5
       Maximum number of iterations: 10
 
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [iteration 1]
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [after]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [before]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [iteration 1]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
       Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 4
+      Number of hyper-edges: 5
       Window length: 2
 
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [after]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [before]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [after]
 
 Variable order unchanged.
 
@@ -130,6 +130,24 @@ Bounded response check round 1 (states before round: p.loc2 or not p.v).
 
 Bounded response check completed.
 
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: false
+
+Computing the controllable-complete path states...
+Controllable-complete path states: false [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: false
+
+Computing the bad states...
+Bad states: true [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: true
+
+Computing the result of the non-blocking under control check...
+Initial states: p.loc1 and not p.v
+Bad initial states: p.loc1 and not p.v
+
 Checking for finite response...
 
 Iteration 1.
@@ -142,7 +160,7 @@ Iteration 2.
 
 Checking for confluence...
 
-Skippable event pairs:
+Independent event pairs:
     (a, c), (b, c)
 
 CONCLUSION:
@@ -151,7 +169,7 @@ CONCLUSION:
         - An infinite sequence of transitions is possible for uncontrollable events.
         - An infinite sequence of transitions is possible for controllable events.
 
-    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [ERROR] The specification is NOT non-blocking under control.
 
     [ERROR] The specification may NOT have finite response:
     

@@ -151,6 +151,30 @@ Bounded response check round 4 (states before round: B.v = 0 and (B.p and A.q)).
 
 Bounded response check completed.
 
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: B.p and A.q
+
+Computing the controllable-complete path states...
+Controllable-complete path states: B.p and A.q [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: B.p and A.q -> B.p [backward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
+Controllable-complete path states: B.p -> (B.v = 2 or B.p) and (B.v != 2 or (B.p or A.q)) [backward reach with edge: (event: c) (guard: B.q and A.q) (assignments: B.v := B.v - 2, B := B.p)]
+Backward reachability: iteration 2.
+Controllable-complete path states: (B.v = 2 or B.p) and (B.v != 2 or (B.p or A.q)) -> B.v = 2 or B.p [backward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
+Backward reachability: iteration 3.
+Controllable-complete path states: B.v = 2 or B.p [fixed point].
+Controllable-complete path states: B.v = 2 or B.p
+
+Computing the bad states...
+Bad states: B.v != 2 and B.q [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: B.v != 2 and B.q
+
+Computing the result of the non-blocking under control check...
+Initial states: B.v = 0 and (B.p and A.p)
+Bad initial states: false
+
 Checking for finite response...
 
 Iteration 1.
@@ -171,7 +195,7 @@ CONCLUSION:
         - No transitions are possible for uncontrollable events.
         - A sequence of at most 3 transitions is possible for controllable events.
 
-    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [OK] The specification is non-blocking under control.
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 

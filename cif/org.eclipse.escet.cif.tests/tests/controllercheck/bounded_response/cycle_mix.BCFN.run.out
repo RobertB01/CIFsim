@@ -60,6 +60,31 @@ Bounded response check round 4 (states before round: p.loc1 or p.loc2).
 
 Bounded response check completed.
 
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: p.loc5 or (p.loc4 or p.loc8)
+
+Computing the controllable-complete path states...
+Controllable-complete path states: p.loc8 [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: p.loc8 -> p.loc7 or p.loc8 [backward reach with edge: (event: c_e3) (guard: p.loc7) (assignments: p := p.loc8)]
+Backward reachability: iteration 2.
+Controllable-complete path states: p.loc7 or p.loc8 -> p.loc7 or (p.loc6 or p.loc8) [backward reach with edge: (event: c_e2) (guard: p.loc6) (assignments: p := p.loc7)]
+Backward reachability: iteration 3.
+Controllable-complete path states: p.loc7 or (p.loc6 or p.loc8) -> p.loc5 or p.loc6 or (p.loc7 or p.loc8) [backward reach with edge: (event: u_e3) (guard: p.loc5) (assignments: p := p.loc6)]
+Backward reachability: iteration 4.
+Controllable-complete path states: p.loc5 or p.loc6 or (p.loc7 or p.loc8) [fixed point].
+Controllable-complete path states: p.loc5 or p.loc6 or (p.loc7 or p.loc8)
+
+Computing the bad states...
+Bad states: p.loc1 or p.loc2 or (p.loc3 or p.loc4) [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: p.loc1 or p.loc2 or (p.loc3 or p.loc4)
+
+Computing the result of the non-blocking under control check...
+Initial states: p.loc1
+Bad initial states: p.loc1
+
 Checking for finite response...
 
 Iteration 1.
@@ -81,7 +106,7 @@ CONCLUSION:
         - An infinite sequence of transitions is possible for uncontrollable events.
         - An infinite sequence of transitions is possible for controllable events.
 
-    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [ERROR] The specification is NOT non-blocking under control.
 
     [ERROR] The specification may NOT have finite response:
     

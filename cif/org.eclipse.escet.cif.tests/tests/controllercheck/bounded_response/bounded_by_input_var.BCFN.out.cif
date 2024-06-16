@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 0, confluence: true, finiteResponse: true)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 0, confluence: true, finiteResponse: true, nonBlockingUnderControl: false)
 input bool sensor;
 uncontrollable u_on;
 uncontrollable u_off;

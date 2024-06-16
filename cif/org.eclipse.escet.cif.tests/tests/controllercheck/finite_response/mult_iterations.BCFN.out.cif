@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 3, confluence: false, finiteResponse: true)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 3, confluence: false, finiteResponse: true, nonBlockingUnderControl: false)
 input bool Sensor;
 plant automaton Actuator2:
   controllable c_on;

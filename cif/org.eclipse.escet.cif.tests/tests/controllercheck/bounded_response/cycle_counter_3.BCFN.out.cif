@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: false)
+@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: false, nonBlockingUnderControl: false)
 controllable c_inc;
 controllable c_dec;
 plant automaton p:

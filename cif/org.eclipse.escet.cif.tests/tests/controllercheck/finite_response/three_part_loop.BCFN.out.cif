@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 2, confluence: true, finiteResponse: true)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 2, confluence: true, finiteResponse: true, nonBlockingUnderControl: false)
 input int[0..2] Y;
 plant automaton X:
   controllable a;

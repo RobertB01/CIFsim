@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 1, confluence: true, finiteResponse: true)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 1, confluence: true, finiteResponse: true, nonBlockingUnderControl: true)
 plant automaton DifferentLocs:
   controllable a;
   controllable b;

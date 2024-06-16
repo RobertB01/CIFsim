@@ -78,23 +78,23 @@ Applying variable ordering:
       Metric: total-span
       Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 4
+      Number of hyper-edges: 5
       Maximum number of iterations: 10
 
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [iteration 1]
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [after]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [before]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [iteration 1]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [after]
 
     Applying sliding window algorithm:
       Size: 4
       Metric: total-span
       Relations: linearized
       Effect: var-order
-      Number of hyper-edges: 4
+      Number of hyper-edges: 5
       Window length: 2
 
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
-      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [after]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [before]
+      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [after]
 
 Variable order unchanged.
 

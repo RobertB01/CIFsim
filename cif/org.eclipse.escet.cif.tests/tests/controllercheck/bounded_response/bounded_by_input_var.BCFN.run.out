@@ -129,6 +129,30 @@ Bounded response check round 1 (states before round: true).
 
 Bounded response check completed.
 
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: true
+
+Computing the controllable-complete path states...
+Controllable-complete path states: p.Off [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: p.Off -> p.Off or not sensor [backward reach with edge: (event: u_off) (guard: p.On and not sensor) (assignments: p := p.Off)]
+Backward reachability: iteration 2.
+Controllable-complete path states: p.Off or not sensor [fixed point].
+Controllable-complete path states: p.Off or not sensor
+
+Computing the bad states...
+Bad states: p.On and sensor [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: p.On and sensor -> sensor [backward reach with edge: (event: u_on) (guard: p.Off and sensor) (assignments: p := p.On)]
+Backward reachability: iteration 2.
+Bad states: sensor [fixed point].
+Bad states: sensor
+
+Computing the result of the non-blocking under control check...
+Initial states: p.Off
+Bad initial states: p.Off and sensor
+
 Checking for finite response...
 
 Checking for confluence...
@@ -139,7 +163,7 @@ CONCLUSION:
         - A sequence of at most 1 transition is possible for uncontrollable events.
         - No transitions are possible for controllable events.
 
-    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [ERROR] The specification is NOT non-blocking under control.
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 

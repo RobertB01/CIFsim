@@ -141,6 +141,28 @@ Bounded response check round 3 (states before round: AutDifferenLocs.z and (AutD
 
 Bounded response check completed.
 
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: AutDifferenLocs.s
+
+Computing the controllable-complete path states...
+Controllable-complete path states: AutDifferenLocs.s [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: AutDifferenLocs.s -> AutDifferenLocs.r or AutDifferenLocs.s [backward reach with edge: (event: AutDifferenLocs.a) (guard: AutDifferenLocs.p or AutDifferenLocs.r) (assignments: AutDifferenLocs.z := true, AutDifferenLocs := AutDifferenLocs.q / AutDifferenLocs.z := true, AutDifferenLocs := AutDifferenLocs.s)]
+Controllable-complete path states: AutDifferenLocs.r or AutDifferenLocs.s -> true [backward reach with edge: (event: AutDifferenLocs.b) (guard: AutDifferenLocs.p or AutDifferenLocs.q) (assignments: AutDifferenLocs.v := 2, AutDifferenLocs := AutDifferenLocs.r / AutDifferenLocs.v := 2, AutDifferenLocs := AutDifferenLocs.s)]
+Backward reachability: iteration 2.
+Controllable-complete path states: true [fixed point].
+Controllable-complete path states: true
+
+Computing the bad states...
+Bad states: false [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: false
+
+Computing the result of the non-blocking under control check...
+Initial states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0)
+Bad initial states: false
+
 Checking for finite response...
 
 Iteration 1.
@@ -156,7 +178,7 @@ CONCLUSION:
         - No transitions are possible for uncontrollable events.
         - A sequence of at most 2 transitions is possible for controllable events.
 
-    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [OK] The specification is non-blocking under control.
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 

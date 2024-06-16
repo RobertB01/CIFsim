@@ -12,7 +12,7 @@ Analyzing automaton "p"...
 
 Checking for confluence...
 
-Skippable event pairs:
+Independent event pairs:
     (a, c), (b, c)
 
 CONCLUSION:

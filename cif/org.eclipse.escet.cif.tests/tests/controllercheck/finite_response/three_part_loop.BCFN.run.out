@@ -155,6 +155,24 @@ Bounded response check round 3 (states before round: X.A and Y = 1 or (X.C and Y
 
 Bounded response check completed.
 
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: X.A and Y = 1 or (X.C and Y = 0 or X.B and Y = 2)
+
+Computing the controllable-complete path states...
+Controllable-complete path states: false [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: false
+
+Computing the bad states...
+Bad states: true [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: true
+
+Computing the result of the non-blocking under control check...
+Initial states: X.A
+Bad initial states: X.A
+
 Checking for finite response...
 
 Iteration 1.
@@ -172,7 +190,7 @@ CONCLUSION:
         - No transitions are possible for uncontrollable events.
         - A sequence of at most 2 transitions is possible for controllable events.
 
-    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [ERROR] The specification is NOT non-blocking under control.
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 

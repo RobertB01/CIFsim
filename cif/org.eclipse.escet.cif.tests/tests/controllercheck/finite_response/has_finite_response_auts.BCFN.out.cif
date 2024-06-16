@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: true)
+@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: true, nonBlockingUnderControl: false)
 plant automaton Actuator:
   controllable c_on;
   controllable c_off;
