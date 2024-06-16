@@ -146,4 +146,4 @@ CONCLUSION:
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/confluence/mutual_exclusive2.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/confluence/mutual_exclusive2.BCFN.out.cif.real".

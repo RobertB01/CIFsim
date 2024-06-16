@@ -21,4 +21,4 @@ CONCLUSION:
         Confluence of the following event pair could not be decided:
             (A.a, A.b)
 
-The model with the check results has been written to "controllercheck/confluence/partial_independence.xCx.out.cif.real".
+The model with the check results has been written to "controllercheck/confluence/partial_independence.xCxx.out.cif.real".

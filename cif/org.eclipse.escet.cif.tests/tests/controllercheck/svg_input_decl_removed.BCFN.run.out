@@ -46,4 +46,4 @@ CONCLUSION:
 
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/svg_input_decl_removed.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/svg_input_decl_removed.BCFN.out.cif.real".

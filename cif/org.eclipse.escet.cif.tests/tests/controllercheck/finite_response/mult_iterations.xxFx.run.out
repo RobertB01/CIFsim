@@ -46,4 +46,4 @@ CONCLUSION:
     [OK] The specification has finite response.
     [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
 
-The model with the check results has been written to "controllercheck/finite_response/mult_iterations.xxF.out.cif.real".
+The model with the check results has been written to "controllercheck/finite_response/mult_iterations.xxFx.out.cif.real".

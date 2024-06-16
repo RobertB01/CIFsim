@@ -63,4 +63,4 @@ CONCLUSION:
 
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/bounded_response/cycle_counter_any.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/bounded_response/cycle_counter_any.BCFN.out.cif.real".

@@ -163,4 +163,4 @@ CONCLUSION:
         Confluence of the following event pair could not be decided:
             (A.a, A.b)
 
-The model with the check results has been written to "controllercheck/confluence/partial_independence.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/confluence/partial_independence.BCFN.out.cif.real".

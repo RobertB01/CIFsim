@@ -10,4 +10,4 @@ CONCLUSION:
     [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/empty_alphabet.xCx.out.cif.real".
+The model with the check results has been written to "controllercheck/empty_alphabet.xCxx.out.cif.real".

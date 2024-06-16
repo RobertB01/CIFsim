@@ -65,4 +65,4 @@ CONCLUSION:
         Confluence of the following event pair could not be decided:
             (c_dec_even, c_inc_even)
 
-The model with the check results has been written to "controllercheck/bounded_response/bounded_even_odd_any.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/bounded_response/bounded_even_odd_any.BCFN.out.cif.real".

@@ -159,4 +159,4 @@ CONCLUSION:
     [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
     [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
 
-The model with the check results has been written to "controllercheck/bounded_response/bounded_state_evt_excl_inv.Bxx.out.cif.real".
+The model with the check results has been written to "controllercheck/bounded_response/bounded_state_evt_excl_inv.Bxxx.out.cif.real".

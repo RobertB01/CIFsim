@@ -143,4 +143,4 @@ CONCLUSION:
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/bounded_response/bounded_by_input_var.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/bounded_response/bounded_by_input_var.BCFN.out.cif.real".

@@ -41,4 +41,4 @@ CONCLUSION:
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/mdd/disabled_evts.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/mdd/disabled_evts.BCFN.out.cif.real".

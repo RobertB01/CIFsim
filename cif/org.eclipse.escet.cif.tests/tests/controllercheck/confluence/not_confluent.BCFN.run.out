@@ -158,4 +158,4 @@ CONCLUSION:
         Confluence of the following event pair could not be decided:
             (SingleAut.a, SingleAut.b)
 
-The model with the check results has been written to "controllercheck/confluence/not_confluent.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/confluence/not_confluent.BCFN.out.cif.real".

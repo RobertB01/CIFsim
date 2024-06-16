@@ -176,4 +176,4 @@ CONCLUSION:
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/finite_response/three_part_loop.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/finite_response/three_part_loop.BCFN.out.cif.real".

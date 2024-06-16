@@ -84,4 +84,4 @@ CONCLUSION:
 
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/finite_response/mult_events_edge.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/finite_response/mult_events_edge.BCFN.out.cif.real".

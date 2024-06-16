@@ -204,4 +204,4 @@ CONCLUSION:
         Confluence of the following event pairs could not be decided:
             (Actuator1.c_off, Actuator2.c_on), (Actuator1.c_on, Actuator2.c_off)
 
-The model with the check results has been written to "controllercheck/finite_response/mult_iterations.BCF.out.cif.real".
+The model with the check results has been written to "controllercheck/finite_response/mult_iterations.BCFN.out.cif.real".
