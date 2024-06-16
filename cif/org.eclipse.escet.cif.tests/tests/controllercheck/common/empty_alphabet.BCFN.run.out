@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/empty_alphabet.cif"...
+Loading CIF specification "controllercheck/common/empty_alphabet.cif"...
 Preparing for BDD-based checks...
 
 Restricting system behavior using state/event exclusion plant invariants.
@@ -48,4 +48,4 @@ CONCLUSION:
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/empty_alphabet.BCFN.out.cif.real".
+The model with the check results has been written to "controllercheck/common/empty_alphabet.BCFN.out.cif.real".

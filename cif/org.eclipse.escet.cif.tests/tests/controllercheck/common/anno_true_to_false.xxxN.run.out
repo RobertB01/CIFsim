@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/anno_true_to_false.cif"...
+Loading CIF specification "controllercheck/common/anno_true_to_false.cif"...
 Preparing for BDD-based checks...
 
 CIF variables and location pointers:
@@ -125,4 +125,4 @@ CONCLUSION:
     [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
     [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
 
-The model with the check results has been written to "controllercheck/anno_true_to_false.xxxN.out.cif.real".
+The model with the check results has been written to "controllercheck/common/anno_true_to_false.xxxN.out.cif.real".

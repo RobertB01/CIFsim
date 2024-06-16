@@ -7,5 +7,5 @@ plant automaton p:
     marked;
     edge c, u;
 end
-svgfile "../tchecker/small.svg";
+svgfile "../../tchecker/small.svg";
 svgin id "box" event p.c;

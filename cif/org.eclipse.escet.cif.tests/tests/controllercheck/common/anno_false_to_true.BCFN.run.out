@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/anno_false_to_true.cif"...
+Loading CIF specification "controllercheck/common/anno_false_to_true.cif"...
 Preparing for BDD-based checks...
 
 CIF variables and location pointers:
@@ -79,4 +79,4 @@ CONCLUSION:
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/anno_false_to_true.BCFN.out.cif.real".
+The model with the check results has been written to "controllercheck/common/anno_false_to_true.BCFN.out.cif.real".
