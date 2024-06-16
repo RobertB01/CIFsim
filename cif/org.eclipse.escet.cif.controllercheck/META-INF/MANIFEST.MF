@@ -31,5 +31,6 @@ Export-Package: org.eclipse.escet.cif.controllercheck,
  org.eclipse.escet.cif.controllercheck.confluence,
  org.eclipse.escet.cif.controllercheck.finiteresponse,
  org.eclipse.escet.cif.controllercheck.mdd,
+ org.eclipse.escet.cif.controllercheck.nonblockingundercontrol,
  org.eclipse.escet.cif.controllercheck.options
 Automatic-Module-Name: org.eclipse.escet.cif.controllercheck
