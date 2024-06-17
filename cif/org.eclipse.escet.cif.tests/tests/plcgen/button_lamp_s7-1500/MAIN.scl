@@ -109,7 +109,7 @@ BEGIN
     ELSE
         (* Update remaining time of continuous variable "timer.t". *)
         ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t, Q => timeOut, ET => curValue);
-        "DB".timer_t := SEL_LREAL(timeOut, MAX(LINT_TO_LREAL(TIME_TO_LINT("DB".preset_timer_t - curValue)) / 1000.0, 0.0), 0.0);
+        "DB".timer_t := SEL_LREAL(timeOut, MAX(IN1 := LINT_TO_LREAL(TIME_TO_LINT("DB".preset_timer_t - curValue)) / 1000.0, IN2 := 0.0), 0.0);
     END_IF;
 
     (* --- Process uncontrollable events. -------------------------------------- *)
