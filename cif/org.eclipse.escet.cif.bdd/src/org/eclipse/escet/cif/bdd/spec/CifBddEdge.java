@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.bdd.conversion.CifBddBitVector;
+import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
@@ -265,84 +266,32 @@ public class CifBddEdge {
      */
     public void cleanupApply() {
         Assert.check(update == null);
-        if (errorNot != null) {
-            errorNot.free();
-            errorNot = null;
-        }
-        if (updateGuard != null) {
-            updateGuard.free();
-            updateGuard = null;
-        }
-        if (updateGuardSupport != null) {
-            updateGuardSupport.free();
-            updateGuardSupport = null;
-        }
-        if (guardError != null) {
-            guardError.free();
-            guardError = null;
-        }
-        if (updateGuardErrorNot != null) {
-            updateGuardErrorNot.free();
-            updateGuardErrorNot = null;
-        }
-        if (updateGuardErrorNotSupport != null) {
-            updateGuardErrorNotSupport.free();
-            updateGuardErrorNotSupport = null;
-        }
+
+        errorNot = BddUtils.free(errorNot);
+        updateGuard = BddUtils.free(updateGuard);
+        updateGuardSupport = BddUtils.free(updateGuardSupport);
+        guardError = BddUtils.free(guardError);
+        updateGuardErrorNot = BddUtils.free(updateGuardErrorNot);
+        updateGuardErrorNotSupport = BddUtils.free(updateGuardErrorNotSupport);
+
         Assert.check(updateGuardRestricted == null);
         Assert.check(updateGuardRestrictedSupport == null);
     }
 
     /** Free all BDDs of this CIF/BDD edge. */
     public void freeBDDs() {
-        if (origGuard != null) {
-            origGuard.free();
-            origGuard = null;
-        }
-        if (guard != null) {
-            guard.free();
-            guard = null;
-        }
-        if (guardError != null) {
-            guardError.free();
-            guardError = null;
-        }
-        if (update != null) {
-            update.free();
-            update = null;
-        }
-        if (updateGuard != null) {
-            updateGuard.free();
-            updateGuard = null;
-        }
-        if (updateGuardSupport != null) {
-            updateGuardSupport.free();
-            updateGuardSupport = null;
-        }
-        if (updateGuardErrorNot != null) {
-            updateGuardErrorNot.free();
-            updateGuardErrorNot = null;
-        }
-        if (updateGuardErrorNotSupport != null) {
-            updateGuardErrorNotSupport.free();
-            updateGuardErrorNotSupport = null;
-        }
-        if (updateGuardRestricted != null) {
-            updateGuardRestricted.free();
-            updateGuardRestricted = null;
-        }
-        if (updateGuardRestrictedSupport != null) {
-            updateGuardRestrictedSupport.free();
-            updateGuardRestrictedSupport = null;
-        }
-        if (error != null) {
-            error.free();
-            error = null;
-        }
-        if (errorNot != null) {
-            errorNot.free();
-            errorNot = null;
-        }
+        origGuard = BddUtils.free(origGuard);
+        guard = BddUtils.free(guard);
+        guardError = BddUtils.free(guardError);
+        update = BddUtils.free(update);
+        updateGuard = BddUtils.free(updateGuard);
+        updateGuardSupport = BddUtils.free(updateGuardSupport);
+        updateGuardErrorNot = BddUtils.free(updateGuardErrorNot);
+        updateGuardErrorNotSupport = BddUtils.free(updateGuardErrorNotSupport);
+        updateGuardRestricted = BddUtils.free(updateGuardRestricted);
+        updateGuardRestrictedSupport = BddUtils.free(updateGuardRestrictedSupport);
+        error = BddUtils.free(error);
+        errorNot = BddUtils.free(errorNot);
     }
 
     /**
