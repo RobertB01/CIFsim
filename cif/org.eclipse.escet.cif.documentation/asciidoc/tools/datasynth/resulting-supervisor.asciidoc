@@ -88,11 +88,15 @@ The predicates represented as BDDs need to be represented as CIF predicates.
 There are multiple approaches to do this, and the _BDD output mode_ option (see the <<tools-datasynth-options,options section>>), can be used to configure the approach to use.
 
 The first approach, which is also the default approach (named `normal`), is to use either link:https://en.wikipedia.org/wiki/Conjunctive_normal_form[Conjunctive Normal Form] (CNF) or link:https://en.wikipedia.org/wiki/Disjunctive_normal_form[Disjunctive Normal Form] (DNF) predicates.
+Both a CNF predicate and a DNF predicate are created and the smallest one is used.
+If they have the same size, the CNF predicate is used.
 This approach has as benefit that for relatively small predicates (usually for small systems), the CIF predicates are often intuitive, and can easily understood.
 The downside is that for larger systems, the CIF predicates often grow exponentially in size.
 
 The second approach (named `cnf`) always uses the CNF representation.
 The third approach (named `dnf`) always uses the DNF representation.
+Selecting one representation, when the other blows up exponentially, can prevent long running times and out-of-memory errors.
+But, knowing which one to select can be challenging, as this typically depends on the model being synthesized.
 
 The fourth approached (named `nodes`), is to represent the internal BDD nodes directly in CIF.
 The BDD is then more or less coded directly in CIF, using some constants and algebraic variables, and is evaluated using a BDD evaluation function.
