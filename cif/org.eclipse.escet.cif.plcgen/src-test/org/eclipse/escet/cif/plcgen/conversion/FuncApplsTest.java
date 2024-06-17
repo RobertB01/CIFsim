@@ -66,12 +66,12 @@ public class FuncApplsTest {
 
     @Test
     public void negateFuncApplTest() {
-        assertEquals("-3", toStr(funcAppls.negateFuncAppl(num3)));
+        assertEquals("(-3)", toStr(funcAppls.negateFuncAppl(num3)));
     }
 
     @Test
     public void complementFuncApplTest() {
-        assertEquals("NOT FALSE", toStr(funcAppls.complementFuncAppl(bool0)));
+        assertEquals("(NOT FALSE)", toStr(funcAppls.complementFuncAppl(bool0)));
     }
 
     @Test
@@ -185,10 +185,10 @@ public class FuncApplsTest {
         PlcFuncAppl xor = funcAppls.xorFuncAppl(bool0, bool1);
         PlcFuncAppl or = funcAppls.orFuncAppl(bool0, bool1);
 
-        assertEquals("--3", toStr(funcAppls.negateFuncAppl(negate))); // Same strength.
-        assertEquals("-(1.0 ** 1)", toStr(funcAppls.negateFuncAppl(power))); // Root first.
+        assertEquals("(-(-3))", toStr(funcAppls.negateFuncAppl(negate))); // Same strength.
+        assertEquals("(-(1.0 ** 1))", toStr(funcAppls.negateFuncAppl(power))); // Root first.
 
-        assertEquals("-2.0 ** -2.0", toStr(funcAppls.powerFuncAppl(realNegate, realNegate))); // Children first.
+        assertEquals("(-2.0) ** (-2.0)", toStr(funcAppls.powerFuncAppl(realNegate, realNegate))); // Children first.
         assertEquals("(1.0 ** 1) ** (1.0 ** 1)", toStr(funcAppls.powerFuncAppl(power, power))); // Same strength.
         assertEquals("(1.0 * 2.0) ** (1.0 * 2.0)", toStr(funcAppls.powerFuncAppl(realMul, realMul))); // Root first.
 
