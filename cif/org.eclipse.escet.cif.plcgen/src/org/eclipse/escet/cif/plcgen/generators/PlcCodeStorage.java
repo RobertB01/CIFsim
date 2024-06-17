@@ -434,6 +434,7 @@ public class PlcCodeStorage {
         addGlobalVariableTable(globalTimerVars);
 
         // Prepare adding code to the program.
+        boolean isProperPlcBody = false; // Tracks whether a proper PLC statement is added to the main program.
         CodeBox box = mainProgram.body;
         addProgramHeader(box);
         box.add();
@@ -448,6 +449,7 @@ public class PlcCodeStorage {
             box.add();
             generateCommentHeader("Read PLC inputs.", '-', box);
             textGenerator.toText(inputFuncCode, box, mainProgram.name, false);
+            isProperPlcBody = isProperPlcBody || hasProperPlcStatement(inputFuncCode);
         }
 
         // Add initialization code if it exists.
@@ -476,13 +478,18 @@ public class PlcCodeStorage {
                 box.dedent();
             }
             box.add("END_IF;");
+
+            isProperPlcBody = true;
         }
 
         // Add event transitions code.
         generateEventTransitionsCode(uncontrollableEventTransitionsCode, maxUncontrollableLimit, "uncontrollable",
                 loopCount, loopsKilled, box);
-        generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit, "controllable", loopCount,
-                loopsKilled, box);
+        isProperPlcBody = isProperPlcBody || hasProperPlcStatement(uncontrollableEventTransitionsCode);
+
+        generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit, "controllable",
+                loopCount, loopsKilled, box);
+        isProperPlcBody = isProperPlcBody || hasProperPlcStatement(controllableEventTransitionsCode);
 
         // Generate output code if it exists.
         //
@@ -495,6 +502,11 @@ public class PlcCodeStorage {
             box.add();
             generateCommentHeader("Write PLC outputs.", '-', box);
             textGenerator.toText(outputFuncCode, box, mainProgram.name, false);
+            isProperPlcBody = isProperPlcBody || hasProperPlcStatement(outputFuncCode);
+        }
+
+        if (!isProperPlcBody) {
+            box.add("(* Nothing to do. *) ;");
         }
 
         exprGen.releaseTempVariable(isProgressVariable); // isProgress variable is no longer needed.
@@ -777,6 +789,27 @@ public class PlcCodeStorage {
         }
         if (needEmpty) {
             box.add(" *");
+        }
+        return false;
+    }
+
+    /**
+     * Test whether the given code has at least one proper PLC statement.
+     *
+     * @param statements Statements to check.
+     * @return Whether the statements have at least one proper PLC statement.
+     */
+    private boolean hasProperPlcStatement(List<PlcStatement> statements) {
+        if (statements == null) {
+            // Code block doesn't exist, definitely no proper PLC statement here.
+            return false;
+        }
+
+        // Test all provided statements, and return the result.
+        for (PlcStatement stat: statements) {
+            if (stat.isProperPlcStatement()) {
+                return true;
+            }
         }
         return false;
     }
