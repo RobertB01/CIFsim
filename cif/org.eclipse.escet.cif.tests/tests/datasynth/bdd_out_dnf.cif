@@ -11,19 +11,30 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.datasynth.settings;
+group io:
+  input int[0..1] i;
+end
 
-/** BDD output mode. */
-public enum BddOutputMode {
-    /** Use conjunctive or disjunctive normal form. */
-    NORMAL,
+plant p:
+  controllable e1, e2;
 
-    /** Use conjunctive normal form. */
-    CNF,
+  enum E = P, Q, R;
 
-    /** Use disjunctive normal form. */
-    DNF,
+  disc bool b in any;
+  disc int[0..3] x in any;
+  disc int[2..5] y in any;
+  disc E v in any;
 
-    /** Represent the internal BDD nodes directly in CIF. */
-    NODES;
-}
+  requirement invariant b;
+
+  location L1:
+    initial x >= 2;
+
+    edge e1 when x = 2 goto L2;
+
+  location L2:
+    marked y != 5;
+    requirement invariant v = P or v = R;
+
+    edge e2 when y = 2 or io.i = 1 goto L1;
+end
