@@ -271,7 +271,7 @@ BEGIN
             ELSIF edge_aut_1 = 2 THEN
                 (* Perform assignments of the 2nd edge in location "aut.l1". *)
                 (* Perform update of discrete variable "aut.r". *)
-                "DB".aut_r := "DB".inp + -1.0;
+                "DB".aut_r := "DB".inp + (-1.0);
                 (* Perform update of current location of automaton "aut". *)
                 "DB".aut := aut_l2;
             ELSIF edge_aut_1 = 3 THEN
@@ -281,11 +281,11 @@ BEGIN
             ELSIF edge_aut_1 = 4 THEN
                 (* Perform assignments of the 4th edge in location "aut.l1". *)
                 (* Perform update of discrete variable "aut.b". *)
-                "DB".aut_b := NOT current_aut_b;
+                "DB".aut_b := (NOT current_aut_b);
             ELSIF edge_aut_1 = 5 THEN
                 (* Perform assignments of the 5th edge in location "aut.l1". *)
                 (* Perform update of discrete variable "aut.b". *)
-                "DB".aut_b := current_aut_b OR NOT current_aut_b;
+                "DB".aut_b := current_aut_b OR (NOT current_aut_b);
             ELSIF edge_aut_1 = 6 THEN
                 (* Perform assignments of the 6th edge in location "aut.l1". *)
                 (* Perform update of discrete variable "aut.r". *)

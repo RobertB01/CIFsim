@@ -282,7 +282,7 @@ WHILE isProgress DO
         ELSIF edge_aut_1 = 2 THEN
             (* Perform assignments of the 2nd edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
-            aut_r := inp + -1.0;
+            aut_r := inp + (-1.0);
             (* Perform update of current location of automaton "aut". *)
             aut := 1;
         ELSIF edge_aut_1 = 3 THEN
@@ -292,11 +292,11 @@ WHILE isProgress DO
         ELSIF edge_aut_1 = 4 THEN
             (* Perform assignments of the 4th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.b". *)
-            aut_b := NOT current_aut_b;
+            aut_b := (NOT current_aut_b);
         ELSIF edge_aut_1 = 5 THEN
             (* Perform assignments of the 5th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.b". *)
-            aut_b := current_aut_b OR NOT current_aut_b;
+            aut_b := current_aut_b OR (NOT current_aut_b);
         ELSIF edge_aut_1 = 6 THEN
             (* Perform assignments of the 6th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)

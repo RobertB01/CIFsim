@@ -72,5 +72,8 @@ plant p:
   location l15:
     edge evt do r := g.inp + g.con * 2.0 goto l16; // r to ???
 
-  location l16;
+  location l16:
+    edge evt do x := --x goto l17;              // Double negation
+
+  location l17;
 end

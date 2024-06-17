@@ -261,12 +261,17 @@ public class ModelTextGenerator {
             String infixFuncName = plainFunc.infixFuncName;
             Assert.notNull(infixFuncName);
 
+            int lastArgumentIndex = arguments.size() - 1;
+            boolean isUnaryOperation = (lastArgumentIndex == 0);
+
             // Decide whether parentheses are needed around the call.
             boolean needsParentheses = infixBinding.needsParentheses(parentBinding, atParentLeft, atParentRight);
+            // S7-300 doesn't accept nested infix unary "-" operations like "--1". Wrap parentheses around each level.
+            needsParentheses |= isUnaryOperation;
+
             textBuilder.append(needsParentheses ? "(" : "");
 
             // Handle infix notation with a single argument as a special case.
-            int lastArgumentIndex = arguments.size() - 1;
             if (lastArgumentIndex == 0) {
                 // Single parameter infix notation is literally pre-pended to make it a prefix.
                 textBuilder.append(infixFuncName);

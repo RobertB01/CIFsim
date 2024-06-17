@@ -93,7 +93,7 @@ WHILE isProgress DO
         IF edge_aut_1 = 1 THEN
             (* Perform assignments of the 1st edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
-            aut_y := -1;
+            aut_y := (-1);
         END_IF;
     END_IF;
 
