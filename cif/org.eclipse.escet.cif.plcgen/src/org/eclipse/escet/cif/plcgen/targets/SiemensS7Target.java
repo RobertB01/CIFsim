@@ -116,20 +116,10 @@ public class SiemensS7Target extends PlcBaseTarget {
 
         EnumSet<PlcFuncNotation> funcSupport = super.getSupportedFuncNotations(funcOper, numArgs);
 
-        // S7-300 and S7-400 don't support "**" for pow(a, b).
+        // S7-300 and S7-400 only support "**" for pow(a, b).
         if (S7_300_400.contains(targetType) && funcOper == POWER_OP) {
             funcSupport = EnumSet.copyOf(funcSupport);
-            funcSupport.remove(PlcFuncNotation.INFIX);
-            return funcSupport;
-        }
-
-        // S7 does not allow formal function call syntax for the following functions and not for functions with two or
-        // more parameters.
-        EnumSet<PlcFuncOperation> notFormalFuncs = EnumSet.of(COMPLEMENT_OP, STDLIB_ABS, STDLIB_EXP, STDLIB_SQRT,
-                STDLIB_LN, STDLIB_LOG, STDLIB_ACOS, STDLIB_ASIN, STDLIB_ATAN, STDLIB_COS, STDLIB_SIN, STDLIB_TAN);
-        if (notFormalFuncs.contains(funcOper) || numArgs >= 2) {
-            funcSupport = EnumSet.copyOf(funcSupport);
-            funcSupport.remove(PlcFuncNotation.FORMAL);
+            funcSupport.retainAll(PlcFuncNotation.INFIX_ONLY);
             return funcSupport;
         }
 
@@ -138,6 +128,16 @@ public class SiemensS7Target extends PlcBaseTarget {
         if (formalFuncs.contains(funcOper)) {
             funcSupport = EnumSet.copyOf(funcSupport);
             funcSupport.retainAll(PlcFuncNotation.FORMAL_ONLY);
+            return funcSupport;
+        }
+
+        // S7 does not allow formal function call syntax for the following functions and not for functions with two or
+        // more parameters (except for MIN / MAX above).
+        EnumSet<PlcFuncOperation> notFormalFuncs = EnumSet.of(COMPLEMENT_OP, STDLIB_ABS, STDLIB_EXP, STDLIB_SQRT,
+                STDLIB_LN, STDLIB_LOG, STDLIB_ACOS, STDLIB_ASIN, STDLIB_ATAN, STDLIB_COS, STDLIB_SIN, STDLIB_TAN);
+        if (notFormalFuncs.contains(funcOper) || numArgs >= 2) {
+            funcSupport = EnumSet.copyOf(funcSupport);
+            funcSupport.remove(PlcFuncNotation.FORMAL);
             return funcSupport;
         }
 
