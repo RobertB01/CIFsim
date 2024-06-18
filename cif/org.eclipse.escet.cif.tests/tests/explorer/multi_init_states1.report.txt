@@ -10,8 +10,8 @@ State 1:
         aut.v2 = 0
         aut.v3 = A
 
-    Edges:
-        edge tau goto state 9
+    Transitions:
+        transition tau goto state 9
 
 State 2:
     Initial: true
@@ -25,8 +25,8 @@ State 2:
         aut.v2 = 0
         aut.v3 = B
 
-    Edges:
-        edge tau goto state 10
+    Transitions:
+        transition tau goto state 10
 
 State 3:
     Initial: true
@@ -40,8 +40,8 @@ State 3:
         aut.v2 = 1
         aut.v3 = A
 
-    Edges:
-        edge tau goto state 11
+    Transitions:
+        transition tau goto state 11
 
 State 4:
     Initial: true
@@ -55,8 +55,8 @@ State 4:
         aut.v2 = 1
         aut.v3 = B
 
-    Edges:
-        edge tau goto state 12
+    Transitions:
+        transition tau goto state 12
 
 State 5:
     Initial: true
@@ -70,8 +70,8 @@ State 5:
         aut.v2 = 0
         aut.v3 = A
 
-    Edges:
-        edge tau goto state 13
+    Transitions:
+        transition tau goto state 13
 
 State 6:
     Initial: true
@@ -85,8 +85,8 @@ State 6:
         aut.v2 = 0
         aut.v3 = B
 
-    Edges:
-        edge tau goto state 14
+    Transitions:
+        transition tau goto state 14
 
 State 7:
     Initial: true
@@ -100,8 +100,8 @@ State 7:
         aut.v2 = 1
         aut.v3 = A
 
-    Edges:
-        edge tau goto state 15
+    Transitions:
+        transition tau goto state 15
 
 State 8:
     Initial: true
@@ -115,8 +115,8 @@ State 8:
         aut.v2 = 1
         aut.v3 = B
 
-    Edges:
-        edge tau goto state 16
+    Transitions:
+        transition tau goto state 16
 
 State 9:
     Initial: true
@@ -130,8 +130,8 @@ State 9:
         aut.v2 = 0
         aut.v3 = A
 
-    Edges:
-        edge tau goto state 1
+    Transitions:
+        transition tau goto state 1
 
 State 10:
     Initial: true
@@ -145,8 +145,8 @@ State 10:
         aut.v2 = 0
         aut.v3 = B
 
-    Edges:
-        edge tau goto state 2
+    Transitions:
+        transition tau goto state 2
 
 State 11:
     Initial: true
@@ -160,8 +160,8 @@ State 11:
         aut.v2 = 1
         aut.v3 = A
 
-    Edges:
-        edge tau goto state 3
+    Transitions:
+        transition tau goto state 3
 
 State 12:
     Initial: true
@@ -175,8 +175,8 @@ State 12:
         aut.v2 = 1
         aut.v3 = B
 
-    Edges:
-        edge tau goto state 4
+    Transitions:
+        transition tau goto state 4
 
 State 13:
     Initial: true
@@ -190,8 +190,8 @@ State 13:
         aut.v2 = 0
         aut.v3 = A
 
-    Edges:
-        edge tau goto state 5
+    Transitions:
+        transition tau goto state 5
 
 State 14:
     Initial: true
@@ -205,8 +205,8 @@ State 14:
         aut.v2 = 0
         aut.v3 = B
 
-    Edges:
-        edge tau goto state 6
+    Transitions:
+        transition tau goto state 6
 
 State 15:
     Initial: true
@@ -220,8 +220,8 @@ State 15:
         aut.v2 = 1
         aut.v3 = A
 
-    Edges:
-        edge tau goto state 7
+    Transitions:
+        transition tau goto state 7
 
 State 16:
     Initial: true
@@ -235,5 +235,5 @@ State 16:
         aut.v2 = 1
         aut.v3 = B
 
-    Edges:
-        edge tau goto state 8
+    Transitions:
+        transition tau goto state 8

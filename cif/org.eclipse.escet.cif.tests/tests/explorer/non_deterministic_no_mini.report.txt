@@ -6,11 +6,11 @@ State 1:
         location "l0" of automaton "p"
         location "l0" of automaton "q"
 
-    Edges:
-        edge e goto state 1
-        edge e goto state 2
-        edge e goto state 3
-        edge e goto state 4
+    Transitions:
+        transition e goto state 1
+        transition e goto state 2
+        transition e goto state 3
+        transition e goto state 4
 
 State 2:
     Initial: false
@@ -36,12 +36,12 @@ State 4:
         location "l1" of automaton "p"
         location "l1" of automaton "q"
 
-    Edges:
-        edge f goto state 1
-        edge f goto state 1
-        edge f goto state 1
-        edge f goto state 1
-        edge g goto state 4
-        edge g goto state 4
-        edge g goto state 2
-        edge g goto state 2
+    Transitions:
+        transition f goto state 1
+        transition f goto state 1
+        transition f goto state 1
+        transition f goto state 1
+        transition g goto state 4
+        transition g goto state 4
+        transition g goto state 2
+        transition g goto state 2

@@ -37,8 +37,8 @@ State 1:
         types.dict2 = {}
         types.tuple1 = (lit1, *)
 
-    Edges:
-        edge e goto state 2
+    Transitions:
+        transition e goto state 2
 
 State 2:
     Initial: false

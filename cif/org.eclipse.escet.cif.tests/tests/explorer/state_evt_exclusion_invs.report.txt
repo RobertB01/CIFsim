@@ -8,9 +8,9 @@ State 1:
     Valuation:
         a.x = 1
 
-    Edges:
-        edge e goto state 2
-        edge e goto state 3
+    Transitions:
+        transition e goto state 2
+        transition e goto state 3
 
 State 2:
     Initial: false
@@ -22,9 +22,9 @@ State 2:
     Valuation:
         a.x = 2
 
-    Edges:
-        edge e goto state 3
-        edge e goto state 4
+    Transitions:
+        transition e goto state 3
+        transition e goto state 4
 
 State 3:
     Initial: false
@@ -36,9 +36,9 @@ State 3:
     Valuation:
         a.x = 3
 
-    Edges:
-        edge e goto state 4
-        edge e goto state 5
+    Transitions:
+        transition e goto state 4
+        transition e goto state 5
 
 State 4:
     Initial: false
@@ -50,9 +50,9 @@ State 4:
     Valuation:
         a.x = 4
 
-    Edges:
-        edge e goto state 5
-        edge e goto state 6
+    Transitions:
+        transition e goto state 5
+        transition e goto state 6
 
 State 5:
     Initial: false
@@ -64,9 +64,9 @@ State 5:
     Valuation:
         a.x = 5
 
-    Edges:
-        edge e goto state 6
-        edge e goto state 7
+    Transitions:
+        transition e goto state 6
+        transition e goto state 7
 
 State 6:
     Initial: false
@@ -78,9 +78,9 @@ State 6:
     Valuation:
         a.x = 6
 
-    Edges:
-        edge e goto state 7
-        edge e goto state 8
+    Transitions:
+        transition e goto state 7
+        transition e goto state 8
 
 State 7:
     Initial: false
@@ -92,9 +92,9 @@ State 7:
     Valuation:
         a.x = 7
 
-    Edges:
-        edge e goto state 8
-        edge e goto state 9
+    Transitions:
+        transition e goto state 8
+        transition e goto state 9
 
 State 8:
     Initial: false
@@ -106,9 +106,9 @@ State 8:
     Valuation:
         a.x = 8
 
-    Edges:
-        edge e goto state 9
-        edge e goto state 10
+    Transitions:
+        transition e goto state 9
+        transition e goto state 10
 
 State 9:
     Initial: false
@@ -120,9 +120,9 @@ State 9:
     Valuation:
         a.x = 9
 
-    Edges:
-        edge e goto state 10
-        edge e goto state 11
+    Transitions:
+        transition e goto state 10
+        transition e goto state 11
 
 State 10:
     Initial: false
@@ -134,10 +134,10 @@ State 10:
     Valuation:
         a.x = 10
 
-    Edges:
-        edge e goto state 11
-        edge e goto state 12
-        edge f goto state 10
+    Transitions:
+        transition e goto state 11
+        transition e goto state 12
+        transition f goto state 10
 
 State 11:
     Initial: false
@@ -149,11 +149,11 @@ State 11:
     Valuation:
         a.x = 11
 
-    Edges:
-        edge e goto state 12
-        edge e goto state 13
-        edge f goto state 11
-        edge g goto state 11
+    Transitions:
+        transition e goto state 12
+        transition e goto state 13
+        transition f goto state 11
+        transition g goto state 11
 
 State 12:
     Initial: false
@@ -165,12 +165,12 @@ State 12:
     Valuation:
         a.x = 12
 
-    Edges:
-        edge e goto state 13
-        edge e goto state 14
-        edge f goto state 12
-        edge g goto state 12
-        edge h goto state 12
+    Transitions:
+        transition e goto state 13
+        transition e goto state 14
+        transition f goto state 12
+        transition g goto state 12
+        transition h goto state 12
 
 State 13:
     Initial: false
@@ -182,12 +182,12 @@ State 13:
     Valuation:
         a.x = 13
 
-    Edges:
-        edge e goto state 14
-        edge e goto state 15
-        edge f goto state 13
-        edge g goto state 13
-        edge h goto state 13
+    Transitions:
+        transition e goto state 14
+        transition e goto state 15
+        transition f goto state 13
+        transition g goto state 13
+        transition h goto state 13
 
 State 14:
     Initial: false
@@ -199,11 +199,11 @@ State 14:
     Valuation:
         a.x = 14
 
-    Edges:
-        edge e goto state 15
-        edge e goto state 16
-        edge f goto state 14
-        edge g goto state 14
+    Transitions:
+        transition e goto state 15
+        transition e goto state 16
+        transition f goto state 14
+        transition g goto state 14
 
 State 15:
     Initial: false
@@ -215,10 +215,10 @@ State 15:
     Valuation:
         a.x = 15
 
-    Edges:
-        edge e goto state 16
-        edge e goto state 17
-        edge f goto state 15
+    Transitions:
+        transition e goto state 16
+        transition e goto state 17
+        transition f goto state 15
 
 State 16:
     Initial: false
@@ -230,9 +230,9 @@ State 16:
     Valuation:
         a.x = 16
 
-    Edges:
-        edge e goto state 17
-        edge e goto state 18
+    Transitions:
+        transition e goto state 17
+        transition e goto state 18
 
 State 17:
     Initial: false
@@ -244,9 +244,9 @@ State 17:
     Valuation:
         a.x = 17
 
-    Edges:
-        edge e goto state 18
-        edge e goto state 19
+    Transitions:
+        transition e goto state 18
+        transition e goto state 19
 
 State 18:
     Initial: false
@@ -258,9 +258,9 @@ State 18:
     Valuation:
         a.x = 18
 
-    Edges:
-        edge e goto state 19
-        edge e goto state 20
+    Transitions:
+        transition e goto state 19
+        transition e goto state 20
 
 State 19:
     Initial: false
@@ -272,9 +272,9 @@ State 19:
     Valuation:
         a.x = 19
 
-    Edges:
-        edge e goto state 20
-        edge e goto state 21
+    Transitions:
+        transition e goto state 20
+        transition e goto state 21
 
 State 20:
     Initial: false

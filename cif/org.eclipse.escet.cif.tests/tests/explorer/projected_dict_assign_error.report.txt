@@ -8,8 +8,8 @@ State 1:
     Valuation:
         A.xs = {2: false, 3: true}
 
-    Edges:
-        edge tau goto state 2
+    Transitions:
+        transition tau goto state 2
 
 State 2:
     Initial: false

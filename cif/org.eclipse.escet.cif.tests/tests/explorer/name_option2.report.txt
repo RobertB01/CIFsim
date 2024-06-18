@@ -5,5 +5,5 @@ State 1:
     Locations:
         location of automaton "a"
 
-    Edges:
-        edge a.e goto state 1
+    Transitions:
+        transition a.e goto state 1

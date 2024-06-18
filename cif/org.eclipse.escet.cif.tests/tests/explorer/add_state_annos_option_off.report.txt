@@ -5,8 +5,8 @@ State 1:
     Locations:
         location "l1" of automaton "a"
 
-    Edges:
-        edge tau goto state 2
+    Transitions:
+        transition tau goto state 2
 
 State 2:
     Initial: false

@@ -8,9 +8,9 @@ State 1:
     Valuation:
         A.c = 0
 
-    Edges:
-        edge up goto state 2
-        edge down goto state 3
+    Transitions:
+        transition up goto state 2
+        transition down goto state 3
 
 State 2:
     Initial: false
@@ -22,9 +22,9 @@ State 2:
     Valuation:
         A.c = 1
 
-    Edges:
-        edge up goto state 4
-        edge down goto state 1
+    Transitions:
+        transition up goto state 4
+        transition down goto state 1
 
 State 3:
     Initial: false
@@ -36,8 +36,8 @@ State 3:
     Valuation:
         A.c = -1
 
-    Edges:
-        edge up goto state 1
+    Transitions:
+        transition up goto state 1
 
 State 4:
     Initial: false
@@ -49,5 +49,5 @@ State 4:
     Valuation:
         A.c = 2
 
-    Edges:
-        edge down goto state 2
+    Transitions:
+        transition down goto state 2
