@@ -1,0 +1,15 @@
+ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
+
+  -----------------------------------------------
+  (1/2) Standard library function "cbrt" is used.
+  -----------------------------------------------
+   * In location "Powers.A":
+     - edge c do r := cbrt(r);
+                      ^
+
+  ----------------------------------------------
+  (2/2) Standard library function "pow" is used.
+  ----------------------------------------------
+   * In location "Powers.A":
+     - edge c do r := pow(r, 2.0);
+                      ^
