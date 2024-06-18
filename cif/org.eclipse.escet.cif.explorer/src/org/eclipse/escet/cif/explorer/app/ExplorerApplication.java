@@ -180,17 +180,17 @@ public class ExplorerApplication extends Application<IOutputComponent> {
 
         // Get statistics.
         int stateCount = 0;
-        int edgeCount = 0;
+        int transitionCount = 0;
         if (explorer.states != null) {
             stateCount = explorer.states.size();
             for (BaseState state: explorer.states.keySet()) {
-                edgeCount += state.getOutgoingEdges().size();
+                transitionCount += state.getOutgoingTransitions().size();
             }
         }
 
         // Write statistics to the console.
         out("Number of states in states space: %,d.", stateCount);
-        out("Number of edges in states space: %,d.", edgeCount);
+        out("Number of transitions in states space: %,d.", transitionCount);
     }
 
     /**
@@ -326,9 +326,9 @@ public class ExplorerApplication extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Minimize edges of the state space, if requested.
+        // Minimize transitions of the state space, if requested.
         if (EnableEdgeMinimizationOption.isEnabled()) {
-            e.minimizeEdges();
+            e.minimizeTransitions();
         }
         if (isTerminationRequested()) {
             return 0;

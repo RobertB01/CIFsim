@@ -24,7 +24,7 @@ public class EnableCifOutputOption extends BooleanOption {
     private static final String NAME = "Enable CIF output";
 
     /** Description in the option dialog. */
-    private static final String OPT_DIALOG_DESCR = "Enable output of states and edges as a CIF automaton.";
+    private static final String OPT_DIALOG_DESCR = "Enable output of states and transitions as a CIF automaton.";
 
     /** Default value of the option. */
     private static final boolean DEFAULT_VALUE = true;
