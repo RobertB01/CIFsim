@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.COMPLEMENT_OP;
-import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.POWER_OP;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_ABS;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_ACOS;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_ASIN;
@@ -42,9 +41,6 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Code generator for Siemens S7-300, S7-400, S7-1200, and S7-1500 PLC types. */
 public class SiemensS7Target extends PlcBaseTarget {
-    /** Set of targets S7-300 and S7-400. */
-    private static final EnumSet<PlcTargetType> S7_300_400 = EnumSet.of(PlcTargetType.S7_300, PlcTargetType.S7_400);
-
     /** Replacement strings for the extension in the CIF input file name to construct an output path for each target. */
     private static final Map<PlcTargetType, String> OUT_SUFFIX_REPLACEMENTS;
 
@@ -98,16 +94,6 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public boolean supportsPower(boolean baseIsInt, boolean exponentIsInt) {
-        // S7-400 and S7-300 only support power on real types.
-        if (S7_300_400.contains(targetType)) {
-            return !baseIsInt && !exponentIsInt;
-        } else {
-            return super.supportsPower(baseIsInt, exponentIsInt);
-        }
-    }
-
-    @Override
     public EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
         // S7 doesn't have a function for log10.
         if (funcOper == STDLIB_LOG) {
@@ -115,13 +101,6 @@ public class SiemensS7Target extends PlcBaseTarget {
         }
 
         EnumSet<PlcFuncNotation> funcSupport = super.getSupportedFuncNotations(funcOper, numArgs);
-
-        // S7-300 and S7-400 only support "**" for pow(a, b).
-        if (S7_300_400.contains(targetType) && funcOper == POWER_OP) {
-            funcSupport = EnumSet.copyOf(funcSupport);
-            funcSupport.retainAll(PlcFuncNotation.INFIX_ONLY);
-            return funcSupport;
-        }
 
         // Functions that should always be formal.
         EnumSet<PlcFuncOperation> formalFuncs = EnumSet.of(STDLIB_MIN, STDLIB_MAX);
