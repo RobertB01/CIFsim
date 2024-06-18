@@ -45,6 +45,7 @@ import org.eclipse.escet.cif.explorer.options.EnableEdgeMinimizationOption;
 import org.eclipse.escet.cif.explorer.options.EnableReportOption;
 import org.eclipse.escet.cif.explorer.options.EnableStatisticsOption;
 import org.eclipse.escet.cif.explorer.options.PrintProgressOption;
+import org.eclipse.escet.cif.explorer.options.RemoveDuplicateTransitionsOption;
 import org.eclipse.escet.cif.explorer.options.ReportFileOption;
 import org.eclipse.escet.cif.explorer.runtime.BaseState;
 import org.eclipse.escet.cif.explorer.runtime.ExplorationTerminatedException;
@@ -327,7 +328,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         }
 
         // Minimize transitions of the state space, if requested.
-        if (EnableEdgeMinimizationOption.isEnabled()) {
+        if (RemoveDuplicateTransitionsOption.isEnabled()) {
             e.minimizeTransitions();
         }
         if (isTerminationRequested()) {
@@ -378,6 +379,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         options.add(Options.getInstance(EnableEdgeMinimizationOption.class));
         options.add(Options.getInstance(EnableStatisticsOption.class));
         options.add(Options.getInstance(EnableCifOutputOption.class));
+        options.add(Options.getInstance(RemoveDuplicateTransitionsOption.class));
         options.add(Options.getInstance(AddStateAnnosOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
         options.add(Options.getInstance(AutomatonNameOption.class));
