@@ -59,6 +59,7 @@ map(string:list string) test_targets = {
     "plcgen/options_various.cif":                  non_s7 + s7_b,
     "plcgen/prechecker_array_vs_list.cif":         ["iec", "s7-300"],
     "plcgen/prechecker_event_controllability.cif": ["iec"],
+    "plcgen/prechecker_pow_cbrt.cif":              ["iec"],
     "plcgen/prechecker_pure_monitor.cif":          ["iec"],
     "plcgen/prechecker_var_cont_only_timers.cif":  ["iec"],
 };

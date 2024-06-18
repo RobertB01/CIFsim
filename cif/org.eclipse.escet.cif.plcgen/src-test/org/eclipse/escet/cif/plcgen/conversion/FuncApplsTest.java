@@ -75,12 +75,6 @@ public class FuncApplsTest {
     }
 
     @Test
-    public void powerFuncApplTest() {
-        assertEquals("2.0 ** 1", toStr(funcAppls.powerFuncAppl(real2, num1)));
-        assertEquals("2.0 ** 1.0", toStr(funcAppls.powerFuncAppl(real2, real1)));
-    }
-
-    @Test
     public void multiplyFuncApplTest() {
         assertEquals("1 * 2 * 3", toStr(funcAppls.multiplyFuncAppl(num1, num2, num3)));
         assertEquals("1.0 * 2.0", toStr(funcAppls.multiplyFuncAppl(real1, real2)));
@@ -173,10 +167,7 @@ public class FuncApplsTest {
 
     @Test
     public void parenthesesTest() {
-        PlcFuncAppl realNegate = funcAppls.negateFuncAppl(real2);
         PlcFuncAppl negate = funcAppls.negateFuncAppl(num3);
-        PlcFuncAppl power = funcAppls.powerFuncAppl(real1, num1);
-        PlcFuncAppl realMul = funcAppls.multiplyFuncAppl(real1, real2);
         PlcFuncAppl mul = funcAppls.multiplyFuncAppl(num1, num2);
         PlcFuncAppl add = funcAppls.addFuncAppl(num1, num2);
         PlcFuncAppl order = funcAppls.greaterThanFuncAppl(num1, num2);
@@ -186,13 +177,9 @@ public class FuncApplsTest {
         PlcFuncAppl or = funcAppls.orFuncAppl(bool0, bool1);
 
         assertEquals("(-(-3))", toStr(funcAppls.negateFuncAppl(negate))); // Same strength.
-        assertEquals("(-(1.0 ** 1))", toStr(funcAppls.negateFuncAppl(power))); // Root first.
+        assertEquals("(-(1 * 2))", toStr(funcAppls.negateFuncAppl(mul))); // Root first.
 
-        assertEquals("(-2.0) ** (-2.0)", toStr(funcAppls.powerFuncAppl(realNegate, realNegate))); // Children first.
-        assertEquals("(1.0 ** 1) ** (1.0 ** 1)", toStr(funcAppls.powerFuncAppl(power, power))); // Same strength.
-        assertEquals("(1.0 * 2.0) ** (1.0 * 2.0)", toStr(funcAppls.powerFuncAppl(realMul, realMul))); // Root first.
-
-        assertEquals("1.0 ** 1 * 1.0 ** 1", toStr(funcAppls.multiplyFuncAppl(power, power))); // Children first.
+        assertEquals("(-3) * (-3)", toStr(funcAppls.multiplyFuncAppl(negate, negate))); // Children first.
         assertEquals("1 * 2 * (1 * 2)", toStr(funcAppls.multiplyFuncAppl(mul, mul))); // Same strength.
         assertEquals("(1 + 2) * (1 + 2)", toStr(funcAppls.multiplyFuncAppl(add, add))); // Root first.
 

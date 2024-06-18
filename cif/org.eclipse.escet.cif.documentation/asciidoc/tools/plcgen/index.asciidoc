@@ -261,7 +261,7 @@ This rejects events declared without `controllable` or `uncontrollable` keyword,
 ** No arrays for the S7 targets.
 ** For arrays: no `+`, `-`, `=`, `!=`, `empty`, `delete`, `in`, `pop`, `size`, and slicing.
 ** For tuples: no `=` and `!=`.
-** Standard library functions: no `acosh`, `asinh`, `atanh`, `ceil`, `cosh`, `floor`, `round`, `scale`, `sign`, `sinh`, and `tanh`.
+** Standard library functions: no `acosh`, `asinh`, `atanh`, `cbrt`, `ceil`, `cosh`, `floor`, `pow`, `round`, `scale`, `sign`, `sinh`, and `tanh`.
 ** No functions used as data values or stored in variables.
 Functions must thus only be used to call the function.
 ** No use of variable `time`.
