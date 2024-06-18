@@ -178,9 +178,6 @@ public abstract class PlcBasicFuncDescription {
         /** Unary expression binding. */
         UNARY_EXPR(1, ExprAssociativity.RIGHT),
 
-        /** Power expression binding ({@code base ** exponent}). */
-        POWER_EXPR(2, ExprAssociativity.ALWAYS),
-
         /** Multiplicative expression binding. */
         MUL_EXPR(3, ExprAssociativity.LEFT),
 
