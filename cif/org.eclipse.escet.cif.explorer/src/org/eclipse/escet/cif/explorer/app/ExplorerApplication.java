@@ -327,9 +327,9 @@ public class ExplorerApplication extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Minimize transitions of the state space, if requested.
+        // Remove duplicate transitions of the state space, if requested.
         if (RemoveDuplicateTransitionsOption.isEnabled()) {
-            e.minimizeTransitions();
+            e.removeDuplicateTransitions();
         }
         if (isTerminationRequested()) {
             return 0;

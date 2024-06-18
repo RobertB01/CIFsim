@@ -1331,9 +1331,9 @@ public class Explorer {
         return variableNames;
     }
 
-    /** Minimizes the transitions of the explored state space, by removing duplicate transitions. */
-    public void minimizeTransitions() {
-        // If no states, then no transitions to minimize.
+    /** Removes duplicate transitions of the explored state space. */
+    public void removeDuplicateTransitions() {
+        // If no states, then no transitions to remove.
         if (states == null) {
             return;
         }
