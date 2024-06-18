@@ -18,15 +18,16 @@ string test_path = "explorer";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1", "-e1", "-s0", "-z0"];
 map(string:list string) test_options = {
-    "explorer/add_state_annos_option_off.cif":          ["--add-state-annos=off"],
-    "explorer/add_state_annos_option_on.cif":           ["--add-state-annos=on"],
-    "explorer/inv_limit.cif":                           ["-s1"],
-    "explorer/no_initial_state.cif":                    ["-s1"],
-    "explorer/non_deterministic_keep_dupl_trans.cif":   ["-z0"],
-    "explorer/non_deterministic_remove_dupl_trans.cif": ["-z1"],
-    "explorer/no_initial_state.cif":                    ["-s1"],
-    "explorer/name_option1.cif":                        ["-n newName"],
-    "explorer/name_option2.cif":                        ["-n a"],
+    "explorer/add_state_annos_option_off.cif":           ["--add-state-annos=off"],
+    "explorer/add_state_annos_option_on.cif":            ["--add-state-annos=on"],
+    "explorer/inv_limit.cif":                            ["-s1"],
+    "explorer/no_initial_state.cif":                     ["-s1"],
+    "explorer/non_deterministic_keep_dupl_trans.cif":    ["-z0"],
+    "explorer/non_deterministic_remove_dupl_trans.cif":  ["-z1"],
+    "explorer/no_initial_state.cif":                     ["-s1"],
+    "explorer/name_option1.cif":                         ["-n newName"],
+    "explorer/name_option2.cif":                         ["-n a"],
+    "explorer/unsupported_option_edge_minimization.cif": ["--edge-minimization=on"],
 };
 set string test_skip = {};
 
