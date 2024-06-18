@@ -272,7 +272,7 @@ public class ModelTextGenerator {
             textBuilder.append(needsParentheses ? "(" : "");
 
             // Handle infix notation with a single argument as a special case.
-            if (lastArgumentIndex == 0) {
+            if (isUnaryOperation) {
                 // Single parameter infix notation is literally pre-pended to make it a prefix.
                 textBuilder.append(infixFuncName);
             }
