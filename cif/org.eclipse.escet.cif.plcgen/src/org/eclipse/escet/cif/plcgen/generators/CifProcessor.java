@@ -396,7 +396,7 @@ public class CifProcessor {
             AutomatonRole resultRole = isMonitor ? AutomatonRole.MONITOR : AutomatonRole.SYNCER;
             if (autRole == resultRole) {
                 return; // Do nothing if the classification is already correct.
-                //
+
             } else if (EnumSet.of(AutomatonRole.SYNCER_OR_MONITOR, AutomatonRole.UNKNOWN).contains(autRole)) {
                 autRole = resultRole; // Resolve the ambiguity if it exists.
                 return;
@@ -603,15 +603,15 @@ public class CifProcessor {
                     new AutOnlyWithOneInitLocCheck(),
 
                     // Disallow state invariants, except ones that never block behavior.
-                    new InvNoSpecificInvsCheck() //
-                            .ignoreNeverBlockingInvariants() //
+                    new InvNoSpecificInvsCheck()
+                            .ignoreNeverBlockingInvariants()
                             .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.STATE,
                                     NoInvariantPlaceKind.ALL_PLACES),
 
                     // Disallow events without controllability and pure monitors. Note that the latter is necessary but
                     // not sufficient. The finite response property of the controller-check covers it, but that is not
                     // checked in PLCgen.
-                    new EventOnlyWithControllabilityCheck(), //
+                    new EventOnlyWithControllabilityCheck(),
                     new EventNoPureMonitorsCheck(),
 
                     // Disallow equations.
@@ -619,14 +619,14 @@ public class CifProcessor {
                     new EqnNotAllowedCheck(),
 
                     // No urgency.
-                    new LocNoUrgentCheck(), //
+                    new LocNoUrgentCheck(),
                     new EdgeNoUrgentCheck(),
 
                     // Disallow external user-defined functions, and only allow internal user-defined functions with at
                     // least one parameter.
                     // TODO Implement internal user-defined functions with at least one parameter.
-                    new FuncNoSpecificUserDefCheck( //
-                            NoSpecificUserDefFunc.EXTERNAL, //
+                    new FuncNoSpecificUserDefCheck(
+                            NoSpecificUserDefFunc.EXTERNAL,
                             NoSpecificUserDefFunc.INTERNAL, // Temporary addition until they are implemented.
                             NoSpecificUserDefFunc.NO_PARAMETER),
 
@@ -634,12 +634,12 @@ public class CifProcessor {
                     new FuncNoSpecificIntUserDefFuncStatsCheck(NoSpecificStatement.CONTINUE),
 
                     // Disallow various types completely and function types in non-call context.
-                    new TypeNoSpecificTypesCheck( //
-                            NoSpecificType.DICT_TYPES, //
-                            NoSpecificType.DIST_TYPES, //
-                            NoSpecificType.FUNC_TYPES_AS_DATA, //
-                            NoSpecificType.SET_TYPES, //
-                            NoSpecificType.STRING_TYPES, //
+                    new TypeNoSpecificTypesCheck(
+                            NoSpecificType.DICT_TYPES,
+                            NoSpecificType.DIST_TYPES,
+                            NoSpecificType.FUNC_TYPES_AS_DATA,
+                            NoSpecificType.SET_TYPES,
+                            NoSpecificType.STRING_TYPES,
                             (supportArrays ? NoSpecificType.LIST_TYPES_NON_ARRAY : NoSpecificType.LIST_TYPES))
                                     .ignoreAnnotations(),
 
@@ -650,19 +650,19 @@ public class CifProcessor {
                     // Allow only casting to the same type and int to real, allow projection only on tuples and arrays,
                     // forbid string, set, and dictionary literals and time, forbid slicing, and function references
                     // outside call context.
-                    new ExprNoSpecificExprsCheck( //
-                            NoSpecificExpr.CAST_EXPRS_FROM_STRING, //
-                            NoSpecificExpr.CAST_EXPRS_TO_STRING, //
-                            NoSpecificExpr.DICT_LITS, //
-                            NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA, //
-                            NoSpecificExpr.PROJECTION_EXPRS_DICTS, //
-                            NoSpecificExpr.PROJECTION_EXPRS_LISTS_NON_ARRAY, //
-                            NoSpecificExpr.PROJECTION_EXPRS_STRINGS, //
-                            NoSpecificExpr.SET_LITS, //
-                            NoSpecificExpr.STRING_LITS, //
-                            NoSpecificExpr.SLICE_EXPRS, //
-                            NoSpecificExpr.SWITCH_EXPRS_LIST_ARRAY, //
-                            NoSpecificExpr.SWITCH_EXPRS_TUPLE, //
+                    new ExprNoSpecificExprsCheck(
+                            NoSpecificExpr.CAST_EXPRS_FROM_STRING,
+                            NoSpecificExpr.CAST_EXPRS_TO_STRING,
+                            NoSpecificExpr.DICT_LITS,
+                            NoSpecificExpr.FUNC_REFS_USER_DEF_AS_DATA,
+                            NoSpecificExpr.PROJECTION_EXPRS_DICTS,
+                            NoSpecificExpr.PROJECTION_EXPRS_LISTS_NON_ARRAY,
+                            NoSpecificExpr.PROJECTION_EXPRS_STRINGS,
+                            NoSpecificExpr.SET_LITS,
+                            NoSpecificExpr.STRING_LITS,
+                            NoSpecificExpr.SLICE_EXPRS,
+                            NoSpecificExpr.SWITCH_EXPRS_LIST_ARRAY,
+                            NoSpecificExpr.SWITCH_EXPRS_TUPLE,
                             NoSpecificExpr.TIME_VAR_REFS)
                                     .ignoreAnnotations(),
 
@@ -672,53 +672,52 @@ public class CifProcessor {
                     // Disallow element of, and subset operators. Allow conjunction and disjunction only on booleans,
                     // allow equality only on booleans, integers, reals and enums, allow addition and subtraction only
                     // on integers and reals.
-                    new ExprNoSpecificBinaryExprsCheck( //
-                            NoSpecificBinaryOp.ADDITION_LISTS, //
-                            NoSpecificBinaryOp.ADDITION_STRINGS, //
-                            NoSpecificBinaryOp.ADDITION_DICTS, //
-                            NoSpecificBinaryOp.ELEMENT_OF, //
-                            NoSpecificBinaryOp.EQUAL_DICT, //
-                            NoSpecificBinaryOp.EQUAL_LIST, //
-                            NoSpecificBinaryOp.EQUAL_SET, //
-                            NoSpecificBinaryOp.EQUAL_STRING, //
-                            NoSpecificBinaryOp.EQUAL_TUPLE, //
-                            NoSpecificBinaryOp.SUBSET, //
-                            NoSpecificBinaryOp.SUBTRACTION_DICTS, //
-                            NoSpecificBinaryOp.SUBTRACTION_LISTS, //
-                            NoSpecificBinaryOp.SUBTRACTION_SETS, //
-                            NoSpecificBinaryOp.CONJUNCTION_SETS, //
-                            NoSpecificBinaryOp.DISJUNCTION_SETS, //
-                            NoSpecificBinaryOp.UNEQUAL_DICT, //
-                            NoSpecificBinaryOp.UNEQUAL_LIST, //
-                            NoSpecificBinaryOp.UNEQUAL_SET, //
-                            NoSpecificBinaryOp.UNEQUAL_STRING, //
+                    new ExprNoSpecificBinaryExprsCheck(
+                            NoSpecificBinaryOp.ADDITION_LISTS,
+                            NoSpecificBinaryOp.ADDITION_STRINGS,
+                            NoSpecificBinaryOp.ADDITION_DICTS,
+                            NoSpecificBinaryOp.ELEMENT_OF,
+                            NoSpecificBinaryOp.EQUAL_DICT,
+                            NoSpecificBinaryOp.EQUAL_LIST,
+                            NoSpecificBinaryOp.EQUAL_SET,
+                            NoSpecificBinaryOp.EQUAL_STRING,
+                            NoSpecificBinaryOp.EQUAL_TUPLE,
+                            NoSpecificBinaryOp.SUBSET,
+                            NoSpecificBinaryOp.SUBTRACTION_DICTS,
+                            NoSpecificBinaryOp.SUBTRACTION_LISTS,
+                            NoSpecificBinaryOp.SUBTRACTION_SETS,
+                            NoSpecificBinaryOp.CONJUNCTION_SETS,
+                            NoSpecificBinaryOp.DISJUNCTION_SETS,
+                            NoSpecificBinaryOp.UNEQUAL_DICT,
+                            NoSpecificBinaryOp.UNEQUAL_LIST,
+                            NoSpecificBinaryOp.UNEQUAL_SET,
+                            NoSpecificBinaryOp.UNEQUAL_STRING,
                             NoSpecificBinaryOp.UNEQUAL_TUPLE)
                                     .ignoreAnnotations(),
 
                     // Limit standard library functions.
-                    new FuncNoSpecificStdLibCheck( //
-                            NoSpecificStdLib.ALL_STOCHASTIC, //
-                            NoSpecificStdLib.ACOSH, //
-                            NoSpecificStdLib.ASINH, //
-                            NoSpecificStdLib.ATANH, //
-                            NoSpecificStdLib.COSH, //
-                            NoSpecificStdLib.SINH, //
-                            NoSpecificStdLib.TANH, //
-                            NoSpecificStdLib.CEIL, //
-                            NoSpecificStdLib.DELETE, //
-                            NoSpecificStdLib.EMPTY, //
-                            NoSpecificStdLib.FLOOR, //
-                            NoSpecificStdLib.FORMAT, //
-                            NoSpecificStdLib.POP, //
-                            NoSpecificStdLib.ROUND, //
-                            NoSpecificStdLib.SCALE, //
-                            NoSpecificStdLib.SIGN, //
+                    new FuncNoSpecificStdLibCheck(
+                            NoSpecificStdLib.ALL_STOCHASTIC,
+                            NoSpecificStdLib.ACOSH,
+                            NoSpecificStdLib.ASINH,
+                            NoSpecificStdLib.ATANH,
+                            NoSpecificStdLib.COSH,
+                            NoSpecificStdLib.SINH,
+                            NoSpecificStdLib.TANH,
+                            NoSpecificStdLib.CEIL,
+                            NoSpecificStdLib.DELETE,
+                            NoSpecificStdLib.EMPTY,
+                            NoSpecificStdLib.FLOOR,
+                            NoSpecificStdLib.FORMAT,
+                            NoSpecificStdLib.POP,
+                            NoSpecificStdLib.ROUND,
+                            NoSpecificStdLib.SCALE,
+                            NoSpecificStdLib.SIGN,
                             NoSpecificStdLib.SIZE)
                                     .ignoreAnnotations(),
 
                     // Limit use of continuous variables.
                     new VarContOnlyTimers()
-            //
             );
         }
     }
