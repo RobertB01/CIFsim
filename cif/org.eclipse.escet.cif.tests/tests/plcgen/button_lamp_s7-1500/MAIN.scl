@@ -333,7 +333,7 @@ BEGIN
              * - Location "Pushed":
              *   - 1st edge in the location
              ***********)
-            IF "DB".hw_button = hw_button_Pushed AND NOT "DB".hw_button_bit THEN
+            IF "DB".hw_button = hw_button_Pushed AND (NOT "DB".hw_button_bit) THEN
                 edge_hw_button_1 := 1;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
