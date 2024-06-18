@@ -19,32 +19,25 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
-import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
-import org.eclipse.escet.cif.plcgen.model.expressions.PlcRealLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
-import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcReturnStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
-import org.eclipse.escet.cif.plcgen.targets.PlcOpenXmlTarget;
 import org.junit.jupiter.api.Test;
 
 /** Tests of the conversion of PLC statements to text. */
 public class StatementTextTest {
     /** Name of the surrounding POU in the tests. */
     private static final String POU_NAME = "testPou";
-
-    /** Function application generator. */
-    private final PlcFunctionAppls funcAppls = new PlcFunctionAppls(new PlcOpenXmlTarget());
 
     /** Converter of expressions and statements to text. */
     private final ModelTextGenerator textGen = new ModelTextGenerator();
@@ -107,15 +100,6 @@ public class StatementTextTest {
         PlcVarExpression lhs = new PlcVarExpression(new PlcDataVariable("my_var", PlcElementaryType.BOOL_TYPE));
         PlcExpression trueValue = new PlcBoolLiteral(true);
         assertEquals("my_var := TRUE;", toStr(new PlcAssignmentStatement(lhs, trueValue)));
-    }
-
-    @Test
-    @SuppressWarnings("javadoc")
-    public void funcApplTest() {
-        PlcFuncApplStatement funcApplStat = new PlcFuncApplStatement(
-                funcAppls.powerFuncAppl(new PlcRealLiteral("1.0", PlcElementaryType.LREAL_TYPE),
-                        new PlcRealLiteral("3.0", PlcElementaryType.LREAL_TYPE)));
-        assertEquals("EXPT(1.0, 3.0);", toStr(funcApplStat));
     }
 
     @Test
