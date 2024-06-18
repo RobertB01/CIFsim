@@ -85,7 +85,7 @@ public abstract class BaseState {
      * Do not access directly, use {@link #getOutgoingEdges} instead.
      * </p>
      */
-    public List<ExplorerEdge> outgoingEdges = null;
+    public List<ExplorerTransition> outgoingEdges = null;
 
     /**
      * Incoming edges from successor states, for the set of states computed so far. As more states are discovered, new
@@ -95,14 +95,14 @@ public abstract class BaseState {
      * Do not access directly, use {@link #getIncomingEdges} instead.
      * </p>
      */
-    public List<ExplorerEdge> incomingEdges = list();
+    public List<ExplorerTransition> incomingEdges = list();
 
     /**
      * Get the transitions that are possible from this state. Compute the new states first, if necessary.
      *
      * @return Transitions from this state.
      */
-    public List<ExplorerEdge> getOutgoingEdges() {
+    public List<ExplorerTransition> getOutgoingEdges() {
         if (outgoingEdges == null) {
             outgoingEdges = list();
             explorer.computeOutgoing(this, false);
@@ -131,7 +131,7 @@ public abstract class BaseState {
      *
      * @return Transitions found so far that lead to this state.
      */
-    public List<ExplorerEdge> getIncomingEdges() {
+    public List<ExplorerTransition> getIncomingEdges() {
         return incomingEdges;
     }
 
@@ -140,7 +140,7 @@ public abstract class BaseState {
      *
      * @param edge Edge to remove.
      */
-    public void removeIncoming(ExplorerEdge edge) {
+    public void removeIncoming(ExplorerTransition edge) {
         // Since we have an edge that should be removed, incomingEdges != null.
         int lastEdge = incomingEdges.size() - 1;
         for (int i = 0; i <= lastEdge; i++) {
@@ -160,7 +160,7 @@ public abstract class BaseState {
      *
      * @param edge Edge to remove.
      */
-    public void removeOutgoing(ExplorerEdge edge) {
+    public void removeOutgoing(ExplorerTransition edge) {
         // Since we have an edge that should be removed, outgoingEdges != null.
         int lastEdge = outgoingEdges.size() - 1;
         for (int i = 0; i <= lastEdge; i++) {
@@ -276,7 +276,7 @@ public abstract class BaseState {
             box.add();
             box.add("Edges:");
             box.indent();
-            for (ExplorerEdge edge: outgoingEdges) {
+            for (ExplorerTransition edge: outgoingEdges) {
                 String eventName, sendValue, target;
 
                 eventName = (edge.event == null) ? "tau" : CifTextUtils.getAbsName(edge.event);

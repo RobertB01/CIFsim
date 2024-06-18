@@ -665,7 +665,7 @@ public class Explorer {
         // Add edge (the edge inserts itself between both states). Only for
         // non-initial states.
         if (transData != null) {
-            new ExplorerEdge(transData.origState, authNewState, transData.event, sendValue);
+            new ExplorerTransition(transData.origState, authNewState, transData.event, sendValue);
         }
     }
 
@@ -1341,13 +1341,13 @@ public class Explorer {
         // Process all states.
         for (BaseState state: states.keySet()) {
             // Initialize.
-            List<ExplorerEdge> edges = state.getOutgoingEdges();
+            List<ExplorerTransition> edges = state.getOutgoingEdges();
             Map<Event, Set<BaseState>> eventMap = mapc(edges.size());
 
             // Process all edges.
-            Iterator<ExplorerEdge> edgesIter = edges.iterator();
+            Iterator<ExplorerTransition> edgesIter = edges.iterator();
             while (edgesIter.hasNext()) {
-                ExplorerEdge edge = edgesIter.next();
+                ExplorerTransition edge = edgesIter.next();
 
                 // Get already encountered target states for this event.
                 Set<BaseState> targetStates = eventMap.get(edge.event);

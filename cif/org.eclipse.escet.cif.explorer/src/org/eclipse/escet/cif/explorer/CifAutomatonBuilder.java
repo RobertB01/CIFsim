@@ -64,7 +64,7 @@ import org.eclipse.escet.cif.explorer.options.AutomatonNameOption;
 import org.eclipse.escet.cif.explorer.runtime.BaseState;
 import org.eclipse.escet.cif.explorer.runtime.EventUsage;
 import org.eclipse.escet.cif.explorer.runtime.Explorer;
-import org.eclipse.escet.cif.explorer.runtime.ExplorerEdge;
+import org.eclipse.escet.cif.explorer.runtime.ExplorerTransition;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -270,7 +270,7 @@ public class CifAutomatonBuilder {
         idx = 0;
         for (BaseState state: expl.states.values()) {
             srcLoc = aut.getLocations().get(idx++);
-            for (ExplorerEdge explEdge: state.getOutgoingEdges()) {
+            for (ExplorerTransition explEdge: state.getOutgoingEdges()) {
                 dstLoc = aut.getLocations().get(explEdge.next.stateNumber - 1);
 
                 // Construct the edge.

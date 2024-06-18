@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.explorer.runtime;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
 /** Transition between two states. */
-public class ExplorerEdge {
+public class ExplorerTransition {
     /** The originating state. */
     public final BaseState prev;
 
@@ -41,7 +41,7 @@ public class ExplorerEdge {
      * @param event Event at the edge, {@code null} means 'tau' event.
      * @param commValue Value that is communicated with the event, or {@code null}.
      */
-    public ExplorerEdge(BaseState prev, BaseState next, Event event, Object commValue) {
+    public ExplorerTransition(BaseState prev, BaseState next, Event event, Object commValue) {
         this.prev = prev;
         this.next = next;
         this.event = event;
