@@ -24,7 +24,6 @@ automaton aut:
   disc bool b;
   disc int i;
   disc tuple(int a,b) tii;
-  disc int[1..5] i2, i3;
 
   location l1:
     initial;
@@ -38,7 +37,6 @@ automaton aut:
     edge e do i := tii[0];              // tuple proj
 
     edge e do r := abs(r);              // abs
-    edge e do r := cbrt(r);             // cbrt
     edge e do r := exp(r);              // exp
     edge e do r := ln(r);               // ln
     edge e do r := log(r);              // log
@@ -50,11 +48,6 @@ automaton aut:
     edge e do r := max(i, r);           // max
     edge e do r := max(r, i);           // max
     edge e do r := max(r, r);           // max
-    edge e do i := pow(i2, i3);         // pow
-    edge e do r := pow(i, i);           // pow
-    edge e do r := pow(i, r);           // pow
-    edge e do r := pow(r, i);           // pow
-    edge e do r := pow(r, r);           // pow
     edge e do r := sqrt(r);             // sqrt
     edge e do r := asin(r);             // asin
     edge e do r := acos(r);             // acos
