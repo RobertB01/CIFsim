@@ -31,7 +31,7 @@ Continuous variables are allowed, but behave much like discrete variables due to
 Available output forms include a CIF automaton of the state space, and a report with details of the found states.
 
 The statespace is computed in terms of the states of the CIF specification, based on the current locations of its automata and the values of its variables.
-The resulting statespace is an NFA or a DFA, but is not necessarily https://en.wikipedia.org/wiki/DFA_minimization[minimal], even with the <<tools-cif-explorer-enable-edge-minimization,edge minimization>> option enabled.
+The resulting statespace is an NFA or a DFA, but is not necessarily https://en.wikipedia.org/wiki/DFA_minimization[minimal].
 You can minimize it using the <<tools-eventbased-chapter-dfa-minimization,DFA minimizer>>, assuming the state space satisfies that tool's preconditions.
 
 indexterm:[CIF explorer,start]
@@ -58,19 +58,19 @@ Besides the general application options, the application has the following optio
 
 * _Input file path_: The absolute or relative file system path to the input CIF specification.
 
-[[tools-cif-explorer-enable-edge-minimization]]
-* _Enable edge minimization_: Enable edge minimization to remove duplicate edges of the state space, before printing statistics, and writing output files.
-Two edges are duplicates if they have the same source and target states, and the same event.
+[[tools-cif-explorer-remove-duplicate-transitions]]
+* _Remove duplicate transitions_: Removes duplicate transitions from the state space, before printing statistics and writing output files.
+Two transitions are duplicates if they have the same source and target states, and the same event.
 The communication value, if any, is ignored.
 Enabled by default.
 
 * _Enable statistics_: Enable printing of statistics of the resulting state space to the console.
-Statistics include the number of states and the number of edges of the resulting state space.
-It is recommended to enable the edge minimization option when printing statistics.
+Statistics include the number of states and the number of transitions of the resulting state space.
+It is recommended to enable the option to remove duplicate transitions when printing statistics.
 Enabled by default.
 
 [[tools-cif-explorer-enable-cif-output]]
-* _Enable CIF output_: Enable output of states and edges as a CIF automaton.
+* _Enable CIF output_: Enable output as a CIF automaton, with states represented by locations and transitions by edges.
 Enabled by default.
 See for more information the section on <<tools-chapter-cif-explorer-output-cif,output as a CIF automaton>>.
 
@@ -162,10 +162,12 @@ In addition it applies the <<tools-cif2cif-chapter-simplify-values-no-refs-optim
 === Output as a CIF automaton
 
 If outputting a CIF model is <<tools-cif-explorer-enable-cif-output,enabled>>, a CIF specification is created and written to a file.
-The state space is represented by an automaton, each state is represented by a location of that automaton, and the edges between states are represented as edges between locations.
-The automaton is named as configured using the <<tools-cif-explorer-name,_Name_ option>>.
-If the state space is empty, the automaton has a single non-initial location.
+The state space is represented by a state space automaton, each state is represented by a location of that state space automaton, and the transitions between states are represented as edges between locations.
+The state space automaton is named as configured using the <<tools-cif-explorer-name,_Name_ option>>.
+If the state space is empty, the state space automaton has a single non-initial location.
 
-If adding <<lang-tut-extensions-chapter-annotations-state,state annotations>> is <<tools-cif-explorer-add-state-annos,enabled>> each location is annotated with a state annotation that indicates the current location of each automaton and the current value of each variable.
-If the state space is empty, the single location in the automaton does not have a state annotation, regardless of whether the option to add state annotations is enabled or not.
+If adding <<lang-tut-extensions-chapter-annotations-state,state annotations>> is <<tools-cif-explorer-add-state-annos,enabled>> each location is annotated with a state annotation.
+The state annotation indicates the state of the input model represented by the location of the state space automaton.
+That is, each state annotation indicates the current location of each automaton from the input specification, and the current value of each variable from the input specification.
+If the state space is empty, the single location in the state space automaton does not have a state annotation, regardless of whether the option to add state annotations is enabled or not.
 The resulting CIF specification does not have any other annotations on any of its elements.
