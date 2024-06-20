@@ -44,7 +44,7 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public boolean printsDetails() {
+    public boolean hasDetails() {
         return !propertyHolds();
     }
 

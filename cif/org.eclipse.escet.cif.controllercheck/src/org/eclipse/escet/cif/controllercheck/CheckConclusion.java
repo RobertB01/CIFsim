@@ -23,11 +23,11 @@ public interface CheckConclusion {
     public boolean propertyHolds();
 
     /**
-     * Whether the {@link #printResult printing of the results} prints details.
+     * Whether the conclusion has details that will be printed by {@link #printResult}.
      *
-     * @return {@code true} if detailed are printed, {@code false} if no details are printed.
+     * @return {@code true} if the conclusion has details, {@code false} if it has no details.
      */
-    public boolean printsDetails();
+    public boolean hasDetails();
 
     /** Output the result of the check. Some of the output may be controlled by options. */
     public void printResult();

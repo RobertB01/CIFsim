@@ -37,7 +37,7 @@ public class NonBlockingUnderControlCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public boolean printsDetails() {
+    public boolean hasDetails() {
         return false;
     }
 

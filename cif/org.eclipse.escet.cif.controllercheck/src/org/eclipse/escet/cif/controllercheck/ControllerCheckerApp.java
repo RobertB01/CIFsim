@@ -429,8 +429,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
         dout();
 
-        if ((boundedResponseConclusion != null && boundedResponseConclusion.printsDetails())
-                || (nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.printsDetails()))
+        if ((boundedResponseConclusion != null && boundedResponseConclusion.hasDetails())
+                || (nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails()))
         {
             out(); // Empty line between conclusions, if either of them prints details.
         }
@@ -444,8 +444,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
         dout();
 
-        if ((nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.printsDetails())
-                || (finiteResponseConclusion != null && finiteResponseConclusion.printsDetails()))
+        if ((nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails())
+                || (finiteResponseConclusion != null && finiteResponseConclusion.hasDetails()))
         {
             out(); // Empty line between conclusions, if either of them prints details.
         }
@@ -458,8 +458,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
         dout();
 
-        if ((finiteResponseConclusion != null && finiteResponseConclusion.printsDetails())
-                || (confluenceConclusion != null && confluenceConclusion.printsDetails()))
+        if ((finiteResponseConclusion != null && finiteResponseConclusion.hasDetails())
+                || (confluenceConclusion != null && confluenceConclusion.hasDetails()))
         {
             out(); // Empty line between conclusions, if either of them prints details.
         }

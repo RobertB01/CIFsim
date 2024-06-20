@@ -43,7 +43,7 @@ public class ConfluenceCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public boolean printsDetails() {
+    public boolean hasDetails() {
         return !propertyHolds();
     }
 
