@@ -38,7 +38,9 @@ public class NonBlockingUnderControlChecker {
         // 1) Compute predicate 'not gc' that indicates when no controllable event is enabled. That is, the negation of
         // the disjunction of the guards of the edges with controllable events.
         cifBddSpec.settings.getDebugOutput().line("Computing the condition for no controllable event to be enabled...");
+
         BDD notGc = computeNotGc(cifBddSpec);
+
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
@@ -51,7 +53,9 @@ public class NonBlockingUnderControlChecker {
         // 'guard and not gc' instead of the 'guard' of the edge.
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing the controllable-complete path states...");
+
         BDD ccp = computeCcp(cifBddSpec, notGc);
+
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
@@ -64,7 +68,9 @@ public class NonBlockingUnderControlChecker {
         // the edges are used.
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing the bad states...");
+
         BDD bad = computeBad(cifBddSpec, ccp);
+
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
@@ -76,7 +82,9 @@ public class NonBlockingUnderControlChecker {
         // We can use 'initial' rather than 'initialInv', since preconditions forbid state invariants.
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing the result of the non-blocking under control check...");
+
         BDD initialAndBad = cifBddSpec.initial.id().andWith(bad);
+
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
