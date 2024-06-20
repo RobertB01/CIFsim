@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.COMPLEMENT_OP;
+import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.SEL_OP;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_ABS;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_ACOS;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_ASIN;
@@ -103,7 +104,7 @@ public class SiemensS7Target extends PlcBaseTarget {
         EnumSet<PlcFuncNotation> funcSupport = super.getSupportedFuncNotations(funcOper, numArgs);
 
         // Functions that should always be formal.
-        EnumSet<PlcFuncOperation> formalFuncs = EnumSet.of(STDLIB_MIN, STDLIB_MAX);
+        EnumSet<PlcFuncOperation> formalFuncs = EnumSet.of(SEL_OP, STDLIB_MAX, STDLIB_MIN);
         if (formalFuncs.contains(funcOper)) {
             funcSupport = EnumSet.copyOf(funcSupport);
             funcSupport.retainAll(PlcFuncNotation.FORMAL_ONLY);
@@ -112,8 +113,8 @@ public class SiemensS7Target extends PlcBaseTarget {
 
         // S7 does not allow formal function call syntax for the following functions and not for functions with two or
         // more parameters (except for MIN / MAX above).
-        EnumSet<PlcFuncOperation> notFormalFuncs = EnumSet.of(COMPLEMENT_OP, STDLIB_ABS, STDLIB_EXP, STDLIB_SQRT,
-                STDLIB_LN, STDLIB_LOG, STDLIB_ACOS, STDLIB_ASIN, STDLIB_ATAN, STDLIB_COS, STDLIB_SIN, STDLIB_TAN);
+        EnumSet<PlcFuncOperation> notFormalFuncs = EnumSet.of(COMPLEMENT_OP, STDLIB_ABS, STDLIB_ACOS, STDLIB_ASIN,
+                STDLIB_ATAN, STDLIB_COS, STDLIB_EXP, STDLIB_LN, STDLIB_LOG, STDLIB_SIN, STDLIB_SQRT, STDLIB_TAN);
         if (notFormalFuncs.contains(funcOper) || numArgs >= 2) {
             funcSupport = EnumSet.copyOf(funcSupport);
             funcSupport.remove(PlcFuncNotation.FORMAL);
