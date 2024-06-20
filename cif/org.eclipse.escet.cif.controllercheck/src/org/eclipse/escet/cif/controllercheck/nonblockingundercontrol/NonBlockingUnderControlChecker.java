@@ -183,7 +183,7 @@ public class NonBlockingUnderControlChecker {
 
         // Prepare settings for reachability computation.
         String predName = "controllable-complete path states"; // Name of the predicate to compute.
-        String initName = "controllable-complete path end states"; // Name of the initial value of the predicate.
+        String initValName = "controllable-complete path end states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
         boolean badStates = false; // Whether the predicate represents bad states (true) or good states (false).
@@ -192,7 +192,7 @@ public class NonBlockingUnderControlChecker {
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
         boolean inclInputVars = false; // Whether to use input variable edges.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
-        CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName, restrictionName,
+        CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
                 restriction, badStates, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
 
         // Get the initial predicate for the reachability computation. We use 'marked' rather than 'markedInv', since
@@ -249,7 +249,7 @@ public class NonBlockingUnderControlChecker {
 
         // Prepare settings for reachability computation.
         String predName = "bad states"; // Name of the predicate to compute.
-        String initName = "not controllable-complete path states"; // Name of the initial value of the predicate.
+        String initValName = "not controllable-complete path states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
         boolean badStates = true; // Whether the predicate represents bad states (true) or good states (false).
@@ -258,7 +258,7 @@ public class NonBlockingUnderControlChecker {
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
         boolean inclInputVars = false; // Whether to use input variable edges.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
-        CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName, restrictionName,
+        CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
                 restriction, badStates, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
 
         // Get the initial predicate for the reachability computation.
