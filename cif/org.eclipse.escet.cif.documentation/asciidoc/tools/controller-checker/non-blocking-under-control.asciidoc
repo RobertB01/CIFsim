@@ -29,7 +29,7 @@ For example, the `Supervisor1` automaton in the example is not non-blocking unde
 All locations are reachable.
 If `c_act1` is done first, before `c_act2`, the automaton goes through marked location `Done1`.
 If instead `c_act2` is done first, before `c_act1`, the automaton does not go through a marked location.
-If the every time the choice is made to first do `c_act1` and only then `c_act2`, the automaton never goes through a marked location.
+If the every time the choice is made to first do `c_act2` and only then `c_act1`, the automaton never goes through a marked location.
 
 [source, cif]
 ----

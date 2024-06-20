@@ -124,7 +124,7 @@ public class CifBddEdge {
     }
 
     /**
-     * Returns whether this is an input variable edge, and edge for an input variable that changes value.
+     * Returns whether this is an input variable edge, an edge for an input variable that changes value.
      *
      * @return {@code true} if this is an input variable edge, {@code false} otherwise.
      */

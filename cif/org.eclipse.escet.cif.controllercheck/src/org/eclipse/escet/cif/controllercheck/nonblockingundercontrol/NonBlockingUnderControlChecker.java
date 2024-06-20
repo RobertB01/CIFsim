@@ -103,7 +103,7 @@ public class NonBlockingUnderControlChecker {
         // Compute 'gc'.
         BDD gc = cifBddSpec.factory.zero();
         for (CifBddEdge edge: cifBddSpec.edges) {
-            // Consider only edges with controllable events.
+            // We should only consider edges with controllable events, thus drop edges with uncontrollable events.
             if (!edge.event.getControllable()) {
                 continue;
             }
