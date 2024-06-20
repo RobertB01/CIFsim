@@ -905,7 +905,7 @@ public class CifDataSynthesis {
         // where the original edge guard holds while also a runtime error would occur when applying that edge. Note that
         // for controllable events this doesn't hold, since we are not allowed to prevent the source states of such
         // edges, but instead must prevent runtime errors by preventing the transitions. And this is prevented in both
-        // forward and backward searches since the edge guards disallow the edge to be taken from  runtime error states.
+        // forward and backward searches since the edge guards disallow the edge to be taken from runtime error states.
         for (CifBddEdge edge: cifBddSpec.edges) {
             if (!edge.event.getControllable()) {
                 BDD guardError = edge.origGuard.and(edge.error);
