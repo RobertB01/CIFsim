@@ -65,8 +65,8 @@ public class CifBddEdge {
      */
     public BDD guard;
 
-    /** Precomputed '{@link #guard} and {@link #error}'. Is {@code null} if not available. */
-    public BDD guardError;
+    /** Precomputed '{@link #origGuard} and {@link #error}'. Is {@code null} if not available. */
+    public BDD origGuardError;
 
     /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
@@ -144,8 +144,8 @@ public class CifBddEdge {
         Assert.check(updateGuardSupport == null);
         updateGuardSupport = getSupportFor(updateGuard);
 
-        // Precompute 'guardError'.
-        guardError = guard.and(error);
+        // Precompute 'origGuardError'.
+        origGuardError = origGuard.and(error);
     }
 
     /**
@@ -240,7 +240,7 @@ public class CifBddEdge {
 
         updateGuard = BddUtils.free(updateGuard);
         updateGuardSupport = BddUtils.free(updateGuardSupport);
-        guardError = BddUtils.free(guardError);
+        origGuardError = BddUtils.free(origGuardError);
 
         Assert.check(updateGuardRestricted == null);
         Assert.check(updateGuardRestrictedSupport == null);
@@ -250,7 +250,7 @@ public class CifBddEdge {
     public void freeBDDs() {
         origGuard = BddUtils.free(origGuard);
         guard = BddUtils.free(guard);
-        guardError = BddUtils.free(guardError);
+        origGuardError = BddUtils.free(origGuardError);
         update = BddUtils.free(update);
         updateGuard = BddUtils.free(updateGuard);
         updateGuardSupport = BddUtils.free(updateGuardSupport);
@@ -302,7 +302,7 @@ public class CifBddEdge {
 
             // Apply the runtime error predicate.
             if (applyError && bad) {
-                rslt = rslt.orWith(guardError.id());
+                rslt = rslt.orWith(origGuardError.id());
             }
 
             if (restriction != null) {
@@ -470,8 +470,8 @@ public class CifBddEdge {
         edge2.assignedVariables.clear();
 
         // Merge errors. The errors are combined in a similar way as the updates.
-        BDD error1 = edge1.guard.id().andWith(edge1.error);
-        BDD error2 = edge2.guard.id().andWith(edge2.error);
+        BDD error1 = edge1.origGuard.id().andWith(edge1.error);
+        BDD error2 = edge2.origGuard.id().andWith(edge2.error);
         mergedEdge.error = error1.orWith(error2);
 
         // Merge guards.
