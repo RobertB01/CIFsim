@@ -152,6 +152,11 @@ public class CifDataSynthesis {
             }
             applyStateEvtExclReqs(cifBddSpec, synthResult, dbgEnabled);
 
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                return null;
+            }
+            applyRuntimeErrorReq(cifBddSpec, synthResult, dbgEnabled);
+
             // Re-initialize applying edges after applying the state plant invariants, state requirement invariants
             // (depending on settings), and state/event exclusion requirement invariants.
             for (CifBddEdge edge: cifBddSpec.edges) {
@@ -879,6 +884,47 @@ public class CifDataSynthesis {
             bdd.free();
         }
         cifBddSpec.stateEvtExclReqs = null;
+    }
+
+    /**
+     * Applies the implicit requirement that controlled behavior must never be in a runtime error state, as a
+     * preprocessing step for synthesis.
+     *
+     * @param cifBddSpec The CIF/BDD specification on which to perform synthesis.
+     * @param synthResult The synthesis result. Is modified in-place.
+     * @param dbgEnabled Whether debug output is enabled.
+     */
+    private static void applyRuntimeErrorReq(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
+            boolean dbgEnabled)
+    {
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput()
+                    .line("Restricting behavior using the implicit runtime error requirement.");
+        }
+
+        // For every edge with an uncontrollable event, restrict the controlled-behavior predicate by disallowing states
+        // where the original edge guard holds while also a runtime error would occur when applying that edge. Note that
+        // for controllable events this doesn't hold, since we are not allowed to prevent the source states of such
+        // edges, but instead must prevent runtime errors by preventing the transitions. And this is prevented in both
+        // forward and backward searches since the edge guards disallow the edge to be taken from  runtime error states.
+        for (CifBddEdge edge: cifBddSpec.edges) {
+            if (!edge.event.getControllable()) {
+                BDD guardErrorNot = edge.origGuardError.not();
+                BDD newCtrlBeh = synthResult.ctrlBeh.and(guardErrorNot);
+
+                if (!newCtrlBeh.equals(synthResult.ctrlBeh)) {
+                    cifBddSpec.settings.getDebugOutput().line(
+                            "Controlled behavior: %s -> %s [runtime error requirement (event: %s): %s].",
+                            bddToStr(synthResult.ctrlBeh, cifBddSpec), bddToStr(newCtrlBeh, cifBddSpec),
+                            edge.event.getName(), bddToStr(guardErrorNot, cifBddSpec));
+                }
+
+                guardErrorNot.free();
+                synthResult.ctrlBeh.free();
+                synthResult.ctrlBeh = newCtrlBeh;
+            }
+        }
     }
 
     /**
