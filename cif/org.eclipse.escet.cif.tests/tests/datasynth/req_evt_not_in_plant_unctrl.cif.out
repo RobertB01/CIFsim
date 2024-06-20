@@ -138,8 +138,8 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: p.inc) (guard: true) (assignments: p.x := p.x + 1)
-    Edge: (event: p.dec) (guard: true) (assignments: p.x := p.x - 1)
+    Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
+    Edge: (event: p.dec) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1)
     Edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2)
     Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
     Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2)
@@ -155,16 +155,18 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: p.inc) (guard: true) (assignments: p.x := p.x + 1): guard: true -> r.loc1 [state/event exclusion requirement: r.loc1].
+Edge (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1): guard: p.x != 3 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 [state/event exclusion requirement: r.loc1].
 Controlled behavior: true -> p.x = 2 or (p.x = 3 or r.loc1) [state/event exclusion requirement: p.x = 2 or (p.x = 3 or r.loc1), edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2)].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1))
-    Edge: (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1)
-    Edge: (event: p.dec) (guard: true) (assignments: p.x := p.x - 1)
+    Edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1)
+    Edge: (event: p.dec) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1)
     Edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2)
     Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
     Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2)
+
+Restricting behavior using implicit runtime error requirements.
 
 Round 1: started.
 
@@ -187,8 +189,8 @@ Round 1: finished, no initialization possible.
 
 Computing controlled system guards.
 
-Edge (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1): guard: r.loc1 -> p.x = 2 and r.loc1 or p.x = 1 and r.loc1.
-Edge (event: p.dec) (guard: true) (assignments: p.x := p.x - 1): guard: true -> p.x = 3.
+Edge (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1): guard: (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 -> p.x = 2 and r.loc1 or p.x = 1 and r.loc1.
+Edge (event: p.dec) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1): guard: p.x != 0 -> p.x = 3.
 
 Final synthesis result:
   State: (controlled-behavior: p.x = 2 or p.x = 3)

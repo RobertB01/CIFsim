@@ -1,1 +1,2 @@
+WARNING: Event "e" is never enabled in the input specification, taking into account automaton guards and invariants.
 ERROR: Empty supervisor.

@@ -146,8 +146,8 @@ Uncontrolled system:
     Edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2)
     Edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2)
     Edge: (event: g) (guard: p.v = 4) (assignments: p.v := p.v + 2)
-    Edge: (event: h) (guard: p.v = 1) (assignments: p.v := p.v - 2)
-    Edge: (event: h) (guard: p.v = 2) (assignments: p.v := p.v - (9 * 2 - c))
+    Edge: (event: h) (guard: p.v = 1 -> false) (assignments: p.v := p.v - 2)
+    Edge: (event: h) (guard: p.v = 2 -> false) (assignments: p.v := p.v - (9 * 2 - c))
     Edge: (event: i) (guard: p.v = 1) (assignments: p.v := 1)
     Edge: (event: i) (guard: p.v = 2) (assignments: p.v := 2)
     Edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5)
@@ -172,6 +172,8 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "p.w
 Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
+
+Restricting behavior using implicit runtime error requirements.
 
 Round 1: started.
 
@@ -225,8 +227,6 @@ Edge (event: g) (guard: p.v = 1) (assignments: p.v := p.v + 2): guard: p.v = 1 -
 Edge (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
 Edge (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
 Edge (event: g) (guard: p.v = 4) (assignments: p.v := p.v + 2): guard: p.v = 4 -> false.
-Edge (event: h) (guard: p.v = 1) (assignments: p.v := p.v - 2): guard: p.v = 1 -> false.
-Edge (event: h) (guard: p.v = 2) (assignments: p.v := p.v - (9 * 2 - c)): guard: p.v = 2 -> false.
 Edge (event: i) (guard: p.v = 1) (assignments: p.v := 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
 Edge (event: i) (guard: p.v = 2) (assignments: p.v := 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
 Edge (event: i) (guard: p.v = 3) (assignments: p.v := 5): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).

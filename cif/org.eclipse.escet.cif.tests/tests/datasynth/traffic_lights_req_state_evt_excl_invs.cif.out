@@ -159,6 +159,8 @@ Restricted behavior using state/event exclusion requirements:
     Edge: (event: green_B) (guard: LightB.Red -> LightA.Red and LightB.Red) (assignments: LightB := LightB.Green)
     Edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red)
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.

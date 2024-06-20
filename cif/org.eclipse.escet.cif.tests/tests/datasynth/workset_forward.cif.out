@@ -150,6 +150,8 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
+Restricting behavior using implicit runtime error requirements.
+
 Edge workset algorithm forward dependencies:
  - 1: p1.next .1
  - 2: p2.e    1.

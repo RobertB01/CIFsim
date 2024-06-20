@@ -143,7 +143,7 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: p.x = 6 and p.l1 or (p.x = 5 or p.x = 7) and p.l1) (assignments: p.x := p.x + 3, p := p.l2 / p.x := p.x + 4, p := p.l2)
+    Edge: (event: e) (guard: p.x = 6 and p.l1 or (p.x = 5 or p.x = 7) and p.l1 -> false) (assignments: p.x := p.x + 3, p := p.l2 / p.x := p.x + 4, p := p.l2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -156,12 +156,15 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
+Restricting behavior using implicit runtime error requirements.
+Controlled behavior: true -> (p.x != 6 or p.l2) and (0 <= p.x and p.x <= 4 or (p.x = 6 or p.l2)) [runtime error requirement (event: e): (p.x != 6 or p.l2) and (0 <= p.x and p.x <= 4 or (p.x = 6 or p.l2))].
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.l2 [marker predicate]
 Backward reachability: iteration 1.
-Controlled behavior: true -> p.l2.
+Controlled behavior: (p.x != 6 or p.l2) and (0 <= p.x and p.x <= 4 or (p.x = 6 or p.l2)) -> p.l2.
 
 Round 1: finished, no initialization possible.
 
@@ -169,7 +172,7 @@ Computing controlled system guards.
 
 Final synthesis result:
   State: (controlled-behavior: p.l2)
-    Edge: (event: e) (guard: p.x = 6 and p.l1 or (p.x = 5 or p.x = 7) and p.l1) (assignments: p.x := p.x + 3, p := p.l2 / p.x := p.x + 4, p := p.l2)
+    Edge: (event: e) (guard: p.x = 6 and p.l1 or (p.x = 5 or p.x = 7) and p.l1 -> false) (assignments: p.x := p.x + 3, p := p.l2 / p.x := p.x + 4, p := p.l2)
 
 Controlled system: exactly 0 states.
 

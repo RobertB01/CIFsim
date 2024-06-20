@@ -144,11 +144,11 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: a) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1)
-    Edge: (event: b) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1)
-    Edge: (event: c) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1)
-    Edge: (event: d) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1)
-    Edge: (event: e) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+    Edge: (event: a) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+    Edge: (event: b) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+    Edge: (event: c) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+    Edge: (event: d) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+    Edge: (event: e) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -161,18 +161,20 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: a) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: true -> p.x = 4 or p.x = 5 [state/event exclusion requirement: p.x = 4 or p.x = 5].
-Edge (event: b) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: true -> p.y = 6 or p.y = 7 [state/event exclusion requirement: p.y = 6 or p.y = 7].
-Edge (event: c) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: true -> p.y != 5 [state/event exclusion requirement: p.y != 5].
-Edge (event: d) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: true -> false [state/event exclusion requirement: false].
+Edge (event: a) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> 2 <= p.x and p.x <= 7 and ((not(p.x = 4 or p.x = 5) or p.y != 0) and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5))) [state/event exclusion requirement: p.x = 4 or p.x = 5].
+Edge (event: b) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 6 or p.y = 7) or ((p.x = 1 or p.x = 5) and (p.y = 6 or p.y = 7) or p.x = 3 and (p.y = 6 or p.y = 7)) [state/event exclusion requirement: p.y = 6 or p.y = 7].
+Edge (event: c) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and ((p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 5))) and (not(p.x = 1 or p.x = 5) or p.y != 0)) and ((not(p.x = 1 or p.x = 5) or p.y != 5) and (p.x != 3 or p.y != 0) and ((p.x != 3 or p.y != 5) and p.x != 7)) [state/event exclusion requirement: p.y != 5].
+Edge (event: d) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> false [state/event exclusion requirement: false].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)
-    Edge: (event: a) (guard: true -> p.x = 4 or p.x = 5) (assignments: p.x := p.x + 1, p.y := p.y - 1)
-    Edge: (event: b) (guard: true -> p.y = 6 or p.y = 7) (assignments: p.x := p.x + 1, p.y := p.y - 1)
-    Edge: (event: c) (guard: true -> p.y != 5) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+    Edge: (event: a) (guard: true -> 2 <= p.x and p.x <= 7 and ((not(p.x = 4 or p.x = 5) or p.y != 0) and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)))) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+    Edge: (event: b) (guard: true -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 6 or p.y = 7) or ((p.x = 1 or p.x = 5) and (p.y = 6 or p.y = 7) or p.x = 3 and (p.y = 6 or p.y = 7))) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+    Edge: (event: c) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and ((p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 5))) and (not(p.x = 1 or p.x = 5) or p.y != 0)) and ((not(p.x = 1 or p.x = 5) or p.y != 5) and (p.x != 3 or p.y != 0) and ((p.x != 3 or p.y != 5) and p.x != 7))) (assignments: p.x := p.x + 1, p.y := p.y - 1)
     Edge: (event: d) (guard: true -> false) (assignments: p.x := p.x + 1, p.y := p.y - 1)
-    Edge: (event: e) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+    Edge: (event: e) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1)
+
+Restricting behavior using implicit runtime error requirements.
 
 Round 1: started.
 
@@ -186,11 +188,11 @@ Backward uncontrolled bad-state: false [current/previous controlled behavior pre
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.x = 3 and p.y = 6 [initialization predicate]
 Forward reachability: iteration 1.
-Forward controlled-behavior: p.x = 3 and p.y = 6 -> p.x = 4 and p.y = 5 or p.x = 3 and p.y = 6 [forward reach with edge: (event: b) (guard: true -> p.y = 6 or p.y = 7) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 3 and p.y = 6 -> p.x = 4 and p.y = 5 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) [forward reach with edge: (event: e) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.x = 3 and p.y = 6 -> p.x = 4 and p.y = 5 or p.x = 3 and p.y = 6 [forward reach with edge: (event: b) (guard: true -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 6 or p.y = 7) or ((p.x = 1 or p.x = 5) and (p.y = 6 or p.y = 7) or p.x = 3 and (p.y = 6 or p.y = 7))) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 3 and p.y = 6 -> p.x = 4 and p.y = 5 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) [forward reach with edge: (event: e) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
 Forward reachability: iteration 2.
-Forward controlled-behavior: p.x = 4 and p.y = 5 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) [forward reach with edge: (event: a) (guard: true -> p.x = 4 or p.x = 5) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [forward reach with edge: (event: c) (guard: true -> p.y != 5) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.x = 4 and p.y = 5 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) [forward reach with edge: (event: a) (guard: true -> 2 <= p.x and p.x <= 7 and ((not(p.x = 4 or p.x = 5) or p.y != 0) and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)))) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [forward reach with edge: (event: c) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and ((p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 5))) and (not(p.x = 1 or p.x = 5) or p.y != 0)) and ((not(p.x = 1 or p.x = 5) or p.y != 5) and (p.x != 3 or p.y != 0) and ((p.x != 3 or p.y != 5) and p.x != 7))) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
 Forward reachability: iteration 3.
 Forward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [fixed point].
 Controlled behavior: true -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)).
@@ -212,10 +214,10 @@ Round 2: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: a) (guard: true -> p.x = 4 or p.x = 5) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: p.x = 4 or p.x = 5 -> p.x = 4 and p.y = 5 or p.x = 5 and p.y = 4.
-Edge (event: b) (guard: true -> p.y = 6 or p.y = 7) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: p.y = 6 or p.y = 7 -> p.x = 2 and p.y = 7 or p.x = 3 and p.y = 6.
-Edge (event: c) (guard: true -> p.y != 5) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: p.y != 5 -> p.x = 2 and p.y = 7 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6).
-Edge (event: e) (guard: true) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: true -> p.x = 4 and p.y = 5 or p.x = 2 and p.y = 7 or (p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6)).
+Edge (event: a) (guard: true -> 2 <= p.x and p.x <= 7 and ((not(p.x = 4 or p.x = 5) or p.y != 0) and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)))) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: 2 <= p.x and p.x <= 7 and ((not(p.x = 4 or p.x = 5) or p.y != 0) and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5))) -> p.x = 4 and p.y = 5 or p.x = 5 and p.y = 4.
+Edge (event: b) (guard: true -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 6 or p.y = 7) or ((p.x = 1 or p.x = 5) and (p.y = 6 or p.y = 7) or p.x = 3 and (p.y = 6 or p.y = 7))) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 6 or p.y = 7) or ((p.x = 1 or p.x = 5) and (p.y = 6 or p.y = 7) or p.x = 3 and (p.y = 6 or p.y = 7)) -> p.x = 2 and p.y = 7 or p.x = 3 and p.y = 6.
+Edge (event: c) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and ((p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 5))) and (not(p.x = 1 or p.x = 5) or p.y != 0)) and ((not(p.x = 1 or p.x = 5) or p.y != 5) and (p.x != 3 or p.y != 0) and ((p.x != 3 or p.y != 5) and p.x != 7))) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and ((p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 5))) and (not(p.x = 1 or p.x = 5) or p.y != 0)) and ((not(p.x = 1 or p.x = 5) or p.y != 5) and (p.x != 3 or p.y != 0) and ((p.x != 3 or p.y != 5) and p.x != 7)) -> p.x = 2 and p.y = 7 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6).
+Edge (event: e) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> p.x = 4 and p.y = 5 or p.x = 2 and p.y = 7 or (p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6)).
 
 Final synthesis result:
   State: (controlled-behavior: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)))
