@@ -38,7 +38,7 @@ public class NonBlockingUnderControlChecker {
         // 1) Compute predicate 'not gc' that indicates when no controllable event is enabled. That is, the negation of
         // the disjunction of the guards of the edges with controllable events.
         cifBddSpec.settings.getDebugOutput().line("Computing the condition for no controllable event to be enabled...");
-        BDD notGc = step1(cifBddSpec);
+        BDD notGc = computeNotGc(cifBddSpec);
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
@@ -51,7 +51,7 @@ public class NonBlockingUnderControlChecker {
         // 'guard and not gc' instead of the 'guard' of the edge.
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing the controllable-complete path states...");
-        BDD ccp = step2(cifBddSpec, notGc);
+        BDD ccp = computeCcp(cifBddSpec, notGc);
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
@@ -64,7 +64,7 @@ public class NonBlockingUnderControlChecker {
         // the edges are used.
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("Computing the bad states...");
-        BDD bad = step3(cifBddSpec, ccp);
+        BDD bad = computeBad(cifBddSpec, ccp);
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
@@ -99,7 +99,7 @@ public class NonBlockingUnderControlChecker {
      * @param cifBddSpec The CIF/BDD specification.
      * @return Predicate 'not gc', or {@code null} if termination is requested.
      */
-    private BDD step1(CifBddSpec cifBddSpec) {
+    private BDD computeNotGc(CifBddSpec cifBddSpec) {
         // Compute 'gc'.
         BDD gc = cifBddSpec.factory.zero();
         for (CifBddEdge edge: cifBddSpec.edges) {
@@ -133,7 +133,7 @@ public class NonBlockingUnderControlChecker {
      * @param notGc The 'not gc' predicate. Is freed by this method.
      * @return The 'ccp' states, or {@code null} if termination is requested.
      */
-    private BDD step2(CifBddSpec cifBddSpec, BDD notGc) {
+    private BDD computeCcp(CifBddSpec cifBddSpec, BDD notGc) {
         // Get edges with uncontrollable events (excluding input variable edges).
         List<CifBddEdge> unctrlEdges = cifBddSpec.edges.stream()
                 .filter(e -> !e.event.getControllable() && !e.isInputVarEdge()).toList();
@@ -222,7 +222,7 @@ public class NonBlockingUnderControlChecker {
      * @param ccp The 'ccp' predicate. Is freed by this method.
      * @return The 'bad' states, or {@code null} if termination is requested.
      */
-    private BDD step3(CifBddSpec cifBddSpec, BDD ccp) {
+    private BDD computeBad(CifBddSpec cifBddSpec, BDD ccp) {
         // Prepare settings for reachability computation.
         String predName = "bad states"; // Name of the predicate to compute.
         String initName = "not controllable-complete path states"; // Name of the initial value of the predicate.
