@@ -155,7 +155,7 @@ public class CifDataSynthesis {
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return null;
             }
-            applyRuntimeErrorReq(cifBddSpec, synthResult, dbgEnabled);
+            applyRuntimeErrorReqs(cifBddSpec, synthResult, dbgEnabled);
 
             // Re-initialize applying edges after applying the state plant invariants, state requirement invariants
             // (depending on settings), and state/event exclusion requirement invariants.
@@ -892,13 +892,13 @@ public class CifDataSynthesis {
      * @param synthResult The synthesis result. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyRuntimeErrorReq(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
+    private static void applyRuntimeErrorReqs(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
             boolean dbgEnabled)
     {
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput()
-                    .line("Restricting behavior using the implicit runtime error requirement.");
+                    .line("Restricting behavior using implicit runtime error requirements.");
         }
 
         // For every edge with an uncontrollable event, restrict the controlled-behavior predicate by disallowing states
