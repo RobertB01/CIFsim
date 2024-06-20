@@ -100,9 +100,6 @@ public class CifBddEdge {
      */
     public BDD error;
 
-    /** Precomputed 'not {@link #error}'. Is {@code null} if not available. */
-    public BDD errorNot;
-
     /** Precomputed BDD variable support for {@link #updateGuard}. Is {@code null} if not available. */
     private BDDVarSet updateGuardSupport;
 
@@ -129,9 +126,6 @@ public class CifBddEdge {
      *     reachability, making it only possible to apply this edge backwards ({@code false}).
      */
     public void initApply(boolean doForward) {
-        // Precompute 'errorNot'.
-        errorNot = error.not();
-
         // We can include the guard in the update, assuming it won't anymore. That is, the guard may differ from the
         // uncontrolled system guard as preparations for state/event exclusion invariants for edges with controllable
         // events may have changed it, etc. But during the actual computations on the CIF/BDD specification, it
@@ -243,7 +237,6 @@ public class CifBddEdge {
     public void cleanupApply() {
         Assert.check(update == null);
 
-        errorNot = BddUtils.free(errorNot);
         updateGuard = BddUtils.free(updateGuard);
         updateGuardSupport = BddUtils.free(updateGuardSupport);
         guardError = BddUtils.free(guardError);
@@ -263,7 +256,6 @@ public class CifBddEdge {
         updateGuardRestricted = BddUtils.free(updateGuardRestricted);
         updateGuardRestrictedSupport = BddUtils.free(updateGuardRestrictedSupport);
         error = BddUtils.free(error);
-        errorNot = BddUtils.free(errorNot);
     }
 
     /**
