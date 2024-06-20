@@ -709,10 +709,8 @@ public class CifDataSynthesis {
                     BDD updPred = reqInv.id();
                     edge.preApply(false, null);
                     updPred = edge.apply(updPred, // pred
-                            false, // bad
                             false, // forward
-                            null, // restriction
-                            false); // don't apply error. The supervisor should restrict that.
+                            null); // restriction
                     edge.postApply(false);
 
                     // If trivial, we have the final predicate.
@@ -1270,7 +1268,6 @@ public class CifDataSynthesis {
                 String initName; // Name of the initial value of the predicate.
                 String restrictionName; // Name of the restriction predicate, if applicable.
                 BDD restriction; // The restriction predicate, if applicable.
-                boolean badStates; // Whether the predicate represents bad states (true) or good states (false).
                 boolean applyForward; // Whether to apply forward reachability (true) or backward reachability (false).
                 boolean inclCtrl; // Whether to include edges with controllable events in the reachability.
                 final boolean inclUnctrl = true; // Always include edges with uncontrollable events in the reachability.
@@ -1280,7 +1277,6 @@ public class CifDataSynthesis {
                         initName = "marker";
                         restrictionName = "current/previous controlled-behavior";
                         restriction = synthResult.ctrlBeh;
-                        badStates = false;
                         applyForward = false;
                         inclCtrl = true;
                         break;
@@ -1289,7 +1285,6 @@ public class CifDataSynthesis {
                         initName = "current/previous controlled behavior";
                         restrictionName = null;
                         restriction = null;
-                        badStates = true;
                         applyForward = false;
                         inclCtrl = false;
                         break;
@@ -1298,7 +1293,6 @@ public class CifDataSynthesis {
                         initName = "initialization";
                         restrictionName = "current/previous controlled-behavior";
                         restriction = synthResult.ctrlBeh;
-                        badStates = false;
                         applyForward = true;
                         inclCtrl = true;
                         break;
@@ -1326,7 +1320,7 @@ public class CifDataSynthesis {
                 BDD reachabilityResult;
                 try {
                     CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName,
-                            restrictionName, restriction, badStates, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
+                            restrictionName, restriction, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
                     reachabilityResult = reachability.performReachability(startPred);
                 } finally {
                     // Stop timing the fixed-point reachability computation.
@@ -1461,7 +1455,7 @@ public class CifDataSynthesis {
 
             BDD updPred = synthResult.ctrlBeh.id();
             edge.preApply(false, null);
-            updPred = edge.apply(updPred, false, false, null, true);
+            updPred = edge.apply(updPred, false, null);
             edge.postApply(false);
             edge.cleanupApply();
             if (cifBddSpec.settings.getShouldTerminate().get()) {

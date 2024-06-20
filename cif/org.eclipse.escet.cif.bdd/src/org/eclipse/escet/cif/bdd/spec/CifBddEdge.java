@@ -257,26 +257,15 @@ public class CifBddEdge {
      *
      * @param pred The predicate to which to apply the assignments. This predicate is {@link BDD#free freed} by this
      *     method.
-     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}). If
-     *     applying forward, bad states are currently not supported.
      * @param forward Whether to apply forward ({@code true}) or backward ({@code false}).
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, restrict the
      *     result to these states. May be {@code null} to not impose a restriction, which is semantically equivalent to
      *     providing 'true'.
-     * @param applyError Whether to apply the runtime error predicates. If applying forward, applying runtime error
-     *     predicates is currently not supported.
      * @return The resulting predicate.
      */
-    public BDD apply(BDD pred, boolean bad, boolean forward, BDD restriction, boolean applyError) {
+    public BDD apply(BDD pred, boolean forward, BDD restriction) {
         // Apply the edge.
         if (forward) {
-            // Forward reachability for bad state predicates is currently not
-            // supported. We don't need it, so we can't test it.
-            Assert.check(!bad);
-
-            // Applying error predicates during forward reachability is not supported.
-            Assert.check(!applyError);
-
             // rslt = Exists{x, y, z, ...}(guard && update && pred && restriction)[x/x+, y/y+, z/z+, ...].
             BDD rslt = updateGuardRestricted.relnext(pred, updateGuardRestrictedSupport);
             pred.free();

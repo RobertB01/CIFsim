@@ -68,9 +68,6 @@ public class CifBddReachability {
      */
     private final BDD restriction;
 
-    /** Whether the given predicate represents bad states ({@code true}) or good states ({@code false}). */
-    private final boolean bad;
-
     /** Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}). */
     private final boolean forward;
 
@@ -94,14 +91,13 @@ public class CifBddReachability {
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
      *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
      *     which is semantically equivalent to providing 'true'.
-     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}).
      * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
      * @param ctrl Whether to include edges with controllable events in the reachability.
      * @param unctrl Whether to include edges with uncontrollable events in the reachability.
      * @param dbgEnabled Whether debug output is enabled.
      */
     public CifBddReachability(CifBddSpec cifBddSpec, String predName, String initName, String restrictionName,
-            BDD restriction, boolean bad, boolean forward, boolean ctrl, boolean unctrl, boolean dbgEnabled)
+            BDD restriction, boolean forward, boolean ctrl, boolean unctrl, boolean dbgEnabled)
     {
         Assert.areEqual(restrictionName == null, restriction == null);
         this.cifBddSpec = cifBddSpec;
@@ -109,7 +105,6 @@ public class CifBddReachability {
         this.initName = initName;
         this.restrictionName = restrictionName;
         this.restriction = restriction;
-        this.bad = bad;
         this.forward = forward;
         this.ctrl = ctrl;
         this.unctrl = unctrl;
@@ -237,7 +232,7 @@ public class CifBddReachability {
             while (true) {
                 // Apply selected edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
-                updPred = edge.apply(updPred, bad, forward, restriction, !forward);
+                updPred = edge.apply(updPred, forward, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
@@ -323,7 +318,7 @@ public class CifBddReachability {
             for (CifBddEdge edge: edges) {
                 // Apply edge. Apply the runtime error predicates when applying backward.
                 BDD updPred = pred.id();
-                updPred = edge.apply(updPred, bad, forward, restriction, !forward);
+                updPred = edge.apply(updPred, forward, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
