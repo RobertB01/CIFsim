@@ -121,6 +121,8 @@ public class NonBlockingUnderControlChecker {
 
             // Extend the condition.
             gc = gc.orWith(edge.guard.id());
+
+            // Check for termination request.
             if (shouldTerminate.get()) {
                 return null;
             }
@@ -156,6 +158,7 @@ public class NonBlockingUnderControlChecker {
         for (CifBddEdge unctrlEdge: unctrlEdges) {
             unctrlEdgeGuards.put(unctrlEdge, unctrlEdge.guard);
         }
+
         if (shouldTerminate.get()) {
             return null;
         }
@@ -164,6 +167,7 @@ public class NonBlockingUnderControlChecker {
         for (CifBddEdge unctrlEdge: unctrlEdges) {
             // Change edge 'guard' to 'guard and not gc'.
             unctrlEdge.guard = unctrlEdge.guard.and(notGc);
+
             if (shouldTerminate.get()) {
                 return null;
             }
@@ -171,6 +175,7 @@ public class NonBlockingUnderControlChecker {
             // Re-initialize the modified edge for being applied. Also re-initialize for forward application, in case
             // other checks need it.
             unctrlEdge.reinitApply(true);
+
             if (shouldTerminate.get()) {
                 return null;
             }
@@ -193,12 +198,14 @@ public class NonBlockingUnderControlChecker {
         // Get the initial predicate for the reachability computation. We use 'marked' rather than 'markedInv', since
         // preconditions forbid state invariants.
         BDD initPred = cifBddSpec.marked.id().andWith(notGc);
+
         if (shouldTerminate.get()) {
             return null;
         }
 
         // Perform forward reachability.
         BDD reachabilityResult = reachability.performReachability(initPred);
+
         if (shouldTerminate.get()) {
             return null;
         }
@@ -209,6 +216,7 @@ public class NonBlockingUnderControlChecker {
             CifBddEdge edge = entry.getKey();
             edge.guard.free();
             edge.guard = entry.getValue();
+
             if (shouldTerminate.get()) {
                 return null;
             }
@@ -216,6 +224,7 @@ public class NonBlockingUnderControlChecker {
             // Re-initialize the modified edge for being applied. Also re-initialize for forward application, in case
             // other checks need it.
             edge.reinitApply(true);
+
             if (shouldTerminate.get()) {
                 return null;
             }
@@ -254,11 +263,13 @@ public class NonBlockingUnderControlChecker {
 
         // Get the initial predicate for the reachability computation.
         BDD initPred = ccp.not();
+
         if (shouldTerminate.get()) {
             return null;
         }
 
         ccp.free();
+
         if (shouldTerminate.get()) {
             return null;
         }
