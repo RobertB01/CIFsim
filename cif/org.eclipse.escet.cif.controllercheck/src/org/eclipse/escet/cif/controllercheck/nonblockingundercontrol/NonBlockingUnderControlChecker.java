@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 import com.github.javabdd.BDD;
 
@@ -35,63 +36,61 @@ public class NonBlockingUnderControlChecker {
      * @return The conclusion of the non-blocking under control check, or {@code null} if the check is aborted.
      */
     public NonBlockingUnderControlCheckConclusion checkSystem(CifBddSpec cifBddSpec) {
+        DebugNormalOutput dbg = cifBddSpec.settings.getDebugOutput();
+
         // 1) Compute predicate 'not gc' that indicates when no controllable event is enabled. That is, the negation of
         // the disjunction of the guards of the edges with controllable events.
-        cifBddSpec.settings.getDebugOutput().line("Computing the condition for no controllable event to be enabled...");
+        dbg.line("Computing the condition for no controllable event to be enabled...");
 
         BDD notGc = computeNotGc(cifBddSpec);
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
-        cifBddSpec.settings.getDebugOutput().line("Condition under which no controllable event is enabled: %s",
-                BddUtils.bddToStr(notGc, cifBddSpec));
+        dbg.line("Condition under which no controllable event is enabled: %s", BddUtils.bddToStr(notGc, cifBddSpec));
 
         // 2) Compute the 'ccp' states, the states on controllable-complete paths. This is computed by performing a
         // backwards reachability computation from 'marked and not gc', using all edges for controllable and
         // uncontrollable events, but not edges for input variables. For the edges of the uncontrollable events, use
         // 'guard and not gc' instead of the 'guard' of the edge.
-        cifBddSpec.settings.getDebugOutput().line();
-        cifBddSpec.settings.getDebugOutput().line("Computing the controllable-complete path states...");
+        dbg.line();
+        dbg.line("Computing the controllable-complete path states...");
 
         BDD ccp = computeCcp(cifBddSpec, notGc);
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
-        cifBddSpec.settings.getDebugOutput().line("Controllable-complete path states: %s",
-                BddUtils.bddToStr(ccp, cifBddSpec));
+        dbg.line("Controllable-complete path states: %s", BddUtils.bddToStr(ccp, cifBddSpec));
 
         // 3) Compute the 'bad' states: the not-'ccp' states and states that can reach such states. This is computed by
         // performing a backwards reachability computation on 'not ccp', using all edges for controllable and
         // uncontrollable events, but not edges for input variables. Unlike in step 2, the original/unchanged guards of
         // the edges are used.
-        cifBddSpec.settings.getDebugOutput().line();
-        cifBddSpec.settings.getDebugOutput().line("Computing the bad states...");
+        dbg.line();
+        dbg.line("Computing the bad states...");
 
         BDD bad = computeBad(cifBddSpec, ccp);
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
-        cifBddSpec.settings.getDebugOutput().line("Bad states: %s", BddUtils.bddToStr(bad, cifBddSpec));
+        dbg.line("Bad states: %s", BddUtils.bddToStr(bad, cifBddSpec));
 
         // 4) Check whether non-blocking under control holds. It holds if the initial states are not 'bad'. That is,
         // check whether '(initial and bad) = false' holds.
         //
         // We can use 'initial' rather than 'initialInv', since preconditions forbid state invariants.
-        cifBddSpec.settings.getDebugOutput().line();
-        cifBddSpec.settings.getDebugOutput().line("Computing the result of the non-blocking under control check...");
+        dbg.line();
+        dbg.line("Computing the result of the non-blocking under control check...");
 
         BDD initialAndBad = cifBddSpec.initial.id().andWith(bad);
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
-        cifBddSpec.settings.getDebugOutput().line("Initial states: %s",
-                BddUtils.bddToStr(cifBddSpec.initial, cifBddSpec));
-        cifBddSpec.settings.getDebugOutput().line("Bad initial states: %s",
-                BddUtils.bddToStr(initialAndBad, cifBddSpec));
+        dbg.line("Initial states: %s", BddUtils.bddToStr(cifBddSpec.initial, cifBddSpec));
+        dbg.line("Bad initial states: %s", BddUtils.bddToStr(initialAndBad, cifBddSpec));
 
         boolean isNonBlockingUnderControl = initialAndBad.isZero();
         initialAndBad.free();
