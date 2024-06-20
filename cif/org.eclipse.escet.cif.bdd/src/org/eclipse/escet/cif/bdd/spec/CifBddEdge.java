@@ -82,12 +82,9 @@ public class CifBddEdge {
     /** Precomputed '{@link #guard} and {@link #update}'. Is {@code null} if not available. */
     public BDD updateGuard;
 
-    /** Precomputed '{@link #guard} and {@link #update} and {@link #errorNot}'. Is {@code null} if not available. */
-    public BDD updateGuardErrorNot;
-
     /**
-     * Precomputed '{@link #updateGuardErrorNot} and restriction+'. Is {@code null} if not available. Is only available
-     * for forward reachability.
+     * Precomputed '{@link #updateGuard} and restriction+'. Is {@code null} if not available. Is only available for
+     * forward reachability.
      */
     public BDD updateGuardRestricted;
 
@@ -108,9 +105,6 @@ public class CifBddEdge {
 
     /** Precomputed BDD variable support for {@link #updateGuard}. Is {@code null} if not available. */
     private BDDVarSet updateGuardSupport;
-
-    /** Precomputed BDD variable support for {@link #updateGuardErrorNot}. Is {@code null} if not available. */
-    private BDDVarSet updateGuardErrorNotSupport;
 
     /** Precomputed BDD variable support for {@link #updateGuardRestricted}. Is {@code null} if not available. */
     private BDDVarSet updateGuardRestrictedSupport;
@@ -157,15 +151,6 @@ public class CifBddEdge {
 
         // Precompute 'guardError'.
         guardError = guard.and(error);
-
-        // If we allow forward reachability, precompute 'updateGuardErrorNot' and 'updateGuardErrorNotSupport'.
-        Assert.check(updateGuardErrorNot == null);
-        Assert.check(updateGuardErrorNotSupport == null);
-
-        if (doForward) {
-            updateGuardErrorNot = updateGuard.and(errorNot);
-            updateGuardErrorNotSupport = getSupportFor(updateGuardErrorNot);
-        }
     }
 
     /**
@@ -197,15 +182,6 @@ public class CifBddEdge {
         Assert.check(updateGuardSupport != null);
         updateGuardSupport.free();
         updateGuardSupport = getSupportFor(updateGuard);
-
-        // If we allow forward reachability, update 'updateGuardErrorNot' and 'updateGuardErrorNotSupport'.
-        if (doForward) {
-            updateGuardErrorNot.free();
-            updateGuardErrorNot = updateGuard.and(errorNot);
-
-            updateGuardErrorNotSupport.free();
-            updateGuardErrorNotSupport = getSupportFor(updateGuardErrorNot);
-        }
     }
 
     /**
@@ -229,9 +205,9 @@ public class CifBddEdge {
                 updateGuardRestrictedSupport = updateGuardSupport.id();
             } else {
                 BDD restrictionNew = restriction.replace(cifBddSpec.oldToNewVarsPairing);
-                updateGuardRestricted = updateGuardErrorNot.and(restrictionNew);
+                updateGuardRestricted = updateGuard.and(restrictionNew);
                 restrictionNew.free();
-                updateGuardRestrictedSupport = updateGuardErrorNotSupport.id().unionWith(restriction.support());
+                updateGuardRestrictedSupport = updateGuardSupport.id().unionWith(restriction.support());
             }
         }
     }
@@ -271,8 +247,6 @@ public class CifBddEdge {
         updateGuard = BddUtils.free(updateGuard);
         updateGuardSupport = BddUtils.free(updateGuardSupport);
         guardError = BddUtils.free(guardError);
-        updateGuardErrorNot = BddUtils.free(updateGuardErrorNot);
-        updateGuardErrorNotSupport = BddUtils.free(updateGuardErrorNotSupport);
 
         Assert.check(updateGuardRestricted == null);
         Assert.check(updateGuardRestrictedSupport == null);
@@ -286,8 +260,6 @@ public class CifBddEdge {
         update = BddUtils.free(update);
         updateGuard = BddUtils.free(updateGuard);
         updateGuardSupport = BddUtils.free(updateGuardSupport);
-        updateGuardErrorNot = BddUtils.free(updateGuardErrorNot);
-        updateGuardErrorNotSupport = BddUtils.free(updateGuardErrorNotSupport);
         updateGuardRestricted = BddUtils.free(updateGuardRestricted);
         updateGuardRestrictedSupport = BddUtils.free(updateGuardRestrictedSupport);
         error = BddUtils.free(error);
@@ -320,7 +292,7 @@ public class CifBddEdge {
             // Applying error predicates during forward reachability is not supported.
             Assert.check(!applyError);
 
-            // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)[x/x+, y/y+, z/z+, ...].
+            // rslt = Exists{x, y, z, ...}(guard && update && pred && restriction)[x/x+, y/y+, z/z+, ...].
             BDD rslt = updateGuardRestricted.relnext(pred, updateGuardRestrictedSupport);
             pred.free();
 
@@ -336,12 +308,8 @@ public class CifBddEdge {
             }
 
             // Apply the runtime error predicate.
-            if (applyError) {
-                if (bad) {
-                    rslt = rslt.orWith(guardError.id());
-                } else {
-                    rslt = rslt.andWith(errorNot.id());
-                }
+            if (applyError && bad) {
+                rslt = rslt.orWith(guardError.id());
             }
 
             if (restriction != null) {
