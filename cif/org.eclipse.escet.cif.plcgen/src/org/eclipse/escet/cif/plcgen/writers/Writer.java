@@ -218,7 +218,7 @@ public abstract class Writer {
     protected Box toVarDeclBox(PlcDataVariable dataVar) {
         String addrTxt = (dataVar.address == null) ? "" : fmt(" AT %s", dataVar.address);
         String valueTxt = (dataVar.value == null) ? ""
-                : " := " + target.getModelTextGenerator().toString(dataVar.value);
+                : " := " + target.getModelTextGenerator().literalToString(dataVar.value);
         String txt = fmt("%s%s: %s%s;", dataVar.varName, addrTxt, toTypeRefBox(dataVar.type), valueTxt);
         return new TextBox(txt);
     }

@@ -291,7 +291,7 @@ public class S7Writer extends Writer {
             ModelTextGenerator modelTextGenerator = target.getModelTextGenerator();
             for (PlcDataVariable constant: globVarList.variables) {
                 c.add("<Constant type='%s' remark='' value='%s'>%s</Constant>", toTypeRefBox(constant.type),
-                        modelTextGenerator.toString(constant.value), constant.varName);
+                        modelTextGenerator.literalToString(constant.value), constant.varName);
             }
         } else {
             for (PlcDataVariable var: globVarList.variables) {
