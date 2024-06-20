@@ -77,7 +77,7 @@ public class CifBddReachability {
     /** Whether to include edges with controllable events in the reachability. */
     private final boolean ctrl;
 
-    /** Whether to include edges with uncontrollable events in the reachability (excluding input variable edges). */
+    /** Whether to include edges with uncontrollable events in the reachability. Input variable edges are excluded. */
     private final boolean unctrl;
 
     /**
