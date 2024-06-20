@@ -82,6 +82,11 @@
                 <DINT/>
               </type>
             </variable>
+            <variable name="current_aut_y_1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
             <variable name="edge_aut_1">
               <type>
                 <DINT/>
@@ -186,7 +191,7 @@ WHILE isProgress DO
         IF edge_aut_1 = 1 THEN
             (* Perform assignments of the 1st edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
-            aut_y := (-1);
+            aut_y := xx;
         END_IF;
     END_IF;
 
@@ -218,11 +223,17 @@ WHILE isProgress DO
     (* All checks have been done. If variable "eventEnabled" still holds, event "aut.f" can occur. *)
     IF eventEnabled THEN
         isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+        current_aut_y_1 := aut_y;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
          *******************************)
-        (* There are no assignments to perform for automata that must always synchronize. *)
-        (* Automaton "aut" has no assignments to perform. *)
+        (* Perform assignments of automaton "aut". *)
+        IF edge_aut_1 = 1 THEN
+            (* Perform assignments of the 2nd edge of automaton "aut". *)
+            (* Perform update of discrete variable "aut.y". *)
+            aut_y := x + z;
+        END_IF;
     END_IF;
 
     (*************************************************************
@@ -328,7 +339,23 @@ END_WHILE;</xhtml>
                 <DINT/>
               </type>
               <initialValue>
-                <simpleValue value="(-1)"/>
+                <simpleValue value="-1234"/>
+              </initialValue>
+            </variable>
+            <variable name="z">
+              <type>
+                <DINT/>
+              </type>
+              <initialValue>
+                <simpleValue value="4321"/>
+              </initialValue>
+            </variable>
+            <variable name="xx">
+              <type>
+                <DINT/>
+              </type>
+              <initialValue>
+                <simpleValue value="-2147483648"/>
               </initialValue>
             </variable>
           </globalVars>

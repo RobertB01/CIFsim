@@ -8,7 +8,9 @@
     d: DINT := 1;
     holds: BOOL := TRUE;
     danger: Color := red;
-    x: DINT := (-1);
+    x: DINT := -1234;
+    z: DINT := 4321;
+    xx: DINT := -2147483648;
 END_VAR]]></Declaration>
     <ObjectProperties/>
   </GVL>
