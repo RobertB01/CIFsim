@@ -60,7 +60,8 @@ public class CifBddEdge {
 
     /**
      * The current guard of the edge. May be different from {@link #origGuard} if it is changed after the conversion of
-     * the CIF specification to the CIF/BDD representation.
+     * the CIF specification to the CIF/BDD representation. This guard prevents the edge from being taken from runtime
+     * error states, i.e., this guard implies 'not {@link #error}'.
      */
     public BDD guard;
 
