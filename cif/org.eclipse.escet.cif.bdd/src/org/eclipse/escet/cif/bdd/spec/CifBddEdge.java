@@ -65,9 +65,6 @@ public class CifBddEdge {
      */
     public BDD guard;
 
-    /** Precomputed '{@link #origGuard} and {@link #error}'. Is {@code null} if not available. */
-    public BDD origGuardError;
-
     /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
 
@@ -143,9 +140,6 @@ public class CifBddEdge {
         // Precompute the BDD variable support for the 'updateGuard' relation.
         Assert.check(updateGuardSupport == null);
         updateGuardSupport = getSupportFor(updateGuard);
-
-        // Precompute 'origGuardError'.
-        origGuardError = origGuard.and(error);
     }
 
     /**
@@ -240,7 +234,6 @@ public class CifBddEdge {
 
         updateGuard = BddUtils.free(updateGuard);
         updateGuardSupport = BddUtils.free(updateGuardSupport);
-        origGuardError = BddUtils.free(origGuardError);
 
         Assert.check(updateGuardRestricted == null);
         Assert.check(updateGuardRestrictedSupport == null);
@@ -250,7 +243,6 @@ public class CifBddEdge {
     public void freeBDDs() {
         origGuard = BddUtils.free(origGuard);
         guard = BddUtils.free(guard);
-        origGuardError = BddUtils.free(origGuardError);
         update = BddUtils.free(update);
         updateGuard = BddUtils.free(updateGuard);
         updateGuardSupport = BddUtils.free(updateGuardSupport);

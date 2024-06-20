@@ -910,7 +910,9 @@ public class CifDataSynthesis {
         // forward and backward searches since the edge guards disallow the edge to be taken from  runtime error states.
         for (CifBddEdge edge: cifBddSpec.edges) {
             if (!edge.event.getControllable()) {
-                BDD guardErrorNot = edge.origGuardError.not();
+                BDD guardError = edge.origGuard.and(edge.error);
+                BDD guardErrorNot = guardError.not();
+                guardError.free();
                 BDD newCtrlBeh = synthResult.ctrlBeh.and(guardErrorNot);
 
                 if (!newCtrlBeh.equals(synthResult.ctrlBeh)) {
