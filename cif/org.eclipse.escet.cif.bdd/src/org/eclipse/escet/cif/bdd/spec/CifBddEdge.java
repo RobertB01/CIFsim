@@ -300,11 +300,6 @@ public class CifBddEdge {
                 return rslt;
             }
 
-            // Apply the runtime error predicate.
-            if (applyError && bad) {
-                rslt = rslt.orWith(origGuardError.id());
-            }
-
             if (restriction != null) {
                 rslt = rslt.andWith(restriction.id());
             }
