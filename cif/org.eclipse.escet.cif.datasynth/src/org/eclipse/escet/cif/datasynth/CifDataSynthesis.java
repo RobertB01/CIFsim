@@ -909,6 +909,10 @@ public class CifDataSynthesis {
         // edges, but instead must prevent runtime errors by preventing the transitions. And this is prevented in both
         // forward and backward searches since the edge guards disallow the edge to be taken from runtime error states.
         for (CifBddEdge edge: cifBddSpec.edges) {
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                return;
+            }
+
             if (!edge.event.getControllable()) {
                 BDD guardError = edge.origGuard.and(edge.error);
                 BDD guardErrorNot = guardError.not();
