@@ -47,7 +47,7 @@ BEGIN
     ELSE
         (* Update remaining time of continuous variable "p.t". *)
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
-        "DB".p_t := SEL_REAL(timeOut, MAX(IN1 := DINT_TO_REAL(TIME_TO_DINT("DB".preset_p_t - curValue)) / 1000.0, IN2 := 0.0), 0.0);
+        "DB".p_t := SEL_REAL(G := timeOut, IN0 := MAX(IN1 := DINT_TO_REAL(TIME_TO_DINT("DB".preset_p_t - curValue)) / 1000.0, IN2 := 0.0), IN1 := 0.0);
     END_IF;
 
     (* --- Process uncontrollable events. -------------------------------------- *)
