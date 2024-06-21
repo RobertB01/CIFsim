@@ -80,6 +80,9 @@ public class CifBddEdge {
     /** Precomputed '{@link #guard} and {@link #update}'. Is {@code null} if not available. */
     public BDD updateGuard;
 
+    /** Precomputed BDD variable support for {@link #updateGuard}. Is {@code null} if not available. */
+    private BDDVarSet updateGuardSupport;
+
     /**
      * The runtime error predicate. Indicates the states prior to taking the edge will result in a runtime error when
      * taking the edge.
@@ -91,9 +94,6 @@ public class CifBddEdge {
      * </p>
      */
     public BDD error;
-
-    /** Precomputed BDD variable support for {@link #updateGuard}. Is {@code null} if not available. */
-    private BDDVarSet updateGuardSupport;
 
     /**
      * Constructor for the {@link CifBddEdge} class.
