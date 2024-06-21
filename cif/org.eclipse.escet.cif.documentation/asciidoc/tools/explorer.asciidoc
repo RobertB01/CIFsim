@@ -21,17 +21,18 @@ indexterm:[tools,CIF explorer]
 indexterm:[single,state space,explorer]
 indexterm:[single,state space,generator]
 indexterm:[see: explorer,CIF explorer]
-The CIF explorer unfolds the state space expressed by a CIF specification, in an untimed setting.
+The CIF explorer unfolds the <<lang-tut-basics-chapter-synchronizing-events-statespace,state space>> expressed by a CIF specification, in an untimed setting.
+It thereby computes the untimed state space, consisting of all reachable states and the transitions between them.
 
 It takes a CIF model and iteratively explores the states using event transitions, unfolding the state space.
 Time transitions are never taken.
 The explorer will return a deadlock state when forced into a time step.
 Continuous variables are allowed, but behave much like discrete variables due to lack of time steps.
 
-Available output forms include a CIF automaton of the state space, and a report with details of the found states.
+Available output forms include a CIF model with an automaton representing the state space, and a report with details of the found states and transitions.
 
 The statespace is computed in terms of the states of the CIF specification, based on the current locations of its automata and the values of its variables.
-The resulting statespace is an NFA or a DFA, but is not necessarily https://en.wikipedia.org/wiki/DFA_minimization[minimal].
+The resulting statespace automaton is an NFA or a DFA, but is not necessarily https://en.wikipedia.org/wiki/DFA_minimization[minimal].
 You can minimize it using the <<tools-eventbased-chapter-dfa-minimization,DFA minimizer>>, assuming the state space satisfies that tool's preconditions.
 
 indexterm:[CIF explorer,start]
@@ -62,21 +63,23 @@ Besides the general application options, the application has the following optio
 * _Remove duplicate transitions_: Removes duplicate transitions from the state space, before printing statistics and writing output files.
 Two transitions are duplicates if they have the same source and target states, and the same event.
 The communication value, if any, is ignored.
-Enabled by default.
+Enabling this option removes duplicate transitions from the state space, possibly reducing the state space.
+But, enabling this option does not guarantee that the resulting state space automaton is https://en.wikipedia.org/wiki/DFA_minimization[minimal].
+This option is enabled by default.
 
 * _Enable statistics_: Enable printing of statistics of the resulting state space to the console.
 Statistics include the number of states and the number of transitions of the resulting state space.
 It is recommended to enable the option to remove duplicate transitions when printing statistics.
-Enabled by default.
+This option is enabled by default.
 
 [[tools-cif-explorer-enable-cif-output]]
 * _Enable CIF output_: Enable output as a CIF automaton, with states represented by locations and transitions by edges.
-Enabled by default.
+This option is enabled by default.
 See for more information the section on <<tools-chapter-cif-explorer-output-cif,output as a CIF automaton>>.
 
 [[tools-cif-explorer-add-state-annos]]
 * _Add state annotations_: Add state annotations to the locations of the CIF automaton in the output CIF specification.
-Enabled by default.
+This option is enabled by default.
 See for more information the section on <<tools-chapter-cif-explorer-output-cif,output as a CIF automaton>>.
 
 * _Output file path_: The absolute or relative file system path of the output CIF specification with the generated state space as a CIF automaton.
@@ -88,7 +91,7 @@ If the resulting statespace automaton has a name that conflicts with an existing
 See for more information the section on <<tools-chapter-cif-explorer-output-cif,output as a CIF automaton>>.
 
 * _Enable report_: Enable writing a detailed report on the found states.
-Disabled by default.
+This option is disabled by default.
 
 * _Report file path_: The absolute or relative file system path of the report file.
 If specified, option _Enable report_ is implied.
