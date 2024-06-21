@@ -158,7 +158,8 @@ public class CifBddEdge {
     }
 
     /**
-     * Global edge cleanup for no longer {@link #apply applying} the edge. May be invoked more than once.
+     * Global edge cleanup for no longer {@link #apply applying} the edge. Must be invoked after {@link #initApply}. May
+     * be invoked more than once.
      */
     public void cleanupApply() {
         Assert.check(update == null);
