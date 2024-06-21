@@ -18,10 +18,11 @@ include::../_part_attributes.asciidoc[]
 
 The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for being non-blocking under control.
 
-The non-blocking under control property holds if a <<lang-tut-extensions-synthesis-marked,marked>> state can be reached, even though the transitions for uncontrollable events and controllable events are executed in a specific way in code generated from the supervisor.
+The non-blocking under control property holds if a <<lang-tut-extensions-synthesis-marked,marked>> state can be reached, even though the transitions for uncontrollable events and controllable events are <<tools-chapter-controller-checker,executed in a specific way>> in code generated from the supervisor.
 This property ensures that the code is still non-blocking, and that the <<sbe-approaches-synthesis-based-non-blocking,non-blockingness guarantee of synthesis>> is thus preserved in generated code.
 
-Concretely, the check verifies that for every reachable state, there exists a path to a marked state, with no controllable events enabled in the last/marked state of the path, and all transitions on the path are either for controllable events, or for uncontrollable ones from states where no controllable events are enabled.
+Concretely, the check verifies that for every reachable state, there exists a controllable-complete path.
+That is, for every reachable state, there exists a path to a marked state, with no controllable events enabled in the last/marked state of the path, and all transitions on the path are either for controllable events, or for uncontrollable ones from states where no controllable events are enabled.
 
 === Examples
 
