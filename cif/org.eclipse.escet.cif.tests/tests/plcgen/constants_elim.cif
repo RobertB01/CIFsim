@@ -18,7 +18,9 @@ const int d = 1;      // value 1, first
 
 const bool holds = true;
 const Color danger = red;
-const int x = -1;
+const int x = -1234;
+const int z = 4321;
+const int xx = -2147483647 - 1;
 
 const tuple(int a; int b) t = (0, 0);
 
@@ -35,7 +37,7 @@ automaton aut:
   location:
     initial;
 
-    edge e when i + c > 3 do y := -1;
-    edge f when bol = holds or i = t[0];
+    edge e when i + c > 3 do y := xx;
+    edge f when bol = holds or i = t[0] do y := x + z;
     edge g when col != danger;
 end

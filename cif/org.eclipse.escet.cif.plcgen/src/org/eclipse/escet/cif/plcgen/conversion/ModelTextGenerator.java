@@ -37,7 +37,9 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.Expr
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParamDirection;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcPlainFuncDescription;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentBlock;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
@@ -129,6 +131,69 @@ public class ModelTextGenerator {
         } else {
             throw new AssertionError("Unexpected PLC expression \"" + expr + "\" found.");
         }
+    }
+
+    /**
+     * Convert a literal value to text.
+     *
+     * <p>
+     * This function does a best effort in recognizing literal forms and returning a literal value. However if the
+     * expression is not recognized as literal value, it may produce text that represents a computation to derive
+     * the value.
+     * </p>
+     *
+     * @param expr Literal value to convert.
+     * @return The string representation of the value.
+     */
+    public String literalToString(PlcExpression expr) {
+        if (PlcElementaryType.isIntType(expr.type)) {
+            // Negative integer literals are expressed as computations. Try to recognize them and convert them back to
+            // their literal value.
+            Integer value = tryGetIntValue(expr);
+            if (value != null) {
+                return Integer.toString(value);
+            }
+        }
+
+        // Unrecognized integer expression or an expression of another type. Fallback to normal text conversion for
+        // a best effort. Note that boolean, real, and enumeration literals do get converted correctly in this way.
+        return toString(expr);
+    }
+
+    /**
+     * Try to get a numerical integer value.
+     *
+     * <p>
+     * CIF encodes negative integer literals as a computation. This function recognizes a superset of those expressions
+     * and converts the value back to a literal value.
+     * </p>
+     *
+     * @param expr The expression with integer type to parse.
+     * @return A numerical integer value if the computation form was recognized, else {@code null}.
+     */
+    private Integer tryGetIntValue(PlcExpression expr) {
+        Assert.check(PlcElementaryType.isIntType(expr.type));
+
+        if (expr instanceof PlcIntLiteral intLit) {
+            // Non-negative integer literals are simply an integer literal object.
+            return intLit.value;
+
+        } else if (expr instanceof PlcFuncAppl fnAppl && fnAppl.function instanceof PlcSemanticFuncDescription sfd) {
+            if (sfd.operation == PlcFuncOperation.NEGATE_OP) {
+                // All negative integer literals except -2147483648 are encoded as a negated positive integer literal.
+                Integer v = tryGetIntValue(fnAppl.arguments.get(fnAppl.function.parameters[0].name).value);
+                return (v == null) ? null : -v;
+
+            } else if (sfd.operation == PlcFuncOperation.SUBTRACT_OP) {
+                // -2147483648 is encoded as -2147483647 - 1.
+                Integer left = tryGetIntValue(fnAppl.arguments.get(fnAppl.function.parameters[0].name).value);
+                Integer right = tryGetIntValue(fnAppl.arguments.get(fnAppl.function.parameters[1].name).value);
+                if (left != null && right != null) {
+                    return left - right;
+                }
+            }
+        }
+        return null; // Expression form is not recognized as integer literal.
     }
 
     /**

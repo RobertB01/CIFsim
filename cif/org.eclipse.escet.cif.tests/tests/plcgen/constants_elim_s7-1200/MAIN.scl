@@ -2,6 +2,7 @@ ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
     VAR_TEMP
         current_aut_y: DINT;
+        current_aut_y_1: DINT;
         edge_aut_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
@@ -83,7 +84,7 @@ BEGIN
             IF edge_aut_1 = 1 THEN
                 (* Perform assignments of the 1st edge of automaton "aut". *)
                 (* Perform update of discrete variable "aut.y". *)
-                "DB".aut_y := (-1);
+                "DB".aut_y := (-2147483647) - 1;
             END_IF;
         END_IF;
 
@@ -113,11 +114,17 @@ BEGIN
         (* All checks have been done. If variable "eventEnabled" still holds, event "aut.f" can occur. *)
         IF eventEnabled THEN
             isProgress := TRUE;
+            (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+            current_aut_y_1 := "DB".aut_y;
             (*******************************
              * Perform the assignments of each synchronizing automaton.
              *******************************)
-            (* There are no assignments to perform for automata that must always synchronize. *)
-            (* Automaton "aut" has no assignments to perform. *)
+            (* Perform assignments of automaton "aut". *)
+            IF edge_aut_1 = 1 THEN
+                (* Perform assignments of the 2nd edge of automaton "aut". *)
+                (* Perform update of discrete variable "aut.y". *)
+                "DB".aut_y := 3087;
+            END_IF;
         END_IF;
 
         (*************************************************************
