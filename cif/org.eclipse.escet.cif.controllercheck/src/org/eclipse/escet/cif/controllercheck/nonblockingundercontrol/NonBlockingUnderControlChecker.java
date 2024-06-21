@@ -52,9 +52,8 @@ public class NonBlockingUnderControlChecker {
         dbg.line("Condition under which no controllable event is enabled: %s", BddUtils.bddToStr(notGc, cifBddSpec));
 
         // 2) Compute the 'ccp' states, the states on controllable-complete paths. This is computed by performing a
-        // backwards reachability computation from 'marked and not gc', using all edges for controllable and
-        // uncontrollable events, but not edges for input variables. For the edges of the uncontrollable events, use
-        // 'guard and not gc' instead of the 'guard' of the edge.
+        // backwards reachability computation from 'marked and not gc', using all edges. For the edges of the
+        // uncontrollable events, use 'guard and not gc' instead of the 'guard' of the edge.
         dbg.line();
         dbg.line("Computing the controllable-complete path states...");
 
@@ -66,9 +65,8 @@ public class NonBlockingUnderControlChecker {
         dbg.line("Controllable-complete path states: %s", BddUtils.bddToStr(ccp, cifBddSpec));
 
         // 3) Compute the 'bad' states: the not-'ccp' states and states that can reach such states. This is computed by
-        // performing a backwards reachability computation on 'not ccp', using all edges for controllable and
-        // uncontrollable events, but not edges for input variables. Unlike in step 2, the original/unchanged guards of
-        // the edges are used.
+        // performing a backwards reachability computation on 'not ccp', using all edges. Unlike in step 2, the
+        // original/unchanged guards of the edges are used.
         dbg.line();
         dbg.line("Computing the bad states...");
 
@@ -138,9 +136,8 @@ public class NonBlockingUnderControlChecker {
 
     /**
      * Perform step 2: compute the 'ccp' states, the states on controllable-complete paths. This is computed by
-     * performing a backwards reachability computation from 'marked and not gc', using all edges for controllable and
-     * uncontrollable events, but not edges for input variables. For the edges of the uncontrollable events, use 'guard
-     * and not gc' instead of the 'guard' of the edge.
+     * performing a backwards reachability computation from 'marked and not gc', using all edges. For the edges of the
+     * uncontrollable events, use 'guard and not gc' instead of the 'guard' of the edge.
      *
      * @param cifBddSpec The CIF/BDD specification.
      * @param notGc The 'not gc' predicate. Is freed by this method.
@@ -149,9 +146,8 @@ public class NonBlockingUnderControlChecker {
     private BDD computeCcp(CifBddSpec cifBddSpec, BDD notGc) {
         Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
 
-        // Get edges with uncontrollable events (excluding input variable edges).
-        List<CifBddEdge> unctrlEdges = cifBddSpec.edges.stream()
-                .filter(e -> !e.event.getControllable() && !e.isInputVarEdge()).toList();
+        // Get edges with uncontrollable events.
+        List<CifBddEdge> unctrlEdges = cifBddSpec.edges.stream().filter(e -> !e.event.getControllable()).toList();
 
         // Preserve current guards of edges with uncontrollable events.
         Map<CifBddEdge, BDD> unctrlEdgeGuards = mapc(unctrlEdges.size());
@@ -189,7 +185,7 @@ public class NonBlockingUnderControlChecker {
         boolean applyForward = false; // Whether to apply forward reachability (true) or backward reachability (false).
         boolean inclCtrl = true; // Whether to use edges with controllable events.
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
-        boolean inclInputVars = false; // Whether to use input variable edges.
+        boolean inclInputVars = true; // Whether to use input variable edges.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
                 restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
@@ -235,9 +231,8 @@ public class NonBlockingUnderControlChecker {
 
     /**
      * Perform step 3: compute the 'bad' states: the not-'ccp' states and states that can reach such states. This is
-     * computed by performing a backwards reachability computation on 'not ccp', using all edges for controllable and
-     * uncontrollable events, but not edges for input variables. Unlike in step 2, the original/unchanged guards of the
-     * edges are used.
+     * computed by performing a backwards reachability computation on 'not ccp', using all edges. Unlike in step 2, the
+     * original/unchanged guards of the edges are used.
      *
      * @param cifBddSpec The CIF/BDD specification.
      * @param ccp The 'ccp' predicate. Is freed by this method.
@@ -254,7 +249,7 @@ public class NonBlockingUnderControlChecker {
         boolean applyForward = false; // Whether to apply forward reachability (true) or backward reachability (false).
         boolean inclCtrl = true; // Whether to use edges with controllable events.
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
-        boolean inclInputVars = false; // Whether to use input variable edges.
+        boolean inclInputVars = true; // Whether to use input variable edges.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
                 restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
