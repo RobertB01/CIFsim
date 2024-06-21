@@ -168,9 +168,8 @@ public class NonBlockingUnderControlChecker {
                 return null;
             }
 
-            // Re-initialize the modified edge for being applied. Also re-initialize for forward application, in case
-            // other checks need it.
-            unctrlEdge.reinitApply(true);
+            // Re-initialize the modified edge for being applied.
+            unctrlEdge.reinitApply();
 
             if (shouldTerminate.get()) {
                 return null;
@@ -216,9 +215,8 @@ public class NonBlockingUnderControlChecker {
                 return null;
             }
 
-            // Re-initialize the modified edge for being applied. Also re-initialize for forward application, in case
-            // other checks need it.
-            edge.reinitApply(true);
+            // Re-initialize the modified edge for being applied.
+            edge.reinitApply();
 
             if (shouldTerminate.get()) {
                 return null;
