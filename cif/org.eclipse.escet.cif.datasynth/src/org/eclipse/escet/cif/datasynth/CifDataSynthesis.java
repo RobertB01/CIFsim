@@ -97,6 +97,21 @@ public class CifDataSynthesis {
             }
             checkSystem(cifBddSpec, synthResult, dbgEnabled);
 
+            // Print debug information on edge guard restrictions for preventing runtime errors.
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                return null;
+            }
+            if (dbgEnabled) {
+                List<CifBddEdge> restrictedEdges = cifBddSpec.edges.stream().filter(e -> !e.origGuard.equals(e.guard))
+                        .toList();
+
+                if (!restrictedEdges.isEmpty()) {
+                    cifBddSpec.settings.getDebugOutput().line();
+                    cifBddSpec.settings.getDebugOutput().line("Restricting edge guards for preventing runtime errors:");
+                    restrictedEdges.forEach(e -> cifBddSpec.settings.getDebugOutput().line(e.toString(1, "Edge: ")));
+                }
+            }
+
             // Apply state/event exclusion plant invariants.
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return null;
