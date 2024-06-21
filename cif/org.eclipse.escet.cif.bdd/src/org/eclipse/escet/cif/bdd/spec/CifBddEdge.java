@@ -124,10 +124,11 @@ public class CifBddEdge {
      *     reachability, making it only possible to apply this edge backwards ({@code false}).
      */
     public void initApply(boolean doForward) {
-        // We can include the guard in the update, assuming it won't anymore. That is, the guard may differ from the
-        // uncontrolled system guard as preparations for state/event exclusion invariants for edges with controllable
-        // events may have changed it, etc. But during the actual computations on the CIF/BDD specification, it
-        // shouldn't change. If the edge guard does change, the edge must be re-initialized for application.
+        // We can include the guard in the update, assuming it won't change anymore. That is, the guard may differ
+        // from the uncontrolled system guard as preparations for state/event exclusion invariants for edges with
+        // controllable events may have changed it, etc. But during the actual computations on the CIF/BDD
+        // specification, it shouldn't change. If the edge guard does change, the edge must be re-initialized for
+        // application.
         //
         // For instance, during the actual synthesis the guard won't change. It could then still change again
         // afterwards, after synthesis has completed and the controlled system guards are determined.

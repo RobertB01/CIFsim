@@ -885,8 +885,10 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Applies the implicit requirement that controlled behavior must never be in a runtime error state, as a
-     * preprocessing step for synthesis.
+     * Applies the implicit requirements to prevent runtime errors for edges with uncontrollable events. That is, for
+     * edges with uncontrollable events, if applying the edge would lead to runtime errors, this can't be prevented by
+     * the supervisor, so the source states are bad. We put the negation of those bad states into the
+     * controlled-behavior predicate, as a preprocessing step for synthesis.
      *
      * @param cifBddSpec The CIF/BDD specification on which to perform synthesis.
      * @param synthResult The synthesis result. Is modified in-place.

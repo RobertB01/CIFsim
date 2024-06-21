@@ -230,7 +230,7 @@ public class CifBddReachability {
             // Repeatedly apply the selected edge, until it no longer has an effect.
             boolean changedByEdge = false;
             while (true) {
-                // Apply selected edge. Apply the runtime error predicates when applying backward.
+                // Apply selected edge.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, forward, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
@@ -316,7 +316,7 @@ public class CifBddReachability {
 
             // Push through all edges.
             for (CifBddEdge edge: edges) {
-                // Apply edge. Apply the runtime error predicates when applying backward.
+                // Apply edge.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, forward, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
