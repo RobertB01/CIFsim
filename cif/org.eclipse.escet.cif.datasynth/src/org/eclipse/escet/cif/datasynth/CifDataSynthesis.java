@@ -107,7 +107,7 @@ public class CifDataSynthesis {
 
                 if (!restrictedEdges.isEmpty()) {
                     cifBddSpec.settings.getDebugOutput().line();
-                    cifBddSpec.settings.getDebugOutput().line("Restricting edge guards for preventing runtime errors:");
+                    cifBddSpec.settings.getDebugOutput().line("Restricting edge guards to prevent runtime errors:");
                     restrictedEdges.forEach(e -> cifBddSpec.settings.getDebugOutput().line(e.toString(1, "Edge: ")));
                 }
             }
