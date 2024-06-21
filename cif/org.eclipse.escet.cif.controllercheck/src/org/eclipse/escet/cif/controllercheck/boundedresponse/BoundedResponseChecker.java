@@ -133,9 +133,6 @@ public class BoundedResponseChecker {
         }
 
         // Apply the algorithm.
-        boolean forward = true;
-        BDD restriction = null;
-
         Integer round = 0; // Number of rounds done so far. Becomes 'null' if no bounded response.
         BDD prevRoundStates = cifBddSpec.factory.zero(); // Dummy value that gets overwritten in the first iteration.
         BDD roundStates = reachableStates.id();
@@ -160,6 +157,8 @@ public class BoundedResponseChecker {
             roundStates = cifBddSpec.factory.zero();
             for (CifBddEdge edge: edgesToApply) {
                 // Apply edge.
+                boolean forward = true;
+                BDD restriction = null;
                 BDD edgePred = edge.apply(prevRoundStates.id(), forward, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
