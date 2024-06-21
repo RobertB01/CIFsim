@@ -19,17 +19,17 @@ include::../_part_attributes.asciidoc[]
 The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for being non-blocking under control.
 
 The non-blocking under control property holds if a <<lang-tut-extensions-synthesis-marked,marked>> state can be reached, even though the transitions for uncontrollable events and controllable events are executed in a specific way in code generated from the supervisor.
-This property ensures that the code is still non-blocking, and this guarantee of synthesis is thus preserved in generated code.
+This property ensures that the code is still non-blocking, and that the <<sbe-approaches-synthesis-based-non-blocking,non-blockingness guarantee of synthesis>> is thus preserved in generated code.
 
 Concretely, the check verifies that for every reachable state, there exists a path to a marked state, with no controllable events enabled in the last/marked state of the path, and all transitions on the path are either for controllable events, or for uncontrollable ones from states where no controllable events are enabled.
 
 === Examples
 
-For example, the `Supervisor1` automaton in the example is not non-blocking under control, and thus blocking under control.
+For example, for the `Supervisor1` automaton in the example below the non-blocking under control property does _not_ hold.
 All locations are reachable.
-If `c_act1` is done first, before `c_act2`, the automaton goes through marked location `Done1`.
-If instead `c_act2` is done first, before `c_act1`, the automaton does not go through a marked location.
-If the every time the choice is made to first do `c_act2` and only then `c_act1`, the automaton never goes through a marked location.
+And if `c_act1` is done first, before `c_act2`, the automaton goes through marked location `Done1`.
+But, if instead `c_act2` is done first, before `c_act1`, the automaton does not go through a marked location.
+And if the every time the choice is made to first do `c_act2` and only then `c_act1`, the automaton never goes through a marked location.
 
 [source, cif]
 ----
@@ -79,9 +79,9 @@ supervisor Supervisor1:
 end
 ----
 
-As another example, consider the `Supervisor2` automaton below, which is also not non-blocking under control, and thus blocking under control.
+As another example, consider the `Supervisor2` automaton below, for which also the non-blocking under control does _not_ hold.
 Here too, all locations are reachable.
-If first `c_act1` is done, then `c_act2`, and finally `u_button_pusehd`, then it cycles without going through a marked location.
+But, if first `c_act1` is done, then `c_act2`, and finally `u_button_pusehd`, then it cycles without going through a marked location.
 A marked location can be reached, by doing `u_button_pushed` in location `Done1`.
 But, in the generated code first all transitions for uncontrollable events are executed, and then the transitions for controllable events.
 In `Start`, no uncontrollable event is possible.
