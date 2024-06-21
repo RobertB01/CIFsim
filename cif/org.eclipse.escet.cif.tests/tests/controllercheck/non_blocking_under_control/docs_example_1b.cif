@@ -1,0 +1,20 @@
+supervisor Supervisor1b:
+  controllable c_act1, c_act2;
+  uncontrollable u_button_pushed;
+  monitor u_button_pushed;
+
+  location Start:
+    initial;
+    edge c_act1 goto Done1;
+    edge c_act2 goto Done2;
+
+  location Done1:
+    marked;
+    edge c_act2 goto BothDone;
+
+  location Done2:
+    edge c_act1 goto BothDone;
+
+  location BothDone:
+    edge u_button_pushed goto Start;
+end

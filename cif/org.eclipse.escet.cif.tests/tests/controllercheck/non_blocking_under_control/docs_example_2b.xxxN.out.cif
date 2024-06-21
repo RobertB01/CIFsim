@@ -1,0 +1,17 @@
+@@controller:properties(nonBlockingUnderControl: false)
+supervisor automaton Supervisor2:
+  monitor u_button_pushed;
+  controllable c_act1;
+  controllable c_act2;
+  uncontrollable u_button_pushed;
+  location Start:
+    initial;
+    edge c_act1 goto Done1;
+  location Done1:
+    edge c_act2 goto BothDone;
+    edge u_button_pushed goto Halt;
+  location BothDone:
+    edge u_button_pushed goto Start;
+  location Halt:
+    marked;
+end

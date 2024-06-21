@@ -1,0 +1,88 @@
+Loading CIF specification "controllercheck/non_blocking_under_control/docs_example_2a.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name          Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   Supervisor2a  0      2 * 2     3 * 2       4 * 2       75%
+  -----  ----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+  Total                                        1      4         6           8           75%
+
+Skipping variable ordering: only one variable present.
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Preparing for MDD-based checks...
+Analyzing automaton "Supervisor2a"...
+    Initializing the automaton data for event "Supervisor2a.c_act1"...
+    Initializing the automaton data for event "Supervisor2a.c_act2"...
+    Processing edges from location "Start" of automaton "Supervisor2a"...
+    Processing edges from location "Done1" of automaton "Supervisor2a"...
+    Processing edges from location "BothDone" of automaton "Supervisor2a"...
+    Updating global guards and updates for event "Supervisor2a.c_act1"...
+    Updating global guards and updates for event "Supervisor2a.c_act2"...
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: Supervisor2a.Start [initial states predicate]
+Forward reachability: iteration 1.
+Reachable states: Supervisor2a.Start -> not Supervisor2a.BothDone [forward reach with edge: (event: Supervisor2a.c_act1) (guard: Supervisor2a.Start) (assignments: Supervisor2a := Supervisor2a.Done1)]
+Reachable states: not Supervisor2a.BothDone -> true [forward reach with edge: (event: Supervisor2a.c_act2) (guard: Supervisor2a.Done1) (assignments: Supervisor2a := Supervisor2a.BothDone)]
+Forward reachability: iteration 2.
+Reachable states: true [fixed point].
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: true).
+Bounded response check round 2 (states before round: not Supervisor2a.BothDone).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: true).
+Bounded response check round 2 (states before round: not Supervisor2a.Start).
+Bounded response check round 3 (states before round: Supervisor2a.BothDone).
+
+Bounded response check completed.
+
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: Supervisor2a.BothDone
+
+Computing the controllable-complete path states...
+Controllable-complete path states: Supervisor2a.BothDone [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: Supervisor2a.BothDone -> not Supervisor2a.Start [backward reach with edge: (event: Supervisor2a.c_act2) (guard: Supervisor2a.Done1) (assignments: Supervisor2a := Supervisor2a.BothDone)]
+Backward reachability: iteration 2.
+Controllable-complete path states: not Supervisor2a.Start -> true [backward reach with edge: (event: Supervisor2a.c_act1) (guard: Supervisor2a.Start) (assignments: Supervisor2a := Supervisor2a.Done1)]
+Backward reachability: iteration 3.
+Controllable-complete path states: true [fixed point].
+Controllable-complete path states: true
+
+Computing the bad states...
+Bad states: false [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: false
+
+Computing the result of the non-blocking under control check...
+Initial states: Supervisor2a.Start
+Bad initial states: false
+
+Checking for finite response...
+
+Iteration 1.
+
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (Supervisor2a.c_act1, Supervisor2a.c_act2)
+
+CONCLUSION:
+    [ERROR] The specification does NOT have bounded response:
+    
+        - An infinite sequence of transitions is possible for uncontrollable events.
+        - A sequence of at most 2 transitions is possible for controllable events.
+
+    [OK] The specification is non-blocking under control.
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/non_blocking_under_control/docs_example_2a.BCFN.out.cif.real".
