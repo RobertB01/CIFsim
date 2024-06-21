@@ -81,12 +81,6 @@ public class CifBddEdge {
     public BDD updateGuard;
 
     /**
-     * Precomputed '{@link #updateGuard} and restriction+'. Is {@code null} if not available. Is only available for
-     * forward reachability.
-     */
-    public BDD updateGuardRestricted;
-
-    /**
      * The runtime error predicate. Indicates the states prior to taking the edge will result in a runtime error when
      * taking the edge.
      *
@@ -101,9 +95,6 @@ public class CifBddEdge {
     /** Precomputed BDD variable support for {@link #updateGuard}. Is {@code null} if not available. */
     private BDDVarSet updateGuardSupport;
 
-    /** Precomputed BDD variable support for {@link #updateGuardRestricted}. Is {@code null} if not available. */
-    private BDDVarSet updateGuardRestrictedSupport;
-
     /**
      * Constructor for the {@link CifBddEdge} class.
      *
@@ -115,9 +106,9 @@ public class CifBddEdge {
 
     /**
      * Global edge initialization for {@link #apply applying} the edge. Must be invoked only once per edge. Must be
-     * invoked before any invocation of {@link #preApply} or {@link #apply}. If the {@link #guard} is changed after
-     * invoking this method, {@link #reinitApply} must be invoked to re-initialize the edge for applying, unless
-     * {@link #cleanupApply} has already been invoked.
+     * invoked before any invocation of {@link #apply}. If the {@link #guard} is changed after invoking this method,
+     * {@link #reinitApply} must be invoked to re-initialize the edge for applying, unless {@link #cleanupApply} has
+     * already been invoked.
      *
      * @param doForward Whether to also initialize this edge for forward reachability, making it possible to
      *     {@link #apply} this edge both forwards and backwards ({@code true}), or not initialize this edge for forward
@@ -175,69 +166,13 @@ public class CifBddEdge {
     }
 
     /**
-     * Local edge initialization for {@link #apply applying} the edge. Must be invoked only once per reachability loop.
-     * Must be invoked after an invocation of {@link #initApply}. Must be invoked before any invocation of
-     * {@link #apply} in that same reachability loop.
-     *
-     * @param forward Whether to apply forward ({@code true}) or backward ({@code false}).
-     * @param restriction The predicate that indicates the upper bound on the reached states. That is, restrict the
-     *     result to these states. May be {@code null} to not impose a restriction, which is semantically equivalent to
-     *     providing 'true'.
-     */
-    public void preApply(boolean forward, BDD restriction) {
-        Assert.check(updateGuard != null);
-        Assert.check(updateGuardRestricted == null);
-        Assert.check(updateGuardRestrictedSupport == null);
-
-        if (forward) {
-            if (restriction == null) {
-                updateGuardRestricted = updateGuard.id();
-                updateGuardRestrictedSupport = updateGuardSupport.id();
-            } else {
-                BDD restrictionNew = restriction.replace(cifBddSpec.oldToNewVarsPairing);
-                updateGuardRestricted = updateGuard.and(restrictionNew);
-                restrictionNew.free();
-                updateGuardRestrictedSupport = updateGuardSupport.id().unionWith(restriction.support());
-            }
-        }
-    }
-
-    /**
-     * Local edge cleanup for no longer {@link #apply applying} the edge. Must be invoked only once per reachability
-     * loop. Must be invoked after {@link #preApply} and after any invocations of {@link #apply} in that same
-     * reachability loop. Must be invoked before any invocation of {@link #cleanupApply}.
-     *
-     * @param forward Whether to apply forward ({@code true}) or backward ({@code false}).
-     */
-    public void postApply(boolean forward) {
-        Assert.check(updateGuard != null);
-
-        if (forward) {
-            Assert.check(updateGuardRestricted != null);
-            updateGuardRestricted.free();
-            updateGuardRestricted = null;
-
-            Assert.check(updateGuardRestrictedSupport != null);
-            updateGuardRestrictedSupport.free();
-            updateGuardRestrictedSupport = null;
-        } else {
-            Assert.check(updateGuardRestricted == null);
-            Assert.check(updateGuardRestrictedSupport == null);
-        }
-    }
-
-    /**
-     * Global edge cleanup for no longer {@link #apply applying} the edge. Must be invoked after {@link #preApply}. May
-     * be invoked more than once.
+     * Global edge cleanup for no longer {@link #apply applying} the edge. May be invoked more than once.
      */
     public void cleanupApply() {
         Assert.check(update == null);
 
         updateGuard = BddUtils.free(updateGuard);
         updateGuardSupport = BddUtils.free(updateGuardSupport);
-
-        Assert.check(updateGuardRestricted == null);
-        Assert.check(updateGuardRestrictedSupport == null);
     }
 
     /** Free all BDDs of this CIF/BDD edge. */
@@ -247,8 +182,6 @@ public class CifBddEdge {
         update = BddUtils.free(update);
         updateGuard = BddUtils.free(updateGuard);
         updateGuardSupport = BddUtils.free(updateGuardSupport);
-        updateGuardRestricted = BddUtils.free(updateGuardRestricted);
-        updateGuardRestrictedSupport = BddUtils.free(updateGuardRestrictedSupport);
         error = BddUtils.free(error);
     }
 

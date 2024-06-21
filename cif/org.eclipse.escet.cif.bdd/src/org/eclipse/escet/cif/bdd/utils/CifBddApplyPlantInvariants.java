@@ -132,11 +132,9 @@ public class CifBddApplyPlantInvariants {
             // invariants is not possible. The update to the predicate is obtained by applying the edge's update
             // backward to the state plant invariant.
             BDD updPred = cifBddSpec.plantInv.id();
-            edge.preApply(false, null);
             updPred = edge.apply(updPred, // pred
                     false, // forward
                     null); // restriction
-            edge.postApply(false);
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
