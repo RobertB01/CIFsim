@@ -137,21 +137,19 @@ Computing the controllable-complete path states...
 Controllable-complete path states: p.Off [controllable-complete path end states predicate]
 Backward reachability: iteration 1.
 Controllable-complete path states: p.Off -> p.Off or not sensor [backward reach with edge: (event: u_off) (guard: p.On and not sensor) (assignments: p := p.Off)]
+Controllable-complete path states: p.Off or not sensor -> true [backward reach with edge: (event: sensor) (guard: true) (assignments: sensor+ != sensor)]
 Backward reachability: iteration 2.
-Controllable-complete path states: p.Off or not sensor [fixed point].
-Controllable-complete path states: p.Off or not sensor
+Controllable-complete path states: true [fixed point].
+Controllable-complete path states: true
 
 Computing the bad states...
-Bad states: p.On and sensor [not controllable-complete path states predicate]
+Bad states: false [not controllable-complete path states predicate]
 Backward reachability: iteration 1.
-Bad states: p.On and sensor -> sensor [backward reach with edge: (event: u_on) (guard: p.Off and sensor) (assignments: p := p.On)]
-Backward reachability: iteration 2.
-Bad states: sensor [fixed point].
-Bad states: sensor
+Bad states: false
 
 Computing the result of the non-blocking under control check...
 Initial states: p.Off
-Bad initial states: p.Off and sensor
+Bad initial states: false
 
 Checking for finite response...
 
@@ -163,7 +161,7 @@ CONCLUSION:
         - A sequence of at most 1 transition is possible for uncontrollable events.
         - No transitions are possible for controllable events.
 
-    [ERROR] The specification is NOT non-blocking under control.
+    [OK] The specification is non-blocking under control.
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 

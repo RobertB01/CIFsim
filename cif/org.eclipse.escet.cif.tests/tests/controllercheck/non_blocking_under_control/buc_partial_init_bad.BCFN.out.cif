@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 1, confluence: true, finiteResponse: true, nonBlockingUnderControl: false)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 1, confluence: true, finiteResponse: true, nonBlockingUnderControl: true)
 supervisor automaton Supervisor:
   input bool i;
   controllable c_act;

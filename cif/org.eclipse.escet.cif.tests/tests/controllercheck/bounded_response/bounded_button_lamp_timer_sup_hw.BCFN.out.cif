@@ -1,4 +1,4 @@
-@@controller:properties(boundedResponse: true, uncontrollablesBound: 2, controllablesBound: 2, confluence: true, finiteResponse: true, nonBlockingUnderControl: false)
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 2, controllablesBound: 2, confluence: true, finiteResponse: true, nonBlockingUnderControl: true)
 plant automaton Button:
   uncontrollable u_pushed;
   uncontrollable u_released;

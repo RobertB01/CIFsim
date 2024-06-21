@@ -1,4 +1,4 @@
-@@controller:properties(nonBlockingUnderControl: false)
+@@controller:properties(nonBlockingUnderControl: true)
 supervisor automaton Supervisor:
   input bool i;
   controllable c_act;

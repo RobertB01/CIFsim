@@ -137,21 +137,21 @@ Controllable-complete path states: Supervisor.DoneTrue [controllable-complete pa
 Backward reachability: iteration 1.
 Controllable-complete path states: Supervisor.DoneTrue -> Supervisor.Start and Supervisor.i or Supervisor.DoneTrue [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
 Controllable-complete path states: Supervisor.Start and Supervisor.i or Supervisor.DoneTrue -> Supervisor.DoneTrue or Supervisor.i [backward reach with edge: (event: Supervisor.u_back) (guard: not Supervisor.Start) (assignments: Supervisor := Supervisor.Start / Supervisor := Supervisor.Start)]
+Controllable-complete path states: Supervisor.DoneTrue or Supervisor.i -> not Supervisor.Start or Supervisor.i [backward reach with edge: (event: Supervisor.i) (guard: true -> not Supervisor.Start) (assignments: Supervisor.i+ != Supervisor.i)]
 Backward reachability: iteration 2.
-Controllable-complete path states: Supervisor.DoneTrue or Supervisor.i [fixed point].
-Controllable-complete path states: Supervisor.DoneTrue or Supervisor.i
+Controllable-complete path states: not Supervisor.Start or Supervisor.i -> true [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
+Backward reachability: iteration 3.
+Controllable-complete path states: true [fixed point].
+Controllable-complete path states: true
 
 Computing the bad states...
-Bad states: not Supervisor.DoneTrue and not Supervisor.i [not controllable-complete path states predicate]
+Bad states: false [not controllable-complete path states predicate]
 Backward reachability: iteration 1.
-Bad states: not Supervisor.DoneTrue and not Supervisor.i -> (Supervisor.DoneTrue or not Supervisor.i) and (not Supervisor.DoneTrue or not Supervisor.i) [backward reach with edge: (event: Supervisor.u_back) (guard: not Supervisor.Start) (assignments: Supervisor := Supervisor.Start / Supervisor := Supervisor.Start)]
-Backward reachability: iteration 2.
-Bad states: (Supervisor.DoneTrue or not Supervisor.i) and (not Supervisor.DoneTrue or not Supervisor.i) [fixed point].
-Bad states: (Supervisor.DoneTrue or not Supervisor.i) and (not Supervisor.DoneTrue or not Supervisor.i)
+Bad states: false
 
 Computing the result of the non-blocking under control check...
 Initial states: Supervisor.Start
-Bad initial states: Supervisor.Start and not Supervisor.i
+Bad initial states: false
 
 Checking for finite response...
 
@@ -165,7 +165,7 @@ CONCLUSION:
         - A sequence of at most 1 transition is possible for uncontrollable events.
         - A sequence of at most 1 transition is possible for controllable events.
 
-    [ERROR] The specification is NOT non-blocking under control.
+    [OK] The specification is non-blocking under control.
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 
