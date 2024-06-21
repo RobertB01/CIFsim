@@ -142,9 +142,10 @@ public class CifBddEdge {
 
     /**
      * Global edge re-initialization. Edges must be reinitialized when the guards have been updated after
-     * {@link #initApply} was invoked. Must be invoked only once per edge.
+     * {@link #initApply} was invoked.
      */
     public void reinitApply() {
+        // Update the 'updateGuard' relation.
         Assert.check(update == null);
         Assert.check(updateGuard != null);
         BDD updateGuardNew = updateGuard.and(guard);
@@ -181,7 +182,8 @@ public class CifBddEdge {
     /**
      * Applies the assignments of the edge, to a given predicate. The assignments can be applied forward (normally) or
      * backward (reversed). This method may only be invoked after having already invoked {@link #initApply}, and
-     * possibly {@link #reinitApply}. It may no longer be invoked after having applied {@link #cleanupApply}.
+     * possibly any number of times {@link #reinitApply}. It may no longer be invoked after having applied
+     * {@link #cleanupApply}.
      *
      * @param pred The predicate to which to apply the assignments. This predicate is {@link BDD#free freed} by this
      *     method.
