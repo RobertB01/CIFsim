@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.COMPLEMENT_OP;
-import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.POWER_OP;
+import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.SEL_OP;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_ABS;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_ACOS;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_ASIN;
@@ -42,9 +42,6 @@ import org.eclipse.escet.common.java.Assert;
 
 /** Code generator for Siemens S7-300, S7-400, S7-1200, and S7-1500 PLC types. */
 public class SiemensS7Target extends PlcBaseTarget {
-    /** Set of targets S7-300 and S7-400. */
-    private static final EnumSet<PlcTargetType> S7_300_400 = EnumSet.of(PlcTargetType.S7_300, PlcTargetType.S7_400);
-
     /** Replacement strings for the extension in the CIF input file name to construct an output path for each target. */
     private static final Map<PlcTargetType, String> OUT_SUFFIX_REPLACEMENTS;
 
@@ -98,16 +95,6 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public boolean supportsPower(boolean baseIsInt, boolean exponentIsInt) {
-        // S7-400 and S7-300 only support power on real types.
-        if (S7_300_400.contains(targetType)) {
-            return !baseIsInt && !exponentIsInt;
-        } else {
-            return super.supportsPower(baseIsInt, exponentIsInt);
-        }
-    }
-
-    @Override
     public EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs) {
         // S7 doesn't have a function for log10.
         if (funcOper == STDLIB_LOG) {
@@ -116,28 +103,21 @@ public class SiemensS7Target extends PlcBaseTarget {
 
         EnumSet<PlcFuncNotation> funcSupport = super.getSupportedFuncNotations(funcOper, numArgs);
 
-        // S7-300 and S7-400 don't support "**" for pow(a, b).
-        if (S7_300_400.contains(targetType) && funcOper == POWER_OP) {
+        // Functions that should always be formal.
+        EnumSet<PlcFuncOperation> formalFuncs = EnumSet.of(SEL_OP, STDLIB_MAX, STDLIB_MIN);
+        if (formalFuncs.contains(funcOper)) {
             funcSupport = EnumSet.copyOf(funcSupport);
-            funcSupport.remove(PlcFuncNotation.INFIX);
+            funcSupport.retainAll(PlcFuncNotation.FORMAL_ONLY);
             return funcSupport;
         }
 
         // S7 does not allow formal function call syntax for the following functions and not for functions with two or
-        // more parameters.
-        EnumSet<PlcFuncOperation> notFormalFuncs = EnumSet.of(COMPLEMENT_OP, STDLIB_ABS, STDLIB_EXP, STDLIB_SQRT,
-                STDLIB_LN, STDLIB_LOG, STDLIB_ACOS, STDLIB_ASIN, STDLIB_ATAN, STDLIB_COS, STDLIB_SIN, STDLIB_TAN);
+        // more parameters (except for MIN / MAX above).
+        EnumSet<PlcFuncOperation> notFormalFuncs = EnumSet.of(COMPLEMENT_OP, STDLIB_ABS, STDLIB_ACOS, STDLIB_ASIN,
+                STDLIB_ATAN, STDLIB_COS, STDLIB_EXP, STDLIB_LN, STDLIB_LOG, STDLIB_SIN, STDLIB_SQRT, STDLIB_TAN);
         if (notFormalFuncs.contains(funcOper) || numArgs >= 2) {
             funcSupport = EnumSet.copyOf(funcSupport);
             funcSupport.remove(PlcFuncNotation.FORMAL);
-            return funcSupport;
-        }
-
-        // Functions that should always be formal.
-        EnumSet<PlcFuncOperation> formalFuncs = EnumSet.of(STDLIB_MIN, STDLIB_MAX);
-        if (formalFuncs.contains(funcOper)) {
-            funcSupport = EnumSet.copyOf(funcSupport);
-            funcSupport.retainAll(PlcFuncNotation.FORMAL_ONLY);
             return funcSupport;
         }
 

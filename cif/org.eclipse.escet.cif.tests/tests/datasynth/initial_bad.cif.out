@@ -157,6 +157,8 @@ Controlled behavior: <bdd 13n 27p> -> <bdd 17n 27p> [state/event exclusion requi
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: <bdd 17n 27p>)
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.

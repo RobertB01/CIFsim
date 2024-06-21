@@ -1,0 +1,27 @@
+group io:
+  input int[0..1] i;
+end
+plant automaton p:
+  controllable e1;
+  controllable e2;
+  enum E = P, Q, R;
+  disc bool b in any;
+  disc int[0..3] x in any;
+  disc int[2..5] y in any;
+  disc E v in any;
+  location L1:
+    initial x >= 2;
+    edge e1 when x = 2 goto L2;
+  location L2:
+    marked y != 5;
+    edge e2 when y = 2 or io.i = 1 goto L1;
+end
+supervisor automaton sup:
+  alphabet p.e1, p.e2;
+  initial (p.y = 3 or p.y = 5 or (p.x = 1 or (p.x = 3 or p.b))) and ((p.y = 3 or (p.y = 5 or p.x = 1) or (p.x = 3 or (not p.b or p.v != p.Q))) and (p.y = 3 or p.y = 5 or (p.x = 0 or p.x = 2))) and (p.y != 5 and (p.y != 3 or p.x = 1 or (p.x = 3 or p.b)) and ((p.y != 3 or p.x = 1 or (p.x = 3 or (not p.b or p.v != p.Q))) and (p.y != 3 or (p.x = 0 or p.x = 2))));
+  location:
+    initial;
+    marked;
+    edge p.e1 when (p.y != 4 or p.b) and ((p.y != 4 or (not p.b or p.v != p.Q)) and (p.y != 2 or p.b)) and ((p.y != 2 or (not p.b or p.v != p.Q)) and p.y != 5 and ((p.y != 3 or p.b) and (p.y != 3 or (not p.b or p.v != p.Q))));
+    edge p.e2 when (io.i = 1 or p.x != 0) and (io.i = 1 or (p.x != 2 or p.b)) and ((io.i = 1 or p.x != 2 or (not p.b or p.v != p.Q)) and (io.i = 1 or (p.x = 0 or p.x = 2))) and ((io.i = 0 or (p.y != 4 or p.x != 0)) and (io.i = 0 or p.y != 4 or (p.x != 2 or p.b)) and ((io.i = 0 or p.y != 4 or (p.x != 2 or (not p.b or p.v != p.Q))) and (io.i = 0 or p.y != 4 or (p.x = 0 or p.x = 2)))) and ((io.i = 0 or (p.y != 2 or p.x != 0)) and (io.i = 0 or p.y != 2 or (p.x != 2 or p.b)) and ((io.i = 0 or p.y != 2 or (p.x != 2 or (not p.b or p.v != p.Q))) and (io.i = 0 or p.y != 2 or (p.x = 0 or p.x = 2))) and ((io.i = 0 or p.y != 5) and (io.i = 0 or (p.y != 3 or p.x != 0)) and ((io.i = 0 or p.y != 3 or (p.x != 2 or p.b)) and ((io.i = 0 or p.y != 3 or (p.x != 2 or (not p.b or p.v != p.Q))) and (io.i = 0 or p.y != 3 or (p.x = 0 or p.x = 2))))));
+end

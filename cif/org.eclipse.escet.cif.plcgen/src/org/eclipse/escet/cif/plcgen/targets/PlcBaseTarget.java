@@ -326,11 +326,6 @@ public abstract class PlcBaseTarget extends PlcTarget {
     }
 
     @Override
-    public boolean supportsPower(boolean baseIsInt, boolean exponentIsInt) {
-        return !baseIsInt; // First parameter must always have a real type.
-    }
-
-    @Override
     public PlcElementaryType getIntegerType() {
         int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
         int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);

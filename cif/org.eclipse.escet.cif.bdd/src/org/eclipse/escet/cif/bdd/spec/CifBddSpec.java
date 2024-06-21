@@ -396,6 +396,19 @@ public class CifBddSpec {
      * @return The textual representation.
      */
     public String getEdgesText(int indent) {
-        return edges.stream().map(e -> e.toString(indent, "Edge: ")).collect(Collectors.joining("\n"));
+        return getEdgesText(indent, false);
+    }
+
+    /**
+     * Returns a textual representation of the {@link #edges}.
+     *
+     * @param indent The indentation level.
+     * @param includeOnlyOrigGuard Whether to include only the {@link CifBddEdge#origGuard original edge guard}, or also
+     *     the {@link CifBddEdge#guard current edge guard}.
+     * @return The textual representation.
+     */
+    public String getEdgesText(int indent, boolean includeOnlyOrigGuard) {
+        return edges.stream().map(e -> e.toString(indent, "Edge: ", includeOnlyOrigGuard))
+                .collect(Collectors.joining("\n"));
     }
 }

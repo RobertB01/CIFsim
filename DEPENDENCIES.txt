@@ -756,7 +756,7 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.urischeme/1.3.200.v20231214-1513, EPL-2.0
 p2/orbit/p2.eclipse.plugin/org.eclipse.userstorage.oauth/1.1.0.v20190307-0457, EPL-2.0, approved, technology.usssdk
 p2/orbit/p2.eclipse.plugin/org.eclipse.userstorage.ui/1.1.0.v20190307-0457, EPL-2.0, approved, technology.usssdk
 p2/orbit/p2.eclipse.plugin/org.eclipse.userstorage/1.2.0.v20210517-0327, EPL-2.0, approved, technology.usssdk
-p2/orbit/p2.eclipse.plugin/org.hamcrest.core/2.2.0.v20230809-1000, None, restricted, #15383
+p2/orbit/p2.eclipse.plugin/org.hamcrest.core/2.2.0.v20230809-1000, BSD-3-Clause, approved, #9982
 p2/orbit/p2.eclipse.plugin/org.junit/4.13.2.v20230809-1000, EPL-1.0, approved, CQ21439
 p2/orbit/p2.eclipse.plugin/wrapped.org.knowm.xchart.xchart/3.8.7, Apache-2.0, approved, #14620
 p2/orbit/p2.p2.installable.unit/org.eclipse.equinox.executable_root.cocoa.macosx.aarch64/3.8.2400.v20240213-1244, EPL-2.0, approved, eclipse.equinox

@@ -157,6 +157,8 @@ WHILE isProgress DO
      *   - 1st edge in the location
      * - Location "l15":
      *   - 1st edge in the location
+     * - Location "l16":
+     *   - 1st edge in the location
      ***********)
     IF p = 0 THEN
         edge_p_1 := 1;
@@ -180,6 +182,8 @@ WHILE isProgress DO
         edge_p_1 := 10;
     ELSIF p = 10 THEN
         edge_p_1 := 11;
+    ELSIF p = 11 THEN
+        edge_p_1 := 12;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -269,7 +273,7 @@ WHILE isProgress DO
             p := 9;
         ELSIF edge_p_1 = 10 THEN
             (* Perform assignments of the 1st edge in location "p.l14". *)
-            IF NOT current_p_b THEN
+            IF (NOT current_p_b) THEN
                 (* Perform update of discrete variable "p.ve". *)
                 p_ve := 1;
             END_IF;
@@ -281,6 +285,12 @@ WHILE isProgress DO
             p_r := DINT_TO_REAL(g_inp) + 10.0;
             (* Perform update of current location of automaton "p". *)
             p := 11;
+        ELSIF edge_p_1 = 12 THEN
+            (* Perform assignments of the 1st edge in location "p.l16". *)
+            (* Perform update of discrete variable "p.x". *)
+            p_x := (-(-current_p_x));
+            (* Perform update of current location of automaton "p". *)
+            p := 12;
         END_IF;
     END_IF;
 END_WHILE;

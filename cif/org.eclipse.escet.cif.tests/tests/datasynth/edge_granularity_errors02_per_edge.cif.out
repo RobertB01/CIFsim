@@ -146,6 +146,10 @@ Uncontrolled system:
     Edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2)
     Edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 2, p := p.l2)
 
+Restricting edge guards to prevent runtime errors:
+  Edge: (event: e) (guard: p.l1 -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.l1 or ((p.x = 1 or p.x = 5) and p.l1 or p.x = 3 and p.l1)) (assignments: p.x := p.x + 1, p := p.l2)
+  Edge: (event: e) (guard: p.l1 -> (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) and p.l1 or (p.x = 2 or p.x = 3) and p.l1) (assignments: p.x := p.x + 2, p := p.l2)
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
@@ -157,30 +161,29 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
+Restricting behavior using implicit runtime error requirements.
+Controlled behavior: true -> p.x != 7 or p.l2 [runtime error requirement (event: e): p.x != 7 or p.l2].
+Controlled behavior: p.x != 7 or p.l2 -> 0 <= p.x and p.x <= 5 or p.l2 [runtime error requirement (event: e): 0 <= p.x and p.x <= 5 or p.l2].
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.l2 [marker predicate]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.l2 -> p.x != 7 or p.l2 [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.l2 -> 0 <= p.x and p.x <= 5 or p.l2 [backward reach with edge: (event: e) (guard: p.l1 -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.l1 or ((p.x = 1 or p.x = 5) and p.l1 or p.x = 3 and p.l1)) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: 0 <= p.x and p.x <= 5 or p.l2]
 Backward reachability: iteration 2.
-Backward controlled-behavior: p.x != 7 or p.l2 [fixed point].
-Controlled behavior: true -> p.x != 7 or p.l2.
+Backward controlled-behavior: 0 <= p.x and p.x <= 5 or p.l2 [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: p.x = 7 and p.l1 [current/previous controlled behavior predicate]
+Backward uncontrolled bad-state: (p.x = 6 or p.x = 7) and p.l1 [current/previous controlled behavior predicate]
 Backward reachability: iteration 1.
-Backward uncontrolled bad-state: p.x = 7 and p.l1 -> (p.x = 6 or p.x = 7) and p.l1 [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 2, p := p.l2)]
-Backward reachability: iteration 2.
-Backward uncontrolled bad-state: (p.x = 6 or p.x = 7) and p.l1 [fixed point].
-Controlled behavior: p.x != 7 or p.l2 -> 0 <= p.x and p.x <= 5 or p.l2.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.l1 [initialization predicate]
 Forward controlled-behavior: p.l1 -> (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) and p.l1 or (p.x = 2 or p.x = 3) and p.l1 [restricted to current/previous controlled-behavior predicate: 0 <= p.x and p.x <= 5 or p.l2]
 Forward reachability: iteration 1.
-Forward controlled-behavior: (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) and p.l1 or (p.x = 2 or p.x = 3) and p.l1 -> (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and p.x != 7) [forward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: 0 <= p.x and p.x <= 5 or p.l2]
-Forward controlled-behavior: (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and p.x != 7) -> (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2)) [forward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 2, p := p.l2), restricted to current/previous controlled-behavior predicate: 0 <= p.x and p.x <= 5 or p.l2]
+Forward controlled-behavior: (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) and p.l1 or (p.x = 2 or p.x = 3) and p.l1 -> (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and p.x != 7) [forward reach with edge: (event: e) (guard: p.l1 -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.l1 or ((p.x = 1 or p.x = 5) and p.l1 or p.x = 3 and p.l1)) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: 0 <= p.x and p.x <= 5 or p.l2]
+Forward controlled-behavior: (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and p.x != 7) -> (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2)) [forward reach with edge: (event: e) (guard: p.l1 -> (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) and p.l1 or (p.x = 2 or p.x = 3) and p.l1) (assignments: p.x := p.x + 2, p := p.l2), restricted to current/previous controlled-behavior predicate: 0 <= p.x and p.x <= 5 or p.l2]
 Forward reachability: iteration 2.
 Forward controlled-behavior: (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2)) [fixed point].
 Controlled behavior: 0 <= p.x and p.x <= 5 or p.l2 -> (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2)).
@@ -193,7 +196,7 @@ Round 2: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.l2 [marker predicate]
 Backward controlled-behavior: p.l2 -> p.x = 4 and p.l2 or ((p.x = 2 or p.x = 6) and p.l2 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.l2) [restricted to current/previous controlled-behavior predicate: (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2))]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.x = 4 and p.l2 or ((p.x = 2 or p.x = 6) and p.l2 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.l2) -> (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2)) [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2))]
+Backward controlled-behavior: p.x = 4 and p.l2 or ((p.x = 2 or p.x = 6) and p.l2 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.l2) -> (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2)) [backward reach with edge: (event: e) (guard: p.l1 -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.l1 or ((p.x = 1 or p.x = 5) and p.l1 or p.x = 3 and p.l1)) (assignments: p.x := p.x + 1, p := p.l2), restricted to current/previous controlled-behavior predicate: (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2))]
 Backward reachability: iteration 2.
 Backward controlled-behavior: (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2)) [fixed point].
 
@@ -207,8 +210,8 @@ Computing controlled system guards.
 
 Final synthesis result:
   State: (controlled-behavior: (p.x != 0 or p.l1) and ((p.x != 6 or p.l2) and (p.x != 7 or p.l2)))
-    Edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2)
-    Edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 2, p := p.l2)
+    Edge: (event: e) (guard: p.l1 -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.l1 or ((p.x = 1 or p.x = 5) and p.l1 or p.x = 3 and p.l1)) (assignments: p.x := p.x + 1, p := p.l2)
+    Edge: (event: e) (guard: p.l1 -> (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) and p.l1 or (p.x = 2 or p.x = 3) and p.l1) (assignments: p.x := p.x + 2, p := p.l2)
 
 Controlled system: exactly 13 states.
 

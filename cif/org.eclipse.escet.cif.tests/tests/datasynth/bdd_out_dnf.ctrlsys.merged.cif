@@ -1,0 +1,32 @@
+automaton io:
+  disc int[0..1] i in any;
+  uncontrollable u_i;
+  location:
+    initial;
+    marked;
+    edge u_i do i := 1 - i;
+end
+plant automaton p:
+  controllable e1;
+  controllable e2;
+  enum E = P, Q, R;
+  disc bool b in any;
+  disc int[0..3] x in any;
+  disc int[2..5] y in any;
+  disc E v in any;
+  location L1:
+    initial x >= 2;
+    edge e1 when x = 2 goto L2;
+  location L2:
+    marked y != 5;
+    edge e2 when y = 2 or io.i = 1 goto L1;
+end
+supervisor automaton sup:
+  alphabet p.e1, p.e2;
+  initial (p.y = 2 or p.y = 4) and (p.x = 0 or p.x = 2) and (p.b and p.v != p.Q) or p.y = 3 and (p.x = 0 or p.x = 2) and (p.b and p.v != p.Q);
+  location:
+    initial;
+    marked;
+    edge p.e1 when p.y = 4 and (p.b and p.v != p.Q) or (p.y = 2 and (p.b and p.v != p.Q) or p.y = 3 and (p.b and p.v != p.Q));
+    edge p.e2 when io.i = 0 and p.x = 2 and (p.b and p.v != p.Q) or io.i = 1 and p.y = 4 and (p.x = 2 and (p.b and p.v != p.Q)) or (io.i = 1 and p.y = 2 and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and p.y = 3 and (p.x = 2 and (p.b and p.v != p.Q)));
+end

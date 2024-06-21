@@ -75,6 +75,8 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
+Restricting behavior using implicit runtime error requirements.
+
 Edge workset algorithm forward dependencies:
  - 1:  p.m .............
  - 2:  p.d ...1.........

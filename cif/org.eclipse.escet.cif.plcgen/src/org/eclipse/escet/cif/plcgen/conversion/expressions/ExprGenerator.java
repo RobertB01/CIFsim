@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.plcgen.conversion.expressions;
 
-import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.cif.common.CifValueUtils.flattenBinExpr;
 import static org.eclipse.escet.cif.common.CifValueUtils.getTupleProjIndex;
@@ -1005,15 +1004,6 @@ public class ExprGenerator {
                 return arg1.setValue(funcAppls.absFuncAppl(arg1.value));
             }
 
-            case CBRT: {
-                // Use reals to get real result. Use two real-typed values to support S7-400 and S7-300.
-                PlcExpression expValue = funcAppls.divideFuncAppl(target.makeStdReal("1.0"), target.makeStdReal("3.0"));
-
-                Assert.check(argumentResults.size() == 1);
-                ExprValueResult arg1 = argumentResults.get(0);
-                return arg1.setValue(funcAppls.powerFuncAppl(arg1.value, expValue));
-            }
-
             case CEIL:
                 // Unsupported. IEC 61131-3 has only TRUNC (round
                 // towards zero) and REAL_TO_INT (rounds to the nearest
@@ -1084,55 +1074,6 @@ public class ExprGenerator {
                 // Unsupported.
                 throw new RuntimeException("Precondition violation.");
 
-            case POWER: {
-                Assert.check(argumentResults.size() == 2);
-                CifType baseType = normalizeType(arguments.get(0).getType());
-                CifType exponentType = normalizeType(arguments.get(1).getType());
-                boolean baseIsInt = baseType instanceof IntType;
-                boolean exponentIsInt = exponentType instanceof IntType;
-
-                // CIF input and output expectations.
-                boolean baseAllowsInt = baseIsInt && !isRangeless((IntType)baseType);
-                boolean exponentAllowsInt = exponentIsInt && !isRangeless((IntType)exponentType)
-                        && ((IntType)exponentType).getLower() >= 0;
-                boolean cifIntResult = baseAllowsInt & exponentAllowsInt;
-
-                // Find an input type combination that works for the PLC.
-                boolean plcBaseIsInt = baseIsInt;
-                boolean plcExponentIsInt = exponentIsInt;
-                if (!target.supportsPower(plcBaseIsInt, plcExponentIsInt) && plcBaseIsInt) {
-                    plcBaseIsInt = false; // 'int ** X' doesn't work, use a real as base type.
-                }
-                if (!target.supportsPower(plcBaseIsInt, plcExponentIsInt) && plcExponentIsInt) {
-                    plcExponentIsInt = false; // 'X ** int' doesn't work, use a real as exponent type.
-                }
-                // Either a working combination has been found or we fell back to the always supported
-                // POW(real, real) case.
-
-                // Convert both sides if needed.
-                PlcExpression baseSide = argumentResults.get(0).value;
-                if (baseIsInt && !plcBaseIsInt) {
-                    baseSide = funcAppls.castFunctionAppl(baseSide, target.getRealType());
-                }
-                PlcExpression exponentSide = argumentResults.get(1).value;
-                if (exponentIsInt && !plcExponentIsInt) {
-                    exponentSide = funcAppls.castFunctionAppl(exponentSide, target.getRealType());
-                }
-
-                // Generate the call.
-                PlcExpression powCall = funcAppls.powerFuncAppl(baseSide, exponentSide);
-                boolean plcIntResult = plcBaseIsInt & plcExponentIsInt;
-
-                // Convert the result back if CIF and PLC types are not the same. Note that the PLC cannot reach an
-                // integer typed result if CIF does not have it as the PLC sides are never changed to integer type.
-                if (cifIntResult && !plcIntResult) {
-                    powCall = funcAppls.castFunctionAppl(powCall, target.getIntegerType());
-                }
-
-                ExprValueResult result = new ExprValueResult(this, argumentResults.get(0), argumentResults.get(1));
-                return result.setValue(powCall);
-            }
-
             case ROUND:
                 // Unsupported. IEC 61131-3 has only TRUNC (round
                 // towards zero) and REAL_TO_INT (rounds to the nearest
@@ -1199,7 +1140,9 @@ public class ExprGenerator {
             case ACOSH:
             case ASINH:
             case ATANH:
+            case CBRT:
             case COSH:
+            case POWER:
             case SINH:
             case TANH:
                 // Unsupported.

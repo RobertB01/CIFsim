@@ -94,7 +94,7 @@ public class BddToCif {
      *     {@code false}) predicate.
      * @return The CIF predicate.
      */
-    private static Expression bddToCifPred(BDD bdd, CifBddSpec cifBddSpec, boolean dnf) {
+    public static Expression bddToCifPred(BDD bdd, CifBddSpec cifBddSpec, boolean dnf) {
         // Special case for 'true' and 'false'.
         if (bdd.isZero()) {
             return CifValueUtils.makeFalse();

@@ -179,6 +179,8 @@ Restricted behavior using state/event exclusion requirements:
     Edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On)
     Edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off)
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -258,12 +260,12 @@ Simplification of controlled system under the assumption of the plants:
 
 Constructing output CIF specification.
 BDD cache statistics:
-  Node creation requests:       888
+  Node creation requests:       754
   Node creation chain accesses: 0
-  Node creation cache hits:     649
+  Node creation cache hits:     515
   Node creation cache misses:   157
-  Operation count:              2659
-  Operation cache hits:         386
+  Operation count:              2532
+  Operation cache hits:         362
   Operation cache misses:       580
 Maximum used BDD nodes: 112.
 Writing output CIF file "datasynth/edge_order_both_custom_dupl_no.ctrlsys.real.cif".

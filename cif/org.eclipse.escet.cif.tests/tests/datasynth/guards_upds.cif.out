@@ -151,6 +151,9 @@ Uncontrolled system:
     Edge: (event: a) (guard: p2.y = 4 and p1.l0 or (p2.y = 5 and p1.l0 or p2.y = 3 and p1.l0)) (assignments: p1.x := p1.x + 1, p1 := p1.l1, p2.y := 3)
     Edge: (event: b) (guard: p1.x = 5 and p1.l0 or p1.x = 3 and p1.l0)
 
+Restricting edge guards to prevent runtime errors:
+  Edge: (event: a) (guard: p2.y = 4 and p1.l0 or (p2.y = 5 and p1.l0 or p2.y = 3 and p1.l0) -> p2.y = 4 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or p2.y = 4 and ((p1.x = 1 or p1.x = 5) and p1.l0) or (p2.y = 4 and (p1.x = 3 and p1.l0) or p2.y = 5 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0)) or (p2.y = 5 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 5 and (p1.x = 3 and p1.l0) or (p2.y = 3 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or (p2.y = 3 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 3 and (p1.x = 3 and p1.l0))))) (assignments: p1.x := p1.x + 1, p1 := p1.l1, p2.y := 3)
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
@@ -166,6 +169,8 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "p1.
 Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
+
+Restricting behavior using implicit runtime error requirements.
 
 Round 1: started.
 
@@ -201,7 +206,7 @@ Round 2: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: a) (guard: p2.y = 4 and p1.l0 or (p2.y = 5 and p1.l0 or p2.y = 3 and p1.l0)) (assignments: p1.x := p1.x + 1, p1 := p1.l1, p2.y := 3): guard: p2.y = 4 and p1.l0 or (p2.y = 5 and p1.l0 or p2.y = 3 and p1.l0) -> false.
+Edge (event: a) (guard: p2.y = 4 and p1.l0 or (p2.y = 5 and p1.l0 or p2.y = 3 and p1.l0) -> p2.y = 4 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or p2.y = 4 and ((p1.x = 1 or p1.x = 5) and p1.l0) or (p2.y = 4 and (p1.x = 3 and p1.l0) or p2.y = 5 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0)) or (p2.y = 5 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 5 and (p1.x = 3 and p1.l0) or (p2.y = 3 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or (p2.y = 3 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 3 and (p1.x = 3 and p1.l0))))) (assignments: p1.x := p1.x + 1, p1 := p1.l1, p2.y := 3): guard: p2.y = 4 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or p2.y = 4 and ((p1.x = 1 or p1.x = 5) and p1.l0) or (p2.y = 4 and (p1.x = 3 and p1.l0) or p2.y = 5 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0)) or (p2.y = 5 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 5 and (p1.x = 3 and p1.l0) or (p2.y = 3 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or (p2.y = 3 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 3 and (p1.x = 3 and p1.l0)))) -> false.
 Edge (event: b) (guard: p1.x = 5 and p1.l0 or p1.x = 3 and p1.l0): guard: p1.x = 5 and p1.l0 or p1.x = 3 and p1.l0 -> false.
 
 Final synthesis result:

@@ -48,6 +48,10 @@ Uncontrolled system:
     Edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1)
     Edge: (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1)
 
+Restricting edge guards to prevent runtime errors:
+  Edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1)
+  Edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1)
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
@@ -63,6 +67,8 @@ Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -77,13 +83,13 @@ Backward uncontrolled bad-state: false [current/previous controlled behavior pre
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: buffer.x = 2 [initialization predicate]
 Forward reachability: iteration 1.
-Forward controlled-behavior: buffer.x = 2 -> buffer.x = 2 or buffer.x = 3 [forward reach with edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: buffer.x = 2 or buffer.x = 3 -> buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) [forward reach with edge: (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: buffer.x = 2 -> buffer.x = 2 or buffer.x = 3 [forward reach with edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: buffer.x = 2 or buffer.x = 3 -> buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) [forward reach with edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
 Forward reachability: iteration 2.
-Forward controlled-behavior: buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) -> buffer.x != 0 and buffer.x != 5 [forward reach with edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: buffer.x != 0 and buffer.x != 5 -> buffer.x != 5 [forward reach with edge: (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) -> buffer.x != 0 and buffer.x != 5 [forward reach with edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: buffer.x != 0 and buffer.x != 5 -> buffer.x != 5 [forward reach with edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
 Forward reachability: iteration 3.
-Forward controlled-behavior: buffer.x != 5 -> true [forward reach with edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: buffer.x != 5 -> true [forward reach with edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
 Forward reachability: iteration 4.
 Forward controlled-behavior: true [fixed point].
 
@@ -91,8 +97,8 @@ Round 1: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1): guard: true -> buffer.x != 5.
-Edge (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1): guard: true -> buffer.x != 0.
+Edge (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1): guard: true -> buffer.x != 5.
+Edge (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1): guard: buffer.x != 0 -> buffer.x != 0.
 
 Final synthesis result:
   State: (controlled-behavior: true)

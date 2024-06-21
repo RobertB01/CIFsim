@@ -109,7 +109,7 @@ BEGIN
     ELSE
         (* Update remaining time of continuous variable "timer.t". *)
         ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t, Q => timeOut, ET => curValue);
-        "DB".timer_t := SEL_LREAL(timeOut, MAX(LINT_TO_LREAL(TIME_TO_LINT("DB".preset_timer_t - curValue)) / 1000.0, 0.0), 0.0);
+        "DB".timer_t := SEL_LREAL(G := timeOut, IN0 := MAX(IN1 := LINT_TO_LREAL(TIME_TO_LINT("DB".preset_timer_t - curValue)) / 1000.0, IN2 := 0.0), IN1 := 0.0);
     END_IF;
 
     (* --- Process uncontrollable events. -------------------------------------- *)
@@ -333,7 +333,7 @@ BEGIN
              * - Location "Pushed":
              *   - 1st edge in the location
              ***********)
-            IF "DB".hw_button = hw_button_Pushed AND NOT "DB".hw_button_bit THEN
+            IF "DB".hw_button = hw_button_Pushed AND (NOT "DB".hw_button_bit) THEN
                 edge_hw_button_1 := 1;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)

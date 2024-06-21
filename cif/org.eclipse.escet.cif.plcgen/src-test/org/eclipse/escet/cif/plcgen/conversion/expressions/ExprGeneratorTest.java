@@ -30,7 +30,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLitera
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteralExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newField;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFieldExpression;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFuncType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFunctionCallExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFunctionExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIfExpression;
@@ -563,14 +562,14 @@ public class ExprGeneratorTest {
         Expression child = newBoolExpression(null, newBoolType(), true);
         Expression expr = newUnaryExpression(child, UnaryOperator.INVERSE, null, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> NOT TRUE";
+        String expectedText = "==> (NOT TRUE)";
         assertEquals(expectedText, realText);
 
         // -(1.58)
         child = newRealExpression(null, newRealType(), "1.58");
         expr = newUnaryExpression(child, UnaryOperator.NEGATE, null, newRealType());
         realText = runValueTest(expr);
-        expectedText = "==> -1.58";
+        expectedText = "==> (-1.58)";
         assertEquals(expectedText, realText);
     }
 
@@ -581,7 +580,7 @@ public class ExprGeneratorTest {
         Expression right = newBoolExpression(null, newBoolType(), false);
         Expression expr = newBinaryExpression(left, BinaryOperator.IMPLICATION, null, right, newBoolType());
         String realText = runValueTest(expr);
-        String expectedText = "==> FALSE OR NOT TRUE";
+        String expectedText = "==> FALSE OR (NOT TRUE)";
         assertEquals(expectedText, realText);
     }
 
@@ -815,14 +814,6 @@ public class ExprGeneratorTest {
         String expectedText = "==> ABS(21)";
         assertEquals(expectedText, realText);
 
-        // cbrt(17.28)
-        func = newStdLibFunctionExpression(StdLibFunction.CBRT, null, null);
-        args = List.of(newRealExpression(null, newRealType(), "17.28"));
-        call = newFunctionCallExpression(args, func, null, null);
-        realText = runValueTest(call);
-        expectedText = "==> 17.28 ** (1.0 / 3.0)";
-        assertEquals(expectedText, realText);
-
         // log(17.28) with target support.
         target.supportsLog = true;
         func = newStdLibFunctionExpression(StdLibFunction.LOG, null, null);
@@ -839,34 +830,6 @@ public class ExprGeneratorTest {
         call = newFunctionCallExpression(args, func, null, null);
         realText = runValueTest(call);
         expectedText = "==> LN(17.28) / LN(10.0)";
-        assertEquals(expectedText, realText);
-
-        // power(1, 2), both ranged to allow an int result.
-        List<CifType> paramTypes = List.of(newIntType(0, null, 2), newIntType(0, null, 2));
-        func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newFuncType(paramTypes, null, newIntType()));
-        args = List.of(newIntExpression(null, newIntType(0, null, 2), 1),
-                newIntExpression(null, newIntType(0, null, 2), 2));
-        call = newFunctionCallExpression(args, func, null, null);
-        realText = runValueTest(call);
-        expectedText = "==> LREAL_TO_DINT(DINT_TO_LREAL(1) ** 2)";
-        assertEquals(expectedText, realText);
-
-        // power(2, 3), both rangeless
-        paramTypes = List.of(newIntType(), newIntType());
-        func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newFuncType(paramTypes, null, newRealType()));
-        args = List.of(newIntExpression(null, newIntType(), 2), newIntExpression(null, newIntType(), 3));
-        call = newFunctionCallExpression(args, func, null, null);
-        realText = runValueTest(call);
-        expectedText = "==> DINT_TO_LREAL(2) ** 3";
-        assertEquals(expectedText, realText);
-
-        // power(3, 2.0)
-        paramTypes = List.of(newIntType(0, null, 2), newRealType());
-        func = newStdLibFunctionExpression(StdLibFunction.POWER, null, newRealType());
-        args = List.of(newIntExpression(null, newIntType(), 3), newRealExpression(null, newRealType(), "2.0"));
-        call = newFunctionCallExpression(args, func, null, null);
-        realText = runValueTest(call);
-        expectedText = "==> DINT_TO_LREAL(3) ** 2.0";
         assertEquals(expectedText, realText);
     }
 

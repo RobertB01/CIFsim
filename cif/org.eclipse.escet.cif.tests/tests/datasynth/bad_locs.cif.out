@@ -174,6 +174,8 @@ Controlled behavior: (p.x != 5 or not p.l1) and (p.x != 5 or not p.l3) -> p.x !=
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: p.x != 5 or not p.l1 and (not p.l3 and not p.l5))
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.

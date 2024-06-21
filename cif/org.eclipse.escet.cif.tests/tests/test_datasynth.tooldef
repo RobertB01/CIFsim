@@ -36,7 +36,10 @@ string opt_simplify_all  = "--bdd-simplify=guards-plants,guards-req-auts,guards-
 map(string:list string) test_options = {
     "datasynth/bdd_dbg_maxnodes.cif":                           ["--bdd-dbg-maxnodes=2"],
     "datasynth/bdd_dbg_maxpaths.cif":                           ["--bdd-dbg-maxpaths=2"],
+    "datasynth/bdd_out_cnf.cif":                                ["-t cnf"],
+    "datasynth/bdd_out_dnf.cif":                                ["-t dnf"],
     "datasynth/bdd_out_nodes.cif":                              ["-t nodes -p n"],
+    "datasynth/bdd_out_normal.cif":                             ["-t normal"],
     "datasynth/dining_philosophers4.cif":                       [opt_simplify_all],
     "datasynth/edge_granularity_errors01_per_edge.cif":         ["--edge-granularity=per-edge --edge-workset=off"],
     "datasynth/edge_granularity_errors01_per_event.cif":        ["--edge-granularity=per-event"],

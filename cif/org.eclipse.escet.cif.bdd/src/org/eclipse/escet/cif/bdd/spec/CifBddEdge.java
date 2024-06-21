@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.bdd.conversion.CifBddBitVector;
+import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
@@ -59,12 +60,10 @@ public class CifBddEdge {
 
     /**
      * The current guard of the edge. May be different from {@link #origGuard} if it is changed after the conversion of
-     * the CIF specification to the CIF/BDD representation.
+     * the CIF specification to the CIF/BDD representation. This guard prevents the edge from being taken from states
+     * where taking the edge would lead to runtime errors, i.e., this guard implies 'not {@link #error}'.
      */
     public BDD guard;
-
-    /** Precomputed '{@link #guard} and {@link #error}'. Is {@code null} if not available. */
-    public BDD guardError;
 
     /** Per {@link #edges edge}, the CIF assignments that are applied by this CIF/BDD edge. */
     public List<List<Assignment>> assignments;
@@ -81,12 +80,9 @@ public class CifBddEdge {
     /** Precomputed '{@link #guard} and {@link #update}'. Is {@code null} if not available. */
     public BDD updateGuard;
 
-    /** Precomputed '{@link #guard} and {@link #update} and {@link #errorNot}'. Is {@code null} if not available. */
-    public BDD updateGuardErrorNot;
-
     /**
-     * Precomputed '{@link #updateGuardErrorNot} and restriction+'. Is {@code null} if not available. Is only available
-     * for forward reachability.
+     * Precomputed '{@link #updateGuard} and restriction+'. Is {@code null} if not available. Is only available for
+     * forward reachability.
      */
     public BDD updateGuardRestricted;
 
@@ -102,14 +98,8 @@ public class CifBddEdge {
      */
     public BDD error;
 
-    /** Precomputed 'not {@link #error}'. Is {@code null} if not available. */
-    public BDD errorNot;
-
     /** Precomputed BDD variable support for {@link #updateGuard}. Is {@code null} if not available. */
     private BDDVarSet updateGuardSupport;
-
-    /** Precomputed BDD variable support for {@link #updateGuardErrorNot}. Is {@code null} if not available. */
-    private BDDVarSet updateGuardErrorNotSupport;
 
     /** Precomputed BDD variable support for {@link #updateGuardRestricted}. Is {@code null} if not available. */
     private BDDVarSet updateGuardRestrictedSupport;
@@ -143,13 +133,11 @@ public class CifBddEdge {
      *     reachability, making it only possible to apply this edge backwards ({@code false}).
      */
     public void initApply(boolean doForward) {
-        // Precompute 'errorNot'.
-        errorNot = error.not();
-
-        // We can include the guard in the update, assuming it won't anymore. That is, the guard may differ from the
-        // uncontrolled system guard as preparations for state/event exclusion invariants for edges with controllable
-        // events may have changed it, etc. But during the actual computations on the CIF/BDD specification, it
-        // shouldn't change. If the edge guard does change, the edge must be re-initialized for application.
+        // We can include the guard in the update, assuming it won't change anymore. That is, the guard may differ
+        // from the uncontrolled system guard as preparations for state/event exclusion invariants for edges with
+        // controllable events may have changed it, etc. But during the actual computations on the CIF/BDD
+        // specification, it shouldn't change. If the edge guard does change, the edge must be re-initialized for
+        // application.
         //
         // For instance, during the actual synthesis the guard won't change. It could then still change again
         // afterwards, after synthesis has completed and the controlled system guards are determined.
@@ -162,18 +150,6 @@ public class CifBddEdge {
         // Precompute the BDD variable support for the 'updateGuard' relation.
         Assert.check(updateGuardSupport == null);
         updateGuardSupport = getSupportFor(updateGuard);
-
-        // Precompute 'guardError'.
-        guardError = guard.and(error);
-
-        // If we allow forward reachability, precompute 'updateGuardErrorNot' and 'updateGuardErrorNotSupport'.
-        Assert.check(updateGuardErrorNot == null);
-        Assert.check(updateGuardErrorNotSupport == null);
-
-        if (doForward) {
-            updateGuardErrorNot = updateGuard.and(errorNot);
-            updateGuardErrorNotSupport = getSupportFor(updateGuardErrorNot);
-        }
     }
 
     /**
@@ -205,15 +181,6 @@ public class CifBddEdge {
         Assert.check(updateGuardSupport != null);
         updateGuardSupport.free();
         updateGuardSupport = getSupportFor(updateGuard);
-
-        // If we allow forward reachability, update 'updateGuardErrorNot' and 'updateGuardErrorNotSupport'.
-        if (doForward) {
-            updateGuardErrorNot.free();
-            updateGuardErrorNot = updateGuard.and(errorNot);
-
-            updateGuardErrorNotSupport.free();
-            updateGuardErrorNotSupport = getSupportFor(updateGuardErrorNot);
-        }
     }
 
     /**
@@ -237,9 +204,9 @@ public class CifBddEdge {
                 updateGuardRestrictedSupport = updateGuardSupport.id();
             } else {
                 BDD restrictionNew = restriction.replace(cifBddSpec.oldToNewVarsPairing);
-                updateGuardRestricted = updateGuardErrorNot.and(restrictionNew);
+                updateGuardRestricted = updateGuard.and(restrictionNew);
                 restrictionNew.free();
-                updateGuardRestrictedSupport = updateGuardErrorNotSupport.id().unionWith(restriction.support());
+                updateGuardRestrictedSupport = updateGuardSupport.id().unionWith(restriction.support());
             }
         }
     }
@@ -274,84 +241,24 @@ public class CifBddEdge {
      */
     public void cleanupApply() {
         Assert.check(update == null);
-        if (errorNot != null) {
-            errorNot.free();
-            errorNot = null;
-        }
-        if (updateGuard != null) {
-            updateGuard.free();
-            updateGuard = null;
-        }
-        if (updateGuardSupport != null) {
-            updateGuardSupport.free();
-            updateGuardSupport = null;
-        }
-        if (guardError != null) {
-            guardError.free();
-            guardError = null;
-        }
-        if (updateGuardErrorNot != null) {
-            updateGuardErrorNot.free();
-            updateGuardErrorNot = null;
-        }
-        if (updateGuardErrorNotSupport != null) {
-            updateGuardErrorNotSupport.free();
-            updateGuardErrorNotSupport = null;
-        }
+
+        updateGuard = BddUtils.free(updateGuard);
+        updateGuardSupport = BddUtils.free(updateGuardSupport);
+
         Assert.check(updateGuardRestricted == null);
         Assert.check(updateGuardRestrictedSupport == null);
     }
 
     /** Free all BDDs of this CIF/BDD edge. */
     public void freeBDDs() {
-        if (origGuard != null) {
-            origGuard.free();
-            origGuard = null;
-        }
-        if (guard != null) {
-            guard.free();
-            guard = null;
-        }
-        if (guardError != null) {
-            guardError.free();
-            guardError = null;
-        }
-        if (update != null) {
-            update.free();
-            update = null;
-        }
-        if (updateGuard != null) {
-            updateGuard.free();
-            updateGuard = null;
-        }
-        if (updateGuardSupport != null) {
-            updateGuardSupport.free();
-            updateGuardSupport = null;
-        }
-        if (updateGuardErrorNot != null) {
-            updateGuardErrorNot.free();
-            updateGuardErrorNot = null;
-        }
-        if (updateGuardErrorNotSupport != null) {
-            updateGuardErrorNotSupport.free();
-            updateGuardErrorNotSupport = null;
-        }
-        if (updateGuardRestricted != null) {
-            updateGuardRestricted.free();
-            updateGuardRestricted = null;
-        }
-        if (updateGuardRestrictedSupport != null) {
-            updateGuardRestrictedSupport.free();
-            updateGuardRestrictedSupport = null;
-        }
-        if (error != null) {
-            error.free();
-            error = null;
-        }
-        if (errorNot != null) {
-            errorNot.free();
-            errorNot = null;
-        }
+        origGuard = BddUtils.free(origGuard);
+        guard = BddUtils.free(guard);
+        update = BddUtils.free(update);
+        updateGuard = BddUtils.free(updateGuard);
+        updateGuardSupport = BddUtils.free(updateGuardSupport);
+        updateGuardRestricted = BddUtils.free(updateGuardRestricted);
+        updateGuardRestrictedSupport = BddUtils.free(updateGuardRestrictedSupport);
+        error = BddUtils.free(error);
     }
 
     /**
@@ -360,27 +267,16 @@ public class CifBddEdge {
      *
      * @param pred The predicate to which to apply the assignments. This predicate is {@link BDD#free freed} by this
      *     method.
-     * @param bad Whether the given predicate represents bad states ({@code true}) or good states ({@code false}). If
-     *     applying forward, bad states are currently not supported.
      * @param forward Whether to apply forward ({@code true}) or backward ({@code false}).
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, restrict the
      *     result to these states. May be {@code null} to not impose a restriction, which is semantically equivalent to
      *     providing 'true'.
-     * @param applyError Whether to apply the runtime error predicates. If applying forward, applying runtime error
-     *     predicates is currently not supported.
      * @return The resulting predicate.
      */
-    public BDD apply(BDD pred, boolean bad, boolean forward, BDD restriction, boolean applyError) {
+    public BDD apply(BDD pred, boolean forward, BDD restriction) {
         // Apply the edge.
         if (forward) {
-            // Forward reachability for bad state predicates is currently not
-            // supported. We don't need it, so we can't test it.
-            Assert.check(!bad);
-
-            // Applying error predicates during forward reachability is not supported.
-            Assert.check(!applyError);
-
-            // rslt = Exists{x, y, z, ...}(guard && update && pred && !error && restriction)[x/x+, y/y+, z/z+, ...].
+            // rslt = Exists{x, y, z, ...}(guard && update && pred && restriction)[x/x+, y/y+, z/z+, ...].
             BDD rslt = updateGuardRestricted.relnext(pred, updateGuardRestrictedSupport);
             pred.free();
 
@@ -393,15 +289,6 @@ public class CifBddEdge {
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return rslt;
-            }
-
-            // Apply the runtime error predicate.
-            if (applyError) {
-                if (bad) {
-                    rslt = rslt.orWith(guardError.id());
-                } else {
-                    rslt = rslt.andWith(errorNot.id());
-                }
             }
 
             if (restriction != null) {
@@ -431,18 +318,29 @@ public class CifBddEdge {
      * @return The textual representation.
      */
     public String toString(int indent, String prefix) {
+        return toString(indent, prefix, false);
+    }
+
+    /**
+     * Returns a textual representation of the CIF/BDD edge.
+     *
+     * @param indent The indentation level.
+     * @param prefix The prefix to use, e.g. {@code "Edge: "} or {@code ""}.
+     * @param includeOnlyOrigGuard Whether to include only the {@link #origGuard original edge guard}, or also the
+     *     {@link #guard current edge guard}.
+     * @return The textual representation.
+     */
+    public String toString(int indent, String prefix, boolean includeOnlyOrigGuard) {
         StringBuilder txt = new StringBuilder();
         txt.append(Strings.duplicate(" ", 2 * indent));
         txt.append(prefix);
         txt.append(fmt("(event: %s)", CifTextUtils.getAbsName(event)));
-        String origGuardTxt = bddToStr(origGuard, cifBddSpec);
-        String guardTxt = bddToStr(guard, cifBddSpec);
-        String guardsTxt;
-        if (origGuard.equals(guard)) {
-            guardsTxt = fmt("%s", guardTxt);
-        } else {
-            guardsTxt = fmt("%s -> %s", origGuardTxt, guardTxt);
+
+        String guardsTxt = bddToStr(origGuard, cifBddSpec);
+        if (!includeOnlyOrigGuard && !origGuard.equals(guard)) {
+            guardsTxt = fmt("%s -> %s", guardsTxt, bddToStr(guard, cifBddSpec));
         }
+
         txt.append(fmt(" (guard: %s)", guardsTxt));
         if (assignments.stream().anyMatch(as -> !as.isEmpty())) {
             txt.append(" (assignments: ");
@@ -569,8 +467,8 @@ public class CifBddEdge {
         edge2.assignedVariables.clear();
 
         // Merge errors. The errors are combined in a similar way as the updates.
-        BDD error1 = edge1.guard.id().andWith(edge1.error);
-        BDD error2 = edge2.guard.id().andWith(edge2.error);
+        BDD error1 = edge1.origGuard.id().andWith(edge1.error);
+        BDD error2 = edge2.origGuard.id().andWith(edge2.error);
         mergedEdge.error = error1.orWith(error2);
 
         // Merge guards.

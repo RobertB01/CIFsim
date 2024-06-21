@@ -80,7 +80,6 @@ public class BoundedResponseChecker {
         String initName = "initial states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
-        boolean badStates = false; // Whether the predicate represents bad states (true) or good states (false).
         boolean applyForward = true; // Whether to apply forward reachability (true) or backward reachability (false).
         boolean inclCtrl = true; // Whether to use edges with controllable events.
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
@@ -88,7 +87,11 @@ public class BoundedResponseChecker {
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         BDD initPred = cifBddSpec.initial.id(); // The initial predicate. Note: preconditions forbid state invariants.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName, restrictionName,
+<<<<<<< HEAD
                 restriction, badStates, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
+=======
+                restriction, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
+>>>>>>> refs/remotes/origin/develop
 
         // Perform forward reachability.
         BDD reachabilityResult = reachability.performReachability(initPred);
@@ -176,9 +179,7 @@ public class BoundedResponseChecker {
             roundStates = cifBddSpec.factory.zero();
             for (CifBddEdge edge: edgesToApply) {
                 // Apply edge.
-                boolean bad = false;
-                boolean applyError = false;
-                BDD edgePred = edge.apply(prevRoundStates.id(), bad, forward, restriction, applyError);
+                BDD edgePred = edge.apply(prevRoundStates.id(), forward, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }

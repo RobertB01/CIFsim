@@ -97,7 +97,7 @@ BEGIN
     ELSE
         (* Update remaining time of continuous variable "p.t". *)
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);
-        "DB".p_t := SEL_REAL(timeOut, MAX(DINT_TO_REAL(TIME_TO_DINT("DB".preset_p_t - curValue)) / 1000.0, 0.0), 0.0);
+        "DB".p_t := SEL_REAL(G := timeOut, IN0 := MAX(IN1 := DINT_TO_REAL(TIME_TO_DINT("DB".preset_p_t - curValue)) / 1000.0, IN2 := 0.0), IN1 := 0.0);
     END_IF;
 
     (* --- Process controllable events. ---------------------------------------- *)
@@ -142,6 +142,8 @@ BEGIN
          *   - 1st edge in the location
          * - Location "l15":
          *   - 1st edge in the location
+         * - Location "l16":
+         *   - 1st edge in the location
          ***********)
         IF "DB".p = p_l1 THEN
             edge_p_1 := 1;
@@ -165,6 +167,8 @@ BEGIN
             edge_p_1 := 10;
         ELSIF "DB".p = p_l15 THEN
             edge_p_1 := 11;
+        ELSIF "DB".p = p_l16 THEN
+            edge_p_1 := 12;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -254,7 +258,7 @@ BEGIN
                 "DB".p := p_l14;
             ELSIF edge_p_1 = 10 THEN
                 (* Perform assignments of the 1st edge in location "p.l14". *)
-                IF NOT current_p_b THEN
+                IF (NOT current_p_b) THEN
                     (* Perform update of discrete variable "p.ve". *)
                     "DB".p_ve := g_LIT2;
                 END_IF;
@@ -266,6 +270,12 @@ BEGIN
                 "DB".p_r := DINT_TO_REAL("DB".g_inp) + 10.0;
                 (* Perform update of current location of automaton "p". *)
                 "DB".p := p_l16;
+            ELSIF edge_p_1 = 12 THEN
+                (* Perform assignments of the 1st edge in location "p.l16". *)
+                (* Perform update of discrete variable "p.x". *)
+                "DB".p_x := (-(-current_p_x));
+                (* Perform update of current location of automaton "p". *)
+                "DB".p := p_l17;
             END_IF;
         END_IF;
     END_WHILE;

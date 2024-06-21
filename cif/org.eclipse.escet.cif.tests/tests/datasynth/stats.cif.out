@@ -72,6 +72,8 @@ Restricted behavior using state/event exclusion requirements:
     Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
     Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -162,13 +164,13 @@ Simplification of controlled system under the assumption of the plants:
 
 Constructing output CIF specification.
 BDD cache statistics:
-  Node creation requests:       799
+  Node creation requests:       764
   Node creation chain accesses: 2
-  Node creation cache hits:     342
+  Node creation cache hits:     311
   Node creation cache misses:   324
-  Operation count:              2298
-  Operation cache hits:         430
-  Operation cache misses:       723
+  Operation count:              2264
+  Operation cache hits:         423
+  Operation cache misses:       712
 Writing continuous BDD performance statistics file "datasynth/stats.cif.stats.txt.real".
-Maximum used BDD nodes: 92.
+Maximum used BDD nodes: 91.
 Writing output CIF file "datasynth/stats.ctrlsys.real.cif".

@@ -73,6 +73,8 @@ Restricted behavior using state/event exclusion requirements:
     Edge: (event: c) (guard: r.x = 5)
     Edge: (event: c) (guard: r.x != 5 -> false)
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.

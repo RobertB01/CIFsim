@@ -177,6 +177,8 @@ Restricted behavior using state/event exclusion requirements:
     Edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1)
     Edge: (event: b) (guard: p2.l3 -> false) (assignments: p2 := p2.l1)
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.

@@ -134,10 +134,8 @@ public class CifBddApplyPlantInvariants {
             BDD updPred = cifBddSpec.plantInv.id();
             edge.preApply(false, null);
             updPred = edge.apply(updPred, // pred
-                    false, // bad
                     false, // forward
-                    null, // restriction
-                    false); // don't apply error. Supervisor synthesis should restrict that.
+                    null); // restriction
             edge.postApply(false);
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
