@@ -1,0 +1,2 @@
+ERROR: Invalid value for option "--edge-minimization": "on".
+CAUSE: The 'Enable edge minimization' option is used. This option is no longer supported. It will be removed in a future version of the tool. Use the 'Remove duplicate transitions' option instead.

@@ -18,13 +18,13 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Enable CIF output option. */
-public class EnableCifOutputOption extends BooleanOption {
+/** Remove duplicate transitions option. */
+public class RemoveDuplicateTransitionsOption extends BooleanOption {
     /** Name of the option. */
-    private static final String NAME = "Enable CIF output";
+    private static final String NAME = "Remove duplicate transitions";
 
     /** Description in the option dialog. */
-    private static final String OPT_DIALOG_DESCR = "Enable output of states and transitions as a CIF automaton.";
+    private static final String OPT_DIALOG_DESCR = "Remove duplicate transitions from the state space.";
 
     /** Default value of the option. */
     private static final boolean DEFAULT_VALUE = true;
@@ -33,10 +33,10 @@ public class EnableCifOutputOption extends BooleanOption {
     private static final String DESCRIPTION = fmt("%s [DEFAULT=%s]", OPT_DIALOG_DESCR, DEFAULT_VALUE ? "yes" : "no");
 
     /** Short option name. */
-    private static final Character CMD_SHORT = 'c';
+    private static final Character CMD_SHORT = 'z';
 
     /** Long option name. */
-    private static final String CMD_LONG = "enable-cif";
+    private static final String CMD_LONG = "remove-dupl-trans";
 
     /** Name of the option value. */
     private static final String CMD_VALUE = "BOOL";
@@ -45,20 +45,20 @@ public class EnableCifOutputOption extends BooleanOption {
     private static final boolean SHOW_IN_DIALOG = true;
 
     /** Text next to the check box in the option dialog. */
-    private static final String OPT_DIALOG_CHECKBOX_TEXT = "Enable CIF output";
+    private static final String OPT_DIALOG_CHECKBOX_TEXT = "Remove duplicate transitions";
 
-    /** Constructor of the {@link EnableCifOutputOption} class. */
-    public EnableCifOutputOption() {
+    /** Constructor of the {@link RemoveDuplicateTransitionsOption} class. */
+    public RemoveDuplicateTransitionsOption() {
         super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, CMD_VALUE, DEFAULT_VALUE, SHOW_IN_DIALOG, OPT_DIALOG_DESCR,
                 OPT_DIALOG_CHECKBOX_TEXT);
     }
 
     /**
-     * Retrieve the value of the enable CIF output option.
+     * Is removing of duplicate transitions enabled?
      *
-     * @return The value of the enable CIF output option.
+     * @return {@code true} if removing duplicate transitions is enabled, {@code false} otherwise.
      */
-    public static boolean getCifOutput() {
-        return Options.get(EnableCifOutputOption.class);
+    public static boolean isEnabled() {
+        return Options.get(RemoveDuplicateTransitionsOption.class);
     }
 }

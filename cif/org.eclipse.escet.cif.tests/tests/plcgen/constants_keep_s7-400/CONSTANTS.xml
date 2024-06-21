@@ -6,7 +6,9 @@
     <Constant type='DINT' remark='' value='1'>d</Constant>
     <Constant type='BOOL' remark='' value='TRUE'>holds</Constant>
     <Constant type='DINT' remark='' value='0'>danger</Constant>
-    <Constant type='DINT' remark='' value='(-1)'>x</Constant>
+    <Constant type='DINT' remark='' value='-1234'>x</Constant>
+    <Constant type='DINT' remark='' value='4321'>z</Constant>
+    <Constant type='DINT' remark='' value='-2147483648'>xx</Constant>
     <Constant type='DINT' remark='' value='0'>red</Constant>
     <Constant type='DINT' remark='' value='1'>yellow</Constant>
     <Constant type='DINT' remark='' value='2'>blue</Constant>

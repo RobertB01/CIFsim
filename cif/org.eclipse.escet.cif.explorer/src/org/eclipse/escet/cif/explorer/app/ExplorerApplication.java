@@ -45,6 +45,7 @@ import org.eclipse.escet.cif.explorer.options.EnableEdgeMinimizationOption;
 import org.eclipse.escet.cif.explorer.options.EnableReportOption;
 import org.eclipse.escet.cif.explorer.options.EnableStatisticsOption;
 import org.eclipse.escet.cif.explorer.options.PrintProgressOption;
+import org.eclipse.escet.cif.explorer.options.RemoveDuplicateTransitionsOption;
 import org.eclipse.escet.cif.explorer.options.ReportFileOption;
 import org.eclipse.escet.cif.explorer.runtime.BaseState;
 import org.eclipse.escet.cif.explorer.runtime.ExplorationTerminatedException;
@@ -180,17 +181,17 @@ public class ExplorerApplication extends Application<IOutputComponent> {
 
         // Get statistics.
         int stateCount = 0;
-        int edgeCount = 0;
+        int transitionCount = 0;
         if (explorer.states != null) {
             stateCount = explorer.states.size();
             for (BaseState state: explorer.states.keySet()) {
-                edgeCount += state.getOutgoingEdges().size();
+                transitionCount += state.getOutgoingTransitions().size();
             }
         }
 
         // Write statistics to the console.
         out("Number of states in states space: %,d.", stateCount);
-        out("Number of edges in states space: %,d.", edgeCount);
+        out("Number of transitions in states space: %,d.", transitionCount);
     }
 
     /**
@@ -326,9 +327,9 @@ public class ExplorerApplication extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Minimize edges of the state space, if requested.
-        if (EnableEdgeMinimizationOption.isEnabled()) {
-            e.minimizeEdges();
+        // Remove duplicate transitions of the state space, if requested.
+        if (RemoveDuplicateTransitionsOption.isEnabled()) {
+            e.removeDuplicateTransitions();
         }
         if (isTerminationRequested()) {
             return 0;
@@ -378,6 +379,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         options.add(Options.getInstance(EnableEdgeMinimizationOption.class));
         options.add(Options.getInstance(EnableStatisticsOption.class));
         options.add(Options.getInstance(EnableCifOutputOption.class));
+        options.add(Options.getInstance(RemoveDuplicateTransitionsOption.class));
         options.add(Options.getInstance(AddStateAnnosOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
         options.add(Options.getInstance(AutomatonNameOption.class));

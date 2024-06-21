@@ -13,13 +13,9 @@
 
 package org.eclipse.escet.cif.controllercheck.boundedresponse;
 
-import static org.eclipse.escet.common.java.Sets.list2set;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
@@ -137,19 +133,6 @@ public class BoundedResponseChecker {
             return null;
         }
 
-        // Prepare the edges to be applied.
-        EdgeOrderDuplicateEventAllowance duplicatesAllowance = cifBddSpec.settings.getEdgeOrderAllowDuplicateEvents();
-        boolean duplicatesAllowed = duplicatesAllowance == EdgeOrderDuplicateEventAllowance.ALLOWED;
-        Collection<CifBddEdge> edgesToPrepare = duplicatesAllowed ? list2set(edgesToApply) : edgesToApply;
-        boolean forward = true;
-        BDD restriction = null;
-        for (CifBddEdge edge: edgesToPrepare) {
-            edge.preApply(forward, restriction);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
-                return null;
-            }
-        }
-
         // Apply the algorithm.
         Integer round = 0; // Number of rounds done so far. Becomes 'null' if no bounded response.
         BDD prevRoundStates = cifBddSpec.factory.zero(); // Dummy value that gets overwritten in the first iteration.
@@ -175,6 +158,8 @@ public class BoundedResponseChecker {
             roundStates = cifBddSpec.factory.zero();
             for (CifBddEdge edge: edgesToApply) {
                 // Apply edge.
+                boolean forward = true;
+                BDD restriction = null;
                 BDD edgePred = edge.apply(prevRoundStates.id(), forward, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
@@ -200,12 +185,6 @@ public class BoundedResponseChecker {
         // Cleanup.
         prevRoundStates.free();
         roundStates.free();
-        for (CifBddEdge edge: edgesToPrepare) {
-            edge.postApply(forward);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
-                return null;
-            }
-        }
 
         // Return the result.
         if (round == null) {

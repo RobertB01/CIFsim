@@ -39,13 +39,11 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
             Event precedingEvent = precedingEdge.event;
 
             // Compute the states that can potentially be reached by this edge.
-            precedingEdge.preApply(true, null); // Forward reachability, no restriction.
             BDD precedingEdgeReachableStates = precedingEdge.apply( //
                     cifBddSpec.factory.one(), // Apply edge to 'true' predicate.
                     true, // Forward reachability.
                     null // No restriction.
             );
-            precedingEdge.postApply(true); // Forward reachability.
 
             // Compute which events may potentially follow the event of this edge.
             for (CifBddEdge followingEdge: cifBddSpec.orderedEdgesForward) {

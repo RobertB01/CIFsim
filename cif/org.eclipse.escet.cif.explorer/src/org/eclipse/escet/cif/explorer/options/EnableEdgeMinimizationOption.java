@@ -13,27 +13,28 @@
 
 package org.eclipse.escet.cif.explorer.options;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
-import org.eclipse.escet.common.app.framework.options.Options;
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** Enable edge minimization option. */
 public class EnableEdgeMinimizationOption extends BooleanOption {
+    /** Message to indicate the option is unsupported. */
+    private static final String UNSUPPORTED_MESSAGE = "This option is no longer supported. "
+            + "It will be removed in a future version of the tool. "
+            + "Use the 'Remove duplicate transitions' option instead.";
+
     /** Name of the option. */
     private static final String NAME = "Enable edge minimization";
-
-    /** Description in the option dialog. */
-    private static final String OPT_DIALOG_DESCR = "Enable edge minimization to remove duplicate edges.";
 
     /** Default value of the option. */
     private static final boolean DEFAULT_VALUE = true;
 
     /** Description of the option. */
-    private static final String DESCRIPTION = fmt("%s [DEFAULT=%s]", OPT_DIALOG_DESCR, DEFAULT_VALUE ? "yes" : "no");
+    private static final String DESCRIPTION = "Enable edge minimization to remove duplicate edges. "
+            + UNSUPPORTED_MESSAGE;
 
     /** Short option name. */
-    private static final Character CMD_SHORT = 'z';
+    private static final Character CMD_SHORT = null;
 
     /** Long option name. */
     private static final String CMD_LONG = "edge-minimization";
@@ -42,10 +43,13 @@ public class EnableEdgeMinimizationOption extends BooleanOption {
     private static final String CMD_VALUE = "BOOL";
 
     /** Whether to display the option in the option dialog. */
-    private static final boolean SHOW_IN_DIALOG = true;
+    private static final boolean SHOW_IN_DIALOG = false;
+
+    /** Description in the option dialog. */
+    private static final String OPT_DIALOG_DESCR = null;
 
     /** Text next to the check box in the option dialog. */
-    private static final String OPT_DIALOG_CHECKBOX_TEXT = "Enable edge minimization";
+    private static final String OPT_DIALOG_CHECKBOX_TEXT = null;
 
     /** Constructor of the {@link EnableEdgeMinimizationOption} class. */
     public EnableEdgeMinimizationOption() {
@@ -53,12 +57,8 @@ public class EnableEdgeMinimizationOption extends BooleanOption {
                 OPT_DIALOG_CHECKBOX_TEXT);
     }
 
-    /**
-     * Is edge minimization enabled?
-     *
-     * @return {@code true} if edge minimization is enabled, {@code false} otherwise.
-     */
-    public static boolean isEnabled() {
-        return Options.get(EnableEdgeMinimizationOption.class);
+    @Override
+    public Boolean parseValue(String optName, String value) {
+        throw new InvalidOptionException("The '" + NAME + "' option is used. " + UNSUPPORTED_MESSAGE);
     }
 }

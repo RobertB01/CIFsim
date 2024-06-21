@@ -8,8 +8,8 @@ State 1:
     Valuation:
         a.x = 5
 
-    Edges:
-        edge tau goto state 2
+    Transitions:
+        transition tau goto state 2
 
 State 2:
     Initial: false
@@ -21,8 +21,8 @@ State 2:
     Valuation:
         a.x = 4
 
-    Edges:
-        edge tau goto state 3
+    Transitions:
+        transition tau goto state 3
 
 State 3:
     Initial: false
@@ -34,8 +34,8 @@ State 3:
     Valuation:
         a.x = 3
 
-    Edges:
-        edge tau goto state 4
+    Transitions:
+        transition tau goto state 4
 
 State 4:
     Initial: false
@@ -47,8 +47,8 @@ State 4:
     Valuation:
         a.x = 2
 
-    Edges:
-        edge tau goto state 5
+    Transitions:
+        transition tau goto state 5
 
 State 5:
     Initial: false

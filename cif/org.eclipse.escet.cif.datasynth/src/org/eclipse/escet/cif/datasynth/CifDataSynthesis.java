@@ -124,7 +124,7 @@ public class CifDataSynthesis {
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
-                edge.initApply(doForward);
+                edge.initApply();
             }
 
             // Apply state plant invariants if there are any.
@@ -178,7 +178,7 @@ public class CifDataSynthesis {
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
-                edge.reinitApply(doForward);
+                edge.reinitApply();
             }
 
             // Check edges.
@@ -722,11 +722,9 @@ public class CifDataSynthesis {
                     // that must hold for the edge to be taken. This condition further restricts the edge to prevent
                     // transitioning to a state that violates the requirement invariant.
                     BDD updPred = reqInv.id();
-                    edge.preApply(false, null);
                     updPred = edge.apply(updPred, // pred
                             false, // forward
                             null); // restriction
-                    edge.postApply(false);
 
                     // If trivial, we have the final predicate.
                     if (updPred.isOne()) {
@@ -1482,9 +1480,7 @@ public class CifDataSynthesis {
             }
 
             BDD updPred = synthResult.ctrlBeh.id();
-            edge.preApply(false, null);
             updPred = edge.apply(updPred, false, null);
-            edge.postApply(false);
             edge.cleanupApply();
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;

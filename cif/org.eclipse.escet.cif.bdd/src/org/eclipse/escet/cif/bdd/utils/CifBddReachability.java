@@ -16,16 +16,13 @@ package org.eclipse.escet.cif.bdd.utils;
 import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 import static org.eclipse.escet.common.java.BitSets.copy;
 import static org.eclipse.escet.common.java.Pair.pair;
-import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.BitSet;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
-import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.workset.pruners.MaxCardinalityEdgePruner;
@@ -170,18 +167,11 @@ public class CifBddReachability {
         BitSet edgesToApplyMask = useWorkSetAlgo ? IntStream.range(0, orderedEdges.size())
                 .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet()) : null;
 
-        // Prepare edges for being applied.
-        Collection<CifBddEdge> edgesToPrepare = //
-                (cifBddSpec.settings.getEdgeOrderAllowDuplicateEvents() == EdgeOrderDuplicateEventAllowance.ALLOWED)
-                        ? list2set(edgesToApply) : edgesToApply;
-        for (CifBddEdge edge: edgesToPrepare) {
-            edge.preApply(forward, restriction);
-        }
+        // Apply edges until we get a fixed point.
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return null;
         }
 
-        // Apply edges until we get a fixed point.
         Pair<BDD, Boolean> reachabilityResult;
         if (useWorkSetAlgo) {
             reachabilityResult = performReachabilityWorkset(pred, orderedEdges, edgesToApplyMask);
@@ -193,11 +183,6 @@ public class CifBddReachability {
         }
         pred = reachabilityResult.left;
         changed |= reachabilityResult.right;
-
-        // Cleanup edges for being applied.
-        for (CifBddEdge edge: edgesToPrepare) {
-            edge.postApply(forward);
-        }
 
         // Fixed point reached. Inform the user.
         if (cifBddSpec.settings.getShouldTerminate().get()) {

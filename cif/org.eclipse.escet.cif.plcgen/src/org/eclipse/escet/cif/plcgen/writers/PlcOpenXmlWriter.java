@@ -324,7 +324,7 @@ public class PlcOpenXmlWriter extends Writer {
      */
     private void transValue(PlcExpression value, Element parent) {
         Element vElem = makeChild(parent, "simpleValue");
-        vElem.setAttribute("value", target.getModelTextGenerator().toString(value));
+        vElem.setAttribute("value", target.getModelTextGenerator().literalToString(value));
     }
 
     /**

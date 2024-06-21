@@ -47,8 +47,8 @@ public class FunctionState extends BaseState {
      *
      * @param explorer Managing object of the exploration.
      * @param func The internal user-defined function for which to store the state.
-     * @param argValues The values of the arguments, as passed by the function call, in the order of the parameters
-     *     of the function.
+     * @param argValues The values of the arguments, as passed by the function call, in the order of the parameters of
+     *     the function.
      * @param varValues A {@code null} value for each of the local variables of the function.
      */
     public FunctionState(Explorer explorer, InternalFunction func, Object[] argValues, Object[] varValues) {

@@ -24,7 +24,7 @@ public class EnableReportOption extends BooleanOption {
     private static final String NAME = "Enable report";
 
     /** Description in the option dialog. */
-    private static final String OPT_DIALOG_DESCR = "Enable output of states and edges in a format suitable for "
+    private static final String OPT_DIALOG_DESCR = "Enable output of states and transitions in a format suitable for "
             + "close inspection.";
 
     /** Default value of the option. */
