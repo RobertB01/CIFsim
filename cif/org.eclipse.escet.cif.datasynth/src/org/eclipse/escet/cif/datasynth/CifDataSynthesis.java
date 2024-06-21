@@ -1343,12 +1343,8 @@ public class CifDataSynthesis {
                 BDD reachabilityResult;
                 try {
                     CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName,
-<<<<<<< HEAD
-                            restrictionName, restriction, badStates, applyForward, inclCtrl, inclUnctrl, inclInputVars,
+                            restrictionName, restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars,
                             dbgEnabled);
-=======
-                            restrictionName, restriction, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
->>>>>>> refs/remotes/origin/develop
                     reachabilityResult = reachability.performReachability(startPred);
                 } finally {
                     // Stop timing the fixed-point reachability computation.

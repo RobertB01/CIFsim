@@ -186,14 +186,13 @@ public class NonBlockingUnderControlChecker {
         String initValName = "controllable-complete path end states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
-        boolean badStates = false; // Whether the predicate represents bad states (true) or good states (false).
         boolean applyForward = false; // Whether to apply forward reachability (true) or backward reachability (false).
         boolean inclCtrl = true; // Whether to use edges with controllable events.
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
         boolean inclInputVars = false; // Whether to use input variable edges.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
-                restriction, badStates, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
+                restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
 
         // Get the initial predicate for the reachability computation. We use 'marked' rather than 'markedInv', since
         // preconditions forbid state invariants.
@@ -252,14 +251,13 @@ public class NonBlockingUnderControlChecker {
         String initValName = "not controllable-complete path states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
-        boolean badStates = true; // Whether the predicate represents bad states (true) or good states (false).
         boolean applyForward = false; // Whether to apply forward reachability (true) or backward reachability (false).
         boolean inclCtrl = true; // Whether to use edges with controllable events.
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
         boolean inclInputVars = false; // Whether to use input variable edges.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
-                restriction, badStates, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
+                restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
 
         // Get the initial predicate for the reachability computation.
         BDD initPred = ccp.not();

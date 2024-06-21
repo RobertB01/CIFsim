@@ -153,13 +153,13 @@ Bounded response check completed.
 
 Checking for non-blocking under control...
 Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: B.p and A.q
+Condition under which no controllable event is enabled: B.v != 2 and A.q or B.v = 2 and (B.p and A.q)
 
 Computing the controllable-complete path states...
 Controllable-complete path states: B.p and A.q [controllable-complete path end states predicate]
 Backward reachability: iteration 1.
 Controllable-complete path states: B.p and A.q -> B.p [backward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-Controllable-complete path states: B.p -> (B.v = 2 or B.p) and (B.v != 2 or (B.p or A.q)) [backward reach with edge: (event: c) (guard: B.q and A.q) (assignments: B.v := B.v - 2, B := B.p)]
+Controllable-complete path states: B.p -> (B.v = 2 or B.p) and (B.v != 2 or (B.p or A.q)) [backward reach with edge: (event: c) (guard: B.q and A.q -> B.v = 2 and (B.q and A.q)) (assignments: B.v := B.v - 2, B := B.p)]
 Backward reachability: iteration 2.
 Controllable-complete path states: (B.v = 2 or B.p) and (B.v != 2 or (B.p or A.q)) -> B.v = 2 or B.p [backward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
 Backward reachability: iteration 3.

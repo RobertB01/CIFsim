@@ -106,12 +106,7 @@ public class CifBddReachability {
      * @param dbgEnabled Whether debug output is enabled.
      */
     public CifBddReachability(CifBddSpec cifBddSpec, String predName, String initName, String restrictionName,
-<<<<<<< HEAD
-            BDD restriction, boolean bad, boolean forward, boolean ctrl, boolean unctrl, boolean inputVars,
-            boolean dbgEnabled)
-=======
-            BDD restriction, boolean forward, boolean ctrl, boolean unctrl, boolean dbgEnabled)
->>>>>>> refs/remotes/origin/develop
+            BDD restriction, boolean forward, boolean ctrl, boolean unctrl, boolean inputVars, boolean dbgEnabled)
     {
         Assert.areEqual(restrictionName == null, restriction == null);
         this.cifBddSpec = cifBddSpec;

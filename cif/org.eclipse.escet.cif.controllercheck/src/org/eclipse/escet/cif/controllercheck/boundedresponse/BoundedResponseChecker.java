@@ -87,11 +87,7 @@ public class BoundedResponseChecker {
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         BDD initPred = cifBddSpec.initial.id(); // The initial predicate. Note: preconditions forbid state invariants.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName, restrictionName,
-<<<<<<< HEAD
-                restriction, badStates, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
-=======
-                restriction, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
->>>>>>> refs/remotes/origin/develop
+                restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
 
         // Perform forward reachability.
         BDD reachabilityResult = reachability.performReachability(initPred);
