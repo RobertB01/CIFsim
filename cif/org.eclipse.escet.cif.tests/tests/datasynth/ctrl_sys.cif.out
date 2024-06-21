@@ -151,7 +151,7 @@ Uncontrolled system:
     Edge: (event: c) (guard: g.p.l0) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
     Edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
 
-Restricting edge guards for preventing runtime errors:
+Restricting edge guards to prevent runtime errors:
   Edge: (event: c) (guard: g.p.l0 -> (g.p.x = 1 or (g.p.x = 3 or g.p.x = 5) or (g.p.x = 7 or (g.p.x = 9 or g.p.l0))) and (not(g.p.x = 1 or (g.p.x = 5 or g.p.x = 9)) or g.p.l0) and ((g.p.x != 3 or g.p.l0) and (g.p.x != 7 or g.p.l0))) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
   Edge: (event: u) (guard: g.p.l1 -> g.p.x = 8 and g.p.l1 or g.p.x = 4 and g.p.l1 or ((g.p.x = 2 or (g.p.x = 6 or g.p.x = 10)) and g.p.l1 or (g.p.x = 1 or g.p.x = 3 or (g.p.x = 5 or (g.p.x = 7 or g.p.x = 9))) and g.p.l1)) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
 

@@ -168,7 +168,7 @@ Uncontrolled system:
     Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
     Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
 
-Restricting edge guards for preventing runtime errors:
+Restricting edge guards to prevent runtime errors:
   Edge: (event: add) (guard: true -> p.c != 3) (assignments: p.c := p.c + x)
   Edge: (event: remove) (guard: true -> p.c != 0) (assignments: p.c := p.c - p.y)
 

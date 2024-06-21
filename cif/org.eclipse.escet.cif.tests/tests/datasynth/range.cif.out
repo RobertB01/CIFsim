@@ -48,7 +48,7 @@ Uncontrolled system:
     Edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1)
     Edge: (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1)
 
-Restricting edge guards for preventing runtime errors:
+Restricting edge guards to prevent runtime errors:
   Edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1)
   Edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1)
 

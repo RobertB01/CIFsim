@@ -140,7 +140,7 @@ Uncontrolled system:
     Edge: (event: g.c2) (guard: true) (assignments: g.p.x := g.p.x + 1, p.x := 1)
     Edge: (event: g.p.c3) (guard: true) (assignments: g.p.x := g.p.x + 1)
 
-Restricting edge guards for preventing runtime errors:
+Restricting edge guards to prevent runtime errors:
   Edge: (event: c1) (guard: true -> true) (assignments: g.p.x := g.p.x + 1, p.x := 1)
   Edge: (event: g.c2) (guard: true -> true) (assignments: g.p.x := g.p.x + 1, p.x := 1)
   Edge: (event: g.p.c3) (guard: true -> true) (assignments: g.p.x := g.p.x + 1)

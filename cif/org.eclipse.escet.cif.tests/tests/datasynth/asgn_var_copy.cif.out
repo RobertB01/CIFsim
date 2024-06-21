@@ -156,7 +156,7 @@ Uncontrolled system:
     Edge: (event: p.c2) (guard: true) (assignments: p.a := p.b)
     Edge: (event: p.c3) (guard: true) (assignments: p.a := p.c)
 
-Restricting edge guards for preventing runtime errors:
+Restricting edge guards to prevent runtime errors:
   Edge: (event: p.c2) (guard: true -> 1 <= p.b and p.b <= 3) (assignments: p.a := p.b)
   Edge: (event: p.c3) (guard: true -> p.c = 3) (assignments: p.a := p.c)
 

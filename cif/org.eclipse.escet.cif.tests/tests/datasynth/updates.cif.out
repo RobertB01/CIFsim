@@ -157,7 +157,7 @@ Uncontrolled system:
     Edge: (event: k) (guard: p.v = 1) (assignments: p.v := p.v div 1)
     Edge: (event: k) (guard: p.v = 2) (assignments: p.v := p.v mod 2)
 
-Restricting edge guards for preventing runtime errors:
+Restricting edge guards to prevent runtime errors:
   Edge: (event: h) (guard: p.v = 1 -> false) (assignments: p.v := p.v - 2)
   Edge: (event: h) (guard: p.v = 2 -> false) (assignments: p.v := p.v - (9 * 2 - c))
 

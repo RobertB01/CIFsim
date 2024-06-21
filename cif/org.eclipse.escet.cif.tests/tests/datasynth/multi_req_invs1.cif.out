@@ -143,7 +143,7 @@ Uncontrolled system:
     Edge: (event: b) (guard: true) (assignments: p.x := p.x - 1, p.y := p.y + 1)
     Edge: (event: c) (guard: true) (assignments: p.y := p.y - 1)
 
-Restricting edge guards for preventing runtime errors:
+Restricting edge guards to prevent runtime errors:
   Edge: (event: a) (guard: true -> true) (assignments: p.x := p.x + 1)
   Edge: (event: b) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1, p.y := p.y + 1)
   Edge: (event: c) (guard: true -> p.y != 0) (assignments: p.y := p.y - 1)

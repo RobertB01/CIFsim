@@ -139,7 +139,7 @@ Uncontrolled system:
     Edge: (event: u2) (guard: true) (assignments: A.Vu2 := A.Vu2 + 1)
     Edge: (event: u3) (guard: true) (assignments: A.Vu3 := A.Vu3 + 1)
 
-Restricting edge guards for preventing runtime errors:
+Restricting edge guards to prevent runtime errors:
   Edge: (event: u1) (guard: A.Vu1 != 4 -> A.Vu1 != 4) (assignments: A.Vu1 := A.Vu1 + 1)
   Edge: (event: u2) (guard: true -> true) (assignments: A.Vu2 := A.Vu2 + 1)
   Edge: (event: u3) (guard: true -> true) (assignments: A.Vu3 := A.Vu3 + 1)

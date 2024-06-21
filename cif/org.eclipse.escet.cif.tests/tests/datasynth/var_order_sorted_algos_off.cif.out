@@ -86,7 +86,7 @@ Uncontrolled system:
     Edge: (event: buffer2.c_add) (guard: buffer2.add) (assignments: buffer2.count := buffer2.count + 1)
     Edge: (event: buffer2.c_remove) (guard: buffer2.remove) (assignments: buffer2.count := buffer2.count - 1)
 
-Restricting edge guards for preventing runtime errors:
+Restricting edge guards to prevent runtime errors:
   Edge: (event: buffer1.c_add) (guard: buffer1.add -> (buffer1.remove or buffer1.count != 3) and buffer1.add) (assignments: buffer1.count := buffer1.count + 1)
   Edge: (event: buffer1.c_remove) (guard: buffer1.remove -> buffer1.remove and (buffer1.add or buffer1.count != 0)) (assignments: buffer1.count := buffer1.count - 1)
   Edge: (event: buffer3.c_add) (guard: buffer3.add -> (buffer3.remove or buffer3.count != 3) and buffer3.add) (assignments: buffer3.count := buffer3.count + 1)
