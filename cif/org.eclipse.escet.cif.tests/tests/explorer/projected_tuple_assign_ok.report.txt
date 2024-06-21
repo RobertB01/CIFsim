@@ -9,8 +9,8 @@ State 1:
         A.xs = (true, false)
         A.ys = ((false, false), (true, true))
 
-    Edges:
-        edge tau goto state 2
+    Transitions:
+        transition tau goto state 2
 
 State 2:
     Initial: false
@@ -23,8 +23,8 @@ State 2:
         A.xs = (true, true)
         A.ys = ((false, false), (true, true))
 
-    Edges:
-        edge tau goto state 3
+    Transitions:
+        transition tau goto state 3
 
 State 3:
     Initial: false

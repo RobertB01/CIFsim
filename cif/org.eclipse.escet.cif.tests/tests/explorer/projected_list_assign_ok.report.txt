@@ -9,8 +9,8 @@ State 1:
         A.xs = [1, 2, 3]
         A.ys = [[1, 23], [4, 5, 6]]
 
-    Edges:
-        edge tau goto state 2
+    Transitions:
+        transition tau goto state 2
 
 State 2:
     Initial: false
@@ -23,8 +23,8 @@ State 2:
         A.xs = [1, 5, 3]
         A.ys = [[1, 23], [4, 5, 6]]
 
-    Edges:
-        edge tau goto state 3
+    Transitions:
+        transition tau goto state 3
 
 State 3:
     Initial: false
@@ -37,8 +37,8 @@ State 3:
         A.xs = [1, 5, 3]
         A.ys = [[1, 23], [8, 5, 6]]
 
-    Edges:
-        edge tau goto state 4
+    Transitions:
+        transition tau goto state 4
 
 State 4:
     Initial: false

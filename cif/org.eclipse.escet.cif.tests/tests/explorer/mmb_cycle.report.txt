@@ -10,8 +10,8 @@ State 1:
     Valuation:
         B.c = 0
 
-    Edges:
-        edge mb goto state 2
+    Transitions:
+        transition mb goto state 2
 
 State 2:
     Initial: false
@@ -25,8 +25,8 @@ State 2:
     Valuation:
         B.c = 1
 
-    Edges:
-        edge mm goto state 3
+    Transitions:
+        transition mm goto state 3
 
 State 3:
     Initial: false
@@ -40,9 +40,9 @@ State 3:
     Valuation:
         B.c = 1
 
-    Edges:
-        edge bm goto state 1
-        edge mb goto state 4
+    Transitions:
+        transition bm goto state 1
+        transition mb goto state 4
 
 State 4:
     Initial: false
@@ -56,5 +56,5 @@ State 4:
     Valuation:
         B.c = 2
 
-    Edges:
-        edge bm goto state 2
+    Transitions:
+        transition bm goto state 2

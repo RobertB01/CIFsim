@@ -79,46 +79,47 @@ public abstract class BaseState {
     }
 
     /**
-     * Outgoing edges from this state. {@code null} means successor states have not been computed yet.
+     * Outgoing transitions from this state. {@code null} means successor states have not been computed yet.
      *
      * <p>
-     * Do not access directly, use {@link #getOutgoingEdges} instead.
+     * Do not access directly, use {@link #getOutgoingTransitions} instead.
      * </p>
      */
-    public List<ExplorerEdge> outgoingEdges = null;
+    public List<ExplorerTransition> outgoingTransitions = null;
 
     /**
-     * Incoming edges from successor states, for the set of states computed so far. As more states are discovered, new
-     * incoming edges may be added.
+     * Incoming transitions from successor states, for the set of states computed so far. As more states are discovered,
+     * new incoming transitions may be added.
      *
      * <p>
-     * Do not access directly, use {@link #getIncomingEdges} instead.
+     * Do not access directly, use {@link #getIncomingTransitions} instead.
      * </p>
      */
-    public List<ExplorerEdge> incomingEdges = list();
+    public List<ExplorerTransition> incomingTransitions = list();
 
     /**
      * Get the transitions that are possible from this state. Compute the new states first, if necessary.
      *
      * @return Transitions from this state.
      */
-    public List<ExplorerEdge> getOutgoingEdges() {
-        if (outgoingEdges == null) {
-            outgoingEdges = list();
+    public List<ExplorerTransition> getOutgoingTransitions() {
+        if (outgoingTransitions == null) {
+            outgoingTransitions = list();
             explorer.computeOutgoing(this, false);
         }
-        return outgoingEdges;
+        return outgoingTransitions;
     }
 
     /**
      * Get newly discovered successor states. The returned set is always a subset of the successor states, but is highly
-     * dependent on exploration order. Use {@link #getOutgoingEdges} instead to get the full set of successor states.
+     * dependent on exploration order. Use {@link #getOutgoingTransitions} instead to get the full set of successor
+     * states.
      *
      * @return Newly discovered states while looking for immediate successor states.
      */
     public List<BaseState> getNewSuccessorStates() {
-        Assert.check(outgoingEdges == null);
-        outgoingEdges = list();
+        Assert.check(outgoingTransitions == null);
+        outgoingTransitions = list();
         return explorer.computeOutgoing(this, true);
     }
 
@@ -131,48 +132,48 @@ public abstract class BaseState {
      *
      * @return Transitions found so far that lead to this state.
      */
-    public List<ExplorerEdge> getIncomingEdges() {
-        return incomingEdges;
+    public List<ExplorerTransition> getIncomingTransitions() {
+        return incomingTransitions;
     }
 
     /**
-     * Remove an incoming edge from the state.
+     * Remove an incoming transition from the state.
      *
-     * @param edge Edge to remove.
+     * @param transition Transition to remove.
      */
-    public void removeIncoming(ExplorerEdge edge) {
-        // Since we have an edge that should be removed, incomingEdges != null.
-        int lastEdge = incomingEdges.size() - 1;
-        for (int i = 0; i <= lastEdge; i++) {
-            if (incomingEdges.get(i) == edge) {
-                if (i < lastEdge) {
-                    incomingEdges.set(i, incomingEdges.get(lastEdge));
+    public void removeIncoming(ExplorerTransition transition) {
+        // Since we have a transition that should be removed, incomingTransitions != null.
+        int lastTransition = incomingTransitions.size() - 1;
+        for (int i = 0; i <= lastTransition; i++) {
+            if (incomingTransitions.get(i) == transition) {
+                if (i < lastTransition) {
+                    incomingTransitions.set(i, incomingTransitions.get(lastTransition));
                 }
-                incomingEdges.remove(lastEdge);
+                incomingTransitions.remove(lastTransition);
                 return;
             }
         }
-        throw new RuntimeException("Could not find edge.");
+        throw new RuntimeException("Could not find transition.");
     }
 
     /**
-     * Remove an outgoing edge from the state.
+     * Remove an outgoing transition from the state.
      *
-     * @param edge Edge to remove.
+     * @param transition Transition to remove.
      */
-    public void removeOutgoing(ExplorerEdge edge) {
-        // Since we have an edge that should be removed, outgoingEdges != null.
-        int lastEdge = outgoingEdges.size() - 1;
-        for (int i = 0; i <= lastEdge; i++) {
-            if (outgoingEdges.get(i) == edge) {
-                if (i < lastEdge) {
-                    outgoingEdges.set(i, outgoingEdges.get(lastEdge));
+    public void removeOutgoing(ExplorerTransition transition) {
+        // Since we have a transition that should be removed, outgoingTransitions != null.
+        int lastTransition = outgoingTransitions.size() - 1;
+        for (int i = 0; i <= lastTransition; i++) {
+            if (outgoingTransitions.get(i) == transition) {
+                if (i < lastTransition) {
+                    outgoingTransitions.set(i, outgoingTransitions.get(lastTransition));
                 }
-                outgoingEdges.remove(lastEdge);
+                outgoingTransitions.remove(lastTransition);
                 return;
             }
         }
-        throw new RuntimeException("Could not find edge.");
+        throw new RuntimeException("Could not find transition.");
     }
 
     /**
@@ -272,19 +273,20 @@ public abstract class BaseState {
 
         printOtherStateInformation(box);
 
-        if (outgoingEdges != null && !outgoingEdges.isEmpty()) {
+        if (outgoingTransitions != null && !outgoingTransitions.isEmpty()) {
             box.add();
-            box.add("Edges:");
+            box.add("Transitions:");
             box.indent();
-            for (ExplorerEdge edge: outgoingEdges) {
+            for (ExplorerTransition transition: outgoingTransitions) {
                 String eventName, sendValue, target;
 
-                eventName = (edge.event == null) ? "tau" : CifTextUtils.getAbsName(edge.event);
-                sendValue = (edge.commValue == null) ? "" : " value " + CifEvalUtils.objToStr(edge.commValue);
-                target = fmt(" goto state %d", edge.next.stateNumber);
-                box.add("edge " + eventName + sendValue + target);
+                eventName = (transition.event == null) ? "tau" : CifTextUtils.getAbsName(transition.event);
+                sendValue = (transition.commValue == null) ? ""
+                        : " value " + CifEvalUtils.objToStr(transition.commValue);
+                target = fmt(" goto state %d", transition.next.stateNumber);
+                box.add("transition " + eventName + sendValue + target);
             }
-            box.dedent(); // End of edges.
+            box.dedent(); // End of transitions.
         }
 
         box.dedent(); // End of the state.

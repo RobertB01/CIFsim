@@ -64,7 +64,7 @@ import org.eclipse.escet.cif.explorer.options.AutomatonNameOption;
 import org.eclipse.escet.cif.explorer.runtime.BaseState;
 import org.eclipse.escet.cif.explorer.runtime.EventUsage;
 import org.eclipse.escet.cif.explorer.runtime.Explorer;
-import org.eclipse.escet.cif.explorer.runtime.ExplorerEdge;
+import org.eclipse.escet.cif.explorer.runtime.ExplorerTransition;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -239,12 +239,12 @@ public class CifAutomatonBuilder {
             return;
         }
 
-        // Normal case, first add all states, without adding edges.
+        // Normal case, first add all states as locations, without adding transitions.
         boolean doAddStateAnnos = AddStateAnnosOption.getStateAnnotationsEnabled();
         int idx = 0;
         for (BaseState state: expl.states.values()) {
             // Verify that the state number is equal to its index. This
-            // property is used while adding edges below.
+            // property is used while adding transitions below.
             Assert.check(state.stateNumber == idx + 1);
 
             // Add the new location.
@@ -265,13 +265,13 @@ public class CifAutomatonBuilder {
             }
         }
 
-        // Add edges.
+        // Add transitions as edges.
         Location srcLoc, dstLoc;
         idx = 0;
         for (BaseState state: expl.states.values()) {
             srcLoc = aut.getLocations().get(idx++);
-            for (ExplorerEdge explEdge: state.getOutgoingEdges()) {
-                dstLoc = aut.getLocations().get(explEdge.next.stateNumber - 1);
+            for (ExplorerTransition transition: state.getOutgoingTransitions()) {
+                dstLoc = aut.getLocations().get(transition.next.stateNumber - 1);
 
                 // Construct the edge.
                 Edge edge = newEdge();
@@ -280,9 +280,9 @@ public class CifAutomatonBuilder {
                 }
                 srcLoc.getEdges().add(edge);
 
-                // Copy the event of the edge.
-                if (explEdge.event != null) {
-                    Event newEvent = evtMap.get(explEdge.event);
+                // Copy the event of the transition to the edge.
+                if (transition.event != null) {
+                    Event newEvent = evtMap.get(transition.event);
                     EventExpression e = newEventExpression(newEvent, null, newBoolType());
 
                     EdgeEvent ee = newEdgeEvent();

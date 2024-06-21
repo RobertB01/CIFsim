@@ -8,8 +8,8 @@ State 1:
     Valuation:
         aut.v = 0
 
-    Edges:
-        edge tau goto state 3
+    Transitions:
+        transition tau goto state 3
 
 State 2:
     Initial: true
@@ -21,8 +21,8 @@ State 2:
     Valuation:
         aut.v = 2
 
-    Edges:
-        edge tau goto state 4
+    Transitions:
+        transition tau goto state 4
 
 State 3:
     Initial: false
@@ -34,8 +34,8 @@ State 3:
     Valuation:
         aut.v = 1
 
-    Edges:
-        edge tau goto state 2
+    Transitions:
+        transition tau goto state 2
 
 State 4:
     Initial: false

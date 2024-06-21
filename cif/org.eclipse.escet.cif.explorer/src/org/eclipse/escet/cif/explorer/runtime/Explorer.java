@@ -131,7 +131,7 @@ public class Explorer {
     /** Unused numbers for numbering states. */
     private int freshStateNumber = 1;
 
-    /** If not {@code null}, newly found states while computing outgoing edges. */
+    /** If not {@code null}, newly found states while computing outgoing transitions. */
     private List<BaseState> newStates;
 
     /** State factory. */
@@ -662,10 +662,10 @@ public class Explorer {
             }
         }
 
-        // Add edge (the edge inserts itself between both states). Only for
+        // Add transition (the transition inserts itself between both states). Only for
         // non-initial states.
         if (transData != null) {
-            new ExplorerEdge(transData.origState, authNewState, transData.event, sendValue);
+            new ExplorerTransition(transData.origState, authNewState, transData.event, sendValue);
         }
     }
 
@@ -1331,9 +1331,9 @@ public class Explorer {
         return variableNames;
     }
 
-    /** Minimizes the edges of the explored state space, by removing duplicate edges. */
-    public void minimizeEdges() {
-        // If no states, then no edges to minimize.
+    /** Removes duplicate transitions of the explored state space. */
+    public void removeDuplicateTransitions() {
+        // If no states, then no transitions to remove.
         if (states == null) {
             return;
         }
@@ -1341,29 +1341,29 @@ public class Explorer {
         // Process all states.
         for (BaseState state: states.keySet()) {
             // Initialize.
-            List<ExplorerEdge> edges = state.getOutgoingEdges();
-            Map<Event, Set<BaseState>> eventMap = mapc(edges.size());
+            List<ExplorerTransition> transitions = state.getOutgoingTransitions();
+            Map<Event, Set<BaseState>> eventMap = mapc(transitions.size());
 
-            // Process all edges.
-            Iterator<ExplorerEdge> edgesIter = edges.iterator();
-            while (edgesIter.hasNext()) {
-                ExplorerEdge edge = edgesIter.next();
+            // Process all transitions.
+            Iterator<ExplorerTransition> transIter = transitions.iterator();
+            while (transIter.hasNext()) {
+                ExplorerTransition transition = transIter.next();
 
                 // Get already encountered target states for this event.
-                Set<BaseState> targetStates = eventMap.get(edge.event);
+                Set<BaseState> targetStates = eventMap.get(transition.event);
                 if (targetStates == null) {
                     // New event: no duplicate. Update mapping and continue.
-                    targetStates = set(edge.next);
-                    eventMap.put(edge.event, targetStates);
+                    targetStates = set(transition.next);
+                    eventMap.put(transition.event, targetStates);
                     continue;
                 }
 
-                // Check for duplicate edge target state for the event of this
-                // edge.
-                if (targetStates.contains(edge.next)) {
-                    edgesIter.remove();
+                // Check for duplicate transition target state for the event of this
+                // transition.
+                if (targetStates.contains(transition.next)) {
+                    transIter.remove();
                 } else {
-                    targetStates.add(edge.next);
+                    targetStates.add(transition.next);
                 }
             }
         }
