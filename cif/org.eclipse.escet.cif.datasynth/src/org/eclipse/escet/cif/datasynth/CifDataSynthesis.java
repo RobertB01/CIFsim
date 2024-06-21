@@ -1445,6 +1445,10 @@ public class CifDataSynthesis {
             boolean dbgEnabled)
     {
         // Compute guards of edges with controllable events.
+        //
+        // By applying edges with controllable events backwards, we also apply their error predicates, which are
+        // embedded in the guards of the edges. This ensures that synthesis prevents runtime errors for edges with
+        // controllable events, by putting extra restrictions in the controlled system guards.
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput().line("Computing controlled system guards.");
