@@ -309,18 +309,29 @@ public class CifBddEdge {
      * @return The textual representation.
      */
     public String toString(int indent, String prefix) {
+        return toString(indent, prefix, false);
+    }
+
+    /**
+     * Returns a textual representation of the CIF/BDD edge.
+     *
+     * @param indent The indentation level.
+     * @param prefix The prefix to use, e.g. {@code "Edge: "} or {@code ""}.
+     * @param includeOnlyOrigGuard Whether to include only the {@link #origGuard original edge guard}, or also the
+     *     {@link #guard current edge guard}.
+     * @return The textual representation.
+     */
+    public String toString(int indent, String prefix, boolean includeOnlyOrigGuard) {
         StringBuilder txt = new StringBuilder();
         txt.append(Strings.duplicate(" ", 2 * indent));
         txt.append(prefix);
         txt.append(fmt("(event: %s)", CifTextUtils.getAbsName(event)));
-        String origGuardTxt = bddToStr(origGuard, cifBddSpec);
-        String guardTxt = bddToStr(guard, cifBddSpec);
-        String guardsTxt;
-        if (origGuard.equals(guard)) {
-            guardsTxt = fmt("%s", guardTxt);
-        } else {
-            guardsTxt = fmt("%s -> %s", origGuardTxt, guardTxt);
+
+        String guardsTxt = bddToStr(origGuard, cifBddSpec);
+        if (!includeOnlyOrigGuard && !origGuard.equals(guard)) {
+            guardsTxt = fmt("%s -> %s", guardsTxt, bddToStr(guard, cifBddSpec));
         }
+
         txt.append(fmt(" (guard: %s)", guardsTxt));
         if (assignments.stream().anyMatch(as -> !as.isEmpty())) {
             txt.append(" (assignments: ");

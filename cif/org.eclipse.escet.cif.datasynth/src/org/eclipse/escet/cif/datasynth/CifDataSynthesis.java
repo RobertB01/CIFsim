@@ -650,7 +650,7 @@ public class CifDataSynthesis {
             }
             cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1));
             if (!cifBddSpec.edges.isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2));
+                cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2, true));
             }
         }
 
