@@ -147,8 +147,8 @@ public class ModelTextGenerator {
      */
     public String literalToString(PlcExpression expr) {
         if (PlcElementaryType.isIntType(expr.type)) {
-            // Negative integer literals are expressed are computations. Try to recognize them and convert back to their
-            // literal value.
+            // Negative integer literals are expressed as computations. Try to recognize them and convert them back to
+            // their literal value.
             Integer value = tryGetIntValue(expr);
             if (value != null) {
                 return Integer.toString(value);
@@ -165,7 +165,7 @@ public class ModelTextGenerator {
      *
      * <p>
      * CIF encodes negative integer literals as a computation. This function recognizes a superset of those expressions
-     * and converts the value back to literal value.
+     * and converts the value back to a literal value.
      * </p>
      *
      * @param expr The expression with integer type to parse.
