@@ -141,8 +141,12 @@ State/event exclusion requirements:
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: u_e) (guard: not p.b -> not p.b) (assignments: p.x := p.x + 2, p.b := true)
-    Edge: (event: c_e) (guard: true -> true) (assignments: p.y := p.y + 2)
+    Edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)
+    Edge: (event: c_e) (guard: true) (assignments: p.y := p.y + 2)
+
+Restricting edge guards for preventing runtime errors:
+  Edge: (event: u_e) (guard: not p.b -> not p.b) (assignments: p.x := p.x + 2, p.b := true)
+  Edge: (event: c_e) (guard: true -> true) (assignments: p.y := p.y + 2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

@@ -146,8 +146,8 @@ Uncontrolled system:
     Edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2)
     Edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2)
     Edge: (event: g) (guard: p.v = 4) (assignments: p.v := p.v + 2)
-    Edge: (event: h) (guard: p.v = 1 -> false) (assignments: p.v := p.v - 2)
-    Edge: (event: h) (guard: p.v = 2 -> false) (assignments: p.v := p.v - (9 * 2 - c))
+    Edge: (event: h) (guard: p.v = 1) (assignments: p.v := p.v - 2)
+    Edge: (event: h) (guard: p.v = 2) (assignments: p.v := p.v - (9 * 2 - c))
     Edge: (event: i) (guard: p.v = 1) (assignments: p.v := 1)
     Edge: (event: i) (guard: p.v = 2) (assignments: p.v := 2)
     Edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5)
@@ -156,6 +156,10 @@ Uncontrolled system:
     Edge: (event: j) (guard: p.v = 2) (assignments: p.v := p.w)
     Edge: (event: k) (guard: p.v = 1) (assignments: p.v := p.v div 1)
     Edge: (event: k) (guard: p.v = 2) (assignments: p.v := p.v mod 2)
+
+Restricting edge guards for preventing runtime errors:
+  Edge: (event: h) (guard: p.v = 1 -> false) (assignments: p.v := p.v - 2)
+  Edge: (event: h) (guard: p.v = 2 -> false) (assignments: p.v := p.v - (9 * 2 - c))
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

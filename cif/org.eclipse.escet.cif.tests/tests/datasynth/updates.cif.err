@@ -1,1 +1,1 @@
-WARNING: Event "h" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "h" is never enabled in the input specification, taking into account automaton guards, prevention of runtime errors, and invariants.
