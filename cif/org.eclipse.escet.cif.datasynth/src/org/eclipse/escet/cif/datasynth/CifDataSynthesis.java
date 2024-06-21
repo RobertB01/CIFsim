@@ -1131,7 +1131,8 @@ public class CifDataSynthesis {
             if (alwaysDisabled) {
                 cifBddSpec.settings.getWarnOutput()
                         .line("Event \"%s\" is never enabled in the input specification, taking into account automaton "
-                                + "guards and invariants.", CifTextUtils.getAbsName(event));
+                                + "guards, prevention of runtime errors, and invariants.",
+                                CifTextUtils.getAbsName(event));
                 disabledEvents.add(event);
                 continue;
             }
