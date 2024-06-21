@@ -1,4 +1,4 @@
-Loading CIF specification "controllercheck/non_blocking_under_control/buc_partial_init_bad.cif"...
+Loading CIF specification "controllercheck/non_blocking_under_control/nbuc_init_guard.cif"...
 Preparing for BDD-based checks...
 
 CIF variables and location pointers:
@@ -169,4 +169,4 @@ CONCLUSION:
     [OK] The specification has finite response.
     [OK] The specification has confluence.
 
-The model with the check results has been written to "controllercheck/non_blocking_under_control/buc_partial_init_bad.BCFN.out.cif.real".
+The model with the check results has been written to "controllercheck/non_blocking_under_control/nbuc_init_guard.BCFN.out.cif.real".
