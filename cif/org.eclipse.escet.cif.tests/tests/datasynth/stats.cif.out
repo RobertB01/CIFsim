@@ -164,13 +164,13 @@ Simplification of controlled system under the assumption of the plants:
 
 Constructing output CIF specification.
 BDD cache statistics:
-  Node creation requests:       764
+  Node creation requests:       785
   Node creation chain accesses: 2
-  Node creation cache hits:     311
+  Node creation cache hits:     327
   Node creation cache misses:   324
-  Operation count:              2264
-  Operation cache hits:         423
-  Operation cache misses:       712
+  Operation count:              2414
+  Operation cache hits:         428
+  Operation cache misses:       733
 Writing continuous BDD performance statistics file "datasynth/stats.cif.stats.txt.real".
 Maximum used BDD nodes: 91.
 Writing output CIF file "datasynth/stats.ctrlsys.real.cif".

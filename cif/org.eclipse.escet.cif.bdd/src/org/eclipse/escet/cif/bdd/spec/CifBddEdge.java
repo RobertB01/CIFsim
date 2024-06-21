@@ -265,30 +265,26 @@ public class CifBddEdge {
      * @return The resulting predicate.
      */
     public BDD apply(BDD pred, boolean forward, BDD restriction) {
-        // Apply the edge.
+        BDD rslt;
+
         if (forward) {
-            // rslt = Exists{x, y, z, ...}(guard && update && pred && restriction)[x/x+, y/y+, z/z+, ...].
-            BDD rslt = updateGuardRestricted.relnext(pred, updateGuardRestrictedSupport);
-            pred.free();
-
-            // Return the result of applying the update.
-            return rslt;
+            // rslt = Exists{x, y, z, ...}(guard && update && pred)[x/x+, y/y+, z/z+, ...] && restriction.
+            if (restriction == null) {
+                rslt = updateGuard.relnext(pred, updateGuardSupport);
+            } else {
+                rslt = updateGuard.relnextIntersection(pred, restriction, updateGuardSupport);
+            }
         } else {
-            // rslt = Exists{x+, y+, z+, ...}(guard && update && pred[x+/x, y+/y, z+/z, ...]).
-            BDD rslt = updateGuard.relprev(pred, updateGuardSupport);
-            pred.free();
-
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
-                return rslt;
+            // rslt = Exists{x+, y+, z+, ...}(guard && update && pred[x+/x, y+/y, z+/z, ...]) && restriction.
+            if (restriction == null) {
+                rslt = updateGuard.relprev(pred, updateGuardSupport);
+            } else {
+                rslt = updateGuard.relprevIntersection(pred, restriction, updateGuardSupport);
             }
-
-            if (restriction != null) {
-                rslt = rslt.andWith(restriction.id());
-            }
-
-            // Return the result of reverse applying the update.
-            return rslt;
         }
+
+        pred.free();
+        return rslt;
     }
 
     /**
