@@ -28,15 +28,24 @@ That is, for every reachable state, there exists a path to a marked state, with 
 
 Consider the following example model, with a `Supervisor1a` automaton.
 The non-blocking under control property holds for this model.
+
 All locations are reachable.
-It has a marked location at the end of the controllable-event paths.
-Uncontrollable event `u_button_pushed` is possible there, and not in any of the locations where also controllable events are possible.
+From locations `Start`, `Done1` and `Done2`, controllable event sequences are possible to marked location `BothDone`, where no controllable event is possible.
+There is thus a marked location at the end of the controllable-event paths consisting of `c_act1` and `c_act2` events.
+In location `BothDone`, `u_button_pushed` is enabled and no controllable events can be taken.
+From that location, `u_button_pushed` can thus be taken, followed by the controllable events.
+
+Note that event `u_button_pushed` is monitored, which means the event is also possible in the other locations.
+That is ok, since a controllable-complete path must exist, and does for every reachable state.
+That other uncontrollable events are enabled in locations where controllable events are taken on the controllable-event path, does not invalidate the property.
+The property only puts requirements on uncontrollable events that are taken as part of a controllable-complete path, as they may only occur from states where no controllable events are enabled.
 
 [source, cif]
 ----
 supervisor Supervisor1a:
   controllable c_act1, c_act2;
   uncontrollable u_button_pushed;
+  monitor u_button_pushed;
 
   location Start:
     initial;
@@ -58,17 +67,22 @@ end
 Now consider a slightly different version of this model, as shown below.
 Automaton `Supervisor1b` is similar to `Supervisor1a`, but has a different marked location.
 For `Supervisor1b`, the non-blocking under control property does _not_ hold.
+
 All locations are still reachable.
 And if `c_act1` is done first, before `c_act2`, the automaton goes through marked location `Done1`.
 But, if instead `c_act2` is done first, before `c_act1`, the automaton does not go through a marked location.
 And if every time the choice is made to first do `c_act2` before `c_act1`, then the automaton never goes through a marked location.
 The automaton is can thus exhibit blocking behavior, depending on the order in which the events are executed in generated code.
 
+The non-blocking under control property does not hold here, since in the only marked location there is a controllable event enabled.
+The marked location should be at the end of the controllable-events path, not within it.
+
 [source, cif]
 ----
 supervisor Supervisor1b:
   controllable c_act1, c_act2;
   uncontrollable u_button_pushed;
+  monitor u_button_pushed;
 
   location Start:
     initial;
@@ -90,7 +104,9 @@ end
 As another example, consider the `Supervisor2a` automaton below.
 This model is a simplified version of `Supervisor1a`, where `c_act1` is always done first, before `c_act2`.
 For this model, the non-blocking under control property also holds.
-It still has the marked location at the end of the controllable-event path, and the uncontrollable event is still only possible from that marked location.
+
+It still has the marked location at the end of the controllable-event path.
+And uncontrollable event `u_button_pushed` is still possible from that marked location, where no controllable event is enabled.
 
 [source, cif]
 ----
@@ -115,6 +131,7 @@ Now consider a slightly different version of this model, as shown below.
 Compared to `Supervisor2a`, automaton `Supervisor2b` has the additional option to do `u_button_pushed` between `c_act1` and `c_act2`.
 And only by this additional edge, can it reach a marked location.
 For `Supervisor2b`, the non-blocking under control property does _not_ hold.
+
 Still, all locations are reachable.
 But, if first `c_act1` is done, then `c_act2`, and finally `u_button_pusehd`, then it cycles without going through a marked location.
 A marked location can of course be reached, by doing `u_button_pushed` in location `Done1`.
@@ -123,6 +140,11 @@ In `Start`, no uncontrollable event is possible.
 And after doing `c_act1` the code will keep doing transitions for controllable events, opting for `c_act2` rather than `u_button_pushed`.
 Hence, a marked state can never be reached in the generated code.
 A marked state can only be reached by doing the uncontrollable event in between controllable events, which is excluded by the execution model of the generated code.
+
+A controllable-complete path may only include an uncontrollable event if from its source state no controllable events are enabled.
+Uncontrollable event `u_button_pushed` may thus not be included from location `Done1`, as there `c_act2` is enabled.
+The controllable-complete path can thus never reach the marked location.
+The non-blocking under control property therefore doesn't hold in this model.
 
 [source, cif]
 ----
