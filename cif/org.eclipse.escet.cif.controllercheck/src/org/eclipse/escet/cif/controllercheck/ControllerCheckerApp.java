@@ -240,9 +240,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             }
 
             // Initialize applying edges.
-            boolean doForward = true;
             for (CifBddEdge edge: cifBddSpec.edges) {
-                edge.initApply(doForward);
+                edge.initApply();
                 if (isTerminationRequested()) {
                     return 0;
                 }

@@ -124,7 +124,7 @@ public class CifDataSynthesis {
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
-                edge.initApply(doForward);
+                edge.initApply();
             }
 
             // Apply state plant invariants if there are any.
@@ -178,7 +178,7 @@ public class CifDataSynthesis {
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
-                edge.reinitApply(doForward);
+                edge.reinitApply();
             }
 
             // Check edges.

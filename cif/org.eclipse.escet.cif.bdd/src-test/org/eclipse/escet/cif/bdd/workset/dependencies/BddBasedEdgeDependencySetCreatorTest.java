@@ -548,7 +548,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
         BDDFactory factory = JFactory.init(100, 100);
         CifBddSpec cifBddSpec = new CifToBddConverter("Test").convert(spec, settings, factory);
         for (CifBddEdge edge: cifBddSpec.edges) {
-            edge.initApply(true);
+            edge.initApply();
         }
 
         // Reverse the ordered edges, if requested.

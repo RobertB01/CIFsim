@@ -109,12 +109,8 @@ public class CifBddEdge {
      * invoked before any invocation of {@link #apply}. If the {@link #guard} is changed after invoking this method,
      * {@link #reinitApply} must be invoked to re-initialize the edge for applying, unless {@link #cleanupApply} has
      * already been invoked.
-     *
-     * @param doForward Whether to also initialize this edge for forward reachability, making it possible to
-     *     {@link #apply} this edge both forwards and backwards ({@code true}), or not initialize this edge for forward
-     *     reachability, making it only possible to apply this edge backwards ({@code false}).
      */
-    public void initApply(boolean doForward) {
+    public void initApply() {
         // We can include the guard in the update, assuming it won't change anymore. That is, the guard may differ
         // from the uncontrolled system guard as preparations for state/event exclusion invariants for edges with
         // controllable events may have changed it, etc. But during the actual computations on the CIF/BDD
@@ -147,12 +143,8 @@ public class CifBddEdge {
     /**
      * Global edge re-initialization. Edges must be reinitialized when the guards have been updated after
      * {@link #initApply} was invoked. Must be invoked only once per edge.
-     *
-     * @param doForward Whether to also re-initialize this edge for forward reachability, making it possible to
-     *     {@link #apply} this edge both forwards and backwards ({@code true}), or not re-initialize this edge for
-     *     forward reachability, making it only possible to apply this edge backwards ({@code false}).
      */
-    public void reinitApply(boolean doForward) {
+    public void reinitApply() {
         Assert.check(update == null);
         Assert.check(updateGuard != null);
         BDD updateGuardNew = updateGuard.and(guard);
