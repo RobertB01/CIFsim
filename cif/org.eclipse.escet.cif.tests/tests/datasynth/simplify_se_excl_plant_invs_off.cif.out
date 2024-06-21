@@ -55,13 +55,16 @@ Uncontrolled system (state/event exclusion plants not applied yet):
     Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5)
     Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3))
 
+Restricting edge guards to prevent runtime errors:
+  Edge: (event: c_a) (guard: true -> true) (assignments: p.x := p.x + 1)
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3)): guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5 [plant: p.x = 4 or p.x = 5].
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
-    Edge: (event: c_a) (guard: true) (assignments: p.x := p.x + 1)
+    Edge: (event: c_a) (guard: true -> true) (assignments: p.x := p.x + 1)
     Edge: (event: c_b) (guard: p.x = 5 or p.x = 3)
     Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5)
     Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5)
@@ -78,6 +81,8 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "p.x
 Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
+
+Restricting behavior using implicit runtime error requirements.
 
 Round 1: started.
 
@@ -98,7 +103,7 @@ Round 1: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: c_a) (guard: true) (assignments: p.x := p.x + 1): guard: true -> p.x != 5.
+Edge (event: c_a) (guard: true -> true) (assignments: p.x := p.x + 1): guard: true -> p.x != 5.
 Edge (event: c_c) (guard: 2 <= p.x and p.x <= 5): guard: 2 <= p.x and p.x <= 5 -> 2 <= p.x and p.x <= 5.
 Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5): guard: p.x = 4 or p.x = 5 -> p.x = 4 or p.x = 5.
 

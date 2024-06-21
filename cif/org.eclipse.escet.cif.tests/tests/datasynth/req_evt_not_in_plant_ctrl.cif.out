@@ -144,6 +144,10 @@ Uncontrolled system:
     Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
     Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2)
 
+Restricting edge guards to prevent runtime errors:
+  Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
+  Edge: (event: p.dec) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1)
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
@@ -155,16 +159,18 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: p.inc) (guard: true) (assignments: p.x := p.x + 1): guard: true -> r.loc1 [state/event exclusion requirement: r.loc1].
+Edge (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1): guard: p.x != 3 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 [state/event exclusion requirement: r.loc1].
 Edge (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2): guard: (p.x = 0 or p.x = 1) and r.loc2 -> false [state/event exclusion requirement: p.x = 2 or (p.x = 3 or r.loc1)].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: true)
-    Edge: (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1)
-    Edge: (event: p.dec) (guard: true) (assignments: p.x := p.x - 1)
+    Edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1)
+    Edge: (event: p.dec) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1)
     Edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2)
     Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
     Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2 -> false)
+
+Restricting behavior using implicit runtime error requirements.
 
 Round 1: started.
 
@@ -182,12 +188,12 @@ Backward uncontrolled bad-state: (p.x = 0 or p.x = 1) and r.loc2 [current/previo
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.x = 0 and r.loc1 [initialization predicate]
 Forward reachability: iteration 1.
-Forward controlled-behavior: p.x = 0 and r.loc1 -> (p.x = 0 or p.x = 1) and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+Forward controlled-behavior: p.x = 0 and r.loc1 -> (p.x = 0 or p.x = 1) and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
 Forward reachability: iteration 2.
-Forward controlled-behavior: (p.x = 0 or p.x = 1) and r.loc1 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+Forward controlled-behavior: (p.x = 0 or p.x = 1) and r.loc1 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
 Forward controlled-behavior: (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 -> (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
 Forward reachability: iteration 3.
-Forward controlled-behavior: (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) -> (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) [forward reach with edge: (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+Forward controlled-behavior: (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) -> (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
 Forward controlled-behavior: (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) -> p.x = 2 or (p.x = 3 or r.loc1) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
 Forward reachability: iteration 4.
 Forward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
@@ -196,8 +202,7 @@ Round 1: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1): guard: r.loc1 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1.
-Edge (event: p.dec) (guard: true) (assignments: p.x := p.x - 1): guard: true -> p.x != 0 and ((p.x != 2 or r.loc1) and (p.x != 1 or r.loc1)).
+Edge (event: p.dec) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1): guard: p.x != 0 -> p.x != 0 and ((p.x != 2 or r.loc1) and (p.x != 1 or r.loc1)).
 Edge (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2): guard: r.loc1 -> (p.x = 2 or p.x = 3) and r.loc1.
 
 Final synthesis result:

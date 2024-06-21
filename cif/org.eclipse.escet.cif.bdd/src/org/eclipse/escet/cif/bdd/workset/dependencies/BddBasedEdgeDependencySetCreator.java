@@ -42,10 +42,8 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
             precedingEdge.preApply(true, null); // Forward reachability, no restriction.
             BDD precedingEdgeReachableStates = precedingEdge.apply( //
                     cifBddSpec.factory.one(), // Apply edge to 'true' predicate.
-                    false, // Not bad states = good states.
                     true, // Forward reachability.
-                    null, // No restriction.
-                    false // Do not apply error predicate (not yet supported for forward reachability).
+                    null // No restriction.
             );
             precedingEdge.postApply(true); // Forward reachability.
 

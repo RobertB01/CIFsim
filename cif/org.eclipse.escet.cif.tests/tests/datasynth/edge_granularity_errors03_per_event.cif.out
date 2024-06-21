@@ -156,15 +156,17 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
+Restricting behavior using implicit runtime error requirements.
+Controlled behavior: true -> p.x != 7 or p.l2 [runtime error requirement (event: e): p.x != 7 or p.l2].
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.l2 [marker predicate]
 Backward reachability: iteration 1.
-Backward controlled-behavior: p.l2 -> p.x != 7 or p.l2 [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2 / p.x := 5, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: p.l2 -> p.x != 7 or p.l2 [backward reach with edge: (event: e) (guard: p.l1) (assignments: p.x := p.x + 1, p := p.l2 / p.x := 5, p := p.l2), restricted to current/previous controlled-behavior predicate: p.x != 7 or p.l2]
 Backward reachability: iteration 2.
 Backward controlled-behavior: p.x != 7 or p.l2 [fixed point].
-Controlled behavior: true -> p.x != 7 or p.l2.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: p.x = 7 and p.l1 [current/previous controlled behavior predicate]

@@ -81,6 +81,8 @@ Restricted behavior using state/event exclusion requirements:
     Edge: (event: uea) (guard: true)
     Edge: (event: uee) (guard: true)
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.

@@ -71,6 +71,8 @@ Controlled behavior: true -> p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 a
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3)))
 
+Restricting behavior using implicit runtime error requirements.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.

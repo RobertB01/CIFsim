@@ -168,6 +168,10 @@ Uncontrolled system:
     Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
     Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
 
+Restricting edge guards to prevent runtime errors:
+  Edge: (event: add) (guard: true -> p.c != 3) (assignments: p.c := p.c + x)
+  Edge: (event: remove) (guard: true -> p.c != 0) (assignments: p.c := p.c - p.y)
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
@@ -180,12 +184,12 @@ Extending controlled-behavior predicate using variable ranges.
 
 Restricting behavior using state/event exclusion requirements.
 
-Edge (event: add) (guard: true) (assignments: p.c := p.c + x): guard: true -> q.l1 [state/event exclusion requirement: q.l1].
+Edge (event: add) (guard: true -> p.c != 3) (assignments: p.c := p.c + x): guard: p.c != 3 -> (p.c = 0 or p.c = 2) and q.l1 or p.c = 1 and q.l1 [state/event exclusion requirement: q.l1].
 
 Restricted behavior using state/event exclusion requirements:
   State: (controlled-behavior: r1.inactive or r3.inactive)
-    Edge: (event: add) (guard: true -> q.l1) (assignments: p.c := p.c + x)
-    Edge: (event: remove) (guard: true) (assignments: p.c := p.c - p.y)
+    Edge: (event: add) (guard: true -> (p.c = 0 or p.c = 2) and q.l1 or p.c = 1 and q.l1) (assignments: p.c := p.c + x)
+    Edge: (event: remove) (guard: true -> p.c != 0) (assignments: p.c := p.c - p.y)
     Edge: (event: move) (guard: q.l1) (assignments: q := q.l2)
     Edge: (event: move) (guard: q.l2) (assignments: q := q.l1)
     Edge: (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active)
@@ -194,6 +198,8 @@ Restricted behavior using state/event exclusion requirements:
     Edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive)
     Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
     Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
+
+Restricting behavior using implicit runtime error requirements.
 
 Round 1: started.
 
@@ -224,8 +230,8 @@ Round 1: finished, controlled behavior is stable.
 
 Computing controlled system guards.
 
-Edge (event: add) (guard: true -> q.l1) (assignments: p.c := p.c + x): guard: q.l1 -> r1.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.inactive and (p.c = 1 and q.l1) or (r1.active and r3.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.active and r3.inactive and (p.c = 1 and q.l1)).
-Edge (event: remove) (guard: true) (assignments: p.c := p.c - p.y): guard: true -> (r1.active or p.c != 0) and ((r1.inactive or (r3.active or p.c != 0)) and (r1.inactive or r3.inactive)).
+Edge (event: add) (guard: true -> (p.c = 0 or p.c = 2) and q.l1 or p.c = 1 and q.l1) (assignments: p.c := p.c + x): guard: (p.c = 0 or p.c = 2) and q.l1 or p.c = 1 and q.l1 -> r1.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.inactive and (p.c = 1 and q.l1) or (r1.active and r3.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.active and r3.inactive and (p.c = 1 and q.l1)).
+Edge (event: remove) (guard: true -> p.c != 0) (assignments: p.c := p.c - p.y): guard: p.c != 0 -> (r1.active or p.c != 0) and ((r1.inactive or (r3.active or p.c != 0)) and (r1.inactive or r3.inactive)).
 Edge (event: move) (guard: q.l1) (assignments: q := q.l2): guard: q.l1 -> r1.inactive and q.l1 or r1.active and (r3.inactive and q.l1).
 Edge (event: move) (guard: q.l2) (assignments: q := q.l1): guard: q.l2 -> r1.inactive and q.l2 or r1.active and (r3.inactive and q.l2).
 Edge (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active): guard: r1.inactive -> r1.inactive and r3.inactive.

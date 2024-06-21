@@ -97,6 +97,21 @@ public class CifDataSynthesis {
             }
             checkSystem(cifBddSpec, synthResult, dbgEnabled);
 
+            // Print debug information on edge guard restrictions for preventing runtime errors.
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                return null;
+            }
+            if (dbgEnabled) {
+                List<CifBddEdge> restrictedEdges = cifBddSpec.edges.stream().filter(e -> !e.origGuard.equals(e.guard))
+                        .toList();
+
+                if (!restrictedEdges.isEmpty()) {
+                    cifBddSpec.settings.getDebugOutput().line();
+                    cifBddSpec.settings.getDebugOutput().line("Restricting edge guards to prevent runtime errors:");
+                    restrictedEdges.forEach(e -> cifBddSpec.settings.getDebugOutput().line(e.toString(1, "Edge: ")));
+                }
+            }
+
             // Apply state/event exclusion plant invariants.
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return null;
@@ -151,6 +166,11 @@ public class CifDataSynthesis {
                 return null;
             }
             applyStateEvtExclReqs(cifBddSpec, synthResult, dbgEnabled);
+
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                return null;
+            }
+            applyRuntimeErrorReqs(cifBddSpec, synthResult, dbgEnabled);
 
             // Re-initialize applying edges after applying the state plant invariants, state requirement invariants
             // (depending on settings), and state/event exclusion requirement invariants.
@@ -645,7 +665,7 @@ public class CifDataSynthesis {
             }
             cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1));
             if (!cifBddSpec.edges.isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2));
+                cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2, true));
             }
         }
 
@@ -704,10 +724,8 @@ public class CifDataSynthesis {
                     BDD updPred = reqInv.id();
                     edge.preApply(false, null);
                     updPred = edge.apply(updPred, // pred
-                            false, // bad
                             false, // forward
-                            null, // restriction
-                            false); // don't apply error. The supervisor should restrict that.
+                            null); // restriction
                     edge.postApply(false);
 
                     // If trivial, we have the final predicate.
@@ -879,6 +897,55 @@ public class CifDataSynthesis {
             bdd.free();
         }
         cifBddSpec.stateEvtExclReqs = null;
+    }
+
+    /**
+     * Applies the implicit requirements to prevent runtime errors for edges with uncontrollable events. That is, for
+     * edges with uncontrollable events, if applying the edge would lead to runtime errors, this can't be prevented by
+     * the supervisor, so the source states are bad. We put the negation of those bad states into the
+     * controlled-behavior predicate, as a preprocessing step for synthesis.
+     *
+     * @param cifBddSpec The CIF/BDD specification on which to perform synthesis.
+     * @param synthResult The synthesis result. Is modified in-place.
+     * @param dbgEnabled Whether debug output is enabled.
+     */
+    private static void applyRuntimeErrorReqs(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
+            boolean dbgEnabled)
+    {
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput()
+                    .line("Restricting behavior using implicit runtime error requirements.");
+        }
+
+        // For every edge with an uncontrollable event, restrict the controlled-behavior predicate by disallowing states
+        // where the original edge guard holds while also a runtime error would occur when applying that edge. Note that
+        // for controllable events this doesn't hold, since we are not allowed to prevent the source states of such
+        // edges, but instead must prevent runtime errors by preventing the transitions. And this is prevented in both
+        // forward and backward searches since the edge guards disallow the edge to be taken from runtime error states.
+        for (CifBddEdge edge: cifBddSpec.edges) {
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                return;
+            }
+
+            if (!edge.event.getControllable()) {
+                BDD guardError = edge.origGuard.and(edge.error);
+                BDD guardErrorNot = guardError.not();
+                guardError.free();
+                BDD newCtrlBeh = synthResult.ctrlBeh.and(guardErrorNot);
+
+                if (!newCtrlBeh.equals(synthResult.ctrlBeh)) {
+                    cifBddSpec.settings.getDebugOutput().line(
+                            "Controlled behavior: %s -> %s [runtime error requirement (event: %s): %s].",
+                            bddToStr(synthResult.ctrlBeh, cifBddSpec), bddToStr(newCtrlBeh, cifBddSpec),
+                            edge.event.getName(), bddToStr(guardErrorNot, cifBddSpec));
+                }
+
+                guardErrorNot.free();
+                synthResult.ctrlBeh.free();
+                synthResult.ctrlBeh = newCtrlBeh;
+            }
+        }
     }
 
     /**
@@ -1079,7 +1146,8 @@ public class CifDataSynthesis {
             if (alwaysDisabled) {
                 cifBddSpec.settings.getWarnOutput()
                         .line("Event \"%s\" is never enabled in the input specification, taking into account automaton "
-                                + "guards and invariants.", CifTextUtils.getAbsName(event));
+                                + "guards, prevention of runtime errors, and invariants.",
+                                CifTextUtils.getAbsName(event));
                 disabledEvents.add(event);
                 continue;
             }
@@ -1222,7 +1290,6 @@ public class CifDataSynthesis {
                 String initName; // Name of the initial value of the predicate.
                 String restrictionName; // Name of the restriction predicate, if applicable.
                 BDD restriction; // The restriction predicate, if applicable.
-                boolean badStates; // Whether the predicate represents bad states (true) or good states (false).
                 boolean applyForward; // Whether to apply forward reachability (true) or backward reachability (false).
                 boolean inclCtrl; // Whether to include edges with controllable events in the reachability.
                 final boolean inclUnctrl = true; // Always include edges with uncontrollable events in the reachability.
@@ -1232,7 +1299,6 @@ public class CifDataSynthesis {
                         initName = "marker";
                         restrictionName = "current/previous controlled-behavior";
                         restriction = synthResult.ctrlBeh;
-                        badStates = false;
                         applyForward = false;
                         inclCtrl = true;
                         break;
@@ -1241,7 +1307,6 @@ public class CifDataSynthesis {
                         initName = "current/previous controlled behavior";
                         restrictionName = null;
                         restriction = null;
-                        badStates = true;
                         applyForward = false;
                         inclCtrl = false;
                         break;
@@ -1250,7 +1315,6 @@ public class CifDataSynthesis {
                         initName = "initialization";
                         restrictionName = "current/previous controlled-behavior";
                         restriction = synthResult.ctrlBeh;
-                        badStates = false;
                         applyForward = true;
                         inclCtrl = true;
                         break;
@@ -1278,7 +1342,7 @@ public class CifDataSynthesis {
                 BDD reachabilityResult;
                 try {
                     CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName,
-                            restrictionName, restriction, badStates, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
+                            restrictionName, restriction, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
                     reachabilityResult = reachability.performReachability(startPred);
                 } finally {
                     // Stop timing the fixed-point reachability computation.
@@ -1397,6 +1461,10 @@ public class CifDataSynthesis {
             boolean dbgEnabled)
     {
         // Compute guards of edges with controllable events.
+        //
+        // By applying edges with controllable events backwards, we also apply their error predicates, which are
+        // embedded in the guards of the edges. This ensures that synthesis prevents runtime errors for edges with
+        // controllable events, by putting extra restrictions in the controlled system guards.
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput().line("Computing controlled system guards.");
@@ -1413,7 +1481,7 @@ public class CifDataSynthesis {
 
             BDD updPred = synthResult.ctrlBeh.id();
             edge.preApply(false, null);
-            updPred = edge.apply(updPred, false, false, null, true);
+            updPred = edge.apply(updPred, false, null);
             edge.postApply(false);
             edge.cleanupApply();
             if (cifBddSpec.settings.getShouldTerminate().get()) {
