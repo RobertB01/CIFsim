@@ -190,8 +190,8 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         }
 
         // Write statistics to the console.
-        out("Number of states in states space: %,d.", stateCount);
-        out("Number of transitions in states space: %,d.", transitionCount);
+        out("Number of states in state space: %,d.", stateCount);
+        out("Number of transitions in state space: %,d.", transitionCount);
     }
 
     /**
