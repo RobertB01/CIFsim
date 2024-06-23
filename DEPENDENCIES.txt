@@ -79,7 +79,6 @@ maven/mavencentral/org.eclipse.jetty/jetty-io/12.0.6, EPL-2.0 OR Apache-2.0, app
 maven/mavencentral/org.eclipse.jetty/jetty-security/12.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-server/12.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-session/12.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
-maven/mavencentral/org.eclipse.jetty/jetty-slf4j-impl/12.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-util/12.0.6, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.sisu/org.eclipse.sisu.inject/0.9.0.M2, EPL-1.0, approved, technology.sisu
 maven/mavencentral/org.eclipse.sisu/org.eclipse.sisu.plexus/0.9.0.M2, EPL-1.0, approved, technology.sisu
@@ -215,6 +214,12 @@ p2/orbit/p2.eclipse.feature/org.eclipse.platform/4.31.0.v20240229-1022, EPL-2.0,
 p2/orbit/p2.eclipse.feature/org.eclipse.rcp.source/4.31.0.v20240229-0520, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.feature/org.eclipse.rcp/4.31.0.v20240229-0520, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.feature/org.eclipse.sdk/4.31.0.v20240229-1022, EPL-2.0, approved, eclipse.platform
+p2/orbit/p2.eclipse.feature/org.eclipse.tm.terminal.connector.local.feature/11.5.0.202402230238, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.feature/org.eclipse.tm.terminal.connector.ssh.feature/11.5.0.202312281935, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.feature/org.eclipse.tm.terminal.connector.telnet.feature/11.5.0.202312281935, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.feature/org.eclipse.tm.terminal.control.feature/11.5.0.202312281935, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.feature/org.eclipse.tm.terminal.feature/11.5.0.202312062348, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.feature/org.eclipse.tm.terminal.view.feature/11.5.0.202312281935, EPL-2.0, approved, tools.cdt
 p2/orbit/p2.eclipse.feature/org.eclipse.userstorage/1.2.0.v20210517-0327, EPL-2.0, approved, technology.usssdk
 p2/orbit/p2.eclipse.plugin/com.jcraft.jsch/0.1.55.v20230916-1400, BSD-3-Clause, approved, CQ19435
 p2/orbit/p2.eclipse.plugin/com.sun.jna/5.14.0.v20231211-1200, Apache-2.0 AND LGPL-2.1-or-later, approved, #11864
@@ -255,6 +260,12 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.ant.launching.source/1.4.300.v20240110-12
 p2/orbit/p2.eclipse.plugin/org.eclipse.ant.launching/1.4.300.v20240110-1213, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ant.ui.source/3.9.300.v20231214-1526, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.ant.ui/3.9.300.v20231214-1526, EPL-2.0, approved, eclipse.platform
+p2/orbit/p2.eclipse.plugin/org.eclipse.cdt.core.linux.x86_64/11.5.0.202403041627, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.cdt.core.linux/6.1.100.202402230238, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.cdt.core.macosx/11.5.0.202403041627, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.cdt.core.native/6.3.300.202402211459, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.cdt.core.win32.x86_64/11.5.0.202403041627, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.cdt.core.win32/6.1.100.202402230238, EPL-2.0, approved, tools.cdt
 p2/orbit/p2.eclipse.plugin/org.eclipse.compare.core.source/3.8.400.v20240124-0947, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.compare.core/3.8.400.v20240124-0947, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.compare.source/3.10.0.v20240208-0728, EPL-2.0, approved, eclipse.platform
@@ -695,6 +706,13 @@ p2/orbit/p2.eclipse.plugin/org.eclipse.text.quicksearch.source/1.2.300.v20240125
 p2/orbit/p2.eclipse.plugin/org.eclipse.text.quicksearch/1.2.300.v20240125-1313, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.text.source/3.14.0.v20240207-1054, EPL-2.0, approved, eclipse.platform
 p2/orbit/p2.eclipse.plugin/org.eclipse.text/3.14.0.v20240207-1054, EPL-2.0, approved, eclipse.platform
+p2/orbit/p2.eclipse.plugin/org.eclipse.tm.terminal.connector.local/4.8.100.202402230238, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.tm.terminal.connector.process/4.9.100.202402230238, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.tm.terminal.connector.ssh/4.8.200.202312281935, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.tm.terminal.connector.telnet/4.8.100.202312281935, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.tm.terminal.control/5.5.200.202312281935, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.tm.terminal.view.core/4.10.200.202312281935, EPL-2.0, approved, tools.cdt
+p2/orbit/p2.eclipse.plugin/org.eclipse.tm.terminal.view.ui/4.11.400.202312281935, EPL-2.0, approved, tools.cdt
 p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy.source/1.2.300.v20231214-1521, EPL-2.0, approved, eclipse.pde
 p2/orbit/p2.eclipse.plugin/org.eclipse.tools.layout.spy/1.2.300.v20231214-1521, EPL-2.0, approved, eclipse.pde
 p2/orbit/p2.eclipse.plugin/org.eclipse.ui.browser.source/3.8.200.v20240202-1013, EPL-2.0, approved, eclipse.platform
