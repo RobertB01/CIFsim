@@ -35,39 +35,137 @@ Annotations are still an experimental work-in-progress language feature.
 Their design may change in a backward incompatible manner (issue {escet-issue}801[#801]).
 * The `@doc` annotation now requires one or more unnamed arguments, rather than a single argument named `text`.
 See the documentation about documentation annotations for further details (issue {escet-issue}801[#801]).
-* Annotations may now be added to automata, automaton definitions, automaton instantiations, enumerations, enumeration literals, events, functions, function parameters, function variables, groups, group definitions, group instantiations, invariants, specifications and type declarations.
-Annotations on specifications and on invariants in locations require double `@`-signs, such as `@@doc` instead of `@doc` (issue {escet-issue}593[#593]).
+* The CIF language now features a new `controller:properties` annotation.
+It is used by the CIF controller properties checker, to add the results of the performed checks to the input model (issues {escet-issue}410[#410] and {escet-issue}621[#621]).
+* Annotations may now be added to algebraic parameters of component definitions, automata, automaton definitions, automaton instantiations, edges, enumerations, enumeration literals, events, functions, function parameters, function variables, groups, group definitions, group instantiations, invariants, specifications and type declarations.
+Annotations on specifications, invariants in locations, and edges require double `@`-signs, such as `@@doc` instead of `@doc` (issues {escet-issue}593[#593] and {escet-issue}593[#824]).
 * The CIF type checker now warns about certain declarations that have a type that supports only one value.
-This new check is enabled for algebraic parameters, algebraic variables, channel parameters, channels, discrete variables, function parameters, function local variables, function return types and input variables.
+This new check is enabled for algebraic parameters, algebraic variables, channel parameters, channels, discrete variables, function parameters, function variables, function return types and input variables.
 To resolve such a warning, check the type, or use a constant instead (issues {escet-issue}797[#797] and {escet-issue}827[#827]).
+* The CIF type checker now warns about state/event exclusion invariants with events that are not in the send, receive or synchronization alphabet of the specification.
+Such state/event exclusion invariants do not restrict any behavior (issue {escet-issue}838[#838]).
+* The CIF type checker now has extended convoluted references detection.
+It now also detects certain convoluted references for types of component parameters (issue {escet-issue}856[#856]).
 
 Deprecations and removals:
 
 * The ball sorting model has been removed from the CIF benchmark models set (issue {escet-issue}745[#745]).
 
+New features:
+
+* The CIF to CIF transformer now has a new transformation to relabel supervisors as plants (issue {escet-issue}834[#834]).
+* The CIF controller properties checker now has an additional check, the bounded response check.
+The bounded response check improves upon the finite response check, by checking for finite response also for uncontrollable events, not just for controllable events.
+Additionally, for both controllable and uncontrollable events, the new check also computes the bounds on the number of transitions that can be executed.
+Furthermore, the new check does not suffer from false negatives.
+The bounded response check is now recommended instead of the finite response check (issue {escet-issue}621[#621]).
+* The CIF controller properties checker now has an additional check, the non-blocking under control check, that should hold for all supervisor models before controller code is generated from them.
+See the tool's documentation for further information (issue {escet-issue}410[#410]).
+
 Improvements and fixes:
 
 * The CIF parser is now more efficient in parsing elements that can have annotations, but do not have them (issue {escet-issue}593[#593]).
+
+* The CIF pretty printer, which is used by all CIF tools to write output CIF models, now uses a separate `initial`, `marked` or `equation` keyword for each initialization predicate, marker predicate or equations, respectively.
+This also improves the traceability for certain precondition violations being reported by tools that use the new precondition checking framework (issue {escet-issue}807[#807]).
+
 * The CIF simulator has a fix to prevent resource leaks for specifications with external user-defined Java functions (issue {escet-issue}635[#635]).
-* The CIF to CIF anonymize names transformation now renames local variables of functions to `fvarNN` rather than to `discNN`, with `NN` a number (issue {escet-issue}811[#811]).
+* The CIF simulator now removes all annotations from the input model as pre-processing (issue {escet-issue}736[#736]).
+
+* The CIF to CIF transformation to anonymize names now renames local variables of functions to `fvarNN` rather than to `discNN`, with `NN` a number (issue {escet-issue}811[#811]).
+* The CIF to CIF transformation to eliminate state/event exclusion invariants to automata now creates a separate automaton for each named state/event exclusion invariant, to preserve their names as best as possible (issue {escet-issue}830[#830]).
+* The CIF to CIF transformation to eliminate state/event exclusion invariants to automata now creates the automata for state/event exclusion invariants of groups within those groups, rather than besides those groups (issue {escet-issue}830[#830]).
+* The CIF to CIF transformation to eliminate state/event exclusion invariants to automata now correctly handles `disables` state/event exclusion invariants of locations of automata with more than one location (issue {escet-issue}830[#830]).
+* The CIF to CIF transformation to eliminate state/event exclusion invariants now removes state/event exclusion invariants for events that are not in the send, receive or synchronization alphabet of the specification, rather than converting them to automata.
+This prevents the events from becoming part of the synchronization alphabet of the specification, which would mean transitions could then become possible for these events, while that was not the case before the transformation.
+If any such invariants are encountered, the transformation now prints a warning (issue {escet-issue}838[#838]).
+* The CIF to CIF transformation to transform `switch` expressions to `if` expressions now also transforms nested `switch` expressions (issue {escet-issue}858[#858]).
+* The CIF to CIF transformer now checks the output model for annotation constraint violations (issues {escet-issue}823[#823] and {escet-issue}853[#853]).
+
+* The CIF merger now has improved output in case of annotation constraint violations detected on the merged model (issue {escet-issue}823[#823]).
+
+* The CIF data-based synthesis tool has improved performance, by using compounded operations for applying edges, using partial transition relations, and taking runtime errors into account once before the main synthesis fixed point computations, rather than repeatedly during synthesis.
+On average it is about 3.4 times faster, and it also uses less memory.
+However, the gain depends on the model being synthesized (issues {escet-issue}865[#865], {escet-issue}866[#866], {escet-issue}867[#867] and {escet-issue}878[#878]).
+* The CIF data-based synthesis tool no longer crashes when the node table gets too big (issue {escet-issue}625[#625]).
+* The CIF data-based synthesis tool now runs for a little bit longer before running out of BDD nodes array memory, as the nodes array is increased one more time to the maximum limit, before failing due to running out of memory (issue {escet-issue}625[#625]).
+* The CIF data-based synthesis tool now allows converting resulting predicates explicitly to only CNF or only DNF, through configuration of its _BDD output mode_ option (issue {escet-issue}873[#873]).
+* The CIF data-based synthesis tool now detects and warns about more potential issues for events that are disabled already before the main synthesis fixed point computations are started (issue {escet-issue}878[#878]).
+* The CIF data-based synthesis tool now has improved warnings about about state/event exclusion invariants with events that are not in the send, receive or synchronization alphabet of the specification (issue {escet-issue}838[#838]).
+* The CIF data-based synthesis tool now has slightly improved debug output for applying plant invariants (issue {escet-issue}269[#269]).
+* The CIF data-based synthesis tool now checks the output model for annotation constraint violations (issue {escet-issue}823[#823]).
+* The CIF data-based synthesis tool now has workset algorithm dependency sets that take into account the potential for runtime errors to occur as edges are applied, which may reduce the number of dependencies and potentially improves synthesis performance if the workset algorithm is used (issue {escet-issue}878[#878]).
+
+* The CIF explorer now uses proper terminology related to locations and edges versus states and transitions in its statistics output, debug output, report files, option descriptions and documentation (issues {escet-issue}691[#691] and {escet-issue}882[#882]).
+* The CIF explorer now has a new _Remove duplicate transitions_ option that replaces the _Enable edge minimization_ option.
+The latter is no longer supported.
+Functionally, the new option works as the old one (issue {escet-issue}691[#691]).
+* The CIF explorer now removes all annotations from the input model as pre-processing (issue {escet-issue}736[#736]).
+
 * The CIF code generator now supports documentation annotations for enumeration literals, events, functions, function parameters, function variables and specifications (issue {escet-issue}593[#593]).
 * The CIF code generator for HTML now properly escapes SVG element identifiers when used in CSS selectors, making it possible to use SVG element identifiers with dots and colons (issue {escet-issue}715[#715]).
 * The CIF code generator for C and Simulink now quote event names in generated comments (issue {escet-issue}593[#593]).
 * The CIF code generator for Simulink now generates an empty line between the file header and imports (issue {escet-issue}593[#593]).
 * The CIF code generator for Java, JavaScript and HTML now always uses proper paragraph syntax in the generated code for documentation from documentation annotations (issue {escet-issue}802[#802]).
-* The CIF code generator for Java, JavaScript and HTML now generate improved comments in the generated code for user-defined functions (issue {escet-issue}593[#593]).
-* The (still experimental) new CIF PLC code generator now only supports event that are declared as controllable or uncontrollable.
+* The CIF code generator for Java, JavaScript and HTML now generates improved comments in the generated code for user-defined functions (issue {escet-issue}593[#593]).
+* The CIF code generator no longer crashes on reporting static evaluation errors for documentation annotations on nameless objects (issue {escet-issue}621[#621]).
+* The CIF code generator now removes all non-`doc` annotations from the input model as pre-processing, and ignores annotations arguments during precondition checking (issue {escet-issue}736[#736]).
+
+* The (still stable) current CIF PLC code generator now removes all annotations from the input model as pre-processing (issue {escet-issue}736[#736]).
+
+* The (still experimental) new CIF PLC code generator now only supports events that are declared as controllable or uncontrollable.
 This thus also excludes `tau` events, and edges without events that implicitly have a `tau` event (issue {escet-issue}800[#800]).
+* The (still experimental) new CIF PLC code generator no longer supports the `cbrt` and `pow` standard library functions (issue {escet-issue}876[#876]).
 * The (still experimental) new CIF PLC code generator no longer supports events that are only used as monitor events, and could thus be executed infinitely often during a PLC cycle (issue {escet-issue}679[#679]).
 * The (still experimental) new CIF PLC code generator no longer supports arrays of size zero (issues {escet-issue}679[#679] and {escet-issue}794[#794]).
+* The (still experimental) new CIF PLC code generator no longer supports `switch` expressions on array or tuple-typed values, or parts of values (issue {escet-issue}859[#859]).
 * The (still experimental) new CIF PLC code generator no longer crashes for specifications with nested tuples (issue {escet-issue}818[#818]).
+* The (still experimental) new CIF PLC code generator no longer crashes for models with `switch` expressions (issue {escet-issue}857[#857]).
 * The (still experimental) new CIF PLC code generator has some robustness improvements (issues {escet-issue}628[#628] and {escet-issue}770[#770]).
+* The (still experimental) new CIF PLC code generator now generates additional and improved comments, such as section comments for different parts of the generated code (issue {escet-issue}815[#815]).
+* The (still experimental) new CIF PLC code generator now generates a comment with an overview of the generated code as it relates to the elements of the input CIF model (issue {escet-issue}815[#815]).
+* The (still experimental) new CIF PLC code generator now generates a header comment in the generated code that lists the name and version of the code generator, the date/time of generation, and a brief explanation of how to interpret the generated code and how it links to the concepts of CIF.
+A new _Program header text file path_ option has been added to the tool to customize/extend the generated header comment (issue {escet-issue}815[#815]).
 * The (still experimental) new CIF PLC code generator now generates PLC code with two event loops, first one for the uncontrollable events and then one for the controllable events.
 The option to set a maximum on the number of iterations now accepts either one limit (for both loops) or two limits (separate limits for the two loops).
 And the tool now warns if the configured limit is reduced due to the target PLC model not supporting such large numbers (issue {escet-issue}628[#628]).
+* The (still experimental) new CIF PLC code generator now treats `timer` as a reserved keyword of PLCs, to ensure proper code is generated for various targets (issue {escet-issue}679[#679]).
+* The (still experimental) new CIF PLC code generator now explicitly documents that it reads the inputs at the start of the PLC program, and writes the outputs at the end of the PLC program (issue {escet-issue}831[#831]).
+* The (still experimental) new CIF PLC code generator now generates proper code for models with double negations, such as `--5`.
+This affects the code generated for all unary expressions (issue {escet-issue}848[#848]).
+* The (still experimental) new CIF PLC code generator now generates proper code for the projection on arrays through negative integer values (issues {escet-issue}854[#854] and {escet-issue}862[#862]).
+* The (still experimental) new CIF PLC code generator now generates proper code for the `min` and `max` standard library functions, for S7 targets (issue {escet-issue}847[#847]).
+* The (still experimental) new CIF PLC code generator now generates proper code for models without any behavior (issue {escet-issue}860[#860]).
+* The (still experimental) new CIF PLC code generator has various fixes related to handling timers (issues {escet-issue}770[#770], {escet-issue}854[#854] and {escet-issue}862[#862]).
+* The (still experimental) new CIF PLC code generator no longer inlines `bool`, `int`, `real` and `enum`-typed constants, for IEC 61131-3, PLCopen XML, S7 and TwinCAT targets (issues {escet-issue}679[#679] and {escet-issue}877[#877]).
+* The (still experimental) new CIF PLC code generator now removes all non-`doc` annotations from the input model as pre-processing, and ignores annotations arguments during precondition checking (issue {escet-issue}736[#736]).
+
+* The CIF controller properties checker no longer supports models without automata, which was already reported through warnings before (issue {escet-issue}621[#621]).
+* The CIF controller properties checker no longer supports models with automata and invariants that are kindless or requirements.
+It only supports automata with invariants that are plants or supervisors (issue {escet-issue}621[#621]).
+* The CIF controller properties checker now adds the results of the performed checks to a `controller:properties` annotation, adapting the input model and writing it to a file.
+By default the output file is named after the input file, with its `.cif` file extension replaced by `.checked.cif`.
+Use the tool's new _Output file_ option to change the output file path (issues {escet-issue}621[#621], {escet-issue}823[#823] and {escet-issue}853[#853]).
+* The CIF controller properties checker now uses consistent names for the tool itself in the command line help, option dialog, error messages and documentation (issue {escet-issue}621[#621]).
+* The CIF controller properties checker now has slightly improved console output about the results of the performed checks (issue {escet-issue}621[#621]).
+* The CIF controller properties checker now stops earlier if no checks are enabled (issue {escet-issue}621[#621]).
+* The CIF controller properties checker now has improved warnings for specifications without events, as it now also checks for no uncontrollable events, and it now bases the checks on the alphabet of the specification, rather than event declarations (issue {escet-issue}621[#621]).
+* The CIF controller properties checker now has improved precondition checking, as well as improved output in case of precondition violations (issues {escet-issue}424[#424], {escet-issue}621[#621] and {escet-issue}736[#736]).
+* The CIF controller properties checker now has improved performance for its non-determinism check that is performed on the input model for the confluence and finite response checks (issue {escet-issue}424[#424]).
+* The CIF controller properties checker documentation has been split into multiple pages and has various improvements (issues {escet-issue}424[#424], {escet-issue}621[#621] and {escet-issue}736[#736]).
+
+* The CIF to mCRL2 transformation now removes all annotations from the input model as pre-processing (issue {escet-issue}736[#736]).
 * The CIF to Supremica transformation now has improved precondition violation markers for reporting unsupported partial variable assignments (issue {escet-issue}790[#790]).
+* The CIF to Supremica transformation now removes all annotations from the input model as pre-processing (issue {escet-issue}736[#736]).
 * The CIF to UPPAAL transformation now have improved precondition violation markers for reporting unsupported partial variable assignments (issue {escet-issue}790[#790]).
-* The CIF documentation has various small improvements and fixes (issues {escet-issue}593[#593], {escet-issue}628[#628], {escet-issue}804[#804], {escet-issue}810[#810] and {escet-issue}811[#811]).
+* The CIF to UPPAAL transformation now removes all annotations from the input model as pre-processing (issue {escet-issue}736[#736]).
+* The CIF to yEd transformation now removes all annotations from the input model as pre-processing (issue {escet-issue}736[#736]).
+* The CIF event disabler now checks the output model for annotation constraint violations (issue {escet-issue}823[#823]).
+
+* The CIF button/lamp/timer example's ToolDef script for code generation has been slightly improved (issue {escet-issue}736[#736]).
+
+* The CIF documentation on SBE has various improved descriptions related to verification (issue {escet-issue}828[#828]).
+* The CIF documentation has various small improvements and fixes (issues {escet-issue}410[#410], {escet-issue}424[#424], {escet-issue}593[#593], {escet-issue}621[#621], {escet-issue}628[#628], {escet-issue}691[#691], {escet-issue}736[#736], {escet-issue}804[#804], {escet-issue}810[#810], {escet-issue}811[#811], {escet-issue}830[#830] and {escet-issue}852[#852]).
 
 === Version 3.0 (2024-03-31)
 

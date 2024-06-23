@@ -24,7 +24,7 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-n
 
 === Version 4.0
 
-TBD
+This release contains no specific changes for Chi.
 
 === Version 3.0 (2024-03-31)
 
