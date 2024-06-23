@@ -1,5 +1,5 @@
 @@controller:properties(nonBlockingUnderControl: false)
-supervisor automaton Supervisor2:
+supervisor automaton Supervisor2b:
   monitor u_button_pushed;
   controllable c_act1;
   controllable c_act2;

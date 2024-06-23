@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-supervisor Supervisor2:
+supervisor Supervisor2b:
   controllable c_act1, c_act2;
   uncontrollable u_button_pushed;
   monitor u_button_pushed;

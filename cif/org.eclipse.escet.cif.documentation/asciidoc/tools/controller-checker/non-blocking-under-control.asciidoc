@@ -113,6 +113,7 @@ And uncontrollable event `u_button_pushed` is still possible from that marked lo
 supervisor Supervisor2a:
   controllable c_act1, c_act2;
   uncontrollable u_button_pushed;
+  monitor u_button_pushed;
 
   location Start:
     initial;
@@ -148,9 +149,10 @@ The non-blocking under control property therefore doesn't hold in this model.
 
 [source, cif]
 ----
-supervisor Supervisor2:
+supervisor Supervisor2b:
   controllable c_act1, c_act2;
   uncontrollable u_button_pushed;
+  monitor u_button_pushed;
 
   location Start:
     initial;
