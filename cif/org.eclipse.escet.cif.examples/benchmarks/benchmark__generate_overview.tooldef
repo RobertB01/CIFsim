@@ -208,8 +208,8 @@ list int weights_nodes;
 list int weights_ops;
 for i in range(size(names)):: weights_nodes = weights_nodes + [1];
 for i in range(size(names)):: weights_ops   = weights_ops   + [1];
-for i, (value, idx, name) in enumerate(weights_data_nodes):: weights_nodes[idx] = i;
-for i, (value, idx, name) in enumerate(weights_data_ops  ):: weights_ops  [idx] = i;
+for i, (value, idx, name) in enumerate(weights_data_nodes):: weights_nodes[idx] = i + 1;
+for i, (value, idx, name) in enumerate(weights_data_ops  ):: weights_ops  [idx] = i + 1;
 
 // Calculate averages and weighted averages, for both absolute and relative values.
 map(int: long) unweighted_averages_nodes_abs;
