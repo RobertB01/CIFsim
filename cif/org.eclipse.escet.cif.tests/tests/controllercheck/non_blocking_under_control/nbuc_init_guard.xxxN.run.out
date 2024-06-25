@@ -1,0 +1,135 @@
+Loading CIF specification "controllercheck/non_blocking_under_control/nbuc_init_guard.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name          Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   Supervisor    0      2 * 2     3 * 2       4 * 2       75%
+  2      input variable    bool  Supervisor.i  1      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+  Total                                        2      6         10          12          ~83%
+
+Applying variable ordering:
+  Applying 4 orderers, sequentially:
+    Applying sorted variable order:
+      Effect: both
+
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
+      Effect: var-order
+      Number of hyper-edges: 2
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
+        Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 1
+
+        Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
+        Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
+          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 2
+
+          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
+          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [reversed]
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 1
+
+          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
+          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 2
+
+          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [before]
+          Total span:   1 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.250000 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 4
+      Maximum number of iterations: 10
+
+      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
+      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [iteration 1]
+      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 4
+      Window length: 2
+
+      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [before]
+      Total span:   2 (total)   0.50 (avg/edge) / WES:   0.500000 (total)   0.125000 (avg/edge) [after]
+
+Variable order unchanged.
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: not Supervisor.Start
+
+Computing the controllable-complete path states...
+Controllable-complete path states: Supervisor.DoneTrue [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: Supervisor.DoneTrue -> Supervisor.Start and Supervisor.i or Supervisor.DoneTrue [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
+Controllable-complete path states: Supervisor.Start and Supervisor.i or Supervisor.DoneTrue -> Supervisor.DoneTrue or Supervisor.i [backward reach with edge: (event: Supervisor.u_back) (guard: not Supervisor.Start) (assignments: Supervisor := Supervisor.Start / Supervisor := Supervisor.Start)]
+Controllable-complete path states: Supervisor.DoneTrue or Supervisor.i -> not Supervisor.Start or Supervisor.i [backward reach with edge: (event: Supervisor.i) (guard: true -> not Supervisor.Start) (assignments: Supervisor.i+ != Supervisor.i)]
+Backward reachability: iteration 2.
+Controllable-complete path states: not Supervisor.Start or Supervisor.i -> true [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
+Backward reachability: iteration 3.
+Controllable-complete path states: true [fixed point].
+Controllable-complete path states: true
+
+Computing the bad states...
+Bad states: false [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: false
+
+Computing the result of the non-blocking under control check...
+Initial states: Supervisor.Start
+Bad initial states: false
+
+CONCLUSION:
+    [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
+    [OK] The specification is non-blocking under control.
+    [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
+
+The model with the check results has been written to "controllercheck/non_blocking_under_control/nbuc_init_guard.xxxN.out.cif.real".

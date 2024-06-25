@@ -1,0 +1,15 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 1, controllablesBound: 1, confluence: false, finiteResponse: false, nonBlockingUnderControl: true)
+uncontrollable u_inc_odd;
+uncontrollable u_dec_odd;
+controllable c_inc_even;
+controllable c_dec_even;
+plant automaton p:
+  disc int[0..25] counter = 7;
+  location:
+    initial;
+    marked;
+    edge u_inc_odd when counter < 25 and counter mod 2 = 1 do counter := counter + 1;
+    edge u_dec_odd when counter > 0 and counter mod 2 = 1 do counter := counter - 1;
+    edge c_inc_even when counter < 25 and counter mod 2 = 0 do counter := counter + 1;
+    edge c_dec_even when counter > 0 and counter mod 2 = 0 do counter := counter - 1;
+end

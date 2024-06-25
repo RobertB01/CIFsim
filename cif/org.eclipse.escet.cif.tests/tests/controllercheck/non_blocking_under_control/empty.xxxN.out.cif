@@ -1,0 +1,6 @@
+@@controller:properties(nonBlockingUnderControl: true)
+plant automaton p:
+  location:
+    initial;
+    marked;
+end

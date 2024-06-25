@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+supervisor Supervisor1:
+  controllable c_act1, c_act2;
+  uncontrollable u_button_pushed;
+
+  location Start:
+    initial;
+    edge c_act1 goto Done1;
+    edge c_act2 goto Done2;
+
+  location Done1:
+    edge c_act2 goto BothDone;
+
+  location Done2:
+    edge c_act1 goto BothDone;
+
+  location BothDone:
+    marked;
+    edge u_button_pushed goto Start;
+end

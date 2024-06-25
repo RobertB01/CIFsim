@@ -1,0 +1,12 @@
+@@controller:properties(boundedResponse: false, confluence: false, finiteResponse: true, nonBlockingUnderControl: false)
+controllable c;
+uncontrollable u;
+plant automaton p:
+  location loc1:
+    initial;
+    edge c goto loc2;
+  location loc2:
+    edge u goto loc3;
+  location loc3:
+    marked;
+end

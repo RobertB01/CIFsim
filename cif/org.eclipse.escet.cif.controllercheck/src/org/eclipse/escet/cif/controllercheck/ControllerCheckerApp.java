@@ -54,9 +54,11 @@ import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecke
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlChecker;
 import org.eclipse.escet.cif.controllercheck.options.EnableBoundedResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
+import org.eclipse.escet.cif.controllercheck.options.EnableNonBlockingUnderControlChecking;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
@@ -127,13 +129,14 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
     protected int runInternal() {
         // Determine checks to perform.
         boolean checkBoundedResponse = EnableBoundedResponseChecking.checkBoundedResponse();
+        boolean checkNonBlockingUnderControl = EnableNonBlockingUnderControlChecking.checkNonBlockingUnderControl();
         boolean checkFiniteResponse = EnableFiniteResponseChecking.checkFiniteResponse();
         boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
-        boolean hasBddBasedChecks = checkBoundedResponse;
+        boolean hasBddBasedChecks = checkBoundedResponse || checkNonBlockingUnderControl;
         boolean hasMddBasedChecks = checkFiniteResponse || checkConfluence;
 
         // Ensure at least one check is enabled.
-        if (!checkBoundedResponse && !checkFiniteResponse && !checkConfluence) {
+        if (!checkBoundedResponse && !checkNonBlockingUnderControl && !checkFiniteResponse && !checkConfluence) {
             throw new InvalidOptionException(
                     "No checks enabled. Enable one of the checks for the controller properties checker to check.");
         }
@@ -347,6 +350,24 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
         allChecksHold &= boundedResponseHolds;
 
+        // Check non-blocking under control.
+        CheckConclusion nonBlockingUnderControlConclusion = null;
+        boolean nonBlockingUnderControlHolds = true; // Is true if it holds or was not checked, false otherwise.
+        if (checkNonBlockingUnderControl) {
+            // Check the non-blocking under control property.
+            if (dbgEnabled || checksPerformed > 0) {
+                OutputProvider.out();
+            }
+            OutputProvider.out("Checking for non-blocking under control...");
+            nonBlockingUnderControlConclusion = new NonBlockingUnderControlChecker().checkSystem(cifBddSpec);
+            checksPerformed++;
+            if (nonBlockingUnderControlConclusion == null || isTerminationRequested()) {
+                return 0;
+            }
+            nonBlockingUnderControlHolds = nonBlockingUnderControlConclusion.propertyHolds();
+        }
+        allChecksHold &= nonBlockingUnderControlHolds;
+
         // Clean up the BDD representation of the specification, now that it is not needed anymore.
         if (cifBddSpec != null) {
             for (CifBddEdge edge: cifBddSpec.edges) {
@@ -401,31 +422,50 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
         iout();
         if (boundedResponseConclusion != null) {
-            boundedResponseConclusion.printDetails();
+            boundedResponseConclusion.printResult();
         } else {
             out("[UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.");
         }
         dout();
 
-        if (boundedResponseConclusion != null || !finiteResponseHolds) {
-            out(); // Empty line between conclusions, if they both provide details.
+        if ((boundedResponseConclusion != null && boundedResponseConclusion.hasDetails())
+                || (nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails()))
+        {
+            out(); // Empty line between conclusions, if either of them prints details.
+        }
+
+        iout();
+        if (nonBlockingUnderControlConclusion != null) {
+            nonBlockingUnderControlConclusion.printResult();
+        } else {
+            out("[UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is "
+                    + "unknown.");
+        }
+        dout();
+
+        if ((nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails())
+                || (finiteResponseConclusion != null && finiteResponseConclusion.hasDetails()))
+        {
+            out(); // Empty line between conclusions, if either of them prints details.
         }
 
         iout();
         if (finiteResponseConclusion != null) {
-            finiteResponseConclusion.printDetails();
+            finiteResponseConclusion.printResult();
         } else {
             out("[UNKNOWN] Finite response checking was disabled, finite response property is unknown.");
         }
         dout();
 
-        if (!finiteResponseHolds || !confluenceHolds) {
-            out(); // Empty line between conclusions, if they both provide details.
+        if ((finiteResponseConclusion != null && finiteResponseConclusion.hasDetails())
+                || (confluenceConclusion != null && confluenceConclusion.hasDetails()))
+        {
+            out(); // Empty line between conclusions, if either of them prints details.
         }
 
         iout();
         if (confluenceConclusion != null) {
-            confluenceConclusion.printDetails();
+            confluenceConclusion.printResult();
         } else {
             out("[UNKNOWN] Confluence checking was disabled, confluence property is unknown.");
         }
@@ -446,6 +486,9 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         }
         if (finiteResponseConclusion != null) {
             ControllerPropertiesAnnotationProvider.setFiniteResponse(outputSpec, finiteResponseHolds);
+        }
+        if (nonBlockingUnderControlConclusion != null) {
+            ControllerPropertiesAnnotationProvider.setNonBlockingUnderControl(outputSpec, nonBlockingUnderControlHolds);
         }
 
         // Check CIF specification to output.
@@ -482,6 +525,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         List<Option> checkOpts = list();
         checkOpts.add(Options.getInstance(InputFileOption.class));
         checkOpts.add(Options.getInstance(EnableBoundedResponseChecking.class));
+        checkOpts.add(Options.getInstance(EnableNonBlockingUnderControlChecking.class));
         checkOpts.add(Options.getInstance(EnableFiniteResponseChecking.class));
         checkOpts.add(Options.getInstance(PrintControlLoopsOutputOption.class));
         checkOpts.add(Options.getInstance(EnableConfluenceChecking.class));

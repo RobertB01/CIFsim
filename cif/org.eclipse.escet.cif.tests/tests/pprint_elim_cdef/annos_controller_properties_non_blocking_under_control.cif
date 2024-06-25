@@ -1,0 +1,27 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+@@controller:properties(nonBlockingUnderControl: true)
+
+uncontrollable u_evt;
+controllable c_evt;
+
+plant p:
+  location loc1:
+    initial;
+    marked;
+    edge u_evt goto loc2;
+
+  location loc2:
+    edge c_evt goto loc1;
+end

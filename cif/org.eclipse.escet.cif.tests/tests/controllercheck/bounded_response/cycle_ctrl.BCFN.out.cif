@@ -1,0 +1,11 @@
+@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: false, nonBlockingUnderControl: false)
+controllable c_on;
+controllable c_off;
+plant automaton p:
+  location Off:
+    initial;
+    marked;
+    edge c_on goto On;
+  location On:
+    edge c_off goto Off;
+end

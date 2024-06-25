@@ -1,0 +1,146 @@
+Loading CIF specification "controllercheck/non_blocking_under_control/button_lamp.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   button    0      1 * 2     2 * 2       2 * 2       100%
+  2      input variable    bool  button.b  1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer  n/a   lamp      2      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  Total                                    3      6         12          12          100%
+
+Applying variable ordering:
+  Applying 4 orderers, sequentially:
+    Applying sorted variable order:
+      Effect: both
+
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
+      Effect: var-order
+      Number of hyper-edges: 4
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 2
+
+        Total span:   6 (total)   1.50 (avg/edge) / WES:   0.888889 (total)   0.222222 (avg/edge) [before]
+        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 2
+
+        Total span:   6 (total)   1.50 (avg/edge) / WES:   0.888889 (total)   0.222222 (avg/edge) [before]
+        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 2
+
+          Total span:   6 (total)   1.50 (avg/edge) / WES:   0.888889 (total)   0.222222 (avg/edge) [before]
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 4
+
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [reversed]
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 2
+
+          Total span:   6 (total)   1.50 (avg/edge) / WES:   0.888889 (total)   0.222222 (avg/edge) [before]
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 4
+
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 4
+      Maximum number of iterations: 20
+
+      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [iteration 1]
+      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 4
+      Window length: 3
+
+      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  1      input variable    bool  button.b  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   button    1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer  n/a   lamp      2      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  Total                                    3      6         12          12          100%
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: (button.Pushed or lamp.Off) and (button.Released or lamp.On)
+
+Computing the controllable-complete path states...
+Controllable-complete path states: not button.b and (button.Released and lamp.Off) or button.b and (button.Pushed and lamp.On) [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: not button.b and (button.Released and lamp.Off) or button.b and (button.Pushed and lamp.On) -> not button.b and (button.Released and lamp.Off) or button.b and button.Pushed [backward reach with edge: (event: lamp.c_on) (guard: button.Pushed and lamp.Off) (assignments: lamp := lamp.On)]
+Controllable-complete path states: not button.b and (button.Released and lamp.Off) or button.b and button.Pushed -> (button.b or button.Released) and (not button.b or button.Pushed) [backward reach with edge: (event: lamp.c_off) (guard: button.Released and lamp.On) (assignments: lamp := lamp.Off)]
+Controllable-complete path states: (button.b or button.Released) and (not button.b or button.Pushed) -> (button.b or (button.Released or lamp.On)) and (not button.b or (button.Pushed or lamp.Off)) [backward reach with edge: (event: button.b) (guard: true -> (button.Pushed or lamp.Off) and (button.Released or lamp.On)) (assignments: button.b+ != button.b)]
+Backward reachability: iteration 2.
+Controllable-complete path states: (button.b or (button.Released or lamp.On)) and (not button.b or (button.Pushed or lamp.Off)) -> not button.b or (button.Pushed or lamp.Off) [backward reach with edge: (event: lamp.c_on) (guard: button.Pushed and lamp.Off) (assignments: lamp := lamp.On)]
+Controllable-complete path states: not button.b or (button.Pushed or lamp.Off) -> true [backward reach with edge: (event: lamp.c_off) (guard: button.Released and lamp.On) (assignments: lamp := lamp.Off)]
+Backward reachability: iteration 3.
+Controllable-complete path states: true [fixed point].
+Controllable-complete path states: true
+
+Computing the bad states...
+Bad states: false [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: false
+
+Computing the result of the non-blocking under control check...
+Initial states: button.Released and lamp.Off
+Bad initial states: false
+
+CONCLUSION:
+    [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
+    [OK] The specification is non-blocking under control.
+    [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
+
+The model with the check results has been written to "controllercheck/non_blocking_under_control/button_lamp.xxxN.out.cif.real".

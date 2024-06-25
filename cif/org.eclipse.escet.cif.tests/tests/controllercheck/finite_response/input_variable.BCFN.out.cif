@@ -1,0 +1,13 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 1, confluence: true, finiteResponse: true, nonBlockingUnderControl: false)
+input bool Sensor;
+plant automaton Actuator:
+  controllable c_on;
+  controllable c_off;
+  location Off:
+    initial;
+    edge c_on goto On;
+  location On:
+    edge c_off goto Off;
+end
+supervisor invariant Actuator.c_on needs Sensor;
+supervisor invariant Actuator.c_off needs not Sensor;

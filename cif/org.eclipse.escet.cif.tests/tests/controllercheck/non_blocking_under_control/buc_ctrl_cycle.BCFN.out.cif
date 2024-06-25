@@ -1,0 +1,13 @@
+@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: false, nonBlockingUnderControl: false)
+supervisor automaton Supervisor:
+  controllable c_act1;
+  controllable c_act2;
+  controllable c_act3;
+  location Start:
+    initial;
+    edge c_act1 goto Done1;
+  location Done1:
+    edge c_act2 goto BothDone;
+  location BothDone:
+    edge c_act3 goto Start;
+end

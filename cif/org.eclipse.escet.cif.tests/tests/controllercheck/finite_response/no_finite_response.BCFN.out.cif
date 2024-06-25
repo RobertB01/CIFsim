@@ -1,0 +1,30 @@
+@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: false, nonBlockingUnderControl: false)
+plant automaton Actuator:
+  controllable c_on;
+  controllable c_off;
+  location Off:
+    initial;
+    edge c_on goto On;
+  location On:
+    edge c_off goto Off;
+end
+plant automaton StartButton:
+  uncontrollable u_pushed;
+  uncontrollable u_released;
+  location Released:
+    initial;
+    edge u_pushed goto Pushed;
+  location Pushed:
+    edge u_released goto Released;
+end
+plant automaton StopButton:
+  uncontrollable u_pushed;
+  uncontrollable u_released;
+  location Released:
+    initial;
+    edge u_pushed goto Pushed;
+  location Pushed:
+    edge u_released goto Released;
+end
+supervisor invariant Actuator.c_on needs StartButton.Pushed;
+supervisor invariant Actuator.c_off needs StopButton.Pushed;

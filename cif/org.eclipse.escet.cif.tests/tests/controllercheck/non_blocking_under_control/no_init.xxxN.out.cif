@@ -1,0 +1,9 @@
+@@controller:properties(nonBlockingUnderControl: true)
+plant automaton p:
+  controllable e;
+  location:
+    initial;
+    marked;
+    edge e;
+end
+initial false;

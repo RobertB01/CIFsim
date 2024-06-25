@@ -1,0 +1,8 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 0, confluence: true, finiteResponse: false, nonBlockingUnderControl: true)
+plant automaton p:
+  controllable e;
+  location:
+    initial;
+    edge e;
+end
+initial false;

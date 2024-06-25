@@ -1,0 +1,44 @@
+Loading CIF specification "controllercheck/non_blocking_under_control/docs_example_1a.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name          Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   Supervisor1a  0      2 * 2     4 * 2       4 * 2       100%
+  -----  ----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+  Total                                        1      4         8           8           100%
+
+Skipping variable ordering: only one variable present.
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: Supervisor1a.BothDone
+
+Computing the controllable-complete path states...
+Controllable-complete path states: Supervisor1a.BothDone [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: Supervisor1a.BothDone -> Supervisor1a.Done2 or Supervisor1a.BothDone [backward reach with edge: (event: Supervisor1a.c_act1) (guard: Supervisor1a.Start or Supervisor1a.Done2) (assignments: Supervisor1a := Supervisor1a.Done1 / Supervisor1a := Supervisor1a.BothDone)]
+Controllable-complete path states: Supervisor1a.Done2 or Supervisor1a.BothDone -> true [backward reach with edge: (event: Supervisor1a.c_act2) (guard: Supervisor1a.Start or Supervisor1a.Done1) (assignments: Supervisor1a := Supervisor1a.Done2 / Supervisor1a := Supervisor1a.BothDone)]
+Backward reachability: iteration 2.
+Controllable-complete path states: true [fixed point].
+Controllable-complete path states: true
+
+Computing the bad states...
+Bad states: false [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: false
+
+Computing the result of the non-blocking under control check...
+Initial states: Supervisor1a.Start
+Bad initial states: false
+
+CONCLUSION:
+    [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
+    [OK] The specification is non-blocking under control.
+    [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
+
+The model with the check results has been written to "controllercheck/non_blocking_under_control/docs_example_1a.xxxN.out.cif.real".

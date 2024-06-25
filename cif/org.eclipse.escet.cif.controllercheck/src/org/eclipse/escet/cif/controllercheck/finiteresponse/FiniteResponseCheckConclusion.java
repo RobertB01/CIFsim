@@ -44,8 +44,13 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public void printDetails() {
-        if (unprovenEvents.isEmpty()) {
+    public boolean hasDetails() {
+        return !propertyHolds();
+    }
+
+    @Override
+    public void printResult() {
+        if (propertyHolds()) {
             out("[OK] The specification has finite response.");
         } else {
             out("[ERROR] The specification may NOT have finite response:");

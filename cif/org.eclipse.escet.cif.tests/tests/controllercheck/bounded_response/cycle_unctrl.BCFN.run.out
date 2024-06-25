@@ -1,0 +1,69 @@
+Loading CIF specification "controllercheck/bounded_response/cycle_unctrl.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   p     0      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  Total                                1      2         4           4           100%
+
+Skipping variable ordering: only one variable present.
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Preparing for MDD-based checks...
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: p.Off [initial states predicate]
+Forward reachability: iteration 1.
+Reachable states: p.Off -> true [forward reach with edge: (event: u_on) (guard: p.Off) (assignments: p := p.On)]
+Forward reachability: iteration 2.
+Reachable states: true [fixed point].
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: true).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: true).
+
+Bounded response check completed.
+
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: true
+
+Computing the controllable-complete path states...
+Controllable-complete path states: p.Off [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: p.Off -> true [backward reach with edge: (event: u_off) (guard: p.On) (assignments: p := p.Off)]
+Backward reachability: iteration 2.
+Controllable-complete path states: true [fixed point].
+Controllable-complete path states: true
+
+Computing the bad states...
+Bad states: false [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: false
+
+Computing the result of the non-blocking under control check...
+Initial states: p.Off
+Bad initial states: false
+
+Checking for finite response...
+
+Checking for confluence...
+
+CONCLUSION:
+    [ERROR] The specification does NOT have bounded response:
+    
+        - An infinite sequence of transitions is possible for uncontrollable events.
+        - No transitions are possible for controllable events.
+
+    [OK] The specification is non-blocking under control.
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/bounded_response/cycle_unctrl.BCFN.out.cif.real".

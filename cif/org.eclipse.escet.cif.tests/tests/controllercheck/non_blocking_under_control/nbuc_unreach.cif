@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+supervisor Supervisor:
+  controllable c_act;
+  uncontrollable u_back;
+
+  location Start:
+    initial;
+    edge c_act goto Done;
+
+  location Done:
+    marked;
+    edge u_back goto Start;
+
+  location Unreach1:
+    initial Unreach2; // Can't start here. Prevents warnings for unreachable locations.
+    edge c_act goto Unreach2;
+
+  location Unreach2:
+    edge c_act goto Unreach3;
+    edge c_act goto Done;
+
+  location Unreach3;
+end

@@ -1,4 +1,0 @@
-WARNING: File "controllercheck/empty_alphabet.cif": Semantic warning at line 14, column 14: Event "c" is not used anywhere in the specification.
-WARNING: File "controllercheck/empty_alphabet.cif": Semantic warning at line 15, column 16: Event "u" is not used anywhere in the specification.
-WARNING: The alphabet of the specification contains no controllable events.
-WARNING: The alphabet of the specification contains no uncontrollable events.

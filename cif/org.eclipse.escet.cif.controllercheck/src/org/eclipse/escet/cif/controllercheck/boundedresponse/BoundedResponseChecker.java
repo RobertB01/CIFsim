@@ -79,10 +79,11 @@ public class BoundedResponseChecker {
         boolean applyForward = true; // Whether to apply forward reachability (true) or backward reachability (false).
         boolean inclCtrl = true; // Whether to use edges with controllable events.
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
+        boolean inclInputVars = true; // Whether to use input variable edges.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         BDD initPred = cifBddSpec.initial.id(); // The initial predicate. Note: preconditions forbid state invariants.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName, restrictionName,
-                restriction, applyForward, inclCtrl, inclUnctrl, dbgEnabled);
+                restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
 
         // Perform forward reachability.
         BDD reachabilityResult = reachability.performReachability(initPred);

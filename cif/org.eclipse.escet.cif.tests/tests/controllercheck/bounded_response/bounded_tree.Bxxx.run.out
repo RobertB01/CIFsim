@@ -1,0 +1,149 @@
+Loading CIF specification "controllercheck/bounded_response/bounded_tree.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   p1    0      3 * 2     5 * 2       8 * 2       ~63%
+  2      location pointer  n/a   p2    1      3 * 2     6 * 2       8 * 2       75%
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  Total                                2      12        22          32          ~69%
+
+Applying variable ordering:
+  Applying 4 orderers, sequentially:
+    Applying sorted variable order:
+      Effect: both
+
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
+      Effect: var-order
+      Number of hyper-edges: 9
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 0
+
+        Skipping algorithm: no graph edges.
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 0
+
+        Skipping algorithm: no graph edges.
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 0
+
+          Skipping algorithm: no graph edges.
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 9
+
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [reversed]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 0
+
+          Skipping algorithm: no graph edges.
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 9
+
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 9
+      Maximum number of iterations: 10
+
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [before]
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [iteration 1]
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 9
+      Window length: 2
+
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [before]
+      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [after]
+
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   p2    0      3 * 2     6 * 2       8 * 2       75%
+  2      location pointer  n/a   p1    1      3 * 2     5 * 2       8 * 2       ~63%
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  Total                                2      12        22          32          ~69%
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: p2.loc1 and p1.loc1 [initial states predicate]
+Forward reachability: iteration 1.
+Reachable states: p2.loc1 and p1.loc1 -> p2.loc1 and (p1.loc1 or p1.loc2) [forward reach with edge: (event: u_a) (guard: p1.loc1) (assignments: p1 := p1.loc2)]
+Reachable states: p2.loc1 and (p1.loc1 or p1.loc2) -> p2.loc1 and (p1.loc1 or p1.loc5) or p2.loc1 and p1.loc2 [forward reach with edge: (event: u_d) (guard: p1.loc1) (assignments: p1 := p1.loc5)]
+Reachable states: p2.loc1 and (p1.loc1 or p1.loc5) or p2.loc1 and p1.loc2 -> p2.loc1 and (p1.loc1 or p1.loc5) or (p2.loc1 and p1.loc3 or p2.loc1 and p1.loc2) [forward reach with edge: (event: u_b) (guard: p1.loc2) (assignments: p1 := p1.loc3)]
+Reachable states: p2.loc1 and (p1.loc1 or p1.loc5) or (p2.loc1 and p1.loc3 or p2.loc1 and p1.loc2) -> not p2.loc5 and (not p2.loc3 and (p2.loc1 or (p2.loc3 or p2.loc5))) [forward reach with edge: (event: u_c) (guard: p1.loc2) (assignments: p1 := p1.loc4)]
+Reachable states: not p2.loc5 and (not p2.loc3 and (p2.loc1 or (p2.loc3 or p2.loc5))) -> not p2.loc5 and not p2.loc6 and (not p2.loc3 and not p2.loc4) [forward reach with edge: (event: c_a) (guard: p2.loc1) (assignments: p2 := p2.loc2)]
+Reachable states: not p2.loc5 and not p2.loc6 and (not p2.loc3 and not p2.loc4) -> not p2.loc5 and (not p2.loc6 and not p2.loc4) [forward reach with edge: (event: c_b) (guard: p2.loc2) (assignments: p2 := p2.loc3)]
+Reachable states: not p2.loc5 and (not p2.loc6 and not p2.loc4) -> not p2.loc6 and not p2.loc4 [forward reach with edge: (event: c_d) (guard: p2.loc2) (assignments: p2 := p2.loc5)]
+Reachable states: not p2.loc6 and not p2.loc4 -> not p2.loc6 [forward reach with edge: (event: c_c) (guard: p2.loc3) (assignments: p2 := p2.loc4)]
+Reachable states: not p2.loc6 -> true [forward reach with edge: (event: c_e) (guard: p2.loc3) (assignments: p2 := p2.loc6)]
+Forward reachability: iteration 2.
+Reachable states: true [fixed point].
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: true).
+Bounded response check round 2 (states before round: (p2.loc3 or (p2.loc4 or not p1.loc1)) and (not p2.loc3 and not p2.loc4 or not p1.loc1)).
+Bounded response check round 3 (states before round: (p2.loc3 or p2.loc4 or (p1.loc3 or p1.loc4)) and (not p2.loc3 and not p2.loc4 or (p1.loc3 or p1.loc4))).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: true).
+Bounded response check round 2 (states before round: <bdd 8n 12p>).
+Bounded response check round 3 (states before round: not p2.loc1 and not p2.loc2).
+Bounded response check round 4 (states before round: (p2.loc2 or (p2.loc4 or p2.loc6)) and not p2.loc2).
+
+Bounded response check completed.
+
+CONCLUSION:
+    [OK] The specification has bounded response:
+    
+        - A sequence of at most 2 transitions is possible for uncontrollable events.
+        - A sequence of at most 3 transitions is possible for controllable events.
+
+    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
+
+The model with the check results has been written to "controllercheck/bounded_response/bounded_tree.Bxxx.out.cif.real".

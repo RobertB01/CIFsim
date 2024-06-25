@@ -204,11 +204,13 @@ The CIF PLC code generator assumes that the given CIF file has the following pro
 * It does not suffer from runtime evaluation errors.
 For instance, it should not be prone to division by zero, accessing out of bound array indices, assignments of out of range values to variables, and so on.
 To ensure such problems do not occur, apply <<tools-chapter-datasynth,synthesis>> to the model.
+Alternatively, the <<tools-chapter-cif-explorer,CIF explorer>> may be used to verify that the specification does not contain runtime errors.
 * It has bounded response.
 This property can be checked using the <<tools-chapter-controller-checker,controller properties checker>> tool.
 * It is confluent.
 This property can be checked using the <<tools-chapter-controller-checker,controller properties checker>> tool.
 * It is non-blocking under control.
+This property can be checked using the <<tools-chapter-controller-checker,controller properties checker>> tool.
 
 ==== Pre-processing
 

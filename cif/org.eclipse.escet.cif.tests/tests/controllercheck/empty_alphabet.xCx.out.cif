@@ -1,7 +1,0 @@
-@@controller:properties(confluence: true)
-controllable c;
-uncontrollable u;
-plant automaton p:
-  location:
-    initial;
-end

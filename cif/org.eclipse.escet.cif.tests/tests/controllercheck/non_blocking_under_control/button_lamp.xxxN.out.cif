@@ -1,0 +1,31 @@
+@@controller:properties(nonBlockingUnderControl: true)
+plant automaton button:
+  uncontrollable u_pushed;
+  uncontrollable u_released;
+  input bool b;
+  location Released:
+    initial;
+    marked not b;
+    edge u_pushed when b goto Pushed;
+  location Pushed:
+    marked b;
+    edge u_released when not b goto Released;
+end
+plant automaton lamp:
+  controllable c_on;
+  controllable c_off;
+  location Off:
+    initial;
+    marked not button.b;
+    edge c_on goto On;
+  location On:
+    marked button.b;
+    edge c_off goto Off;
+end
+supervisor automaton controller:
+  location:
+    initial;
+    marked;
+    edge lamp.c_on when button.Pushed;
+    edge lamp.c_off when button.Released;
+end

@@ -1,0 +1,11 @@
+@@controller:properties(nonBlockingUnderControl: true)
+uncontrollable u_evt;
+controllable c_evt;
+plant automaton p:
+  location loc1:
+    initial;
+    marked;
+    edge u_evt goto loc2;
+  location loc2:
+    edge c_evt goto loc1;
+end

@@ -46,12 +46,17 @@ public class BoundedResponseCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public void printDetails() {
+    public boolean hasDetails() {
+        return true;
+    }
+
+    @Override
+    public void printResult() {
         if (!uncontrollablesBound.hasInitialState() || !controllablesBound.hasInitialState()) {
             warn("The specification cannot be initialized.");
         }
 
-        if (uncontrollablesBound.isBounded() && controllablesBound.isBounded()) {
+        if (propertyHolds()) {
             out("[OK] The specification has bounded response:");
         } else {
             out("[ERROR] The specification does NOT have bounded response:");

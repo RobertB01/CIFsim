@@ -1,0 +1,11 @@
+@@controller:properties(boundedResponse: false, confluence: true, finiteResponse: false, nonBlockingUnderControl: false)
+plant automaton p:
+  controllable c;
+  uncontrollable u;
+  location:
+    initial;
+    marked;
+    edge c, u;
+end
+svgfile "../../tchecker/small.svg";
+svgin id "box" event p.c;

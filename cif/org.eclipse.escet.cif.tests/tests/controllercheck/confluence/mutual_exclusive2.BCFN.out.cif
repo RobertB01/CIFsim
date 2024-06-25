@@ -1,0 +1,12 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 0, controllablesBound: 1, confluence: true, finiteResponse: true, nonBlockingUnderControl: true)
+plant automaton DifferentConditions:
+  controllable a;
+  controllable b;
+  disc bool z;
+  location p:
+    initial;
+    edge a when z goto q;
+    edge b when not z goto q;
+  location q:
+    marked;
+end

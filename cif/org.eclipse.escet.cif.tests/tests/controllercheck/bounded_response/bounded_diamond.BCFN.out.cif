@@ -1,0 +1,73 @@
+@@controller:properties(boundedResponse: true, uncontrollablesBound: 4, controllablesBound: 5, confluence: true, finiteResponse: true, nonBlockingUnderControl: true)
+uncontrollable u_e1;
+uncontrollable u_e2;
+uncontrollable u_e3;
+uncontrollable u_e4;
+controllable c_e1;
+controllable c_e2;
+controllable c_e3;
+controllable c_e4;
+controllable c_e5;
+plant automaton pu1:
+  location loc1:
+    initial;
+    edge u_e1 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pu2:
+  location loc1:
+    initial;
+    edge u_e2 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pu3:
+  location loc1:
+    initial;
+    edge u_e3 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pu4:
+  location loc1:
+    initial;
+    edge u_e4 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc1:
+  location loc1:
+    initial;
+    edge c_e1 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc2:
+  location loc1:
+    initial;
+    edge c_e2 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc3:
+  location loc1:
+    initial;
+    edge c_e3 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc4:
+  location loc1:
+    initial;
+    edge c_e4 goto loc2;
+  location loc2:
+    marked;
+end
+plant automaton pc5:
+  location loc1:
+    initial;
+    edge c_e5 goto loc2;
+  location loc2:
+    marked;
+end

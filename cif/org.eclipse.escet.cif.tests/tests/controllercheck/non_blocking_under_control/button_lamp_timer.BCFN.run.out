@@ -1,0 +1,236 @@
+Loading CIF specification "controllercheck/non_blocking_under_control/button_lamp_timer.cif"...
+Preparing for BDD-based checks...
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   Button    0      1 * 2     2 * 2       2 * 2       100%
+  2      input variable    bool  Button.b  1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer  n/a   Lamp      2      1 * 2     2 * 2       2 * 2       100%
+  4      location pointer  n/a   Timer     3      1 * 2     2 * 2       2 * 2       100%
+  5      location pointer  n/a   Cycle     4      3 * 2     5 * 2       8 * 2       ~63%
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  Total                                    5      14        26          32          ~81%
+
+Applying variable ordering:
+  Applying 4 orderers, sequentially:
+    Applying sorted variable order:
+      Effect: both
+
+    Applying DCSH algorithm:
+      Metric: wes
+      Relations: legacy
+      Effect: var-order
+      Number of hyper-edges: 6
+
+      Applying Weighted Cuthill-McKee algorithm:
+        Node finder: george-liu
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 5
+
+        Total span:   9 (total)   1.50 (avg/edge) / WES:   0.586667 (total)   0.097778 (avg/edge) [before]
+        Total span:   9 (total)   1.50 (avg/edge) / WES:   0.586667 (total)   0.097778 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying Sloan algorithm:
+        Relations: legacy
+        Effect: var-order
+        Number of graph edges: 5
+
+        Total span:   9 (total)   1.50 (avg/edge) / WES:   0.586667 (total)   0.097778 (avg/edge) [before]
+        Total span:   9 (total)   1.50 (avg/edge) / WES:   0.533333 (total)   0.088889 (avg/edge) [after]
+
+      Found new best variable order.
+
+      Applying 2 orderers, sequentially:
+        Applying Weighted Cuthill-McKee algorithm:
+          Node finder: george-liu
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 5
+
+          Total span:   9 (total)   1.50 (avg/edge) / WES:   0.586667 (total)   0.097778 (avg/edge) [before]
+          Total span:   9 (total)   1.50 (avg/edge) / WES:   0.586667 (total)   0.097778 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 6
+
+          Total span:   9 (total)   1.50 (avg/edge) / WES:   0.586667 (total)   0.097778 (avg/edge) [before]
+          Total span:   9 (total)   1.50 (avg/edge) / WES:   0.586667 (total)   0.097778 (avg/edge) [reversed]
+
+      Applying 2 orderers, sequentially:
+        Applying Sloan algorithm:
+          Relations: legacy
+          Effect: var-order
+          Number of graph edges: 5
+
+          Total span:   9 (total)   1.50 (avg/edge) / WES:   0.586667 (total)   0.097778 (avg/edge) [before]
+          Total span:   9 (total)   1.50 (avg/edge) / WES:   0.533333 (total)   0.088889 (avg/edge) [after]
+
+        Reversing the variable order:
+          Relations: legacy
+          Effect: var-order
+          Number of hyper-edges: 6
+
+          Total span:   9 (total)   1.50 (avg/edge) / WES:   0.533333 (total)   0.088889 (avg/edge) [before]
+          Total span:   9 (total)   1.50 (avg/edge) / WES:   0.533333 (total)   0.088889 (avg/edge) [reversed]
+
+    Applying FORCE algorithm:
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 10
+      Maximum number of iterations: 20
+
+      Total span:   17 (total)   1.70 (avg/edge) / WES:   0.704000 (total)   0.070400 (avg/edge) [before]
+      Total span:   17 (total)   1.70 (avg/edge) / WES:   0.704000 (total)   0.070400 (avg/edge) [iteration 1]
+      Total span:   17 (total)   1.70 (avg/edge) / WES:   0.704000 (total)   0.070400 (avg/edge) [after]
+
+    Applying sliding window algorithm:
+      Size: 4
+      Metric: total-span
+      Relations: linearized
+      Effect: var-order
+      Number of hyper-edges: 10
+      Window length: 4
+
+      Total span:   17 (total)   1.70 (avg/edge) / WES:   0.704000 (total)   0.070400 (avg/edge) [before]
+      Total span:   17 (total)   1.70 (avg/edge) / WES:   0.704000 (total)   0.070400 (avg/edge) [after]
+
+Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   Lamp      0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   Timer     1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer  n/a   Cycle     2      3 * 2     5 * 2       8 * 2       ~63%
+  4      input variable    bool  Button.b  3      1 * 2     2 * 2       2 * 2       100%
+  5      location pointer  n/a   Button    4      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  Total                                    5      14        26          32          ~81%
+
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Preparing for MDD-based checks...
+Analyzing automaton "Button"...
+Analyzing automaton "Lamp"...
+    Initializing the automaton data for event "Lamp.c_on"...
+    Initializing the automaton data for event "Lamp.c_off"...
+    Processing edges from location "Off" of automaton "Lamp"...
+    Processing edges from location "On" of automaton "Lamp"...
+    Updating global guards and updates for event "Lamp.c_on"...
+    Updating global guards and updates for event "Lamp.c_off"...
+Analyzing automaton "Timer"...
+    Initializing the automaton data for event "Timer.c_start"...
+    Processing edges from location "Idle" of automaton "Timer"...
+    Processing edges from location "Running" of automaton "Timer"...
+    Updating global guards and updates for event "Timer.c_start"...
+Analyzing automaton "Cycle"...
+    Initializing the automaton data for event "Lamp.c_on"...
+    Initializing the automaton data for event "Timer.c_start"...
+    Initializing the automaton data for event "Lamp.c_off"...
+    Processing edges from location "WaitForButtonPush" of automaton "Cycle"...
+    Processing edges from location "TurnLampOn" of automaton "Cycle"...
+    Processing edges from location "StartTimer" of automaton "Cycle"...
+    Processing edges from location "WaitForTimeout" of automaton "Cycle"...
+    Processing edges from location "TurnLampOff" of automaton "Cycle"...
+    Updating global guards and updates for event "Lamp.c_on"...
+    Updating global guards and updates for event "Timer.c_start"...
+    Updating global guards and updates for event "Lamp.c_off"...
+Analyzing automaton "sup"...
+    Initializing the automaton data for event "Lamp.c_on"...
+    Initializing the automaton data for event "Lamp.c_off"...
+    Initializing the automaton data for event "Timer.c_start"...
+    Processing edges from the location of automaton "sup"...
+    Updating global guards and updates for event "Lamp.c_on"...
+    Updating global guards and updates for event "Lamp.c_off"...
+    Updating global guards and updates for event "Timer.c_start"...
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: Lamp.Off and Timer.Idle and (Cycle.WaitForButtonPush and Button.Released) [initial states predicate]
+Forward reachability: iteration 1.
+Reachable states: Lamp.Off and Timer.Idle and (Cycle.WaitForButtonPush and Button.Released) -> Lamp.Off and Timer.Idle and (Cycle.WaitForButtonPush and Button.Released) or Lamp.Off and Timer.Idle and (Cycle.TurnLampOn and (Button.b and Button.Pushed)) [forward reach with edge: (event: Button.u_pushed) (guard: (Cycle.WaitForButtonPush or Cycle.TurnLampOff) and (Button.b and Button.Released) or (Cycle.StartTimer and (Button.b and Button.Released) or (Cycle.TurnLampOn or Cycle.WaitForTimeout) and (Button.b and Button.Released))) (assignments: Button := Button.Pushed, Cycle := Cycle.TurnLampOn / Button := Button.Pushed / Button := Button.Pushed / Button := Button.Pushed / Button := Button.Pushed)]
+Reachable states: Lamp.Off and Timer.Idle and (Cycle.WaitForButtonPush and Button.Released) or Lamp.Off and Timer.Idle and (Cycle.TurnLampOn and (Button.b and Button.Pushed)) -> <bdd 13n 3p> [forward reach with edge: (event: Lamp.c_on) (guard: Lamp.Off and Cycle.TurnLampOn) (assignments: Lamp := Lamp.On, Cycle := Cycle.StartTimer)]
+Reachable states: <bdd 13n 3p> -> <bdd 14n 4p> [forward reach with edge: (event: Timer.c_start) (guard: Timer.Idle and Cycle.StartTimer) (assignments: Timer := Timer.Running, Cycle := Cycle.WaitForTimeout)]
+Reachable states: <bdd 14n 4p> -> <bdd 16n 5p> [forward reach with edge: (event: Timer.u_timeout) (guard: Timer.Running and Cycle.WaitForTimeout) (assignments: Timer := Timer.Idle, Cycle := Cycle.TurnLampOff)]
+Reachable states: <bdd 16n 5p> -> <bdd 15n 5p> [forward reach with edge: (event: Button.b) (guard: true) (assignments: Button.b+ != Button.b)]
+Forward reachability: iteration 2.
+Reachable states: <bdd 15n 5p> -> <bdd 16n 9p> [forward reach with edge: (event: Button.u_released) (guard: not Button.b and Button.Pushed) (assignments: Button := Button.Released)]
+Reachable states: <bdd 16n 9p> -> <bdd 15n 9p> [forward reach with edge: (event: Lamp.c_off) (guard: Lamp.On and Cycle.TurnLampOff) (assignments: Lamp := Lamp.Off, Cycle := Cycle.WaitForButtonPush)]
+Reachable states: <bdd 15n 9p> -> Lamp.Off and (Timer.Idle and (Cycle.WaitForButtonPush or Cycle.TurnLampOn)) or Lamp.On and (Timer.Idle and Cycle.TurnLampOff) or (Lamp.On and (Timer.Idle and Cycle.StartTimer) or Lamp.On and (Timer.Running and Cycle.WaitForTimeout)) [forward reach with edge: (event: Button.b) (guard: true) (assignments: Button.b+ != Button.b)]
+Forward reachability: iteration 3.
+Reachable states: Lamp.Off and (Timer.Idle and (Cycle.WaitForButtonPush or Cycle.TurnLampOn)) or Lamp.On and (Timer.Idle and Cycle.TurnLampOff) or (Lamp.On and (Timer.Idle and Cycle.StartTimer) or Lamp.On and (Timer.Running and Cycle.WaitForTimeout)) [fixed point].
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: Lamp.Off and (Timer.Idle and (Cycle.WaitForButtonPush or Cycle.TurnLampOn)) or Lamp.On and (Timer.Idle and Cycle.TurnLampOff) or (Lamp.On and (Timer.Idle and Cycle.StartTimer) or Lamp.On and (Timer.Running and Cycle.WaitForTimeout))).
+Bounded response check round 2 (states before round: <bdd 17n 8p>).
+Bounded response check round 3 (states before round: Lamp.On and Timer.Idle and (Cycle.TurnLampOff and (not Button.b and Button.Released)) or Lamp.On and Timer.Idle and (Cycle.TurnLampOff and (Button.b and Button.Pushed))).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: Lamp.Off and (Timer.Idle and (Cycle.WaitForButtonPush or Cycle.TurnLampOn)) or Lamp.On and (Timer.Idle and Cycle.TurnLampOff) or (Lamp.On and (Timer.Idle and Cycle.StartTimer) or Lamp.On and (Timer.Running and Cycle.WaitForTimeout))).
+Bounded response check round 2 (states before round: Lamp.Off and (Timer.Idle and Cycle.WaitForButtonPush) or (Lamp.On and (Timer.Idle and Cycle.StartTimer) or Lamp.On and (Timer.Running and Cycle.WaitForTimeout))).
+Bounded response check round 3 (states before round: Lamp.On and (Timer.Running and Cycle.WaitForTimeout)).
+
+Bounded response check completed.
+
+Checking for non-blocking under control...
+Computing the condition for no controllable event to be enabled...
+Condition under which no controllable event is enabled: <bdd 13n 13p>
+
+Computing the controllable-complete path states...
+Controllable-complete path states: <bdd 13n 3p> [controllable-complete path end states predicate]
+Backward reachability: iteration 1.
+Controllable-complete path states: <bdd 13n 3p> -> <bdd 13n 3p> [backward reach with edge: (event: Button.u_pushed) (guard: (Cycle.WaitForButtonPush or Cycle.TurnLampOff) and (Button.b and Button.Released) or (Cycle.StartTimer and (Button.b and Button.Released) or (Cycle.TurnLampOn or Cycle.WaitForTimeout) and (Button.b and Button.Released)) -> <bdd 13n 8p>) (assignments: Button := Button.Pushed, Cycle := Cycle.TurnLampOn / Button := Button.Pushed / Button := Button.Pushed / Button := Button.Pushed / Button := Button.Pushed)]
+Controllable-complete path states: <bdd 13n 3p> -> <bdd 12n 3p> [backward reach with edge: (event: Button.u_released) (guard: not Button.b and Button.Pushed -> <bdd 15n 13p>) (assignments: Button := Button.Released)]
+Controllable-complete path states: <bdd 12n 3p> -> <bdd 15n 5p> [backward reach with edge: (event: Lamp.c_off) (guard: Lamp.On and Cycle.TurnLampOff) (assignments: Lamp := Lamp.Off, Cycle := Cycle.WaitForButtonPush)]
+Controllable-complete path states: <bdd 15n 5p> -> <bdd 15n 6p> [backward reach with edge: (event: Timer.c_start) (guard: Timer.Idle and Cycle.StartTimer) (assignments: Timer := Timer.Running, Cycle := Cycle.WaitForTimeout)]
+Controllable-complete path states: <bdd 15n 6p> -> <bdd 16n 6p> [backward reach with edge: (event: Timer.u_timeout) (guard: Timer.Running and Cycle.WaitForTimeout) (assignments: Timer := Timer.Idle, Cycle := Cycle.TurnLampOff)]
+Controllable-complete path states: <bdd 16n 6p> -> <bdd 15n 5p> [backward reach with edge: (event: Button.b) (guard: true -> <bdd 13n 13p>) (assignments: Button.b+ != Button.b)]
+Backward reachability: iteration 2.
+Controllable-complete path states: <bdd 15n 5p> -> <bdd 16n 6p> [backward reach with edge: (event: Lamp.c_on) (guard: Lamp.Off and Cycle.TurnLampOn) (assignments: Lamp := Lamp.On, Cycle := Cycle.StartTimer)]
+Controllable-complete path states: <bdd 16n 6p> -> <bdd 14n 5p> [backward reach with edge: (event: Lamp.c_off) (guard: Lamp.On and Cycle.TurnLampOff) (assignments: Lamp := Lamp.Off, Cycle := Cycle.WaitForButtonPush)]
+Controllable-complete path states: <bdd 14n 5p> -> <bdd 14n 5p> [backward reach with edge: (event: Timer.c_start) (guard: Timer.Idle and Cycle.StartTimer) (assignments: Timer := Timer.Running, Cycle := Cycle.WaitForTimeout)]
+Backward reachability: iteration 3.
+Controllable-complete path states: <bdd 14n 5p> -> Lamp.Off and (Timer.Idle and (Cycle.WaitForButtonPush or Cycle.TurnLampOn)) or Lamp.On and (Timer.Idle and Cycle.TurnLampOff) or (Lamp.On and (Timer.Idle and Cycle.StartTimer) or Lamp.On and (Timer.Running and Cycle.WaitForTimeout)) [backward reach with edge: (event: Lamp.c_on) (guard: Lamp.Off and Cycle.TurnLampOn) (assignments: Lamp := Lamp.On, Cycle := Cycle.StartTimer)]
+Backward reachability: iteration 4.
+Controllable-complete path states: Lamp.Off and (Timer.Idle and (Cycle.WaitForButtonPush or Cycle.TurnLampOn)) or Lamp.On and (Timer.Idle and Cycle.TurnLampOff) or (Lamp.On and (Timer.Idle and Cycle.StartTimer) or Lamp.On and (Timer.Running and Cycle.WaitForTimeout)) [fixed point].
+Controllable-complete path states: Lamp.Off and (Timer.Idle and (Cycle.WaitForButtonPush or Cycle.TurnLampOn)) or Lamp.On and (Timer.Idle and Cycle.TurnLampOff) or (Lamp.On and (Timer.Idle and Cycle.StartTimer) or Lamp.On and (Timer.Running and Cycle.WaitForTimeout))
+
+Computing the bad states...
+Bad states: (Lamp.On or (Timer.Running or not Cycle.WaitForButtonPush and not Cycle.TurnLampOn)) and (Lamp.Off or (Timer.Running or not Cycle.TurnLampOff)) and ((Lamp.Off or (Timer.Running or not Cycle.StartTimer)) and (Lamp.Off or (Timer.Idle or not Cycle.WaitForTimeout))) [not controllable-complete path states predicate]
+Backward reachability: iteration 1.
+Bad states: (Lamp.On or (Timer.Running or not Cycle.WaitForButtonPush and not Cycle.TurnLampOn)) and (Lamp.Off or (Timer.Running or not Cycle.TurnLampOff)) and ((Lamp.Off or (Timer.Running or not Cycle.StartTimer)) and (Lamp.Off or (Timer.Idle or not Cycle.WaitForTimeout)))
+
+Computing the result of the non-blocking under control check...
+Initial states: Lamp.Off and Timer.Idle and (Cycle.WaitForButtonPush and Button.Released)
+Bad initial states: false
+
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton Lamp:
+        (Lamp.c_on Lamp.c_off), which is not controllable unconnectable.
+
+Checking for confluence...
+
+Mutual exclusive event pairs:
+    (Lamp.c_off, Lamp.c_on), (Lamp.c_off, Timer.c_start), (Lamp.c_on, Timer.c_start)
+
+CONCLUSION:
+    [OK] The specification has bounded response:
+    
+        - A sequence of at most 2 transitions is possible for uncontrollable events.
+        - A sequence of at most 2 transitions is possible for controllable events.
+
+    [OK] The specification is non-blocking under control.
+    [OK] The specification has finite response.
+    [OK] The specification has confluence.
+
+The model with the check results has been written to "controllercheck/non_blocking_under_control/button_lamp_timer.BCFN.out.cif.real".

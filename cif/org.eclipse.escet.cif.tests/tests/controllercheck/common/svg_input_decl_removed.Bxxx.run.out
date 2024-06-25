@@ -1,0 +1,29 @@
+Loading CIF specification "controllercheck/common/svg_input_decl_removed.cif"...
+Preparing for BDD-based checks...
+
+Restricting system behavior using state/event exclusion plant invariants.
+
+Checking for bounded response...
+Computing reachable states...
+Reachable states: true [initial states predicate]
+Forward reachability: iteration 1.
+
+Computing bound for uncontrollable events...
+Bounded response check round 1 (states before round: true).
+
+Computing bound for controllable events...
+Bounded response check round 1 (states before round: true).
+
+Bounded response check completed.
+
+CONCLUSION:
+    [ERROR] The specification does NOT have bounded response:
+    
+        - An infinite sequence of transitions is possible for uncontrollable events.
+        - An infinite sequence of transitions is possible for controllable events.
+
+    [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.
+    [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
+    [UNKNOWN] Confluence checking was disabled, confluence property is unknown.
+
+The model with the check results has been written to "controllercheck/common/svg_input_decl_removed.Bxxx.out.cif.real".

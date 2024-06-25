@@ -1,0 +1,190 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-controller-checker-non-blocking-under-control]]
+== Non-blocking under control check
+
+The <<tools-chapter-controller-checker,controller properties checker>> can check a <<sbe-approaches-synthesis-based-supervisor-vs-controller,supervisor>> for being non-blocking under control.
+
+The non-blocking under control property holds if a <<lang-tut-extensions-synthesis-marked,marked>> state can be reached, with the transitions for uncontrollable events and controllable events <<tools-chapter-controller-checker,executed separately>> in code generated from the supervisor.
+This property ensures that the code is still non-blocking, and that the <<sbe-approaches-synthesis-based-non-blocking,non-blockingness guarantee of synthesis>> is thus preserved in generated code.
+
+Concretely, the check verifies that for every reachable state, there exists a controllable-complete path.
+That is, for every reachable state, there exists a path to a marked state, with no controllable events enabled in the last/marked state of the path, and all transitions on the path are either for controllable events, or for uncontrollable ones from states where no controllable events are enabled.
+
+=== Examples
+
+Consider the following example model, with a `Supervisor1a` automaton.
+The non-blocking under control property holds for this model.
+
+All locations are reachable.
+From locations `Start`, `Done1` and `Done2`, controllable event sequences are possible to marked location `BothDone`, where no controllable event is possible.
+There is thus a marked location at the end of the controllable-event paths consisting of `c_act1` and `c_act2` events.
+In location `BothDone`, `u_button_pushed` is enabled and no controllable events can be taken.
+From that location, `u_button_pushed` can thus be taken, followed by the controllable events.
+
+Note that event `u_button_pushed` is monitored, which means the event is also possible in the other locations.
+That is ok, since a controllable-complete path must exist, and does for every reachable state.
+That other uncontrollable events are enabled in locations where controllable events are taken on the controllable-event path, does not invalidate the property.
+The property only puts requirements on uncontrollable events that are taken as part of a controllable-complete path, as they may only occur from states where no controllable events are enabled.
+
+[source, cif]
+----
+supervisor Supervisor1a:
+  controllable c_act1, c_act2;
+  uncontrollable u_button_pushed;
+  monitor u_button_pushed;
+
+  location Start:
+    initial;
+    edge c_act1 goto Done1;
+    edge c_act2 goto Done2;
+
+  location Done1:
+    edge c_act2 goto BothDone;
+
+  location Done2:
+    edge c_act1 goto BothDone;
+
+  location BothDone:
+    marked;
+    edge u_button_pushed goto Start;
+end
+----
+
+Now consider a slightly different version of this model, as shown below.
+Automaton `Supervisor1b` is similar to `Supervisor1a`, but has a different marked location.
+For `Supervisor1b`, the non-blocking under control property does _not_ hold.
+
+All locations are still reachable.
+And if `c_act1` is done first, before `c_act2`, the automaton goes through marked location `Done1`.
+But, if instead `c_act2` is done first, before `c_act1`, the automaton does not go through a marked location.
+And if every time the choice is made to first do `c_act2` before `c_act1`, then the automaton never goes through a marked location.
+The automaton is can thus exhibit blocking behavior, depending on the order in which the events are executed in generated code.
+
+The non-blocking under control property does not hold here, since in the only marked location there is a controllable event enabled.
+The marked location should be at the end of the controllable-events path, not within it.
+
+[source, cif]
+----
+supervisor Supervisor1b:
+  controllable c_act1, c_act2;
+  uncontrollable u_button_pushed;
+  monitor u_button_pushed;
+
+  location Start:
+    initial;
+    edge c_act1 goto Done1;
+    edge c_act2 goto Done2;
+
+  location Done1:
+    marked;
+    edge c_act2 goto BothDone;
+
+  location Done2:
+    edge c_act1 goto BothDone;
+
+  location BothDone:
+    edge u_button_pushed goto Start;
+end
+----
+
+As another example, consider the `Supervisor2a` automaton below.
+This model is a simplified version of `Supervisor1a`, where `c_act1` is always done first, before `c_act2`.
+For this model, the non-blocking under control property also holds.
+
+It still has the marked location at the end of the controllable-event path.
+Also, the uncontrollable event `u_button_pushed` is still possible from that marked location, where no controllable event is enabled.
+
+[source, cif]
+----
+supervisor Supervisor2a:
+  controllable c_act1, c_act2;
+  uncontrollable u_button_pushed;
+  monitor u_button_pushed;
+
+  location Start:
+    initial;
+    edge c_act1 goto Done1;
+
+  location Done1:
+    edge c_act2 goto BothDone;
+
+  location BothDone:
+    marked;
+    edge u_button_pushed goto Start;
+end
+----
+
+Now consider a slightly different version of this model, as shown below.
+Compared to `Supervisor2a`, automaton `Supervisor2b` has the additional option to do `u_button_pushed` between `c_act1` and `c_act2`.
+And only by this additional edge, can it reach a marked location.
+For `Supervisor2b`, the non-blocking under control property does _not_ hold.
+
+Still, all locations are reachable.
+But, if first `c_act1` is done, then `c_act2`, and finally `u_button_pusehd`, then it cycles without going through a marked location.
+A marked location can of course be reached, by doing `u_button_pushed` in location `Done1`.
+But, in the generated code first all transitions for uncontrollable events are executed, and then the transitions for controllable events.
+In `Start`, no uncontrollable event is possible.
+And after doing `c_act1` the code will keep doing transitions for controllable events, opting for `c_act2` rather than `u_button_pushed`.
+Hence, a marked state can never be reached in the generated code.
+A marked state can only be reached by doing the uncontrollable event in between controllable events, which is excluded by the execution model of the generated code.
+
+A controllable-complete path may only include an uncontrollable event if from its source state no controllable events are enabled.
+Uncontrollable event `u_button_pushed` may thus not be included from location `Done1`, as there `c_act2` is enabled.
+The controllable-complete path can thus never reach the marked location.
+The non-blocking under control property therefore doesn't hold in this model.
+
+[source, cif]
+----
+supervisor Supervisor2b:
+  controllable c_act1, c_act2;
+  uncontrollable u_button_pushed;
+  monitor u_button_pushed;
+
+  location Start:
+    initial;
+    edge c_act1 goto Done1;
+
+  location Done1:
+    edge c_act2 goto BothDone;
+    edge u_button_pushed goto Halt;
+
+  location BothDone:
+    edge u_button_pushed goto Start;
+
+  location Halt:
+    marked;
+end
+----
+
+=== Implementation details
+
+Non-blocking under control for a model is determined as follows:
+
+* Compute predicate _gc_ that indicates in which states a controllable event is enabled in the system.
+This is computed by taking the disjunction of the guards of the edges labeled with controllable events.
+* Compute predicate _not gc_ that indicates in which states no controllable events are enabled in the system.
+This is computed by taking the inverse of _gc_.
+* Compute the _ccp_ states, the states on controllable-complete paths.
+This is computed by performing a backwards reachability computation from _marked and not gc_ states.
+During this reachability computation, for each edge labeled with an uncontrollable event, including edges for allowing input variables to change value, _guard and not gc_ is used instead of its original _guard_.
+* Compute the _bad_ states, the not-_ccp_ states and states that can reach such states.
+This is computed by performing a backwards reachability computation from _not ccp_ states.
+Unlike in the previous step, the original guards are used for all edges during this reachability computation.
+* The model is non-blocking under control if the _initial_ states are not _bad_.
+That is, the model is non-blocking under control check if _(initial and bad) = false_ holds.
+
+This algorithm is based on <<reijnen19>>.
