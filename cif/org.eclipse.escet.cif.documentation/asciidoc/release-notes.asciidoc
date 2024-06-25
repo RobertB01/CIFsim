@@ -151,6 +151,8 @@ Use the tool's new _Output file_ option to change the output file path (issues {
 * The CIF to yEd transformation now removes all annotations from the input model as pre-processing (issue {escet-issue}736[#736]).
 * The CIF event disabler now checks the output model for annotation constraint violations (issue {escet-issue}823[#823]).
 * The CIF button/lamp/timer example's ToolDef script for code generation has been slightly improved (issue {escet-issue}736[#736]).
+* The CIF benchmarks overview generation script now uses row-based averages also for relative values (issue {escet-issue}887[#887]).
+* The CIF benchmarks overview generation script now has improved weighted averages, preventing skewing of the results by a few models that are very difficult to synthesize (issue {escet-issue}887[#887]).
 * The CIF documentation on SBE has various improved descriptions related to verification (issue {escet-issue}828[#828]).
 * The CIF documentation has various small improvements and fixes (issues {escet-issue}410[#410], {escet-issue}424[#424], {escet-issue}593[#593], {escet-issue}621[#621], {escet-issue}628[#628], {escet-issue}691[#691], {escet-issue}736[#736], {escet-issue}804[#804], {escet-issue}810[#810], {escet-issue}811[#811], {escet-issue}830[#830] and {escet-issue}852[#852]).
 
