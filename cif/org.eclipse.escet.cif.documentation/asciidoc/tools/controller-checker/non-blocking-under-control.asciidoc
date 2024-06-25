@@ -106,7 +106,7 @@ This model is a simplified version of `Supervisor1a`, where `c_act1` is always d
 For this model, the non-blocking under control property also holds.
 
 It still has the marked location at the end of the controllable-event path.
-And uncontrollable event `u_button_pushed` is still possible from that marked location, where no controllable event is enabled.
+Also, the uncontrollable event `u_button_pushed` is still possible from that marked location, where no controllable event is enabled.
 
 [source, cif]
 ----
