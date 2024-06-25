@@ -190,6 +190,27 @@ for name in names:
     worst_values_ops_rel   = worst_values_ops_rel   + [worst_value_ops_rel  ];
 end
 
+// Calculate weights. Model with lowest best row value gets weight 1, the next one gets weight 2, etc, until the highest
+// best row value get the number of models as weight.
+list tuple(long, int, string) weights_data_nodes; // model best value, model index, model name
+list tuple(long, int, string) weights_data_ops;   // model best value, model index, model name
+for i, name in enumerate(names):
+    long best_value_nodes = best_values_nodes_abs[i];
+    long best_value_ops   = best_values_ops_abs  [i];
+
+    weights_data_nodes = weights_data_nodes + [(best_value_nodes, i, name)];
+    weights_data_ops   = weights_data_ops   + [(best_value_ops  , i, name)];
+end
+weights_data_nodes = sorted(weights_data_nodes);
+weights_data_ops   = sorted(weights_data_ops);
+
+list int weights_nodes;
+list int weights_ops;
+for i in range(size(names)):: weights_nodes = weights_nodes + [1];
+for i in range(size(names)):: weights_ops   = weights_ops   + [1];
+for i, (value, idx, name) in enumerate(weights_data_nodes):: weights_nodes[idx] = i;
+for i, (value, idx, name) in enumerate(weights_data_ops  ):: weights_ops  [idx] = i;
+
 // Calculate averages and weighted averages, for both absolute and relative values.
 map(int: long) unweighted_averages_nodes_abs;
 map(int: long) unweighted_averages_ops_abs;
@@ -234,8 +255,8 @@ for config_nr in config_nrs:
 
     int value_cnt;
 
-    long weights_nodes;
-    long weights_ops;
+    long sum_weights_nodes;
+    long sum_weights_ops;
 
     for name_idx, name in enumerate(names):
         if contains(keys(metrics_nodes_abs[name]), config_nr) and contains(keys(metrics_ops_abs[name]), config_nr) and
@@ -245,8 +266,8 @@ for config_nr in config_nrs:
             double best_value_nodes_rel = best_values_nodes_rel[name_idx];
             double best_value_ops_rel   = best_values_ops_rel  [name_idx];
 
-            long weight_nodes = best_value_nodes_abs;
-            long weight_ops   = best_value_ops_abs;
+            int weight_nodes = weights_nodes[name_idx];
+            int weight_ops   = weights_ops  [name_idx];
 
             long metric_nodes_abs   = metrics_nodes_abs[name][config_nr];
             long metric_ops_abs     = metrics_ops_abs  [name][config_nr];
@@ -265,20 +286,20 @@ for config_nr in config_nrs:
 
             value_cnt = value_cnt + 1;
 
-            weights_nodes = weights_nodes + weight_nodes;
-            weights_ops   = weights_ops   + weight_ops;
+            sum_weights_nodes = sum_weights_nodes + weight_nodes;
+            sum_weights_ops   = sum_weights_ops   + weight_ops;
         end
     end
 
     unweighted_averages_nodes_abs[config_nr] = round(value_unweighted_nodes_abs / value_cnt);
     unweighted_averages_ops_abs  [config_nr] = round(value_unweighted_ops_abs   / value_cnt);
-    weighted_averages_nodes_abs  [config_nr] = round(value_weighted_nodes_abs   / weights_nodes);
-    weighted_averages_ops_abs    [config_nr] = round(value_weighted_ops_abs     / weights_ops);
+    weighted_averages_nodes_abs  [config_nr] = round(value_weighted_nodes_abs   / sum_weights_nodes);
+    weighted_averages_ops_abs    [config_nr] = round(value_weighted_ops_abs     / sum_weights_ops);
 
     unweighted_averages_nodes_rel[config_nr] =       value_unweighted_nodes_rel / value_cnt;
     unweighted_averages_ops_rel  [config_nr] =       value_unweighted_ops_rel   / value_cnt;
-    weighted_averages_nodes_rel  [config_nr] =       value_weighted_nodes_rel   / weights_nodes;
-    weighted_averages_ops_rel    [config_nr] =       value_weighted_ops_rel     / weights_ops;
+    weighted_averages_nodes_rel  [config_nr] =       value_weighted_nodes_rel   / sum_weights_nodes;
+    weighted_averages_ops_rel    [config_nr] =       value_weighted_ops_rel     / sum_weights_ops;
 
     best_unweighted_average_nodes_abs  = min(best_unweighted_average_nodes_abs,  unweighted_averages_nodes_abs[config_nr]);
     best_unweighted_average_ops_abs    = min(best_unweighted_average_ops_abs,    unweighted_averages_ops_abs  [config_nr]);
