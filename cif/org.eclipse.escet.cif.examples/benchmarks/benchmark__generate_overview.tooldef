@@ -14,6 +14,7 @@
 // Generates overview HTML file for benchmarking results.
 
 import java.lang.Long.decode;
+import java.lang.Double.longBitsToDouble;
 import org.apache.commons.lang3:org.apache.commons.lang3.StringEscapeUtils.escapeHtml4 as escape;
 
 // Find benchmarking results files.
@@ -26,14 +27,14 @@ end
 // Initialize metrics info:
 // - names: the names of the models used for benchmarking.
 // - configs: the configurations used for benchmarking.
-// - metrics_*: from benchmark model name (column) to configuration (row) to metric value (cell).
+// - metrics_*_abs: from benchmark model name (column) to configuration (row) to metric absolute value (cell).
 set string names_set;
 list string names;
 map(int: string) configs;
 list int config_nrs;
 int max_config_nr;
-map(string: map(int: long)) metrics_nodes;
-map(string: map(int: long)) metrics_ops;
+map(string: map(int: long)) metrics_nodes_abs;
+map(string: map(int: long)) metrics_ops_abs;
 
 // Helper functions.
 tool string fmt_metric_value(string fmt_pat, long value):
@@ -84,26 +85,26 @@ for time_file in time_files:
     end
     configs[config_nr] = config;
 
-    if not contains(keys(metrics_nodes), name):: metrics_nodes[name] = {};
-    if not contains(keys(metrics_nodes[name]), config_nr):
-        metrics_nodes[name][config_nr] = nodes;
-    elif metrics_nodes[name][config_nr] != nodes:
+    if not contains(keys(metrics_nodes_abs), name):: metrics_nodes_abs[name] = {};
+    if not contains(keys(metrics_nodes_abs[name]), config_nr):
+        metrics_nodes_abs[name][config_nr] = nodes;
+    elif metrics_nodes_abs[name][config_nr] != nodes:
         errln("Inconsistent nodes metric value:");
         errln(" - Model name: %s", name);
         errln(" - Configuration number: %d", config_nr);
-        errln(" - First metric value: %s", fmt_metric_value("%,d", metrics_nodes[name][config_nr]));
+        errln(" - First metric value: %s", fmt_metric_value("%,d", metrics_nodes_abs[name][config_nr]));
         errln(" - Second metric value: %s", fmt_metric_value("%,d", nodes));
         exit 1;
     end
 
-    if not contains(keys(metrics_ops), name):: metrics_ops[name] = {};
-    if not contains(keys(metrics_ops[name]), config_nr):
-        metrics_ops[name][config_nr] = ops;
-    elif metrics_ops[name][config_nr] != ops:
+    if not contains(keys(metrics_ops_abs), name):: metrics_ops_abs[name] = {};
+    if not contains(keys(metrics_ops_abs[name]), config_nr):
+        metrics_ops_abs[name][config_nr] = ops;
+    elif metrics_ops_abs[name][config_nr] != ops:
         errln("Inconsistent operations metric value:");
         errln(" - Model name: %s", name);
         errln(" - Configuration number: %d", config_nr);
-        errln(" - First metric value: %s", fmt_metric_value("%,d", metrics_ops[name][config_nr]));
+        errln(" - First metric value: %s", fmt_metric_value("%,d", metrics_ops_abs[name][config_nr]));
         errln(" - Second metric value: %s", fmt_metric_value("%,d", ops));
         exit 1;
     end
@@ -113,85 +114,212 @@ names = sorted(names_set);
 config_nrs = sorted(keys(configs));
 max_config_nr = config_nrs[-1];
 
-// Calculate best and worst values, per model.
+// Calculate best and worst values, per model, for absolute values.
 long max_long = <long>decode("0x7fffffffffffffff");
-list long best_values_nodes;
-list long best_values_ops;
-list long worst_values_nodes;
-list long worst_values_ops;
+double max_double = longBitsToDouble(9218868437227405311); // 0x7fefffffffffffff gives maximum positive double value.
+list long best_values_nodes_abs;
+list long best_values_ops_abs;
+list long worst_values_nodes_abs;
+list long worst_values_ops_abs;
 
 for name in names:
-    long best_value_nodes  = max_long;
-    long best_value_ops    = max_long;
-    long worst_value_nodes = -1;
-    long worst_value_ops   = -1;
+    long best_value_nodes_abs  = max_long;
+    long best_value_ops_abs    = max_long;
+    long worst_value_nodes_abs = -1;
+    long worst_value_ops_abs   = -1;
 
-    for value in values(metrics_nodes[name]):: if value != -1:: best_value_nodes  = min(best_value_nodes , value);
-    for value in values(metrics_ops  [name]):: if value != -1:: best_value_ops    = min(best_value_ops   , value);
-    for value in values(metrics_nodes[name]):: if value != -1:: worst_value_nodes = max(worst_value_nodes, value);
-    for value in values(metrics_ops  [name]):: if value != -1:: worst_value_ops   = max(worst_value_ops  , value);
+    for value in values(metrics_nodes_abs[name]):: if value != -1:: best_value_nodes_abs  = min(best_value_nodes_abs , value);
+    for value in values(metrics_ops_abs  [name]):: if value != -1:: best_value_ops_abs    = min(best_value_ops_abs   , value);
+    for value in values(metrics_nodes_abs[name]):: if value != -1:: worst_value_nodes_abs = max(worst_value_nodes_abs, value);
+    for value in values(metrics_ops_abs  [name]):: if value != -1:: worst_value_ops_abs   = max(worst_value_ops_abs  , value);
 
-    best_values_nodes  = best_values_nodes  + [best_value_nodes];
-    best_values_ops    = best_values_ops    + [best_value_ops  ];
-    worst_values_nodes = worst_values_nodes + [worst_value_nodes];
-    worst_values_ops   = worst_values_ops   + [worst_value_ops  ];
+    best_values_nodes_abs  = best_values_nodes_abs  + [best_value_nodes_abs ];
+    best_values_ops_abs    = best_values_ops_abs    + [best_value_ops_abs   ];
+    worst_values_nodes_abs = worst_values_nodes_abs + [worst_value_nodes_abs];
+    worst_values_ops_abs   = worst_values_ops_abs   + [worst_value_ops_abs  ];
 end
 
-// Calculate averages.
-map(int: long) unweighted_averages_nodes;
-map(int: long) unweighted_averages_ops;
-map(int: long) weighted_averages_nodes;
-map(int: long) weighted_averages_ops;
+// Calculate relative metric values.
+// - metrics_*_rel: from benchmark model name (column) to configuration (row) to metric relative value (cell).
+map(string: map(int: double)) metrics_nodes_rel;
+map(string: map(int: double)) metrics_ops_rel;
 
-long best_unweighted_average_nodes  = max_long;
-long best_unweighted_average_ops    = max_long;
-long best_weighted_average_nodes    = max_long;
-long best_weighted_average_ops      = max_long;
-long worst_unweighted_average_nodes = 0;
-long worst_unweighted_average_ops   = 0;
-long worst_weighted_average_nodes   = 0;
-long worst_weighted_average_ops     = 0;
+for i, name in enumerate(names):
+    if contains(metrics_nodes_abs, name):
+        map(int: long) metric_nodes_abs = metrics_nodes_abs[name];
+        long best_value_nodes_abs = best_values_nodes_abs[i];
+
+        metrics_nodes_rel[name] = {};
+        for config_nr, value_nodes_abs in metric_nodes_abs:
+            double value_nodes_rel = value_nodes_abs / best_value_nodes_abs;
+            metrics_nodes_rel[name][config_nr] = value_nodes_rel;
+        end
+    end
+    if contains(metrics_ops_abs, name):
+        map(int: long) metric_ops_abs = metrics_ops_abs[name];
+        long best_value_ops_abs = best_values_ops_abs[i];
+
+        metrics_ops_rel[name] = {};
+        for config_nr, value_ops_abs in metric_ops_abs:
+            double value_ops_rel = value_ops_abs / best_value_ops_abs;
+            metrics_ops_rel[name][config_nr] = value_ops_rel;
+        end
+    end
+end
+
+// Calculate best and worst values, per model, for relative values.
+list double best_values_nodes_rel;
+list double best_values_ops_rel;
+list double worst_values_nodes_rel;
+list double worst_values_ops_rel;
+
+for name in names:
+    double best_value_nodes_rel  = max_double;
+    double best_value_ops_rel    = max_double;
+    double worst_value_nodes_rel = -1;
+    double worst_value_ops_rel   = -1;
+
+    for value in values(metrics_nodes_rel[name]):: if value != -1:: best_value_nodes_rel  = min(best_value_nodes_rel , value);
+    for value in values(metrics_ops_rel  [name]):: if value != -1:: best_value_ops_rel    = min(best_value_ops_rel   , value);
+    for value in values(metrics_nodes_rel[name]):: if value != -1:: worst_value_nodes_rel = max(worst_value_nodes_rel, value);
+    for value in values(metrics_ops_rel  [name]):: if value != -1:: worst_value_ops_rel   = max(worst_value_ops_rel  , value);
+
+    best_values_nodes_rel  = best_values_nodes_rel  + [best_value_nodes_rel ];
+    best_values_ops_rel    = best_values_ops_rel    + [best_value_ops_rel   ];
+    worst_values_nodes_rel = worst_values_nodes_rel + [worst_value_nodes_rel];
+    worst_values_ops_rel   = worst_values_ops_rel   + [worst_value_ops_rel  ];
+end
+
+// Calculate weights. Model with lowest best row value gets weight 1, the next one gets weight 2, etc, until the highest
+// best row value get the number of models as weight.
+list tuple(long, int, string) weights_data_nodes; // model best value, model index, model name
+list tuple(long, int, string) weights_data_ops;   // model best value, model index, model name
+for i, name in enumerate(names):
+    long best_value_nodes = best_values_nodes_abs[i];
+    long best_value_ops   = best_values_ops_abs  [i];
+
+    weights_data_nodes = weights_data_nodes + [(best_value_nodes, i, name)];
+    weights_data_ops   = weights_data_ops   + [(best_value_ops  , i, name)];
+end
+weights_data_nodes = sorted(weights_data_nodes);
+weights_data_ops   = sorted(weights_data_ops);
+
+list int weights_nodes;
+list int weights_ops;
+for i in range(size(names)):: weights_nodes = weights_nodes + [1];
+for i in range(size(names)):: weights_ops   = weights_ops   + [1];
+for i, (value, idx, name) in enumerate(weights_data_nodes):: weights_nodes[idx] = i + 1;
+for i, (value, idx, name) in enumerate(weights_data_ops  ):: weights_ops  [idx] = i + 1;
+
+// Calculate averages and weighted averages, for both absolute and relative values.
+map(int: long) unweighted_averages_nodes_abs;
+map(int: long) unweighted_averages_ops_abs;
+map(int: long) weighted_averages_nodes_abs;
+map(int: long) weighted_averages_ops_abs;
+
+map(int: double) unweighted_averages_nodes_rel;
+map(int: double) unweighted_averages_ops_rel;
+map(int: double) weighted_averages_nodes_rel;
+map(int: double) weighted_averages_ops_rel;
+
+long best_unweighted_average_nodes_abs  = max_long;
+long best_unweighted_average_ops_abs    = max_long;
+long best_weighted_average_nodes_abs    = max_long;
+long best_weighted_average_ops_abs      = max_long;
+
+double best_unweighted_average_nodes_rel  = max_double;
+double best_unweighted_average_ops_rel    = max_double;
+double best_weighted_average_nodes_rel    = max_double;
+double best_weighted_average_ops_rel      = max_double;
+
+long worst_unweighted_average_nodes_abs = 0;
+long worst_unweighted_average_ops_abs   = 0;
+long worst_weighted_average_nodes_abs   = 0;
+long worst_weighted_average_ops_abs     = 0;
+
+double worst_unweighted_average_nodes_rel = 0;
+double worst_unweighted_average_ops_rel   = 0;
+double worst_weighted_average_nodes_rel   = 0;
+double worst_weighted_average_ops_rel     = 0;
 
 for config_nr in config_nrs:
-    long value_unweighted_nodes;
-    long value_unweighted_ops;
-    long value_weighted_nodes;
-    long value_weighted_ops;
+    long value_unweighted_nodes_abs;
+    long value_unweighted_ops_abs;
+    long value_weighted_nodes_abs;
+    long value_weighted_ops_abs;
+
+    double value_unweighted_nodes_rel;
+    double value_unweighted_ops_rel;
+    double value_weighted_nodes_rel;
+    double value_weighted_ops_rel;
+
     int value_cnt;
-    long weights_nodes;
-    long weights_ops;
+
+    long sum_weights_nodes;
+    long sum_weights_ops;
 
     for name_idx, name in enumerate(names):
-        if contains(keys(metrics_nodes[name]), config_nr) and contains(keys(metrics_ops[name]), config_nr):
-            long weight_nodes = best_values_nodes[name_idx];
-            long weight_ops   = best_values_ops  [name_idx];
+        if contains(keys(metrics_nodes_abs[name]), config_nr) and contains(keys(metrics_ops_abs[name]), config_nr) and
+           contains(keys(metrics_nodes_rel[name]), config_nr) and contains(keys(metrics_ops_rel[name]), config_nr):
+            long   best_value_nodes_abs = best_values_nodes_abs[name_idx];
+            long   best_value_ops_abs   = best_values_ops_abs  [name_idx];
+            double best_value_nodes_rel = best_values_nodes_rel[name_idx];
+            double best_value_ops_rel   = best_values_ops_rel  [name_idx];
 
-            value_unweighted_nodes = value_unweighted_nodes +                 metrics_nodes[name][config_nr];
-            value_unweighted_ops   = value_unweighted_ops   +                 metrics_ops  [name][config_nr];
-            value_weighted_nodes   = value_weighted_nodes   + (weight_nodes * metrics_nodes[name][config_nr]);
-            value_weighted_ops     = value_weighted_ops     + (weight_ops   * metrics_ops  [name][config_nr]);
+            int weight_nodes = weights_nodes[name_idx];
+            int weight_ops   = weights_ops  [name_idx];
+
+            long metric_nodes_abs   = metrics_nodes_abs[name][config_nr];
+            long metric_ops_abs     = metrics_ops_abs  [name][config_nr];
+            double metric_nodes_rel = metrics_nodes_rel[name][config_nr];
+            double metric_ops_rel   = metrics_ops_rel  [name][config_nr];
+
+            value_unweighted_nodes_abs = value_unweighted_nodes_abs +                 metric_nodes_abs;
+            value_unweighted_ops_abs   = value_unweighted_ops_abs   +                 metric_ops_abs;
+            value_weighted_nodes_abs   = value_weighted_nodes_abs   + (weight_nodes * metric_nodes_abs);
+            value_weighted_ops_abs     = value_weighted_ops_abs     + (weight_ops   * metric_ops_abs);
+
+            value_unweighted_nodes_rel = value_unweighted_nodes_rel +                 metric_nodes_rel;
+            value_unweighted_ops_rel   = value_unweighted_ops_rel   +                 metric_ops_rel;
+            value_weighted_nodes_rel   = value_weighted_nodes_rel   + (weight_nodes * metric_nodes_rel);
+            value_weighted_ops_rel     = value_weighted_ops_rel     + (weight_ops   * metric_ops_rel);
 
             value_cnt = value_cnt + 1;
 
-            weights_nodes = weights_nodes + weight_nodes;
-            weights_ops   = weights_ops   + weight_ops;
+            sum_weights_nodes = sum_weights_nodes + weight_nodes;
+            sum_weights_ops   = sum_weights_ops   + weight_ops;
         end
     end
 
-    unweighted_averages_nodes[config_nr] = round(value_unweighted_nodes / value_cnt);
-    unweighted_averages_ops  [config_nr] = round(value_unweighted_ops   / value_cnt);
-    weighted_averages_nodes  [config_nr] = round(value_weighted_nodes   / weights_nodes);
-    weighted_averages_ops    [config_nr] = round(value_weighted_ops     / weights_ops);
+    unweighted_averages_nodes_abs[config_nr] = round(value_unweighted_nodes_abs / value_cnt);
+    unweighted_averages_ops_abs  [config_nr] = round(value_unweighted_ops_abs   / value_cnt);
+    weighted_averages_nodes_abs  [config_nr] = round(value_weighted_nodes_abs   / sum_weights_nodes);
+    weighted_averages_ops_abs    [config_nr] = round(value_weighted_ops_abs     / sum_weights_ops);
 
-    best_unweighted_average_nodes  = min(best_unweighted_average_nodes,  unweighted_averages_nodes[config_nr]);
-    best_unweighted_average_ops    = min(best_unweighted_average_ops,    unweighted_averages_ops  [config_nr]);
-    best_weighted_average_nodes    = min(best_weighted_average_nodes,    weighted_averages_nodes  [config_nr]);
-    best_weighted_average_ops      = min(best_weighted_average_ops,      weighted_averages_ops    [config_nr]);
+    unweighted_averages_nodes_rel[config_nr] =       value_unweighted_nodes_rel / value_cnt;
+    unweighted_averages_ops_rel  [config_nr] =       value_unweighted_ops_rel   / value_cnt;
+    weighted_averages_nodes_rel  [config_nr] =       value_weighted_nodes_rel   / sum_weights_nodes;
+    weighted_averages_ops_rel    [config_nr] =       value_weighted_ops_rel     / sum_weights_ops;
 
-    worst_unweighted_average_nodes = max(worst_unweighted_average_nodes, unweighted_averages_nodes[config_nr]);
-    worst_unweighted_average_ops   = max(worst_unweighted_average_ops,   unweighted_averages_ops  [config_nr]);
-    worst_weighted_average_nodes   = max(worst_weighted_average_nodes,   weighted_averages_nodes  [config_nr]);
-    worst_weighted_average_ops     = max(worst_weighted_average_ops,     weighted_averages_ops    [config_nr]);
+    best_unweighted_average_nodes_abs  = min(best_unweighted_average_nodes_abs,  unweighted_averages_nodes_abs[config_nr]);
+    best_unweighted_average_ops_abs    = min(best_unweighted_average_ops_abs,    unweighted_averages_ops_abs  [config_nr]);
+    best_weighted_average_nodes_abs    = min(best_weighted_average_nodes_abs,    weighted_averages_nodes_abs  [config_nr]);
+    best_weighted_average_ops_abs      = min(best_weighted_average_ops_abs,      weighted_averages_ops_abs    [config_nr]);
+
+    best_unweighted_average_nodes_rel  = min(best_unweighted_average_nodes_rel,  unweighted_averages_nodes_rel[config_nr]);
+    best_unweighted_average_ops_rel    = min(best_unweighted_average_ops_rel,    unweighted_averages_ops_rel  [config_nr]);
+    best_weighted_average_nodes_rel    = min(best_weighted_average_nodes_rel,    weighted_averages_nodes_rel  [config_nr]);
+    best_weighted_average_ops_rel      = min(best_weighted_average_ops_rel,      weighted_averages_ops_rel    [config_nr]);
+
+    worst_unweighted_average_nodes_abs = max(worst_unweighted_average_nodes_abs, unweighted_averages_nodes_abs[config_nr]);
+    worst_unweighted_average_ops_abs   = max(worst_unweighted_average_ops_abs,   unweighted_averages_ops_abs  [config_nr]);
+    worst_weighted_average_nodes_abs   = max(worst_weighted_average_nodes_abs,   weighted_averages_nodes_abs  [config_nr]);
+    worst_weighted_average_ops_abs     = max(worst_weighted_average_ops_abs,     weighted_averages_ops_abs    [config_nr]);
+
+    worst_unweighted_average_nodes_rel = max(worst_unweighted_average_nodes_rel, unweighted_averages_nodes_rel[config_nr]);
+    worst_unweighted_average_ops_rel   = max(worst_unweighted_average_ops_rel,   unweighted_averages_ops_rel  [config_nr]);
+    worst_weighted_average_nodes_rel   = max(worst_weighted_average_nodes_rel,   weighted_averages_nodes_rel  [config_nr]);
+    worst_weighted_average_ops_rel     = max(worst_weighted_average_ops_rel,     weighted_averages_ops_rel    [config_nr]);
 end
 
 // Construct the HTML file contents. First, add the header.
@@ -334,10 +462,13 @@ list string html_lines = [
     "    </style>",
     "    <script>",
     "      function applyOptions(opt) {",
-    "        const elements = document.querySelectorAll('td[data-' + opt + ']');",
+    "        const elements = document.querySelectorAll('td[data-txt-' + opt + ']');",
     "        for (let i = 0; i < elements.length; i++) {",
-    "          elements[i].innerHTML = elements[i].getAttribute('data-' + opt);",
+    "          elements[i].innerHTML = elements[i].getAttribute('data-txt-' + opt);",
+    "          elements[i].setAttribute('class', elements[i].getAttribute('data-class-' + opt));",
+    "          elements[i].setAttribute('style', elements[i].getAttribute('data-style-' + opt));",
     "        }",
+    "        document.querySelector('.col-sortable.sorted').click();",
     "      }",
     "      function sortRowsByNr(elemId) {",
     "        // Get all rows.",
@@ -373,8 +504,10 @@ list string html_lines = [
     "        const rowsToSort = (metric === 'nodes') ? nodes : ops;",
     "        const otherRows  = (metric === 'nodes') ? ops   : nodes;",
     "        // Sort rows.",
+    "        const absRelOpt = document.querySelector('input[name=\"metric-value-opt\"]:checked').value;",
+    "        const postfix = avgKind + '-' + absRelOpt;",
     "        rowsToSort.sort((r1, r2) => {",
-    "          return r1.getAttribute('data-' + avgKind) - r2.getAttribute('data-' + avgKind);",
+    "          return r1.getAttribute('data-' + postfix) - r2.getAttribute('data-' + postfix);",
     "        });",
     "        const m = new Map();",
     "        for (var i = 0; i < rowsToSort.length; i++) {",
@@ -446,6 +579,26 @@ tool tuple(string, string) get_classes_and_style(long value, long best_value, lo
     return " worse2-color", fmt("--percentage:%.3f", worst_percentage);
 end
 
+tool tuple(string, string) get_classes_and_style(double value, double best_value, double worst_value):
+    // Handle unknown value (synthesis resulted in an error, ran out of memory, crashed, etc).
+    if value == -1:: return " unknown", "";
+
+    // Handle best value.
+    if value == best_value:: return " best", "";
+
+    // Not the best value. Get the percentage that it is worse than the best value.
+    double worse_percentage = ((value / best_value) - 1) * 100;
+
+    // Handle being at most 100% worse, with a gradient.
+    if worse_percentage <= 100:
+        return " worse1-color", fmt("--percentage:%.3f", worse_percentage);
+    end
+
+    // Handle being more than 100% worse, with a different gradient. Scaled as percentage to maximum value.
+    double worst_percentage = (value - 2*best_value) / (worst_value - 2*best_value) * 100;
+    return " worse2-color", fmt("--percentage:%.3f", worst_percentage);
+end
+
 int missing_cnt_nodes;
 int missing_cnt_ops;
 for config_nr in config_nrs:
@@ -460,46 +613,61 @@ for config_nr in config_nrs:
     end
 
     // Get (weighted) averages.
-    long avg_nodes  = unweighted_averages_nodes[config_nr];
-    long avg_ops    = unweighted_averages_ops  [config_nr];
-    long wavg_nodes = weighted_averages_nodes  [config_nr];
-    long wavg_ops   = weighted_averages_ops    [config_nr];
+    long avg_nodes_abs  = unweighted_averages_nodes_abs[config_nr];
+    long avg_ops_abs    = unweighted_averages_ops_abs  [config_nr];
+    long wavg_nodes_abs = weighted_averages_nodes_abs  [config_nr];
+    long wavg_ops_abs   = weighted_averages_ops_abs    [config_nr];
+
+    double avg_nodes_rel  = unweighted_averages_nodes_rel[config_nr];
+    double avg_ops_rel    = unweighted_averages_ops_rel  [config_nr];
+    double wavg_nodes_rel = weighted_averages_nodes_rel  [config_nr];
+    double wavg_ops_rel   = weighted_averages_ops_rel    [config_nr];
 
     // Add row and first columns: configuration number and configuration.
-    lines_nodes = lines_nodes + [fmt("      <tr class='row-nodes' data-nr='%d' data-avg='%d' data-wavg='%d'>", config_nr, avg_nodes, wavg_nodes)];
-    lines_ops   = lines_ops   + [fmt("      <tr class='row-ops' data-nr='%d' data-avg='%d' data-wavg='%d'>",   config_nr, avg_ops,   wavg_ops)];
+    lines_nodes = lines_nodes + [fmt("      <tr class='row-nodes' data-nr='%d' data-avg-abs='%d' data-wavg-abs='%d' data-avg-rel='%.3f' data-wavg-rel='%.3f'>",
+                                     config_nr, avg_nodes_abs, wavg_nodes_abs, avg_nodes_rel, wavg_nodes_rel)];
+    lines_ops   = lines_ops   + [fmt("      <tr class='row-ops' data-nr='%d' data-avg-abs='%d' data-wavg-abs='%d' data-avg-rel='%.3f' data-wavg-rel='%.3f'>",
+                                     config_nr, avg_ops_abs,   wavg_ops_abs  , avg_ops_rel,   wavg_ops_rel)];
     lines_nodes = lines_nodes + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
     lines_ops   = lines_ops   + [fmt("        <td class='nr'>%d/%d</td>", config_nr, max_config_nr)];
     lines_nodes = lines_nodes + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
     lines_ops   = lines_ops   + [fmt("        <td class='config%s'>%s</td>", config_extra_classes, escape(config))];
 
-    // Add average.
-    string text_avg_nodes_abs = <string>escape(fmt("%,d", avg_nodes));
-    string text_avg_nodes_rel = <string>escape(fmt("%,.3f", avg_nodes / best_unweighted_average_nodes));
-    string text_avg_ops_abs   = <string>escape(fmt("%,d", avg_ops));
-    string text_avg_ops_rel   = <string>escape(fmt("%,.3f", avg_ops / best_unweighted_average_ops));
+    // Add averages.
+    string text_avg_nodes_abs = <string>escape(fmt("%,d",   avg_nodes_abs));
+    string text_avg_nodes_rel = <string>escape(fmt("%,.3f", avg_nodes_rel));
+    string text_avg_ops_abs   = <string>escape(fmt("%,d",   avg_ops_abs));
+    string text_avg_ops_rel   = <string>escape(fmt("%,.3f", avg_ops_rel));
 
-    tuple(string, string) cs_avg_nodes = get_classes_and_style(avg_nodes, best_unweighted_average_nodes, worst_unweighted_average_nodes);
-    tuple(string, string) cs_avg_ops   = get_classes_and_style(avg_ops,   best_unweighted_average_ops,   worst_unweighted_average_ops);
+    tuple(string, string) cs_avg_nodes_abs = get_classes_and_style(avg_nodes_abs, best_unweighted_average_nodes_abs, worst_unweighted_average_nodes_abs);
+    tuple(string, string) cs_avg_nodes_rel = get_classes_and_style(avg_nodes_rel, best_unweighted_average_nodes_rel, worst_unweighted_average_nodes_rel);
+    tuple(string, string) cs_avg_ops_abs   = get_classes_and_style(avg_ops_abs,   best_unweighted_average_ops_abs,   worst_unweighted_average_ops_abs);
+    tuple(string, string) cs_avg_ops_rel   = get_classes_and_style(avg_ops_rel,   best_unweighted_average_ops_rel,   worst_unweighted_average_ops_rel);
 
-    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
-                                     cs_avg_nodes[0], cs_avg_nodes[1], text_avg_nodes_abs, text_avg_nodes_rel, text_avg_nodes_abs)];
-    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
-                                     cs_avg_ops[0],   cs_avg_ops[1],   text_avg_ops_abs,   text_avg_ops_rel,   text_avg_ops_abs)];
+    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-txt-abs='%s' data-txt-rel='%s' data-class-abs='metric%s' data-class-rel='metric%s' data-style-abs='%s' data-style-rel='%s'>%s</td>",
+                                     cs_avg_nodes_abs[0], cs_avg_nodes_abs[1], text_avg_nodes_abs, text_avg_nodes_rel,
+                                     cs_avg_nodes_abs[0], cs_avg_nodes_rel[0], cs_avg_nodes_abs[1], cs_avg_nodes_rel[1], text_avg_nodes_abs)];
+    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-txt-abs='%s' data-txt-rel='%s' data-class-abs='metric%s' data-class-rel='metric%s' data-style-abs='%s' data-style-rel='%s'>%s</td>",
+                                     cs_avg_ops_abs[0], cs_avg_ops_abs[1], text_avg_ops_abs, text_avg_ops_rel,
+                                     cs_avg_ops_abs[0], cs_avg_ops_rel[0], cs_avg_ops_abs[1], cs_avg_ops_rel[1], text_avg_ops_abs)];
 
-    // Add weighted average.
-    string text_wavg_nodes_abs = <string>escape(fmt("%,d", wavg_nodes));
-    string text_wavg_nodes_rel = <string>escape(fmt("%,.3f", wavg_nodes / best_weighted_average_nodes));
-    string text_wavg_ops_abs   = <string>escape(fmt("%,d", wavg_ops));
-    string text_wavg_ops_rel   = <string>escape(fmt("%,.3f", wavg_ops / best_weighted_average_ops));
+    // Add weighted averages.
+    string text_wavg_nodes_abs = <string>escape(fmt("%,d",   wavg_nodes_abs));
+    string text_wavg_nodes_rel = <string>escape(fmt("%,.3f", wavg_nodes_rel));
+    string text_wavg_ops_abs   = <string>escape(fmt("%,d",   wavg_ops_abs));
+    string text_wavg_ops_rel   = <string>escape(fmt("%,.3f", wavg_ops_rel));
 
-    tuple(string, string) cs_wavg_nodes = get_classes_and_style(wavg_nodes, best_weighted_average_nodes, worst_weighted_average_nodes);
-    tuple(string, string) cs_wavg_ops   = get_classes_and_style(wavg_ops,   best_weighted_average_ops,   worst_weighted_average_ops);
+    tuple(string, string) cs_wavg_nodes_abs = get_classes_and_style(wavg_nodes_abs, best_weighted_average_nodes_abs, worst_weighted_average_nodes_abs);
+    tuple(string, string) cs_wavg_nodes_rel = get_classes_and_style(wavg_nodes_rel, best_weighted_average_nodes_rel, worst_weighted_average_nodes_rel);
+    tuple(string, string) cs_wavg_ops_abs   = get_classes_and_style(wavg_ops_abs,   best_weighted_average_ops_abs,   worst_weighted_average_ops_abs);
+    tuple(string, string) cs_wavg_ops_rel   = get_classes_and_style(wavg_ops_rel,   best_weighted_average_ops_rel,   worst_weighted_average_ops_rel);
 
-    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
-                                     cs_wavg_nodes[0], cs_wavg_nodes[1], text_wavg_nodes_abs, text_wavg_nodes_rel, text_wavg_nodes_abs)];
-    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>",
-                                     cs_wavg_ops[0],   cs_wavg_ops[1],   text_wavg_ops_abs,   text_wavg_ops_rel,   text_wavg_ops_abs)];
+    lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-txt-abs='%s' data-txt-rel='%s' data-class-abs='metric%s' data-class-rel='metric%s' data-style-abs='%s' data-style-rel='%s'>%s</td>",
+                                     cs_wavg_nodes_abs[0], cs_wavg_nodes_abs[1], text_wavg_nodes_abs, text_wavg_nodes_rel,
+                                     cs_wavg_nodes_abs[0], cs_wavg_nodes_rel[0], cs_wavg_nodes_abs[1], cs_wavg_nodes_rel[1], text_wavg_nodes_abs)];
+    lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-txt-abs='%s' data-txt-rel='%s' data-class-abs='metric%s' data-class-rel='metric%s' data-style-abs='%s' data-style-rel='%s'>%s</td>",
+                                     cs_wavg_ops_abs[0], cs_wavg_ops_abs[1], text_wavg_ops_abs, text_wavg_ops_rel,
+                                     cs_wavg_ops_abs[0], cs_wavg_ops_rel[0], cs_wavg_ops_abs[1], cs_wavg_ops_rel[1], text_wavg_ops_abs)];
 
     // Add gap.
     lines_nodes = lines_nodes + ["        <td class='metric gap'></td>"];
@@ -507,36 +675,50 @@ for config_nr in config_nrs:
 
     // Add metric values for models.
     for idx, name in enumerate(names):
-        long value_nodes = -1;
-        long value_ops   = -1;
-        if contains(keys(metrics_nodes[name]), config_nr):: value_nodes = metrics_nodes[name][config_nr];
-        if contains(keys(metrics_ops  [name]), config_nr):: value_ops   = metrics_ops  [name][config_nr];
+        long   value_nodes_abs = -1;
+        long   value_ops_abs   = -1;
+        double value_nodes_rel = -1;
+        double value_ops_rel   = -1;
+        if contains(keys(metrics_nodes_abs[name]), config_nr):
+            value_nodes_abs = metrics_nodes_abs[name][config_nr];
+            value_nodes_rel = metrics_nodes_rel[name][config_nr];
+        end
+        if contains(keys(metrics_ops_abs[name]), config_nr):
+            value_ops_abs = metrics_ops_abs[name][config_nr];
+            value_ops_rel = metrics_ops_rel[name][config_nr];
+        end
 
         string text_nodes_abs, text_nodes_rel;
-        if value_nodes == -1:
+        if value_nodes_abs == -1:
             text_nodes_abs = "?";
             text_nodes_rel = "?";
             missing_cnt_nodes = missing_cnt_nodes + 1;
         else
-            text_nodes_abs = <string>escape(fmt("%,d", value_nodes));
-            text_nodes_rel = <string>escape(fmt("%,.3f", value_nodes / best_values_nodes[idx]));
+            text_nodes_abs = <string>escape(fmt("%,d", value_nodes_abs));
+            text_nodes_rel = <string>escape(fmt("%,.3f", value_nodes_rel));
         end
 
         string text_ops_abs, text_ops_rel;
-        if value_ops == -1:
+        if value_ops_abs == -1:
             text_ops_abs = "?";
             text_ops_rel = "?";
             missing_cnt_ops = missing_cnt_ops + 1;
         else
-            text_ops_abs = <string>escape(fmt("%,d", value_ops));
-            text_ops_rel = <string>escape(fmt("%,.3f", value_ops / best_values_ops[idx]));
+            text_ops_abs = <string>escape(fmt("%,d", value_ops_abs));
+            text_ops_rel = <string>escape(fmt("%,.3f", value_ops_rel));
         end
 
-        tuple(string, string) cs_nodes = get_classes_and_style(value_nodes, best_values_nodes[idx], worst_values_nodes[idx]);
-        tuple(string, string) cs_ops   = get_classes_and_style(value_ops  , best_values_ops  [idx], worst_values_ops  [idx]);
+        tuple(string, string) cs_nodes_abs = get_classes_and_style(value_nodes_abs, best_values_nodes_abs[idx], worst_values_nodes_abs[idx]);
+        tuple(string, string) cs_nodes_rel = get_classes_and_style(value_nodes_rel, best_values_nodes_rel[idx], worst_values_nodes_rel[idx]);
+        tuple(string, string) cs_ops_abs   = get_classes_and_style(value_ops_abs  , best_values_ops_abs  [idx], worst_values_ops_abs  [idx]);
+        tuple(string, string) cs_ops_rel   = get_classes_and_style(value_ops_rel  , best_values_ops_rel  [idx], worst_values_ops_rel  [idx]);
 
-        lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_nodes[0], cs_nodes[1], text_nodes_abs, text_nodes_rel, text_nodes_abs)];
-        lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-abs='%s' data-rel='%s'>%s</td>", cs_ops[0],   cs_ops[1],   text_ops_abs,   text_ops_rel,   text_ops_abs)];
+        lines_nodes = lines_nodes + [fmt("        <td class='metric%s' style='%s' data-txt-abs='%s' data-txt-rel='%s' data-class-abs='metric%s' data-class-rel='metric%s' data-style-abs='%s' data-style-rel='%s'>%s</td>",
+                                         cs_nodes_abs[0], cs_nodes_abs[1], text_nodes_abs, text_nodes_rel,
+                                         cs_nodes_abs[0], cs_nodes_rel[0], cs_nodes_abs[1], cs_nodes_rel[1], text_nodes_abs)];
+        lines_ops   = lines_ops   + [fmt("        <td class='metric%s' style='%s' data-txt-abs='%s' data-txt-rel='%s' data-class-abs='metric%s' data-class-rel='metric%s' data-style-abs='%s' data-style-rel='%s'>%s</td>",
+                                         cs_ops_abs[0], cs_ops_abs[1], text_ops_abs, text_ops_rel,
+                                         cs_ops_abs[0], cs_ops_rel[0], cs_ops_abs[1], cs_ops_rel[1], text_ops_abs)];
     end
 
     // Close rows.
