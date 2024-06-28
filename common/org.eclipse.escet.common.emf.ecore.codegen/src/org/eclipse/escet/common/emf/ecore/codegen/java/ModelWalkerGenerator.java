@@ -112,10 +112,17 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         CodeBox boxCompositeWithArg = generateClass(true, mainPkg, outputClassNameWalkerWithArg,
                 outputClassNameCompositeWithArg, outputPackageName, true);
 
-        writeClassCode(boxWalker, "Walker", outputPath, outputClassNameWalker);
-        writeClassCode(boxComposite, "Composite walker", outputPath, outputClassNameComposite);
-        writeClassCode(boxWalkerWithArg, "Extra-argument walker", outputPath, outputClassNameWalkerWithArg);
-        writeClassCode(boxCompositeWithArg, "Extra-argument composite walker", outputPath, outputClassNameCompositeWithArg);
+        writeClassCode(boxWalker, "Walker", outputPath,
+                false, outputClassNameWalker, outputClassNameComposite);
+
+        writeClassCode(boxComposite, "Composite walker", outputPath,
+                true, outputClassNameWalker, outputClassNameComposite);
+
+        writeClassCode(boxWalkerWithArg, "Extra-argument walker", outputPath,
+                false, outputClassNameWalkerWithArg, outputClassNameCompositeWithArg);
+
+        writeClassCode(boxCompositeWithArg, "Extra-argument composite walker", outputPath,
+                true, outputClassNameWalkerWithArg, outputClassNameCompositeWithArg);
     }
 
     /**
@@ -124,10 +131,15 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      * @param box Code to write to the file.
      * @param walkerDesc Description of the generated walker.
      * @param outputPath Relative or absolute local file system path to the directory to add the file.
-     * @param outputClassName Name of the generated Java class.
+     * @param genComposite Whether to generate a composite. If {@code false}, a walker is generated.
+     * @param classNameWalker Name of the walker Java class.
+     * @param classNameComposite Name of the composite Java class.
      */
-    private static void writeClassCode(CodeBox box, String walkerDesc, String outputPath, String outputClassName) {
+    private static void writeClassCode(CodeBox box, String walkerDesc, String outputPath,
+            boolean genComposite, String classNameWalker, String classNameComposite)
+    {
         File dirPath = new File(outputPath);
+        String outputClassName = genComposite ? classNameComposite : classNameWalker;
         File filePath = new File(dirPath, outputClassName + ".java");
         String absOutputFilePath = filePath.getAbsolutePath();
 
