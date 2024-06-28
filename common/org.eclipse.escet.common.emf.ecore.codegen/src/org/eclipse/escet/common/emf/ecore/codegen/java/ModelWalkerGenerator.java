@@ -120,25 +120,22 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
                 .getAbsolutePath();
         String outputFilePathCompositeWithArg = new File(new File(outputPath),
                 outputClassNameCompositeWithArg + ".java").getAbsolutePath();
-        boxWalker.writeToFile(outputFilePathWalker);
-        boxComposite.writeToFile(outputFilePathComposite);
-        boxWalkerWithArg.writeToFile(outputFilePathWalkerWithArg);
-        boxCompositeWithArg.writeToFile(outputFilePathCompositeWithArg);
 
-        // We are done.
-        writeClassCode("Walker", outputFilePathWalker);
-        writeClassCode("Composite walker", outputFilePathComposite);
-        writeClassCode("Extra-argument walker", outputFilePathWalkerWithArg);
-        writeClassCode("Extra-argument composite walker", outputFilePathCompositeWithArg);
+        writeClassCode(boxWalker, "Walker", outputFilePathWalker);
+        writeClassCode(boxComposite, "Composite walker", outputFilePathComposite);
+        writeClassCode(boxWalkerWithArg, "Extra-argument walker", outputFilePathWalkerWithArg);
+        writeClassCode(boxCompositeWithArg, "Extra-argument composite walker", outputFilePathCompositeWithArg);
     }
 
     /**
      * Generate code and write it to a Java source file.
      *
+     * @param box Code to write to the file.
      * @param walkerDesc Description of the generated walker.
      * @param absOutputFilePath Absolute local file system path to store the result.
      */
-    private static void writeClassCode(String walkerDesc, String absOutputFilePath) {
+    private static void writeClassCode(CodeBox box, String walkerDesc, String absOutputFilePath) {
+        box.writeToFile(absOutputFilePath);
         System.out.printf("%s written to: %s%n", walkerDesc, absOutputFilePath);
     }
 
