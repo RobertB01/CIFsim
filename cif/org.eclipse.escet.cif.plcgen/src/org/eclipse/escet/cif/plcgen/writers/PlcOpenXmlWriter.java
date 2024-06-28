@@ -63,8 +63,8 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -94,17 +94,15 @@ public class PlcOpenXmlWriter extends Writer {
      * @note Writes a PLCopen XML file at the indicated path.
      */
     @Override
-    public void write(PlcProject project, String filePath) {
-        filePath = Paths.resolve(filePath); // Switch to platform-specific file separators.
-
+    public void write(PlcProject project, PathPair filePaths) {
         // Create document from project.
         Document doc = transProject(project);
 
         // Write XML document.
-        writeDocument(doc, filePath);
+        writeDocument(doc, filePaths);
 
         // Validate XML file against XSD.
-        validateDocument(filePath);
+        validateDocument(filePaths);
     }
 
     /**
@@ -531,10 +529,10 @@ public class PlcOpenXmlWriter extends Writer {
     /**
      * Validates the written PLCopen XML file against the XSD schema.
      *
-     * @param filePath The absolute local file system path of the PLCopen XML file, with platform specific file
-     *     separators.
+     * @param filePaths The relative or absolute local file system path and the absolute local file system path of the
+     *     PLCopen XML file to write, with platform specific file separators.
      */
-    private void validateDocument(String filePath) {
+    private void validateDocument(PathPair filePaths) {
         InputStream schemaStream = null;
         InputStream xmlStream = null;
         try {
@@ -546,7 +544,7 @@ public class PlcOpenXmlWriter extends Writer {
             Source schemaSrc = new StreamSource(schemaStream);
 
             // Get XML file source.
-            xmlStream = new FileInputStream(filePath);
+            xmlStream = new FileInputStream(filePaths.systemPath);
             xmlStream = new BufferedInputStream(xmlStream);
             Source xmlSrc = new StreamSource(xmlStream);
 
@@ -567,7 +565,7 @@ public class PlcOpenXmlWriter extends Writer {
                 throw new RuntimeException(e);
             }
         } catch (IOException e) {
-            String msg = fmt("Failed to validate \"%s\" due to an I/O error.", filePath);
+            String msg = fmt("Failed to validate \"%s\" due to an I/O error.", filePaths.systemPath);
             throw new InputOutputException(msg, e);
         } finally {
             // Always close streams.
@@ -592,10 +590,10 @@ public class PlcOpenXmlWriter extends Writer {
      * Writes a PLCopen XML file, given the contents as an XML document.
      *
      * @param doc The XML document to use as contents for the file.
-     * @param filePath The absolute local file system path of the PLCopen XML file to write, with platform specific file
-     *     separators.
+     * @param filePaths The relative or absolute local file system path and the absolute local file system path of the
+     *     PLCopen XML file to write, with platform specific file separators.
      */
-    private void writeDocument(Document doc, String filePath) {
+    private void writeDocument(Document doc, PathPair filePaths) {
         // Construct transformer.
         TransformerFactory xmlTransFactory = TransformerFactory.newInstance();
         Transformer xmlTrans;
@@ -611,9 +609,9 @@ public class PlcOpenXmlWriter extends Writer {
         DOMSource source = new DOMSource(doc);
         FileOutputStream xmlStream;
         try {
-            xmlStream = new FileOutputStream(filePath);
+            xmlStream = new FileOutputStream(filePaths.systemPath);
         } catch (FileNotFoundException ex) {
-            String msg = fmt("Failed to write PLCopen XML file to \"%s\".", filePath);
+            String msg = fmt("Failed to write PLCopen XML file to \"%s\".", filePaths.systemPath);
             throw new InputOutputException(msg, ex);
         }
         StreamResult result = new StreamResult(xmlStream);
@@ -629,7 +627,7 @@ public class PlcOpenXmlWriter extends Writer {
         try {
             xmlStream.close();
         } catch (IOException e) {
-            String msg = fmt("Failed to close file \"%s\".", filePath);
+            String msg = fmt("Failed to close file \"%s\".", filePaths.systemPath);
             throw new InputOutputException(msg, e);
         }
     }
