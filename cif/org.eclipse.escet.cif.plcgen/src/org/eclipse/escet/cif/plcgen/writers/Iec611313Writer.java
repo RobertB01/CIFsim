@@ -20,8 +20,8 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
+import org.eclipse.escet.common.java.PathPair;
 
 /** IEC 61131-3 writer. */
 public class Iec611313Writer extends Writer {
@@ -35,22 +35,22 @@ public class Iec611313Writer extends Writer {
     }
 
     @Override
-    public void write(PlcProject project, String outPath) {
-        ensureDirectory(outPath);
+    public void write(PlcProject project, PathPair outPaths) {
+        ensureDirectory(outPaths);
 
         // Write configurations.
         for (PlcConfiguration config: project.configurations) {
-            write(config, outPath);
+            write(config, outPaths);
         }
 
         // Write POUs.
         for (PlcPou pou: project.pous) {
-            write(pou, outPath);
+            write(pou, outPaths);
         }
 
         // Write declared types.
         for (PlcDeclaredType declaredType: project.declaredTypes) {
-            writeDeclaredType(declaredType, outPath);
+            writeDeclaredType(declaredType, outPaths);
         }
     }
 
@@ -58,34 +58,37 @@ public class Iec611313Writer extends Writer {
      * Writes the given configuration to a file in IEC 61131-3 syntax.
      *
      * @param config The configuration to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
+     * @param outPaths The relative or absolute local file system path and the  absolute local file system path of the
+     *     directory that should store the file.
      */
-    private void write(PlcConfiguration config, String outPath) {
-        String path = Paths.join(outPath, config.name + ".plccfg");
+    private void write(PlcConfiguration config, PathPair outPaths) {
+        String fileName = config.name + ".plccfg";
         Box code = toBox(config);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 
     /**
      * Writes the given POU to a file in IEC 61131-3 syntax.
      *
      * @param pou The POU to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
+     * @param outPaths The relative or absolute local file system path and the  absolute local file system path of the
+     *     directory that should store the file.
      */
-    private void write(PlcPou pou, String outPath) {
+    private void write(PlcPou pou, PathPair outPaths) {
         String ext = (pou.retType == null) ? ".plcprog" : ".plcfunc";
-        String path = Paths.join(outPath, pou.name + ext);
+        String fileName = pou.name + ext;
         Box code = toBox(pou);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 
     /**
      * Writes the given declared type to a file in IEC 61131-3 syntax.
      *
      * @param declaredType The declared type to write.
-     * @param outPath The absolute local file system path of the directory that should store the file.
+     * @param outPaths The relative or absolute local file system path and the  absolute local file system path of the
+     *     directory that should store the file.
      */
-    private void writeDeclaredType(PlcDeclaredType declaredType, String outPath) {
+    private void writeDeclaredType(PlcDeclaredType declaredType, PathPair outPaths) {
         String typeName;
         if (declaredType instanceof PlcStructType structType) {
             typeName = structType.typeName;
@@ -95,8 +98,8 @@ public class Iec611313Writer extends Writer {
             throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
         }
 
-        String path = Paths.join(outPath, typeName + ".plctype");
+        String fileName = typeName + ".plctype";
         Box code = toTypeDeclBox(declaredType);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 }
