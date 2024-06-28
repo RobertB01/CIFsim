@@ -45,17 +45,6 @@ public abstract class Box {
     /**
      * Writes the box contents to a file.
      *
-     * @param absPath The absolute local file system path to the file to write the output to.
-     * @throws InputOutputException If writing to the file failed.
-     */
-    @Deprecated
-    public void writeToFile(String absPath) {
-        writeToFile(absPath, absPath);
-    }
-
-    /**
-     * Writes the box contents to a file.
-     *
      * @param pathPair The relative or absolute local file system path and the absolute local file system path to the
      *     file to write the output to.
      * @throws InputOutputException If writing to the file failed.
