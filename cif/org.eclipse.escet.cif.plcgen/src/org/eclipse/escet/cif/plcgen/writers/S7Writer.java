@@ -35,11 +35,11 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.PathPair;
 
 /** S7 writer for S7-1500, S7-1200, S7-400 and S7-300 SIMATIC controllers. */
 public class S7Writer extends Writer {
@@ -53,8 +53,8 @@ public class S7Writer extends Writer {
     }
 
     @Override
-    public void write(PlcProject project, String outPath) {
-        ensureDirectory(outPath);
+    public void write(PlcProject project, PathPair outPaths) {
+        ensureDirectory(outPaths);
 
         // Ensure exactly one configuration.
         Assert.areEqual(project.configurations.size(), 1);
@@ -72,9 +72,9 @@ public class S7Writer extends Writer {
 
             // Write the non-empty variable list.
             if (globalVarList.listKind == PlcVarListKind.TIMERS) {
-                writeTimers(globalVarList.variables, outPath);
+                writeTimers(globalVarList.variables, outPaths);
             } else {
-                writeGlobalVarList(globalVarList, outPath);
+                writeGlobalVarList(globalVarList, outPaths);
             }
         }
 
@@ -82,7 +82,7 @@ public class S7Writer extends Writer {
 
         // Write POUs.
         for (PlcPou pou: project.pous) {
-            write(pou, outPath);
+            write(pou, outPaths);
         }
 
         // Write DB for the main program.
@@ -92,7 +92,7 @@ public class S7Writer extends Writer {
                 programCount++;
 
                 if (!pou.localVars.isEmpty()) {
-                    writeDatabase(pou.localVars, outPath);
+                    writeDatabase(pou.localVars, outPaths);
                 }
             }
         }
@@ -103,9 +103,9 @@ public class S7Writer extends Writer {
         // Write declared types.
         for (PlcDeclaredType declaredType: project.declaredTypes) {
             if (declaredType instanceof PlcStructType structType) {
-                writeDeclaredType(structType, outPath);
+                writeDeclaredType(structType, outPaths);
             } else if (declaredType instanceof PlcEnumType enumType) {
-                writeDeclaredType(enumType, outPath);
+                writeDeclaredType(enumType, outPaths);
             } else {
                 throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
             }
@@ -116,21 +116,23 @@ public class S7Writer extends Writer {
      * Writes the given POU to a file in S7 syntax.
      *
      * @param pou The POU to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory to which to write the file.
      */
-    private void write(PlcPou pou, String outPath) {
-        String path = Paths.join(outPath, pou.name + ".scl");
+    private void write(PlcPou pou, PathPair outPaths) {
+        String fileName = pou.name + ".scl";
         Box code = toBox(pou);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 
     /**
      * Writes timers to a database file in S7 syntax.
      *
      * @param timerVariables Timer variables to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory to which to write the file.
      */
-    private void writeTimers(List<PlcDataVariable> timerVariables, String outPath) {
+    private void writeTimers(List<PlcDataVariable> timerVariables, PathPair outPaths) {
         CodeBox c = new MemoryCodeBox(INDENT);
 
         // Use IEC timers if available, else use TON timers.
@@ -161,8 +163,7 @@ public class S7Writer extends Writer {
         }
 
         // Write to file.
-        String path = Paths.join(outPath, "timers.db");
-        c.writeToFile(path);
+        writeFile(c, outPaths, "timers.db");
     }
 
     /**
@@ -178,45 +179,49 @@ public class S7Writer extends Writer {
      * Writes the type declaration of the given struct type to a file in S7 syntax.
      *
      * @param structType The structure type to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory to which to write the file.
      */
-    private void writeDeclaredType(PlcStructType structType, String outPath) {
-        String path = Paths.join(outPath, structType.typeName + ".udt");
+    private void writeDeclaredType(PlcStructType structType, PathPair outPaths) {
+        String fileName = structType.typeName + ".udt";
         Box code = toTypeDeclBox(structType);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 
     /**
      * Writes the type declaration of the given enum type to a file in S7 syntax.
      *
      * @param enumType The enum type to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory to which to write the file.
      */
-    private void writeDeclaredType(PlcEnumType enumType, String outPath) {
-        String path = Paths.join(outPath, enumType.typeName + ".udt");
+    private void writeDeclaredType(PlcEnumType enumType, PathPair outPaths) {
+        String fileName = enumType.typeName + ".udt";
         Box code = toTypeDeclBox(enumType);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 
     /**
      * Writes the given global variable list to a file in S7 syntax.
      *
      * @param gvl The global variable list to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory to which to write the file.
      */
-    private void writeGlobalVarList(PlcGlobalVarList gvl, String outPath) {
-        String path = Paths.join(outPath, gvl.name + ".xml");
+    private void writeGlobalVarList(PlcGlobalVarList gvl, PathPair outPaths) {
+        String fileName = gvl.name + ".xml";
         Box code = makeTagTable(gvl);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 
     /**
      * Writes the given variables as a database file in S7 syntax.
      *
      * @param variables The variables to write.
-     * @param outPath The absolute local file system path of the directory to which to write the file.
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory to which to write the file.
      */
-    private void writeDatabase(List<PlcDataVariable> variables, String outPath) {
+    private void writeDatabase(List<PlcDataVariable> variables, PathPair outPaths) {
         CodeBox c = new MemoryCodeBox(INDENT);
 
         // The header.
@@ -247,8 +252,7 @@ public class S7Writer extends Writer {
         c.add("END_DATA_BLOCK");
 
         // Write to file.
-        String path = Paths.join(outPath, "DB.db");
-        c.writeToFile(path);
+        writeFile(c, outPaths, "DB.db");
     }
 
     /**
