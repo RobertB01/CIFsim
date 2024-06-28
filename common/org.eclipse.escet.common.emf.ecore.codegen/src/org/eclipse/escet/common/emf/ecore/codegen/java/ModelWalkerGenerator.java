@@ -112,19 +112,10 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         CodeBox boxCompositeWithArg = generateClass(true, mainPkg, outputClassNameWalkerWithArg,
                 outputClassNameCompositeWithArg, outputPackageName, true);
 
-        // Try to write the code to a file.
-        String outputFilePathWalker = new File(new File(outputPath), outputClassNameWalker + ".java").getAbsolutePath();
-        String outputFilePathComposite = new File(new File(outputPath), outputClassNameComposite + ".java")
-                .getAbsolutePath();
-        String outputFilePathWalkerWithArg = new File(new File(outputPath), outputClassNameWalkerWithArg + ".java")
-                .getAbsolutePath();
-        String outputFilePathCompositeWithArg = new File(new File(outputPath),
-                outputClassNameCompositeWithArg + ".java").getAbsolutePath();
-
-        writeClassCode(boxWalker, "Walker", outputFilePathWalker);
-        writeClassCode(boxComposite, "Composite walker", outputFilePathComposite);
-        writeClassCode(boxWalkerWithArg, "Extra-argument walker", outputFilePathWalkerWithArg);
-        writeClassCode(boxCompositeWithArg, "Extra-argument composite walker", outputFilePathCompositeWithArg);
+        writeClassCode(boxWalker, "Walker", outputPath, outputClassNameWalker);
+        writeClassCode(boxComposite, "Composite walker", outputPath, outputClassNameComposite);
+        writeClassCode(boxWalkerWithArg, "Extra-argument walker", outputPath, outputClassNameWalkerWithArg);
+        writeClassCode(boxCompositeWithArg, "Extra-argument composite walker", outputPath, outputClassNameCompositeWithArg);
     }
 
     /**
@@ -132,9 +123,14 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      *
      * @param box Code to write to the file.
      * @param walkerDesc Description of the generated walker.
-     * @param absOutputFilePath Absolute local file system path to store the result.
+     * @param outputPath Relative or absolute local file system path to the directory to add the file.
+     * @param outputClassName Name of the generated Java class.
      */
-    private static void writeClassCode(CodeBox box, String walkerDesc, String absOutputFilePath) {
+    private static void writeClassCode(CodeBox box, String walkerDesc, String outputPath, String outputClassName) {
+        File dirPath = new File(outputPath);
+        File filePath = new File(dirPath, outputClassName + ".java");
+        String absOutputFilePath = filePath.getAbsolutePath();
+
         box.writeToFile(absOutputFilePath);
         System.out.printf("%s written to: %s%n", walkerDesc, absOutputFilePath);
     }
