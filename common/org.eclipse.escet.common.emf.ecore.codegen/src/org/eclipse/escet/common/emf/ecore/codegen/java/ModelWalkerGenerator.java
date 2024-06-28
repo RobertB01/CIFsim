@@ -147,7 +147,7 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         String absOutputFilePath = filePath.getAbsolutePath();
 
         // Write the file and tell the user about it.
-        box.writeToFile(absOutputFilePath);
+        box.writeToFile(filePath.toString(), absOutputFilePath);
         System.out.printf("%s written to: %s%n", walkerDesc, absOutputFilePath);
     }
 
