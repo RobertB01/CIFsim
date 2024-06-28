@@ -355,6 +355,6 @@ public abstract class PlcBaseTarget extends PlcTarget {
     @Override
     public void writeOutput(PlcProject project) {
         Writer writer = getPlcCodeWriter();
-        writer.write(project, outputPaths.systemPath);
+        writer.write(project, outputPaths);
     }
 }
