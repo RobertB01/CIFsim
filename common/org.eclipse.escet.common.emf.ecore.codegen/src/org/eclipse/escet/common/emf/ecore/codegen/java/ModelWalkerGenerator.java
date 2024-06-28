@@ -93,20 +93,26 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         String mainPkgClassName = args[0];
         String binPath = args[1];
         String outputPath = args[2];
-        String outputClassNameWalker = args[3];
-        String outputClassNameComposite = args[4];
-        String outputClassNameWalkerWithArg = args[5];
-        String outputClassNameCompositeWithArg = args[6];
+        // Arguments 3 and 4 define the names of walker and composite without extra arguments.
+        // Arguments 5 and 6 define the names of walker and composite with extra arguments.
         String outputPackageName = args[7];
 
         // Resolve the package.
         EPackage mainPkg = loadEPackage(mainPkgClassName, binPath);
+
+        // Generate walker and composite without extra arguments.
+        String outputClassNameWalker = args[3];
+        String outputClassNameComposite = args[4];
 
         writeClassCode("Walker", outputPath, mainPkg, outputPackageName,
                 false, false, outputClassNameWalker, outputClassNameComposite);
 
         writeClassCode("Composite walker", outputPath, mainPkg, outputPackageName,
                 false, true, outputClassNameWalker, outputClassNameComposite);
+
+        // Generate walker and composite with extra arguments.
+        String outputClassNameWalkerWithArg = args[5];
+        String outputClassNameCompositeWithArg = args[6];
 
         writeClassCode("Extra-argument walker", outputPath, mainPkg, outputPackageName,
                 true, false, outputClassNameWalkerWithArg, outputClassNameCompositeWithArg);
