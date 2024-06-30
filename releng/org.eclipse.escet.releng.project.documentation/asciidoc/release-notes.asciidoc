@@ -26,6 +26,10 @@ See also the release notes for the specific tools for more information:
 * link:https://eclipse.dev/escet/{escet-deploy-folder-name}/chi/release-notes.html[Chi release notes]
 * link:https://eclipse.dev/escet/{escet-deploy-folder-name}/tooldef/release-notes.html[ToolDef release notes]
 
+=== Version 5.0
+
+TBD
+
 === Version 4.0 (2024-06-30)
 
 Improvements and fixes:
