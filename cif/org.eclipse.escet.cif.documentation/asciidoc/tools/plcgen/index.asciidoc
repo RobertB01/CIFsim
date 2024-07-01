@@ -381,6 +381,7 @@ In general the sequence indicates which of several available I/O ports is being 
 
 * The second column optionally contains the PLC type of the input or output.
 If left empty, the type of the CIF variable is used instead.
+In any case the fundamental type of the CIF variable must match with the fundamental type of the I/O port (both sides an integer, both sides a real, or both sides a boolean).
 
 * The third column contains the <<lang-ref-syntax-lexical-identifier,non-escaped>> absolute name of the CIF variable connected to the I/O address.
 For example, the variable of the automaton below is named `G.A.v`:
@@ -410,7 +411,7 @@ The kind of connection, the direction of the connection, and the allowed kind of
 | `M` | to memory | discrete variable
 |===
 
-The number of transferred bits must match with the CIF type of the variable as follows:
+It is highly recommended that the number of transferred bits from the I/O matches with the CIF type of the variable as follows:
 
 [cols="1, 1, 4"]
 |===
@@ -423,6 +424,10 @@ The number of transferred bits must match with the CIF type of the variable as f
 | 64 | `LINT` | `int` (for PLC systems that support 64 bit integers)
 | 64 | `LREAL` | `real` (for PLC systems that support 64 floating point)
 |===
+
+If the size of the CIF variable type does not match with the size of the I/O port type, a cast expression is automatically inserted.
+
+Note that the PLC code generator has no means to verify that the specified or derived type of the I/O port is compatible with the hardware device connected to the given I/O address.
 
 indexterm:[PLC code generator,continuous behavior]
 indexterm:[PLC code generator,timers]
