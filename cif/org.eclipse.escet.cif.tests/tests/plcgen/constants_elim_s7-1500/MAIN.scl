@@ -1,8 +1,8 @@
 ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
     VAR_TEMP
-        current_aut_y: DINT;
-        current_aut_y_1: DINT;
+        current_aut_y: LREAL;
+        current_aut_y_1: LREAL;
         edge_aut_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
@@ -40,7 +40,7 @@ BEGIN
 
         (* Initialize the state variables. *)
         (* Initialize discrete variable "aut.y". *)
-        "DB".aut_y := 0;
+        "DB".aut_y := 0.0;
     END_IF;
 
     (* --- Process controllable events. ---------------------------------------- *)
@@ -84,7 +84,7 @@ BEGIN
             IF edge_aut_1 = 1 THEN
                 (* Perform assignments of the 1st edge of automaton "aut". *)
                 (* Perform update of discrete variable "aut.y". *)
-                "DB".aut_y := (-2147483647) - 1;
+                "DB".aut_y := (-2.14748352499877e9);
             END_IF;
         END_IF;
 
@@ -123,7 +123,7 @@ BEGIN
             IF edge_aut_1 = 1 THEN
                 (* Perform assignments of the 2nd edge of automaton "aut". *)
                 (* Perform update of discrete variable "aut.y". *)
-                "DB".aut_y := 3087;
+                "DB".aut_y := 3087.0;
             END_IF;
         END_IF;
 

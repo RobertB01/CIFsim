@@ -48,7 +48,7 @@
             </variable>
             <variable name="aut_y">
               <type>
-                <DINT/>
+                <LREAL/>
               </type>
             </variable>
             <variable name="firstRun">
@@ -63,12 +63,12 @@
           <tempVars>
             <variable name="current_aut_y">
               <type>
-                <DINT/>
+                <LREAL/>
               </type>
             </variable>
             <variable name="current_aut_y_1">
               <type>
-                <DINT/>
+                <LREAL/>
               </type>
             </variable>
             <variable name="edge_aut_1">
@@ -121,7 +121,7 @@ IF firstRun THEN
 
     (* Initialize the state variables. *)
     (* Initialize discrete variable "aut.y". *)
-    aut_y := 0;
+    aut_y := 0.0;
 END_IF;
 
 (* --- Process controllable events. ---------------------------------------- *)
@@ -165,7 +165,7 @@ WHILE isProgress DO
         IF edge_aut_1 = 1 THEN
             (* Perform assignments of the 1st edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
-            aut_y := (-2147483647) - 1;
+            aut_y := (-2.14748352499877e9);
         END_IF;
     END_IF;
 
@@ -204,7 +204,7 @@ WHILE isProgress DO
         IF edge_aut_1 = 1 THEN
             (* Perform assignments of the 2nd edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
-            aut_y := 3087;
+            aut_y := 3087.0;
         END_IF;
     END_IF;
 

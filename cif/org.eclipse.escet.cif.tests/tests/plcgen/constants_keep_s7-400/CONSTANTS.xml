@@ -9,6 +9,8 @@
     <Constant type='DINT' remark='' value='-1234'>x</Constant>
     <Constant type='DINT' remark='' value='4321'>z</Constant>
     <Constant type='DINT' remark='' value='-2147483648'>xx</Constant>
+    <Constant type='REAL' remark='' value='123.0'>p</Constant>
+    <Constant type='REAL' remark='' value='-0.00123'>pp</Constant>
     <Constant type='DINT' remark='' value='0'>red</Constant>
     <Constant type='DINT' remark='' value='1'>yellow</Constant>
     <Constant type='DINT' remark='' value='2'>blue</Constant>
