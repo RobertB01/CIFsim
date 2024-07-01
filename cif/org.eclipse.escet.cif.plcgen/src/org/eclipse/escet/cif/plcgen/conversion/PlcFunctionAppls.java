@@ -287,8 +287,9 @@ public class PlcFunctionAppls {
                 new PlcParameterDescription("G", PlcParamDirection.INPUT_ONLY, BOOL_TYPE),
                 new PlcParameterDescription("IN0", PlcParamDirection.INPUT_ONLY, ANY_TYPE),
                 new PlcParameterDescription("IN1", PlcParamDirection.INPUT_ONLY, ANY_TYPE)};
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, "SEL", params,
-                target.getSupportedFuncNotations(operation, 3), ANY_TYPE, PlcFuncTypeExtension.ELEMENTARY_NOT_BOOL);
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, "SEL", params, null,
+                ExprBinding.NO_PRIORITY, target.getSupportedFuncNotations(operation, 3), ANY_TYPE,
+                PlcFuncTypeExtension.ELEMENTARY_NOT_BOOL);
         return new PlcFuncAppl(func,
                 List.of(new PlcNamedValue("G", g), new PlcNamedValue("IN0", in0), new PlcNamedValue("IN1", in1)));
     }
@@ -482,8 +483,9 @@ public class PlcFunctionAppls {
 
         PlcParameterDescription[] parameterDesc = new PlcParameterDescription[] {
                 new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, paramType)};
-        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, parameterDesc,
-                target.getSupportedFuncNotations(operation, 1), resultType);
+        PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
+                parameterDesc, null, ExprBinding.NO_PRIORITY,
+                target.getSupportedFuncNotations(operation, 1), resultType, PlcFuncTypeExtension.NEVER);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -507,7 +509,8 @@ public class PlcFunctionAppls {
         PlcParameterDescription[] parameterDesc = new PlcParameterDescription[] {
                 new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, paramType)};
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText, parameterDesc,
-                infixText, exprBinding, target.getSupportedFuncNotations(operation, 1), resultType);
+                infixText, exprBinding, target.getSupportedFuncNotations(operation, 1), resultType,
+                PlcFuncTypeExtension.NEVER);
         return new PlcFuncAppl(func, List.of(new PlcNamedValue("IN", in)));
     }
 
@@ -527,8 +530,8 @@ public class PlcFunctionAppls {
         Assert.check(target.supportsOperation(operation, inN.length));
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
-                makeParamList(inN.length, paramType), target.getSupportedFuncNotations(operation, inN.length),
-                resultType);
+                makeParamList(inN.length, paramType), null, ExprBinding.NO_PRIORITY,
+                target.getSupportedFuncNotations(operation, inN.length), resultType, PlcFuncTypeExtension.NEVER);
         return new PlcFuncAppl(func, makeArgumentList(inN));
     }
 
@@ -551,7 +554,7 @@ public class PlcFunctionAppls {
 
         PlcSemanticFuncDescription func = new PlcSemanticFuncDescription(operation, prefixText,
                 makeParamList(inN.length, paramType), infixText, exprBinding,
-                target.getSupportedFuncNotations(operation, inN.length), resultType);
+                target.getSupportedFuncNotations(operation, inN.length), resultType, PlcFuncTypeExtension.NEVER);
         return new PlcFuncAppl(func, makeArgumentList(inN));
     }
 

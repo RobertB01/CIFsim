@@ -41,30 +41,6 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
      * @param resultType Type of the result of the function.
-     */
-    public PlcPlainFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
-            ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)
-    {
-        super(prefixFuncName, parameters, computeFuncApplNotations(prefixFuncName, infixFuncName, notations),
-                resultType);
-        Assert.implies(infixFuncName == null, (infixBinding == ExprBinding.NO_PRIORITY));
-
-        this.infixFuncName = infixFuncName;
-        this.infixBinding = infixBinding;
-    }
-
-    /**
-     * Constructor of the {@link PlcPlainFuncDescription} class.
-     *
-     * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
-     *     be used, or {@code null} if the prefix form does not exist.
-     * @param parameters Parameters of the function.
-     * @param infixFuncName Name of the function in infix notation, {@code null} if infix form does not exist.
-     * @param infixBinding Binding of the function application for laying out the infix notation. Use
-     *     {@link PlcBasicFuncDescription.ExprBinding#NO_PRIORITY} for functions that have no infix notation.
-     * @param notations Notations of the function that are supported by the target. May get restricted based on
-     *     available infix and prefix function names.
-     * @param resultType Type of the result of the function.
      * @param typeExtension Condition for appending a {@code _TYPE} extension to a prefix function name.
      */
     public PlcPlainFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,

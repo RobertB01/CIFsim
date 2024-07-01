@@ -32,7 +32,7 @@ public class PlcFunctionBlockDescription extends PlcBasicFuncDescription {
     public PlcFunctionBlockDescription(String typeName, String prefixFuncName,
             PlcParameterDescription[] parameters, PlcAbstractType resultType)
     {
-        super(prefixFuncName, parameters, PlcFuncNotation.FORMAL_ONLY, resultType);
+        super(prefixFuncName, parameters, PlcFuncNotation.FORMAL_ONLY, resultType, PlcFuncTypeExtension.NEVER);
         this.typeName = typeName;
     }
 }

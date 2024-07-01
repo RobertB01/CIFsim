@@ -62,22 +62,6 @@ public abstract class PlcBasicFuncDescription {
      * @param notations Notations of the function that are supported by the target. May get restricted based on
      *     available infix and prefix function names.
      * @param resultType Type of the result of the function.
-     */
-    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
-            EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType)
-    {
-        this(prefixFuncName, parameters, notations, resultType, PlcFuncTypeExtension.NEVER);
-    }
-
-    /**
-     * Constructor of the {@link PlcBasicFuncDescription} class.
-     *
-     * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
-     *     be used, or {@code null} if the prefix form does not exist.
-     * @param parameters Parameters of the function.
-     * @param notations Notations of the function that are supported by the target. May get restricted based on
-     *     available infix and prefix function names.
-     * @param resultType Type of the result of the function.
      * @param typeExtension Condition for appending a {@code _TYPE} extension to a prefix function name.
      */
     public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
