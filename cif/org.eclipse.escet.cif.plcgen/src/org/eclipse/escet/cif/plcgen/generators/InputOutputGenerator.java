@@ -20,6 +20,8 @@ import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYP
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.LINT_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.LREAL_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.REAL_TYPE;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.isIntType;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.isRealType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -35,6 +37,7 @@ import java.util.Set;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
@@ -288,14 +291,20 @@ public class InputOutputGenerator {
     {
         Assert.notNull(plcTypeFromCif); // This is assumed in the next code block.
         if (plcTableType != null) {
-            if (!plcTableType.equals(plcTypeFromCif)) {
-                String message = fmt("The type stated in the 'PLC type' field does not correspond with the type "
-                        + "of the connected CIF variable from the 'CIF name' field containing \"%s\", "
-                        + "for the entry %s.", absCifName, tableLinePositionText);
+            // Throw an error if the types are fundamentally different. Different sizes (eg INT <-> DINT) are allowed.
+            if ((isIntType(plcTableType) && !isIntType(plcTypeFromCif))
+                    || (isRealType(plcTableType) && !isRealType(plcTypeFromCif))
+                    || (plcTableType == BOOL_TYPE && plcTypeFromCif != BOOL_TYPE))
+            {
+                String message = fmt("The type stated in the 'PLC type' field (\"%s\") does not correspond with the "
+                        + "PLC type (\"%s\") of the connected CIF variable from the 'CIF name' field containing "
+                        + "\"%s\", for the entry %s.", getNameOfPlcIoType(plcTableType),
+                        getNameOfPlcIoType(plcTypeFromCif), absCifName, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
-            // TODO Allow for a different sized type, like DINT <-> INT, REAL <-> LREAL, etc.
         } else {
+            // No PLC type stated in the I/O table, derive one from the CIF type.
+
             // Verify that the CIF type is a feasible type before selecting it.
             if (!FEASIBLE_IO_VAR_TYPES.contains(plcTypeFromCif)) {
                 String message = fmt(
@@ -324,6 +333,25 @@ public class InputOutputGenerator {
     }
 
     /**
+     * Convert a PLC type to a user-readable name.
+     *
+     * <p>
+     * As I/O types are all elementary types, a simple conversion is sufficient. In all other cases the result is likely
+     * non-optimal.
+     * </p>
+     *
+     * @param type Type to convert.
+     * @return The name of the given type.
+     */
+    private String getNameOfPlcIoType(PlcType type) {
+        if (type instanceof PlcElementaryType eType) {
+            return eType.name;
+        } else {
+            return type.toString();
+        }
+    }
+
+    /**
      * Generate I/O variables and input/output function code for transferring values between input I/O, the CIF state,
      * and output I/O.
      *
@@ -333,6 +361,7 @@ public class InputOutputGenerator {
         List<PlcStatement> inputStats = list();
         List<PlcStatement> outputStats = list();
 
+        PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
         NameGenerator nameGenerator = target.getNameGenerator();
         PlcCodeStorage codeStorage = target.getCodeStorage();
 
@@ -367,7 +396,7 @@ public class InputOutputGenerator {
                         DocumentingSupport.getDescription(entry.cifObject));
                 stats.add(new PlcCommentLine(commentText));
 
-                // Perform the assignment.
+                // Create the access expressions for the input address and the variable.
                 PlcVarExpression leftSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
                     leftSide = cifDataProvider.getAddressableForDiscVar(discVar);
@@ -377,13 +406,19 @@ public class InputOutputGenerator {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
                 }
                 PlcExpression rightSide = new PlcVarExpression(ioVar);
+
+                // Perform the assignment, possibly after unifying the type.
+                if (!leftSide.type.equals(rightSide.type)) {
+                    rightSide = funcAppls.castFunctionAppl(rightSide, (PlcElementaryType)leftSide.type);
+                }
                 stats.add(new PlcAssignmentStatement(leftSide, rightSide));
+
             } else { // io-var := state-var;
                 // Generate a comment what CIF variable is read.
                 String commentText = fmt("Write %s to PLC output.", DocumentingSupport.getDescription(entry.cifObject));
                 stats.add(new PlcCommentLine(commentText));
 
-                // Perform the assignment.
+                // Create the access expressions for the output address and the variable.
                 PlcVarExpression leftSide = new PlcVarExpression(ioVar);
                 PlcExpression rightSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
@@ -392,6 +427,11 @@ public class InputOutputGenerator {
                     rightSide = cifDataProvider.getValueForInputVar(inpVar);
                 } else {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
+                }
+
+                // Perform the assignment, possibly after unifying the type.
+                if (!leftSide.type.equals(rightSide.type)) {
+                    rightSide = funcAppls.castFunctionAppl(rightSide, (PlcElementaryType)leftSide.type);
                 }
                 stats.add(new PlcAssignmentStatement(leftSide, rightSide));
             }
