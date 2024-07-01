@@ -35,6 +35,9 @@ import org.eclipse.escet.common.java.Assert;
  * contains allowed notation forms of the function application.
  */
 public abstract class PlcBasicFuncDescription {
+    /** The semantic operation performed by the function. */
+    public final PlcFuncOperation operation;
+
     /**
      * Name of the function in prefix notation, the empty string if the function name should not be used, or
      * {@code null} if the prefix form does not exist.
@@ -56,6 +59,7 @@ public abstract class PlcBasicFuncDescription {
     /**
      * Constructor of the {@link PlcBasicFuncDescription} class.
      *
+     * @param operation The semantic operation performed by the function.
      * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
      *     be used, or {@code null} if the prefix form does not exist.
      * @param parameters Parameters of the function.
@@ -64,8 +68,9 @@ public abstract class PlcBasicFuncDescription {
      * @param resultType Type of the result of the function.
      * @param typeExtension Condition for appending a {@code _TYPE} extension to a prefix function name.
      */
-    public PlcBasicFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters,
-            EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType, PlcFuncTypeExtension typeExtension)
+    public PlcBasicFuncDescription(PlcFuncOperation operation, String prefixFuncName,
+            PlcParameterDescription[] parameters, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType,
+            PlcFuncTypeExtension typeExtension)
     {
         Assert.check(!notations.isEmpty());
 
@@ -73,6 +78,7 @@ public abstract class PlcBasicFuncDescription {
         long numUnique = Arrays.stream(parameters).map(param -> param.name).distinct().count();
         Assert.areEqual(Math.toIntExact(numUnique), parameters.length);
 
+        this.operation = operation;
         this.prefixFuncName = prefixFuncName;
         this.parameters = parameters;
         this.notations = notations;

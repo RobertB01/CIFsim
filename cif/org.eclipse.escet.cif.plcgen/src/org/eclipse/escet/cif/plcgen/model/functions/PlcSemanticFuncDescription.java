@@ -19,9 +19,6 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcAbstractType;
 
 /** Function description extended with the semantic operation being performed in a function application. */
 public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
-    /** The semantic operation performed by the function application. */
-    public final PlcFuncOperation operation;
-
     /**
      * Constructor of the {@link PlcSemanticFuncDescription} class.
      *
@@ -42,8 +39,7 @@ public class PlcSemanticFuncDescription extends PlcPlainFuncDescription {
             PlcParameterDescription[] parameters, String infixFuncName, ExprBinding infixBinding,
             EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType, PlcFuncTypeExtension typeExtension)
     {
-        super(prefixFuncName, parameters, infixFuncName, infixBinding, notations, resultType, typeExtension);
-        this.operation = operation;
+        super(operation, prefixFuncName, parameters, infixFuncName, infixBinding, notations, resultType, typeExtension);
     }
 
 }

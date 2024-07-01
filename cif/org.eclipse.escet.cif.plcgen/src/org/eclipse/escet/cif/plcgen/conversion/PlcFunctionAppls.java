@@ -459,8 +459,8 @@ public class PlcFunctionAppls {
             };
 
             // Construct and store the TON function block type.
-            PlcFunctionBlockDescription tonBlockDescr;
-            tonBlockDescr = new PlcFunctionBlockDescription("TON", target.getTonFuncBlockCallName(), params, TIME_TYPE);
+            PlcFunctionBlockDescription tonBlockDescr = new PlcFunctionBlockDescription(PlcFuncOperation.BLOCK_TON,
+                    "TON", target.getTonFuncBlockCallName(), params, TIME_TYPE);
             tonBlockType = new PlcFuncBlockType(tonBlockDescr);
         }
         return tonBlockType;

@@ -23,16 +23,18 @@ public class PlcFunctionBlockDescription extends PlcBasicFuncDescription {
     /**
      * Constructor of the {@link PlcFunctionBlockDescription} class.
      *
+     * @param operation The semantic operation performed by the function.
      * @param typeName Name of the function block type.
      * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
      *     be used, or {@code null} if the prefix form does not exist.
      * @param parameters Parameters of the function block type.
      * @param resultType Type of the result of the function.
      */
-    public PlcFunctionBlockDescription(String typeName, String prefixFuncName,
+    public PlcFunctionBlockDescription(PlcFuncOperation operation, String typeName, String prefixFuncName,
             PlcParameterDescription[] parameters, PlcAbstractType resultType)
     {
-        super(prefixFuncName, parameters, PlcFuncNotation.FORMAL_ONLY, resultType, PlcFuncTypeExtension.NEVER);
+        super(operation, prefixFuncName, parameters, PlcFuncNotation.FORMAL_ONLY, resultType,
+                PlcFuncTypeExtension.NEVER);
         this.typeName = typeName;
     }
 }

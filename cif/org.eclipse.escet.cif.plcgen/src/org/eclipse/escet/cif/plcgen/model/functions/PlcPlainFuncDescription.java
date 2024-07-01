@@ -32,6 +32,7 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
     /**
      * Constructor of the {@link PlcPlainFuncDescription} class.
      *
+     * @param operation The semantic operation performed by the function.
      * @param prefixFuncName Name of the function in prefix notation, the empty string if the function name should not
      *     be used, or {@code null} if the prefix form does not exist.
      * @param parameters Parameters of the function.
@@ -43,11 +44,11 @@ public class PlcPlainFuncDescription extends PlcBasicFuncDescription {
      * @param resultType Type of the result of the function.
      * @param typeExtension Condition for appending a {@code _TYPE} extension to a prefix function name.
      */
-    public PlcPlainFuncDescription(String prefixFuncName, PlcParameterDescription[] parameters, String infixFuncName,
-            ExprBinding infixBinding, EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType,
-            PlcFuncTypeExtension typeExtension)
+    public PlcPlainFuncDescription(PlcFuncOperation operation, String prefixFuncName,
+            PlcParameterDescription[] parameters, String infixFuncName, ExprBinding infixBinding,
+            EnumSet<PlcFuncNotation> notations, PlcAbstractType resultType, PlcFuncTypeExtension typeExtension)
     {
-        super(prefixFuncName, parameters, computeFuncApplNotations(prefixFuncName, infixFuncName, notations),
+        super(operation, prefixFuncName, parameters, computeFuncApplNotations(prefixFuncName, infixFuncName, notations),
                 resultType, typeExtension);
         Assert.implies(infixFuncName == null, (infixBinding == ExprBinding.NO_PRIORITY));
 

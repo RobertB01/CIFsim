@@ -106,5 +106,8 @@ public enum PlcFuncOperation {
     STDLIB_SIN,
 
     /** Tangent operation. */
-    STDLIB_TAN;
+    STDLIB_TAN,
+
+    /** TON standard function block. */
+    BLOCK_TON;
 }
