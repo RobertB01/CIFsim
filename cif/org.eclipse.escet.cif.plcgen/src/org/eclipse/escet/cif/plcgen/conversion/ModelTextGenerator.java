@@ -39,7 +39,6 @@ import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcP
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcParameterDescription;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcPlainFuncDescription;
-import org.eclipse.escet.cif.plcgen.model.functions.PlcSemanticFuncDescription;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentBlock;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
@@ -178,16 +177,17 @@ public class ModelTextGenerator {
             // Non-negative integer literals are simply an integer literal object.
             return intLit.value;
 
-        } else if (expr instanceof PlcFuncAppl fnAppl && fnAppl.function instanceof PlcSemanticFuncDescription sfd) {
-            if (sfd.operation == PlcFuncOperation.NEGATE_OP) {
+        } else if (expr instanceof PlcFuncAppl fnAppl) {
+            PlcBasicFuncDescription funcDesc = fnAppl.function;
+            if (funcDesc.operation == PlcFuncOperation.NEGATE_OP) {
                 // All negative integer literals except -2147483648 are encoded as a negated positive integer literal.
-                Integer v = tryGetIntValue(fnAppl.arguments.get(fnAppl.function.parameters[0].name).value);
+                Integer v = tryGetIntValue(fnAppl.arguments.get(funcDesc.parameters[0].name).value);
                 return (v == null) ? null : -v;
 
-            } else if (sfd.operation == PlcFuncOperation.SUBTRACT_OP) {
+            } else if (funcDesc.operation == PlcFuncOperation.SUBTRACT_OP) {
                 // -2147483648 is encoded as -2147483647 - 1.
-                Integer left = tryGetIntValue(fnAppl.arguments.get(fnAppl.function.parameters[0].name).value);
-                Integer right = tryGetIntValue(fnAppl.arguments.get(fnAppl.function.parameters[1].name).value);
+                Integer left = tryGetIntValue(fnAppl.arguments.get(funcDesc.parameters[0].name).value);
+                Integer right = tryGetIntValue(fnAppl.arguments.get(funcDesc.parameters[1].name).value);
                 if (left != null && right != null) {
                     return left - right;
                 }
