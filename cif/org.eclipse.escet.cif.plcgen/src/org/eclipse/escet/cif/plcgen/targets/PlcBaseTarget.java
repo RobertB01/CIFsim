@@ -343,12 +343,28 @@ public abstract class PlcBaseTarget extends PlcTarget {
     public void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoDirection directionFromCif,
             String tableLinePositionText)
     {
-        if (parsedAddress.size() > getMaxIntegerTypeSize()) {
-            // Accept everything, but give a warning if trouble may arise at runtime.
+        // Get the maximum supported width for the type.
+        int maxAvailableBits;
+        String typeText;
+        if (PlcElementaryType.isIntType(plcTableType)) {
+            maxAvailableBits = getMaxIntegerTypeSize();
+            typeText = "integer";
+        } else if (PlcElementaryType.isRealType(plcTableType)) {
+            maxAvailableBits = getMaxRealTypeSize();
+            typeText = "real";
+        } else if (plcTableType.equals(PlcElementaryType.BOOL_TYPE)) {
+            maxAvailableBits = 1;
+            typeText = "boolean";
+        } else {
+            throw new AssertionError("Unexpected PLC type \"" + plcTableType + "\" found.");
+        }
+
+        // Check that the address size is within supported limits. If not, give a warning.
+        if (parsedAddress.size() > maxAvailableBits) {
             warnOutput.line(
-                    "Size of I/O address \"%s\" (of %d bits) exceeds the size of the largest supported integer type "
+                    "Size of I/O address \"%s\" (of %d bits) exceeds the size of the largest supported %s type "
                             + "(of %d bits).",
-                    parsedAddress.getAddress(), parsedAddress.size(), getMaxIntegerTypeSize());
+                    parsedAddress.getAddress(), parsedAddress.size(), typeText, maxAvailableBits);
         }
     }
 
