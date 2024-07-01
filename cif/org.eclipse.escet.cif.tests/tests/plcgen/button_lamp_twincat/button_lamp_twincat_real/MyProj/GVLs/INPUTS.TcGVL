@@ -3,6 +3,8 @@
   <GVL Name="INPUTS">
     <Declaration><![CDATA[VAR_GLOBAL // INPUTS
     in_hw_button_bit AT %I15.5: BOOL;
+    in_hw_button_bot AT %I18: DINT;
+    in_hw_button_bat AT %I19: REAL;
 END_VAR]]></Declaration>
     <ObjectProperties/>
   </GVL>

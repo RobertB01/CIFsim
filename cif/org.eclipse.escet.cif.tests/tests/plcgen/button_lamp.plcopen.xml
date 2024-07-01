@@ -93,6 +93,21 @@
                 <BOOL/>
               </type>
             </variable>
+            <variable name="hw_button_bot">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="hw_button_bat">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="hw_button_r">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
             <variable name="hw_button">
               <type>
                 <derived name="hw_button_location"/>
@@ -131,6 +146,11 @@
             <variable name="current_hw_button_1">
               <type>
                 <derived name="hw_button_location"/>
+              </type>
+            </variable>
+            <variable name="current_hw_button_r">
+              <type>
+                <LREAL/>
               </type>
             </variable>
             <variable name="current_hw_lamp">
@@ -246,7 +266,10 @@
  *
  * Automaton "hw_button":
  * - Current location of automaton "hw_button".
+ * - Input variable "hw_button.bat".
  * - Input variable "hw_button.bit".
+ * - Input variable "hw_button.bot".
+ * - Discrete variable "hw_button.r".
  *
  * - PLC edge selection variable "edge_hw_button".
  *
@@ -294,6 +317,10 @@
 (* --- Read PLC inputs. ---------------------------------------------------- *)
 (* Read PLC input and write it to input variable "hw_button.bit". *)
 hw_button_bit := in_hw_button_bit;
+(* Read PLC input and write it to input variable "hw_button.bot". *)
+hw_button_bot := in_hw_button_bot;
+(* Read PLC input and write it to input variable "hw_button.bat". *)
+hw_button_bat := REAL_TO_LREAL(in_hw_button_bat);
 
 (* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
@@ -310,6 +337,8 @@ IF firstRun THEN
     timer_1 := timer_Idle;
     (* Initialize current location of automaton "sup". *)
     sup := sup_s1;
+    (* Initialize discrete variable "hw_button.r". *)
+    hw_button_r := 0.0;
     (* Initialize current location of automaton "hw_button". *)
     hw_button := hw_button_Released;
     (* Initialize discrete variable "hw_lamp.bit". *)
@@ -460,6 +489,7 @@ WHILE isProgress DO
         isProgress := TRUE;
         (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_hw_button := hw_button;
+        current_hw_button_r := hw_button_r;
         current_sup_1 := sup;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
@@ -489,6 +519,8 @@ WHILE isProgress DO
         (* Perform assignments of automaton "hw_button". *)
         IF edge_hw_button_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_button.Released". *)
+            (* Perform update of discrete variable "hw_button.r". *)
+            hw_button_r := hw_button_bat + DINT_TO_LREAL(hw_button_bot);
             (* Perform update of current location of automaton "hw_button". *)
             hw_button := hw_button_Pushed;
         END_IF;
@@ -846,6 +878,16 @@ out_hw_lamp_bit := hw_lamp_bit;</xhtml>
             <variable address="%I15.5" name="in_hw_button_bit">
               <type>
                 <BOOL/>
+              </type>
+            </variable>
+            <variable address="%I18" name="in_hw_button_bot">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable address="%I19" name="in_hw_button_bat">
+              <type>
+                <REAL/>
               </type>
             </variable>
           </globalVars>

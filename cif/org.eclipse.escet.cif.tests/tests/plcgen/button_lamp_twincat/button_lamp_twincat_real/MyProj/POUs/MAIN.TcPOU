@@ -8,6 +8,9 @@ VAR
     timer_1: timer_location;
     sup: sup_location;
     hw_button_bit: BOOL;
+    hw_button_bot: DINT;
+    hw_button_bat: LREAL;
+    hw_button_r: LREAL;
     hw_button: hw_button_location;
     hw_lamp_bit: BOOL;
     hw_lamp: hw_lamp_location;
@@ -17,6 +20,7 @@ VAR_TEMP
     curValue: TIME;
     current_hw_button: hw_button_location;
     current_hw_button_1: hw_button_location;
+    current_hw_button_r: LREAL;
     current_hw_lamp: hw_lamp_location;
     current_hw_lamp_1: hw_lamp_location;
     current_hw_lamp_bit: BOOL;
@@ -48,7 +52,10 @@ END_VAR]]></Declaration>
  *
  * Automaton "hw_button":
  * - Current location of automaton "hw_button".
+ * - Input variable "hw_button.bat".
  * - Input variable "hw_button.bit".
+ * - Input variable "hw_button.bot".
+ * - Discrete variable "hw_button.r".
  *
  * - PLC edge selection variable "edge_hw_button".
  *
@@ -96,6 +103,10 @@ END_VAR]]></Declaration>
 (* --- Read PLC inputs. ---------------------------------------------------- *)
 (* Read PLC input and write it to input variable "hw_button.bit". *)
 hw_button_bit := in_hw_button_bit;
+(* Read PLC input and write it to input variable "hw_button.bot". *)
+hw_button_bot := in_hw_button_bot;
+(* Read PLC input and write it to input variable "hw_button.bat". *)
+hw_button_bat := REAL_TO_LREAL(in_hw_button_bat);
 
 (* --- Initialize state or update continuous variables. -------------------- *)
 IF firstRun THEN
@@ -112,6 +123,8 @@ IF firstRun THEN
     timer_1 := timer_Idle;
     (* Initialize current location of automaton "sup". *)
     sup := sup_s1;
+    (* Initialize discrete variable "hw_button.r". *)
+    hw_button_r := 0.0;
     (* Initialize current location of automaton "hw_button". *)
     hw_button := hw_button_Released;
     (* Initialize discrete variable "hw_lamp.bit". *)
@@ -262,6 +275,7 @@ WHILE isProgress DO
         isProgress := TRUE;
         (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_hw_button := hw_button;
+        current_hw_button_r := hw_button_r;
         current_sup_1 := sup;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
@@ -291,6 +305,8 @@ WHILE isProgress DO
         (* Perform assignments of automaton "hw_button". *)
         IF edge_hw_button_1 = 1 THEN
             (* Perform assignments of the 1st edge in location "hw_button.Released". *)
+            (* Perform update of discrete variable "hw_button.r". *)
+            hw_button_r := hw_button_bat + DINT_TO_LREAL(hw_button_bot);
             (* Perform update of current location of automaton "hw_button". *)
             hw_button := hw_button_Pushed;
         END_IF;

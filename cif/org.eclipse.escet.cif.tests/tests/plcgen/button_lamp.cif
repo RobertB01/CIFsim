@@ -15,10 +15,12 @@ group button:
   uncontrollable push;
   uncontrollable release;
 end
+
 group lamp:
   controllable on;
   controllable off;
 end
+
 plant timer:
   controllable start;
   uncontrollable timeout;
@@ -30,6 +32,7 @@ plant timer:
   location Running:
     edge timeout when t <= 0.0 goto Idle;
 end
+
 supervisor sup:
   alphabet button.push, button.release, lamp.on, lamp.off, timer.start, timer.timeout;
   location s1:
@@ -63,14 +66,20 @@ supervisor sup:
   location s10:
     edge button.release goto s1;
 end
+
 plant hw_button:
   input bool bit;
+  input int bot;
+  input real bat;
+  disc real r;
+
   location Released:
     initial;
-    edge button.push when bit goto Pushed;
+    edge button.push when bit do r := bat + bot goto Pushed;
   location Pushed:
     edge button.release when not bit goto Released;
 end
+
 plant hw_lamp:
   disc bool bit = false;
   location Off:

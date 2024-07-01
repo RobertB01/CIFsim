@@ -1,2 +1,4 @@
 %I15.5,bool,hw_button.bit
 %Q16.6,bool,hw_lamp.bit
+%I18,dint,hw_button.bot
+%i19,real,hw_button.bat
