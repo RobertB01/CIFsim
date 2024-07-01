@@ -21,6 +21,8 @@ const Color danger = red;
 const int x = -1234;
 const int z = 4321;
 const int xx = -2147483647 - 1;
+const real p = 123;
+const real pp = -123.0e-5;
 
 const tuple(int a; int b) t = (0, 0);
 
@@ -32,12 +34,12 @@ input Color col;
 
 automaton aut:
   controllable e, f, g;
-  disc int y;
+  disc real y;
 
   location:
     initial;
 
-    edge e when i + c > 3 do y := xx;
-    edge f when bol = holds or i = t[0] do y := x + z;
+    edge e when i + c > 3 do y := xx + p - pp;
+    edge f when bol = holds or i = t[0] do y := 0.0 + x + z;
     edge g when col != danger;
 end

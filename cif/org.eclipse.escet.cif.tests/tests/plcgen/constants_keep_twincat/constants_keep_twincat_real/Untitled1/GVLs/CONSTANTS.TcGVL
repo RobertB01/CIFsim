@@ -11,6 +11,8 @@
     x: DINT := -1234;
     z: DINT := 4321;
     xx: DINT := -2147483648;
+    p: LREAL := 123.0;
+    pp: LREAL := -0.00123;
 END_VAR]]></Declaration>
     <ObjectProperties/>
   </GVL>

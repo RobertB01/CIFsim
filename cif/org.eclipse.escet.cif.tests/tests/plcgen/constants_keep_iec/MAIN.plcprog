@@ -3,12 +3,12 @@ VAR
     i: DINT;
     bol: BOOL;
     col: Color;
-    aut_y: DINT;
+    aut_y: LREAL;
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP
-    current_aut_y: DINT;
-    current_aut_y_1: DINT;
+    current_aut_y: LREAL;
+    current_aut_y_1: LREAL;
     edge_aut_1: DINT;
     eventEnabled: BOOL;
     isProgress: BOOL;
@@ -47,7 +47,7 @@ IF firstRun THEN
 
     (* Initialize the state variables. *)
     (* Initialize discrete variable "aut.y". *)
-    aut_y := 0;
+    aut_y := 0.0;
 END_IF;
 
 (* --- Process controllable events. ---------------------------------------- *)
@@ -91,7 +91,7 @@ WHILE isProgress DO
         IF edge_aut_1 = 1 THEN
             (* Perform assignments of the 1st edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
-            aut_y := xx;
+            aut_y := (DINT_TO_LREAL(xx) + p) - pp;
         END_IF;
     END_IF;
 
@@ -132,7 +132,7 @@ WHILE isProgress DO
         IF edge_aut_1 = 1 THEN
             (* Perform assignments of the 2nd edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
-            aut_y := x + z;
+            aut_y := 0.0 + DINT_TO_LREAL(x) + DINT_TO_LREAL(z);
         END_IF;
     END_IF;
 

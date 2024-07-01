@@ -4,7 +4,7 @@ DATA_BLOCK "DB"
         i: DINT;
         bol: BOOL;
         col: DINT;
-        aut_y: DINT;
+        aut_y: REAL;
         firstRun: BOOL;
     END_VAR
 BEGIN

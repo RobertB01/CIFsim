@@ -9,6 +9,8 @@ CONFIGURATION Untitled1
         x: DINT := -1234;
         z: DINT := 4321;
         xx: DINT := -2147483648;
+        p: LREAL := 123.0;
+        pp: LREAL := -0.00123;
     END_VAR
     TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);
     PROGRAM MAIN WITH PlcTask: MAIN;

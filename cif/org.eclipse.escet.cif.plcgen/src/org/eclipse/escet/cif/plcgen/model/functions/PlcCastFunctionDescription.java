@@ -24,9 +24,9 @@ public class PlcCastFunctionDescription extends PlcBasicFuncDescription {
      * @param resultType Type of the function application result.
      */
     public PlcCastFunctionDescription(PlcElementaryType childType, PlcElementaryType resultType) {
-        super(childType.name + "_TO_" + resultType.name,
-                new PlcParameterDescription[]
-                {new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, childType)},
-                PlcBasicFuncDescription.PlcFuncNotation.NOT_INFIX, resultType);
+        super(PlcFuncOperation.CAST_OP, childType.name + "_TO_" + resultType.name,
+                new PlcParameterDescription[] {
+                        new PlcParameterDescription("IN", PlcParamDirection.INPUT_ONLY, childType)},
+                PlcBasicFuncDescription.PlcFuncNotation.NOT_INFIX, resultType, PlcFuncTypeExtension.NEVER);
     }
 }
