@@ -152,6 +152,13 @@ public class ModelTextGenerator {
             if (value != null) {
                 return Integer.toString(value);
             }
+        } else if (PlcElementaryType.isRealType(expr.type)) {
+            // Negative real literals are expressed as computations. Try to recognize them and convert them back to
+            // their literal value.
+            String value = tryGetRealValue(expr);
+            if (value != null) {
+                return value;
+            }
         }
 
         // Unrecognized integer expression or an expression of another type. Fallback to normal text conversion for
@@ -193,7 +200,35 @@ public class ModelTextGenerator {
                 }
             }
         }
-        return null; // Expression form is not recognized as integer literal.
+        return null; // Expression form is not recognized as an integer literal.
+    }
+
+    /**
+     * Try to get a real value.
+     *
+     * @param expr The expression with real type to parse.
+     * @return A real value if the computation form was recognized, else {@code null}.
+     */
+    private String tryGetRealValue(PlcExpression expr) {
+        Assert.check(PlcElementaryType.isRealType(expr.type));
+
+        if (expr instanceof PlcRealLiteral realLit) {
+            // Non-negative real literals are simply a real literal object.
+            return realLit.value;
+
+        } else if (expr instanceof PlcFuncAppl fnAppl) {
+            PlcBasicFuncDescription funcDesc = fnAppl.function;
+            if (funcDesc.operation == PlcFuncOperation.NEGATE_OP) {
+                // All negative real literals are encoded as a negated positive real literal.
+                String v = tryGetRealValue(fnAppl.arguments.get(funcDesc.parameters[0].name).value);
+                if (v != null) {
+                    // Avoid creating "--number".
+                    v = v.startsWith("-") ? v.substring(1) : ("-" + v);
+                }
+                return v;
+            }
+        }
+        return null; // Expression form is not recognized as a real literal.
     }
 
     /**
