@@ -22,6 +22,10 @@ The release notes for the versions of ToolDef and the associated tools, as part 
 
 See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-name}/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
+=== Version 5.0
+
+TBD
+
 === Version 4.0 (2024-06-30)
 
 Improvements and fixes:
