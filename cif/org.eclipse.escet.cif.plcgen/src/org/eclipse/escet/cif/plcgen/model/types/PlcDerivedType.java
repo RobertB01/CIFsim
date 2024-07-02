@@ -45,6 +45,6 @@ public class PlcDerivedType extends PlcType {
 
     @Override
     public String toString() {
-        return "PlcDeriveDtype(\"" + name + "\")";
+        return "PlcDerivedType(\"" + name + "\")";
     }
 }
