@@ -61,7 +61,13 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Generator that creates input and output PLC code. */
 public class InputOutputGenerator {
-    /** PLC types that may be used for I/O. */
+    /**
+     * PLC types that may be used for I/O.
+     *
+     * <p>
+     * These types should be printable, see {@link #getNameOfPlcIoType}.
+     * </p>
+     */
     private static final Set<PlcElementaryType> FEASIBLE_IO_VAR_TYPES = set(BOOL_TYPE, INT_TYPE, DINT_TYPE, LINT_TYPE,
             REAL_TYPE, LREAL_TYPE);
 
@@ -335,20 +341,16 @@ public class InputOutputGenerator {
     /**
      * Convert a PLC type to a user-readable name.
      *
-     * <p>
-     * As I/O types are all elementary types, a simple conversion is sufficient. In all other cases the result is likely
-     * non-optimal.
-     * </p>
-     *
      * @param type Type to convert.
      * @return The name of the given type.
      */
     private String getNameOfPlcIoType(PlcType type) {
         if (type instanceof PlcElementaryType eType) {
             return eType.name;
-        } else {
-            return type.toString();
         }
+
+        // Allowed types are currently limited to elementary types, see FEASIBLE_IO_VAR_TYPES.
+        throw new AssertionError("Unexpected type \"" + type + "\" found.");
     }
 
     /**
