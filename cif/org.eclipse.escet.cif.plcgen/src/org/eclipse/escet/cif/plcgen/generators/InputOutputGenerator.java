@@ -247,7 +247,7 @@ public class InputOutputGenerator {
     }
 
     /**
-     * Derive a PLC type for an entry from its attached CIF object.
+     * Derive a valid PLC type for an entry from its attached CIF object.
      *
      * @param absName Absolute name of the object in CIF.
      * @param cifObj The CIF object found from the absolute name in the specification.
@@ -256,15 +256,25 @@ public class InputOutputGenerator {
      * @throws InvalidInputException If no valid CIF object can be attached to the provided search result.
      */
     private PlcType decideTypeFromCif(String absName, PositionObject cifObj, String tableLinePositionText) {
+        // Derive the PLC type.
+        PlcType plcType;
         if (cifObj instanceof DiscVariable dv) {
-            return target.getTypeGenerator().convertType(dv.getType());
+            plcType = target.getTypeGenerator().convertType(dv.getType());
         } else if (cifObj instanceof InputVariable iv) {
-            return target.getTypeGenerator().convertType(iv.getType());
+            plcType = target.getTypeGenerator().convertType(iv.getType());
         } else {
             String message = fmt("The 'CIF name' field containing \"%s\" does not indicate an input or discrete "
                     + "variable (third field %s).", absName, tableLinePositionText);
             throw new InvalidInputException(message);
         }
+
+        // Check for having a valid type, and return it.
+        if (!FEASIBLE_IO_VAR_TYPES.contains(plcType)) {
+            String message = fmt("The type of the CIF variable in the 'CIF name' field containing \"%s\" %s is not "
+                    + "a real, integer or boolean type.", absName, tableLinePositionText);
+            throw new InvalidInputException(message);
+        }
+        return plcType;
     }
 
     /**
