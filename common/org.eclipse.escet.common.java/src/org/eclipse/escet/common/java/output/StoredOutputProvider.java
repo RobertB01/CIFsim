@@ -172,15 +172,20 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                 }
 
                 // Construct the output.
+                // Don't indent empty messages. Blank messages are kept and are thus also indented.
                 String curIndentText = getIndentText();
                 if (linePrefix != null && !linePrefix.isEmpty()) {
-                    message = curIndentText + linePrefix + message + "\n";
-                } else if (!message.isEmpty()) {
-                    // Avoid creating an empty line with just indentation. Note that blank messages do get indented as
-                    // technically it can be considered to be a message.
-                    message = curIndentText + message + "\n";
+                    if (message.isEmpty()) {
+                        message = curIndentText + linePrefix.stripTrailing() + "\n";
+                    } else {
+                        message = curIndentText + linePrefix + message + "\n";
+                    }
                 } else {
-                    message = "\n";
+                    if (message.isEmpty()) {
+                        message = "\n";
+                    } else {
+                        message = curIndentText + message + "\n";
+                    }
                 }
                 stringStore.append(message);
             }
@@ -221,15 +226,20 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                     }
 
                     // Construct the output.
+                    // Don't indent empty messages. Blank messages are kept and are thus also indented.
                     String curIndentText = getIndentText();
                     if (linePrefix != null && !linePrefix.isEmpty()) {
-                        message = curIndentText + linePrefix + message + "\n";
-                    } else if (!message.isEmpty()) {
-                        // Avoid creating an empty line with just indentation. Note that blank messages do get indented
-                        // as technically it can be considered to be a message.
-                        message = curIndentText + message + "\n";
+                        if (message.isEmpty()) {
+                            message = curIndentText + linePrefix.stripTrailing() + "\n";
+                        } else {
+                            message = curIndentText + linePrefix + message + "\n";
+                        }
                     } else {
-                        message = "\n";
+                        if (message.isEmpty()) {
+                            message = "\n";
+                        } else {
+                            message = curIndentText + message + "\n";
+                        }
                     }
                     stringStore.append(message);
                 }
@@ -250,7 +260,11 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                 @Override
                 public void line(String message) {
                     if (linePrefix != null && !linePrefix.isEmpty()) {
-                        message = linePrefix + message + "\n";
+                        if (message.isEmpty()) {
+                            message = linePrefix.stripTrailing() + "\n";
+                        } else {
+                            message = linePrefix + message + "\n";
+                        }
                     } else {
                         message = message + "\n";
                     }
