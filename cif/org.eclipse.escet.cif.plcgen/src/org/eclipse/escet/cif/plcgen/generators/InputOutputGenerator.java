@@ -319,15 +319,6 @@ public class InputOutputGenerator {
                 throw new InvalidInputException(message);
             }
         } else {
-            // No PLC type stated in the I/O table, derive one from the CIF type.
-
-            // Verify that the CIF type is a feasible type before selecting it.
-            if (!FEASIBLE_IO_VAR_TYPES.contains(plcTypeFromCif)) {
-                String message = fmt(
-                        "The type of CIF variable \"%s\" is not a usable type for input/output (third field %s).",
-                        absCifName, tableLinePositionText);
-                throw new InvalidInputException(message);
-            }
             plcTableType = plcTypeFromCif; // Use found CIF type as the I/O table type.
         }
         return plcTableType;
