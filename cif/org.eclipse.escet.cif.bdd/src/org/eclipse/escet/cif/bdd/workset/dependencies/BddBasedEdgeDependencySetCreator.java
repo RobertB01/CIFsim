@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
@@ -41,7 +42,7 @@ public class BddBasedEdgeDependencySetCreator implements EdgeDependencySetCreato
             // Compute the states that can potentially be reached by this edge.
             BDD precedingEdgeReachableStates = precedingEdge.apply( //
                     cifBddSpec.factory.one(), // Apply edge to 'true' predicate.
-                    true, // Forward reachability.
+                    CifBddEdgeApplyDirection.FORWARD, // Forward reachability.
                     null // No restriction.
             );
 

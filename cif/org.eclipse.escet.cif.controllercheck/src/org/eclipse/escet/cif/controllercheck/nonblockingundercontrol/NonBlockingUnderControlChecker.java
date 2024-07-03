@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
@@ -181,13 +182,13 @@ public class NonBlockingUnderControlChecker {
         String initValName = "controllable-complete path end states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
-        boolean applyForward = false; // Whether to apply forward reachability (true) or backward reachability (false).
+        CifBddEdgeApplyDirection direction = CifBddEdgeApplyDirection.BACKWARD; // Apply backward reachability.
         boolean inclCtrl = true; // Whether to use edges with controllable events.
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
         boolean inclInputVars = true; // Whether to use input variable edges.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
-                restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
+                restriction, direction, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
 
         // Get the initial predicate for the reachability computation. We use 'marked' rather than 'markedInv', since
         // preconditions forbid state invariants.
@@ -244,13 +245,13 @@ public class NonBlockingUnderControlChecker {
         String initValName = "not controllable-complete path states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
-        boolean applyForward = false; // Whether to apply forward reachability (true) or backward reachability (false).
+        CifBddEdgeApplyDirection direction = CifBddEdgeApplyDirection.BACKWARD; // Apply backward reachability.
         boolean inclCtrl = true; // Whether to use edges with controllable events.
         boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
         boolean inclInputVars = true; // Whether to use input variable edges.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
-                restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
+                restriction, direction, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
 
         // Get the initial predicate for the reachability computation.
         BDD initPred = ccp.not();
