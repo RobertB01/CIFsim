@@ -271,7 +271,7 @@ public class InputOutputGenerator {
         // Check for having a valid type, and return it.
         if (!FEASIBLE_IO_VAR_TYPES.contains(plcType)) {
             String message = fmt("The type of the CIF variable in the 'CIF name' field containing \"%s\" %s is not "
-                    + "a real, integer or boolean type.", absName, tableLinePositionText);
+                    + "a boolean, integer or real type.", absName, tableLinePositionText);
             throw new InvalidInputException(message);
         }
         return plcType;
