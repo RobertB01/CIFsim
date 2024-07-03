@@ -84,6 +84,7 @@ import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.emf.EMFHelper;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
@@ -415,6 +416,13 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             confluenceHolds = confluenceConclusion.propertyHolds();
         }
         allChecksHold &= confluenceHolds;
+
+        // Sanity check.
+        if (boundedResponseConclusion != null && finiteResponseConclusion != null) {
+            if (finiteResponseConclusion.propertyHolds()) {
+                Assert.check(boundedResponseConclusion.controllablesBound.isBounded());
+            }
+        }
 
         // Output the checker conclusions.
         out();
