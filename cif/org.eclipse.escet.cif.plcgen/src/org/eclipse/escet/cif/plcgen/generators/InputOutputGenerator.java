@@ -253,7 +253,8 @@ public class InputOutputGenerator {
      * @param cifObj The CIF object found from the absolute name in the specification.
      * @param tableLinePositionText Text for reporting about the CSV line.
      * @return The PLC type to use for the I/O entry according to the matched CIF object.
-     * @throws InvalidInputException If no valid CIF object can be attached to the provided search result.
+     * @throws InvalidInputException If no valid CIF object can be attached to the provided search result, or the CIF
+     *     object does not have a boolean, integer or real type.
      */
     private PlcType decideTypeFromCif(String absName, PositionObject cifObj, String tableLinePositionText) {
         // Derive the PLC type.
