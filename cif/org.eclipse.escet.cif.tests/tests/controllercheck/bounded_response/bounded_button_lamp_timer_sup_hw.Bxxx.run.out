@@ -153,7 +153,7 @@ Bounded response check completed.
 
 CONCLUSION:
     [OK] The specification has bounded response:
-    
+
         - A sequence of at most 2 transitions is possible for uncontrollable events.
         - A sequence of at most 2 transitions is possible for controllable events.
 

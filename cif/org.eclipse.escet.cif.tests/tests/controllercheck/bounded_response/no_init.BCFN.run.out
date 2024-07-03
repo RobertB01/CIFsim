@@ -48,14 +48,14 @@ Checking for confluence...
 
 CONCLUSION:
     [OK] The specification has bounded response:
-    
+
         - No transitions are possible for uncontrollable events.
         - No transitions are possible for controllable events.
 
     [OK] The specification is non-blocking under control.
 
     [ERROR] The specification may NOT have finite response:
-    
+
         At least one controllable-event loop was found.
         The following events might still occur in a controllable-event loop:
             - p.e
