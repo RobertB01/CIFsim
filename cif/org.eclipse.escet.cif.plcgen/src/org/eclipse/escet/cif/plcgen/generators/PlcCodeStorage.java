@@ -52,6 +52,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider.DocAnnotationFormatter;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.output.WarnOutput;
@@ -682,6 +683,10 @@ public class PlcCodeStorage {
      * @return The created lines of text.
      */
     private List<String> addComponentDocumentation() {
+        // Construct @doc annotation formatters, one for automata and one for the information inside automata.
+        DocAnnotationFormatter autDocFormatter = new DocAnnotationFormatter(null, null, null, " * ", List.of(" *"));
+        DocAnnotationFormatter subDocFormatter = new DocAnnotationFormatter(null, null, null, " *   ", List.of(" *"));
+
         TextTopics topics = new TextTopics(" *");
 
         // Order the components by name.
@@ -708,6 +713,7 @@ public class PlcCodeStorage {
             topics.ensureEmptyAtEnd();
             topics.add(" * ----");
             topics.add(" * %s:", makeInitialUppercase(DocumentingSupport.getDescription(compData.component)));
+            topics.addAll(autDocFormatter.getAndFormatDocs(compData.component));
 
             // List the variables.
             topics.ensureEmptyAtEnd();
@@ -716,6 +722,7 @@ public class PlcCodeStorage {
             } else {
                 for (Declaration var: compData.variables) {
                     topics.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(var)));
+                    topics.addAll(subDocFormatter.getAndFormatDocs(var));
                 }
                 if (compData.edgeVariableName != null) {
                     topics.ensureEmptyAtEnd();
@@ -735,6 +742,7 @@ public class PlcCodeStorage {
             } else {
                 for (Event evt: compData.uncontrollableEvents) {
                     topics.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
+                    topics.addAll(subDocFormatter.getAndFormatDocs(evt));
                 }
             }
 
@@ -745,6 +753,7 @@ public class PlcCodeStorage {
             } else {
                 for (Event evt: compData.controllableEvents) {
                     topics.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
+                    topics.addAll(subDocFormatter.getAndFormatDocs(evt));
                 }
             }
         }

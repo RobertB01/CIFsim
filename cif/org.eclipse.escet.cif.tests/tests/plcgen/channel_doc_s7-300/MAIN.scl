@@ -29,53 +29,73 @@ BEGIN
      *
      * ----
      * Specification (top-level group):
+     * doc-spec: Test file for checking @doc additions
      *
      * - Input variable "ib".
+     *   doc-inp: Boolean input condition.
      *
      * ----
      * Automaton "M1":
+     * doc-mon: Not participating monitor
      *
      * - Current location of automaton "M1".
      * - Discrete variable "M1.vm1".
+     *   doc-mon-var: Monitor variable
      *
      * - No use of uncontrollable events.
      *
      * - Controllable event "c".
+     *   doc-evt: Channel event for synchronizing all automata.
      *
      * ----
      * Automaton "R1":
+     * doc-recv-aut
      *
      * - Continuous variable "R1.t".
+     *   doc-timer-variable
+     *
      * - Discrete variable "R1.vr1".
+     *   doc-recv-var: This variable stores the received
+     *   information for future use.
      *
      * - PLC edge selection variable "edge_R1".
      *
      * - No use of uncontrollable events.
      *
      * - Controllable event "c".
+     *   doc-evt: Channel event for synchronizing all automata.
      *
      * ----
      * Automaton "S1":
+     * doc-send-aut: S2 is another automaton.
+     *
+     * It sends data when it feels compelled to do so.
      *
      * - Discrete variable "S1.vs1".
+     *   doc-send-var
      *
      * - PLC edge selection variable "edge_S1".
      *
      * - No use of uncontrollable events.
      *
      * - Controllable event "c".
+     *   doc-evt: Channel event for synchronizing all automata.
      *
      * ----
      * Automaton "Y1":
+     * doc-sync-aut
      *
      * - Current location of automaton "Y1".
      * - Discrete variable "Y1.vy1".
+     *   doc-sync-disc: Becomes 1
      *
      * - PLC edge selection variable "edge_Y1_1".
      *
      * - Uncontrollable event "Y1.u".
+     *   doc-unctl-event
      *
      * - Controllable event "c".
+     *   doc-evt: Channel event for synchronizing all automata.
      *------------------------------------------------------ *)
 
     (* --- Initialize state or update continuous variables. -------------------- *)
