@@ -112,12 +112,10 @@ public class CifBddEdge {
     public CifBddEdgeKind getEdgeKind() {
         if (event.getControllable()) {
             return CifBddEdgeKind.CONTROLLABLE;
+        } else if (edges.contains(null)) {
+            return CifBddEdgeKind.INPUT_VARIABLE;
         } else {
-            if (edges.contains(null)) {
-                return CifBddEdgeKind.INPUT_VARIABLE;
-            } else {
-                return CifBddEdgeKind.UNCONTROLLABLE;
-            }
+            return CifBddEdgeKind.UNCONTROLLABLE;
         }
     }
 
