@@ -83,21 +83,42 @@ BEGIN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
-        (* Initialize discrete variable "S1.vs1". *)
+        (***********
+         * Initialize discrete variable "S1.vs1".
+         *
+         * doc-send-var
+         ***********)
         "DB".S1_vs1 := 0;
-        (* Initialize discrete variable "R1.vr1". *)
+        (***********
+         * Initialize discrete variable "R1.vr1".
+         *
+         * doc-recv-var: This variable stores the received
+         * information for future use.
+         ***********)
         "DB".R1_vr1 := 0;
-        (* Initialize continuous variable "R1.t". *)
+        (***********
+         * Initialize continuous variable "R1.t".
+         *
+         * doc-timer-variable
+         ***********)
         "DB".R1_t := 0.0;
         (* Reset timer of "R1_t". *)
         "DB".preset_R1_t := DINT_TO_TIME(REAL_TO_DINT("DB".R1_t * 1000.0));
         ton_R1_t.TON(IN := FALSE, PT := "DB".preset_R1_t);
         ton_R1_t.TON(IN := TRUE, PT := "DB".preset_R1_t);
-        (* Initialize discrete variable "Y1.vy1". *)
+        (***********
+         * Initialize discrete variable "Y1.vy1".
+         *
+         * doc-sync-disc: Becomes 1
+         ***********)
         "DB".Y1_vy1 := 0;
         (* Initialize current location of automaton "Y1". *)
         "DB".Y1 := Y1_A;
-        (* Initialize discrete variable "M1.vm1". *)
+        (***********
+         * Initialize discrete variable "M1.vm1".
+         *
+         * doc-mon-var: Monitor variable
+         ***********)
         "DB".M1_vm1 := 0;
         (* Initialize current location of automaton "M1". *)
         "DB".M1 := M1_A;
