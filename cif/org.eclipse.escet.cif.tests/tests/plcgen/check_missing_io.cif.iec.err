@@ -1,0 +1,2 @@
+ERROR: The 'CIF name' field containing "hw_button.bit" does not refer to an object in the CIF specification (third field at line 1 of I/O table file "plcgen/check_missing_io.csv").
+CAUSE: (IllegalArgumentException) Name "hw_button" not found in "".

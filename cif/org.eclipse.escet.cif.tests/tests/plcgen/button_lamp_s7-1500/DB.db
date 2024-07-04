@@ -6,6 +6,9 @@ DATA_BLOCK "DB"
         timer_1: DINT;
         sup: DINT;
         hw_button_bit: BOOL;
+        hw_button_bot: DINT;
+        hw_button_bat: LREAL;
+        hw_button_r: LREAL;
         hw_button: DINT;
         hw_lamp_bit: BOOL;
         hw_lamp: DINT;

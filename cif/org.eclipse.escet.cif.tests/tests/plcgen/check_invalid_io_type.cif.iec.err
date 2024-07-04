@@ -1,0 +1,1 @@
+ERROR: The type of the CIF variable in the 'CIF name' field containing "data" at line 1 of I/O table file "plcgen/check_invalid_io_type.csv" is not a boolean, integer or real type.

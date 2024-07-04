@@ -20,6 +20,8 @@ import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYP
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.LINT_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.LREAL_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.REAL_TYPE;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.isIntType;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.isRealType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -35,6 +37,7 @@ import java.util.Set;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
@@ -58,7 +61,13 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Generator that creates input and output PLC code. */
 public class InputOutputGenerator {
-    /** PLC types that may be used for I/O. */
+    /**
+     * PLC types that may be used for I/O.
+     *
+     * <p>
+     * These types should be printable, see {@link #getNameOfPlcIoType}.
+     * </p>
+     */
     private static final Set<PlcElementaryType> FEASIBLE_IO_VAR_TYPES = set(BOOL_TYPE, INT_TYPE, DINT_TYPE, LINT_TYPE,
             REAL_TYPE, LREAL_TYPE);
 
@@ -238,24 +247,35 @@ public class InputOutputGenerator {
     }
 
     /**
-     * Derive a PLC type for an entry from its attached CIF object.
+     * Derive a valid PLC type for an entry from its attached CIF object.
      *
      * @param absName Absolute name of the object in CIF.
      * @param cifObj The CIF object found from the absolute name in the specification.
      * @param tableLinePositionText Text for reporting about the CSV line.
      * @return The PLC type to use for the I/O entry according to the matched CIF object.
-     * @throws InvalidInputException If no valid CIF object can be attached to the provided search result.
+     * @throws InvalidInputException If no valid CIF object can be attached to the provided search result, or the CIF
+     *     object does not have a boolean, integer or real type.
      */
     private PlcType decideTypeFromCif(String absName, PositionObject cifObj, String tableLinePositionText) {
+        // Derive the PLC type.
+        PlcType plcType;
         if (cifObj instanceof DiscVariable dv) {
-            return target.getTypeGenerator().convertType(dv.getType());
+            plcType = target.getTypeGenerator().convertType(dv.getType());
         } else if (cifObj instanceof InputVariable iv) {
-            return target.getTypeGenerator().convertType(iv.getType());
+            plcType = target.getTypeGenerator().convertType(iv.getType());
         } else {
             String message = fmt("The 'CIF name' field containing \"%s\" does not indicate an input or discrete "
                     + "variable (third field %s).", absName, tableLinePositionText);
             throw new InvalidInputException(message);
         }
+
+        // Check for having a valid type, and return it.
+        if (!FEASIBLE_IO_VAR_TYPES.contains(plcType)) {
+            String message = fmt("The type of the CIF variable in the 'CIF name' field containing \"%s\" %s is not "
+                    + "a boolean, integer or real type.", absName, tableLinePositionText);
+            throw new InvalidInputException(message);
+        }
+        return plcType;
     }
 
     /**
@@ -288,21 +308,18 @@ public class InputOutputGenerator {
     {
         Assert.notNull(plcTypeFromCif); // This is assumed in the next code block.
         if (plcTableType != null) {
-            if (!plcTableType.equals(plcTypeFromCif)) {
-                String message = fmt("The type stated in the 'PLC type' field does not correspond with the type "
-                        + "of the connected CIF variable from the 'CIF name' field containing \"%s\", "
-                        + "for the entry %s.", absCifName, tableLinePositionText);
+            // Throw an error if the types are fundamentally different. Different sizes (eg INT <-> DINT) are allowed.
+            if ((isIntType(plcTableType) && !isIntType(plcTypeFromCif))
+                    || (isRealType(plcTableType) && !isRealType(plcTypeFromCif))
+                    || (plcTableType == BOOL_TYPE && plcTypeFromCif != BOOL_TYPE))
+            {
+                String message = fmt("The type stated in the 'PLC type' field (\"%s\") does not correspond with the "
+                        + "PLC type (\"%s\") of the connected CIF variable from the 'CIF name' field containing "
+                        + "\"%s\", for the entry %s.", getNameOfPlcIoType(plcTableType),
+                        getNameOfPlcIoType(plcTypeFromCif), absCifName, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
-            // TODO Allow for a different sized type, like DINT <-> INT, REAL <-> LREAL, etc.
         } else {
-            // Verify that the CIF type is a feasible type before selecting it.
-            if (!FEASIBLE_IO_VAR_TYPES.contains(plcTypeFromCif)) {
-                String message = fmt(
-                        "The type of CIF variable \"%s\" is not a usable type for input/output (third field %s).",
-                        absCifName, tableLinePositionText);
-                throw new InvalidInputException(message);
-            }
             plcTableType = plcTypeFromCif; // Use found CIF type as the I/O table type.
         }
         return plcTableType;
@@ -324,6 +341,21 @@ public class InputOutputGenerator {
     }
 
     /**
+     * Convert a PLC type to a user-readable name.
+     *
+     * @param type Type to convert.
+     * @return The name of the given type.
+     */
+    private String getNameOfPlcIoType(PlcType type) {
+        if (type instanceof PlcElementaryType eType) {
+            return eType.name;
+        }
+
+        // Allowed types are currently limited to elementary types, see FEASIBLE_IO_VAR_TYPES.
+        throw new AssertionError("Unexpected type \"" + type + "\" found.");
+    }
+
+    /**
      * Generate I/O variables and input/output function code for transferring values between input I/O, the CIF state,
      * and output I/O.
      *
@@ -333,6 +365,7 @@ public class InputOutputGenerator {
         List<PlcStatement> inputStats = list();
         List<PlcStatement> outputStats = list();
 
+        PlcFunctionAppls funcAppls = new PlcFunctionAppls(target);
         NameGenerator nameGenerator = target.getNameGenerator();
         PlcCodeStorage codeStorage = target.getCodeStorage();
 
@@ -367,7 +400,7 @@ public class InputOutputGenerator {
                         DocumentingSupport.getDescription(entry.cifObject));
                 stats.add(new PlcCommentLine(commentText));
 
-                // Perform the assignment.
+                // Create the access expressions for the input address and the variable.
                 PlcVarExpression leftSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
                     leftSide = cifDataProvider.getAddressableForDiscVar(discVar);
@@ -377,13 +410,19 @@ public class InputOutputGenerator {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
                 }
                 PlcExpression rightSide = new PlcVarExpression(ioVar);
+
+                // Perform the assignment, possibly after unifying the type.
+                if (!leftSide.type.equals(rightSide.type)) {
+                    rightSide = funcAppls.castFunctionAppl(rightSide, (PlcElementaryType)leftSide.type);
+                }
                 stats.add(new PlcAssignmentStatement(leftSide, rightSide));
+
             } else { // io-var := state-var;
                 // Generate a comment what CIF variable is read.
                 String commentText = fmt("Write %s to PLC output.", DocumentingSupport.getDescription(entry.cifObject));
                 stats.add(new PlcCommentLine(commentText));
 
-                // Perform the assignment.
+                // Create the access expressions for the output address and the variable.
                 PlcVarExpression leftSide = new PlcVarExpression(ioVar);
                 PlcExpression rightSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
@@ -392,6 +431,11 @@ public class InputOutputGenerator {
                     rightSide = cifDataProvider.getValueForInputVar(inpVar);
                 } else {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
+                }
+
+                // Perform the assignment, possibly after unifying the type.
+                if (!leftSide.type.equals(rightSide.type)) {
+                    rightSide = funcAppls.castFunctionAppl(rightSide, (PlcElementaryType)leftSide.type);
                 }
                 stats.add(new PlcAssignmentStatement(leftSide, rightSide));
             }
