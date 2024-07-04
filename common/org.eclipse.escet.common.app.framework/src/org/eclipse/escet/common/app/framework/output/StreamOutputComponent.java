@@ -51,17 +51,29 @@ public class StreamOutputComponent implements IOutputComponent {
 
     @Override
     public void dbg(String msg, int indent) {
-        out.println(Strings.spaces(indent * 4) + msg);
+        if (msg.isEmpty()) {
+            out.println();
+        } else {
+            out.println(Strings.spaces(indent * 4) + msg);
+        }
     }
 
     @Override
     public void out(String msg, int indent) {
-        out.println(Strings.spaces(indent * 4) + msg);
+        if (msg.isEmpty()) {
+            out.println();
+        } else {
+            out.println(Strings.spaces(indent * 4) + msg);
+        }
     }
 
     @Override
     public void warn(String msg, int indent) {
-        warn.println(Strings.spaces(indent * 4) + "WARNING: " + msg);
+        if (msg.isEmpty()) {
+            warn.println(Strings.spaces(indent * 4) + "WARNING:");
+        } else {
+            warn.println(Strings.spaces(indent * 4) + "WARNING: " + msg);
+        }
     }
 
     @Override

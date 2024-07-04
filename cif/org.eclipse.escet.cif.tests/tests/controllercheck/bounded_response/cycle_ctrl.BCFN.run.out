@@ -69,14 +69,14 @@ Mutual exclusive event pairs:
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
-    
+
         - No transitions are possible for uncontrollable events.
         - An infinite sequence of transitions is possible for controllable events.
 
     [ERROR] The specification is NOT non-blocking under control.
 
     [ERROR] The specification may NOT have finite response:
-    
+
         At least one controllable-event loop was found.
         The following events might still occur in a controllable-event loop:
             - c_off

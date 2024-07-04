@@ -75,7 +75,7 @@ Mutual exclusive event pairs:
 
 CONCLUSION:
     [OK] The specification has bounded response:
-    
+
         - A sequence of at most 1 transition is possible for uncontrollable events.
         - A sequence of at most 1 transition is possible for controllable events.
 

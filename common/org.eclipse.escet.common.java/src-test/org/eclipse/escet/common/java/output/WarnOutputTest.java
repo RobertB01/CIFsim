@@ -45,7 +45,7 @@ public class WarnOutputTest {
         WarnOutputProvider outputProvider = new StoredOutputProvider();
         WarnOutput warn = outputProvider.getWarnOutput();
         useWarnStream(warn);
-        String expected = "WARNING: hello world\nWARNING: \nWARNING: >123<\n";
+        String expected = "WARNING: hello world\nWARNING:\nWARNING: >123<\n";
         assertEquals(expected, outputProvider.toString());
     }
 

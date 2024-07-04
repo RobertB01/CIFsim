@@ -193,7 +193,7 @@ Mutual exclusive event pairs:
 
 CONCLUSION:
     [OK] The specification has bounded response:
-    
+
         - A sequence of at most 2 transitions is possible for uncontrollable events.
         - A sequence of at most 3 transitions is possible for controllable events.
 
@@ -201,7 +201,7 @@ CONCLUSION:
     [OK] The specification has finite response.
 
     [ERROR] The specification may NOT have confluence:
-    
+
         Confluence of the following event pairs could not be decided:
             (c_b, c_d), (c_c, c_e)
 

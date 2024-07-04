@@ -96,18 +96,18 @@ Unclustered reqsPlants:
 --- Start of clustering --
     Flow-based Markov clustering for 10 nodes.
     No bus found.
-    
+
     subjAdjacencies:
     BlockRealMatrix{{0.0,2.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,0.0},{2.0,0.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,4.0,0.0},{0.0,0.0,0.0,2.0,0.0,0.0,0.0,0.0,4.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0},{4.0,4.0,1.0,0.0,0.0,0.0,0.0,0.0,2.0,2.0},{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.0,2.0},{0.0,0.0,0.0,4.0,4.0,1.0,2.0,2.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,2.0,2.0,0.0,0.0}}
-    
+
     probData:
     BlockRealMatrix{{0.3362030951,0.3362030951,0.0,0.0,0.0,0.0,0.1680082395,0.0,0.0007989321,0.0027546991},{0.3362030951,0.3362030951,0.0,0.0,0.0,0.0,0.1680082395,0.0,0.0007989321,0.0027546991},{0.0095911283,0.0095911283,0.5,0.0,0.0,0.0,0.2464120846,0.0,0.0011717671,0.0040402254},{0.0,0.0,0.0,0.3362030951,0.3362030951,0.0,0.0007989321,0.0027546991,0.1680082395,0.0},{0.0,0.0,0.0,0.3362030951,0.3362030951,0.0,0.0007989321,0.0027546991,0.1680082395,0.0},{0.0,0.0,0.0,0.0095911283,0.0095911283,0.5,0.0011717671,0.0040402254,0.2464120846,0.0},{0.3117116683,0.3117116683,0.5,0.0014822872,0.0014822872,0.0,0.2464120846,0.0071880649,0.0380824301,0.1313073257},{0.0,0.0,0.0,0.0048087262,0.0048087262,0.0,0.0067630934,0.4259774928,0.123544197,0.4259774928},{0.0014822872,0.0014822872,0.0,0.3117116683,0.3117116683,0.5,0.0380824301,0.1313073257,0.2464120846,0.0071880649},{0.0048087262,0.0048087262,0.0,0.0,0.0,0.0,0.123544197,0.4259774928,0.0067630934,0.4259774928}}
-    
+
     Input to Markov:
     BlockRealMatrix{{0.3362030951,0.3362030951,0.0,0.0,0.0,0.0,0.1680082395,0.0,0.0007989321,0.0027546991},{0.3362030951,0.3362030951,0.0,0.0,0.0,0.0,0.1680082395,0.0,0.0007989321,0.0027546991},{0.0095911283,0.0095911283,0.5,0.0,0.0,0.0,0.2464120846,0.0,0.0011717671,0.0040402254},{0.0,0.0,0.0,0.3362030951,0.3362030951,0.0,0.0007989321,0.0027546991,0.1680082395,0.0},{0.0,0.0,0.0,0.3362030951,0.3362030951,0.0,0.0007989321,0.0027546991,0.1680082395,0.0},{0.0,0.0,0.0,0.0095911283,0.0095911283,0.5,0.0011717671,0.0040402254,0.2464120846,0.0},{0.3117116683,0.3117116683,0.5,0.0014822872,0.0014822872,0.0,0.2464120846,0.0071880649,0.0380824301,0.1313073257},{0.0,0.0,0.0,0.0048087262,0.0048087262,0.0,0.0067630934,0.4259774928,0.123544197,0.4259774928},{0.0014822872,0.0014822872,0.0,0.3117116683,0.3117116683,0.5,0.0380824301,0.1313073257,0.2464120846,0.0071880649},{0.0048087262,0.0048087262,0.0,0.0,0.0,0.0,0.123544197,0.4259774928,0.0067630934,0.4259774928}}
     Output from Markov:
     BlockRealMatrix{{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0},{1.0,1.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.5},{0.0,0.0,0.0,1.0,1.0,1.0,0.0,0.0,1.0,0.0},{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.5,0.0,0.5}}
-    
+
     Clustering-group found:
       - Grouptype CLUSTER
         Local nodes: <none>
@@ -117,7 +117,7 @@ Unclustered reqsPlants:
             Local nodes: {3, 4, 5, 8}
           - Grouptype CLUSTER
             Local nodes: {7, 9}
-    
+
     Node mapping new <- original:
       0 <- 7
       1 <- 9
@@ -129,7 +129,7 @@ Unclustered reqsPlants:
       7 <- 4
       8 <- 5
       9 <- 8
-    
+
     Shuffled nodes of groups near each other:
       - Grouptype CLUSTER
         Local nodes: <none>
@@ -162,7 +162,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
               Local nodes: {0, 1, 2, 6}
             - Grouptype CLUSTER
               Local nodes: {3, 4, 5, 8}
-    
+
     Starting Algorithm 2 by searching and modifying the matrices based on group information.
         Dumping P:
                :  0  1  2  3  4  5  6  7  8  9
@@ -176,7 +176,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
               7:  .  .  .  .  .  .  .  .  2  2
               8:  .  .  .  4  4  1  2  2  .  .
               9:  .  .  .  .  .  .  2  2  .  .
-        
+
         Dumping RP:
               0: {7, 9}
               1: {6, 9}
@@ -208,8 +208,8 @@ Make a multi-level tree node for a cluster group with multiple nodes:
              27: {3, 4}
              28: {4, 8}
              29: {4, 8}
-        
-        
+
+
         Found P cell (9, 6), with {1, 6} requirements:
             (9, 6): add -2
         Found P cell (7, 8), with {2, 5} requirements:
@@ -233,7 +233,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -265,12 +265,12 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
-        
+
+
     Make a multi-level tree node for a cluster group with multiple nodes:
             - Grouptype CLUSTER
               Local nodes: {7, 9}
-        
+
         Starting Algorithm 2 by searching and modifying the matrices based on group information.
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -284,7 +284,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -316,8 +316,8 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
-            
+
+
             Found P cell (7, 9), with {0, 4} requirements:
                 (7, 9): add -2
             Found P cell (9, 7), but no requirements.
@@ -335,7 +335,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                       7:  .  .  .  .  .  .  .  .  .  .
                       8:  .  .  .  4  4  1  2  2  .  .
                       9:  .  .  .  .  .  .  .  2  .  .
-                
+
                 Dumping RP:
                       0: {}
                       1: {}
@@ -367,8 +367,8 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                      27: {3, 4}
                      28: {4, 8}
                      29: {4, 8}
-                
-            
+
+
         Make a multi-level tree node for a cluster group with a single node (plant group 7):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -382,7 +382,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  .
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {}
                   1: {}
@@ -414,11 +414,11 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
+
             Tree node for singleton cluster group 7: {7} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
         Make a multi-level tree node for a cluster group with a single node (plant group 9):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -432,7 +432,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  .
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {}
                   1: {}
@@ -464,17 +464,17 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
+
             Tree node for singleton cluster group 9: {9} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
     ---------- DONE Created tree node for cluster with multiple nodes.
-    
+
     Make a multi-level tree node for a cluster group with multiple nodes:
             - Grouptype CLUSTER
               Local nodes: {0, 1, 2, 6}
-        
+
         Starting Algorithm 2 by searching and modifying the matrices based on group information.
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -488,7 +488,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -520,8 +520,8 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
-            
+
+
             Found P cell (0, 1), with {9, 16} requirements:
                 (0, 1): add -2
             Found P cell (0, 6), with {10, 11, 12, 13} requirements:
@@ -548,7 +548,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                       7:  .  .  .  .  .  .  .  .  .  2
                       8:  .  .  .  4  4  1  2  2  .  .
                       9:  .  .  .  .  .  .  .  2  .  .
-                
+
                 Dumping RP:
                       0: {7, 9}
                       1: {}
@@ -580,8 +580,8 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                      27: {3, 4}
                      28: {4, 8}
                      29: {4, 8}
-                
-            
+
+
         Make a multi-level tree node for a cluster group with a single node (plant group 0):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -595,7 +595,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -627,11 +627,11 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
+
             Tree node for singleton cluster group 0: {0} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
         Make a multi-level tree node for a cluster group with a single node (plant group 1):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -645,7 +645,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -677,11 +677,11 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
+
             Tree node for singleton cluster group 1: {1} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
         Make a multi-level tree node for a cluster group with a single node (plant group 2):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -695,7 +695,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -727,11 +727,11 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
+
             Tree node for singleton cluster group 2: {2} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
         Make a multi-level tree node for a cluster group with a single node (plant group 6):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -745,7 +745,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -777,17 +777,17 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
+
             Tree node for singleton cluster group 6: {6} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
     ---------- DONE Created tree node for cluster with multiple nodes.
-    
+
     Make a multi-level tree node for a cluster group with multiple nodes:
             - Grouptype CLUSTER
               Local nodes: {3, 4, 5, 8}
-        
+
         Starting Algorithm 2 by searching and modifying the matrices based on group information.
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -801,7 +801,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -833,8 +833,8 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {3, 4}
                  28: {4, 8}
                  29: {4, 8}
-            
-            
+
+
             Found P cell (3, 4), with {20, 27} requirements:
                 (3, 4): add -2
             Found P cell (3, 8), with {21, 22, 23, 24} requirements:
@@ -861,7 +861,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                       7:  .  .  .  .  .  .  .  .  .  2
                       8:  .  .  .  4  4  1  2  2  .  .
                       9:  .  .  .  .  .  .  .  2  .  .
-                
+
                 Dumping RP:
                       0: {7, 9}
                       1: {}
@@ -893,8 +893,8 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                      27: {}
                      28: {}
                      29: {}
-                
-            
+
+
         Make a multi-level tree node for a cluster group with a single node (plant group 3):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -908,7 +908,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -940,11 +940,11 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {}
                  28: {}
                  29: {}
-            
+
             Tree node for singleton cluster group 3: {3} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
         Make a multi-level tree node for a cluster group with a single node (plant group 4):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -958,7 +958,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -990,11 +990,11 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {}
                  28: {}
                  29: {}
-            
+
             Tree node for singleton cluster group 4: {4} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
         Make a multi-level tree node for a cluster group with a single node (plant group 5):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -1008,7 +1008,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -1040,11 +1040,11 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {}
                  28: {}
                  29: {}
-            
+
             Tree node for singleton cluster group 5: {5} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
         Make a multi-level tree node for a cluster group with a single node (plant group 8):
             Dumping P:
                    :  0  1  2  3  4  5  6  7  8  9
@@ -1058,7 +1058,7 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                   7:  .  .  .  .  .  .  .  .  .  2
                   8:  .  .  .  4  4  1  2  2  .  .
                   9:  .  .  .  .  .  .  .  2  .  .
-            
+
             Dumping RP:
                   0: {7, 9}
                   1: {}
@@ -1090,13 +1090,13 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                  27: {}
                  28: {}
                  29: {}
-            
+
             Tree node for singleton cluster group 8: {8} plant groups, {} req groups.
-            
+
         ---------- DONE Created tree node for cluster with a single node.
-        
+
     ---------- DONE Created tree node for cluster with multiple nodes.
-    
+
 ---------- DONE Created tree node for cluster with multiple nodes.
 
 Index: 0

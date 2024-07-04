@@ -97,14 +97,14 @@ Mutual exclusive event pairs:
 
 CONCLUSION:
     [OK] The specification has bounded response:
-    
+
         - A sequence of at most 3 transitions is possible for uncontrollable events.
         - A sequence of at most 1 transition is possible for controllable events.
 
     [ERROR] The specification is NOT non-blocking under control.
 
     [ERROR] The specification may NOT have finite response:
-    
+
         At least one controllable-event loop was found.
         The following events might still occur in a controllable-event loop:
             - c_a

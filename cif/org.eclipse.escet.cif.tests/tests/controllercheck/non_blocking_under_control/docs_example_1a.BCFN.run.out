@@ -77,7 +77,7 @@ Independent event pairs:
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
-    
+
         - An infinite sequence of transitions is possible for uncontrollable events.
         - A sequence of at most 2 transitions is possible for controllable events.
 

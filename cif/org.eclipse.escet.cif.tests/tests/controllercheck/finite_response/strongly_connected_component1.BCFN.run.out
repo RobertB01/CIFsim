@@ -122,14 +122,14 @@ Skippable event pairs:
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
-    
+
         - No transitions are possible for uncontrollable events.
         - An infinite sequence of transitions is possible for controllable events.
 
     [ERROR] The specification is NOT non-blocking under control.
 
     [ERROR] The specification may NOT have finite response:
-    
+
         At least one controllable-event loop was found.
         The following events might still occur in a controllable-event loop:
             - A.a
@@ -144,7 +144,7 @@ CONCLUSION:
             - A.o
 
     [ERROR] The specification may NOT have confluence:
-    
+
         Confluence of the following event pairs could not be decided:
             (A.b, A.c), (A.b, A.d), (A.c, A.d), (A.e, A.f), (A.g, A.h), (A.i, A.j), (A.m, A.n)
 

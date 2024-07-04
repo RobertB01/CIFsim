@@ -191,7 +191,7 @@ Reversible event pairs:
 
 CONCLUSION:
     [OK] The specification has bounded response:
-    
+
         - No transitions are possible for uncontrollable events.
         - A sequence of at most 3 transitions is possible for controllable events.
 

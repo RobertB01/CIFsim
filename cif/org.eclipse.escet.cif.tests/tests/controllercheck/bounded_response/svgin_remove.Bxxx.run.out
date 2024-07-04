@@ -18,7 +18,7 @@ Bounded response check completed.
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
-    
+
         - No transitions are possible for uncontrollable events.
         - An infinite sequence of transitions is possible for controllable events.
 

@@ -173,7 +173,7 @@ Checking for confluence...
 
 CONCLUSION:
     [OK] The specification has bounded response:
-    
+
         - No transitions are possible for uncontrollable events.
         - A sequence of at most 2 transitions is possible for controllable events.
 
@@ -181,7 +181,7 @@ CONCLUSION:
     [OK] The specification has finite response.
 
     [ERROR] The specification may NOT have confluence:
-    
+
         Confluence of the following event pair could not be decided:
             (A.a, A.b)
 
