@@ -29,6 +29,10 @@ include::_root_attributes.asciidoc[]
 
 This documentation concerns the development of the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) open-source project.
 
+ifeval::["{escet-deploy-folder-name}" != "nightly"]
+TIP: The latest development information can be found in the link:https://eclipse.dev/escet/nightly/development[development documentation of the nightly release].
+endif::[]
+
 ifdef::website-output[]
 TIP: You can link:eclipse-escet-dev-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
