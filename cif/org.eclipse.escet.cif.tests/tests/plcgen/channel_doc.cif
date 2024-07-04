@@ -1,0 +1,86 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+@@doc("doc-spec: Test file for checking @doc additions")
+
+@doc("doc-evt: Channel event for synchronizing all automata.")
+controllable int c;
+
+@doc("doc-inp: Boolean input condition.")
+input bool ib;
+
+@doc("doc-send-aut: S2 is another automaton.")
+@doc("It sends data when it feels compelled to do so.")
+automaton S1:
+  @doc("doc-send-var")
+  disc int vs1;
+  @doc("doc-send-loc")
+  location:
+    initial;
+    @@doc("doc-send-edge")
+    edge c!vs1 when vs1 <= 1;
+end
+
+@doc("doc-recv-aut")
+automaton R1:
+  @doc("doc-recv-var: This variable stores the received", "information for future use.")
+  disc int vr1;
+  @doc("doc-timer-variable")
+  cont t der -1;
+
+  @doc("doc-recv-loc")
+  location:
+    initial;
+    @@doc("doc-recv-edge: This edge accepts the data value.")
+    edge c? when t <= 1 do vr1 := ?, t := 3;
+end
+
+@doc("doc-sync-aut")
+automaton Y1:
+  @doc("doc-unctl-event")
+  uncontrollable u;
+  @doc("doc-sync-disc: Becomes 1")
+  disc int vy1;
+  @doc("doc-sync-loc-A")
+  location A:
+    initial;
+    @@doc("doc-sync-edge-contr")
+    edge c when vy1 = 1 goto B;
+  @doc("doc-sync-loc-B")
+  location B:
+    @@doc("doc-sync-edge-uncontr")
+    edge u when vy1 = 1 goto A;
+end
+
+@doc("doc-mon: Not participating monitor")
+automaton M1:
+  monitor c;
+
+  @doc("doc-mon-var: Monitor variable")
+  disc int vm1;
+
+  @doc("doc-mon-locA")
+  location A:
+    initial;
+    @@doc("doc-mon-edgeA: Monitor edge")
+    edge c when vm1 = 1 do vm1 := 1 goto B;
+
+  @doc("doc-mon-locB")
+  location B:
+    @@doc("doc-mon-edgeB-1: Monitor edge")
+    edge c when vm1 = 1 do vm1 := 2 goto B;
+
+    @@doc("doc-mon-edgeB-2")
+    edge c when vm1 = 2 do vm1 := 1 goto A;
+end
+
