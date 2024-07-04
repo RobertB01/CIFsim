@@ -1000,6 +1000,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private PlcCommentBlock genEdgeTestsDocumentation(Event event, TransitionAutomaton transAut) {
         TextTopics topics = new TextTopics();
+        DocAnnotationFormatter locDocFormatter = new DocAnnotationFormatter(null, null, null, "  ", List.of(""));
+        DocAnnotationFormatter edgeDocFormatter = new DocAnnotationFormatter(null, null, null, "    ", List.of(""));
+
         String edgePluralText = (transAut.transitionEdges.size() != 1) ? "s" : "";
         topics.add("Test edge%s of automaton \"%s\" to %s for event \"%s\".", edgePluralText,
                 getAbsName(transAut.aut, false), transAut.purpose.purposeText, getAbsName(event, false));
@@ -1028,11 +1031,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 lastLoc = transEdge.sourceLoc;
                 if (lastLoc.getName() == null) {
                     topics.add("- Location:");
+                    topics.addAll(locDocFormatter.getAndFormatDocs(lastLoc));
                 } else {
                     topics.add("- Location \"%s\":", lastLoc.getName());
+                    topics.addAll(locDocFormatter.getAndFormatDocs(lastLoc));
                 }
             }
             topics.add("  - %s edge in the location", toOrdinal(transEdge.edgeNumber));
+            topics.addAll(edgeDocFormatter.getAndFormatDocs(transEdge.edge));
         }
         if (lastLoc == null) {
             switch (transAut.purpose) {

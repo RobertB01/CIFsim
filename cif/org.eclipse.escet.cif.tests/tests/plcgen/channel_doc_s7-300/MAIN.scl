@@ -151,7 +151,10 @@ BEGIN
          *
          * Edge being tested:
          * - Location "B":
+         *   doc-sync-loc-B
+         *
          *   - 1st edge in the location
+         *     doc-sync-edge-uncontr
          ***********)
         IF "DB".Y1 = Y1_B AND "DB".Y1_vy1 = 1 THEN
             edge_Y1_1 := 1;
@@ -214,7 +217,10 @@ BEGIN
              *
              * Edge being tested:
              * - Location:
+             *   doc-send-loc
+             *
              *   - 1st edge in the location
+             *     doc-send-edge
              ***********)
             IF "DB".S1_vs1 <= 1 THEN
                 senderAut := 1;
@@ -237,7 +243,10 @@ BEGIN
                  *
                  * Edge being tested:
                  * - Location:
+                 *   doc-recv-loc
+                 *
                  *   - 1st edge in the location
+                 *     doc-recv-edge: This edge accepts the data value.
                  ***********)
                 IF "DB".R1_t <= DINT_TO_REAL(1) THEN
                     receiverAut := 1;
@@ -259,7 +268,10 @@ BEGIN
              *
              * Edge being tested:
              * - Location "A":
+             *   doc-sync-loc-A
+             *
              *   - 1st edge in the location
+             *     doc-sync-edge-contr
              ***********)
             IF "DB".Y1 = Y1_A AND "DB".Y1_vy1 = 1 THEN
                 edge_Y1_1 := 1;
