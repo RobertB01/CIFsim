@@ -23,7 +23,9 @@ END_VAR
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Automaton "Block":
+ *
  * - PLC edge selection variable "edge_Block".
  *
  * - No use of uncontrollable events.
@@ -31,7 +33,9 @@ END_VAR
  * - Controllable event "noMonitor".
  * - Controllable event "noSync".
  *
+ * ----
  * Automaton "Good":
+ *
  * - Discrete variable "Good.x".
  *
  * - PLC edge selection variable "edge_Good".
@@ -41,13 +45,14 @@ END_VAR
  * - Controllable event "noMonitor".
  * - Controllable event "noSync".
  *
+ * ----
  * Automaton "UseChannel":
+ *
  * - PLC edge selection variable "edge_UseChannel".
  *
  * - No use of uncontrollable events.
  *
  * - Controllable event "channel".
- *
  *------------------------------------------------------ *)
 
 (* --- Initialize state. --------------------------------------------------- *)

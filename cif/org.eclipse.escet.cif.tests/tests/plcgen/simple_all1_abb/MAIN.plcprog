@@ -43,10 +43,14 @@ END_VAR
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Group "g":
+ *
  * - Input variable "g.inp".
  *
+ * ----
  * Automaton "p":
+ *
  * - Current location of automaton "p".
  * - Discrete variable "p.b".
  * - Discrete variable "p.j".
@@ -65,7 +69,6 @@ END_VAR
  * - No use of uncontrollable events.
  *
  * - Controllable event "p.evt".
- *
  *------------------------------------------------------ *)
 
 (* --- Initialize state or update continuous variables. -------------------- *)

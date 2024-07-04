@@ -18,7 +18,9 @@ BEGIN
     (*------------------------------------------------------
      * Model overview:
      *
+     * ----
      * Automaton "p":
+     *
      * - Continuous variable "p.t".
      * - Discrete variable "p.x".
      *
@@ -27,7 +29,6 @@ BEGIN
      * - Uncontrollable event "e".
      *
      * - No use of controllable events.
-     *
      *------------------------------------------------------ *)
 
     (* --- Initialize state or update continuous variables. -------------------- *)

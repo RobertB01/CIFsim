@@ -21,7 +21,9 @@ BEGIN
     (*------------------------------------------------------
      * Model overview:
      *
+     * ----
      * Automaton "Block":
+     *
      * - PLC edge selection variable "edge_Block".
      *
      * - No use of uncontrollable events.
@@ -29,7 +31,9 @@ BEGIN
      * - Controllable event "noMonitor".
      * - Controllable event "noSync".
      *
+     * ----
      * Automaton "Good":
+     *
      * - Discrete variable "Good.x".
      *
      * - PLC edge selection variable "edge_Good".
@@ -39,13 +43,14 @@ BEGIN
      * - Controllable event "noMonitor".
      * - Controllable event "noSync".
      *
+     * ----
      * Automaton "UseChannel":
+     *
      * - PLC edge selection variable "edge_UseChannel".
      *
      * - No use of uncontrollable events.
      *
      * - Controllable event "channel".
-     *
      *------------------------------------------------------ *)
 
     (* --- Initialize state. --------------------------------------------------- *)

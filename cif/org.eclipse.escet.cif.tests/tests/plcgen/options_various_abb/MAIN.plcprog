@@ -23,7 +23,9 @@ END_VAR
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Automaton "p":
+ *
  * - Continuous variable "p.t".
  * - Discrete variable "p.x".
  *
@@ -32,7 +34,6 @@ END_VAR
  * - Uncontrollable event "e".
  *
  * - No use of controllable events.
- *
  *------------------------------------------------------ *)
 
 (* --- Initialize state or update continuous variables. -------------------- *)

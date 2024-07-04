@@ -32,11 +32,15 @@ END_VAR
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Specification (top-level group):
+ *
  * - Continuous variable "c".
  * - Input variable "inp".
  *
+ * ----
  * Automaton "aut":
+ *
  * - Current location of automaton "aut".
  * - Discrete variable "aut.b".
  * - Discrete variable "aut.i".
@@ -48,7 +52,6 @@ END_VAR
  * - Uncontrollable event "aut.f".
  *
  * - Controllable event "aut.e".
- *
  *------------------------------------------------------ *)
 
 (* --- Initialize state or update continuous variables. -------------------- *)
