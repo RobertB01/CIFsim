@@ -1,0 +1,309 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'false' }
+    VAR_TEMP
+        channelValue: DINT;
+        curValue: TIME;
+        current_M1: DINT;
+        current_M1_vm1: DINT;
+        current_R1_t: REAL;
+        current_R1_vr1: DINT;
+        current_Y1: DINT;
+        current_Y1_1: DINT;
+        edge_R1_1: DINT;
+        edge_S1_1: DINT;
+        edge_Y1_1: DINT;
+        eventEnabled: BOOL;
+        isProgress: BOOL;
+        receiverAut: DINT;
+        senderAut: DINT;
+        timeOut: BOOL;
+    END_VAR
+
+BEGIN
+    (* Header text file for:
+     *  -> (-*-) CIF PLC code generator.
+     *)
+
+    (*------------------------------------------------------
+     * Model overview:
+     *
+     * ----
+     * Specification (top-level group):
+     *
+     * - Input variable "ib".
+     *
+     * ----
+     * Automaton "M1":
+     *
+     * - Current location of automaton "M1".
+     * - Discrete variable "M1.vm1".
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "c".
+     *
+     * ----
+     * Automaton "R1":
+     *
+     * - Continuous variable "R1.t".
+     * - Discrete variable "R1.vr1".
+     *
+     * - PLC edge selection variable "edge_R1".
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "c".
+     *
+     * ----
+     * Automaton "S1":
+     *
+     * - Discrete variable "S1.vs1".
+     *
+     * - PLC edge selection variable "edge_S1".
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "c".
+     *
+     * ----
+     * Automaton "Y1":
+     *
+     * - Current location of automaton "Y1".
+     * - Discrete variable "Y1.vy1".
+     *
+     * - PLC edge selection variable "edge_Y1_1".
+     *
+     * - Uncontrollable event "Y1.u".
+     *
+     * - Controllable event "c".
+     *------------------------------------------------------ *)
+
+    (* --- Initialize state or update continuous variables. -------------------- *)
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
+
+        (* Initialize the state variables. *)
+        (* Initialize discrete variable "S1.vs1". *)
+        "DB".S1_vs1 := 0;
+        (* Initialize discrete variable "R1.vr1". *)
+        "DB".R1_vr1 := 0;
+        (* Initialize continuous variable "R1.t". *)
+        "DB".R1_t := 0.0;
+        (* Reset timer of "R1_t". *)
+        "DB".preset_R1_t := DINT_TO_TIME(REAL_TO_DINT("DB".R1_t * 1000.0));
+        ton_R1_t.TON(IN := FALSE, PT := "DB".preset_R1_t);
+        ton_R1_t.TON(IN := TRUE, PT := "DB".preset_R1_t);
+        (* Initialize discrete variable "Y1.vy1". *)
+        "DB".Y1_vy1 := 0;
+        (* Initialize current location of automaton "Y1". *)
+        "DB".Y1 := Y1_A;
+        (* Initialize discrete variable "M1.vm1". *)
+        "DB".M1_vm1 := 0;
+        (* Initialize current location of automaton "M1". *)
+        "DB".M1 := M1_A;
+    ELSE
+        (* Update remaining time of continuous variable "R1.t". *)
+        ton_R1_t.TON(IN := TRUE, PT := "DB".preset_R1_t, Q => timeOut, ET => curValue);
+        "DB".R1_t := SEL_REAL(G := timeOut, IN0 := MAX(IN1 := DINT_TO_REAL(TIME_TO_DINT("DB".preset_R1_t - curValue)) / 1000.0, IN2 := 0.0), IN1 := 0.0);
+    END_IF;
+
+    (* --- Process uncontrollable events. -------------------------------------- *)
+    isProgress := TRUE;
+    (* Perform events until none can be done anymore. *)
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (*************************************************************
+         * Try to perform uncontrollable event "Y1.u".
+         *
+         * - Automaton "Y1" must always synchronize.
+         *************************************************************)
+        eventEnabled := TRUE;
+        (*******************************
+         * Check each synchronizing automaton for having an edge with a true guard.
+         *******************************)
+        (***********
+         * Test edge of automaton "Y1" to synchronize for event "Y1.u".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         * - Location "B":
+         *   - 1st edge in the location
+         ***********)
+        IF "DB".Y1 = Y1_B AND "DB".Y1_vy1 = 1 THEN
+            edge_Y1_1 := 1;
+        ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+        (* All checks have been done. If variable "eventEnabled" still holds, event "Y1.u" can occur. *)
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+            current_Y1 := "DB".Y1;
+            (*******************************
+             * Perform the assignments of each synchronizing automaton.
+             *******************************)
+            (* Perform assignments of automaton "Y1". *)
+            IF edge_Y1_1 = 1 THEN
+                (* Perform assignments of the 1st edge in location "Y1.B". *)
+                (* Perform update of current location of automaton "Y1". *)
+                "DB".Y1 := Y1_A;
+            END_IF;
+        END_IF;
+    END_WHILE;
+
+    (* --- Process controllable events. ---------------------------------------- *)
+    isProgress := TRUE;
+    (* Perform events until none can be done anymore. *)
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (*************************************************************
+         * Try to perform controllable event "c".
+         *
+         * - One automaton must send a value.
+         *    - Automaton "S1" may send a value.
+         *
+         * - One automaton must receive a value.
+         *    - Automaton "R1" may receive a value.
+         *
+         * - Automaton "Y1" must always synchronize.
+         *
+         * - Automaton "M1" may synchronize.
+         *************************************************************)
+        eventEnabled := TRUE;
+        (*******************************
+         * Try to find a sender automaton that provides a value.
+         *******************************)
+        senderAut := 0;
+        IF senderAut = 0 THEN
+            (***********
+             * Test edge of automaton "S1" to provide a value for the channel for event "c".
+             * At least one sending automaton must have an edge with a true guard to allow the event.
+             *
+             * Edge being tested:
+             * - Location:
+             *   - 1st edge in the location
+             ***********)
+            IF "DB".S1_vs1 <= 1 THEN
+                senderAut := 1;
+                edge_S1_1 := 1;
+            END_IF;
+        END_IF;
+        IF senderAut = 0 THEN
+            (* Failed to find an automaton that provides a value. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+        (*******************************
+         * Try to find a receiver automaton that accepts a value.
+         *******************************)
+        IF eventEnabled THEN
+            receiverAut := 0;
+            IF receiverAut = 0 THEN
+                (***********
+                 * Test edge of automaton "R1" to accept a value from the channel for event "c".
+                 * At least one receiving automaton must have an edge with a true guard to allow the event.
+                 *
+                 * Edge being tested:
+                 * - Location:
+                 *   - 1st edge in the location
+                 ***********)
+                IF "DB".R1_t <= DINT_TO_REAL(1) THEN
+                    receiverAut := 1;
+                    edge_R1_1 := 1;
+                END_IF;
+            END_IF;
+            IF receiverAut = 0 THEN
+                (* Failed to find an automaton that accepts a value. Skip to the next event. *)
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        (*******************************
+         * Check each synchronizing automaton for having an edge with a true guard.
+         *******************************)
+        IF eventEnabled THEN
+            (***********
+             * Test edge of automaton "Y1" to synchronize for event "c".
+             * This automaton must have an edge with a true guard to allow the event.
+             *
+             * Edge being tested:
+             * - Location "A":
+             *   - 1st edge in the location
+             ***********)
+            IF "DB".Y1 = Y1_A AND "DB".Y1_vy1 = 1 THEN
+                edge_Y1_1 := 1;
+            ELSE
+                (* The automaton has no edge with a true guard. Skip to the next event. *)
+                eventEnabled := FALSE;
+            END_IF;
+        END_IF;
+        (* All checks have been done. If variable "eventEnabled" still holds, event "c" can occur. *)
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+            current_M1 := "DB".M1;
+            current_M1_vm1 := "DB".M1_vm1;
+            current_R1_t := "DB".R1_t;
+            current_R1_vr1 := "DB".R1_vr1;
+            current_Y1_1 := "DB".Y1;
+            (*******************************
+             * Store the provided value and perform assignments of the selected providing automaton.
+             *******************************)
+            IF senderAut = 1 THEN
+                (* Automaton "S1" was selected. *)
+                IF edge_S1_1 = 1 THEN
+                    (* Compute sent channel value. *)
+                    channelValue := "DB".S1_vs1;
+                END_IF;
+            END_IF;
+            (*******************************
+             * Deliver the provided value and perform assignments of the selected accepting automaton.
+             *******************************)
+            IF receiverAut = 1 THEN
+                (* Automaton "R1" was selected. *)
+                IF edge_R1_1 = 1 THEN
+                    (* Perform assignments of the 1st edge of automaton "R1". *)
+                    (* Perform update of discrete variable "R1.vr1". *)
+                    "DB".R1_vr1 := channelValue;
+                    (* Perform update of continuous variable "R1.t". *)
+                    "DB".R1_t := 3.0;
+                    (* Reset timer of "R1_t". *)
+                    "DB".preset_R1_t := DINT_TO_TIME(REAL_TO_DINT("DB".R1_t * 1000.0));
+                    ton_R1_t.TON(IN := FALSE, PT := "DB".preset_R1_t);
+                    ton_R1_t.TON(IN := TRUE, PT := "DB".preset_R1_t);
+                END_IF;
+            END_IF;
+            (*******************************
+             * Perform the assignments of each synchronizing automaton.
+             *******************************)
+            (* Perform assignments of automaton "Y1". *)
+            IF edge_Y1_1 = 1 THEN
+                (* Perform assignments of the 1st edge in location "Y1.A". *)
+                (* Perform update of current location of automaton "Y1". *)
+                "DB".Y1 := Y1_B;
+            END_IF;
+            (*******************************
+             * Perform the assignments of each optionally synchronizing automaton.
+             *******************************)
+            (* Perform assignments of automaton "M1". *)
+            IF current_M1 = M1_A AND current_M1_vm1 = 1 THEN
+                (* Perform assignments of the 1st edge in location "M1.A". *)
+                (* Perform update of discrete variable "M1.vm1". *)
+                "DB".M1_vm1 := 1;
+                (* Perform update of current location of automaton "M1". *)
+                "DB".M1 := M1_B;
+            ELSIF current_M1 = M1_B AND current_M1_vm1 = 1 THEN
+                (* Perform assignments of the 1st edge in location "M1.B". *)
+                (* Perform update of discrete variable "M1.vm1". *)
+                "DB".M1_vm1 := 2;
+            ELSIF current_M1 = M1_B AND current_M1_vm1 = 2 THEN
+                (* Perform assignments of the 2nd edge in location "M1.B". *)
+                (* Perform update of discrete variable "M1.vm1". *)
+                "DB".M1_vm1 := 1;
+                (* Perform update of current location of automaton "M1". *)
+                "DB".M1 := M1_A;
+            END_IF;
+        END_IF;
+    END_WHILE;
+END_ORGANIZATION_BLOCK

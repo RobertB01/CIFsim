@@ -47,6 +47,7 @@ list string all_targets = non_s7 + s7_a + s7_b;
 
 // Targets to try for each test. If the test is in 'test_targets', its value is used, else 'all_targets' are used.
 map(string:list string) test_targets = {
+    "plcgen/channel_doc.cif":                      ["s7-300"],
     "plcgen/check_invalid_io_type.cif":            ["iec"],
     "plcgen/check_missing_io.cif":                 ["iec"],
     "plcgen/option_max_iter_2_inf.cif":            ["iec"],

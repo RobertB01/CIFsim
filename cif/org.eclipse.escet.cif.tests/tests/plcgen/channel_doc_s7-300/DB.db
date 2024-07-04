@@ -1,0 +1,17 @@
+DATA_BLOCK "DB"
+{ S7_Optimized_Access := 'false' }
+    VAR
+        ib: BOOL;
+        S1_vs1: DINT;
+        R1_vr1: DINT;
+        R1_t: REAL;
+        preset_R1_t: TIME;
+        Y1_vy1: DINT;
+        Y1: DINT;
+        M1_vm1: DINT;
+        M1: DINT;
+        firstRun: BOOL;
+    END_VAR
+BEGIN
+    firstRun := TRUE;
+END_DATA_BLOCK
