@@ -18,6 +18,7 @@ import static org.eclipse.escet.cif.bdd.utils.BddUtils.bddToStr;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.common.java.Strings;
 
@@ -133,7 +134,7 @@ public class CifBddApplyPlantInvariants {
             // backward to the state plant invariant.
             BDD updPred = cifBddSpec.plantInv.id();
             updPred = edge.apply(updPred, // pred
-                    false, // forward
+                    CifBddEdgeApplyDirection.BACKWARD, // backward
                     null); // restriction
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {

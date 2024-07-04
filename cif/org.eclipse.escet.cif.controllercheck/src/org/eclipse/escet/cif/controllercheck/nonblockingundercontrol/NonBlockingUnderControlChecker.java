@@ -15,12 +15,16 @@ package org.eclipse.escet.cif.controllercheck.nonblockingundercontrol;
 
 import static org.eclipse.escet.common.java.Maps.mapc;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
@@ -181,13 +185,11 @@ public class NonBlockingUnderControlChecker {
         String initValName = "controllable-complete path end states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
-        boolean applyForward = false; // Whether to apply forward reachability (true) or backward reachability (false).
-        boolean inclCtrl = true; // Whether to use edges with controllable events.
-        boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
-        boolean inclInputVars = true; // Whether to use input variable edges.
+        CifBddEdgeApplyDirection direction = CifBddEdgeApplyDirection.BACKWARD; // Apply backward reachability.
+        Set<CifBddEdgeKind> edgeKinds = EnumSet.allOf(CifBddEdgeKind.class); // Kinds of edges to apply.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
-                restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
+                restriction, direction, edgeKinds, dbgEnabled);
 
         // Get the initial predicate for the reachability computation. We use 'marked' rather than 'markedInv', since
         // preconditions forbid state invariants.
@@ -244,13 +246,11 @@ public class NonBlockingUnderControlChecker {
         String initValName = "not controllable-complete path states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
-        boolean applyForward = false; // Whether to apply forward reachability (true) or backward reachability (false).
-        boolean inclCtrl = true; // Whether to use edges with controllable events.
-        boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
-        boolean inclInputVars = true; // Whether to use input variable edges.
+        CifBddEdgeApplyDirection direction = CifBddEdgeApplyDirection.BACKWARD; // Apply backward reachability.
+        Set<CifBddEdgeKind> edgeKinds = EnumSet.allOf(CifBddEdgeKind.class); // Kinds of edges to apply.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
-                restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
+                restriction, direction, edgeKinds, dbgEnabled);
 
         // Get the initial predicate for the reachability computation.
         BDD initPred = ccp.not();

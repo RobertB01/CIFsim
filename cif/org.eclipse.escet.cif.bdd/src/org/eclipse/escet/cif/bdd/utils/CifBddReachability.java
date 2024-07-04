@@ -20,10 +20,13 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.BitSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.workset.pruners.MaxCardinalityEdgePruner;
 import org.eclipse.escet.cif.bdd.workset.pruners.RewardBasedEdgePruner;
@@ -65,20 +68,14 @@ public class CifBddReachability {
      */
     private final BDD restriction;
 
-    /** Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}). */
-    private final boolean forward;
-
-    /** Whether to include edges with controllable events in the reachability. */
-    private final boolean ctrl;
-
-    /** Whether to include edges with uncontrollable events in the reachability. Input variable edges are excluded. */
-    private final boolean unctrl;
-
     /**
-     * Whether to include input variable edges, edges that allow input variables to change their value, in the
-     * reachability.
+     * The direction of the reachability computation, i.e., the direction in which to apply edges during the
+     * reachability computation.
      */
-    private final boolean inputVars;
+    private final CifBddEdgeApplyDirection direction;
+
+    /** The kinds of edges to apply during the reachability computation. */
+    private final Set<CifBddEdgeKind> edgeKinds;
 
     /** Whether debug output is enabled. */
     private final boolean dbgEnabled;
@@ -94,16 +91,14 @@ public class CifBddReachability {
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, during
      *     reachability no states may be reached outside these states. May be {@code null} to not impose a restriction,
      *     which is semantically equivalent to providing 'true'.
-     * @param forward Whether to apply forward reachability ({@code true}) or backward reachability ({@code false}).
-     * @param ctrl Whether to include edges with controllable events in the reachability.
-     * @param unctrl Whether to include edges with uncontrollable events in the reachability (excluding input variable
-     *     edges).
-     * @param inputVars Whether to include input variable edges, edges that allow input variables to change their value,
-     *     in the reachability.
+     * @param direction The direction of the reachability computation, i.e., the direction in which to apply edges
+     *     during the reachability computation.
+     * @param edgeKinds The kinds of edges to apply during the reachability computation.
      * @param dbgEnabled Whether debug output is enabled.
      */
     public CifBddReachability(CifBddSpec cifBddSpec, String predName, String initName, String restrictionName,
-            BDD restriction, boolean forward, boolean ctrl, boolean unctrl, boolean inputVars, boolean dbgEnabled)
+            BDD restriction, CifBddEdgeApplyDirection direction, Set<CifBddEdgeKind> edgeKinds,
+            boolean dbgEnabled)
     {
         Assert.areEqual(restrictionName == null, restriction == null);
         this.cifBddSpec = cifBddSpec;
@@ -111,10 +106,8 @@ public class CifBddReachability {
         this.initName = initName;
         this.restrictionName = restrictionName;
         this.restriction = restriction;
-        this.forward = forward;
-        this.ctrl = ctrl;
-        this.unctrl = unctrl;
-        this.inputVars = inputVars;
+        this.direction = direction;
+        this.edgeKinds = edgeKinds;
         this.dbgEnabled = dbgEnabled;
     }
 
@@ -159,10 +152,9 @@ public class CifBddReachability {
 
         // Determine the edges to be applied.
         boolean useWorkSetAlgo = cifBddSpec.settings.getDoUseEdgeWorksetAlgo();
-        List<CifBddEdge> orderedEdges = forward ? cifBddSpec.orderedEdgesForward : cifBddSpec.orderedEdgesBackward;
-        Predicate<CifBddEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
-                || (unctrl && !e.event.getControllable() && !e.isInputVarEdge())
-                || (inputVars && !e.event.getControllable() && e.isInputVarEdge());
+        List<CifBddEdge> orderedEdges = (direction == CifBddEdgeApplyDirection.FORWARD) ? cifBddSpec.orderedEdgesForward
+                : cifBddSpec.orderedEdgesBackward;
+        Predicate<CifBddEdge> edgeShouldBeApplied = e -> edgeKinds.contains(e.getEdgeKind());
         List<CifBddEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
         BitSet edgesToApplyMask = useWorkSetAlgo ? IntStream.range(0, orderedEdges.size())
                 .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet()) : null;
@@ -211,8 +203,8 @@ public class CifBddReachability {
      */
     private Pair<BDD, Boolean> performReachabilityWorkset(BDD pred, List<CifBddEdge> edges, BitSet edgesMask) {
         boolean changed = false;
-        List<BitSet> dependencies = forward ? cifBddSpec.worksetDependenciesForward
-                : cifBddSpec.worksetDependenciesBackward;
+        List<BitSet> dependencies = (direction == CifBddEdgeApplyDirection.FORWARD)
+                ? cifBddSpec.worksetDependenciesForward : cifBddSpec.worksetDependenciesBackward;
         EdgeSelector edgeSelector = new PruningEdgeSelector(
                 new SequentialEdgePruner(new MaxCardinalityEdgePruner(dependencies),
                         new RewardBasedEdgePruner(edges.size(), 1, -1)),
@@ -228,7 +220,7 @@ public class CifBddReachability {
             while (true) {
                 // Apply selected edge.
                 BDD updPred = pred.id();
-                updPred = edge.apply(updPred, forward, restriction);
+                updPred = edge.apply(updPred, direction, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
@@ -257,7 +249,7 @@ public class CifBddReachability {
                     }
                     cifBddSpec.settings.getDebugOutput().line("%s: %s -> %s [%s reach with edge: %s%s]",
                             Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
-                            bddToStr(newPred, cifBddSpec), (forward ? "forward" : "backward"), edge.toString(0, ""),
+                            bddToStr(newPred, cifBddSpec), direction.description, edge.toString(0, ""),
                             restrTxt);
                 }
 
@@ -307,14 +299,14 @@ public class CifBddReachability {
             iter++;
             if (dbgEnabled) {
                 cifBddSpec.settings.getDebugOutput().line("%s reachability: iteration %d.",
-                        (forward ? "Forward" : "Backward"), iter);
+                        Strings.makeInitialUppercase(direction.description), iter);
             }
 
             // Push through all edges.
             for (CifBddEdge edge: edges) {
                 // Apply edge.
                 BDD updPred = pred.id();
-                updPred = edge.apply(updPred, forward, restriction);
+                updPred = edge.apply(updPred, direction, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }
@@ -346,7 +338,7 @@ public class CifBddReachability {
                         }
                         cifBddSpec.settings.getDebugOutput().line("%s: %s -> %s [%s reach with edge: %s%s]",
                                 Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
-                                bddToStr(newPred, cifBddSpec), (forward ? "forward" : "backward"), edge.toString(0, ""),
+                                bddToStr(newPred, cifBddSpec), direction.description, edge.toString(0, ""),
                                 restrTxt);
                     }
 
