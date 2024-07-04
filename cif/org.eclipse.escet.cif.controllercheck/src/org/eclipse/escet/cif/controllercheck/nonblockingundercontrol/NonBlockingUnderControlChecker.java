@@ -19,6 +19,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
@@ -185,7 +186,7 @@ public class NonBlockingUnderControlChecker {
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
         CifBddEdgeApplyDirection direction = CifBddEdgeApplyDirection.BACKWARD; // Apply backward reachability.
-        EnumSet<CifBddEdgeKind> edgeKinds = EnumSet.allOf(CifBddEdgeKind.class); // Kinds of edges to apply.
+        Set<CifBddEdgeKind> edgeKinds = EnumSet.allOf(CifBddEdgeKind.class); // Kinds of edges to apply.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
                 restriction, direction, edgeKinds, dbgEnabled);
@@ -246,7 +247,7 @@ public class NonBlockingUnderControlChecker {
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
         CifBddEdgeApplyDirection direction = CifBddEdgeApplyDirection.BACKWARD; // Apply backward reachability.
-        EnumSet<CifBddEdgeKind> edgeKinds = EnumSet.allOf(CifBddEdgeKind.class); // Kinds of edges to apply.
+        Set<CifBddEdgeKind> edgeKinds = EnumSet.allOf(CifBddEdgeKind.class); // Kinds of edges to apply.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
                 restriction, direction, edgeKinds, dbgEnabled);

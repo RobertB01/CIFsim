@@ -19,8 +19,8 @@ import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.BitSet;
-import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
@@ -75,7 +75,7 @@ public class CifBddReachability {
     private final CifBddEdgeApplyDirection direction;
 
     /** The kinds of edges to apply during the reachability computation. */
-    private final EnumSet<CifBddEdgeKind> edgeKinds;
+    private final Set<CifBddEdgeKind> edgeKinds;
 
     /** Whether debug output is enabled. */
     private final boolean dbgEnabled;
@@ -97,7 +97,7 @@ public class CifBddReachability {
      * @param dbgEnabled Whether debug output is enabled.
      */
     public CifBddReachability(CifBddSpec cifBddSpec, String predName, String initName, String restrictionName,
-            BDD restriction, CifBddEdgeApplyDirection direction, EnumSet<CifBddEdgeKind> edgeKinds,
+            BDD restriction, CifBddEdgeApplyDirection direction, Set<CifBddEdgeKind> edgeKinds,
             boolean dbgEnabled)
     {
         Assert.areEqual(restrictionName == null, restriction == null);

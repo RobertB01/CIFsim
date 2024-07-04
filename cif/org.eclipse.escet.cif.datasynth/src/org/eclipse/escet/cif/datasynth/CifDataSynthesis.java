@@ -1291,7 +1291,7 @@ public class CifDataSynthesis {
                 String restrictionName; // Name of the restriction predicate, if applicable.
                 BDD restriction; // The restriction predicate, if applicable.
                 CifBddEdgeApplyDirection direction; //  The direction of the reachability computation..
-                EnumSet<CifBddEdgeKind> edgeKinds; // Kinds of edges to apply.
+                Set<CifBddEdgeKind> edgeKinds; // Kinds of edges to apply.
                 switch (fixedPointComputation) {
                     case NONBLOCK:
                         predName = "backward controlled-behavior";
