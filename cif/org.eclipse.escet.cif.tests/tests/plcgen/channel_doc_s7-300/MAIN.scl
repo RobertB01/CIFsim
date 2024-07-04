@@ -172,7 +172,10 @@ BEGIN
              *******************************)
             (* Perform assignments of automaton "Y1". *)
             IF edge_Y1_1 = 1 THEN
-                (* Perform assignments of the 1st edge in location "Y1.B". *)
+                (***********
+                 * Perform assignments of the 1st edge in location "Y1.B".
+                 * doc-sync-edge-uncontr
+                 ***********)
                 (* Perform update of current location of automaton "Y1". *)
                 "DB".Y1 := Y1_A;
             END_IF;
@@ -305,7 +308,10 @@ BEGIN
             IF receiverAut = 1 THEN
                 (* Automaton "R1" was selected. *)
                 IF edge_R1_1 = 1 THEN
-                    (* Perform assignments of the 1st edge of automaton "R1". *)
+                    (***********
+                     * Perform assignments of the 1st edge of automaton "R1".
+                     * doc-recv-edge: This edge accepts the data value.
+                     ***********)
                     (* Perform update of discrete variable "R1.vr1". *)
                     "DB".R1_vr1 := channelValue;
                     (* Perform update of continuous variable "R1.t". *)
@@ -321,7 +327,10 @@ BEGIN
              *******************************)
             (* Perform assignments of automaton "Y1". *)
             IF edge_Y1_1 = 1 THEN
-                (* Perform assignments of the 1st edge in location "Y1.A". *)
+                (***********
+                 * Perform assignments of the 1st edge in location "Y1.A".
+                 * doc-sync-edge-contr
+                 ***********)
                 (* Perform update of current location of automaton "Y1". *)
                 "DB".Y1 := Y1_B;
             END_IF;
@@ -330,17 +339,26 @@ BEGIN
              *******************************)
             (* Perform assignments of automaton "M1". *)
             IF current_M1 = M1_A AND current_M1_vm1 = 1 THEN
-                (* Perform assignments of the 1st edge in location "M1.A". *)
+                (***********
+                 * Perform assignments of the 1st edge in location "M1.A".
+                 * doc-mon-edgeA: Monitor edge
+                 ***********)
                 (* Perform update of discrete variable "M1.vm1". *)
                 "DB".M1_vm1 := 1;
                 (* Perform update of current location of automaton "M1". *)
                 "DB".M1 := M1_B;
             ELSIF current_M1 = M1_B AND current_M1_vm1 = 1 THEN
-                (* Perform assignments of the 1st edge in location "M1.B". *)
+                (***********
+                 * Perform assignments of the 1st edge in location "M1.B".
+                 * doc-mon-edgeB-1: Monitor edge
+                 ***********)
                 (* Perform update of discrete variable "M1.vm1". *)
                 "DB".M1_vm1 := 2;
             ELSIF current_M1 = M1_B AND current_M1_vm1 = 2 THEN
-                (* Perform assignments of the 2nd edge in location "M1.B". *)
+                (***********
+                 * Perform assignments of the 2nd edge in location "M1.B".
+                 * doc-mon-edgeB-2
+                 ***********)
                 (* Perform update of discrete variable "M1.vm1". *)
                 "DB".M1_vm1 := 1;
                 (* Perform update of current location of automaton "M1". *)

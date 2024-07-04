@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.common.java.Lists.cast;
+import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
@@ -1139,9 +1140,24 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated statements.
      */
     private List<PlcStatement> generateEdgeUpdates(Automaton aut, TransitionEdge transEdge) {
+        return generateEdgeUpdates(aut, transEdge, null);
+    }
+
+    /**
+     * Generate PLC code that performs the provided updates.
+     *
+     * @param aut Automaton owning the given edge.
+     * @param transEdge Edge with the updates to convert. Edge must have updates.
+     * @param topics If not {@code null}, already created documentation that should be inserted in a comment above the
+     *     code.
+     * @return The generated statements.
+     */
+    private List<PlcStatement> generateEdgeUpdates(Automaton aut, TransitionEdge transEdge, TextTopics topics) {
         Assert.check(!transEdge.updates.isEmpty());
 
-        // Construct a comment line that indicates what edge is being performed.
+        topics = (topics == null) ? new TextTopics() : topics;
+
+        // Construct a comment text that indicates what edge is being performed.
         String text;
         if (transEdge.sourceLoc.getName() == null) {
             text = fmt("Perform assignments of the %s edge of automaton \"%s\".", toOrdinal(transEdge.edgeNumber),
@@ -1151,9 +1167,22 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     getAbsName(transEdge.sourceLoc, false));
         }
 
-        // Construct the PLC code and return it.
+        // Create the documentation.
+        DocAnnotationFormatter edgeUpdateDocFormatter = new DocAnnotationFormatter(null, null, null, null, List.of(""));
+        topics.ensureEmptyAtEnd();
+        topics.add(text);
+        topics.addAll(edgeUpdateDocFormatter.getAndFormatDocs(transEdge.edge));
+        topics.dropEmptyAtEnd();
+
+        // Store the documentation.
         List<PlcStatement> stats = list();
-        stats.add(new PlcCommentLine(text));
+        if (topics.size() == 1) {
+            stats.add(new PlcCommentLine(first(topics.getLines())));
+        } else {
+            stats.add(new PlcCommentBlock(topics.getLines()));
+        }
+
+        // Add the generated code and return everything.
         stats.addAll(generateUpdates(transEdge.updates));
         return stats;
     }
