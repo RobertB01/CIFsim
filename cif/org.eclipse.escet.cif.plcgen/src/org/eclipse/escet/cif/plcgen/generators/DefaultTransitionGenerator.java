@@ -861,8 +861,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private void generateMonitorCode(List<TransitionAutomaton> autTransitions, CifDataProvider performProvider,
             List<PlcStatement> testAndPerformCode, List<PlcBasicVariable> createdTempVariables)
     {
-        // TODO: Do not allow only monitors for an event, as it may completely disable progress of time.
-
         List<PlcStatement> collectedNoUpdates = list(); // Comments about automata without updates.
         List<PlcStatement> collectedUpdates = list(); // Update-code of automata with updates.
 
@@ -873,21 +871,21 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             boolean addedAutomatonHeaderText = false;
             Location lastLoc = null;
-            for (TransitionEdge edge: transAut.transitionEdges) {
-                if (!edge.updates.isEmpty()) {
+            for (TransitionEdge transEdge: transAut.transitionEdges) {
+                if (!transEdge.updates.isEmpty()) {
                     // Generate the 'then' statements for the edge.
                     final boolean doAutPrint = !addedAutomatonHeaderText;
-                    final boolean doLocPrint = edge.sourceLoc != lastLoc;
+                    final boolean doLocPrint = transEdge.sourceLoc != lastLoc;
                     Supplier<List<PlcStatement>> thenStats = () -> {
-                        return genMonitorUpdateEdge(transAut, edge, doAutPrint, doLocPrint);
+                        return genMonitorUpdateEdge(transAut, transEdge, doAutPrint, doLocPrint);
                     };
 
                     // Update variables that control generation of the documentation.
                     addedAutomatonHeaderText = true;
-                    lastLoc = edge.sourceLoc;
+                    lastLoc = transEdge.sourceLoc;
 
                     // Add an "IF <guards> THEN <perform-updates>" branch.
-                    selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, updates);
+                    selStat = mainExprGen.addBranch(transEdge.guards, thenStats, selStat, updates);
                 }
             }
 
@@ -993,7 +991,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Generate the checks and assign their findings to edge and/or automaton variables.
         int edgeIndex = 1;
-        for (TransitionEdge edge: transAut.transitionEdges) {
+        for (TransitionEdge transEdge: transAut.transitionEdges) {
             final int finalEdgeIndex = edgeIndex; // Java wants a copy.
             Supplier<List<PlcStatement>> thenStats = () -> {
                 if (autVar != null) {
@@ -1006,7 +1004,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
             };
             // Add "IF <guards> THEN <then-stats>" branch.
-            selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, testCode);
+            selStat = mainExprGen.addBranch(transEdge.guards, thenStats, selStat, testCode);
             edgeIndex++;
         }
 
@@ -1135,9 +1133,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Perform the selected edge, if not empty.
         int edgeIndex = 1;
-        for (TransitionEdge edge: transAut.transitionEdges) {
+        for (TransitionEdge transEdge: transAut.transitionEdges) {
             // Generate code that performs the edge if something needs to be done.
-            if (channelValueVar != null || !edge.updates.isEmpty()) {
+            if (channelValueVar != null || !transEdge.updates.isEmpty()) {
                 mustCompute = true;
 
                 // State that automaton being updated or selected.
@@ -1154,12 +1152,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     // Compute and assign the sent value if it exists.
                     if (channelValueVar != null) {
                         thenStatements.add(new PlcCommentLine("Compute sent channel value."));
-                        genAssignExpr(new PlcVarExpression(channelValueVar), edge.sendValue, thenStatements);
+                        genAssignExpr(new PlcVarExpression(channelValueVar), transEdge.sendValue, thenStatements);
                     }
 
                     // Perform the updates if they exist.
-                    if (!edge.updates.isEmpty()) {
-                        thenStatements.addAll(generateEdgeUpdates(transAut.aut, edge));
+                    if (!transEdge.updates.isEmpty()) {
+                        thenStatements.addAll(generateEdgeUpdates(transAut.aut, transEdge));
                     }
                     return thenStatements;
                 };
