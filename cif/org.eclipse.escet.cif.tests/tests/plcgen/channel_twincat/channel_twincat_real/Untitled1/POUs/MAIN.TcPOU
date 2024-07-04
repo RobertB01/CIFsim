@@ -370,9 +370,12 @@ WHILE isProgress DO
         (*******************************
          * Perform the assignments of each optionally synchronizing automaton.
          *******************************)
-        (* Perform assignments of automaton "M1". *)
         IF current_M1_vm1 = 1 THEN
-            (* Perform assignments of the 1st edge in location "M1.A". *)
+            (***********
+             * Perform assignments of automaton "M1".
+             *
+             * Perform assignments of the 1st edge in location "M1.A".
+             ***********)
             (* Perform update of discrete variable "M1.vm1". *)
             M1_vm1 := 1;
         END_IF;
