@@ -71,8 +71,7 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.MemoryCodeBox;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider.DocAnnotationFormatter;
 import org.eclipse.escet.common.java.Assert;
 
 /** Generator for creating PLC code to perform CIF event transitions in the PLC. */
@@ -439,8 +438,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return Comment block stating the event, and listing what is needed for the event to occur.
      */
     private PlcCommentBlock genAnnounceEventBeingTried(CifEventTransition eventTrans) {
+        DocAnnotationFormatter eventDocFormatter, sendRecvAutDocFormatter, syncMonAutDocFormatter;
+        eventDocFormatter = new DocAnnotationFormatter(null, null, null, null, List.of(""));
+        sendRecvAutDocFormatter = new DocAnnotationFormatter(null, null, null, "     ", List.of(""));
+        syncMonAutDocFormatter = new DocAnnotationFormatter(null, null, null, "  ", List.of(""));
+
         TextTopics topics = new TextTopics("");
         topics.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
+        topics.addAll(eventDocFormatter.getAndFormatDocs(eventTrans.event));
 
         CifType eventType = eventTrans.event.getType();
         if (eventType != null) {
@@ -458,6 +463,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
                 for (TransitionAutomaton transAut: eventTrans.senders) {
                     topics.add("   - Automaton \"%s\" may send a value.", getAbsName(transAut.aut, false));
+                    topics.addAll(sendRecvAutDocFormatter.getAndFormatDocs(transAut.aut));
                 }
             }
 
@@ -473,6 +479,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
                 for (TransitionAutomaton transAut: eventTrans.receivers) {
                     topics.add("   - Automaton \"%s\" may receive a value.", getAbsName(transAut.aut, false));
+                    topics.addAll(sendRecvAutDocFormatter.getAndFormatDocs(transAut.aut));
                 }
             }
         }
@@ -481,12 +488,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         topics.ensureEmptyAtEnd();
         for (TransitionAutomaton transAut: eventTrans.syncers) {
             topics.add("- Automaton \"%s\" must always synchronize.", getAbsName(transAut.aut, false));
+            topics.addAll(syncMonAutDocFormatter.getAndFormatDocs(transAut.aut));
         }
 
         // List monitors.
         topics.ensureEmptyAtEnd();
         for (TransitionAutomaton transAut: eventTrans.monitors) {
             topics.add("- Automaton \"%s\" may synchronize.", getAbsName(transAut.aut, false));
+            topics.addAll(syncMonAutDocFormatter.getAndFormatDocs(transAut.aut));
         }
 
         topics.dropEmptyAtEnd();
