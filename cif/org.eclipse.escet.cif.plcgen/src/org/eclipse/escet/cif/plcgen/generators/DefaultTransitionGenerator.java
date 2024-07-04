@@ -439,61 +439,58 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return Comment block stating the event, and listing what is needed for the event to occur.
      */
     private PlcCommentBlock genAnnounceEventBeingTried(CifEventTransition eventTrans) {
-        CodeBox box = new MemoryCodeBox();
-        box.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
+        TextTopics topics = new TextTopics("");
+        topics.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
 
         CifType eventType = eventTrans.event.getType();
         if (eventType != null) {
             boolean transferValue = !(eventType instanceof VoidType);
 
             // List senders.
-            box.add();
+            topics.ensureEmptyAtEnd();
             if (eventTrans.senders.isEmpty()) {
-                box.add("- An automaton that must send a value is missing, so the event cannot occur.");
+                topics.add("- An automaton that must send a value is missing, so the event cannot occur.");
             } else {
                 if (transferValue) {
-                    box.add("- One automaton must send a value.");
+                    topics.add("- One automaton must send a value.");
                 } else {
-                    box.add("- One automaton must send a value (although no data is actually transferred).");
+                    topics.add("- One automaton must send a value (although no data is actually transferred).");
                 }
                 for (TransitionAutomaton transAut: eventTrans.senders) {
-                    box.add("   - Automaton \"%s\" may send a value.", getAbsName(transAut.aut, false));
+                    topics.add("   - Automaton \"%s\" may send a value.", getAbsName(transAut.aut, false));
                 }
             }
 
             // List receivers.
-            box.add();
+            topics.ensureEmptyAtEnd();
             if (eventTrans.receivers.isEmpty()) {
-                box.add("- An automaton that must receive a value is missing, so the event cannot occur.");
+                topics.add("- An automaton that must receive a value is missing, so the event cannot occur.");
             } else {
                 if (transferValue) {
-                    box.add("- One automaton must receive a value.");
+                    topics.add("- One automaton must receive a value.");
                 } else {
-                    box.add("- One automaton must receive a value (although no data is actually transferred).");
+                    topics.add("- One automaton must receive a value (although no data is actually transferred).");
                 }
                 for (TransitionAutomaton transAut: eventTrans.receivers) {
-                    box.add("   - Automaton \"%s\" may receive a value.", getAbsName(transAut.aut, false));
+                    topics.add("   - Automaton \"%s\" may receive a value.", getAbsName(transAut.aut, false));
                 }
             }
         }
 
         // List syncers.
-        if (!eventTrans.syncers.isEmpty()) {
-            box.add();
-            for (TransitionAutomaton transAut: eventTrans.syncers) {
-                box.add("- Automaton \"%s\" must always synchronize.", getAbsName(transAut.aut, false));
-            }
+        topics.ensureEmptyAtEnd();
+        for (TransitionAutomaton transAut: eventTrans.syncers) {
+            topics.add("- Automaton \"%s\" must always synchronize.", getAbsName(transAut.aut, false));
         }
 
         // List monitors.
-        if (!eventTrans.monitors.isEmpty()) {
-            box.add();
-            for (TransitionAutomaton transAut: eventTrans.monitors) {
-                box.add("- Automaton \"%s\" may synchronize.", getAbsName(transAut.aut, false));
-            }
+        topics.ensureEmptyAtEnd();
+        for (TransitionAutomaton transAut: eventTrans.monitors) {
+            topics.add("- Automaton \"%s\" may synchronize.", getAbsName(transAut.aut, false));
         }
 
-        return new PlcCommentBlock(EVENT_COMMENT_STARCOUNT, box.getLines());
+        topics.dropEmptyAtEnd();
+        return new PlcCommentBlock(EVENT_COMMENT_STARCOUNT, topics.getLines());
     }
 
     /**
@@ -993,9 +990,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated comment block.
      */
     private PlcCommentBlock genEdgeTestsDocumentation(Event event, TransitionAutomaton transAut) {
-        CodeBox box = new MemoryCodeBox();
+        TextTopics topics = new TextTopics();
         String edgePluralText = (transAut.transitionEdges.size() != 1) ? "s" : "";
-        box.add("Test edge%s of automaton \"%s\" to %s for event \"%s\".", edgePluralText,
+        topics.add("Test edge%s of automaton \"%s\" to %s for event \"%s\".", edgePluralText,
                 getAbsName(transAut.aut, false), transAut.purpose.purposeText, getAbsName(event, false));
 
         switch (transAut.purpose) {
@@ -1004,39 +1001,40 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             case RECEIVER:
             case SENDER: {
                 String kindText = (transAut.purpose == TransAutPurpose.SENDER) ? "sending" : "receiving";
-                box.add("At least one %s automaton must have an edge with a true guard to allow the event.", kindText);
+                topics.add("At least one %s automaton must have an edge with a true guard to allow the event.",
+                        kindText);
                 break;
             }
             case SYNCER:
-                box.add("This automaton must have an edge with a true guard to allow the event.");
+                topics.add("This automaton must have an edge with a true guard to allow the event.");
                 break;
             default:
                 throw new AssertionError("Unknown purpose \"" + transAut.purpose + "\" encountered.");
         }
-        box.add();
-        box.add("Edge%s being tested:", edgePluralText);
+        topics.ensureEmptyAtEnd();
+        topics.add("Edge%s being tested:", edgePluralText);
         Location lastLoc = null;
         for (TransitionEdge transEdge: transAut.transitionEdges) {
             if (transEdge.sourceLoc != lastLoc) {
                 lastLoc = transEdge.sourceLoc;
                 if (lastLoc.getName() == null) {
-                    box.add("- Location:");
+                    topics.add("- Location:");
                 } else {
-                    box.add("- Location \"%s\":", lastLoc.getName());
+                    topics.add("- Location \"%s\":", lastLoc.getName());
                 }
             }
-            box.add("  - %s edge in the location", toOrdinal(transEdge.edgeNumber));
+            topics.add("  - %s edge in the location", toOrdinal(transEdge.edgeNumber));
         }
         if (lastLoc == null) {
             switch (transAut.purpose) {
                 case RECEIVER:
-                    box.add("  - No edges found. Value cannot be accepted by this automaton.");
+                    topics.add("  - No edges found. Value cannot be accepted by this automaton.");
                     break;
                 case SENDER:
-                    box.add("  - No edges found. Value cannot be provided by this automaton.");
+                    topics.add("  - No edges found. Value cannot be provided by this automaton.");
                     break;
                 case SYNCER:
-                    box.add("  - No edges found. Event \"%s\" will never occur!", getAbsName(event, false));
+                    topics.add("  - No edges found. Event \"%s\" will never occur!", getAbsName(event, false));
                     break;
 
                 case MONITOR: // Never happens, as code above throws an exception already.
@@ -1044,7 +1042,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     throw new AssertionError("Unknown purpose \"" + transAut.purpose + "\" encountered.");
             }
         }
-        return new PlcCommentBlock(box.getLines());
+        topics.dropEmptyAtEnd();
+        return new PlcCommentBlock(topics.getLines());
     }
 
     /**
