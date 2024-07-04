@@ -25,6 +25,10 @@ pipeline {
     }
 
     options {
+        // Don't have multiple concurrent builds for the same branch, tag or merge request.
+        // Prevents multiple nightlies being deployed at the same time, leading to various issues.
+        disableConcurrentBuilds()
+
         // Don't keep too many builds, as it costs a lot of disk space.
         buildDiscarder(logRotator(
             // Number of builds to keep.
