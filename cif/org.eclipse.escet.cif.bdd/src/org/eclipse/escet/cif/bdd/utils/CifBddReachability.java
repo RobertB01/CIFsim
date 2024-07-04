@@ -19,12 +19,14 @@ import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.BitSet;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.workset.pruners.MaxCardinalityEdgePruner;
 import org.eclipse.escet.cif.bdd.workset.pruners.RewardBasedEdgePruner;
@@ -72,17 +74,8 @@ public class CifBddReachability {
      */
     private final CifBddEdgeApplyDirection direction;
 
-    /** Whether to include edges with controllable events in the reachability. */
-    private final boolean ctrl;
-
-    /** Whether to include edges with uncontrollable events in the reachability. Input variable edges are excluded. */
-    private final boolean unctrl;
-
-    /**
-     * Whether to include input variable edges, edges that allow input variables to change their value, in the
-     * reachability.
-     */
-    private final boolean inputVars;
+    /** The kinds of edges to apply during the reachability computation. */
+    private final EnumSet<CifBddEdgeKind> edgeKinds;
 
     /** Whether debug output is enabled. */
     private final boolean dbgEnabled;
@@ -100,15 +93,11 @@ public class CifBddReachability {
      *     which is semantically equivalent to providing 'true'.
      * @param direction The direction of the reachability computation, i.e., the direction in which to apply edges
      *     during the reachability computation.
-     * @param ctrl Whether to include edges with controllable events in the reachability.
-     * @param unctrl Whether to include edges with uncontrollable events in the reachability (excluding input variable
-     *     edges).
-     * @param inputVars Whether to include input variable edges, edges that allow input variables to change their value,
-     *     in the reachability.
+     * @param edgeKinds The kinds of edges to apply during the reachability computation.
      * @param dbgEnabled Whether debug output is enabled.
      */
     public CifBddReachability(CifBddSpec cifBddSpec, String predName, String initName, String restrictionName,
-            BDD restriction, CifBddEdgeApplyDirection direction, boolean ctrl, boolean unctrl, boolean inputVars,
+            BDD restriction, CifBddEdgeApplyDirection direction, EnumSet<CifBddEdgeKind> edgeKinds,
             boolean dbgEnabled)
     {
         Assert.areEqual(restrictionName == null, restriction == null);
@@ -118,9 +107,7 @@ public class CifBddReachability {
         this.restrictionName = restrictionName;
         this.restriction = restriction;
         this.direction = direction;
-        this.ctrl = ctrl;
-        this.unctrl = unctrl;
-        this.inputVars = inputVars;
+        this.edgeKinds = edgeKinds;
         this.dbgEnabled = dbgEnabled;
     }
 
@@ -167,9 +154,7 @@ public class CifBddReachability {
         boolean useWorkSetAlgo = cifBddSpec.settings.getDoUseEdgeWorksetAlgo();
         List<CifBddEdge> orderedEdges = (direction == CifBddEdgeApplyDirection.FORWARD) ? cifBddSpec.orderedEdgesForward
                 : cifBddSpec.orderedEdgesBackward;
-        Predicate<CifBddEdge> edgeShouldBeApplied = e -> (ctrl && e.event.getControllable())
-                || (unctrl && !e.event.getControllable() && !e.isInputVarEdge())
-                || (inputVars && !e.event.getControllable() && e.isInputVarEdge());
+        Predicate<CifBddEdge> edgeShouldBeApplied = e -> edgeKinds.contains(e.getEdgeKind());
         List<CifBddEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
         BitSet edgesToApplyMask = useWorkSetAlgo ? IntStream.range(0, orderedEdges.size())
                 .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet()) : null;

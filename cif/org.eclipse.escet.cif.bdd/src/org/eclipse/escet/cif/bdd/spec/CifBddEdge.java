@@ -105,12 +105,20 @@ public class CifBddEdge {
     }
 
     /**
-     * Returns whether this is an input variable edge, an edge for an input variable that changes value.
+     * Returns the edge kind of the edge.
      *
-     * @return {@code true} if this is an input variable edge, {@code false} otherwise.
+     * @return The edge kind.
      */
-    public boolean isInputVarEdge() {
-        return edges.contains(null);
+    public CifBddEdgeKind getEdgeKind() {
+        if (event.getControllable()) {
+            return CifBddEdgeKind.CONTROLLABLE;
+        } else {
+            if (edges.contains(null)) {
+                return CifBddEdgeKind.INPUT_VARIABLE;
+            } else {
+                return CifBddEdgeKind.UNCONTROLLABLE;
+            }
+        }
     }
 
     /**

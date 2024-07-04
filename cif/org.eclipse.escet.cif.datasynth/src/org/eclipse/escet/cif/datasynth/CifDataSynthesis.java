@@ -33,6 +33,7 @@ import java.util.stream.Stream;
 import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
@@ -1290,9 +1291,7 @@ public class CifDataSynthesis {
                 String restrictionName; // Name of the restriction predicate, if applicable.
                 BDD restriction; // The restriction predicate, if applicable.
                 CifBddEdgeApplyDirection direction; //  The direction of the reachability computation..
-                boolean inclCtrl; // Whether to include edges with controllable events in the reachability.
-                final boolean inclUnctrl = true; // Always include edges with uncontrollable events in the reachability.
-                final boolean inclInputVars = true; // Always include input variable edges in the reachability.
+                EnumSet<CifBddEdgeKind> edgeKinds; // Kinds of edges to apply.
                 switch (fixedPointComputation) {
                     case NONBLOCK:
                         predName = "backward controlled-behavior";
@@ -1300,7 +1299,7 @@ public class CifDataSynthesis {
                         restrictionName = "current/previous controlled-behavior";
                         restriction = synthResult.ctrlBeh;
                         direction = CifBddEdgeApplyDirection.BACKWARD;
-                        inclCtrl = true;
+                        edgeKinds = EnumSet.allOf(CifBddEdgeKind.class);
                         break;
                     case CTRL:
                         predName = "backward uncontrolled bad-state";
@@ -1308,7 +1307,7 @@ public class CifDataSynthesis {
                         restrictionName = null;
                         restriction = null;
                         direction = CifBddEdgeApplyDirection.BACKWARD;
-                        inclCtrl = false;
+                        edgeKinds = EnumSet.of(CifBddEdgeKind.UNCONTROLLABLE, CifBddEdgeKind.INPUT_VARIABLE);
                         break;
                     case REACH:
                         predName = "forward controlled-behavior";
@@ -1316,7 +1315,7 @@ public class CifDataSynthesis {
                         restrictionName = "current/previous controlled-behavior";
                         restriction = synthResult.ctrlBeh;
                         direction = CifBddEdgeApplyDirection.FORWARD;
-                        inclCtrl = true;
+                        edgeKinds = EnumSet.allOf(CifBddEdgeKind.class);
                         break;
                     default:
                         throw new RuntimeException("Unknown fixed-point computation: " + fixedPointComputation);
@@ -1342,8 +1341,7 @@ public class CifDataSynthesis {
                 BDD reachabilityResult;
                 try {
                     CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName,
-                            restrictionName, restriction, direction, inclCtrl, inclUnctrl, inclInputVars,
-                            dbgEnabled);
+                            restrictionName, restriction, direction, edgeKinds, dbgEnabled);
                     reachabilityResult = reachability.performReachability(startPred);
                 } finally {
                     // Stop timing the fixed-point reachability computation.
