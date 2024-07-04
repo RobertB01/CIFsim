@@ -872,16 +872,19 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             PlcSelectionStatement selStat = null;
 
             boolean addedAutomatonHeaderText = false;
+            Location lastLoc = null;
             for (TransitionEdge edge: transAut.transitionEdges) {
                 if (!edge.updates.isEmpty()) {
                     // Generate the 'then' statements for the edge.
                     final boolean doAutPrint = !addedAutomatonHeaderText;
+                    final boolean doLocPrint = edge.sourceLoc != lastLoc;
                     Supplier<List<PlcStatement>> thenStats = () -> {
-                        return genMonitorUpdateEdge(transAut, edge, doAutPrint);
+                        return genMonitorUpdateEdge(transAut, edge, doAutPrint, doLocPrint);
                     };
 
                     // Update variables that control generation of the documentation.
                     addedAutomatonHeaderText = true;
+                    lastLoc = edge.sourceLoc;
 
                     // Add an "IF <guards> THEN <perform-updates>" branch.
                     selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, updates);
@@ -910,17 +913,35 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param transAut Automaton information.
      * @param transEdge Edge to perform.
      * @param doAutDocPrint Whether to add documentation about the automaton above the PLC code.
+     * @param doLlocDocPrint Whether to add documentation about the edge above the PLC code.
      * @return The generated PLC statements.
      */
     private List<PlcStatement> genMonitorUpdateEdge(TransitionAutomaton transAut, TransitionEdge transEdge,
-            boolean doAutDocPrint)
+            boolean doAutDocPrint, boolean doLlocDocPrint)
     {
         List<PlcStatement> stats = list();
 
         TextTopics topics;
-        if (doAutDocPrint) {
+        // If requested, output documentation about the automaton.
+        if (doAutDocPrint || doLlocDocPrint) {
+            DocAnnotationFormatter docFormatter = new DocAnnotationFormatter(null, null, null, null, List.of(""));
             topics = new TextTopics();
-            topics.add(fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false)));
+
+            if (doAutDocPrint) {
+                topics.add(fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false)));
+                topics.addAll(docFormatter.getAndFormatDocs(transAut.aut));
+                topics.ensureEmptyAtEnd();
+            }
+            if (doLlocDocPrint) {
+                Location loc = transEdge.sourceLoc;
+                if (loc.getName() == null) {
+                    topics.add("Location:");
+                    topics.addAll(docFormatter.getAndFormatDocs(loc));
+                } else {
+                    topics.add("Location \"%s\":", loc.getName());
+                    topics.addAll(docFormatter.getAndFormatDocs(loc));
+                }
+            }
         } else {
             topics = null;
         }

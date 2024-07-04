@@ -340,6 +340,10 @@ BEGIN
             IF current_M1 = M1_A AND current_M1_vm1 = 1 THEN
                 (***********
                  * Perform assignments of automaton "M1".
+                 * doc-mon: Not participating monitor
+                 *
+                 * Location "A":
+                 * doc-mon-locA
                  *
                  * Perform assignments of the 1st edge in location "M1.A".
                  * doc-mon-edgeA: Monitor edge
@@ -350,6 +354,9 @@ BEGIN
                 "DB".M1 := M1_B;
             ELSIF current_M1 = M1_B AND current_M1_vm1 = 1 THEN
                 (***********
+                 * Location "B":
+                 * doc-mon-locB
+                 *
                  * Perform assignments of the 1st edge in location "M1.B".
                  * doc-mon-edgeB-1: Monitor edge
                  ***********)
