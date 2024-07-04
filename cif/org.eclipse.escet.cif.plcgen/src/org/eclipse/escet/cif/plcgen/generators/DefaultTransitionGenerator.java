@@ -874,12 +874,15 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             boolean addedAutomatonHeaderText = false;
             for (TransitionEdge edge: transAut.transitionEdges) {
                 if (!edge.updates.isEmpty()) {
-                    if (!addedAutomatonHeaderText) {
-                        updates.add(new PlcCommentLine(
-                                fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false))));
-                        addedAutomatonHeaderText = true;
-                    }
-                    Supplier<List<PlcStatement>> thenStats = () -> { return generateEdgeUpdates(transAut.aut, edge); };
+                    // Generate the 'then' statements for the edge.
+                    final boolean doAutPrint = !addedAutomatonHeaderText;
+                    Supplier<List<PlcStatement>> thenStats = () -> {
+                        return genMonitorUpdateEdge(transAut, edge, doAutPrint);
+                    };
+
+                    // Update variables that control generation of the documentation.
+                    addedAutomatonHeaderText = true;
+
                     // Add an "IF <guards> THEN <perform-updates>" branch.
                     selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, updates);
                 }
@@ -899,6 +902,32 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         }
         testAndPerformCode.addAll(collectedUpdates);
         testAndPerformCode.addAll(collectedNoUpdates);
+    }
+
+    /**
+     * Function to generate a test and possibly update branch for an edge in a monitor automaton.
+     *
+     * @param transAut Automaton information.
+     * @param transEdge Edge to perform.
+     * @param doAutDocPrint Whether to add documentation about the automaton above the PLC code.
+     * @return The generated PLC statements.
+     */
+    private List<PlcStatement> genMonitorUpdateEdge(TransitionAutomaton transAut, TransitionEdge transEdge,
+            boolean doAutDocPrint)
+    {
+        List<PlcStatement> stats = list();
+
+        TextTopics topics;
+        if (doAutDocPrint) {
+            topics = new TextTopics();
+            topics.add(fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false)));
+        } else {
+            topics = null;
+        }
+
+        // Generate the edge updates and return the generated code.
+        stats.addAll(generateEdgeUpdates(transAut.aut, transEdge, topics));
+        return stats;
     }
 
     /**
