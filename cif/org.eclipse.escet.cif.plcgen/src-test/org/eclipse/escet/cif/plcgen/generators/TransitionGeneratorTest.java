@@ -19,6 +19,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpr
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEdge;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newField;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntExpression;
@@ -186,8 +187,8 @@ public class TransitionGeneratorTest {
         // edge sendEvent!1;
         Location aut1Loc = newLocation();
         aut1Loc.setName("aut1Loc");
-        TransitionEdge sendEdge1 = new TransitionEdge(1, aut1Loc, null, newIntExpression(null, newIntType(), 1),
-                List.of(), List.of());
+        TransitionEdge sendEdge1 = new TransitionEdge(newEdge(), 1, aut1Loc, null,
+                newIntExpression(null, newIntType(), 1), List.of(), List.of());
         List<TransitionEdge> transSendEdges = List.of(sendEdge1);
 
         // Create sender automaton.
@@ -273,8 +274,8 @@ public class TransitionGeneratorTest {
         // automaton sender1: edge channelEvent!1;
         Location sender1Loc = newLocation();
         sender1Loc.setName("sender1Loc");
-        TransitionEdge sendEdge1 = new TransitionEdge(2, sender1Loc, null, newIntExpression(null, newIntType(), 1),
-                List.of(), List.of());
+        TransitionEdge sendEdge1 = new TransitionEdge(newEdge(), 2, sender1Loc, null,
+                newIntExpression(null, newIntType(), 1), List.of(), List.of());
         List<TransitionEdge> transSendEdges = List.of(sendEdge1);
         Automaton aut1 = newAutomaton();
         aut1.setName("sender1");
@@ -289,7 +290,8 @@ public class TransitionGeneratorTest {
         Update recvUpd1 = newAssignment(newDiscVariableExpression(null, newIntType(), recVar), null, addExpr);
         Location receiver1Loc = newLocation();
         receiver1Loc.setName("receiver1Loc");
-        TransitionEdge recvEdge1 = new TransitionEdge(3, receiver1Loc, null, null, List.of(), List.of(recvUpd1));
+        TransitionEdge recvEdge1 = new TransitionEdge(newEdge(), 3, receiver1Loc, null,
+                null, List.of(), List.of(recvUpd1));
         Automaton aut2 = newAutomaton();
         aut2.setName("receiver1");
         aut2.getLocations().add(receiver1Loc);
@@ -301,7 +303,8 @@ public class TransitionGeneratorTest {
                 newReceivedExpression());
         Location receiver2Loc = newLocation();
         receiver2Loc.setName("receiver2Loc");
-        TransitionEdge recvEdge2 = new TransitionEdge(4, receiver2Loc, null, null, List.of(), List.of(recvUpd2));
+        TransitionEdge recvEdge2 = new TransitionEdge(newEdge(), 4, receiver2Loc, null,
+                null, List.of(), List.of(recvUpd2));
         Automaton aut3 = newAutomaton();
         aut3.setName("receiver2");
         aut3.getLocations().add(receiver2Loc);
@@ -439,7 +442,8 @@ public class TransitionGeneratorTest {
         Update update1 = newAssignment(leftSide, null, rightSide);
         Location syncer1Loc = newLocation();
         syncer1Loc.setName("syncer1Loc");
-        TransitionEdge edge11 = new TransitionEdge(5, syncer1Loc, null, null, List.of(guard1), List.of(update1));
+        TransitionEdge edge11 = new TransitionEdge(newEdge(), 5, syncer1Loc, null, null, List.of(guard1),
+                List.of(update1));
 
         // automaton syncer1: edge event when otherVar = 2 do otherVar := 3;
         leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
@@ -448,7 +452,8 @@ public class TransitionGeneratorTest {
         leftSide = newDiscVariableExpression(null, newIntType(), otherVar);
         rightSide = newIntExpression(null, newIntType(), 3);
         Update update2 = newAssignment(leftSide, null, rightSide);
-        TransitionEdge edge21 = new TransitionEdge(6, syncer1Loc, null, null, List.of(guard2), List.of(update2));
+        TransitionEdge edge21 = new TransitionEdge(newEdge(), 6, syncer1Loc, null, null, List.of(guard2),
+                List.of(update2));
         Automaton aut1 = newAutomaton();
         aut1.setName("syncer1");
         aut1.getLocations().add(syncer1Loc);
@@ -464,7 +469,8 @@ public class TransitionGeneratorTest {
         Update update3 = newAssignment(leftSide, null, rightSide);
         Location syncer2Loc = newLocation();
         syncer2Loc.setName("syncer2Loc");
-        TransitionEdge edge12 = new TransitionEdge(7, syncer2Loc, null, null, List.of(guard3), List.of(update3));
+        TransitionEdge edge12 = new TransitionEdge(newEdge(), 7, syncer2Loc, null, null, List.of(guard3),
+                List.of(update3));
         Automaton aut2 = newAutomaton();
         aut2.setName("syncer2");
         aut2.getLocations().add(syncer2Loc);
@@ -564,7 +570,7 @@ public class TransitionGeneratorTest {
         Update update1 = newAssignment(leftSide, null, rightSide);
         Location aut2Loc = newLocation();
         aut2Loc.setName("aut2Loc");
-        TransitionEdge edge = new TransitionEdge(8, aut2Loc, null, null, List.of(guard1), List.of(update1));
+        TransitionEdge edge = new TransitionEdge(newEdge(), 8, aut2Loc, null, null, List.of(guard1), List.of(update1));
         Automaton aut2 = newAutomaton();
         aut2.setName("monitor");
         aut2.getLocations().add(aut2Loc);
@@ -628,7 +634,7 @@ public class TransitionGeneratorTest {
         Update update = newAssignment(leftSide, null, rightSide);
         Location aut2Loc = newLocation();
         aut2Loc.setName("aut2Loc");
-        TransitionEdge edge = new TransitionEdge(9, aut2Loc, null, null, List.of(), List.of(update));
+        TransitionEdge edge = new TransitionEdge(newEdge(), 9, aut2Loc, null, null, List.of(), List.of(update));
         Automaton aut2 = newAutomaton();
         aut2.getLocations().add(aut2Loc);
         aut2.setName("aut");
@@ -706,7 +712,7 @@ public class TransitionGeneratorTest {
         Update update = newAssignment(leftSide, null, rightSide);
         Location aut2Loc = newLocation();
         aut2Loc.setName("autLoc");
-        TransitionEdge edge = new TransitionEdge(10, aut2Loc, null, null, List.of(), List.of(update));
+        TransitionEdge edge = new TransitionEdge(newEdge(), 10, aut2Loc, null, null, List.of(), List.of(update));
         Automaton aut2 = newAutomaton();
         aut2.setName("aut");
         aut2.getLocations().add(aut2Loc);
