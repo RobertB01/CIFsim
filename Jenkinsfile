@@ -25,6 +25,7 @@ pipeline {
     }
 
     options {
+        // Don't keep too many builds, as it costs a lot of disk space.
         buildDiscarder(logRotator(
             // Number of builds to keep.
             numToKeepStr: '5',
@@ -44,7 +45,11 @@ pipeline {
                                    env.TAG_NAME ==~ /v[0-9]+\\.[0-9]+.*/ ?  '30' : // release tags
                                    '30',                                           // other branches and merge requests
         ))
+
+        // Prevent hanging builds from running forever, blocking other builds.
         timeout(time: 2, unit: 'HOURS')
+
+        // Use timestamps in the log output of the build, to see how long parts of the build take.
         timestamps()
     }
 
