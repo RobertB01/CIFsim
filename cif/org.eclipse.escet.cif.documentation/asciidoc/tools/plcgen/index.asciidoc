@@ -461,21 +461,130 @@ That is, use `do c := 1.0, d := 2.0` on edges.
 Other forms like `do (c, d) := (1.0, 2.0)` are not allowed.
 * Values used to initialize a continuous variable, or to assign to a continuous variable must be larger or equal to zero, and this must be statically decidable.
 
-As a more elaborate example, the following automaton will enable the `timeout` event 10 seconds after the last `reset` event:
+An example with a timer is shown in the next section.
+
+indexterm:[PLC code generator,@doc]
+indexterm:[PLC code generator,doc annotations]
+
+[[tools-plcgen-documenting-code]]
+=== Documenting PLC code
+
+CIF has <<lang-tut-extensions-chapter-annotations-documentation,Documentation annotations>> that can be attached to elements in a CIF specification.
+In such annotations, design related information can be written about the element they are attached to.
+In that way, design information is available within the model, and it can be used, transported or converted by CIF applications.
+
+The PLC code generator understands documentation annotations of specifications, automata, variables, locations, and edges.
+Indirectly it also understand documentation annotations of requirements, since it uses CIF conversions to convert these to one of the previously mentioned CIF elements.
+All documentation annotations that it finds in the input specification are copied into the generated PLC code as comments, where appropriate.
+For example, documentation annotations of the specification are only shown in the overall model overview.
+Documentation annotations of variables are shown whenever the variable is updated.
+Edge documentation annotations are shown when the edge is considered to be taken, and when it is actually taken.
+
+As an example, the following automaton will enable the `timed_out` event 10 seconds after the last `reset` event:
 
 [source, cif]
 ----
-automaton Timer:
+@doc("Enabled when the system is triggered to become active.")
+uncontrollable reset;
+
+@doc("Enabled when the system has been active long enough.")
+controllable timed_out;
+
+@doc("Tracker to monitor activity of the system.")
+plant ActivityTimer:
+  @doc("Clock variable measuring remaining time until the system can be idle again.",
+       "Currently configured to 10 seconds.")
   cont t der -1;
 
-  location timed_out:
+  @doc("System is idle.",
+       "Waiting for the next reset.")
+  location idle:
     initial;
-    edge reset do t := 10 goto running;
+    @@doc("Detected reset, jump into action.")
+    edge reset do t := 10 goto active;
 
-  location running:
+  @doc("System is active.")
+  @doc("Should normally become idle again in 10 seconds.")
+  location active:
+    @@doc("Trigger detected while active, extend the active state.")
     edge reset do t := 10;
-    edge timeout when t <= 0 goto timed_out;
+
+    @@doc("Time-out detected while active, go back to being idle.")
+    edge timed_out when t <= 0 goto idle;
 end
+----
+
+The example is extensively documented.
+Note that documentation annotations for the specification and for the edges must have a double `@@`.
+This is unfortunately unavoidable.
+
+Below are a few examples of what is generated in the PLC code.
+The code has more places where documentation is shown.
+For all details, please convert the example yourself and check what the PLC code generator produces.
+
+.Global overview description of the specification.
+[source,c]
+----
+(*------------------------------------------------------
+ * Model overview:
+ *
+ * ----
+ * Automaton "ActivityTimer":
+ * Tracker to monitor activity of the system.
+ *
+ * - Current location of automaton "ActivityTimer".
+ * - Continuous variable "ActivityTimer.t".
+ *   Clock variable measuring remaining time until the system can be idle again.
+ *   Currently configured to 10 seconds.
+ *
+ * - PLC edge selection variable "edge_ActivityTimer_1".
+ *
+ * - Uncontrollable event "reset".
+ *   Enabled when the system is triggered to become active.
+ *
+ * - Controllable event "timed_out".
+ *   Enabled when the system has been active long enough.
+ *------------------------------------------------------ *)
+----
+
+.Code to test whether event "timed_out" can occur.
+[source,c]
+----
+(***********
+ * Test edge of automaton "ActivityTimer" to synchronize for event "timed_out".
+ * This automaton must have an edge with a true guard to allow the event.
+ *
+ * Edge being tested:
+ * - Location "active":
+ *   System is active.
+ *
+ *   Should normally become idle again in 10 seconds.
+ *
+ *   - 2nd edge in the location
+ *     Time-out detected while active, go back to being idle.
+ ***********)
+IF "DB".ActivityTimer = ActivityTimer_active AND "DB".ActivityTimer_t <= DINT_TO_REAL(0) THEN
+    edge_ActivityTimer_1 := 1;
+ELSE
+    (* The automaton has no edge with a true guard. Skip to the next event. *)
+    eventEnabled := FALSE;
+END_IF;
+----
+
+.Code that resets the timer while in the active location.
+[source,c]
+----
+ELSIF edge_ActivityTimer_1 = 2 THEN
+    (***********
+     * Perform assignments of the 1st edge in location "ActivityTimer.active".
+     * Trigger detected while active, extend the active state.
+     ***********)
+    (* Perform update of continuous variable "ActivityTimer.t". *)
+    "DB".ActivityTimer_t := 10.0;
+
+    (* Reset timer of "ActivityTimer_t". *)
+    ....  // Omitted for brevity.
+END_IF;
 ----
 
 indexterm:[PLC code generator,resulting PLC code]
