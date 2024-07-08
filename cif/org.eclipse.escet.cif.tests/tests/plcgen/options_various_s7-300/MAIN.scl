@@ -8,6 +8,8 @@ ORGANIZATION_BLOCK MAIN
         eventEnabled: BOOL;
         isProgress: BOOL;
         timeOut: BOOL;
+        dummyVar1: DINT;
+        dummyVar2: DINT;
     END_VAR
 
 BEGIN

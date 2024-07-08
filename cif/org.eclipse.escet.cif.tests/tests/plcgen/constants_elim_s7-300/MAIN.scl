@@ -6,6 +6,8 @@ ORGANIZATION_BLOCK MAIN
         edge_aut_1: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
+        dummyVar1: DINT;
+        dummyVar2: DINT;
     END_VAR
 
 BEGIN

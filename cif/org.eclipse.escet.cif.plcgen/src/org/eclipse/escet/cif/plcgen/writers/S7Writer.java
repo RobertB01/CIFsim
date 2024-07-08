@@ -31,6 +31,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
@@ -225,7 +226,7 @@ public class S7Writer extends Writer {
 
         // The variables.
         c.indent();
-        writeVarTable(c, "VAR", variables);
+        writeVarTable(c, "VAR", variables, 0);
         c.dedent();
 
         // Initialization of variables.
@@ -327,7 +328,7 @@ public class S7Writer extends Writer {
 
         // Write the input variables.
         if (!pou.inputVars.isEmpty()) {
-            writeVarTable(c, "VAR_INPUT", pou.inputVars);
+            writeVarTable(c, "VAR_INPUT", pou.inputVars, 0);
         }
 
         // Write the output variables.
@@ -335,7 +336,7 @@ public class S7Writer extends Writer {
             // In S7 the main program cannot have output variables.
             Assert.areEqual(pou.pouType, PlcPouType.FUNCTION);
 
-            writeVarTable(c, "VAR_OUTPUT", pou.outputVars);
+            writeVarTable(c, "VAR_OUTPUT", pou.outputVars, 0);
         }
 
         // Currently user-defined function blocks don't exist, so local variables in functions should be empty. The
@@ -346,7 +347,10 @@ public class S7Writer extends Writer {
         if (!pou.tempVars.isEmpty()) {
             // In IEC 61131-3, functions use VAR for their temporary variables, while programs and user-defined function
             // blocks use VAR_TEMP. With S7 however, functions use VAR_TEMP instead.
-            writeVarTable(c, "VAR_TEMP", pou.tempVars);
+            //
+            // S7-300 needs to have 20 bytes in the variable table, or it reports:
+            // "The interface of the standard OB is smaller than the minimum value of 20 bytes".
+            writeVarTable(c, "VAR_TEMP", pou.tempVars, 20);
         }
 
         // Write the program body.
@@ -371,14 +375,41 @@ public class S7Writer extends Writer {
      * @param c Text storage of the table.
      * @param headerText Header to use above the table.
      * @param variables Variables to add to the table.
+     * @param minByteSize Minimum size of the variable table (the sum of the sizes of the added variables) in bytes.
      */
-    private void writeVarTable(CodeBox c, String headerText, List<PlcDataVariable> variables) {
+    private void writeVarTable(CodeBox c, String headerText, List<PlcDataVariable> variables, int minByteSize) {
+        // Over-approximation of the Number of bits still needed to reach minimum variable table size.
+        int remainingBitSize = minByteSize * 8;
+
         c.add(headerText);
 
         c.indent();
         for (PlcDataVariable var: variables) {
             c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
+
+            // Update remaining table size for as far as known.
+            remainingBitSize -= (var.type instanceof PlcElementaryType elemType) ? elemType.bitSize : 0;
         }
+
+        // If the table may be too small, add dummy variables.
+        PlcElementaryType typeOfDummies = PlcElementaryType.DINT_TYPE;
+        Assert.check(typeOfDummies.bitSize > 0);
+        nextDummy:
+        for (int dummyNum = 1; remainingBitSize > 0; dummyNum++) {
+            String dummyName = "dummyVar" + dummyNum;
+
+            // Check the name doesn't exist.
+            for (PlcDataVariable var: variables) {
+                if (var.varName.equals(dummyName)) {
+                    continue nextDummy;
+                }
+            }
+
+            // All fine, add the variable.
+            c.add("%s: %s;", dummyName, toTypeRefBox(typeOfDummies));
+            remainingBitSize -= typeOfDummies.bitSize;
+        }
+
         c.dedent();
         c.add("END_VAR");
     }
