@@ -55,7 +55,7 @@ public class TextTopics {
      * Append a line of text.
      *
      * <p>
-     * Adding an empty line fails silently if the stored lines already have an empty line at the end. See
+     * Adding an empty line is skipped if the stored lines already have an empty line at the end. See
      * {@link #isLastEmpty()} for the precise definition.
      * </p>
      *

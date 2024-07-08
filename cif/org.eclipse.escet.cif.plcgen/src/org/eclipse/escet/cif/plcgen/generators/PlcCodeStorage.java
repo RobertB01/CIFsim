@@ -678,7 +678,7 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Generate documentation in the generated PLC code about the CIF complex components.
+     * Generate documentation for the generated PLC code about the CIF complex components.
      *
      * @return The created lines of text.
      */

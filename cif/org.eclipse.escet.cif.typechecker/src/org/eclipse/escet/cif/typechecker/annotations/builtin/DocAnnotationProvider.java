@@ -178,7 +178,7 @@ public class DocAnnotationProvider extends AnnotationProvider {
      * lines of each {@code @doc} annotation. Finally, each line of the {@code @doc} annotation can be prefixed by text.
      * </p>
      * <p>
-     * As an example, assume that the parameters of this class are set to
+     * As an example, assume that the parameters of this class are set to:
      * <table>
      * <tr>
      * <td>headerLines:</td>
@@ -226,7 +226,7 @@ public class DocAnnotationProvider extends AnnotationProvider {
         /** Lines above the text of a single {@code @doc} annotation. */
         private final List<String> preDocLines;
 
-        /** Prefix to insert before a line from an {@code @doec} annotation. */
+        /** Prefix to insert before a line from an {@code @doc} annotation. */
         private final String docLinePrefix;
 
         /** Lines below the text of a single {@code @doc} annotation. */
@@ -244,7 +244,7 @@ public class DocAnnotationProvider extends AnnotationProvider {
          *     used for not having footer lines.
          * @param preDocLines Lines above the formatted text of a single {@code @doc} annotation. Value {@code null} can
          *     be used for not having pre-doc lines.
-         * @param docLinePrefix Prefix to insert before a formatted line from an {@code @doec} annotation. Value
+         * @param docLinePrefix Prefix to insert before a formatted line from an {@code @doc} annotation. Value
          *     {@code null} can be used for not having a doc prefix.
          * @param postDocLines Lines below the formatted text of a single {@code @doc} annotation. Value {@code null}
          *     can be used for not having post-doc lines.

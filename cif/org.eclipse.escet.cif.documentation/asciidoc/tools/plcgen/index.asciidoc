@@ -469,8 +469,8 @@ indexterm:[PLC code generator,doc annotations]
 [[tools-plcgen-documenting-code]]
 === Documenting PLC code
 
-CIF has <<lang-tut-extensions-chapter-annotations-documentation,Documentation annotations>> that can be attached to elements in a CIF specification.
-In such annotations, design related information can be written about the element they are attached to.
+CIF has <<lang-tut-extensions-chapter-annotations-documentation,documentation annotations>> that can be attached to elements in a CIF specification.
+In such an annotation, design related information can be written about the element it is attached to.
 In that way, design information is available within the model, and it can be used, transported or converted by CIF applications.
 
 The PLC code generator understands documentation annotations of specifications, automata, variables, locations, and edges.
@@ -547,7 +547,7 @@ For all details, please convert the example yourself and check what the PLC code
  *------------------------------------------------------ *)
 ----
 
-.Code to test whether event "timed_out" can occur.
+.Code to test whether event `timed_out` can occur.
 [source,c]
 ----
 (***********
