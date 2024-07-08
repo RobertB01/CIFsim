@@ -225,13 +225,7 @@ public class S7Writer extends Writer {
 
         // The variables.
         c.indent();
-        c.add("VAR");
-        c.indent();
-        for (PlcDataVariable var: variables) {
-            c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
-        }
-        c.dedent();
-        c.add("END_VAR");
+        writeVarTable(c, "VAR", variables);
         c.dedent();
 
         // Initialization of variables.
@@ -333,13 +327,7 @@ public class S7Writer extends Writer {
 
         // Write the input variables.
         if (!pou.inputVars.isEmpty()) {
-            c.add("VAR_INPUT");
-            c.indent();
-            for (PlcDataVariable var: pou.inputVars) {
-                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
-            }
-            c.dedent();
-            c.add("END_VAR");
+            writeVarTable(c, "VAR_INPUT", pou.inputVars);
         }
 
         // Write the output variables.
@@ -347,13 +335,7 @@ public class S7Writer extends Writer {
             // In S7 the main program cannot have output variables.
             Assert.areEqual(pou.pouType, PlcPouType.FUNCTION);
 
-            c.add("VAR_OUTPUT");
-            c.indent();
-            for (PlcDataVariable var: pou.outputVars) {
-                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
-            }
-            c.dedent();
-            c.add("END_VAR");
+            writeVarTable(c, "VAR_OUTPUT", pou.outputVars);
         }
 
         // Currently user-defined function blocks don't exist, so local variables in functions should be empty. The
@@ -364,14 +346,7 @@ public class S7Writer extends Writer {
         if (!pou.tempVars.isEmpty()) {
             // In IEC 61131-3, functions use VAR for their temporary variables, while programs and user-defined function
             // blocks use VAR_TEMP. With S7 however, functions use VAR_TEMP instead.
-            c.add("VAR_TEMP");
-
-            c.indent();
-            for (PlcDataVariable var: pou.tempVars) {
-                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
-            }
-            c.dedent();
-            c.add("END_VAR");
+            writeVarTable(c, "VAR_TEMP", pou.tempVars);
         }
 
         // Write the program body.
@@ -388,5 +363,23 @@ public class S7Writer extends Writer {
         c.add("END_%s", pouTypeText);
 
         return c;
+    }
+
+    /**
+     * Generate a variable table.
+     *
+     * @param c Text storage of the table.
+     * @param headerText Header to use above the table.
+     * @param variables Variables to add to the table.
+     */
+    private void writeVarTable(CodeBox c, String headerText, List<PlcDataVariable> variables) {
+        c.add(headerText);
+
+        c.indent();
+        for (PlcDataVariable var: variables) {
+            c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
+        }
+        c.dedent();
+        c.add("END_VAR");
     }
 }
