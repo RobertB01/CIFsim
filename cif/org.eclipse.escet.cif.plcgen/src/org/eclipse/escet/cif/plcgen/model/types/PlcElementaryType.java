@@ -98,26 +98,6 @@ public class PlcElementaryType extends PlcType {
     }
 
     /**
-     * Retrieve the number of bits of an integer type.
-     *
-     * @param intType Type to analyze.
-     * @return Number of bits of the type.
-     */
-    public static int getSizeOfIntType(PlcElementaryType intType) {
-        if (intType.equals(PlcElementaryType.LINT_TYPE)) {
-            return 64;
-        } else if (intType.equals(PlcElementaryType.DINT_TYPE)) {
-            return 32;
-        } else if (intType.equals(PlcElementaryType.INT_TYPE)) {
-            return 16;
-        } else if (intType.equals(PlcElementaryType.BOOL_TYPE)) {
-            return 1;
-        } else {
-            throw new AssertionError("Unexpected elementary type " + intType + " found.");
-        }
-    }
-
-    /**
      * Retrieve the real type that uses the given number of bits in PLC memory.
      *
      * @param numBits Wanted length of real values in bits.
