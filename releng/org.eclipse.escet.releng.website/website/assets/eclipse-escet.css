@@ -14,6 +14,7 @@
 
 :root {
   --escet-color-purple-rgb: 111,66,193;
+  --escet-color-cyan-rgb: 0,159,191;
 }
 
 /* Background. */
@@ -26,6 +27,11 @@
 .escet-bg-purple {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--escet-color-purple-rgb),var(--bs-bg-opacity));
+}
+
+.escet-bg-cyan {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--escet-color-cyan-rgb),var(--bs-bg-opacity));
 }
 
 .escet-bg-opacity-125 {
@@ -95,6 +101,17 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
   background-color: rgb(var(--escet-color-purple-rgb));
   border-color: rgb(var(--escet-color-purple-rgb));
+}
+
+.escet-outline-btn-cyan {
+  color: rgb(var(--escet-color-cyan-rgb));
+  border-color: rgb(var(--escet-color-cyan-rgb));
+}
+
+.escet-outline-btn-cyan:hover {
+  color: white;
+  background-color: rgb(var(--escet-color-cyan-rgb));
+  border-color: rgb(var(--escet-color-cyan-rgb));
 }
 
 .btn-check:focus+.btn, .btn:focus {
