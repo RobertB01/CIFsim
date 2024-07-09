@@ -8,8 +8,6 @@ ORGANIZATION_BLOCK MAIN
         isProgress: BOOL;
         litStruct: TupleStruct;
         litStruct_1: TupleStruct;
-        dummyVar1: DINT;
-        dummyVar2: DINT;
     END_VAR
 
 BEGIN

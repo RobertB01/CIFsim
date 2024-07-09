@@ -31,10 +31,13 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
+import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
@@ -378,6 +381,15 @@ public class S7Writer extends Writer {
      * @param minByteSize Minimum size of the variable table (the sum of the sizes of the added variables) in bytes.
      */
     private void writeVarTable(CodeBox c, String headerText, List<PlcDataVariable> variables, int minByteSize) {
+        PlcElementaryType typeOfDummies = PlcElementaryType.DINT_TYPE;
+        Assert.check(typeOfDummies.bitSize > 0);
+
+        // Temporary variables needs a block size of at least 20 bytes.
+        // There are variables "dummyVar[1,5] declared as reserved words in S7, for this purpose. The DINT type is
+        // sufficient to do this.
+        Assert.check(minByteSize == 0 || headerText.equals("VAR_TEMP"));
+        Assert.check(minByteSize <= 20);
+
         // Over-approximation of the number of bits still needed to reach minimum variable table size.
         int remainingBitSize = minByteSize * 8;
 
@@ -386,31 +398,39 @@ public class S7Writer extends Writer {
         c.indent();
         for (PlcDataVariable var: variables) {
             c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
-
-            // Update remaining table size for as far as known.
-            remainingBitSize -= (var.type instanceof PlcElementaryType elemType) ? elemType.bitSize : 0;
+            remainingBitSize -= guessTypeSize(var.type); // Update remaining table size for as far as known.
         }
 
         // If the table may be too small, add dummy variables.
-        PlcElementaryType typeOfDummies = PlcElementaryType.DINT_TYPE;
-        Assert.check(typeOfDummies.bitSize > 0);
-        nextDummy:
-        for (int dummyNum = 1; remainingBitSize > 0; dummyNum++) {
+        for (int dummyNum = 1; remainingBitSize > 0 && dummyNum < 6; dummyNum++) {
             String dummyName = "dummyVar" + dummyNum;
-
-            // Check the name doesn't exist.
-            for (PlcDataVariable var: variables) {
-                if (var.varName.equals(dummyName)) {
-                    continue nextDummy;
-                }
-            }
-
-            // All fine, add the variable.
             c.add("%s: %s;", dummyName, toTypeRefBox(typeOfDummies));
             remainingBitSize -= typeOfDummies.bitSize;
         }
 
         c.dedent();
         c.add("END_VAR");
+    }
+
+    /**
+     * Estimate a lower bound for values of the given type.
+     *
+     * @param type Type to analyze.
+     * @return Estimated size in bits for a value of the given type.
+     */
+    private static int guessTypeSize(PlcType type) {
+        if (type instanceof PlcElementaryType elemType) {
+            return elemType.bitSize;
+        } else if (type instanceof PlcStructType strType) {
+            int totalSize = 0;
+            for (PlcStructField field: strType.fields) {
+                totalSize += guessTypeSize(field.type);
+            }
+            return totalSize;
+        } else if (type instanceof PlcArrayType arrTtype) {
+            int elementSize = guessTypeSize(arrTtype.elemType);
+            return elementSize * (arrTtype.upper - arrTtype.lower + 1);
+        }
+        return 0; // Unknown size.
     }
 }

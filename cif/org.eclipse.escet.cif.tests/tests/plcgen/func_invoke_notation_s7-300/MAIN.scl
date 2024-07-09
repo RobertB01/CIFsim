@@ -13,7 +13,6 @@ ORGANIZATION_BLOCK MAIN
         isProgress: BOOL;
         litStruct: TupleStruct;
         timeOut: BOOL;
-        dummyVar1: DINT;
     END_VAR
 
 BEGIN
