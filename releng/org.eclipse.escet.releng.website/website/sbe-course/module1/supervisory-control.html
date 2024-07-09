@@ -1,0 +1,377 @@
+<!doctype html>
+<!--
+    Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+
+    See the NOTICE file(s) distributed with this work for additional
+    information regarding copyright ownership.
+
+    This program and the accompanying materials are made available under the terms
+    of the MIT License which is available at https://opensource.org/licenses/MIT
+
+    SPDX-License-Identifier: MIT
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Module 1.1 | SBE Course</title>
+        <link rel="icon" type="image/png" href="../sbe-course-favicon.png"/>
+
+        <!-- Bootstrap. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+        <!-- Website styling. -->
+        <link rel="stylesheet" href="../../assets/eclipse-escet.css">
+        <link rel="stylesheet" href="../../assets/eclipse-escet-sbe-course.css">
+
+        <!-- Version selector. -->
+        <script src="../../assets/eclipse-escet.js"></script>
+
+        <!-- Code block syntax highlighting. -->
+        <link rel="stylesheet" href="../../assets/styles/asciidoctor-highlightjs-escet.min.css">
+        <script src="../../assets/highlight.min.js"></script>
+        <script src="../../assets/languages/cif.min.js"></script>
+
+        <!-- Quiz. -->
+        <link rel="stylesheet" href="../assets/quiz.css">
+        <script src="../assets/quiz.js"></script>
+
+        <!-- SBE course. -->
+        <link rel="stylesheet" href="../assets/course.css">
+        <script src="../assets/course.js"></script>
+    </head>
+
+    <body class="escet-dark">
+
+        <!-- Top navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
+            <div class="container-fluid">
+                <a class="navbar-brand d-lg-none">SBE Course</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / SBE Course</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../.."><img src="../../eclipse-escet-favicon.png" class="pe-2"> Eclipse ESCET / Project</a></li>
+                                <li><a class="dropdown-item" href=".."><img src="../sbe-course-favicon.png" class="pe-2"> Eclipse ESCET / SBE Course</a></li>
+                                <li><a class="dropdown-item" href="../../cif"><img src="../../cif/cif-favicon.png" class="pe-2"> Eclipse ESCET / CIF</a></li>
+                                <li><a class="dropdown-item" href="../../chi"><img src="../../chi/chi-favicon.png" class="pe-2"> Eclipse ESCET / Chi</a></li>
+                                <li><a class="dropdown-item" href="../../tooldef"><img src="../../tooldef/tooldef-favicon.png" class="pe-2"> Eclipse ESCET / ToolDef</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../" aria-expanded="false">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Module 1</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                <li><a class="dropdown-item" href="./">Module 1: Supervisory control of discrete event systems</a></li>
+                                <li><a class="dropdown-item active" aria-current="page" href="supervisory-control.html">Module 1.1: Supervisory control</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Intro -->
+        <div id="intro" class="position-relative p-3 text-center escet-bg escet-bg-opacity-125">
+            <div class="clearfix mb-4 mb-md-0">
+                <span class="float-end">
+                    Version:
+                    <div class="dropdown d-inline-block">
+                        <a class="dropdown-toggle" href="#" role="button" id="versionDropdown" data-bs-toggle="dropdown" aria-expanded="false">@@ESCET-VERSION-ENDUSER@@</a>
+                        <ul id="versions-dropdown" class="dropdown-menu dropdown-menu-end" aria-labelledby="versionDropdown" data-this-version="/@@ESCET-DEPLOY-FOLDER-NAME@@">
+                            <li><h6 id="versions-previews" class="dropdown-header">Previews</h6></li>
+                            <li><h6 id="versions-latest-releases" class="dropdown-header">Latest releases</h6></li>
+                            <li><h6 class="dropdown-header">Other</h6></li>
+                            <li><a class="dropdown-item" href="../../versions.html">All versions...</a></li>
+                        </ul>
+                    </div>
+                    <a class="text-nowrap ms-3" href="../../release-notes.html">[release notes]</a>
+                </span>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="px-4 pt-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-xl-8 col-xxl-6" id="content">
+
+                    <h1>Module 1.1: Supervisory control</h1>
+                    <p>
+                        Automated systems are all around us.
+                        For instance, hospitals use X-ray and MRI systems, industrial printers print books and magazines, lithography systems are essential for the production of computer chips, and waterway locks bring ships from one water level to another.
+                        In today's digital age, all these systems contain software that controls their operation, to ensure they operate correctly and safely.
+                        Such systems are often called cyber-physical systems, for the <em>physical</em> part that consists of the hardware components being controlled, and the <em>cyber</em> part that contains the software that controls those physical parts.
+                    </p>
+                    <p>
+                        Today's cyber-physical systems are often highly complex.
+                        To manage their complexity, they are typically step-by-step divided into sub-systems, sub-sub-systems, etc, each with their own responsibility.
+                        This way, at the most sub-divided level, components are obtained that are small enough to be developed, tested and maintained in isolation.
+                        The components are often divided over several layers, to form a layered system architecture.
+                    </p>
+                    <p>
+                        The control of a system can similarly be sub-divided and layered.
+                        The following figure shows a traditional view on the control structure of a system:
+                    </p>
+                    <img src="images/control-layers.png">
+                    <p>
+                        At the bottom are the mechanical components, such as motors, switches, levers and valves.
+                        Their operation can be steered through actuators and their state of operation and changes therein can be observed through sensors.
+                        Resource controllers provide a first level of control.
+                        They may for instance correct for sensor jitter, translate continuous signals to discrete ones, or detect and even correct anomalous situations.
+                    </p>
+                    <p>
+                        A supervisory controller provides higher-level control.
+                        It is typically responsible for the correct and safe behavior of a (sub-)system.
+                        For instance, it could be responsible for preventing damage to mechanical components or human operators.
+                        It may prevent collisions with or among mechanical components, or prevent mechanical components from overheating.
+                        The supervisory controller decides when actuators may be turned on or off, thus preventing such unsafe or undesired behavior.
+                        A supervisory controller is often simply called a controller or a supervisor, although there is a subtle difference between these two terms, as we will see later during the course.
+                    </p>
+                    <p>
+                        A supervisory controller could control a single sub-system, coordinating one or more resource controllers.
+                        However, in case of a layered architecture, it could also coordinate multiple supervisory controllers of a lower layer.
+                        Supervisory controllers can thus be found at various levels of a system architecture.
+                    </p>
+                    <p>
+                        Some systems are fully automated, without the need for human intervention or control.
+                        However, most systems provide some kind of human-machine interface that allows a human operator to monitor the system and if necessary control its operation.
+                    </p>
+                    <p>
+                        Regardless of the exact system architecture, and whether human intervention is possible or not, supervisory controllers play an essential role in the safe control of all kinds of cyber-physical systems, and can be found at various levels within such systems.
+                        All parts of the system, so everything but the supervisory controller, is called the <em>uncontrolled system</em>.
+                        For a lower-level controller, this includes the mechanical components, actuators, sensors, and resource controllers.
+                        For higher-level controller, it also includes the lower-level controllers.
+                        The uncontrolled system is traditionally often called the <em>plant</em>, meaning industrial equipment like machines and factories, not meaning plants and trees that grow from the earth.
+                    </p>
+                    <p>
+                        In an uncontrolled system, a system without a supervisory controller that controls it, dangerous situations may occur in the system.
+                        For example, when an operator of an unsupervised water lock presses the close gate button while a vessel is passing through, the doors of the water lock may collide with the vessel.
+                        Or, when an operator opens one gate while the other gate is not closed yet, a flood is induced.
+                        However, not only human operators can make mistakes.
+                        If a system is controlled by some other system, that controlling system could also make the wrong choices, have bugs in its software, or otherwise send wrong instructions to the system being controlled.
+                        And even fully automated systems could run into problems, for instance due to products getting stuck, or physical parts breaking down.
+                    </p>
+                    <p>
+                        The supervisory controller is present to prevent this kind of undesired and unsafe behavior.
+                        This includes damage to the system itself, as well as the people, equipment and other systems that operate with it.
+                        When a vessel is passing the opened gate, the supervisory controller will disable closing of the gate, even when the operator presses the button to close the gate.
+                        Or it will disable opening the gate when the opposite gate is currently open.
+                        Both 'an opened gate must not close while a vessel is passing through' and 'a gate must not open when the opposite gate is open' are examples of safety <em>requirements</em>.
+                        The disabling of the gate opening when the opposite gate is already open and the disabling of closing the bridge when a vessel is passing through, are how these requirements can be met.
+                        Dangerous situations like these show that it is important for the correct and safe operation of the system that supervisory controllers disable all undesired behavior.
+                    </p>
+
+                    <h2>Engineering supervisory controllers</h2>
+                    <p>
+                        Supervisory controllers can be developed in various ways.
+                        The following figure gives an overview.
+                        It shows multiple approaches to design and engineer supervisory controllers, as well as how these approaches relate to each other:
+                    </p>
+                    <img src="images/engineering-approaches.png">
+                    <p>
+                        The columns indicate various engineering approaches.
+                        From left to right, they employ progressively more automation and computer assistance.
+                        The rows of the table indicate typical steps involved in the development of supervisory controllers.
+                        The cells indicate for each approach what is involved for the particular step.
+                        The green colored cells indicate that the step involves mostly, or at least significant, manual work for the particular engineering approach.
+                        Contrarily, the gray colored cells indicate that the step is (mostly) automated for that approach.
+                        As the steps with more manual work generally require the most engineering effort, the green cells also indicate where the engineering focus is for a particular approach.
+                        Bold texts in cells indicate changes compared to the previous column.
+                    </p>
+                    <p>
+                        Typical steps involved in the development of supervisory controllers, as represented by the rows from top to bottom, are:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Requirements design</strong> focuses on what a controller for a (sub-)system must do.
+                            Functional and safety requirements may be specified, for instance requiring that pushing an emergency button stops all motors.
+                            Extra-functional requirements may also be specified, for instance requiring that a certain throughput should be achieved.
+                        </li>
+                        <li>
+                            <strong>Controller design</strong> focuses on how a controller should satisfy the requirements to efficiently and safely control the system.
+                            For instance, the various control states of the system may be specified, as well as how the controller reacts to changing sensor or other input signals by controlling actuators, e.g., enabling a motor.
+                        </li>
+                        <li>
+                            Controllers may be <strong>realized in software</strong>.
+                            The software source code may for instance be implemented using Java, C or PLC programming languages.
+                        </li>
+                        <li>
+                            <strong>Verification</strong> involves checking the realized controller against its requirements design and controller design, to ensure that the controller is correctly realized.
+                            The system, controlled by the controller, should behave as designed.
+                        </li>
+                        <li>
+                            <strong>Validation</strong> involves checking the realized controller and its design, to ensure that the right controller is made.
+                            That is, the requirements must be correct and complete, such that the controller ensures that the system operates safely and efficiently in all circumstances.
+                        </li>
+                    </ul>
+                    <p>
+                        Typically, the various engineering approaches as represented by the columns from left to right, can be characterized as follows:
+                    </p>
+                    <ul>
+                        <li>
+                            <p>
+                                <strong>Traditional engineering</strong> is document-based.
+                                Requirements are written down informally in large requirement documents.
+                                They are used as input for controller design documents.
+                                The documents are then handed over to a different person, team or supplier, for the implementation.
+                                Implementation of the controller in software is done through manual coding.
+                                Verification and validation involve testing on the implementation.
+                                Traditionally, all five steps are performed manually, which is laborious and error-prone.
+                                The information documents often lead to ambiguous, incomplete and inconsistent requirements, which carry over to the design and realization.
+                            </p>
+                            <img src="images/process-traditional-engineering.png">
+                        </li>
+                        <li>
+                            <p>
+                                <strong>Model-based engineering</strong> or <strong>model-driven engineering</strong> automates the realization step, and provides computer assistance especially for the verification and validation steps.
+                                It places models at the center of attention.
+                                The controller is modeled in a formal way, allowing a computer to interpret and analyze its behavior.
+                                That is, it is specified in a mathematically unambiguous way, for instance using state machines.
+                                Such models are considered the single source of truth.
+                                From them, all kinds of artifacts can be generated automatically, including the software code of the controller's implementation.
+                                This ensures that the code is fault-free and behaves consistently with the behavior as expressed by the controller model.
+                                The models can also be used to partly automate verification, for instance through the use of model-based testing.
+                                Simulation models can be used to simulate the (controlled) system behavior and validate the requirements during early phases of development.
+                            </p>
+                            <img src="images/process-model-based.png">
+                        </li>
+                        <li>
+                            <p>
+                                <strong>Verification-based engineering</strong> is a form of model-based engineering with computer-assistance to automate the verification step.
+                                It uses formal verification, or model checking, a mathematical technique that can automatically check the controller model against its requirements.
+                                To employ formal verification, both the controller model and the requirements must be formally specified.
+                                Formal verification then either indicates that the specified requirements are guaranteed to be satisfied by the controller model, or it provides counter examples that indicate in which situations they are not satisfied.
+                                This is exhaustive, as it considers every conceivable scenario, unlike testing, which typically covers only a limited number of scenarios.
+                                Through formal verification, the controller model can be iteratively adapted to satisfy all specified requirements in every possible situation.
+                            </p>
+                            <img src="images/process-verification-based.png">
+                        </li>
+                        <li>
+                            <p>
+                                <strong>Synthesis-based engineering</strong> is a form of model-based engineering with computer-assistance to automate the design of the controller.
+                                It uses supervisory controller synthesis to automatically synthesize a controller model from requirements (the requirements model) and a simple model of the to-be-controlled system (the plant model).
+                                This mathematical technique guarantees that the synthesized controller model satisfies all specified requirements.
+                                This makes verification of the controller model against the specified requirements superfluous, as the synthesized controller model is guaranteed correct-by-construction.
+                                With the controller design, realization and verification either to a large degree being automated or unnecessary, the focus shifts to requirements design and validation.
+                                This allows engineers to focus on what the controller should do, rather than how it should achieve it.
+                            </p>
+                            <img src="images/process-synthesis-based.png">
+                        </li>
+                    </ul>
+                    <p>
+                        The use of model-based engineering combined with computer-aided design, through formal methods like formal verification and supervisory controller synthesis, has many advantages.
+                        It allows to produce unambiguous, complete, consistent, and up-to-date specifications, leading to higher quality controllers at similar or even lower effort and costs.
+                        This holds especially for larger and more complex systems, where it is more difficult to consider all the situations that may occur, and how the they impact the requirements.
+                        And one has to consider corner cases, like when a vessel enters a water lock exactly when the operator pushes a button to close the gate.
+                        The more complex the system, and the more requirements are to be satisfied, the more complex the design and implementation of a correct supervisory controller becomes.
+                        For larger systems, on top of that, often multiple teams work on the system, and part of the work may be outsourced to suppliers.
+                        The greater the complexity, the more helpful synthesis-based engineering becomes as well.
+                        The goal of this course is to understand the synthesis-based engineering approach, and to be able to engineer supervisory controllers in practice using CIF.
+                    </p>
+
+                    <h2>Quiz</h2>
+                    <div class="quiz">
+                        [
+                            {
+                                type: 'single-choice',
+                                question: "What is the structure of a cyber-physical system? From top to bottom:",
+                                answers: [
+                                    "Human operator, supervisory controller(s), resource controller(s), actuators and sensors, mechanical components.",
+                                    "Human operator, resource controller(s), mechanical components, actuators and sensors, supervisory controller(s).",
+                                    "Human operator, mechanical components, resource controller(s), supervisory controller(s), actuators and sensors."
+                                ],
+                                correctAnswer: '1'
+                            },
+                            {
+                                type: 'multiple-choice',
+                                question: "What is a purpose of requirements?",
+                                answers: [
+                                    "Prevent machine damage.",
+                                    "Prevent unsafe situations for humans.",
+                                    "Ensure correct operation of the system, preventing undesired situations."
+                                ],
+                                correctAnswer: '1, 2, 3'
+                            },
+                            {
+                                type: 'multiple-choice',
+                                question: "What is a disadvantage of the traditional design approach?",
+                                answers: [
+                                    "The controller is realized manually, and mistakes are easily made, especially in large systems.",
+                                    "Verification and validation are performed on the realized implementation, and are thus found late in the development process.",
+                                    "Requirements are captured in models, which may be ambiguous, incomplete and inconsistent."
+                                ],
+                                correctAnswer: '1, 2'
+                            },
+                            {
+                                type: 'single-choice',
+                                question: "What is a difference between the model-based engineering approach and the traditional one?",
+                                answers: [
+                                    "The controller is realized manually in the traditional approach and is synthesized in the model-based approach.",
+                                    "The model-based approach guarantees that all requirements are satisfied by construction. In the traditional approach, this is not the case.",
+                                    "In the model-based approach, a model of the controller is created before it is realized. The traditional approach does not use models."
+                                ],
+                                correctAnswer: '3'
+                            },
+                            {
+                                type: 'multiple-choice',
+                                question: "What is an advantage of the synthesis-based engineering approach?",
+                                answers: [
+                                    "The synthesized controller model is mathematically guaranteed to be correct-by-construction.",
+                                    "It automates many of the development steps to develop a supervisory controller, by making them largely automated or unnecessary.",
+                                    "It allows to focus on the what the controller should do, rather than how it should achieve it."
+                                ],
+                                correctAnswer: '1, 2, 3'
+                            },
+                            {
+                                type: 'single-choice',
+                                question: "What are the development steps taken in the synthesis-based engineering approach?",
+                                answers: [
+                                    "Model the uncontrolled system, model the requirements, synthesize a supervisor model, verify the supervisor model against the requirements, validate the supervisor model, generate the control software.",
+                                    "Model the uncontrolled system, model the requirements, synthesize a supervisor model, validate the supervisor model and requirements, generate the control software.",
+                                    "Model the uncontrolled system, model the requirements, synthesize a supervisor model, generate the control software, verify and validate the control software."
+                                ],
+                                correctAnswer: '2'
+                            }
+                        ];
+                    </div>
+
+                    <div class="course-navigation-footer">
+                        <div class="course-navigation-prev"><a href="./">Go back to Module 1</a></div>
+                        <div class="course-navigation-separator">|</div>
+                        <div class="course-navigation-next"><a href="discrete-event-systems.html">Proceed to Module 1.2</a></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="container" id="footer">
+            <footer class="pt-3 mt-4">
+                <ul class="nav justify-content-center border-top pb-1 mb-1">
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org">Eclipse Home</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/privacy.php">Eclipse Privacy Policy</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/termsofuse.php">Eclipse Terms of Use</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/copyright.php">Eclipse Copyright Agent</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal">Eclipse Legal</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.dev/escet/legal.html">Eclipse ESCET Legal</a></li>
+                </ul>
+                <p class="text-center text-muted">Copyright © 2010, 2024 Contributors to the Eclipse Foundation</p>
+            </footer>
+        </div>
+
+    </body>
+</html>

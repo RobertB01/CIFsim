@@ -1,0 +1,169 @@
+/******************************************************************************
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the terms
+ * of the MIT License which is available at https://opensource.org/licenses/MIT
+ *
+ * SPDX-License-Identifier: MIT
+ *****************************************************************************/
+
+/* Menus. */
+
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: rgb(var(--escet-color-rgb));
+}
+
+/* Headings. */
+
+h1, h2, h3, h4, h5, h6 {
+    color: rgb(var(--escet-color-rgb));
+}
+
+/* Inline code and code blocks. */
+
+code {
+    padding: 2px 3px;
+    border-radius: 4px;
+}
+
+code, pre {
+    font-family: monospace;
+    font-size: 1em;
+    color: black;
+}
+
+/* Code blocks, including ones with and without syntax highlighting. */
+
+pre code {
+    display: block;
+    overflow-x: auto;
+    padding: 1em;
+    background: #f7f7f8;
+    color: inherit;
+}
+
+/* Images. */
+
+#content img {
+    margin: auto;
+    margin-bottom: 1rem;
+    display: block;
+    max-width: 95%;
+}
+
+#content img:has(+ img) {
+    margin-bottom: 2.5rem;
+}
+
+#content .img-side-by-side {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+#content .img-side-by-side img {
+    margin: 0 auto auto auto;
+}
+
+#content img:has(+ figcaption) {
+    margin-bottom: 0.1rem;
+}
+
+#content figcaption {
+    display: block;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+/* Keyboard. */
+
+kbd {
+    font-family: monospace;
+    color: inherit;
+    background: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius:3px;
+    padding: 2px 3px;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+
+/* Accordions. */
+
+.accordion {
+    margin-bottom: 1.25rem;
+}
+
+h2.accordion-header {
+    margin: 0;
+}
+
+.accordion-button,
+.accordion-button:focus {
+    border-color: rgba(0, 0, 0, .125);
+}
+
+.accordion-button.collapsed,
+.accordion-button.collapsed:focus {
+    border-bottom-width: 0;
+    box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed),
+.accordion-button:not(.collapsed):focus {
+    background-color: #f7f7f8;
+    color: var(--bs-body-color);;
+    border-color: rgba(0, 0, 0, .125);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed)::after {
+    /* Same as collapsed. Overridden to not have a blue color. */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.accordion-body *:first-child {
+    margin-top: 0;
+}
+.accordion-body *:last-child {
+    margin-bottom: 0;
+}
+
+/* Course navigation footer. */
+
+.course-navigation-footer {
+    display: block;
+    margin-top: 3rem;
+    border-top: solid 1px #dee2e6;
+    padding-top: 1rem;
+}
+
+.course-navigation-prev,
+.course-navigation-separator,
+.course-navigation-next {
+    display: inline;
+}
+
+.course-navigation-separator {
+    padding: 0 1rem;
+}
+
+/* Page footer at bottom of the page, regardless of the amount of content on the page. */
+
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#footer {
+    margin-top: auto;
+}
