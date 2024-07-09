@@ -1917,6 +1917,9 @@ public class CifToBddConverter {
                 // Convert and set assignments.
                 List<Update> updates = cifEdge.getUpdates();
                 convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec, this.problems);
+                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                    return;
+                }
 
                 // Strengthen the guard to prevent runtime errors.
                 cifBddEdge.guard = cifBddEdge.guard.andWith(cifBddEdge.error.not());
