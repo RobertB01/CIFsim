@@ -378,7 +378,7 @@ public class S7Writer extends Writer {
      * @param minByteSize Minimum size of the variable table (the sum of the sizes of the added variables) in bytes.
      */
     private void writeVarTable(CodeBox c, String headerText, List<PlcDataVariable> variables, int minByteSize) {
-        // Over-approximation of the Number of bits still needed to reach minimum variable table size.
+        // Over-approximation of the number of bits still needed to reach minimum variable table size.
         int remainingBitSize = minByteSize * 8;
 
         c.add(headerText);
