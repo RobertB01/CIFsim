@@ -684,8 +684,8 @@ public class PlcCodeStorage {
      */
     private List<String> generateComponentDocumentation() {
         // Construct @doc annotation formatters, one for automata and one for the information inside automata.
-        DocAnnotationFormatter autDocFormatter = new DocAnnotationFormatter(null, null, null, " * ", List.of(" *"));
-        DocAnnotationFormatter subDocFormatter = new DocAnnotationFormatter(null, null, null, " *   ", List.of(" *"));
+        DocAnnotationFormatter autDocFormatter = new DocAnnotationFormatter(null, null, " * ", List.of(" *"), null);
+        DocAnnotationFormatter subDocFormatter = new DocAnnotationFormatter(null, null, " *   ", List.of(" *"), null);
 
         TextTopics topics = new TextTopics(" *");
 

@@ -185,10 +185,6 @@ public class DocAnnotationProvider extends AnnotationProvider {
      * <td>{@code list("HEAD")}</td>
      * </tr>
      * <tr>
-     * <td>footerLines:</td>
-     * <td>{@code list("FOOT")}</td>
-     * </tr>
-     * <tr>
      * <td>preDocLines:</td>
      * <td>{@code list("PRE")}</td>
      * </tr>
@@ -199,6 +195,10 @@ public class DocAnnotationProvider extends AnnotationProvider {
      * <tr>
      * <td>postDocLines:</td>
      * <td>{@code list("POST")}</td>
+     * </tr>
+     * <tr>
+     * <td>footerLines:</td>
+     * <td>{@code list("FOOT")}</td>
      * </tr>
      * </table>
      * <ul>
@@ -220,9 +220,6 @@ public class DocAnnotationProvider extends AnnotationProvider {
         /** Lines above all doc annotation text of an object. */
         private final List<String> headerLines;
 
-        /** Lines below all doc annotation text of an object. */
-        private final List<String> footerLines;
-
         /** Lines above the text of a single {@code @doc} annotation. */
         private final List<String> preDocLines;
 
@@ -232,6 +229,9 @@ public class DocAnnotationProvider extends AnnotationProvider {
         /** Lines below the text of a single {@code @doc} annotation. */
         private final List<String> postDocLines;
 
+        /** Lines below all doc annotation text of an object. */
+        private final List<String> footerLines;
+
         /** Found {@code @doc} annotation lines for an object. */
         private List<String> docBlocks;
 
@@ -240,23 +240,23 @@ public class DocAnnotationProvider extends AnnotationProvider {
          *
          * @param headerLines Lines above all the formatted doc annotation text of an object. Value {@code null} can be
          *     used for not having header lines.
-         * @param footerLines Lines below all the formatted doc annotation text of an object. Value {@code null} can be
-         *     used for not having footer lines.
          * @param preDocLines Lines above the formatted text of a single {@code @doc} annotation. Value {@code null} can
          *     be used for not having pre-doc lines.
          * @param docLinePrefix Prefix to insert before a formatted line from an {@code @doc} annotation. Value
          *     {@code null} can be used for not having a doc prefix.
          * @param postDocLines Lines below the formatted text of a single {@code @doc} annotation. Value {@code null}
          *     can be used for not having post-doc lines.
+         * @param footerLines Lines below all the formatted doc annotation text of an object. Value {@code null} can be
+         *     used for not having footer lines.
          */
-        public DocAnnotationFormatter(List<String> headerLines, List<String> footerLines,
-                List<String> preDocLines, String docLinePrefix, List<String> postDocLines)
+        public DocAnnotationFormatter(List<String> headerLines, List<String> preDocLines,
+                String docLinePrefix, List<String> postDocLines, List<String> footerLines)
         {
             this.headerLines = (headerLines == null) ? List.of() : headerLines;
-            this.footerLines = (footerLines == null) ? List.of() : footerLines;
             this.preDocLines = (preDocLines == null) ? List.of() : preDocLines;
             this.docLinePrefix = (docLinePrefix == null) ? "" : docLinePrefix;
             this.postDocLines = (postDocLines == null) ? List.of() : postDocLines;
+            this.footerLines = (footerLines == null) ? List.of() : footerLines;
             docBlocks = List.of();
         }
 

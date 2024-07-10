@@ -115,7 +115,7 @@ public class DefaultVariableStorage implements VariableStorage {
 
         // Generate initialization code and store it.
         List<PlcStatement> statements = list();
-        DocAnnotationFormatter varInitFormatter = new DocAnnotationFormatter(null, null, List.of(""), null, null);
+        DocAnnotationFormatter varInitFormatter = new DocAnnotationFormatter(null, List.of(""), null, null, null);
 
         statements.add(new PlcCommentLine("Initialize the state variables."));
         for (Declaration decl: varOrderer.computeOrder(true)) {
