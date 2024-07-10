@@ -473,8 +473,8 @@ CIF has <<lang-tut-extensions-chapter-annotations-documentation,documentation an
 In such an annotation, design related information can be written about the element it is attached to.
 In that way, design information is available within the model, and it can be used, transported or converted by CIF applications.
 
-The PLC code generator understands documentation annotations of specifications, automata, variables, locations, and edges.
-Indirectly it also understand documentation annotations of requirements, since it uses CIF conversions to convert these to one of the previously mentioned CIF elements.
+The PLC code generator understands documentation annotations of specifications, groups, automata, events, locations, edges, and discrete, continuous and input  variables.
+Indirectly it also understand documentation annotations of invariants, since it uses CIF conversions to convert these to one of the previously mentioned CIF elements.
 All documentation annotations that it finds in the input specification are copied into the generated PLC code as comments, where appropriate.
 For example, documentation annotations of the specification are only shown in the overall model overview.
 Documentation annotations of variables are shown whenever the variable is updated.
@@ -488,7 +488,7 @@ As an example, the following automaton will enable the `timed_out` event 10 seco
 uncontrollable reset;
 
 @doc("Enabled when the system has been active long enough.")
-controllable timed_out;
+uncontrollable timed_out;
 
 @doc("Tracker to monitor activity of the system.")
 plant ActivityTimer:
@@ -516,7 +516,6 @@ end
 
 The example is extensively documented.
 Note that documentation annotations for the specification and for the edges must have a double `@@`.
-This is unfortunately unavoidable.
 
 Below are a few examples of what is generated in the PLC code.
 The code has more places where documentation is shown.
@@ -542,7 +541,7 @@ For all details, please convert the example yourself and check what the PLC code
  * - Uncontrollable event "reset".
  *   Enabled when the system is triggered to become active.
  *
- * - Controllable event "timed_out".
+ * - Uncontrollable event "timed_out".
  *   Enabled when the system has been active long enough.
  *------------------------------------------------------ *)
 ----
