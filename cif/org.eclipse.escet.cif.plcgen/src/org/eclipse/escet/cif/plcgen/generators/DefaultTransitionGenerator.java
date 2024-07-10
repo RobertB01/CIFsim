@@ -444,7 +444,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         sendRecvAutDocFormatter = new DocAnnotationFormatter(null, null, null, "     ", List.of(""));
         syncMonAutDocFormatter = new DocAnnotationFormatter(null, null, null, "  ", List.of(""));
 
-        TextTopics topics = new TextTopics("");
+        TextTopics topics = new TextTopics();
         topics.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
         topics.addAll(eventDocFormatter.getAndFormatDocs(eventTrans.event));
 
@@ -911,17 +911,17 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param transAut Automaton information.
      * @param transEdge Edge to perform.
      * @param doAutDocPrint Whether to add documentation about the automaton above the PLC code.
-     * @param doLlocDocPrint Whether to add documentation about the location above the PLC code.
+     * @param doLocDocPrint Whether to add documentation about the location above the PLC code.
      * @return The generated PLC statements.
      */
     private List<PlcStatement> genMonitorUpdateEdge(TransitionAutomaton transAut, TransitionEdge transEdge,
-            boolean doAutDocPrint, boolean doLlocDocPrint)
+            boolean doAutDocPrint, boolean doLocDocPrint)
     {
         List<PlcStatement> stats = list();
 
         TextTopics topics;
         // If requested, output documentation about the automaton.
-        if (doAutDocPrint || doLlocDocPrint) {
+        if (doAutDocPrint || doLocDocPrint) {
             DocAnnotationFormatter docFormatter = new DocAnnotationFormatter(null, null, null, null, List.of(""));
             topics = new TextTopics();
 
@@ -930,7 +930,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 topics.addAll(docFormatter.getAndFormatDocs(transAut.aut));
                 topics.ensureEmptyAtEnd();
             }
-            if (doLlocDocPrint) {
+            if (doLocDocPrint) {
                 Location loc = transEdge.sourceLoc;
                 if (loc.getName() == null) {
                     topics.add("Location:");

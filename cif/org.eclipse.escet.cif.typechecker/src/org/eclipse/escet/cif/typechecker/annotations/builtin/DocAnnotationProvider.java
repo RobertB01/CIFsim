@@ -232,7 +232,7 @@ public class DocAnnotationProvider extends AnnotationProvider {
         /** Lines below the text of a single {@code @doc} annotation. */
         private final List<String> postDocLines;
 
-        /** Found {@code @doc} annotation liness for an object. */
+        /** Found {@code @doc} annotation lines for an object. */
         private List<String> docBlocks;
 
         /**
