@@ -522,7 +522,7 @@ The code has more places where documentation is shown.
 For all details, please convert the example yourself and check what the PLC code generator produces.
 
 .Global overview description of the specification.
-[source,c]
+[source]
 ----
 (*------------------------------------------------------
  * Model overview:
@@ -547,7 +547,7 @@ For all details, please convert the example yourself and check what the PLC code
 ----
 
 .Code to test whether event `timed_out` can occur.
-[source,c]
+[source]
 ----
 (***********
  * Test edge of automaton "ActivityTimer" to synchronize for event "timed_out".
@@ -571,7 +571,7 @@ END_IF;
 ----
 
 .Code that resets the timer while in the active location.
-[source,c]
+[source]
 ----
 ELSIF edge_ActivityTimer_1 = 2 THEN
     (***********
