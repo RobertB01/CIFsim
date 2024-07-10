@@ -18,26 +18,26 @@ Unclustered reqsPlants:
 --- Start of clustering --
     Flow-based Markov clustering for 2 nodes.
     No bus found.
-    
+
     subjAdjacencies:
     BlockRealMatrix{{0.0,1.0},{1.0,0.0}}
-    
+
     probData:
     BlockRealMatrix{{0.5,0.5},{0.5,0.5}}
-    
+
     Input to Markov:
     BlockRealMatrix{{0.5,0.5},{0.5,0.5}}
     Output from Markov:
     BlockRealMatrix{{0.5,0.5},{0.5,0.5}}
-    
+
     Clustering-group found:
       - Grouptype CLUSTER
         Local nodes: {0, 1}
-    
+
     Node mapping new <- original:
       0 <- 0
       1 <- 1
-    
+
     Shuffled nodes of groups near each other:
       - Grouptype CLUSTER
         Local nodes: {0, 1}
@@ -50,17 +50,17 @@ Clustered DSM for reqsPlantsDmm (for information only, this data is not actually
 Make a multi-level tree node for a cluster group with multiple nodes:
         - Grouptype CLUSTER
           Local nodes: {0, 1}
-    
+
     Starting Algorithm 2 by searching and modifying the matrices based on group information.
         Dumping P:
                :  0  1
               0:  .  1
               1:  1  .
-        
+
         Dumping RP:
               0: {0, 1}
-        
-        
+
+
         Found P cell (0, 1), with {0} requirements:
             (0, 1): add -1
         Found P cell (1, 0), but no requirements.
@@ -70,37 +70,37 @@ Make a multi-level tree node for a cluster group with multiple nodes:
                    :  0  1
                   0:  .  .
                   1:  1  .
-            
+
             Dumping RP:
                   0: {}
-            
-        
+
+
     Make a multi-level tree node for a cluster group with a single node (plant group 0):
         Dumping P:
                :  0  1
               0:  .  .
               1:  1  .
-        
+
         Dumping RP:
               0: {}
-        
+
         Tree node for singleton cluster group 0: {0} plant groups, {} req groups.
-        
+
     ---------- DONE Created tree node for cluster with a single node.
-    
+
     Make a multi-level tree node for a cluster group with a single node (plant group 1):
         Dumping P:
                :  0  1
               0:  .  .
               1:  1  .
-        
+
         Dumping RP:
               0: {}
-        
+
         Tree node for singleton cluster group 1: {1} plant groups, {} req groups.
-        
+
     ---------- DONE Created tree node for cluster with a single node.
-    
+
 ---------- DONE Created tree node for cluster with multiple nodes.
 
 Index: 0

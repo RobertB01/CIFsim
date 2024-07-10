@@ -183,11 +183,10 @@ public class PlcCodeStorage {
 
         // Compute the maximum feasible limit that can be checked.
         PlcElementaryType loopCountType = target.getIntegerType();
-        int bitSize = PlcElementaryType.getSizeOfIntType(loopCountType);
-        int feasibleLimit = switch (bitSize) {
+        int feasibleLimit = switch (loopCountType.bitSize) {
             case 64, 32 -> specifiedLimit; // Java int size is 32 bit, all values of the limit fit.
             case 16 -> Math.min(specifiedLimit, 0x7FFF);
-            default -> throw new AssertionError("Unexpected loopCount bit-size " + bitSize + " found.");
+            default -> throw new AssertionError("Unexpected loopCount bit-size " + loopCountType.bitSize + " found.");
         };
 
         // Give a warning if the limit was reduced.

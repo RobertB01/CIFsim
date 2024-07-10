@@ -45,7 +45,7 @@ public class ErrorOutputTest {
         ErrorOutputProvider outputProvider = new StoredOutputProvider();
         ErrorOutput err = outputProvider.getErrorOutput();
         useErrorStream(err);
-        String expected = "ERROR: hello world\nERROR: \nERROR: >123<\n";
+        String expected = "ERROR: hello world\nERROR:\nERROR: >123<\n";
         assertEquals(expected, outputProvider.toString());
     }
 
@@ -55,7 +55,7 @@ public class ErrorOutputTest {
         ErrorOutputProvider outputProvider = new StoredOutputProvider(false, false, false);
         ErrorOutput err = outputProvider.getErrorOutput();
         useErrorStream(err);
-        String expected = "ERROR: hello world\nERROR: \nERROR: >123<\n";
+        String expected = "ERROR: hello world\nERROR:\nERROR: >123<\n";
         assertEquals(expected, outputProvider.toString());
     }
 }

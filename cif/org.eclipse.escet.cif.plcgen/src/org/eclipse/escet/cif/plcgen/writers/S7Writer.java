@@ -31,9 +31,13 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcResource;
+import org.eclipse.escet.cif.plcgen.model.types.PlcArrayType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
@@ -225,13 +229,7 @@ public class S7Writer extends Writer {
 
         // The variables.
         c.indent();
-        c.add("VAR");
-        c.indent();
-        for (PlcDataVariable var: variables) {
-            c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
-        }
-        c.dedent();
-        c.add("END_VAR");
+        writeVarTable(c, "VAR", variables, 0);
         c.dedent();
 
         // Initialization of variables.
@@ -333,13 +331,7 @@ public class S7Writer extends Writer {
 
         // Write the input variables.
         if (!pou.inputVars.isEmpty()) {
-            c.add("VAR_INPUT");
-            c.indent();
-            for (PlcDataVariable var: pou.inputVars) {
-                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
-            }
-            c.dedent();
-            c.add("END_VAR");
+            writeVarTable(c, "VAR_INPUT", pou.inputVars, 0);
         }
 
         // Write the output variables.
@@ -347,13 +339,7 @@ public class S7Writer extends Writer {
             // In S7 the main program cannot have output variables.
             Assert.areEqual(pou.pouType, PlcPouType.FUNCTION);
 
-            c.add("VAR_OUTPUT");
-            c.indent();
-            for (PlcDataVariable var: pou.outputVars) {
-                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
-            }
-            c.dedent();
-            c.add("END_VAR");
+            writeVarTable(c, "VAR_OUTPUT", pou.outputVars, 0);
         }
 
         // Currently user-defined function blocks don't exist, so local variables in functions should be empty. The
@@ -364,14 +350,10 @@ public class S7Writer extends Writer {
         if (!pou.tempVars.isEmpty()) {
             // In IEC 61131-3, functions use VAR for their temporary variables, while programs and user-defined function
             // blocks use VAR_TEMP. With S7 however, functions use VAR_TEMP instead.
-            c.add("VAR_TEMP");
-
-            c.indent();
-            for (PlcDataVariable var: pou.tempVars) {
-                c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
-            }
-            c.dedent();
-            c.add("END_VAR");
+            //
+            // S7-300 needs to have 20 bytes in the variable table, or it reports:
+            // "The interface of the standard OB is smaller than the minimum value of 20 bytes".
+            writeVarTable(c, "VAR_TEMP", pou.tempVars, 20);
         }
 
         // Write the program body.
@@ -388,5 +370,67 @@ public class S7Writer extends Writer {
         c.add("END_%s", pouTypeText);
 
         return c;
+    }
+
+    /**
+     * Generate a variable table.
+     *
+     * @param c Text storage of the table.
+     * @param headerText Header to use above the table.
+     * @param variables Variables to add to the table.
+     * @param minByteSize Minimum size of the variable table (the sum of the sizes of the added variables) in bytes.
+     */
+    private void writeVarTable(CodeBox c, String headerText, List<PlcDataVariable> variables, int minByteSize) {
+        PlcElementaryType typeOfDummies = PlcElementaryType.DINT_TYPE;
+        Assert.check(typeOfDummies.bitSize > 0);
+
+        // Temporary variables needs a block size of at least 20 bytes.
+        // There are variables "dummyVar[1,5]" declared as reserved words in S7, for this purpose. The DINT type is
+        // sufficient to do this.
+        Assert.check(minByteSize == 0 || headerText.equals("VAR_TEMP"));
+        Assert.check(minByteSize <= 20);
+
+        // Over-approximation of the number of bits still needed to reach minimum variable table size.
+        int remainingBitSize = minByteSize * 8;
+
+        c.add(headerText);
+
+        c.indent();
+        for (PlcDataVariable var: variables) {
+            c.add("%s: %s;", var.varName, toTypeRefBox(var.type));
+            remainingBitSize -= guessTypeSize(var.type); // Update remaining table size for as far as known.
+        }
+
+        // If the table may be too small, add dummy variables.
+        for (int dummyNum = 1; remainingBitSize > 0 && dummyNum < 6; dummyNum++) {
+            String dummyName = "dummyVar" + dummyNum;
+            c.add("%s: %s;", dummyName, toTypeRefBox(typeOfDummies));
+            remainingBitSize -= typeOfDummies.bitSize;
+        }
+
+        c.dedent();
+        c.add("END_VAR");
+    }
+
+    /**
+     * Estimate a lower bound for values of the given type.
+     *
+     * @param type Type to analyze.
+     * @return Estimated size in bits for a value of the given type.
+     */
+    private static int guessTypeSize(PlcType type) {
+        if (type instanceof PlcElementaryType elemType) {
+            return elemType.bitSize;
+        } else if (type instanceof PlcStructType strType) {
+            int totalSize = 0;
+            for (PlcStructField field: strType.fields) {
+                totalSize += guessTypeSize(field.type);
+            }
+            return totalSize;
+        } else if (type instanceof PlcArrayType arrType) {
+            int elementSize = guessTypeSize(arrType.elemType);
+            return elementSize * (arrType.upper - arrType.lower + 1);
+        }
+        return 0; // Unknown size.
     }
 }

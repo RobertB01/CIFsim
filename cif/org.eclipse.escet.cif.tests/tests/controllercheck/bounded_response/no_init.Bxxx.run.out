@@ -16,7 +16,7 @@ Bounded response check completed.
 
 CONCLUSION:
     [OK] The specification has bounded response:
-    
+
         - No transitions are possible for uncontrollable events.
         - No transitions are possible for controllable events.
 

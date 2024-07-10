@@ -13,10 +13,14 @@
 
 package org.eclipse.escet.cif.controllercheck.boundedresponse;
 
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
@@ -76,14 +80,12 @@ public class BoundedResponseChecker {
         String initName = "initial states"; // Name of the initial value of the predicate.
         String restrictionName = null; // Name of the restriction predicate, if applicable.
         BDD restriction = null; // The restriction predicate, if applicable.
-        boolean applyForward = true; // Whether to apply forward reachability (true) or backward reachability (false).
-        boolean inclCtrl = true; // Whether to use edges with controllable events.
-        boolean inclUnctrl = true; // Whether to use edges with uncontrollable events.
-        boolean inclInputVars = true; // Whether to use input variable edges.
+        CifBddEdgeApplyDirection direction = CifBddEdgeApplyDirection.FORWARD; // Apply forward reachability.
+        Set<CifBddEdgeKind> edgeKinds = EnumSet.allOf(CifBddEdgeKind.class); // Kinds of edges to apply.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         BDD initPred = cifBddSpec.initial.id(); // The initial predicate. Note: preconditions forbid state invariants.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName, restrictionName,
-                restriction, applyForward, inclCtrl, inclUnctrl, inclInputVars, dbgEnabled);
+                restriction, direction, edgeKinds, dbgEnabled);
 
         // Perform forward reachability.
         BDD reachabilityResult = reachability.performReachability(initPred);
@@ -158,9 +160,8 @@ public class BoundedResponseChecker {
             roundStates = cifBddSpec.factory.zero();
             for (CifBddEdge edge: edgesToApply) {
                 // Apply edge.
-                boolean forward = true;
                 BDD restriction = null;
-                BDD edgePred = edge.apply(prevRoundStates.id(), forward, restriction);
+                BDD edgePred = edge.apply(prevRoundStates.id(), CifBddEdgeApplyDirection.FORWARD, restriction);
                 if (cifBddSpec.settings.getShouldTerminate().get()) {
                     return null;
                 }

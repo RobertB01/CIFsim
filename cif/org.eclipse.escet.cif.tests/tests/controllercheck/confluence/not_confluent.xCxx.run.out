@@ -16,7 +16,7 @@ CONCLUSION:
     [UNKNOWN] Finite response checking was disabled, finite response property is unknown.
 
     [ERROR] The specification may NOT have confluence:
-    
+
         Confluence of the following event pair could not be decided:
             (SingleAut.a, SingleAut.b)
 

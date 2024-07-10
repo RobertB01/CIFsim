@@ -157,6 +157,7 @@ kbd {
     background-color: rgba(var(--escet-color-admonition),0.05);
     padding-left: 1em;
     padding-right: 1em;
+    color: inherit;
 }
 
 /* Block styling. */

@@ -105,12 +105,18 @@ public class CifBddEdge {
     }
 
     /**
-     * Returns whether this is an input variable edge, an edge for an input variable that changes value.
+     * Returns the edge kind of the edge.
      *
-     * @return {@code true} if this is an input variable edge, {@code false} otherwise.
+     * @return The edge kind.
      */
-    public boolean isInputVarEdge() {
-        return edges.contains(null);
+    public CifBddEdgeKind getEdgeKind() {
+        if (event.getControllable()) {
+            return CifBddEdgeKind.CONTROLLABLE;
+        } else if (edges.contains(null)) {
+            return CifBddEdgeKind.INPUT_VARIABLE;
+        } else {
+            return CifBddEdgeKind.UNCONTROLLABLE;
+        }
     }
 
     /**
@@ -196,30 +202,31 @@ public class CifBddEdge {
      *
      * @param pred The predicate to which to apply the assignments. This predicate is {@link BDD#free freed} by this
      *     method.
-     * @param forward Whether to apply forward ({@code true}) or backward ({@code false}).
+     * @param direction The direction in which to apply the edge to the given predicate.
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, restrict the
      *     result to these states. May be {@code null} to not impose a restriction, which is semantically equivalent to
      *     providing 'true'.
      * @return The resulting predicate.
      */
-    public BDD apply(BDD pred, boolean forward, BDD restriction) {
-        BDD rslt;
-
-        if (forward) {
-            // rslt = Exists{x, y, z, ...}(guard && update && pred)[x/x+, y/y+, z/z+, ...] && restriction.
-            if (restriction == null) {
-                rslt = updateGuard.relnext(pred, updateGuardSupport);
-            } else {
-                rslt = updateGuard.relnextIntersection(pred, restriction, updateGuardSupport);
+    public BDD apply(BDD pred, CifBddEdgeApplyDirection direction, BDD restriction) {
+        BDD rslt = switch (direction) {
+            case FORWARD -> {
+                // rslt = Exists{x, y, z, ...}(guard && update && pred)[x/x+, y/y+, z/z+, ...] && restriction.
+                if (restriction == null) {
+                    yield updateGuard.relnext(pred, updateGuardSupport);
+                } else {
+                    yield updateGuard.relnextIntersection(pred, restriction, updateGuardSupport);
+                }
             }
-        } else {
-            // rslt = Exists{x+, y+, z+, ...}(guard && update && pred[x+/x, y+/y, z+/z, ...]) && restriction.
-            if (restriction == null) {
-                rslt = updateGuard.relprev(pred, updateGuardSupport);
-            } else {
-                rslt = updateGuard.relprevIntersection(pred, restriction, updateGuardSupport);
+            case BACKWARD -> {
+                // rslt = Exists{x+, y+, z+, ...}(guard && update && pred[x+/x, y+/y, z+/z, ...]) && restriction.
+                if (restriction == null) {
+                    yield updateGuard.relprev(pred, updateGuardSupport);
+                } else {
+                    yield updateGuard.relprevIntersection(pred, restriction, updateGuardSupport);
+                }
             }
-        }
+        };
 
         pred.free();
         return rslt;
