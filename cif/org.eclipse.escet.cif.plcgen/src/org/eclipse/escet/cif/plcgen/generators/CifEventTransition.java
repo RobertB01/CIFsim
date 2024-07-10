@@ -157,6 +157,24 @@ public class CifEventTransition {
                 collectAddrVars(transEdge.updates, assignedVariables);
             }
         }
+
+        /**
+         * Return whether the automaton has guards.
+         *
+         * @return Whether the automaton has guards.
+         */
+        public boolean hasGuards() {
+            return transitionEdges.stream().anyMatch(te -> te.hasGuards());
+        }
+
+        /**
+         * Return whether the automaton has updates.
+         *
+         * @return Whether the automaton has updates.
+         */
+        public boolean hasUpdates() {
+            return transitionEdges.stream().anyMatch(te -> te.hasUpdates());
+        }
     }
 
     /** Reason for having the transition automaton. */
@@ -230,6 +248,24 @@ public class CifEventTransition {
             this.sendValue = sendValue;
             this.guards = guards;
             this.updates = updates;
+        }
+
+        /**
+         * Return whether the edge has guards.
+         *
+         * @return Whether the edge has guard.
+         */
+        public boolean hasGuards() {
+            return !guards.isEmpty();
+        }
+
+        /**
+         * Return whether the edge has updates.
+         *
+         * @return Whether the edge has updates.
+         */
+        public boolean hasUpdates() {
+            return !updates.isEmpty();
         }
     }
 }

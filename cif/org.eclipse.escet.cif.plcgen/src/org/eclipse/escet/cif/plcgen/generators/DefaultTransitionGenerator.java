@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.common.java.Lists.cast;
-import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -862,18 +861,39 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private void generateMonitorCode(List<TransitionAutomaton> autTransitions, CifDataProvider performProvider,
             List<PlcStatement> testAndPerformCode, List<PlcBasicVariable> createdTempVariables)
     {
+        // Check if anything must be done at all.
+        boolean updatesFound = false;
         List<PlcStatement> collectedNoUpdates = list(); // Comments about automata without updates.
-        List<PlcStatement> collectedUpdates = list(); // Update-code of automata with updates.
+        for (TransitionAutomaton transAut: autTransitions) {
+            // If there is nothing to update for this automaton, create a comment saying that.
+            if (!transAut.hasUpdates()) {
+                collectedNoUpdates.add(new PlcCommentLine(
+                        fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
+            } else {
+                updatesFound = true;
+            }
+        }
+        if (!updatesFound) {
+            testAndPerformCode
+                    .add(new PlcCommentLine("There are no assignments to perform for automata that may synchronize."));
+            testAndPerformCode.addAll(collectedNoUpdates);
+            return;
+        }
 
+        // Regular case, updates must be done.
         mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
         for (TransitionAutomaton transAut: autTransitions) {
+            if (!transAut.hasUpdates()) { // Skip the automata that have nothing to update.
+                continue;
+            }
+
+            // Updates for this automaton must be done.
             List<PlcStatement> updates = list();
             PlcSelectionStatement selStat = null;
 
             boolean addedAutomatonHeaderText = false;
-            // Handle special case of not having an IF staement for edge selection.
-            if (transAut.transitionEdges.size() != 1 || !first(transAut.transitionEdges).guards.isEmpty()) {
-                // Edge selection is needed. Print the automaton information above the edge selection code.
+            if (transAut.hasGuards()) {
+                // Edge selection is needed. Add the automaton information above the edge selection code.
                 List<String> autHeaderLines = generateAutomatonHeaderForUpdates(transAut.aut);
                 if (autHeaderLines.size() == 1) {
                     updates.add(new PlcCommentLine(first(autHeaderLines)));
@@ -882,10 +902,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
                 addedAutomatonHeaderText = true; // Don't add the automaton header again.
             }
+            // else, automaton header is added as part of the comments of the first edge with updates.
 
             Location lastLoc = null;
             for (TransitionEdge transEdge: transAut.transitionEdges) {
-                if (!transEdge.updates.isEmpty()) {
+                if (transEdge.hasUpdates()) {
                     // Generate the 'then' statements for the edge.
                     final boolean doAutPrint = !addedAutomatonHeaderText;
                     final boolean doLocPrint = transEdge.sourceLoc != lastLoc;
@@ -902,19 +923,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
             }
 
-            collectedUpdates.addAll(updates);
-            if (updates.isEmpty()) {
-                collectedNoUpdates.add(new PlcCommentLine(
-                        fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
-            }
+            testAndPerformCode.addAll(updates);
         }
         mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
-        if (collectedUpdates.isEmpty()) {
-            testAndPerformCode
-                    .add(new PlcCommentLine("There are no assignments to perform for automata that may synchronize."));
-        }
-        testAndPerformCode.addAll(collectedUpdates);
         testAndPerformCode.addAll(collectedNoUpdates);
     }
 
@@ -970,12 +982,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private List<String> generateAutomatonHeaderForUpdates(Automaton aut) {
         DocAnnotationFormatter docFormatter = new DocAnnotationFormatter(null, null, null, List.of(""), null);
-        String autHeaderText = fmt("Perform assignments of automaton \"%s\".", getAbsName(aut, false));
-        if (!docFormatter.hasDocs(aut)) {
-            return List.of(autHeaderText);
-        } else {
-            return concat(autHeaderText, docFormatter.formatDocs(aut));
-        }
+        TextTopics topics = new TextTopics();
+        topics.add(fmt("Perform assignments of automaton \"%s\".", getAbsName(aut, false)));
+        topics.addAll(docFormatter.formatDocs(aut));
+        topics.dropEmptyAtEnd();
+        return topics.getLines();
     }
 
     /**
@@ -1156,18 +1167,22 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private List<PlcStatement> generateSelectedEdgePerformCode(TransitionAutomaton transAut, PlcBasicVariable edgeVar,
             PlcBasicVariable channelValueVar, String autCommentUpdateText, List<PlcStatement> collectedNoUpdates)
     {
+        // If nothing needs to be computed, tell the reviewer about it.
         List<PlcStatement> performCode = list();
-        PlcSelectionStatement selStat = null;
-        boolean mustCompute = false; // Collect whether any computation must be done to perform the edges.
+        if (!transAut.hasUpdates() && channelValueVar == null) {
+            collectedNoUpdates.add(new PlcCommentLine(
+                    fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
+
+            return performCode;
+        }
 
         // Perform the selected edge, if not empty.
+        PlcSelectionStatement selStat = null;
         int edgeIndex = 1;
         for (TransitionEdge transEdge: transAut.transitionEdges) {
             // Generate code that performs the edge if something needs to be done.
-            if (channelValueVar != null || !transEdge.updates.isEmpty()) {
-                mustCompute = true;
-
-                // State that automaton being updated or selected.
+            if (channelValueVar != null || transEdge.hasUpdates()) {
+                // State the automaton being updated or selected.
                 if (autCommentUpdateText != null) {
                     performCode.add(new PlcCommentLine(autCommentUpdateText));
                     autCommentUpdateText = null;
@@ -1185,7 +1200,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     }
 
                     // Perform the updates if they exist.
-                    if (!transEdge.updates.isEmpty()) {
+                    if (!transEdge.hasUpdates()) {
                         thenStatements.addAll(generateEdgeUpdates(transAut.aut, transEdge));
                     }
                     return thenStatements;
@@ -1197,13 +1212,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                         selStat, performCode);
             }
             edgeIndex++;
-        }
-
-        // If none of the edges has an update, the entire automaton has nothing to compute. Tell the reviewer not to
-        // expect assignments.
-        if (!mustCompute) {
-            collectedNoUpdates.add(new PlcCommentLine(
-                    fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
         }
 
         return performCode;
@@ -1230,7 +1238,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated statements.
      */
     private List<PlcStatement> generateEdgeUpdates(Automaton aut, TransitionEdge transEdge, TextTopics topics) {
-        Assert.check(!transEdge.updates.isEmpty());
+        Assert.check(transEdge.hasUpdates());
 
         topics = (topics == null) ? new TextTopics() : topics;
 
