@@ -5,6 +5,7 @@ ORGANIZATION_BLOCK MAIN
         curValue: TIME;
         current_M1: DINT;
         current_M1_vm1: DINT;
+        current_M2_vm2: DINT;
         current_R1_t: REAL;
         current_R1_vr1: DINT;
         current_Y1: DINT;
@@ -41,6 +42,18 @@ BEGIN
      * - Current location of automaton "M1".
      * - Discrete variable "M1.vm1".
      *   doc-mon-var: Monitor variable
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "c".
+     *   doc-evt: Channel event for synchronizing all automata.
+     *
+     * ----
+     * Automaton "M2":
+     * doc-mon2: single edge monitor.
+     *
+     * - Discrete variable "M2.vm2".
+     *   doc-mon2-var: Single edge variable
      *
      * - No use of uncontrollable events.
      *
@@ -142,6 +155,12 @@ BEGIN
         "DB".M1_vm1 := 0;
         (* Initialize current location of automaton "M1". *)
         "DB".M1 := M1_A;
+        (***********
+         * Initialize discrete variable "M2.vm2".
+         *
+         * doc-mon2-var: Single edge variable
+         ***********)
+        "DB".M2_vm2 := 0;
     ELSE
         (* Update remaining time of continuous variable "R1.t". *)
         ton_R1_t.TON(IN := TRUE, PT := "DB".preset_R1_t, Q => timeOut, ET => curValue);
@@ -227,6 +246,9 @@ BEGIN
          *
          * - Automaton "M1" may synchronize.
          *   doc-mon: Not participating monitor
+         *
+         * - Automaton "M2" may synchronize.
+         *   doc-mon2: single edge monitor.
          *************************************************************)
         eventEnabled := TRUE;
         (*******************************
@@ -309,6 +331,7 @@ BEGIN
             (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
             current_M1 := "DB".M1;
             current_M1_vm1 := "DB".M1_vm1;
+            current_M2_vm2 := "DB".M2_vm2;
             current_R1_t := "DB".R1_t;
             current_R1_vr1 := "DB".R1_vr1;
             current_Y1_1 := "DB".Y1;
@@ -357,11 +380,12 @@ BEGIN
             (*******************************
              * Perform the assignments of each optionally synchronizing automaton.
              *******************************)
+            (***********
+             * Perform assignments of automaton "M1".
+             * doc-mon: Not participating monitor
+             ***********)
             IF current_M1 = M1_A AND current_M1_vm1 = 1 THEN
                 (***********
-                 * Perform assignments of automaton "M1".
-                 * doc-mon: Not participating monitor
-                 *
                  * Location "A":
                  * doc-mon-locA
                  *
@@ -391,6 +415,20 @@ BEGIN
                 "DB".M1_vm1 := 1;
                 (* Perform update of current location of automaton "M1". *)
                 "DB".M1 := M1_A;
+            END_IF;
+            IF TRUE THEN
+                (***********
+                 * Perform assignments of automaton "M2".
+                 * doc-mon2: single edge monitor.
+                 *
+                 * Location:
+                 * doc-mon2-loc
+                 *
+                 * Perform assignments of the 1st edge of automaton "M2".
+                 * doc-mon2-edge: Monitored edge
+                 ***********)
+                (* Perform update of discrete variable "M2.vm2". *)
+                "DB".M2_vm2 := 1;
             END_IF;
         END_IF;
     END_WHILE;

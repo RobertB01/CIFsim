@@ -84,3 +84,16 @@ automaton M1:
     edge c when vm1 = 2 do vm1 := 1 goto A;
 end
 
+@doc("doc-mon2: single edge monitor.")
+automaton M2:
+  monitor c;
+
+  @doc("doc-mon2-var: Single edge variable")
+  disc int vm2;
+
+  @doc("doc-mon2-loc")
+  location:
+    initial;
+    @@doc("doc-mon2-edge: Monitored edge")
+    edge c do vm2 := 1;
+end

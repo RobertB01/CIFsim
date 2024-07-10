@@ -10,6 +10,7 @@ DATA_BLOCK "DB"
         Y1: DINT;
         M1_vm1: DINT;
         M1: DINT;
+        M2_vm2: DINT;
         firstRun: BOOL;
     END_VAR
 BEGIN

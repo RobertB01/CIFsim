@@ -354,10 +354,9 @@ BEGIN
             (*******************************
              * Perform the assignments of each optionally synchronizing automaton.
              *******************************)
+            (* Perform assignments of automaton "M1". *)
             IF current_M1_vm1 = 1 THEN
                 (***********
-                 * Perform assignments of automaton "M1".
-                 *
                  * Location "A":
                  *
                  * Perform assignments of the 1st edge in location "M1.A".
