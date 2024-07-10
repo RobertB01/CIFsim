@@ -1198,7 +1198,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     }
 
                     // Perform the updates if they exist.
-                    if (!transEdge.hasUpdates()) {
+                    if (transEdge.hasUpdates()) {
                         thenStatements.addAll(generateEdgeUpdates(transAut.aut, transEdge));
                     }
                     return thenStatements;
