@@ -232,9 +232,6 @@ public class DocAnnotationProvider extends AnnotationProvider {
         /** Lines below all doc annotation text of an object. */
         private final List<String> footerLines;
 
-        /** Found {@code @doc} annotation lines for an object. */
-        private List<String> docBlocks;
-
         /**
          * Constructor of the {@link DocAnnotationFormatter} class.
          *
@@ -257,29 +254,25 @@ public class DocAnnotationProvider extends AnnotationProvider {
             this.docLinePrefix = (docLinePrefix == null) ? "" : docLinePrefix;
             this.postDocLines = (postDocLines == null) ? List.of() : postDocLines;
             this.footerLines = (footerLines == null) ? List.of() : footerLines;
-            docBlocks = List.of();
         }
 
         /**
-         * Retrieve the {@code @doc} annotations of the provided object.
+         * Test whether the given CIF object has {@code @doc} annotations.
          *
-         * @param obj CIF object to query for its {@code @doc} annotations.
+         * @param obj CIF object to test for having {@code @doc} annotations.
          * @return Whether documentation text was found.
          */
-        public boolean getDocs(AnnotatedObject obj) {
-            docBlocks = DocAnnotationProvider.getDocs(obj);
-            return !docBlocks.isEmpty();
+        public boolean hasDocs(AnnotatedObject obj) {
+            return !DocAnnotationProvider.getDocs(obj).isEmpty();
         }
 
         /**
-         * Perform formatting of previously retrieved documentation using {@link #getDocs}, and return the formatted
-         * result.
+         * Perform formatting of the given {@code @doc} anotation texts.
          *
+         * @param docBlocks {@code @doc} documentation lines to format.
          * @return The formatted text.
-         * @see #getDocs
-         * @see #getAndFormatDocs
          */
-        public List<String> formatDocs() {
+        public List<String> formatDocs(List<String> docBlocks) {
             List<String> lines = list();
             lines.addAll(headerLines);
             for (String docBlock: docBlocks) {
@@ -295,14 +288,13 @@ public class DocAnnotationProvider extends AnnotationProvider {
         }
 
         /**
-         * Retrieve the {@code @doc} annotations of the provided object and perform formatting of it.
+         * Retrieve the {@code @doc} annotations of the provided object, perform formatting of it and return the result.
          *
          * @param obj CIF object to query for its {@code @doc} annotations.
          * @return The formatted text.
          */
-        public List<String> getAndFormatDocs(AnnotatedObject obj) {
-            getDocs(obj);
-            return formatDocs();
+        public List<String> formatDocs(AnnotatedObject obj) {
+            return formatDocs(DocAnnotationProvider.getDocs(obj));
         }
     }
 }

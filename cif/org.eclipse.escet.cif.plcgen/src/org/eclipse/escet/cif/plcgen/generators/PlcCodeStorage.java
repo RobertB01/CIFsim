@@ -713,7 +713,7 @@ public class PlcCodeStorage {
             topics.ensureEmptyAtEnd();
             topics.add(" * ----");
             topics.add(" * %s:", makeInitialUppercase(DocumentingSupport.getDescription(compData.component)));
-            topics.addAll(autDocFormatter.getAndFormatDocs(compData.component));
+            topics.addAll(autDocFormatter.formatDocs(compData.component));
 
             // List the variables.
             topics.ensureEmptyAtEnd();
@@ -722,7 +722,7 @@ public class PlcCodeStorage {
             } else {
                 for (Declaration var: compData.variables) {
                     topics.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(var)));
-                    topics.addAll(subDocFormatter.getAndFormatDocs(var));
+                    topics.addAll(subDocFormatter.formatDocs(var));
                 }
                 if (compData.edgeVariableName != null) {
                     topics.ensureEmptyAtEnd();
@@ -742,7 +742,7 @@ public class PlcCodeStorage {
             } else {
                 for (Event evt: compData.uncontrollableEvents) {
                     topics.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
-                    topics.addAll(subDocFormatter.getAndFormatDocs(evt));
+                    topics.addAll(subDocFormatter.formatDocs(evt));
                 }
             }
 
@@ -753,7 +753,7 @@ public class PlcCodeStorage {
             } else {
                 for (Event evt: compData.controllableEvents) {
                     topics.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
-                    topics.addAll(subDocFormatter.getAndFormatDocs(evt));
+                    topics.addAll(subDocFormatter.formatDocs(evt));
                 }
             }
         }

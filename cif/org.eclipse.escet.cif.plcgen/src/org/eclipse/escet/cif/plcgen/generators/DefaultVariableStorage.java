@@ -121,10 +121,10 @@ public class DefaultVariableStorage implements VariableStorage {
         for (Declaration decl: varOrderer.computeOrder(true)) {
             // Generate a comment about the CIF variable getting initialized.
             String commentText = fmt("Initialize %s.", DocumentingSupport.getDescription(decl));
-            if (!varInitFormatter.getDocs(decl)) {
+            if (!varInitFormatter.hasDocs(decl)) {
                 statements.add(new PlcCommentLine(commentText));
             } else {
-                statements.add(new PlcCommentBlock(concat(commentText, varInitFormatter.formatDocs())));
+                statements.add(new PlcCommentBlock(concat(commentText, varInitFormatter.formatDocs(decl))));
             }
 
             // Generate the initialization code.

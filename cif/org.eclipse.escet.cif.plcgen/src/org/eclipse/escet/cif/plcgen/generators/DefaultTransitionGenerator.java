@@ -446,7 +446,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         TextTopics topics = new TextTopics();
         topics.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
-        topics.addAll(eventDocFormatter.getAndFormatDocs(eventTrans.event));
+        topics.addAll(eventDocFormatter.formatDocs(eventTrans.event));
 
         CifType eventType = eventTrans.event.getType();
         if (eventType != null) {
@@ -464,7 +464,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
                 for (TransitionAutomaton transAut: eventTrans.senders) {
                     topics.add("   - Automaton \"%s\" may send a value.", getAbsName(transAut.aut, false));
-                    topics.addAll(sendRecvAutDocFormatter.getAndFormatDocs(transAut.aut));
+                    topics.addAll(sendRecvAutDocFormatter.formatDocs(transAut.aut));
                 }
             }
 
@@ -480,7 +480,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
                 for (TransitionAutomaton transAut: eventTrans.receivers) {
                     topics.add("   - Automaton \"%s\" may receive a value.", getAbsName(transAut.aut, false));
-                    topics.addAll(sendRecvAutDocFormatter.getAndFormatDocs(transAut.aut));
+                    topics.addAll(sendRecvAutDocFormatter.formatDocs(transAut.aut));
                 }
             }
         }
@@ -489,14 +489,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         topics.ensureEmptyAtEnd();
         for (TransitionAutomaton transAut: eventTrans.syncers) {
             topics.add("- Automaton \"%s\" must always synchronize.", getAbsName(transAut.aut, false));
-            topics.addAll(syncMonAutDocFormatter.getAndFormatDocs(transAut.aut));
+            topics.addAll(syncMonAutDocFormatter.formatDocs(transAut.aut));
         }
 
         // List monitors.
         topics.ensureEmptyAtEnd();
         for (TransitionAutomaton transAut: eventTrans.monitors) {
             topics.add("- Automaton \"%s\" may synchronize.", getAbsName(transAut.aut, false));
-            topics.addAll(syncMonAutDocFormatter.getAndFormatDocs(transAut.aut));
+            topics.addAll(syncMonAutDocFormatter.formatDocs(transAut.aut));
         }
 
         topics.dropEmptyAtEnd();
@@ -927,17 +927,17 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
             if (doAutDocPrint) {
                 topics.add(fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false)));
-                topics.addAll(docFormatter.getAndFormatDocs(transAut.aut));
+                topics.addAll(docFormatter.formatDocs(transAut.aut));
                 topics.ensureEmptyAtEnd();
             }
             if (doLocDocPrint) {
                 Location loc = transEdge.sourceLoc;
                 if (loc.getName() == null) {
                     topics.add("Location:");
-                    topics.addAll(docFormatter.getAndFormatDocs(loc));
+                    topics.addAll(docFormatter.formatDocs(loc));
                 } else {
                     topics.add("Location \"%s\":", loc.getName());
-                    topics.addAll(docFormatter.getAndFormatDocs(loc));
+                    topics.addAll(docFormatter.formatDocs(loc));
                 }
             }
         } else {
@@ -1080,14 +1080,14 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 lastLoc = transEdge.sourceLoc;
                 if (lastLoc.getName() == null) {
                     topics.add("- Location:");
-                    topics.addAll(locDocFormatter.getAndFormatDocs(lastLoc));
+                    topics.addAll(locDocFormatter.formatDocs(lastLoc));
                 } else {
                     topics.add("- Location \"%s\":", lastLoc.getName());
-                    topics.addAll(locDocFormatter.getAndFormatDocs(lastLoc));
+                    topics.addAll(locDocFormatter.formatDocs(lastLoc));
                 }
             }
             topics.add("  - %s edge in the location", toOrdinal(transEdge.edgeNumber));
-            topics.addAll(edgeDocFormatter.getAndFormatDocs(transEdge.edge));
+            topics.addAll(edgeDocFormatter.formatDocs(transEdge.edge));
         }
         if (lastLoc == null) {
             switch (transAut.purpose) {
@@ -1219,7 +1219,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         DocAnnotationFormatter edgeUpdateDocFormatter = new DocAnnotationFormatter(null, null, null, List.of(""), null);
         topics.ensureEmptyAtEnd();
         topics.add(text);
-        topics.addAll(edgeUpdateDocFormatter.getAndFormatDocs(transEdge.edge));
+        topics.addAll(edgeUpdateDocFormatter.formatDocs(transEdge.edge));
         topics.dropEmptyAtEnd();
 
         // Store the documentation.
