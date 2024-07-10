@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.common.java.Lists.cast;
+import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -870,6 +871,18 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             PlcSelectionStatement selStat = null;
 
             boolean addedAutomatonHeaderText = false;
+            // Handle special case of not having an IF staement for edge selection.
+            if (transAut.transitionEdges.size() != 1 || !first(transAut.transitionEdges).guards.isEmpty()) {
+                // Edge selection is needed. Print the automaton information above the edge selection code.
+                List<String> autHeaderLines = generateAutomatonHeaderForUpdates(transAut.aut);
+                if (autHeaderLines.size() == 1) {
+                    updates.add(new PlcCommentLine(first(autHeaderLines)));
+                } else {
+                    updates.add(new PlcCommentBlock(autHeaderLines));
+                }
+                addedAutomatonHeaderText = true; // Don't add the automaton header again.
+            }
+
             Location lastLoc = null;
             for (TransitionEdge transEdge: transAut.transitionEdges) {
                 if (!transEdge.updates.isEmpty()) {
@@ -910,8 +923,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * @param transAut Automaton information.
      * @param transEdge Edge to perform.
-     * @param doAutDocPrint Whether to add documentation about the automaton above the PLC code.
-     * @param doLocDocPrint Whether to add documentation about the location above the PLC code.
+     * @param doAutDocPrint Whether to add documentation about the automaton above the edge updates in the PLC code.
+     * @param doLocDocPrint Whether to add documentation about the location above the edge updates in the PLC code.
+
      * @return The generated PLC statements.
      */
     private List<PlcStatement> genMonitorUpdateEdge(TransitionAutomaton transAut, TransitionEdge transEdge,
@@ -926,8 +940,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             topics = new TextTopics();
 
             if (doAutDocPrint) {
-                topics.add(fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false)));
-                topics.addAll(docFormatter.formatDocs(transAut.aut));
+                topics.addAll(generateAutomatonHeaderForUpdates(transAut.aut));
                 topics.ensureEmptyAtEnd();
             }
             if (doLocDocPrint) {
@@ -947,6 +960,22 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Generate the edge updates and return the generated code.
         stats.addAll(generateEdgeUpdates(transAut.aut, transEdge, topics));
         return stats;
+    }
+
+    /**
+     * Generate the text to describe the automaton being updated.
+     *
+     * @param aut Automaton to describe.
+     * @return The produced text.
+     */
+    private List<String> generateAutomatonHeaderForUpdates(Automaton aut) {
+        DocAnnotationFormatter docFormatter = new DocAnnotationFormatter(null, null, null, List.of(""), null);
+        String autHeaderText = fmt("Perform assignments of automaton \"%s\".", getAbsName(aut, false));
+        if (!docFormatter.hasDocs(aut)) {
+            return List.of(autHeaderText);
+        } else {
+            return concat(autHeaderText, docFormatter.formatDocs(aut));
+        }
     }
 
     /**
