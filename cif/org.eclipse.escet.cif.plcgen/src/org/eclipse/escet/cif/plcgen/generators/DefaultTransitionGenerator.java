@@ -234,7 +234,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         String edgeVariableName = nameGen.generateGlobalName("edge_" + aut.getName(), false);
         target.getCodeStorage().setAutomatonEdgeVariableName(aut, edgeVariableName);
 
-        // TODO: Use a smaller integer for edge indexing.
         PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, PlcElementaryType.DINT_TYPE);
         edgeSelectionVariables.put(aut, autVar);
     }
@@ -695,7 +694,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
 
-        // TODO: Use a smaller integer for automaton indexing.
         PlcBasicVariable autVar = mainExprGen.getTempVariable(varPrefix + "Aut", PlcElementaryType.DINT_TYPE);
         createdTempVariables.add(autVar);
         autTestCode.add(generatePlcIntAssignment(autVar, 0));
