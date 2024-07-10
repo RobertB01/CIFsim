@@ -83,18 +83,18 @@ public class TextTopics {
     }
 
     /**
-     * Append a line of text after applying {@link String#format} on the given format and arguments.
+     * Append a line of text after applying {@link String#format} on the given format pattern and arguments.
      *
      * <p>
      * Adding an empty line fails silently if the stored lines already have an empty line at the end. See
      * {@link #isLastEmpty} for the precise definition.
      * </p>
      *
-     * @param format Format of the line to add.
-     * @param args Arguments to insert in the format.
+     * @param pattern Format pattern of the line to add.
+     * @param args Arguments to insert in the format pattern.
      */
-    public void add(String format, Object... args) {
-        add(fmt(format, args));
+    public void add(String pattern, Object... args) {
+        add(fmt(pattern, args));
     }
 
     /**
