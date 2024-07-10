@@ -385,7 +385,7 @@ public class S7Writer extends Writer {
         Assert.check(typeOfDummies.bitSize > 0);
 
         // Temporary variables needs a block size of at least 20 bytes.
-        // There are variables "dummyVar[1,5] declared as reserved words in S7, for this purpose. The DINT type is
+        // There are variables "dummyVar[1,5]" declared as reserved words in S7, for this purpose. The DINT type is
         // sufficient to do this.
         Assert.check(minByteSize == 0 || headerText.equals("VAR_TEMP"));
         Assert.check(minByteSize <= 20);
@@ -427,9 +427,9 @@ public class S7Writer extends Writer {
                 totalSize += guessTypeSize(field.type);
             }
             return totalSize;
-        } else if (type instanceof PlcArrayType arrTtype) {
-            int elementSize = guessTypeSize(arrTtype.elemType);
-            return elementSize * (arrTtype.upper - arrTtype.lower + 1);
+        } else if (type instanceof PlcArrayType arrType) {
+            int elementSize = guessTypeSize(arrType.elemType);
+            return elementSize * (arrType.upper - arrType.lower + 1);
         }
         return 0; // Unknown size.
     }
