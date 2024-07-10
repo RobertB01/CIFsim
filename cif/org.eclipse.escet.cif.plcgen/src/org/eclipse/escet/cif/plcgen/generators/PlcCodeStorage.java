@@ -439,7 +439,7 @@ public class PlcCodeStorage {
         CodeBox box = mainProgram.body;
         addProgramHeader(box);
         box.add();
-        box.add(addComponentDocumentation());
+        box.add(generateComponentDocumentation());
 
         // Add input code if it exists.
         //
@@ -682,7 +682,7 @@ public class PlcCodeStorage {
      *
      * @return The created lines of text.
      */
-    private List<String> addComponentDocumentation() {
+    private List<String> generateComponentDocumentation() {
         // Construct @doc annotation formatters, one for automata and one for the information inside automata.
         DocAnnotationFormatter autDocFormatter = new DocAnnotationFormatter(null, null, null, " * ", List.of(" *"));
         DocAnnotationFormatter subDocFormatter = new DocAnnotationFormatter(null, null, null, " *   ", List.of(" *"));
