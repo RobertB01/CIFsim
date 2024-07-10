@@ -56,7 +56,7 @@ public class TextTopics {
      *
      * <p>
      * Adding an empty line is skipped if the stored lines already have an empty line at the end. See
-     * {@link #isLastEmpty()} for the precise definition.
+     * {@link #isLastEmpty} for the precise definition.
      * </p>
      *
      * @param line The line of text to add. Trailing whitespace is removed.
@@ -87,7 +87,7 @@ public class TextTopics {
      *
      * <p>
      * Adding an empty line fails silently if the stored lines already have an empty line at the end. See
-     * {@link #isLastEmpty()} for the precise definition.
+     * {@link #isLastEmpty} for the precise definition.
      * </p>
      *
      * @param format Format of the line to add.
@@ -99,7 +99,7 @@ public class TextTopics {
 
     /**
      * Convenience method to (try to) append an empty line. Fails silently if the stored lines already have an empty
-     * line at the end. See {@link #isLastEmpty()} for the precise definition.
+     * line at the end. See {@link #isLastEmpty} for the precise definition.
      */
     public void appendEmpty() {
         if (!isLastEmpty()) {
