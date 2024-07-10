@@ -517,9 +517,8 @@ end
 The example is extensively documented.
 Note that documentation annotations for the specification and for the edges must have a double `@@`.
 
-Below are a few examples of what is generated in the PLC code.
-The code has more places where documentation is shown.
-For all details, please convert the example yourself and check what the PLC code generator produces.
+Below are a few examples of what could be generated in the PLC code.
+For all details, and to see the code generated for your specific target, please convert the example yourself and check what the PLC code generator produces.
 
 .Global overview description of the specification.
 [source]
