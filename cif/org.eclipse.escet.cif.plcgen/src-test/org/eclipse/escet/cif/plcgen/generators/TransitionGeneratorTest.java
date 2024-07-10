@@ -599,10 +599,9 @@ public class TransitionGeneratorTest {
                     (*******************************
                      * Perform the assignments of each optionally synchronizing automaton.
                      *******************************)
+                    (* Perform assignments of automaton "monitor". *)
                     IF current_otherVar = 1 THEN
                         (***********
-                         * Perform assignments of automaton "monitor".
-                         *
                          * Location "aut2Loc":
                          *
                          * Perform assignments of the 8th edge in location "monitor.aut2Loc".
