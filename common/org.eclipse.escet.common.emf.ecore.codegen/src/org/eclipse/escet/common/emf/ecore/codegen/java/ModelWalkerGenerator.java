@@ -93,14 +93,14 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         String mainPkgClassName = args[0];
         String binPath = args[1];
         String outputPath = args[2];
-        // Arguments 3 and 4 define the names of walker and composite without extra arguments.
-        // Arguments 5 and 6 define the names of walker and composite with extra arguments.
+        // Arguments 3 and 4 define the names of walker and composite walker without extra arguments.
+        // Arguments 5 and 6 define the names of walker and composite walker with extra arguments.
         String outputPackageName = args[7];
 
         // Resolve the package.
         EPackage mainPkg = loadEPackage(mainPkgClassName, binPath);
 
-        // Generate walker and composite without extra arguments.
+        // Generate walker and composite walker without extra arguments.
         String outputClassNameWalker = args[3];
         String outputClassNameComposite = args[4];
 
@@ -110,7 +110,7 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         writeClassCode("Composite walker", outputPath, true, mainPkg,
                 outputClassNameWalker, outputClassNameComposite, outputPackageName, false);
 
-        // Generate walker and composite with extra arguments.
+        // Generate walker and composite walker with extra arguments.
         String outputClassNameWalkerWithArg = args[5];
         String outputClassNameCompositeWithArg = args[6];
 
@@ -142,7 +142,7 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         CodeBox box = generateClass(genComposite, startPackage, genClassNameWalker, genClassNameComposite,
                 genPackageName, withArg);
 
-        // Construct the flle system path of the file to write.
+        // Construct the file system path of the file to write.
         File dirPath = new File(outputPath);
         String outputClassName = genComposite ? genClassNameComposite : genClassNameWalker;
         File filePath = new File(dirPath, outputClassName + ".java");
