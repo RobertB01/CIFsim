@@ -104,21 +104,21 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         String outputClassNameWalker = args[3];
         String outputClassNameComposite = args[4];
 
-        writeClassCode("Walker", outputPath, mainPkg, outputPackageName,
-                false, false, outputClassNameWalker, outputClassNameComposite);
+        writeClassCode("Walker", outputPath, false, mainPkg,
+                outputClassNameWalker, outputClassNameComposite, outputPackageName, false);
 
-        writeClassCode("Composite walker", outputPath, mainPkg, outputPackageName,
-                false, true, outputClassNameWalker, outputClassNameComposite);
+        writeClassCode("Composite walker", outputPath, true, mainPkg,
+                outputClassNameWalker, outputClassNameComposite, outputPackageName, false);
 
         // Generate walker and composite with extra arguments.
         String outputClassNameWalkerWithArg = args[5];
         String outputClassNameCompositeWithArg = args[6];
 
-        writeClassCode("Extra-argument walker", outputPath, mainPkg, outputPackageName,
-                true, false, outputClassNameWalkerWithArg, outputClassNameCompositeWithArg);
+        writeClassCode("Extra-argument walker", outputPath, false, mainPkg,
+                outputClassNameWalkerWithArg, outputClassNameCompositeWithArg, outputPackageName, true);
 
-        writeClassCode("Extra-argument composite walker", outputPath, mainPkg, outputPackageName,
-                true, true, outputClassNameWalkerWithArg, outputClassNameCompositeWithArg);
+        writeClassCode("Extra-argument composite walker", outputPath, true, mainPkg,
+                outputClassNameWalkerWithArg, outputClassNameCompositeWithArg, outputPackageName, true);
     }
 
     /**
@@ -126,15 +126,15 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      *
      * @param walkerDesc Description of the generated walker.
      * @param outputPath Relative or absolute local file system path to the directory to add the file.
-     * @param startPackage Java package that will contain the generated code.
-     * @param genPackageName Name of the package that will contain the generated code.
-     * @param withArg Whether to generate a walker with extra arguments.
      * @param genComposite Whether to generate a composite. If {@code false}, a walker is generated.
+     * @param startPackage Java package that will contain the generated code.
      * @param genClassNameWalker Name of the walker Java class.
      * @param genClassNameComposite Name of the composite Java class.
+     * @param genPackageName Name of the package that will contain the generated code.
+     * @param withArg Whether to generate a walker with extra arguments.
      */
-    private static void writeClassCode(String walkerDesc, String outputPath, EPackage startPackage, String genPackageName,
-            boolean withArg, boolean genComposite, String genClassNameWalker, String genClassNameComposite)
+    private static void writeClassCode(String walkerDesc, String outputPath, boolean genComposite, EPackage startPackage,
+            String genClassNameWalker, String genClassNameComposite, String genPackageName, boolean withArg)
     {
         // Generate the code.
         CodeBox box;
