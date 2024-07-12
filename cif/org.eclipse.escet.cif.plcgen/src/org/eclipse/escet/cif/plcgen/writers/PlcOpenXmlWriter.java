@@ -591,7 +591,7 @@ public class PlcOpenXmlWriter extends Writer {
      *
      * @param doc The XML document to use as contents for the file.
      * @param filePaths The relative or absolute local file system path and the absolute local file system path of the
-     *     PLCopen XML file to write, with platform specific file separators.
+     *     PLCopen XML file to write.
      */
     private void writeDocument(Document doc, PathPair filePaths) {
         // Construct transformer.
