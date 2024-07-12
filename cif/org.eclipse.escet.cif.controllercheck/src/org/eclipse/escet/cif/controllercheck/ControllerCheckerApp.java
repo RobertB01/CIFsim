@@ -85,6 +85,7 @@ import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
@@ -511,7 +512,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         // Write the output file.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".checked.cif");
         String absOutPath = Paths.resolve(outPath);
-        CifWriter.writeCifSpec(outputSpec, absOutPath, cifReader.getAbsDirPath());
+        CifWriter.writeCifSpec(outputSpec, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
         out();
         out("The model with the check results has been written to \"%s\".", outPath);
 
