@@ -19,8 +19,8 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.box.Box;
+import org.eclipse.escet.common.java.PathPair;
 
 /** Writer for generated PLC code for the ABB PLC target type. */
 public class AbbWriter extends Writer {
@@ -34,22 +34,22 @@ public class AbbWriter extends Writer {
     }
 
     @Override
-    public void write(PlcProject project, String outputPath) {
-        ensureDirectory(outputPath);
+    public void write(PlcProject project, PathPair outputPaths) {
+        ensureDirectory(outputPaths);
 
         // Write configurations.
         for (PlcConfiguration config: project.configurations) {
-            write(config, outputPath);
+            write(config, outputPaths);
         }
 
         // Write POUs.
         for (PlcPou pou: project.pous) {
-            write(pou, outputPath);
+            write(pou, outputPaths);
         }
 
         // Write declared types.
         for (PlcDeclaredType declaredType: project.declaredTypes) {
-            writeDeclaredType(declaredType, outputPath);
+            writeDeclaredType(declaredType, outputPaths);
         }
     }
 
@@ -57,34 +57,37 @@ public class AbbWriter extends Writer {
      * Writes the given configuration to a file in IEC 61131-3 syntax.
      *
      * @param config The configuration to write.
-     * @param outPath The absolute local file system path of the directory that should store the file.
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory that should store the file.
      */
-    private void write(PlcConfiguration config, String outPath) {
-        String path = Paths.join(outPath, config.name + ".plccfg");
+    private void write(PlcConfiguration config, PathPair outPaths) {
+        String fileName = config.name + ".plccfg";
         Box code = toBox(config);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 
     /**
      * Writes the given POU to a file in IEC 61131-3 syntax.
      *
      * @param pou The POU to write.
-     * @param outPath The absolute local file system path of the directory that should store the file.
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory that should store the file.
      */
-    private void write(PlcPou pou, String outPath) {
+    private void write(PlcPou pou, PathPair outPaths) {
         String ext = (pou.retType == null) ? ".plcprog" : ".plcfunc";
-        String path = Paths.join(outPath, pou.name + ext);
+        String fileName = pou.name + ext;
         Box code = toBox(pou);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 
     /**
      * Writes the given declared type to a file in IEC 61131-3 syntax.
      *
      * @param declaredType The declared type to write.
-     * @param outPath The absolute local file system path of the directory that should store the file.
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory that should store the file.
      */
-    private void writeDeclaredType(PlcDeclaredType declaredType, String outPath) {
+    private void writeDeclaredType(PlcDeclaredType declaredType, PathPair outPaths) {
         String typeName;
         if (declaredType instanceof PlcStructType structType) {
             typeName = structType.typeName;
@@ -94,8 +97,8 @@ public class AbbWriter extends Writer {
             throw new AssertionError("Unexpected declared type found: \"" + declaredType + "\".");
         }
 
-        String path = Paths.join(outPath, typeName + ".plctype");
+        String fileName = typeName + ".plctype";
         Box code = toTypeDeclBox(declaredType);
-        code.writeToFile(path);
+        writeFile(code, outPaths, fileName);
     }
 }

@@ -117,7 +117,7 @@ public class S7Writer extends OutputTypeWriter {
     private void write(PlcPou pou, String outPath) {
         String path = Paths.join(outPath, pou.name + ".scl");
         Box code = toBox(pou);
-        code.writeToFile(path);
+        code.writeToFile(path, path);
     }
 
     /**
@@ -152,7 +152,7 @@ public class S7Writer extends OutputTypeWriter {
         }
 
         // Write to file.
-        c.writeToFile(path);
+        c.writeToFile(path, path);
     }
 
     /**
@@ -173,7 +173,7 @@ public class S7Writer extends OutputTypeWriter {
     private void write(PlcTypeDecl typeDecl, String outPath) {
         String path = Paths.join(outPath, typeDecl.name + ".udt");
         Box code = toBox(typeDecl);
-        code.writeToFile(path);
+        code.writeToFile(path, path);
     }
 
     /**
@@ -185,7 +185,7 @@ public class S7Writer extends OutputTypeWriter {
     private void write(PlcGlobalVarList gvl, String outPath) {
         String path = Paths.join(outPath, gvl.name + ".xml");
         Box code = makeTagTable(gvl);
-        code.writeToFile(path);
+        code.writeToFile(path, path);
     }
 
     /**
@@ -233,7 +233,7 @@ public class S7Writer extends OutputTypeWriter {
         c.add("END_DATA_BLOCK");
 
         // Write to file.
-        c.writeToFile(path);
+        c.writeToFile(path, path );
     }
 
     /**

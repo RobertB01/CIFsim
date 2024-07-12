@@ -51,7 +51,7 @@ public class Iec611313Writer extends OutputTypeWriter {
     private void write(PlcConfiguration config, String outPath) {
         String path = Paths.join(outPath, config.name + ".plccfg");
         Box code = toBox(config);
-        code.writeToFile(path);
+        code.writeToFile(path, path);
     }
 
     /**
@@ -64,7 +64,7 @@ public class Iec611313Writer extends OutputTypeWriter {
         String ext = (pou.retType == null) ? ".plcprog" : ".plcfunc";
         String path = Paths.join(outPath, pou.name + ext);
         Box code = toBox(pou);
-        code.writeToFile(path);
+        code.writeToFile(path, path);
     }
 
     /**
@@ -76,6 +76,6 @@ public class Iec611313Writer extends OutputTypeWriter {
     private void write(PlcTypeDecl typeDecl, String outPath) {
         String path = Paths.join(outPath, typeDecl.name + ".plctype");
         Box code = toBox(typeDecl);
-        code.writeToFile(path);
+        code.writeToFile(path, path);
     }
 }

@@ -81,11 +81,12 @@ public class EmfLatexDocSkeletonGenerator extends EmfLatexCodeGenerator {
 
         // Try to write the code to a file.
         String langName = getRootPackageName(mainPkg);
-        String outputFilePath = new File(new File(outputPath), langName + "_ecore_doc_generated.tex").getAbsolutePath();
-        box.writeToFile(outputFilePath);
+        File outputFilePath = new File(new File(outputPath), langName + "_ecore_doc_generated.tex");
+        String absOutputFilePath = outputFilePath.getAbsolutePath();
+        box.writeToFile(outputPath, absOutputFilePath);
 
         // We are done.
-        System.out.printf("Code written to: %s%n", outputFilePath);
+        System.out.printf("Code written to: %s%n", absOutputFilePath);
     }
 
     /**
