@@ -126,23 +126,23 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      *
      * @param walkerDesc Description of the generated walker.
      * @param outputPath Relative or absolute local file system path to the directory to add the file.
-     * @param mainPackage Java package that will contain the generated code.
-     * @param packageName Name of the package that will contain the generated code.
-     * @param withArgs Whether to generate a walker with extra arguments.
+     * @param startPackage Java package that will contain the generated code.
+     * @param genPackageName Name of the package that will contain the generated code.
+     * @param withArg Whether to generate a walker with extra arguments.
      * @param genComposite Whether to generate a composite. If {@code false}, a walker is generated.
-     * @param classNameWalker Name of the walker Java class.
-     * @param classNameComposite Name of the composite Java class.
+     * @param genClassNameWalker Name of the walker Java class.
+     * @param genClassNameComposite Name of the composite Java class.
      */
-    private static void writeClassCode(String walkerDesc, String outputPath, EPackage mainPackage, String packageName,
-            boolean withArgs, boolean genComposite, String classNameWalker, String classNameComposite)
+    private static void writeClassCode(String walkerDesc, String outputPath, EPackage startPackage, String genPackageName,
+            boolean withArg, boolean genComposite, String genClassNameWalker, String genClassNameComposite)
     {
         // Generate the code.
         CodeBox box;
-        box = generateClass(genComposite, mainPackage, classNameWalker, classNameComposite, packageName, withArgs);
+        box = generateClass(genComposite, startPackage, genClassNameWalker, genClassNameComposite, genPackageName, withArg);
 
         // Construct the flle system path of the file to write.
         File dirPath = new File(outputPath);
-        String outputClassName = genComposite ? classNameComposite : classNameWalker;
+        String outputClassName = genComposite ? genClassNameComposite : genClassNameWalker;
         File filePath = new File(dirPath, outputClassName + ".java");
         String absOutputFilePath = filePath.getAbsolutePath();
 
