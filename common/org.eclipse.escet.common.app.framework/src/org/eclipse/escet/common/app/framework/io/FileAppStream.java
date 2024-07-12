@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** {@link AppStream} that writes to a file. */
@@ -40,8 +41,21 @@ public class FileAppStream extends AppStream {
      * @throws InputOutputException If the file exists but is a directory rather than a regular file, does not exist but
      *     cannot be created, or cannot be opened for any other reason.
      */
+    @Deprecated
     public FileAppStream(String path) {
         this(path, false);
+    }
+
+    /**
+     * Constructor for the {@link FileAppStream} class. Overwrites the file if it already exists.
+     *
+     * @param pathPair The absolute or relative local file system path and the absolute or relative local file system
+     *     path to the file to which to write the output.
+     * @throws InputOutputException If the file exists but is a directory rather than a regular file, does not exist but
+     *     cannot be created, or cannot be opened for any other reason.
+     */
+    public FileAppStream(PathPair pathPair) {
+        this(pathPair.userPath, pathPair.systemPath);
     }
 
     /**
@@ -66,8 +80,23 @@ public class FileAppStream extends AppStream {
      * @throws InputOutputException If the file exists but is a directory rather than a regular file, does not exist but
      *     cannot be created, or cannot be opened for any other reason.
      */
+    @Deprecated
     public FileAppStream(String path, boolean append) {
         this(path, Paths.resolve(path), append);
+    }
+
+    /**
+     * Constructor for the {@link FileAppStream} class.
+     *
+     * @param pathPair The absolute or relative local file system path and the absolute or relative local file system
+     *     path to the file to which to write the output.
+     * @param append Whether to append to the file if it already exists ({@code true}) or overwrite it if it already
+     *     exists ({@code false}).
+     * @throws InputOutputException If the file exists but is a directory rather than a regular file, does not exist but
+     *     cannot be created, or cannot be opened for any other reason.
+     */
+    public FileAppStream(PathPair pathPair, boolean append) {
+        this(pathPair.userPath, pathPair.systemPath, append);
     }
 
     /**
