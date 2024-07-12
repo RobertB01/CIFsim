@@ -24,6 +24,7 @@ import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Runtime print I/O declarations, for a single file/target. */
@@ -127,7 +128,7 @@ public abstract class RuntimePrintDecls {
 
             // Open stream.
             try {
-                stream = new FileAppStream(absFilePath);
+                stream = new FileAppStream(new PathPair(getRelPath(), absFilePath));
             } catch (InputOutputException ex) {
                 String msg = fmt("Failed to open file \"%s\" for writing using print declarations.", getRelPath());
                 throw new InputOutputException(msg, ex);

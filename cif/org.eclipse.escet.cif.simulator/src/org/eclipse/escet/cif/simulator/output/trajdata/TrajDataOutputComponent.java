@@ -44,13 +44,14 @@ import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** CIF simulator output component that writes trajectory data to a text file. */
 public class TrajDataOutputComponent extends NullSimulatorOutputComponent {
-    /** The absolute local file system path to the trajectory data file. */
-    private final String path;
+    /** The paths to the trajectory data file. */
+    private final PathPair pathPair;
 
     /** Trajectory data file stream. May be {@code null} after output component cleanup. */
     private AppStream stream;
@@ -81,7 +82,7 @@ public class TrajDataOutputComponent extends NullSimulatorOutputComponent {
 
     /** Constructor for the {@link TrajDataOutputComponent} class. */
     public TrajDataOutputComponent() {
-        path = TrajDataFileOption.getAbsPath();
+        pathPair = TrajDataFileOption.getPaths();
         sep = TrajDataSepOption.getSep();
         open();
     }
@@ -90,9 +91,9 @@ public class TrajDataOutputComponent extends NullSimulatorOutputComponent {
     private void open() {
         Assert.check(stream == null);
         try {
-            stream = new FileAppStream(path);
+            stream = new FileAppStream(pathPair);
         } catch (InputOutputException e) {
-            String msg = fmt("Failed to open trajectory data file \"%s\".", path);
+            String msg = fmt("Failed to open trajectory data file \"%s\".", pathPair.userPath);
             throw new InputOutputException(msg, e);
         }
     }
@@ -305,13 +306,14 @@ public class TrajDataOutputComponent extends NullSimulatorOutputComponent {
     /** Prettify the trajectory data file. */
     private void prettify() {
         // Rename trajectory data file.
-        String pathTmp = path + ".tmp";
-        Path p = java.nio.file.Paths.get(path);
-        Path ptmp = java.nio.file.Paths.get(pathTmp);
+        String pathTmp = pathPair.systemPath + ".tmp";
+        String absPathTmp = pathPair.systemPath + ".tmp";
+        Path p = java.nio.file.Paths.get(pathPair.systemPath);
+        Path ptmp = java.nio.file.Paths.get(absPathTmp);
         try {
             Files.move(p, ptmp, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            String msg = fmt("Failed to rename trajectory data file \"%s\" to \"%s\".", path, pathTmp);
+            String msg = fmt("Failed to rename trajectory data file \"%s\" to \"%s\".", pathPair.userPath, pathTmp);
             throw new InputOutputException(msg, e);
         }
 
@@ -322,7 +324,7 @@ public class TrajDataOutputComponent extends NullSimulatorOutputComponent {
             // Open both.
             open();
             try {
-                input = new BufferedReader(new FileReader(pathTmp));
+                input = new BufferedReader(new FileReader(absPathTmp));
             } catch (IOException e) {
                 String msg = fmt("Failed to open trajectory data file \"%s\".", pathTmp);
                 throw new InputOutputException(msg, e);
