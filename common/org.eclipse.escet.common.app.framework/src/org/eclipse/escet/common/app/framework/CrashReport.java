@@ -130,7 +130,8 @@ public final class CrashReport {
         // Write crash report to the file.
         AppStream s = null;
         try {
-            s = new FileAppStream(tempFilePath);
+            // Always use absolute file system paths to be clear in where the file is written,
+            s = new FileAppStream(tempFilePath, tempFilePath);
             writeCrashReport(ex, s);
             s.flush();
             s.close();
