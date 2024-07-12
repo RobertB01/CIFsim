@@ -68,6 +68,7 @@ import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.box.StreamCodeBox;
+import org.eclipse.escet.common.java.PathPair;
 
 /** Application implementing untimed unfolding of the state space of a CIF specification. */
 public class ExplorerApplication extends Application<IOutputComponent> {
@@ -251,12 +252,12 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         String path;
         extension = "_" + extension + ".cif";
         path = OutputFileOption.getDerivedPath(".cif", extension);
-        path = Paths.resolve(path);
+        String absPath = Paths.resolve(path);
 
         // Create and write output CIF specification.
         CifAutomatonBuilder cab = new CifAutomatonBuilder();
         spec = cab.createAutomaton(explorer, spec);
-        CifWriter.writeCifSpec(spec, path, specPath);
+        CifWriter.writeCifSpec(spec, new PathPair(path, absPath), specPath);
     }
 
     @Override
