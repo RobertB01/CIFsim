@@ -60,7 +60,6 @@ import org.eclipse.escet.common.box.HBox;
 import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.box.VBox;
-import org.eclipse.escet.common.java.PathPair;
 
 /** Application implementing the CIF to mCRL2 transformation. */
 public class Cif2Mcrl2Application extends Application<IOutputComponent> {
