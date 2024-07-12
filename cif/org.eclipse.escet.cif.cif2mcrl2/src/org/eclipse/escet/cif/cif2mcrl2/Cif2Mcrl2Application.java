@@ -60,6 +60,7 @@ import org.eclipse.escet.common.box.HBox;
 import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.box.VBox;
+import org.eclipse.escet.common.java.PathPair;
 
 /** Application implementing the CIF to mCRL2 transformation. */
 public class Cif2Mcrl2Application extends Application<IOutputComponent> {
@@ -180,7 +181,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         // If requested, dump debug information of the instance tree.
         if (EnableDebugOutputOption.getEnableDebugOutput()) {
             String path = DebugFileOption.getDerivedPath(".cif", "_dbg.txt");
-            AppStream stream = new FileAppStream(path);
+            AppStream stream = new FileAppStream(new PathPair(path, Paths.resolve(path)));
             StreamCodeBox code = new StreamCodeBox(stream, 4);
             procRoot.dumpActions(code);
             code.close();
