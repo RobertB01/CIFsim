@@ -24,6 +24,7 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.setext.io.SeTextReader;
 import org.eclipse.escet.setext.parser.ast.Specification;
 import org.eclipse.escet.setext.parser.ast.parser.StartSymbol;
@@ -83,9 +84,9 @@ public class SeTextGeneratorApp extends Application<IOutputComponent> {
         // Generate skeleton for hooks class.
         if (spec.hooksClass != null) {
             String hooksFilePath = spec.hooksClass.getSimpleClassName();
-            hooksFilePath += ".skeleton";
-            hooksFilePath = Paths.resolve(hooksFilePath);
-            SeTextGenerator.writeHooksSkeleton(spec, hooksFilePath);
+            String relHooksFilePath = hooksFilePath + ".skeleton";
+            String absHooksFilePath = Paths.resolve(relHooksFilePath);
+            SeTextGenerator.writeHooksSkeleton(spec, new PathPair(relHooksFilePath, absHooksFilePath));
         }
 
         // Show completion time.

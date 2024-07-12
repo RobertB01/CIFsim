@@ -59,6 +59,7 @@ import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.w3c.dom.Document;
@@ -111,9 +112,7 @@ public class TwinCatWriter extends Writer {
      * @note Must point to a directory containing an already generated TwinCAT solution.
      */
     @Override
-    public void write(PlcProject project, String slnDirPath) {
-        slnDirPath = Paths.resolve(slnDirPath); // Switch to platform-specific file separators.
-
+    public void write(PlcProject project, PathPair slnDirPaths) {
         this.project = project;
 
         Assert.check(project.configurations.size() == 1);
@@ -130,7 +129,7 @@ public class TwinCatWriter extends Writer {
             throw new InvalidOptionException(msg);
         }
 
-        findTwinCatProjects(slnDirPath);
+        findTwinCatProjects(slnDirPaths.systemPath);
 
         // POU instances in the resource are not supported.
         Assert.check(resource.pouInstances.isEmpty());

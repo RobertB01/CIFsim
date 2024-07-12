@@ -181,7 +181,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         // If requested, dump debug information of the instance tree.
         if (EnableDebugOutputOption.getEnableDebugOutput()) {
             String path = DebugFileOption.getDerivedPath(".cif", "_dbg.txt");
-            AppStream stream = new FileAppStream(new PathPair(path, Paths.resolve(path)));
+            AppStream stream = new FileAppStream(path, Paths.resolve(path));
             StreamCodeBox code = new StreamCodeBox(stream, 4);
             procRoot.dumpActions(code);
             code.close();
@@ -197,8 +197,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         }
 
         String outFile = OutputFileOption.getDerivedPath(".cif", ".mcrl2");
-        outFile = Paths.resolve(outFile);
-        code.writeToFile(outFile);
+        code.writeToFile(outFile, Paths.resolve(outFile));
 
         return 0;
     }

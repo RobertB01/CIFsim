@@ -18,6 +18,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Box base class. */
@@ -44,11 +45,23 @@ public abstract class Box {
     /**
      * Writes the box contents to a file.
      *
+     * @param pathPair The relative or absolute local file system path and the absolute local file system path to the
+     *     file to write the output to.
+     * @throws InputOutputException If writing to the file failed.
+     */
+    public void writeToFile(PathPair pathPair) {
+        writeToFile(pathPair.userPath, pathPair.systemPath);
+    }
+
+    /**
+     * Writes the box contents to a file.
+     *
+     * @param path The relative or absolute local file system path to the file to write the output to.
      * @param absPath The absolute local file system path to the file to write the output to.
      * @throws InputOutputException If writing to the file failed.
      */
-    public void writeToFile(String absPath) {
-        AppStream stream = new FileAppStream(absPath, absPath);
+    public void writeToFile(String path, String absPath) {
+        AppStream stream = new FileAppStream(path, absPath);
 
         InputOutputException ex = null;
         try {
