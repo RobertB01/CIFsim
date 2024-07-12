@@ -78,8 +78,8 @@ public abstract class Writer {
     /**
      * Ensure a directory with the given path exists, possibly by creating it.
      *
-     * @param outPaths The relative or absolute local file path and and the absolute local file system path to the
-     *     directory that should exist after the call.
+     * @param outPaths The relative or absolute local file path and the absolute local file system path to the directory
+     *     that should exist after the call.
      */
     protected void ensureDirectory(PathPair outPaths) {
         Path nioAbsPath = java.nio.file.Paths.get(outPaths.systemPath);

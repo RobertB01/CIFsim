@@ -530,7 +530,7 @@ public class PlcOpenXmlWriter extends Writer {
      * Validates the written PLCopen XML file against the XSD schema.
      *
      * @param filePaths The relative or absolute local file system path and the absolute local file system path of the
-     *     PLCopen XML file to write, with platform specific file separators.
+     *     PLCopen XML file to write.
      */
     private void validateDocument(PathPair filePaths) {
         InputStream schemaStream = null;

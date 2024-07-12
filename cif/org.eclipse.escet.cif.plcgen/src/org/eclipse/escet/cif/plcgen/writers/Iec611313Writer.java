@@ -58,7 +58,7 @@ public class Iec611313Writer extends Writer {
      * Writes the given configuration to a file in IEC 61131-3 syntax.
      *
      * @param config The configuration to write.
-     * @param outPaths The relative or absolute local file system path and the  absolute local file system path of the
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
      *     directory that should store the file.
      */
     private void write(PlcConfiguration config, PathPair outPaths) {
@@ -71,7 +71,7 @@ public class Iec611313Writer extends Writer {
      * Writes the given POU to a file in IEC 61131-3 syntax.
      *
      * @param pou The POU to write.
-     * @param outPaths The relative or absolute local file system path and the  absolute local file system path of the
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
      *     directory that should store the file.
      */
     private void write(PlcPou pou, PathPair outPaths) {
@@ -85,7 +85,7 @@ public class Iec611313Writer extends Writer {
      * Writes the given declared type to a file in IEC 61131-3 syntax.
      *
      * @param declaredType The declared type to write.
-     * @param outPaths The relative or absolute local file system path and the  absolute local file system path of the
+     * @param outPaths The relative or absolute local file system path and the absolute local file system path of the
      *     directory that should store the file.
      */
     private void writeDeclaredType(PlcDeclaredType declaredType, PathPair outPaths) {
