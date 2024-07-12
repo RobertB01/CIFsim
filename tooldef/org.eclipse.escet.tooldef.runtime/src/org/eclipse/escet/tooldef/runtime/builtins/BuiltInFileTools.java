@@ -359,7 +359,7 @@ public class BuiltInFileTools {
                     stream = AppEnv.getStreams().out;
                     toFile = false;
                 } else {
-                    stream = new FileAppStream(output);
+                    stream = new FileAppStream(output, Paths.resolve(output));
                     toFile = true;
                 }
 
@@ -1071,7 +1071,7 @@ public class BuiltInFileTools {
      *     text with specific given new line, replacing all new lines in the given text by the given new line.
      */
     public static void writefile(String path, String text, boolean append, String newline) {
-        try (FileAppStream stream = new FileAppStream(path, append)) {
+        try (FileAppStream stream = new FileAppStream(path, Paths.resolve(path), append)) {
             switch (newline) {
                 case "preserve":
                     stream.setConvertNewLines(false);
@@ -1115,7 +1115,7 @@ public class BuiltInFileTools {
                     "Using \"preserve\" for \"newline\" is not supported when writing lines of text.");
         }
 
-        try (FileAppStream stream = new FileAppStream(path, append)) {
+        try (FileAppStream stream = new FileAppStream(path, Paths.resolve(path), append)) {
             stream.setConvertNewLines(true);
             switch (newline) {
                 case "platform":
