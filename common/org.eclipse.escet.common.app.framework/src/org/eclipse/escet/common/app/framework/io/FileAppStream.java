@@ -21,7 +21,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
@@ -32,19 +31,6 @@ public class FileAppStream extends AppStream {
 
     /** The underlying stream to use. */
     private final OutputStream stream;
-
-    /**
-     * Constructor for the {@link FileAppStream} class. Overwrites the file if it already exists.
-     *
-     * @param path The absolute or relative local file system path to the file to which to write the output. The
-     *     absolute path is resolved using {@link Paths#resolve}.
-     * @throws InputOutputException If the file exists but is a directory rather than a regular file, does not exist but
-     *     cannot be created, or cannot be opened for any other reason.
-     */
-    @Deprecated
-    public FileAppStream(String path) {
-        this(path, false);
-    }
 
     /**
      * Constructor for the {@link FileAppStream} class. Overwrites the file if it already exists.
@@ -68,21 +54,6 @@ public class FileAppStream extends AppStream {
      */
     public FileAppStream(String relPath, String absPath) {
         this(relPath, absPath, false);
-    }
-
-    /**
-     * Constructor for the {@link FileAppStream} class.
-     *
-     * @param path The absolute or relative local file system path to the file to which to write the output. The
-     *     absolute path is resolved using {@link Paths#resolve}.
-     * @param append Whether to append to the file if it already exists ({@code true}) or overwrite it if it already
-     *     exists ({@code false}).
-     * @throws InputOutputException If the file exists but is a directory rather than a regular file, does not exist but
-     *     cannot be created, or cannot be opened for any other reason.
-     */
-    @Deprecated
-    public FileAppStream(String path, boolean append) {
-        this(path, Paths.resolve(path), append);
     }
 
     /**
