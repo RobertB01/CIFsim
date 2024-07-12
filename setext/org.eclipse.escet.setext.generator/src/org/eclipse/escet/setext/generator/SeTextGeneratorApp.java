@@ -85,8 +85,8 @@ public class SeTextGeneratorApp extends Application<IOutputComponent> {
         if (spec.hooksClass != null) {
             String hooksFilePath = spec.hooksClass.getSimpleClassName();
             String relHooksFilePath = hooksFilePath + ".skeleton";
-            String ansHooksFilePath = Paths.resolve(relHooksFilePath);
-            SeTextGenerator.writeHooksSkeleton(spec, new PathPair(relHooksFilePath, ansHooksFilePath));
+            String absHooksFilePath = Paths.resolve(relHooksFilePath);
+            SeTextGenerator.writeHooksSkeleton(spec, new PathPair(relHooksFilePath, absHooksFilePath));
         }
 
         // Show completion time.

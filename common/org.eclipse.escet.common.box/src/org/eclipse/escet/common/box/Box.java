@@ -56,12 +56,12 @@ public abstract class Box {
     /**
      * Writes the box contents to a file.
      *
-     * @param relPath The relative or absolute local file system path to the file to write the output to.
+     * @param path The relative or absolute local file system path to the file to write the output to.
      * @param absPath The absolute local file system path to the file to write the output to.
      * @throws InputOutputException If writing to the file failed.
      */
-    public void writeToFile(String relPath, String absPath) {
-        AppStream stream = new FileAppStream(relPath, absPath);
+    public void writeToFile(String path, String absPath) {
+        AppStream stream = new FileAppStream(path, absPath);
 
         InputOutputException ex = null;
         try {
