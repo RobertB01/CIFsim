@@ -37,6 +37,7 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.PathPair;
 
 /**
  * Generate Gnuplot files for the generation of plots for the actual sampled values and the expected/theoretical
@@ -433,8 +434,9 @@ public class GenerateDistributionPlots {
             counts[sample]++;
         }
 
-        // Write data file.
-        AppStream stream = new FileAppStream(fileName + ".dat");
+        // Write data file (not an app.framework application, only use the filename).
+        String datFilename = fileName + ".dat";
+        AppStream stream = new FileAppStream(new PathPair(datFilename, datFilename));
 
         int clen = String.valueOf(SAMPLE_COUNT).length();
         for (int i = 0; i < range; i++) {
@@ -448,8 +450,9 @@ public class GenerateDistributionPlots {
 
         stream.close();
 
-        // Write Gnuplot script file.
-        stream = new FileAppStream(fileName + ".plt");
+        // Write Gnuplot script file (not an app.framework application, only use the filename).
+        String plotFilename = fileName + ".plt";
+        stream = new FileAppStream(new PathPair(plotFilename, plotFilename));
 
         stream.println("# Requires Gnuplot 4.4 or higher.");
         stream.println();
@@ -533,8 +536,9 @@ public class GenerateDistributionPlots {
             counts[(int)sfraction]++;
         }
 
-        // Write data file.
-        AppStream stream = new FileAppStream(fileName + ".dat");
+        // Write data file (not an app.framework application, only use the filename).
+        String datFilename = fileName + ".dat";
+        AppStream stream = new FileAppStream(new PathPair(datFilename, datFilename));
 
         for (int i = 0; i < IBARS; i++) {
             int count = counts[i];
@@ -547,8 +551,9 @@ public class GenerateDistributionPlots {
 
         stream.close();
 
-        // Write Gnuplot script file.
-        stream = new FileAppStream(fileName + ".plt");
+        // Write Gnuplot script file (not an app.framework application, only use the filename).
+        String plotFilename = fileName + ".plt";
+        stream = new FileAppStream(new PathPair(plotFilename, plotFilename));
 
         stream.println("# Requires Gnuplot 4.4 or higher.");
         stream.println();
