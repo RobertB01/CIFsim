@@ -109,6 +109,7 @@ import org.eclipse.escet.common.dsm.Dmm;
 import org.eclipse.escet.common.dsm.Dsm;
 import org.eclipse.escet.common.dsm.DsmClustering;
 import org.eclipse.escet.common.java.BitSetIterator;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -343,11 +344,11 @@ public class MultilevelApp extends Application<IOutputComponent> {
     private void writePartialSpecs(String partialSpecsDir, List<Specification> partialSpecs, String absCifDir) {
         // Get directory for storing the partial specifications.
         String absSpecDir = Paths.resolve(partialSpecsDir);
-        Path absDirPath = java.nio.file.Paths.get(absSpecDir);
+        Path absSpecDirPath = java.nio.file.Paths.get(absSpecDir);
 
         // In case the directory already exists, delete existing "spec_NNN.cif" entries.
-        if (Files.isDirectory(absDirPath)) {
-            try (Stream<Path> dirContent = Files.list(absDirPath)) {
+        if (Files.isDirectory(absSpecDirPath)) {
+            try (Stream<Path> dirContent = Files.list(absSpecDirPath)) {
                 Predicate<String> matcher = SPEC_FILE_PATTERN.asMatchPredicate();
                 dirContent.filter(p -> matcher.test(p.getFileName().toString())).forEach(p -> {
                     try {
@@ -368,7 +369,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // Create directory for storing the partial specifications, and any ancestor directories, if they don't exist
         // yet.
         try {
-            Files.createDirectories(absDirPath);
+            Files.createDirectories(absSpecDirPath);
         } catch (IOException ex) {
             String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.",
                     partialSpecsDir);
@@ -379,8 +380,9 @@ public class MultilevelApp extends Application<IOutputComponent> {
         int specNumber = 1;
         for (Specification partialSpec: partialSpecs) {
             String cifFilename = "spec_" + makeFixedLengthNumberText(specNumber, partialSpecs.size()) + ".cif";
-            String outPath = Paths.join(absSpecDir, cifFilename);
-            CifWriter.writeCifSpec(partialSpec, outPath, absCifDir);
+            String outPath = Paths.join(partialSpecsDir, cifFilename);
+            String absOutPath = Paths.join(absSpecDir, cifFilename);
+            CifWriter.writeCifSpec(partialSpec, new PathPair(outPath, absOutPath), absCifDir);
             specNumber++;
         }
         out("Wrote %d partial specification%s to directory \"%s\".", partialSpecs.size(),
