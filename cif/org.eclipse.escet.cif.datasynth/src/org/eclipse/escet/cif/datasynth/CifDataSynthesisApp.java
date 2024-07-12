@@ -71,6 +71,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 import com.github.javabdd.BDDFactory;
@@ -326,13 +327,13 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         if (dbgEnabled) {
             dbg("Writing output CIF file \"%s\".", outPath);
         }
-        outPath = Paths.resolve(outPath);
+        String absOutPath = Paths.resolve(outPath);
 
         if (doTiming) {
             timing.outputWrite.start();
         }
         try {
-            CifWriter.writeCifSpec(rslt, outPath, cifReader.getAbsDirPath());
+            CifWriter.writeCifSpec(rslt, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
         } finally {
             if (doTiming) {
                 timing.outputWrite.stop();

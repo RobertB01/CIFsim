@@ -31,6 +31,7 @@ import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.emf.ecore.xmi.RealXMIResource;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** CIF writer. */
@@ -45,20 +46,19 @@ public class CifWriter {
      *
      * @param spec The CIF specification to write. Is modified in-place by adapting relative path to the directory that
      *     contains the output file.
-     * @param absFilePath The path to the output file to which to write the specification. Must be an absolute local
-     *     file system path.
+     * @param filePaths The path pair denoting where to write specification to the file system.
      * @param specPath The absolute local file system path against which to resolve the relative paths used in the CIF
      *     specification.
      */
-    public static void writeCifSpec(Specification spec, String absFilePath, String specPath) {
+    public static void writeCifSpec(Specification spec, PathPair filePaths, String specPath) {
         // Adapt relative paths.
-        String absDirPath = Paths.getAbsFilePathDir(absFilePath);
+        String absDirPath = Paths.getAbsFilePathDir(filePaths.systemPath);
         CifRelativePathUtils.adaptRelativePaths(spec, specPath, absDirPath);
 
         // Write as XMI, if it has an '.cifx' file extension.
-        if (absFilePath.toLowerCase(Locale.US).endsWith(".cifx")) {
+        if (filePaths.systemPath.toLowerCase(Locale.US).endsWith(".cifx")) {
             // Put specification in an EMF resource.
-            URI resourceUri = Paths.createEmfURI(absFilePath);
+            URI resourceUri = Paths.createEmfURI(filePaths.systemPath);
             ResourceSet resourceSet = new ResourceSetImpl();
             RealXMIResource resource = (RealXMIResource)resourceSet.createResource(resourceUri);
             resource.getContents().add(spec);
@@ -70,7 +70,7 @@ public class CifWriter {
             try {
                 resource.save(null);
             } catch (IOException e) {
-                throw new InvalidInputException(fmt("Failed to load CIF file \"%s\".", absFilePath), e);
+                throw new InvalidInputException(fmt("Failed to save CIF file \"%s\".", filePaths.userPath), e);
             }
 
             // Cleanup.
@@ -79,7 +79,7 @@ public class CifWriter {
         }
 
         // Pretty print the CIF specification directly to the file.
-        AppStream stream = new FileAppStream(absFilePath);
+        AppStream stream = new FileAppStream(filePaths.systemPath);
         StreamCodeBox code = new StreamCodeBox(stream, INDENT);
         CifPrettyPrinter.boxSpec(spec, code);
 

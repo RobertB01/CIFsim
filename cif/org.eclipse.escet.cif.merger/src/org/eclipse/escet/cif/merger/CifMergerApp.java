@@ -43,6 +43,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
@@ -178,10 +179,10 @@ public class CifMergerApp extends Application<IOutputComponent> {
         if (outPath == null) {
             outPath = "merged.cif";
         }
-        outPath = Paths.resolve(outPath);
+        String absOutPath = Paths.resolve(outPath);
 
         // Write merged specification.
-        CifWriter.writeCifSpec(mergedSpec, outPath, mergedAbsDirPath);
+        CifWriter.writeCifSpec(mergedSpec, new PathPair(outPath, absOutPath), mergedAbsDirPath);
 
         // All done.
         return 0;

@@ -41,6 +41,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
@@ -161,8 +162,8 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
             String outPath = "_" + resultName + ".cif";
             outPath = OutputFileOption.getDerivedPath(".cif", outPath);
             OutputProvider.dbg("Writing result to \"%s\"...", outPath);
-            outPath = Paths.resolve(outPath);
-            CifWriter.writeCifSpec(spec, outPath, cifReader.getAbsDirPath());
+            String absOutPath = Paths.resolve(outPath);
+            CifWriter.writeCifSpec(spec, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
             return 0;
         } catch (ApplicationException e) {
             String msg = fmt("Failed to compute automaton abstraction for CIF file \"%s\".", InputFileOption.getPath());
