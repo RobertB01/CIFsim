@@ -746,10 +746,10 @@ public class SeTextGenerator {
             path = Strings.slice(path, 0, -".setext".length());
         }
         path += ".bnf";
-        path = Paths.resolve(path);
+        String absPath = Paths.resolve(path);
 
         // Write text.
-        try (AppStream stream = new FileAppStream(path)) {
+        try (AppStream stream = new FileAppStream(path, absPath)) {
             boolean first = true;
             for (boolean generated: new boolean[] {false, true}) {
                 for (NonTerminal nonterm: spec.nonterminals) {
@@ -1964,12 +1964,12 @@ public class SeTextGenerator {
      * @return The print stream for the opened debug file.
      */
     public static AppStream openDebugFile(String path) {
-        path = Paths.resolve(path);
+        String absPath = Paths.resolve(path);
 
         AppStream dbgStream;
         try {
             if (OutputDebugFilesOption.isEnabled()) {
-                dbgStream = new FileAppStream(path);
+                dbgStream = new FileAppStream(path, absPath);
             } else {
                 dbgStream = NullAppStream.NULL_APP_STREAM;
             }
