@@ -335,13 +335,15 @@ public class MultilevelApp extends Application<IOutputComponent> {
     /**
      * Write the partial specifications to the provided directory.
      *
-     * @param partialSpecsDir Directory to use for writing the partial specifications.
+     * @param partialSpecsDir Relative or absolute local file system path to the directory to use for writing the
+     *     partial specifications.
      * @param partialSpecs Created partial specifications.
-     * @param absCifDir Absolute directory path containing the input CIF file.
+     * @param absCifDir Absolute local file system path to the directory path containing the input CIF file.
      */
     private void writePartialSpecs(String partialSpecsDir, List<Specification> partialSpecs, String absCifDir) {
         // Get directory for storing the partial specifications.
-        Path absDirPath = java.nio.file.Paths.get(Paths.resolve(partialSpecsDir));
+        String absSpecDir = Paths.resolve(partialSpecsDir);
+        Path absDirPath = java.nio.file.Paths.get(absSpecDir);
 
         // In case the directory already exists, delete existing "spec_NNN.cif" entries.
         if (Files.isDirectory(absDirPath)) {
@@ -376,8 +378,8 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // And write the output files.
         int specNumber = 1;
         for (Specification partialSpec: partialSpecs) {
-            String outPath = Paths.join(Paths.resolve(partialSpecsDir),
-                    "spec_" + makeFixedLengthNumberText(specNumber, partialSpecs.size()) + ".cif");
+            String cifFilename = "spec_" + makeFixedLengthNumberText(specNumber, partialSpecs.size()) + ".cif";
+            String outPath = Paths.join(absSpecDir, cifFilename);
             CifWriter.writeCifSpec(partialSpec, outPath, absCifDir);
             specNumber++;
         }
