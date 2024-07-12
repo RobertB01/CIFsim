@@ -126,19 +126,21 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
      *
      * @param walkerDesc Description of the generated walker.
      * @param outputPath Relative or absolute local file system path to the directory to add the file.
-     * @param genComposite Whether to generate a composite. If {@code false}, a walker is generated.
-     * @param startPackage Java package that will contain the generated code.
-     * @param genClassNameWalker Name of the walker Java class.
-     * @param genClassNameComposite Name of the composite Java class.
-     * @param genPackageName Name of the package that will contain the generated code.
-     * @param withArg Whether to generate a walker with extra arguments.
+     * @param genComposite Whether to generate a composite model walker ({@code true}) or a model walker
+     *     ({@code false}).
+     * @param startPackage The {@link EPackage} to generate the code for.
+     * @param genClassNameWalker The name of the model walker Java class to generate.
+     * @param genClassNameComposite The name of the composite model walker Java class to generate.
+     * @param genPackageName The name of the package that the generated Java class will be a part of.
+     * @param withArg Whether to generate an extra-argument walker ({@code true}) or a regular walker ({@code false}).
      */
-    private static void writeClassCode(String walkerDesc, String outputPath, boolean genComposite, EPackage startPackage,
-            String genClassNameWalker, String genClassNameComposite, String genPackageName, boolean withArg)
+    private static void writeClassCode(String walkerDesc, String outputPath, boolean genComposite,
+            EPackage startPackage, String genClassNameWalker, String genClassNameComposite, String genPackageName,
+            boolean withArg)
     {
         // Generate the code.
-        CodeBox box;
-        box = generateClass(genComposite, startPackage, genClassNameWalker, genClassNameComposite, genPackageName, withArg);
+        CodeBox box = generateClass(genComposite, startPackage, genClassNameWalker, genClassNameComposite,
+                genPackageName, withArg);
 
         // Construct the flle system path of the file to write.
         File dirPath = new File(outputPath);
