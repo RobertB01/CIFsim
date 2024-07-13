@@ -33,10 +33,10 @@ indexterm:[component]
 
 Today's cyber-physical systems are often highly complex.
 To manage their complexity, they are typically step-by-step divided into sub-systems, sub-sub-systems, etc, each with their own responsibility.
-This way, at the most sub-divided level, _components_ are obtained that are small enough to be developed, tested and maintained in isolation.
+This way, at the most subdivided level, _components_ are obtained that are small enough to be developed, tested and maintained in isolation.
 The components are often divided over several layers, to form a layered system architecture.
 
-The control of a system can similarly be sub-divided and layered.
+The control of a system can similarly be subdivided and layered.
 The following figure shows a traditional view on the control of a system:
 
 image:{sbe-imgsdir}/control_layers.png[]
