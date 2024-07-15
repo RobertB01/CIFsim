@@ -1,0 +1,154 @@
+<!doctype html>
+<!--
+    Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+
+    See the NOTICE file(s) distributed with this work for additional
+    information regarding copyright ownership.
+
+    This program and the accompanying materials are made available under the terms
+    of the MIT License which is available at https://opensource.org/licenses/MIT
+
+    SPDX-License-Identifier: MIT
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Module 1 | SBE Course</title>
+        <link rel="icon" type="image/png" href="../sbe-course-favicon.png"/>
+
+        <!-- Bootstrap. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+        <!-- Website styling. -->
+        <link rel="stylesheet" href="../../assets/eclipse-escet.css">
+        <link rel="stylesheet" href="../../assets/eclipse-escet-sbe-course.css">
+
+        <!-- Version selector. -->
+        <script src="../../assets/eclipse-escet.js"></script>
+
+        <!-- Code block syntax highlighting. -->
+        <link rel="stylesheet" href="../../assets/styles/asciidoctor-highlightjs-escet.min.css">
+        <script src="../../assets/highlight.min.js"></script>
+        <script src="../../assets/languages/cif.min.js"></script>
+
+        <!-- Quiz. -->
+        <link rel="stylesheet" href="../assets/quiz.css">
+        <script src="../assets/quiz.js"></script>
+
+        <!-- SBE course. -->
+        <link rel="stylesheet" href="../assets/course.css">
+        <script src="../assets/course.js"></script>
+    </head>
+
+    <body class="escet-dark">
+
+        <!-- Top navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
+            <div class="container-fluid">
+                <a class="navbar-brand d-lg-none">SBE Course</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / SBE Course</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="../.."><img src="../../eclipse-escet-favicon.png" class="pe-2"> Eclipse ESCET / Project</a></li>
+                                <li><a class="dropdown-item" href=".."><img src="../sbe-course-favicon.png" class="pe-2"> Eclipse ESCET / SBE Course</a></li>
+                                <li><a class="dropdown-item" href="../../cif"><img src="../../cif/cif-favicon.png" class="pe-2"> Eclipse ESCET / CIF</a></li>
+                                <li><a class="dropdown-item" href="../../chi"><img src="../../chi/chi-favicon.png" class="pe-2"> Eclipse ESCET / Chi</a></li>
+                                <li><a class="dropdown-item" href="../../tooldef"><img src="../../tooldef/tooldef-favicon.png" class="pe-2"> Eclipse ESCET / ToolDef</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../" aria-expanded="false">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" aria-current="page" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Module 1</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                <li><a class="dropdown-item active" aria-current="page" href="./">Module 1: Supervisory control of discrete event systems</a></li>
+                                <li><a class="dropdown-item" href="supervisory-control.html">Module 1.1: Supervisory control</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Intro -->
+        <div id="intro" class="position-relative p-3 text-center escet-bg escet-bg-opacity-125">
+            <div class="clearfix mb-4 mb-md-0">
+                <span class="float-end">
+                    Version:
+                    <div class="dropdown d-inline-block">
+                        <a class="dropdown-toggle" href="#" role="button" id="versionDropdown" data-bs-toggle="dropdown" aria-expanded="false">@@ESCET-VERSION-ENDUSER@@</a>
+                        <ul id="versions-dropdown" class="dropdown-menu dropdown-menu-end" aria-labelledby="versionDropdown" data-this-version="/@@ESCET-DEPLOY-FOLDER-NAME@@">
+                            <li><h6 id="versions-previews" class="dropdown-header">Previews</h6></li>
+                            <li><h6 id="versions-latest-releases" class="dropdown-header">Latest releases</h6></li>
+                            <li><h6 class="dropdown-header">Other</h6></li>
+                            <li><a class="dropdown-item" href="../../versions.html">All versions...</a></li>
+                        </ul>
+                    </div>
+                    <a class="text-nowrap ms-3" href="../../release-notes.html">[release notes]</a>
+                </span>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="px-4 pt-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-xl-8 col-xxl-6" id="content">
+
+                    <h1>Module 1: Supervisory control of discrete event systems</h1>
+                    <p>
+                        In this module you are introduced to supervisory controllers for cyber-physical systems.
+                        You learn about the different engineering approaches for supervisory controllers, including synthesis-based engineering, and their advantages and disadvantages.
+                        One of the first challenges in engineering such systems is how to capture their behavior.
+                        You will learn how to express their behavior in models, that can be understood and reasoned about unambiguously.
+                        Especially for larger systems, and if multiple people studying a system's behavior, it is very useful if they all understand it in the same way.
+                        In this module, we will introduce discrete event systems modeled as automata, for that.
+                        You get started with using the Eclipse ESCET toolkit and the CIF tools, will make your first CIF models consisting of automata, and simulate them to understand their behavior.
+                        You are also introduced to the water lock case.
+                    </p>
+                    <p>
+                        This module is divided into the following sub-modules:
+                    </p>
+                    <ul>
+                        <li>Module 1.1: <a href="supervisory-control.html">Supervisory control</a></li>
+                        <li>Module 1.2: Discrete event systems</li>
+                        <li>Module 1.3: Modeling discrete event systems</li>
+                        <li>Module 1.4: Get started with CIF</li>
+                        <li>Module 1.5: Exercises</li>
+                        <li>Module 1.6: Introduction to the water lock case</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="container" id="footer">
+            <footer class="pt-3 mt-4">
+                <ul class="nav justify-content-center border-top pb-1 mb-1">
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org">Eclipse Home</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/privacy.php">Eclipse Privacy Policy</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/termsofuse.php">Eclipse Terms of Use</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/copyright.php">Eclipse Copyright Agent</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal">Eclipse Legal</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.dev/escet/legal.html">Eclipse ESCET Legal</a></li>
+                </ul>
+                <p class="text-center text-muted">Copyright © 2010, 2024 Contributors to the Eclipse Foundation</p>
+            </footer>
+        </div>
+
+    </body>
+</html>

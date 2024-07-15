@@ -1,0 +1,292 @@
+<!doctype html>
+<!--
+    Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+
+    See the NOTICE file(s) distributed with this work for additional
+    information regarding copyright ownership.
+
+    This program and the accompanying materials are made available under the terms
+    of the MIT License which is available at https://opensource.org/licenses/MIT
+
+    SPDX-License-Identifier: MIT
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Home | SBE Course</title>
+        <link rel="icon" type="image/png" href="sbe-course-favicon.png"/>
+
+        <!-- Bootstrap. -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+        <!-- Website styling. -->
+        <link rel="stylesheet" href="../assets/eclipse-escet.css">
+        <link rel="stylesheet" href="../assets/eclipse-escet-sbe-course.css">
+
+        <!-- Version selector. -->
+        <script src="../assets/eclipse-escet.js"></script>
+
+        <!-- Code block syntax highlighting. -->
+        <link rel="stylesheet" href="../assets/styles/asciidoctor-highlightjs-escet.min.css">
+        <script src="../assets/highlight.min.js"></script>
+        <script src="../assets/languages/cif.min.js"></script>
+
+        <!-- Quiz. -->
+        <link rel="stylesheet" href="assets/quiz.css">
+        <script src="assets/quiz.js"></script>
+
+        <!-- SBE course. -->
+        <link rel="stylesheet" href="assets/course.css">
+        <script src="assets/course.js"></script>
+    </head>
+
+    <body class="escet-dark">
+
+        <!-- Top navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
+            <div class="container-fluid">
+                <a class="navbar-brand d-lg-none">SBE Course</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / SBE Course</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href=".."><img src="../eclipse-escet-favicon.png" class="pe-2"> Eclipse ESCET / Project</a></li>
+                                <li><a class="dropdown-item" href="./"><img src="sbe-course-favicon.png" class="pe-2"> Eclipse ESCET / SBE Course</a></li>
+                                <li><a class="dropdown-item" href="../cif"><img src="../cif/cif-favicon.png" class="pe-2"> Eclipse ESCET / CIF</a></li>
+                                <li><a class="dropdown-item" href="../chi"><img src="../chi/chi-favicon.png" class="pe-2"> Eclipse ESCET / Chi</a></li>
+                                <li><a class="dropdown-item" href="../tooldef"><img src="../tooldef/tooldef-favicon.png" class="pe-2"> Eclipse ESCET / ToolDef</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./" aria-expanded="false">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Module 1</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                <li><a class="dropdown-item" href="module1">Module 1: Supervisory control of discrete event systems</a></li>
+                                <li><a class="dropdown-item" href="module1/supervisory-control.html">Module 1.1: Supervisory control</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Intro -->
+        <div id="intro" class="position-relative p-3 text-center escet-bg escet-bg-opacity-125">
+            <div class="clearfix mb-4 mb-md-0">
+                <span class="float-end">
+                    Version:
+                    <div class="dropdown d-inline-block">
+                        <a class="dropdown-toggle" href="#" role="button" id="versionDropdown" data-bs-toggle="dropdown" aria-expanded="false">@@ESCET-VERSION-ENDUSER@@</a>
+                        <ul id="versions-dropdown" class="dropdown-menu dropdown-menu-end" aria-labelledby="versionDropdown" data-this-version="/@@ESCET-DEPLOY-FOLDER-NAME@@">
+                            <li><h6 id="versions-previews" class="dropdown-header">Previews</h6></li>
+                            <li><h6 id="versions-latest-releases" class="dropdown-header">Latest releases</h6></li>
+                            <li><h6 class="dropdown-header">Other</h6></li>
+                            <li><a class="dropdown-item" href="../versions.html">All versions...</a></li>
+                        </ul>
+                    </div>
+                    <a class="text-nowrap ms-3" href="../release-notes.html">[release notes]</a>
+                </span>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="px-4 pt-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-xl-8 col-xxl-6" id="content">
+
+                    <h1>Synthesis-Based Engineering course</h1>
+                    <p>
+                        With this course you can learn about Synthesis-Based Engineering (SBE).
+                        SBE is an engineering approach for the correct-by-construction development of supervisory controllers for cyber-physical systems.
+                        The approach combines model-based engineering with computer-aided design.
+                    </p>
+                    <p>
+                        The course is written for engineers, students and whomever else is interested in improving their knowledge on supervisory controller development.
+                        The course explains the development of a proper supervisory controller using SBE, in a general way.
+                        This allows the knowledge that is gained during the course to be widely applied, in a variety of application domains, from health care to robotics, and infrastructure to warehousing.
+                        The course is therefore also suited for people with different backgrounds.
+                    </p>
+                    <p>
+                        If you want to follow this course, it is useful to have knowledge in a technical field, such as computer science, mechanical engineering or electrical engineering.
+                        In any regard, you are expected to be capable of abstract thinking and to have some experience in problem solving.
+                        Knowledge of control systems in general, and specifically the behavior of water locks and production systems, will come in handy, but is not required.
+                        Modeling and programming skills will come in handy as well, but are also not required.
+                    </p>
+                    <p>
+                        During the course, you will learn about supervisory control theory, discrete-event systems and hybrid systems.
+                        You will also make use of the <a href="../cif">CIF</a> tools, that are part of the <a href="..">Eclipse ESCET</a>&trade; toolkit (Eclipse Supervisory Control Engineering Toolkit).
+                        Using these tools, you will apply the theory in practice, to model and synthesize proper supervisory controllers.
+                        You will thus not only learn theory, but will also get experience in working with these tools.
+                    </p>
+                    <p>
+                        The course is divided into six modules with different topics, and takes about 30 hours to complete.
+                        Through the various modules, you will familiarize yourself with the complete SBE development process to develop supervisory controllers.
+                        Besides synthesizing supervisory controllers, you will for instance also learn how to validate them.
+                    </p>
+                    <p>
+                        During the course, you will work on two concrete cases, to practice what you have learned.
+                        The first case involves a water lock.
+                        The second case involves an industrial production system, called the Festo workstation.
+                    </p>
+
+                    <h2>Learning goals</h2>
+                    <p>
+                        At the end of the course, after thoroughly studying the course modules and making all the assignments, you will know and understand various concepts that are essential to SBE.
+                        You will then also have gained practical experience in developing supervisory controller using SBE, and the CIF language and tools of the ESCET toolkit.
+                        Don't worry if you don't understand all of these terms yet, as you'll learn about them during the course.
+                        But, if you already know and are already able to do all of the following, then this course may not be for you:
+                    </p>
+                    <ul>
+                        <li>Know and understand discrete event systems theory, including what a discrete event system is, what the properties of such systems are, and what their abstraction levels are.</li>
+                        <li>Know the definition of automata with associated terms, such as locations, states, events, transitions, variables, initialization and marking.</li>
+                        <li>Be able to apply the synchronous composition of automata.</li>
+                        <li>Know concepts encountered in supervisory control synthesis, such as plants, requirements, controllable and uncontrollable events, safety, non-blockingness, controllability, and maximal permissiveness.</li>
+                        <li>Know the basic supervisory control problem and be able to apply the synthesis procedure manually on a simple uncontrolled system to gain a supervisory controller.</li>
+                        <li>Know how automata and invariants can be used to specify requirements.</li>
+                        <li>Be able to think in restrictions imposed by requirements on the behavior of the uncontrolled system.</li>
+                        <li>Have a basic understanding of the CIF language, to be able to use CIF to make a model of the uncontrolled system and the requirements.</li>
+                        <li>Be able to use the CIF tools to synthesize a supervisory controller.</li>
+                        <li>Be able to use the CIF tools for simulation to validate the synthesized controller.</li>
+                        <li>Have developed a controller for a water lock.</li>
+                        <li>Have developed a controller for an industrial production system.</li>
+                    </ul>
+
+                    <h2>Learning materials</h2>
+                    <p>
+                        For this course, you will make use of some course files.
+                        These course files are bundled with the ESCET toolkit that is used during the course.
+                        There is no need to install the toolkit before you start the course, since you will get instructions on how to download and install it during the course.
+                        You will then also find out how to get the course files.
+                    </p>
+
+                    <h2>Course setup</h2>
+                    <p>
+                        The course consists of six modules.
+                        Each module starts by multiple sub-modules that explain the theory.
+                        At the end of each sub-module, you can test your understanding of the theory using a small quiz or some small exercises.
+                        After the theory part, there is a sub-module that explains how the theory can be applied using CIF.
+                        After the CIF sub-module, more challenging exercises are provided.
+                        These exercises require a deeper understanding of the theory, to be able to correctly apply the theory in practice.
+                        Throughout the course, you will work on developing a supervisory controller for a water lock.
+                        The water lock is a larger case, and in each module you will construct a part of it.
+                        At the end of each module, you will thus directly apply what you have learned to this case.
+                        In the sixth module, you will work on the more challenging Festo workstation case, where you will face new challenges to be solved.
+                    </p>
+                    <p>
+                        The time required to follow the course is roughly 30 hours in total:
+                    </p>
+                    <ul>
+                        <li>Read and study course modules (modules 1-5): 5 times 1.5 hours.</li>
+                        <li>Make exercises (modules 1-5): 5 times 2.5 hours.</li>
+                        <li>Develop a controller for the Festo workstation (module 6): 10 hours.</li>
+                    </ul>
+                    <p>
+                        It is recommended to follow one module of the course per day (4 hours a day), with the sixth module being split over two days (5 hours a day).
+                        The full course can then be completed in 7 days.
+                    </p>
+
+                    <h2>Course modules</h2>
+
+                    <h4>Module 1: Supervisory control of discrete event systems</h4>
+                    <p>
+                        In this module you are introduced to supervisory controllers for cyber-physical systems.
+                        You learn about the different engineering approaches for supervisory controllers, including synthesis-based engineering, and their advantages and disadvantages.
+                        One of the first challenges in engineering such systems is how to capture their behavior.
+                        You will learn how to express their behavior in models, that can be understood and reasoned about unambiguously.
+                        Especially for larger systems, and if multiple people studying a system's behavior, it is very useful if they all understand it in the same way.
+                        In this module, we will introduce discrete event systems modeled as automata, for that.
+                        You get started with using the Eclipse ESCET toolkit and the CIF tools, will make your first CIF models consisting of automata, and simulate them to understand their behavior.
+                        You are also introduced to the water lock case.
+                    </p>
+                    <p>
+                        <a class="btn escet-btn" href="module1" role="button">Go to Module 1</a>
+                    </p>
+
+                    <h4>Module 2: Working with automata</h4>
+                    <p>
+                        In this module, you dive deeper into the concepts related to automata, and you will learn more about using multiple automata that interact.
+                        You learn about terms like reachability, deadlock, non-determinism and synchronization.
+                        You extend your knowledge of modeling automata with CIF, and learn new ways of using variables.
+                        And you will work with more CIF tools.
+                    </p>
+                    <p>
+                        <em>This module is not yet available...</em>
+                    </p>
+
+                    <h4>Module 3: Supervisory control and plant models</h4>
+                    <p>
+                        In this module, you will dive deeper into supervisory control theory and supervisory controller synthesis.
+                        You learn among others the difference between controllable and uncontrollable events, and some of the properties that a proper supervisors adheres to, namely that it is safe, controllable, non-blocking and maximally permissive.
+                        You apply these concepts to simple problems.
+                        You expand your knowledge and experience in modeling plant models using CIF.
+                        You apply it to model the plants of the water lock case.
+                    </p>
+                    <p>
+                        <em>This module is not yet available...</em>
+                    </p>
+
+                    <h4>Module 4: Modeling requirements and supervisor synthesis</h4>
+                    <p>
+                        In this module, you will learn about the different types of requirements, and how to model them in CIF.
+                        You will synthesize your first supervisory controller.
+                        You put it in practice, by modeling the requirements for the water lock case and synthesizing a supervisor for that system as well.
+                    </p>
+                    <p>
+                        <em>This module is not yet available...</em>
+                    </p>
+
+                    <h4>Module 5: Hybrid simulation models</h4>
+                    <p>
+                        In this module, you learn the concepts of timed and hybrid systems, and how to model them in CIF.
+                        You extend discrete event models with continuous behavior, to create a hybrid model for the water lock case.
+                        You use the improved simulation model to validate the final supervisory controller, making sure it operates as intended.
+                    </p>
+                    <p>
+                        <em>This module is not yet available...</em>
+                    </p>
+
+                    <h4>Module 6: Festo workstation case</h4>
+                    <p>
+                        In this module, you apply what you learned in the first five modules to a new case.
+                        Through exercises, you step by step model the Festo workstation, synthesize a controller for it, and validate its correctness.
+                        You gain additional experience in modeling and working with the CIF tools.
+                    </p>
+                    <p>
+                        <em>This module is not yet available...</em>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="container" id="footer">
+            <footer class="pt-3 mt-4">
+                <ul class="nav justify-content-center border-top pb-1 mb-1">
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org">Eclipse Home</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/privacy.php">Eclipse Privacy Policy</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/termsofuse.php">Eclipse Terms of Use</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/copyright.php">Eclipse Copyright Agent</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal">Eclipse Legal</a></li>
+                    <li class="nav-link disabled text-muted">|</li>
+                    <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.dev/escet/legal.html">Eclipse ESCET Legal</a></li>
+                </ul>
+                <p class="text-center text-muted">Copyright © 2010, 2024 Contributors to the Eclipse Foundation</p>
+            </footer>
+        </div>
+
+    </body>
+</html>

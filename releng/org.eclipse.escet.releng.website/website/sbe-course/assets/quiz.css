@@ -1,0 +1,135 @@
+/******************************************************************************
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the terms
+ * of the MIT License which is available at https://opensource.org/licenses/MIT
+ *
+ * SPDX-License-Identifier: MIT
+ *****************************************************************************/
+
+/* Hide quiz configuration JSON until the quiz is built. */
+
+.quiz {
+    display: none;
+}
+
+.quiz.quiz-built {
+    display: inherit;
+}
+
+/* Quiz questions. */
+
+.quiz .quiz-question-wrap:first-child {
+    margin-top: 0px;
+}
+
+.quiz .quiz-question-wrap {
+    margin: 30px 0px 0px 0px;
+}
+
+.quiz .quiz-question {
+    margin: 0px 0px 15px 0px;
+    font-weight: bold;
+}
+
+.quiz .quiz-question pre code {
+    margin-top: 1rem;
+    font-weight: normal;
+}
+
+.quiz .quiz-question-wrap:not(:first-child) {
+    border-top: 1px solid #ddd;
+    padding-top: 8px;
+}
+
+/* Quiz answers. */
+
+.quiz .quiz-answers {
+    padding-left: 6px;
+}
+
+.quiz .quiz-answers label {
+    margin: 1px 10px;
+}
+
+.quiz .quiz-answer {
+    display: flex;
+    flex-direction: row;
+    padding: 5px 0px;
+}
+
+.quiz .quiz-answers.quiz-correct-answer {
+    background: rgb(236, 244, 238);
+    border-radius: 4px;
+}
+
+.quiz .quiz-answers.quiz-incorrect-answer {
+    background: rgb(252, 241, 239);
+    border-radius: 4px;
+}
+
+.quiz .quiz-answers.quiz-correct-answer code,
+.quiz .quiz-answers.quiz-incorrect-answer code {
+    background: #e4e4e4;
+}
+
+/* Quiz submit buttons. */
+
+.quiz .submit {
+    margin: 30px 0px 20px 0px;
+}
+
+/* Quiz feedback. */
+
+.quiz .quiz-question-feedback {
+    margin-top: 10px;
+}
+
+.quiz .quiz-feedback {
+    margin: 10px 0px 30px 0px;
+}
+
+.quiz .quiz-question-feedback.quiz-correct-answer,
+.quiz .quiz-feedback.quiz-correct-answer {
+    color: rgb(15, 153, 47);
+    border-radius: 4px;
+    animation: quiz-highlight-feedback-correct .5s ease-in-out;
+}
+
+.quiz .quiz-question-feedback.quiz-incorrect-answer,
+.quiz .quiz-feedback.quiz-incorrect-answer {
+    color: rgb(229, 52, 22);
+    border-radius: 4px;
+    animation: quiz-highlight-feedback-incorrect .5s ease-in-out;
+}
+
+@keyframes quiz-highlight-feedback-correct {
+    0%       { background-color: inherit; }
+    33%, 66% { background-color: rgb(236, 244, 238); }
+    100%     { background-color: inherit; }
+}
+
+@keyframes quiz-highlight-feedback-incorrect {
+    0%       { background-color: inherit; }
+    33%, 66% { background-color: rgb(252, 241, 239); }
+    100%     { background-color: inherit; }
+}
+
+.quiz .quiz-question-feedback.quiz-correct-answer:before,
+.quiz .quiz-feedback.quiz-correct-answer:before {
+    font-family: "bootstrap-icons";
+    content: "\f26e";
+    font-size: 1.3em;
+    vertical-align: middle;
+}
+
+.quiz .quiz-question-feedback.quiz-incorrect-answer:before,
+.quiz .quiz-feedback.quiz-incorrect-answer:before {
+    font-family: "bootstrap-icons";
+    content: "\f62a";
+    font-size: 1.3em;
+    vertical-align: middle;
+}
