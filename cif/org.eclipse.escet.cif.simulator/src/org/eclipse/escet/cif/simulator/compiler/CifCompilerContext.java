@@ -1391,7 +1391,7 @@ public class CifCompilerContext {
         pkgFile.mkdirs();
         if (!pkgFile.exists() || !pkgFile.isDirectory()) {
             String msg = fmt("Failed to create directory \"%s\", to which the generated code is to be written, for "
-                    + "debugging.", absPkgPath);
+                    + "debugging.", relPkgPath);
             throw new InputOutputException(msg);
         }
 
@@ -1401,7 +1401,7 @@ public class CifCompilerContext {
         File[] files = pkgFile.listFiles(filter);
         if (files == null) {
             String msg = fmt("Failed to list the files in directory \"%s\", to which the generated code is to be "
-                    + "written, for debugging.", absPkgPath);
+                    + "written, for debugging.", relPkgPath);
             throw new InputOutputException(msg);
         }
         for (File file: files) {
@@ -1422,7 +1422,7 @@ public class CifCompilerContext {
             try {
                 file.toBox().writeToFile(relFilePath, absFilePath);
             } catch (InputOutputException e) {
-                String msg = fmt("Failed to write generated code file \"%s\", for debugging.", absFilePath);
+                String msg = fmt("Failed to write generated code file \"%s\", for debugging.", relFilePath);
                 throw new InputOutputException(msg, e);
             }
         }
@@ -1436,7 +1436,7 @@ public class CifCompilerContext {
                 fileStream = new FileOutputStream(filePath);
                 resStream.writeTo(fileStream);
             } catch (IOException e) {
-                String msg = fmt("Failed to write generated resource file \"%s\", for debugging.", filePath);
+                String msg = fmt("Failed to write generated resource file \"%s\", for debugging.", res.getKey());
                 throw new InputOutputException(msg, e);
             } finally {
                 try {
@@ -1444,7 +1444,7 @@ public class CifCompilerContext {
                         fileStream.close();
                     }
                 } catch (IOException e) {
-                    String msg = fmt("Failed to close file \"%s\".", filePath);
+                    String msg = fmt("Failed to close file \"%s\".", res.getKey());
                     throw new InputOutputException(msg, e);
                 }
             }

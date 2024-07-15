@@ -627,7 +627,7 @@ public class PlcOpenXmlWriter extends Writer {
         try {
             xmlStream.close();
         } catch (IOException e) {
-            String msg = fmt("Failed to close file \"%s\".", filePaths.systemPath);
+            String msg = fmt("Failed to close file \"%s\".", filePaths.userPath);
             throw new InputOutputException(msg, e);
         }
     }
