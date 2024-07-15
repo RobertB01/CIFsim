@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.documentation.utils;
 
+import java.nio.file.Paths;
+
 import org.eclipse.escet.cif.simulator.runtime.distributions.BernoulliDistribution;
 import org.eclipse.escet.cif.simulator.runtime.distributions.BetaDistribution;
 import org.eclipse.escet.cif.simulator.runtime.distributions.BinomialDistribution;
@@ -435,8 +437,7 @@ public class GenerateDistributionPlots {
         }
 
         // Write data file (not an app.framework application, only use the filename).
-        String datFilename = fileName + ".dat";
-        AppStream stream = new FileAppStream(new PathPair(datFilename, datFilename));
+        AppStream stream = new FileAppStream(makePair(fileName + ".dat"));
 
         int clen = String.valueOf(SAMPLE_COUNT).length();
         for (int i = 0; i < range; i++) {
@@ -451,8 +452,7 @@ public class GenerateDistributionPlots {
         stream.close();
 
         // Write Gnuplot script file (not an app.framework application, only use the filename).
-        String plotFilename = fileName + ".plt";
-        stream = new FileAppStream(new PathPair(plotFilename, plotFilename));
+        stream = new FileAppStream(makePair(fileName + ".plt"));
 
         stream.println("# Requires Gnuplot 4.4 or higher.");
         stream.println();
@@ -537,8 +537,7 @@ public class GenerateDistributionPlots {
         }
 
         // Write data file (not an app.framework application, only use the filename).
-        String datFilename = fileName + ".dat";
-        AppStream stream = new FileAppStream(new PathPair(datFilename, datFilename));
+        AppStream stream = new FileAppStream(makePair(fileName + ".dat"));
 
         for (int i = 0; i < IBARS; i++) {
             int count = counts[i];
@@ -552,8 +551,7 @@ public class GenerateDistributionPlots {
         stream.close();
 
         // Write Gnuplot script file (not an app.framework application, only use the filename).
-        String plotFilename = fileName + ".plt";
-        stream = new FileAppStream(new PathPair(plotFilename, plotFilename));
+        stream = new FileAppStream(makePair(fileName + ".plt"));
 
         stream.println("# Requires Gnuplot 4.4 or higher.");
         stream.println();
@@ -618,5 +616,20 @@ public class GenerateDistributionPlots {
         public String toString() {
             return distr.toString();
         }
+    }
+
+    /**
+     * Make a {@link PathPair} from the given relative or absolute local file system path.
+     *
+     * <p>
+     * Constructs an absolute path relative to the current working directory.
+     * </p>
+     *
+     * @param path Relative or absolute local file system path.
+     * @return A {@link PathPair} containing the given path and its absolute local file system path.
+     */
+    private static PathPair makePair(String path) {
+        String absPath = Paths.get(path).toAbsolutePath().toString();
+        return new PathPair(path, absPath);
     }
 }
