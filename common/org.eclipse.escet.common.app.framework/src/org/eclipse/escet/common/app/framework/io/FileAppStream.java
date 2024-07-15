@@ -59,8 +59,8 @@ public class FileAppStream extends AppStream {
     /**
      * Constructor for the {@link FileAppStream} class.
      *
-     * @param pathPair The absolute or relative local file system path and the absolute or relative local file system
-     *     path to the file to which to write the output.
+     * @param pathPair The absolute or relative local file system path and the absolute local file system path to the
+     *     file to which to write the output.
      * @param append Whether to append to the file if it already exists ({@code true}) or overwrite it if it already
      *     exists ({@code false}).
      * @throws InputOutputException If the file exists but is a directory rather than a regular file, does not exist but
