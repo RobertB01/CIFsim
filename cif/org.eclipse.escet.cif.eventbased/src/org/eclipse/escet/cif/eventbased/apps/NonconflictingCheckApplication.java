@@ -35,7 +35,6 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
@@ -148,7 +147,7 @@ public class NonconflictingCheckApplication extends Application<IOutputComponent
             rsltMsg = fmt("Nonconflicting check %s in file \"%s\". See \"%s\" for details.", result,
                     InputFileOption.getPath(), outPath);
 
-            AppStream stream = new FileAppStream(new PathPair(outPath, absOutPath));
+            AppStream stream = new FileAppStream(outPath, absOutPath);
             OutputProvider.dbg(rsltMsg);
             stream.printf("Nonconflicting check %s in file \"%s\".\n\n", result, InputFileOption.getPath());
 

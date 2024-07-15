@@ -213,7 +213,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         // Write report file.
         AppStream outFile = null;
         try {
-            outFile = new FileAppStream(new PathPair(path, absPath));
+            outFile = new FileAppStream(path, absPath);
             if (explorer.states == null || explorer.states.isEmpty()) {
                 outFile.println("No initial state found.");
             } else {
