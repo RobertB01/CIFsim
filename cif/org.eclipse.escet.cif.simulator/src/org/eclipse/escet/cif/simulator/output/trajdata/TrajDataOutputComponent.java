@@ -306,7 +306,7 @@ public class TrajDataOutputComponent extends NullSimulatorOutputComponent {
     /** Prettify the trajectory data file. */
     private void prettify() {
         // Rename trajectory data file.
-        String pathTmp = pathPair.systemPath + ".tmp";
+        String pathTmp = pathPair.userPath + ".tmp";
         String absPathTmp = pathPair.systemPath + ".tmp";
         Path p = java.nio.file.Paths.get(pathPair.systemPath);
         Path ptmp = java.nio.file.Paths.get(absPathTmp);
