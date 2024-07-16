@@ -250,12 +250,13 @@ public abstract class PlcTarget {
      * @param address The I/O address to verify.
      * @param plcTableType Type of the I/O data being transferred.
      * @param directionFromCif Direction of the I/O table entry.
+     * @param ioName User-provided name of the I/O variable, may be {@code null}.
      * @param tableLinePositionText Text describing the table line for this entry, to use for reporting an error. The
      *     text is {@code "at line ... of I/O table file \"...\""}.
      * @throws InputOutputException If the provided entry is not acceptable to the target.
      */
     public abstract void verifyIoTableEntry(IoAddress address, PlcType plcTableType, IoDirection directionFromCif,
-            String tableLinePositionText);
+            String ioName, String tableLinePositionText);
 
     /**
      * Get replacement string for the CIF input file extension including dot, used to derive an output path.

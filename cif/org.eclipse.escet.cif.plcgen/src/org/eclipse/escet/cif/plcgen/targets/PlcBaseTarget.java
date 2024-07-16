@@ -13,7 +13,11 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.EnumSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -51,6 +55,7 @@ import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Base class for generating a {@link PlcProject}. */
@@ -335,7 +340,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
     @Override
     public void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoDirection directionFromCif,
-            String tableLinePositionText)
+            String ioName, String tableLinePositionText)
     {
         // Get the maximum supported width for the type.
         int maxAvailableBits;
@@ -360,6 +365,34 @@ public abstract class PlcBaseTarget extends PlcTarget {
                             + "(of %d bits).",
                     parsedAddress.getAddress(), parsedAddress.size(), typeText, maxAvailableBits);
         }
+
+        // Check a supplied I/O variable name for being acceptable to the target.
+        if (ioName != null && !checkIoVariableName(ioName)) {
+            String msg = fmt("I/O variable name \"%s\" %s is not a valid name for the selected target.",
+                    ioName, tableLinePositionText);
+            throw new InvalidInputException(msg);
+        }
+    }
+
+    /**
+     * Check whether a user-supplied I/O variable name is acceptable to the target.
+     *
+     * @param name Name of the I/O variable to check.
+     * @return Whether the given name is acceptable to the target as a name for an I/O variable.
+     */
+    protected boolean checkIoVariableName(String name) {
+        // The generic implementation checks the name for being a regular ASCII identifier with a few limitations on
+        // underscore character usage (not at start or end, and no consecutive underscore characters).
+        Assert.notNull(name);
+
+        Pattern p = Pattern.compile("[A-Aa-z][A-Za-z0-9_]*");
+        Matcher m = p.matcher(name);
+        if (!m.matches()) {
+            return false;
+        }
+
+        // Limit underscore characters to single underscores within the name.
+        return !name.startsWith("_") && !name.endsWith("_") && !name.contains("__");
     }
 
     @Override

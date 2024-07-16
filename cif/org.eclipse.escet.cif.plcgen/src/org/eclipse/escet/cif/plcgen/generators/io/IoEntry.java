@@ -30,6 +30,9 @@ public class IoEntry {
     /** Direction of I/O being performed. */
     public final IoDirection ioDirection;
 
+    /** User-provided name of the I/O variable, may be {@code null}. */
+    public final String ioName;
+
     /**
      * Constructor of the {@link IoEntry} class.
      *
@@ -37,11 +40,15 @@ public class IoEntry {
      * @param varType Type of the data being transferred at the I/O address.
      * @param cifObject CIF object linked to the entry.
      * @param ioDirection Direction of the I/O being performed.
+     * @param ioName User-provided name of the I/O variable, may be {@code null}.
      */
-    public IoEntry(IoAddress plcAddress, PlcType varType, PositionObject cifObject, IoDirection ioDirection) {
+    public IoEntry(IoAddress plcAddress, PlcType varType, PositionObject cifObject,
+            IoDirection ioDirection, String ioName)
+    {
         this.plcAddress = plcAddress;
         this.varType = varType;
         this.cifObject = cifObject;
         this.ioDirection = ioDirection;
+        this.ioName = ioName;
     }
 }
