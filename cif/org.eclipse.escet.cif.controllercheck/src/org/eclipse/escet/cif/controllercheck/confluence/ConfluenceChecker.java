@@ -29,7 +29,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -83,7 +82,7 @@ public class ConfluenceChecker {
      * @param prepareChecks Collected CIF information to perform the confluence check.
      * @return {@code null} if the check was aborted, else the conclusion about the checking process.
      */
-    public CheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
+    public ConfluenceCheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
         List<Automaton> automata = prepareChecks.getAutomata();
         Set<Event> controllableEvents = prepareChecks.getControllableEvents();
 

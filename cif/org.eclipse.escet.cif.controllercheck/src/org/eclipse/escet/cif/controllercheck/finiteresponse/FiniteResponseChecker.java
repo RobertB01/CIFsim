@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -84,7 +83,7 @@ public class FiniteResponseChecker {
      * @param prepareChecks Collected CIF information to perform the finite response check.
      * @return {@code null} when the check is aborted, else the conclusion of the finite response check.
      */
-    public CheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
+    public FiniteResponseCheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
         List<Automaton> automata = prepareChecks.getAutomata();
         controllableEvents = copy(prepareChecks.getControllableEvents());
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
