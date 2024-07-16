@@ -33,6 +33,7 @@ import java.util.EnumSet;
 import java.util.Map;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
+import org.eclipse.escet.cif.plcgen.generators.PlcVariablePurpose;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
@@ -71,7 +72,7 @@ public class SiemensS7Target extends PlcBaseTarget {
      * @param targetType A Siemens S7 target type.
      */
     public SiemensS7Target(PlcTargetType targetType) {
-        super(targetType, ConvertEnums.CONSTS, "\"DB\".", "TON");
+        super(targetType, ConvertEnums.CONSTS, "TON");
         // TODO Verify settings of the Siemens target.
 
         Assert.check(OUT_SUFFIX_REPLACEMENTS.containsKey(targetType)); // Java can't check existence before super().
@@ -132,6 +133,14 @@ public class SiemensS7Target extends PlcBaseTarget {
     @Override
     public int getMaxRealTypeSize() {
         return MAX_REAL_SIZES.get(targetType);
+    }
+
+    @Override
+    public String getUsageVariableText(PlcVariablePurpose purpose, String varName) {
+        if (purpose == PlcVariablePurpose.STATE_VAR) {
+            return "\"DB\".";
+        }
+        return super.getUsageVariableText(purpose, varName);
     }
 
     @Override

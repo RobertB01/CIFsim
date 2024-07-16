@@ -34,6 +34,7 @@ import org.eclipse.escet.cif.plcgen.generators.DefaultVariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.InputOutputGenerator;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
+import org.eclipse.escet.cif.plcgen.generators.PlcVariablePurpose;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
@@ -62,9 +63,6 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
     /** PLC target type for code generation. */
     public final PlcTargetType targetType;
-
-    /** The prefix string for state variables. */
-    protected final String stateVariablePrefix;
 
     /** Name to use to call the {@code TON} function within the instance variable of the block function. */
     protected final String tonFuncBlockCallName;
@@ -122,7 +120,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
      *     should not be {@link ConvertEnums#AUTO}.
      */
     public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion) {
-        this(targetType, autoEnumConversion, "", "");
+        this(targetType, autoEnumConversion, "");
     }
 
     /**
@@ -131,16 +129,12 @@ public abstract class PlcBaseTarget extends PlcTarget {
      * @param targetType PLC target type for code generation.
      * @param autoEnumConversion How to convert enumerations when the user selects {@link ConvertEnums#AUTO}. This
      *     should not be {@link ConvertEnums#AUTO}.
-     * @param stateVariablePrefix The prefix string for state variables.
      * @param tonFuncBlockCallName Name to use to call the {@code TON} function within the instance variable of the
      *     block function.
      */
-    public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion, String stateVariablePrefix,
-            String tonFuncBlockCallName)
-    {
+    public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion, String tonFuncBlockCallName) {
         this.targetType = targetType;
         this.autoEnumConversion = autoEnumConversion;
-        this.stateVariablePrefix = stateVariablePrefix;
         this.tonFuncBlockCallName = tonFuncBlockCallName;
 
         // Selecting "auto" by the user should result in a concrete preference of the target.
@@ -295,8 +289,8 @@ public abstract class PlcBaseTarget extends PlcTarget {
     }
 
     @Override
-    public String getStateVariablePrefix() {
-        return stateVariablePrefix;
+    public String getUsageVariableText(PlcVariablePurpose purpose, String varName) {
+        return "";
     }
 
     @Override

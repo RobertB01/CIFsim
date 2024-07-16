@@ -21,6 +21,7 @@ import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
+import org.eclipse.escet.cif.plcgen.generators.PlcVariablePurpose;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
@@ -105,11 +106,13 @@ public abstract class PlcTarget {
     public abstract NameGenerator getNameGenerator();
 
     /**
-     * Get the prefix string for state variables.
+     * Get the text to use in the code for accessing a variable with the given name and purpose.
      *
-     * @return The prefix string for state variables.
+     * @param purpose Purpose of the variable.
+     * @param varName Name of the variable.
+     * @return The text to use for reading or writing the variable in the Plc code.
      */
-    public abstract String getStateVariablePrefix();
+    public abstract String getUsageVariableText(PlcVariablePurpose purpose, String varName);
 
     /**
      * Get the name to use to call the {@code TON} function within the instance variable of the block function.
