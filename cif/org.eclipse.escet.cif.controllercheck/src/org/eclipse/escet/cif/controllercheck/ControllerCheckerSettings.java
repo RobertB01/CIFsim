@@ -51,7 +51,7 @@ public class ControllerCheckerSettings {
      *
      * @return {@code true} to perform the check, {@code false} otherwise.
      */
-    boolean getCheckBoundedResponse() {
+    public boolean getCheckBoundedResponse() {
         return checkBoundedResponse;
     }
 
@@ -60,7 +60,7 @@ public class ControllerCheckerSettings {
      *
      * @param checkBoundedResponse {@code true} to perform the check, {@code false} to skip it.
      */
-    void setCheckBoundedResponse(boolean checkBoundedResponse) {
+    public void setCheckBoundedResponse(boolean checkBoundedResponse) {
         this.checkBoundedResponse = checkBoundedResponse;
     }
 
@@ -69,7 +69,7 @@ public class ControllerCheckerSettings {
      *
      * @return {@code true} to perform the check, {@code false} otherwise.
      */
-    boolean getCheckConfluence() {
+    public boolean getCheckConfluence() {
         return checkConfluence;
     }
 
@@ -78,7 +78,7 @@ public class ControllerCheckerSettings {
      *
      * @param checkConfluence {@code true} to perform the check, {@code false} to skip it.
      */
-    void setCheckConfluence(boolean checkConfluence) {
+    public void setCheckConfluence(boolean checkConfluence) {
         this.checkConfluence = checkConfluence;
     }
 
@@ -87,7 +87,7 @@ public class ControllerCheckerSettings {
      *
      * @return {@code true} to perform the check, {@code false} otherwise.
      */
-    boolean getCheckFiniteResponse() {
+    public boolean getCheckFiniteResponse() {
         return checkFiniteResponse;
     }
 
@@ -96,7 +96,7 @@ public class ControllerCheckerSettings {
      *
      * @param checkFiniteResponse {@code true} to perform the check, {@code false} to skip it.
      */
-    void setCheckFiniteResponse(boolean checkFiniteResponse) {
+    public void setCheckFiniteResponse(boolean checkFiniteResponse) {
         this.checkFiniteResponse = checkFiniteResponse;
     }
 
@@ -105,7 +105,7 @@ public class ControllerCheckerSettings {
      *
      * @return {@code true} to perform the check, {@code false} otherwise.
      */
-    boolean getCheckNonBlockingUnderControl() {
+    public boolean getCheckNonBlockingUnderControl() {
         return checkNonBlockingUnderControl;
     }
 
@@ -114,7 +114,7 @@ public class ControllerCheckerSettings {
      *
      * @param checkNonBlockingUnderControl {@code true} to perform the check, {@code false} to skip it.
      */
-    void setCheckNonBlockingUnderControl(boolean checkNonBlockingUnderControl) {
+    public void setCheckNonBlockingUnderControl(boolean checkNonBlockingUnderControl) {
         this.checkNonBlockingUnderControl = checkNonBlockingUnderControl;
     }
 
@@ -123,7 +123,7 @@ public class ControllerCheckerSettings {
      *
      * @return The callback.
      */
-    Supplier<Boolean> getShouldTerminate() {
+    public Supplier<Boolean> getShouldTerminate() {
         return shouldTerminate;
     }
 
@@ -132,7 +132,7 @@ public class ControllerCheckerSettings {
      *
      * @param shouldTerminate The callback.
      */
-    void setShouldTerminate(Supplier<Boolean> shouldTerminate) {
+    public void setShouldTerminate(Supplier<Boolean> shouldTerminate) {
         this.shouldTerminate = shouldTerminate;
     }
 
@@ -141,7 +141,7 @@ public class ControllerCheckerSettings {
      *
      * @return The callback.
      */
-    DebugNormalOutput getNormalOutput() {
+    public DebugNormalOutput getNormalOutput() {
         return normalOutput;
     }
 
@@ -150,7 +150,7 @@ public class ControllerCheckerSettings {
      *
      * @param normalOutput The callback.
      */
-    void setNormalOutput(DebugNormalOutput normalOutput) {
+    public void setNormalOutput(DebugNormalOutput normalOutput) {
         this.normalOutput = normalOutput;
     }
 
@@ -159,7 +159,7 @@ public class ControllerCheckerSettings {
      *
      * @return The callback.
      */
-    DebugNormalOutput getDebugOutput() {
+    public DebugNormalOutput getDebugOutput() {
         return debugOutput;
     }
 
@@ -168,7 +168,7 @@ public class ControllerCheckerSettings {
      *
      * @param debugOutput The callback.
      */
-    void setDebugOutput(DebugNormalOutput debugOutput) {
+    public void setDebugOutput(DebugNormalOutput debugOutput) {
         this.debugOutput = debugOutput;
     }
 
@@ -177,7 +177,7 @@ public class ControllerCheckerSettings {
      *
      * @return The callback.
      */
-    WarnOutput getWarnOutput() {
+    public WarnOutput getWarnOutput() {
         return warnOutput;
     }
 
@@ -186,7 +186,7 @@ public class ControllerCheckerSettings {
      *
      * @param warnOutput The callback.
      */
-    void setWarnOutput(WarnOutput warnOutput) {
+    public void setWarnOutput(WarnOutput warnOutput) {
         this.warnOutput = warnOutput;
     }
 
