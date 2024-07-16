@@ -80,15 +80,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Load specification.
-        OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
-        CifReader cifReader = new CifReader();
-        Specification spec = cifReader.init().read();
-        String specAbsPath = Paths.resolve(InputFileOption.getPath());
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
         // Configure settings.
         ControllerCheckerSettings settings = new ControllerCheckerSettings();
         settings.setCheckBoundedResponse(EnableBoundedResponseChecking.checkBoundedResponse());
@@ -99,6 +90,18 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         settings.setNormalOutput(OutputProvider.getNormalOutputStream());
         settings.setDebugOutput(OutputProvider.getDebugOutputStream());
         settings.setWarnOutput(OutputProvider.getWarningOutputStream());
+
+        // Check settings.
+        settings.check();
+
+        // Load specification.
+        OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
+        CifReader cifReader = new CifReader();
+        Specification spec = cifReader.init().read();
+        String specAbsPath = Paths.resolve(InputFileOption.getPath());
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
         // Perform checks.
         ControllerCheckerResult result = ControllerChecker.performChecks(spec, specAbsPath, settings);

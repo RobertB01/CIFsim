@@ -59,7 +59,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
@@ -83,6 +82,9 @@ public class ControllerChecker {
     public static ControllerCheckerResult performChecks(Specification spec, String specAbsPath,
             ControllerCheckerSettings settings)
     {
+        // Check settings.
+        settings.check();
+
         // Get some settings.
         Supplier<Boolean> shouldTerminate = settings.getShouldTerminate();
         DebugNormalOutput normalOutput = settings.getNormalOutput();
@@ -94,12 +96,6 @@ public class ControllerChecker {
         boolean checkConfluence = settings.getCheckConfluence();
         boolean checkFiniteResponse = settings.getCheckFiniteResponse();
         boolean checkNonBlockingUnderControl = settings.getCheckNonBlockingUnderControl();
-
-        // Ensure at least one check is enabled.
-        if (!checkBoundedResponse && !checkNonBlockingUnderControl && !checkFiniteResponse && !checkConfluence) {
-            throw new InvalidOptionException(
-                    "No checks enabled. Enable one of the checks for the controller properties checker to check.");
-        }
 
         // Preprocess and check the specification.
         spec = preprocessAndCheck(spec, specAbsPath, shouldTerminate, warnOutput);

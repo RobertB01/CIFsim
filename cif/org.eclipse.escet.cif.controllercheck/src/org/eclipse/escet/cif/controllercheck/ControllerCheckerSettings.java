@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.controllercheck;
 
 import java.util.function.Supplier;
 
+import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
@@ -187,5 +188,18 @@ public class ControllerCheckerSettings {
      */
     void setWarnOutput(WarnOutput warnOutput) {
         this.warnOutput = warnOutput;
+    }
+
+    /**
+     * Check settings.
+     *
+     * @throws InvalidOptionException If a problem is found in the settings.
+     */
+    public void check() {
+        // Ensure at least one check is enabled.
+        if (!checkBoundedResponse && !checkNonBlockingUnderControl && !checkFiniteResponse && !checkConfluence) {
+            throw new InvalidOptionException(
+                    "No checks enabled. Enable one of the checks for the controller properties checker to check.");
+        }
     }
 }
