@@ -28,12 +28,13 @@ import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
+import org.eclipse.escet.cif.controllercheck.ControllerCheckerCheck;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 import com.github.javabdd.BDD;
 
 /** Class for checking a CIF specification is non-blocking under control. */
-public class NonBlockingUnderControlChecker {
+public class NonBlockingUnderControlChecker extends ControllerCheckerCheck<NonBlockingUnderControlCheckConclusion> {
     /**
      * Performs the non-blocking under control check for a CIF specification.
      *

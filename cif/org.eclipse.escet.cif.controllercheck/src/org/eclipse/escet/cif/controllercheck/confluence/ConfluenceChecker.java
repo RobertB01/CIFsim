@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.controllercheck.ControllerCheckerCheck;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -42,7 +43,7 @@ import org.eclipse.escet.common.multivaluetrees.VarInfo;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 
 /** Class to check confluence of the specification. */
-public class ConfluenceChecker {
+public class ConfluenceChecker extends ControllerCheckerCheck<ConfluenceCheckConclusion> {
     /** Debug global flow of the checks, which pairs are tested, where are they matched. */
     private static final boolean DEBUG_GLOBAL = false;
 

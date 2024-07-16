@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.escet.cif.controllercheck.ControllerCheckerCheck;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -46,7 +47,7 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
 
 /** Class for checking a CIF specification has finite response. */
-public class FiniteResponseChecker {
+public class FiniteResponseChecker extends ControllerCheckerCheck<FiniteResponseCheckConclusion> {
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
 

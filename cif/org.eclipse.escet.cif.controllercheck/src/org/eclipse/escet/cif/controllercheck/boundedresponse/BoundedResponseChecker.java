@@ -24,12 +24,13 @@ import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
+import org.eclipse.escet.cif.controllercheck.ControllerCheckerCheck;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 import com.github.javabdd.BDD;
 
 /** Class for checking a CIF specification has bounded response. */
-public class BoundedResponseChecker {
+public class BoundedResponseChecker extends ControllerCheckerCheck<BoundedResponseCheckConclusion> {
     /**
      * Performs the bounded response check for a CIF specification.
      *
