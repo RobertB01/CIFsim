@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Lists.list;
 
@@ -98,61 +96,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         if (isTerminationRequested()) {
             return 0;
         }
-
-        // Output the checker conclusions.
-        out();
-        out("CONCLUSION:");
-
-        iout();
-        if (boundedResponseConclusion != null) {
-            boundedResponseConclusion.printResult();
-        } else {
-            out("[UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.");
-        }
-        dout();
-
-        if ((boundedResponseConclusion != null && boundedResponseConclusion.hasDetails())
-                || (nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails()))
-        {
-            out(); // Empty line between conclusions, if either of them prints details.
-        }
-
-        iout();
-        if (nonBlockingUnderControlConclusion != null) {
-            nonBlockingUnderControlConclusion.printResult();
-        } else {
-            out("[UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is "
-                    + "unknown.");
-        }
-        dout();
-
-        if ((nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails())
-                || (finiteResponseConclusion != null && finiteResponseConclusion.hasDetails()))
-        {
-            out(); // Empty line between conclusions, if either of them prints details.
-        }
-
-        iout();
-        if (finiteResponseConclusion != null) {
-            finiteResponseConclusion.printResult();
-        } else {
-            out("[UNKNOWN] Finite response checking was disabled, finite response property is unknown.");
-        }
-        dout();
-
-        if ((finiteResponseConclusion != null && finiteResponseConclusion.hasDetails())
-                || (confluenceConclusion != null && confluenceConclusion.hasDetails()))
-        {
-            out(); // Empty line between conclusions, if either of them prints details.
-        }
-
-        iout();
-        if (confluenceConclusion != null) {
-            confluenceConclusion.printResult();
-        } else {
-            out("[UNKNOWN] Confluence checking was disabled, confluence property is unknown.");
-        }
-        dout();
 
         // Update specification for outcome of the checks. If a check was not performed, don't update the annotation
         // for that check, but keep the existing result. That way, we can do checks one by one, or we can only redo a
