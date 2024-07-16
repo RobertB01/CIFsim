@@ -86,7 +86,6 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PathPair;
-import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 import com.github.javabdd.BDDFactory;
@@ -136,12 +135,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
         boolean hasBddBasedChecks = checkBoundedResponse || checkNonBlockingUnderControl;
         boolean hasMddBasedChecks = checkFiniteResponse || checkConfluence;
-
-        // Ensure at least one check is enabled.
-        if (!checkBoundedResponse && !checkNonBlockingUnderControl && !checkFiniteResponse && !checkConfluence) {
-            throw new InvalidOptionException(
-                    "No checks enabled. Enable one of the checks for the controller properties checker to check.");
-        }
 
         // Load specification.
         OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
