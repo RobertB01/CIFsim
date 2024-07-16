@@ -43,7 +43,7 @@ import org.eclipse.escet.common.multivaluetrees.VarInfo;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 
 /** Class to check confluence of the specification. */
-public class ConfluenceChecker extends ControllerCheckerCheck<ConfluenceCheckConclusion> {
+public class ConfluenceCheck extends ControllerCheckerCheck<ConfluenceCheckConclusion> {
     /** Debug global flow of the checks, which pairs are tested, where are they matched. */
     private static final boolean DEBUG_GLOBAL = false;
 

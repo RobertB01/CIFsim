@@ -41,17 +41,17 @@ import org.eclipse.escet.cif.cif2cif.RelabelSupervisorsAsPlants;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheck;
 import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheckConclusion;
-import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseChecker;
+import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheck;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheckConclusion;
-import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
+import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheck;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheckConclusion;
-import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheck;
 import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheckConclusion;
-import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlChecker;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -140,7 +140,7 @@ public class ControllerChecker {
                 normalOutput.line();
             }
             normalOutput.line("Checking for bounded response...");
-            boundedResponseConclusion = new BoundedResponseChecker().checkSystem(cifBddSpec);
+            boundedResponseConclusion = new BoundedResponseCheck().checkSystem(cifBddSpec);
             checksPerformed++;
             if (boundedResponseConclusion == null || shouldTerminate.get()) {
                 return null;
@@ -154,7 +154,7 @@ public class ControllerChecker {
                 normalOutput.line();
             }
             normalOutput.line("Checking for non-blocking under control...");
-            nonBlockingUnderControlConclusion = new NonBlockingUnderControlChecker().checkSystem(cifBddSpec);
+            nonBlockingUnderControlConclusion = new NonBlockingUnderControlCheck().checkSystem(cifBddSpec);
             checksPerformed++;
             if (nonBlockingUnderControlConclusion == null || shouldTerminate.get()) {
                 return null;
@@ -177,7 +177,7 @@ public class ControllerChecker {
                 normalOutput.line();
             }
             normalOutput.line("Checking for finite response...");
-            finiteResponseConclusion = new FiniteResponseChecker().checkSystem(mddPrepareChecks);
+            finiteResponseConclusion = new FiniteResponseCheck().checkSystem(mddPrepareChecks);
             checksPerformed++;
             if (finiteResponseConclusion == null || shouldTerminate.get()) {
                 return null;
@@ -191,7 +191,7 @@ public class ControllerChecker {
                 normalOutput.line();
             }
             normalOutput.line("Checking for confluence...");
-            confluenceConclusion = new ConfluenceChecker().checkSystem(mddPrepareChecks);
+            confluenceConclusion = new ConfluenceCheck().checkSystem(mddPrepareChecks);
             checksPerformed++;
             if (confluenceConclusion == null || shouldTerminate.get()) {
                 return null;

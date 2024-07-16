@@ -34,7 +34,7 @@ import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import com.github.javabdd.BDD;
 
 /** Class for checking a CIF specification is non-blocking under control. */
-public class NonBlockingUnderControlChecker extends ControllerCheckerCheck<NonBlockingUnderControlCheckConclusion> {
+public class NonBlockingUnderControlCheck extends ControllerCheckerCheck<NonBlockingUnderControlCheckConclusion> {
     /**
      * Performs the non-blocking under control check for a CIF specification.
      *

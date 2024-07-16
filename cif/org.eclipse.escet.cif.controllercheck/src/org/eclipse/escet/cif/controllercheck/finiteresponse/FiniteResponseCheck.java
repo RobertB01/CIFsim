@@ -47,7 +47,7 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
 
 /** Class for checking a CIF specification has finite response. */
-public class FiniteResponseChecker extends ControllerCheckerCheck<FiniteResponseCheckConclusion> {
+public class FiniteResponseCheck extends ControllerCheckerCheck<FiniteResponseCheckConclusion> {
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
 

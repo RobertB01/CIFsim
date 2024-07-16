@@ -30,7 +30,7 @@ import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import com.github.javabdd.BDD;
 
 /** Class for checking a CIF specification has bounded response. */
-public class BoundedResponseChecker extends ControllerCheckerCheck<BoundedResponseCheckConclusion> {
+public class BoundedResponseCheck extends ControllerCheckerCheck<BoundedResponseCheckConclusion> {
     /**
      * Performs the bounded response check for a CIF specification.
      *
