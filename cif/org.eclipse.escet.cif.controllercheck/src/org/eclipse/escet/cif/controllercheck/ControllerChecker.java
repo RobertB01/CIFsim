@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.controllercheck;
 
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Lists.slice;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -109,8 +110,8 @@ public class ControllerChecker {
         }
 
         // Check which representations are needed.
-        boolean hasBddBasedChecks = checksToPerform.stream().anyMatch(c -> c instanceof ControllerCheckerBddBasedCheck);
-        boolean hasMddBasedChecks = checksToPerform.stream().anyMatch(c -> c instanceof ControllerCheckerMddBasedCheck);
+        boolean hasBddBasedChecks = checksToPerform.stream().anyMatch(c -> c.isBddBasedCheck());
+        boolean hasMddBasedChecks = checksToPerform.stream().anyMatch(c -> c.isMddBasedCheck());
         boolean computeGlobalGuardedUpdates = hasMddBasedChecks
                 && checksToPerform.stream().anyMatch(c -> c instanceof ConfluenceCheck);
 
@@ -167,18 +168,22 @@ public class ControllerChecker {
                 return null;
             }
 
+            // Clean up representations that are not needed anymore, as soon as possible.
+            List<ControllerCheckerCheck<?>> remainingChecks = slice(checksToPerform, i + 1, null);
+            if (cifBddSpec != null && remainingChecks.stream().noneMatch(c -> c.isBddBasedCheck())) {
+                cleanupBdd(cifBddSpec);
+                cifBddSpec = null;
+                if (shouldTerminate.get()) {
+                    return null;
+                }
+            }
+            if (mddPrepareChecks != null && remainingChecks.stream().noneMatch(c -> c.isMddBasedCheck())) {
+                mddPrepareChecks = null;
+            }
+
             // Performed one more check.
             checksPerformed++;
             conclusions.add(conclusion);
-        }
-
-        // Clean up the BDD representation of the specification, now that it is not needed anymore.
-        if (cifBddSpec != null) {
-            cleanupBdd(cifBddSpec);
-            cifBddSpec = null;
-            if (shouldTerminate.get()) {
-                return null;
-            }
         }
 
         // Construct the result.

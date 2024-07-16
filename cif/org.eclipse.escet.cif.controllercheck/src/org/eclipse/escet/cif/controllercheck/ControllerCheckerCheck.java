@@ -25,4 +25,22 @@ public abstract class ControllerCheckerCheck<T extends CheckConclusion> {
      * @return The property name. Must start with a lower-case letter. Must not end with a period.
      */
     public abstract String getPropertyName();
+
+    /**
+     * Returns whether this check is BDD-based.
+     *
+     * @return {@code true} if this check is BDD-based, {@code false} otherwise.
+     */
+    public boolean isBddBasedCheck() {
+        return this instanceof ControllerCheckerBddBasedCheck;
+    }
+
+    /**
+     * Returns whether this check is MDD-based.
+     *
+     * @return {@code true} if this check is MDD-based, {@code false} otherwise.
+     */
+    public boolean isMddBasedCheck() {
+        return this instanceof ControllerCheckerMddBasedCheck;
+    }
 }
