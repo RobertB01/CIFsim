@@ -44,20 +44,20 @@ public class PlcDataVariable extends PlcBasicVariable {
      * @param value The initial value of the variable, or {@code null} if not specified.
      */
     public PlcDataVariable(String varName, PlcType type, String address, PlcExpression value) {
-        this("", varName, type, address, value);
+        this(varName, varName, type, address, value);
     }
 
     /**
      * Constructor for the {@link PlcDataVariable} class.
      *
-     * @param storagePrefix Name prefix of the variable, to use when accessing the variable.
+     * @param targetText Name of the variable in the target code, to use when accessing the variable.
      * @param varName The name of the variable.
      * @param type The type of the variable.
      * @param address The address of the variable, or {@code null} if not specified.
      * @param value The initial value of the variable, or {@code null} if not specified.
      */
-    public PlcDataVariable(String storagePrefix, String varName, PlcType type, String address, PlcExpression value) {
-        super(storagePrefix, varName, type);
+    public PlcDataVariable(String targetText, String varName, PlcType type, String address, PlcExpression value) {
+        super(targetText, varName, type);
         this.address = address;
         this.value = value;
     }

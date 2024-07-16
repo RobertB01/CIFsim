@@ -290,7 +290,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
     @Override
     public String getUsageVariableText(PlcVariablePurpose purpose, String varName) {
-        return "";
+        return varName;
     }
 
     @Override

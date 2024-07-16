@@ -465,7 +465,7 @@ public class ModelTextGenerator {
      * @param funcApplPreference Notation preference for function application.
      */
     private void toText(PlcVarExpression varExpr, StringBuilder textBuilder, FuncApplPreference funcApplPreference) {
-        textBuilder.append(varExpr.variable.varRefText);
+        textBuilder.append(varExpr.variable.targetText);
         for (PlcProjection proj: varExpr.projections) {
             toText(proj, textBuilder, funcApplPreference);
         }

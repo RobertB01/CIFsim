@@ -138,7 +138,7 @@ public class SiemensS7Target extends PlcBaseTarget {
     @Override
     public String getUsageVariableText(PlcVariablePurpose purpose, String varName) {
         if (purpose == PlcVariablePurpose.STATE_VAR) {
-            return "\"DB\".";
+            return "\"DB\"." + varName;
         }
         return super.getUsageVariableText(purpose, varName);
     }
