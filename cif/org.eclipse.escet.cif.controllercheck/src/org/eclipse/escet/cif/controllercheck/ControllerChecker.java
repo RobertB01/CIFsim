@@ -13,17 +13,48 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.bdd.conversion.CifToBddConverter;
+import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
+import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
+import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
+import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
+import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
+import org.eclipse.escet.cif.bdd.utils.CifBddApplyPlantInvariants;
+import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
+import org.eclipse.escet.cif.cif2cif.ElimConsts;
+import org.eclipse.escet.cif.cif2cif.ElimIfUpdates;
+import org.eclipse.escet.cif.cif2cif.ElimLocRefExprs;
+import org.eclipse.escet.cif.cif2cif.ElimMonitors;
+import org.eclipse.escet.cif.cif2cif.ElimSelf;
+import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
+import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
+import org.eclipse.escet.cif.cif2cif.EnumsToInts;
+import org.eclipse.escet.cif.cif2cif.RelabelSupervisorsAsPlants;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
+import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
+import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
+import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
+
+import com.github.javabdd.BDDFactory;
 
 /** Controller properties checker. */
 public class ControllerChecker {
@@ -44,6 +75,7 @@ public class ControllerChecker {
     {
         // Get some settings.
         Supplier<Boolean> shouldTerminate = settings.getShouldTerminate();
+        DebugNormalOutput debugOutput = settings.getDebugOutput();
         WarnOutput warnOutput = settings.getWarnOutput();
 
         // Get checks to perform.
@@ -60,6 +92,36 @@ public class ControllerChecker {
 
         // Preprocess and check the specification.
         spec = preprocessAndCheck(spec, specAbsPath, shouldTerminate, warnOutput);
+
+        // Check which representations are needed.
+        boolean hasBddBasedChecks = checkBoundedResponse || checkNonBlockingUnderControl;
+        boolean hasMddBasedChecks = checkFiniteResponse || checkConfluence;
+
+        // Preparations for BDD-based checks.
+        CifBddSpec cifBddSpec = null; // Used for BDD-based checks.
+        if (hasBddBasedChecks) {
+            debugOutput.line("Preparing for BDD-based checks...");
+            cifBddSpec = convertToBdd(spec, settings);
+            if (cifBddSpec == null) {
+                return;
+            }
+        }
+
+        // Debug output: empty line between preparations.
+        if (hasBddBasedChecks && hasMddBasedChecks) {
+            debugOutput.line();
+        }
+
+        // Preparations for MDD-based checks.
+        MddPrepareChecks mddPrepareChecks = null; // Used for MDD-based checks.
+        if (hasMddBasedChecks) {
+            debugOutput.line("Preparing for MDD-based checks...");
+            boolean computeGlobalGuardedUpdates = checkConfluence;
+            mddPrepareChecks = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate);
+            if (mddPrepareChecks == null) {
+                return;
+            }
+        }
     }
 
     /**
@@ -109,5 +171,155 @@ public class ControllerChecker {
 
         // Return the preprocessed and checked specification.
         return spec;
+    }
+
+    /**
+     * Convert a CIF specification to a BDD representation. Also performs some BDD-specific checks on the input
+     * specification.
+     *
+     * @param spec The specification to convert. Must not be modified.
+     * @param checkerSettings The controller properties checker settings.
+     * @return The CIF/BDD specification, or {@code null} if termination was requested.
+     */
+    private static CifBddSpec convertToBdd(Specification spec, ControllerCheckerSettings checkerSettings) {
+        Supplier<Boolean> shouldTerminate = checkerSettings.getShouldTerminate();
+
+        // Use a copy of the specification.
+        spec = EMFHelper.deepclone(spec);
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Relabel supervisors as plants, to deal with them in the same way.
+        new RelabelSupervisorsAsPlants().transform(spec);
+
+        // Get CIF/BDD settings.
+        CifBddSettings cifBddSettings = new CifBddSettings();
+        cifBddSettings.setShouldTerminate(checkerSettings.getShouldTerminate());
+        cifBddSettings.setDebugOutput(checkerSettings.getDebugOutput());
+        cifBddSettings.setNormalOutput(checkerSettings.getNormalOutput());
+        cifBddSettings.setWarnOutput(checkerSettings.getWarnOutput());
+        cifBddSettings.setAllowNonDeterminism(AllowNonDeterminism.ALL);
+        cifBddSettings.setCifBddStatistics(EnumSet.noneOf(CifBddStatistics.class));
+        cifBddSettings.setDoPlantsRefReqsWarn(false);
+
+        cifBddSettings.setModificationAllowed(false);
+
+        // Pre-process the CIF specification:
+        // - Does not warn about CIF/SVG specifications, as they have been removed already.
+        // - Does not warn about plants referring to requirement state, as we disabled that check.
+        CifToBddConverter.preprocess(spec, cifBddSettings.getWarnOutput(), cifBddSettings.getDoPlantsRefReqsWarn());
+
+        // Convert the CIF specification to its BDD representation. Also checks BDD-specific preconditions.
+        BDDFactory factory = CifToBddConverter.createFactory(cifBddSettings, Collections.emptyList(),
+                Collections.emptyList());
+        CifToBddConverter converter = new CifToBddConverter("CIF controller properties checker");
+        CifBddSpec cifBddSpec = converter.convert(spec, cifBddSettings, factory);
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Clean up no longer needed BDD predicates.
+        cifBddSpec.freeIntermediateBDDs(true);
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Apply the plant state/event exclusion invariants.
+        CifBddApplyPlantInvariants.applyStateEvtExclPlantsInvs(cifBddSpec, "system", () -> null,
+                cifBddSettings.getDebugOutput().isEnabled());
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Initialize applying edges.
+        for (CifBddEdge edge: cifBddSpec.edges) {
+            edge.initApply();
+            if (shouldTerminate.get()) {
+                return null;
+            }
+        }
+
+        // Return the CIF/BDD specification.
+        return cifBddSpec;
+    }
+
+    /**
+     * Convert a CIF specification to an MDD representation. Also performs some MDD-specific checks on the input
+     * specification.
+     *
+     * @param spec The specification to convert. Must not be modified.
+     * @param specAbsPath The absolute local file system path to the CIF specification to check.
+     * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @return The CIF/BDD specification, or {@code null} if termination was requested.
+     */
+    private static MddPrepareChecks convertToMdd(Specification spec, String specAbsPath,
+            boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate)
+    {
+        // Use a copy of the specification.
+        spec = EMFHelper.deepclone(spec);
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Pre-processing.
+        // CIF automata structure normalization.
+        new ElimStateEvtExclInvs().transform(spec);
+        new ElimMonitors().transform(spec);
+        new ElimSelf().transform(spec);
+        new ElimTypeDecls().transform(spec);
+
+        final Function<Automaton, String> varNamingFunction = a -> "LP_" + a.getName();
+        final Function<Automaton, String> enumNamingFunction = a -> "LOCS_" + a.getName();
+        final Function<Location, String> litNamingFunction = l -> "LOC_" + l.getName();
+        final boolean considerLocsForRename = true;
+        final boolean addInitPreds = true;
+        final boolean optimized = false;
+        final Map<DiscVariable, String> lpVarToAbsAutNameMap = null;
+        final boolean optInits = true;
+        final boolean addEdgeGuards = true;
+        final boolean copyAutAnnosToEnum = false;
+        final boolean copyLocAnnosToEnumLits = false;
+        new ElimLocRefExprs(varNamingFunction, enumNamingFunction, litNamingFunction, considerLocsForRename,
+                addInitPreds, optimized, lpVarToAbsAutNameMap, optInits, addEdgeGuards, copyAutAnnosToEnum,
+                copyLocAnnosToEnumLits).transform(spec);
+
+        new EnumsToInts().transform(spec);
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Simplify expressions.
+        new ElimAlgVariables().transform(spec);
+        new ElimConsts().transform(spec);
+        new SimplifyValues().transform(spec);
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Check preconditions.
+        new MddPreChecker(() -> shouldTerminate.get())
+                .reportPreconditionViolations(spec, specAbsPath, "CIF controller properties checker");
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Eliminate if updates. This does not support multi-assignments or partial variable assignments.
+        new ElimIfUpdates().transform(spec);
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Non-determinism check.
+        new MddDeterminismChecker(() -> shouldTerminate.get())
+                .reportPreconditionViolations(spec, specAbsPath, "CIF controller properties checker");
+        if (shouldTerminate.get()) {
+            return null;
+        }
+
+        // Create MDD representation.
+        MddPrepareChecks mddPrepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
+        return mddPrepareChecks;
     }
 }
