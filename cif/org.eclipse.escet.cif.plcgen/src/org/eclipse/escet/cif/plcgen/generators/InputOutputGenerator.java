@@ -386,10 +386,14 @@ public class InputOutputGenerator {
             String varPrefix = isInput ? "in_" : "out_";
             String ioVarName = varPrefix + getAbsName(entry.cifObject, false);
             ioVarName = nameGenerator.generateGlobalName(ioVarName, false);
-            PlcDataVariable ioVar = new PlcDataVariable(ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
+            PlcDataVariable ioVar;
             if (isInput) {
+                String targetText = target.getUsageVariableText(PlcVariablePurpose.INPUT_VAR, ioVarName);
+                ioVar = new PlcDataVariable(targetText, ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
                 codeStorage.addInputVariable(ioVar);
             } else {
+                String targetText = target.getUsageVariableText(PlcVariablePurpose.OUTPUT_VAR, ioVarName);
+                ioVar = new PlcDataVariable(targetText, ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
                 codeStorage.addOutputVariable(ioVar);
             }
 

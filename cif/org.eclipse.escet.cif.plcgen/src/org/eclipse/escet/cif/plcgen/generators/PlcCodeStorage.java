@@ -278,8 +278,8 @@ public class PlcCodeStorage {
      * @return The added new variable.
      */
     public PlcDataVariable addStateVariable(String name, PlcType type, String address, PlcExpression initValue) {
-        PlcDataVariable plcVar = new PlcDataVariable(target.getUsageVariableText(PlcVariablePurpose.STATE_VAR, name),
-                name, type, address, initValue);
+        String targetText = target.getUsageVariableText(PlcVariablePurpose.STATE_VAR, name);
+        PlcDataVariable plcVar = new PlcDataVariable(targetText, name, type, address, initValue);
         mainProgram.localVars.add(plcVar);
         return plcVar;
     }

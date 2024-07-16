@@ -91,7 +91,8 @@ public class DefaultVariableStorage implements VariableStorage {
         ExprValueResult exprResult = exprGen.convertValue(expr);
         Assert.check(!exprResult.hasCode() && !exprResult.hasCodeVariables() && !exprResult.hasValueVariables());
 
-        PlcDataVariable plcVar = new PlcDataVariable(varName, varType, null, exprResult.value);
+        String targetText = target.getUsageVariableText(PlcVariablePurpose.CONSTANT, varName);
+        PlcDataVariable plcVar = new PlcDataVariable(targetText, varName, varType, null, exprResult.value);
         target.getCodeStorage().addConstant(plcVar);
         variables.put(constant, plcVar);
     }

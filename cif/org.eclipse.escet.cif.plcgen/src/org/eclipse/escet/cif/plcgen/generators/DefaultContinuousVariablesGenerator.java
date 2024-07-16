@@ -174,7 +174,8 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             String cvarName = getAbsName(contVar, false);
             String tonVarName = nameGen.generateGlobalName("ton_" + cvarName, false);
             String presetName = nameGen.generateGlobalName("preset_" + cvarName, false);
-            tonVar = new PlcDataVariable("", tonVarName, plcFuncAppls.getTonFuncBlockType(), null, null);
+            tonVar = new PlcDataVariable(target.getUsageVariableText(PlcVariablePurpose.TIMER_VAR, tonVarName),
+                    tonVarName, plcFuncAppls.getTonFuncBlockType(), null, null);
             codeStorage.addTimerVariable(tonVar);
             presetVar = codeStorage.addStateVariable(presetName, PlcElementaryType.TIME_TYPE);
         }
