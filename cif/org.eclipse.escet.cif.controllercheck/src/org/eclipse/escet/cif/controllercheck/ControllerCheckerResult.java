@@ -56,6 +56,20 @@ public class ControllerCheckerResult {
     }
 
     /**
+     * Returns whether all checks (that were not skipped) hold.
+     *
+     * @return {@code true} if all checks hold or where skipped, {@code false} if any check failed.
+     */
+    public boolean allChecksHold() {
+        boolean result = true;
+        result &= (boundedResponseConclusion == null) || boundedResponseConclusion.propertyHolds();
+        result &= (confluenceConclusion == null) || confluenceConclusion.propertyHolds();
+        result &= (finiteResponseConclusion == null) || finiteResponseConclusion.propertyHolds();
+        result &= (nonBlockingUnderControlConclusion == null) || nonBlockingUnderControlConclusion.propertyHolds();
+        return result;
+    }
+
+    /**
      * Update a specification for the outcome of the checks. If a check was not performed, the annotation is not updated
      * that check, and the current result (if any) is kept. That way, users can do checks one by one, or they can redo
      * only a certain check.

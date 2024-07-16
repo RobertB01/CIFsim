@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
+import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -79,27 +80,38 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Determine checks to perform.
-        boolean checkBoundedResponse = EnableBoundedResponseChecking.checkBoundedResponse();
-        boolean checkNonBlockingUnderControl = EnableNonBlockingUnderControlChecking.checkNonBlockingUnderControl();
-        boolean checkFiniteResponse = EnableFiniteResponseChecking.checkFiniteResponse();
-        boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
-        boolean hasBddBasedChecks = checkBoundedResponse || checkNonBlockingUnderControl;
-        boolean hasMddBasedChecks = checkFiniteResponse || checkConfluence;
-
         // Load specification.
         OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
         CifReader cifReader = new CifReader();
-        Specification origSpec = cifReader.init().read();
-        String absSpecPath = Paths.resolve(InputFileOption.getPath());
+        Specification spec = cifReader.init().read();
+        String specAbsPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
 
+        // Configure settings.
+        ControllerCheckerSettings settings = new ControllerCheckerSettings();
+        settings.setCheckBoundedResponse(EnableBoundedResponseChecking.checkBoundedResponse());
+        settings.setCheckConfluence(EnableConfluenceChecking.checkConfluence());
+        settings.setCheckFiniteResponse(EnableFiniteResponseChecking.checkFiniteResponse());
+        settings.setCheckNonBlockingUnderControl(EnableNonBlockingUnderControlChecking.checkNonBlockingUnderControl());
+        settings.setShouldTerminate(() -> AppEnv.isTerminationRequested());
+        settings.setNormalOutput(OutputProvider.getNormalOutputStream());
+        settings.setDebugOutput(OutputProvider.getDebugOutputStream());
+        settings.setWarnOutput(OutputProvider.getWarningOutputStream());
+
+        // Perform checks.
+        ControllerCheckerResult result = ControllerChecker.performChecks(spec, specAbsPath, settings);
+
+        // Update specification for outcome of the checks. If a check was not performed, don't update the annotation
+        // for that check, but keep the existing result. That way, we can do checks one by one, or we can only redo a
+        // certain check.
+        result.updateSpecification(spec);
+
         // Check CIF specification to output.
         CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "output");
         try {
-            new CifAnnotationsPostChecker(env).check(outputSpec);
+            new CifAnnotationsPostChecker(env).check(spec);
         } catch (SemanticException ex) {
             // Ignore.
         }
@@ -108,13 +120,13 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         // Write the output file.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".checked.cif");
         String absOutPath = Paths.resolve(outPath);
-        CifWriter.writeCifSpec(outputSpec, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
+        CifWriter.writeCifSpec(spec, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
         out();
         out("The model with the check results has been written to \"%s\".", outPath);
 
         // Return the application exit code, indicating whether the specification satisfies all the checks that were
         // performed.
-        return allChecksHold ? 0 : 1;
+        return result.allChecksHold() ? 0 : 1;
     }
 
     @Override
