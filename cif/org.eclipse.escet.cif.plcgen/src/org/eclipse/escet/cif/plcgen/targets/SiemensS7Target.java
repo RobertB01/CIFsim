@@ -29,6 +29,7 @@ import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDL
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_SQRT;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_TAN;
 
+import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.Map;
 
@@ -52,18 +53,44 @@ public class SiemensS7Target extends PlcBaseTarget {
     /** Maximum supported stored real type size for each target. */
     private static final Map<PlcTargetType, Integer> MAX_REAL_SIZES;
 
+    /** Special characters in an identifier. */
+    private static final BitSet SPECIAL_CHARS;
+
+    /** Normal characters in an identifier. */
+    private static final BitSet NORMAL_CHARS;
+
     static {
-        OUT_SUFFIX_REPLACEMENTS = Map.of( //
-                PlcTargetType.S7_300, "_s7_300", PlcTargetType.S7_400, "_s7_400", //
+        OUT_SUFFIX_REPLACEMENTS = Map.of(
+                PlcTargetType.S7_300, "_s7_300", PlcTargetType.S7_400, "_s7_400",
                 PlcTargetType.S7_1200, "_s7_1200", PlcTargetType.S7_1500, "_s7_1500");
 
-        MAX_INTEGER_SIZES = Map.of( //
-                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32, //
+        MAX_INTEGER_SIZES = Map.of(
+                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
                 PlcTargetType.S7_1200, 32, PlcTargetType.S7_1500, 64);
 
-        MAX_REAL_SIZES = Map.of( //
-                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32, //
+        MAX_REAL_SIZES = Map.of(
+                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
                 PlcTargetType.S7_1200, 64, PlcTargetType.S7_1500, 64);
+
+        // ASCII characters neither in NORMAL_CHARS nor in SPECIAL_CHARS are 0..31, 127, '"', '+' and '~'.
+        SPECIAL_CHARS = new BitSet(128);
+        char[] specials = new char[] {' ', '!', '#', '$', '%', '&', '\'', '(', ')', '*', ',', '-', '.', '/', ':', ';',
+                '<', '=', '>', '?', '@', '[', '\\', ']', '^', '`', '{', '|', '}'};
+        for (char c: specials) {
+            SPECIAL_CHARS.set(c);
+        }
+
+        // ASCII characters in regular identifiers (letters, digits, and '_').
+        NORMAL_CHARS = new BitSet(128);
+        NORMAL_CHARS.set('_');
+        for (int i = 0; i < 26; i++) {
+            NORMAL_CHARS.set('A' + i);
+            NORMAL_CHARS.set('a' + i);
+        }
+        for (int i = 0; i < 10; i++) {
+            NORMAL_CHARS.set('0' + i);
+        }
+
     }
 
     /**
@@ -139,6 +166,10 @@ public class SiemensS7Target extends PlcBaseTarget {
     public String getUsageVariableText(PlcVariablePurpose purpose, String varName) {
         if (purpose == PlcVariablePurpose.STATE_VAR) {
             return "\"DB\"." + varName;
+        } else if (purpose == PlcVariablePurpose.INPUT_VAR || purpose == PlcVariablePurpose.OUTPUT_VAR) {
+            String encodedName = encodeTagName(varName, false);
+            Assert.notNull(encodedName);
+            return encodedName;
         }
         return super.getUsageVariableText(purpose, varName);
     }
@@ -146,5 +177,63 @@ public class SiemensS7Target extends PlcBaseTarget {
     @Override
     public String getPathSuffixReplacement() {
         return OUT_SUFFIX_REPLACEMENTS.get(targetType);
+    }
+
+    @Override
+    public boolean checkIoVariableName(String name) {
+        return encodeTagName(name, false) != null;
+    }
+
+    /**
+     * Test whether a tag name is acceptable to an S7 system, and if so, how to write it.
+     *
+     * @param name The name to test.
+     * @param isLocal Whether the name is defined locally (as in, not in a global table).
+     * @return If {@code null}, the name is not acceptable. Otherwise, the name is converted and returned in the form
+     *     needed for using it.
+     */
+    public static String encodeTagName(String name, boolean isLocal) {
+        // Source: https://cache.industry.siemens.com/dl/files/857/109477857/att_865202/v1/109477857_Bezeichner_Anfuehrungszeichen_en.pdf
+        // Consulted: Jul 10, 2024. Valid for TIA portal 10 and higher.
+
+        // Decide whether to add double quotes around the name or to reject it.
+
+        // Name cannot be empty.
+        if (name.isEmpty()) {
+            return null;
+        }
+
+        boolean mustBeQuoted = false;
+        for (int i = 0; i < name.length(); i++) {
+            // S7 allows more than just ASCII, but that gives problems in CIF and CSV files.
+            char c = name.charAt(i);
+            if (c < 32 || c >= 127) {
+                return null; // Control character or not ASCII.
+            }
+            if (NORMAL_CHARS.get(c)) {
+                continue;
+            }
+            if (SPECIAL_CHARS.get(c)) {
+                mustBeQuoted = true;
+                continue;
+            }
+            return null; // Neither a control character, nor a normal or special character.
+        }
+
+        // Names starting with a decimal digit must be double-quoted. Obviously this includes names consisting of only
+        // digits.
+        char first = name.charAt(0);
+        mustBeQuoted |= (first <= '0' && first <= '9'); // This leaves [A-Za-z_] as normal first characters.
+
+        // Names with "__" or ending with an underscore must be quoted.
+        mustBeQuoted |= (name.endsWith("_") || name.contains("__"));
+
+        if (!mustBeQuoted) {
+            return name;
+        } else if (isLocal) {
+            return "#\"" + name + "\"";
+        } else {
+            return "\"" + name + "\"";
+        }
     }
 }
