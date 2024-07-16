@@ -17,6 +17,8 @@ import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseChec
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheckConclusion;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.typechecker.annotations.builtin.ControllerPropertiesAnnotationProvider;
 
 /** Controller properties checker result. */
 public class ControllerCheckerResult {
@@ -51,5 +53,35 @@ public class ControllerCheckerResult {
         this.confluenceConclusion = confluenceConclusion;
         this.finiteResponseConclusion = finiteResponseConclusion;
         this.nonBlockingUnderControlConclusion = nonBlockingUnderControlConclusion;
+    }
+
+    /**
+     * Update a specification for the outcome of the checks. If a check was not performed, the annotation is not updated
+     * that check, and the current result (if any) is kept. That way, users can do checks one by one, or they can redo
+     * only a certain check.
+     *
+     * @param spec The specification to update. Is modified in-place.
+     */
+    public void updateSpecification(Specification spec) {
+        if (boundedResponseConclusion != null) {
+            Integer unctrlBound = boundedResponseConclusion.propertyHolds()
+                    ? boundedResponseConclusion.uncontrollablesBound.getBound() : null;
+            Integer ctrlBound = boundedResponseConclusion.propertyHolds()
+                    ? boundedResponseConclusion.controllablesBound.getBound() : null;
+            ControllerPropertiesAnnotationProvider.setBoundedResponse(spec, unctrlBound, ctrlBound);
+        }
+
+        if (confluenceConclusion != null) {
+            ControllerPropertiesAnnotationProvider.setConfluence(spec, confluenceConclusion.propertyHolds());
+        }
+
+        if (finiteResponseConclusion != null) {
+            ControllerPropertiesAnnotationProvider.setFiniteResponse(spec, finiteResponseConclusion.propertyHolds());
+        }
+
+        if (nonBlockingUnderControlConclusion != null) {
+            ControllerPropertiesAnnotationProvider.setNonBlockingUnderControl(spec,
+                    nonBlockingUnderControlConclusion.propertyHolds());
+        }
     }
 }

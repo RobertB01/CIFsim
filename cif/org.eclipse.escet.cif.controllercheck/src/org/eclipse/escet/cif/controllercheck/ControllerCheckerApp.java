@@ -26,7 +26,6 @@ import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOpti
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.ControllerPropertiesAnnotationProvider;
 import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
 import org.eclipse.escet.common.app.framework.Application;
@@ -95,26 +94,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
-        }
-
-        // Update specification for outcome of the checks. If a check was not performed, don't update the annotation
-        // for that check, but keep the existing result. That way, we can do checks one by one, or we can only redo a
-        // certain check.
-        if (boundedResponseConclusion != null) {
-            Integer unctrlBound = boundedResponseConclusion.propertyHolds()
-                    ? boundedResponseConclusion.uncontrollablesBound.getBound() : null;
-            Integer ctrlBound = boundedResponseConclusion.propertyHolds()
-                    ? boundedResponseConclusion.controllablesBound.getBound() : null;
-            ControllerPropertiesAnnotationProvider.setBoundedResponse(outputSpec, unctrlBound, ctrlBound);
-        }
-        if (confluenceConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setConfluence(outputSpec, confluenceHolds);
-        }
-        if (finiteResponseConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setFiniteResponse(outputSpec, finiteResponseHolds);
-        }
-        if (nonBlockingUnderControlConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setNonBlockingUnderControl(outputSpec, nonBlockingUnderControlHolds);
         }
 
         // Check CIF specification to output.
