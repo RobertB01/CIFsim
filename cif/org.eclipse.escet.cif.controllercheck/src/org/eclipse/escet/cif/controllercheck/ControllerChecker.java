@@ -467,6 +467,11 @@ public class ControllerChecker {
 
         // Create MDD representation.
         MddPrepareChecks mddPrepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
+        if (!mddPrepareChecks.compute(spec)) {
+            return null;
+        }
+
+        // Return MDD representation.
         return mddPrepareChecks;
     }
 
