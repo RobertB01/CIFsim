@@ -16,14 +16,12 @@ package org.eclipse.escet.cif.controllercheck;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 
 import org.eclipse.escet.cif.bdd.conversion.CifToBddConverter;
@@ -34,7 +32,6 @@ import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.CifBddApplyPlantInvariants;
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
-import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
 import org.eclipse.escet.cif.cif2cif.ElimIfUpdates;
 import org.eclipse.escet.cif.cif2cif.ElimLocRefExprs;
@@ -44,9 +41,7 @@ import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RelabelSupervisorsAsPlants;
-import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
-import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseChecker;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
@@ -66,7 +61,6 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.typechecker.annotations.builtin.ControllerPropertiesAnnotationProvider;
 import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
@@ -143,39 +137,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
-        }
-
-        // Eliminate component definition/instantiation. This allows to perform precondition checks, as well as perform
-        // annotation post checking.
-        new ElimComponentDefInst().transform(origSpec);
-
-        // Get the output specification, and the internal specification on which to perform the checks.
-        // Copy the internal specification, to preserve the output specification.
-        Specification outputSpec = origSpec;
-        Specification spec = EMFHelper.deepclone(origSpec);
-
-        // Remove/ignore I/O declarations, to increase the supported subset.
-        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
-        removeIoDecls.transform(spec);
-        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
-        }
-
-        // Check preconditions that apply to all checks.
-        ControllerCheckerPreChecker checker = new ControllerCheckerPreChecker(() -> AppEnv.isTerminationRequested());
-        checker.reportPreconditionViolations(spec, absSpecPath, "CIF controller properties checker");
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Warn if specification doesn't look very useful:
-        // - Due to preconditions, all events have controllability, but check for none of them being (un)controllable.
-        Set<Event> specAlphabet = CifEventUtils.getAlphabet(spec);
-        if (specAlphabet.stream().allMatch(e -> !e.getControllable())) {
-            warn("The alphabet of the specification contains no controllable events.");
-        }
-        if (specAlphabet.stream().allMatch(e -> e.getControllable())) {
-            warn("The alphabet of the specification contains no uncontrollable events.");
         }
 
         // Prepare for the checks. Some check use BDDs, other use MDDs, which influences the preparations to perform.
