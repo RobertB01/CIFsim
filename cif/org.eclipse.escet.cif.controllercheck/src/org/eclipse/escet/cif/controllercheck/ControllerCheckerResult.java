@@ -70,9 +70,9 @@ public class ControllerCheckerResult {
     }
 
     /**
-     * Update a specification for the outcome of the checks. If a check was not performed, the annotation is not updated
-     * that check, and the current result (if any) is kept. That way, users can do checks one by one, or they can redo
-     * only a certain check.
+     * Update a specification for the outcome of the checks. If a check was not performed, the corresponding annotation
+     * arguments are not updated for that check, and thus the current result of the check (if any) is kept. That way,
+     * users can do checks one by one, or they can redo only a certain check.
      *
      * @param spec The specification to update. Is modified in-place.
      */
