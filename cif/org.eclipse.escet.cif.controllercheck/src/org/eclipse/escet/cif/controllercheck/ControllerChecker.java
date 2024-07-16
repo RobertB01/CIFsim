@@ -13,8 +13,10 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.slice;
+import static org.eclipse.escet.common.java.Pair.pair;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -59,6 +61,8 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
@@ -193,59 +197,40 @@ public class ControllerChecker {
         normalOutput.line();
         normalOutput.line("CONCLUSION:");
 
-        normalOutput.inc();
-        if (result.boundedResponseConclusion != null) {
-            result.boundedResponseConclusion.printResult();
-        } else {
-            normalOutput
-                    .line("[UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.");
-        }
-        normalOutput.dec();
+        List<Pair<String, CheckConclusion>> namedConclusions = list();
+        namedConclusions.add(pair("bounded response", result.boundedResponseConclusion));
+        namedConclusions.add(pair("non-blocking under control", result.nonBlockingUnderControlConclusion));
+        namedConclusions.add(pair("finite response", result.finiteResponseConclusion));
+        namedConclusions.add(pair("confluence", result.confluenceConclusion));
 
-        if ((result.boundedResponseConclusion != null && result.boundedResponseConclusion.hasDetails())
-                || (result.nonBlockingUnderControlConclusion != null
-                        && result.nonBlockingUnderControlConclusion.hasDetails()))
-        {
-            normalOutput.line(); // Empty line between conclusions, if either of them prints details.
-        }
+        for (int i = 0; i < namedConclusions.size(); i++) {
+            // Get information on current and next conclusion.
+            boolean isFirst = (i == 0);
 
-        normalOutput.inc();
-        if (result.nonBlockingUnderControlConclusion != null) {
-            result.nonBlockingUnderControlConclusion.printResult();
-        } else {
-            normalOutput.line(
-                    "[UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is "
-                            + "unknown.");
-        }
-        normalOutput.dec();
+            Pair<String, CheckConclusion> current = namedConclusions.get(i);
+            Pair<String, CheckConclusion> previous = isFirst ? null : namedConclusions.get(i - 1);
 
-        if ((result.nonBlockingUnderControlConclusion != null && result.nonBlockingUnderControlConclusion.hasDetails())
-                || (result.finiteResponseConclusion != null && result.finiteResponseConclusion.hasDetails()))
-        {
-            normalOutput.line(); // Empty line between conclusions, if either of them prints details.
-        }
+            String name = current.left;
+            CheckConclusion conclusion = current.right;
+            CheckConclusion previousConclusion = (previous == null) ? null : previous.right;
+            boolean conclusionHasDetails = conclusion != null && conclusion.hasDetails();
+            boolean previousConclusionHasDetails = previousConclusion != null && previousConclusion.hasDetails();
 
-        normalOutput.inc();
-        if (result.finiteResponseConclusion != null) {
-            result.finiteResponseConclusion.printResult();
-        } else {
-            normalOutput.line("[UNKNOWN] Finite response checking was disabled, finite response property is unknown.");
-        }
-        normalOutput.dec();
+            // Empty line between this conclusions and the previous one, if either of them prints details.
+            if (!isFirst && (previousConclusionHasDetails || conclusionHasDetails)) {
+                normalOutput.line();
+            }
 
-        if ((result.finiteResponseConclusion != null && result.finiteResponseConclusion.hasDetails())
-                || (result.confluenceConclusion != null && result.confluenceConclusion.hasDetails()))
-        {
-            normalOutput.line(); // Empty line between conclusions, if either of them prints details.
+            // Output current conclusion.
+            normalOutput.inc();
+            if (conclusion != null) {
+                conclusion.printResult();
+            } else {
+                normalOutput.line("[UNKNOWN] %s checking was disabled, %s property is unknown.",
+                        Strings.makeInitialUppercase(name), name);
+            }
+            normalOutput.dec();
         }
-
-        normalOutput.inc();
-        if (result.confluenceConclusion != null) {
-            result.confluenceConclusion.printResult();
-        } else {
-            normalOutput.line("[UNKNOWN] Confluence checking was disabled, confluence property is unknown.");
-        }
-        normalOutput.dec();
 
         // Return the result.
         return result;
