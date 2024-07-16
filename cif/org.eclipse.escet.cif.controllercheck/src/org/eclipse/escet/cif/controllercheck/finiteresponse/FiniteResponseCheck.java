@@ -79,6 +79,11 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
     private MddSpecBuilder builder;
 
     @Override
+    public String getPropertyName() {
+        return "finite response";
+    }
+
+    @Override
     public FiniteResponseCheckConclusion performCheck(MddPrepareChecks prepareChecks) {
         List<Automaton> automata = prepareChecks.getAutomata();
         controllableEvents = copy(prepareChecks.getControllableEvents());

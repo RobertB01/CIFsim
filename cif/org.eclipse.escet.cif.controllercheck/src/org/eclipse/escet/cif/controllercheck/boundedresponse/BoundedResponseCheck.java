@@ -32,6 +32,11 @@ import com.github.javabdd.BDD;
 /** Class for checking a CIF specification has bounded response. */
 public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<BoundedResponseCheckConclusion> {
     @Override
+    public String getPropertyName() {
+        return "bounded response";
+    }
+
+    @Override
     public BoundedResponseCheckConclusion performCheck(CifBddSpec cifBddSpec) {
         // Compute reachable states.
         cifBddSpec.settings.getDebugOutput().line("Computing reachable states...");

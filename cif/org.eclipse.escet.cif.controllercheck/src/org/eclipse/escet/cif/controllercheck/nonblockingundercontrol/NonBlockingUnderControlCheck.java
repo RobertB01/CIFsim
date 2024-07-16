@@ -38,6 +38,11 @@ public class NonBlockingUnderControlCheck
         extends ControllerCheckerBddBasedCheck<NonBlockingUnderControlCheckConclusion>
 {
     @Override
+    public String getPropertyName() {
+        return "non-blocking under control";
+    }
+
+    @Override
     public NonBlockingUnderControlCheckConclusion performCheck(CifBddSpec cifBddSpec) {
         DebugNormalOutput dbg = cifBddSpec.settings.getDebugOutput();
         Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();

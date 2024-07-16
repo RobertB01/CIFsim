@@ -19,5 +19,10 @@ package org.eclipse.escet.cif.controllercheck;
  * @param <T> The type of the conclusion of the check.
  */
 public abstract class ControllerCheckerCheck<T extends CheckConclusion> {
-    // Nothing here yet.
+    /**
+     * Returns the name of the property to check.
+     *
+     * @return The property name. Must start with a lower-case letter. Must not end with a period.
+     */
+    public abstract String getPropertyName();
 }

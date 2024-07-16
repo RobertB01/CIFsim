@@ -78,6 +78,11 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
     private MddSpecBuilder builder;
 
     @Override
+    public String getPropertyName() {
+        return "confluence";
+    }
+
+    @Override
     public ConfluenceCheckConclusion performCheck(MddPrepareChecks prepareChecks) {
         List<Automaton> automata = prepareChecks.getAutomata();
         Set<Event> controllableEvents = prepareChecks.getControllableEvents();
