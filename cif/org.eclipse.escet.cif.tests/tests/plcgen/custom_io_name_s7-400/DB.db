@@ -1,0 +1,14 @@
+DATA_BLOCK "DB"
+{ S7_Optimized_Access := 'false' }
+    VAR
+        avalue: DINT;
+        flag: BOOL;
+        measurement: REAL;
+        S_an_output: DINT;
+        S_a_wire: BOOL;
+        S_data: REAL;
+        firstRun: BOOL;
+    END_VAR
+BEGIN
+    firstRun := TRUE;
+END_DATA_BLOCK

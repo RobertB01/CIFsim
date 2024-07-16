@@ -1,0 +1,119 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'true' }
+    VAR_TEMP
+        current_S_a_wire: BOOL;
+        current_S_an_output: DINT;
+        current_S_data: LREAL;
+        edge_S_1: DINT;
+        eventEnabled: BOOL;
+        isProgress: BOOL;
+        dummyVar1: DINT;
+    END_VAR
+
+BEGIN
+    (* Header text file for:
+     *  -> (-*-) CIF PLC code generator.
+     *)
+
+    (*------------------------------------------------------
+     * Model overview:
+     *
+     * Specification (top-level group):
+     * - Input variable "avalue".
+     * - Input variable "flag".
+     * - Input variable "measurement".
+     *
+     * Automaton "S":
+     * - Discrete variable "S.a_wire".
+     * - Discrete variable "S.an_output".
+     * - Discrete variable "S.data".
+     *
+     * - PLC edge selection variable "edge_S".
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "e".
+     *
+     *------------------------------------------------------ *)
+
+    (* --- Read PLC inputs. ---------------------------------------------------- *)
+    (* Read PLC input and write it to input variable "flag". *)
+    "DB".flag := "flag/input";
+    (* Read PLC input and write it to input variable "avalue". *)
+    "DB".avalue := many_bits;
+    (* Read PLC input and write it to input variable "measurement". *)
+    "DB".measurement := REAL_TO_LREAL(in_measurement);
+
+    (* --- Initialize state. --------------------------------------------------- *)
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
+
+        (* Initialize the state variables. *)
+        (* Initialize discrete variable "S.an_output". *)
+        "DB".S_an_output := 0;
+        (* Initialize discrete variable "S.a_wire". *)
+        "DB".S_a_wire := FALSE;
+        (* Initialize discrete variable "S.data". *)
+        "DB".S_data := 0.0;
+    END_IF;
+
+    (* --- Process controllable events. ---------------------------------------- *)
+    isProgress := TRUE;
+    (* Perform events until none can be done anymore. *)
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        (*************************************************************
+         * Try to perform controllable event "e".
+         *
+         * - Automaton "S" must always synchronize.
+         *************************************************************)
+        eventEnabled := TRUE;
+        (*******************************
+         * Check each synchronizing automaton for having an edge with a true guard.
+         *******************************)
+        (***********
+         * Test edge of automaton "S" to synchronize for event "e".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         * - Location:
+         *   - 1st edge in the location
+         ***********)
+        IF TRUE THEN
+            edge_S_1 := 1;
+        ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+        (* All checks have been done. If variable "eventEnabled" still holds, event "e" can occur. *)
+        IF eventEnabled THEN
+            isProgress := TRUE;
+            (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+            current_S_a_wire := "DB".S_a_wire;
+            current_S_an_output := "DB".S_an_output;
+            current_S_data := "DB".S_data;
+            (*******************************
+             * Perform the assignments of each synchronizing automaton.
+             *******************************)
+            (* Perform assignments of automaton "S". *)
+            IF edge_S_1 = 1 THEN
+                (* Perform assignments of the 1st edge of automaton "S". *)
+                (* Perform update of discrete variable "S.an_output". *)
+                "DB".S_an_output := "DB".avalue;
+                (* Perform update of discrete variable "S.a_wire". *)
+                "DB".S_a_wire := "DB".flag;
+                (* Perform update of discrete variable "S.data". *)
+                "DB".S_data := "DB".measurement;
+            END_IF;
+        END_IF;
+    END_WHILE;
+
+    (* --- Write PLC outputs. -------------------------------------------------- *)
+    (* Write discrete variable "S.a_wire" to PLC output. *)
+    out_S_a_wire := "DB".S_a_wire;
+    (* Write discrete variable "S.an_output" to PLC output. *)
+    out_S_an_output := "DB".S_an_output;
+    (* Write discrete variable "S.data" to PLC output. *)
+    "storage@8" := "DB".S_data;
+END_ORGANIZATION_BLOCK
