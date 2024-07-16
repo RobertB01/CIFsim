@@ -13,11 +13,19 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
+import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+
 /**
- * A check that can be performed by the controller properties checker.
+ * An MDD-based check that can be performed by the controller properties checker.
  *
  * @param <T> The type of the conclusion of the check.
  */
-public abstract class ControllerCheckerCheck<T extends CheckConclusion> {
-    // Nothing here yet.
+public abstract class ControllerCheckerMddBasedCheck<T extends CheckConclusion> extends ControllerCheckerCheck<T> {
+    /**
+     * Performs the check.
+     *
+     * @param MddPrepareChecks The MDD representation of the specification to check.
+     * @return The check result, or {@code null} if termination was requested.
+     */
+    public abstract T performCheck(MddPrepareChecks MddPrepareChecks);
 }
