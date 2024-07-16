@@ -45,16 +45,12 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheck;
-import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheck;
-import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheck;
-import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheck;
-import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheckConclusion;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -143,35 +139,37 @@ public class ControllerChecker {
             }
         }
 
-        // Common initialization for the checks.
+        // Perform the checks.
         int checksPerformed = 0;
+        List<CheckConclusion> conclusions = listc(checksToPerform.size());
+        for (int i = 0; i < checksToPerform.size(); i++) {
+            // Get check to perform.
+            ControllerCheckerCheck<?> check = checksToPerform.get(i);
 
-        // Check bounded response.
-        BoundedResponseCheckConclusion boundedResponseConclusion = null;
-        if (settings.getCheckBoundedResponse()) {
+            // Output check being performed.
             if (debugOutput.isEnabled() || checksPerformed > 0) {
                 normalOutput.line();
             }
-            normalOutput.line("Checking for bounded response...");
-            boundedResponseConclusion = new BoundedResponseCheck().performCheck(cifBddSpec);
-            checksPerformed++;
-            if (boundedResponseConclusion == null || shouldTerminate.get()) {
-                return null;
-            }
-        }
+            normalOutput.line("Checking for %s...", check.getPropertyName());
 
-        // Check non-blocking under control.
-        NonBlockingUnderControlCheckConclusion nonBlockingUnderControlConclusion = null;
-        if (settings.getCheckNonBlockingUnderControl()) {
-            if (debugOutput.isEnabled() || checksPerformed > 0) {
-                normalOutput.line();
+            // Perform check.
+            CheckConclusion conclusion = null;
+            if (check instanceof ControllerCheckerBddBasedCheck bddCheck) {
+                Assert.notNull(cifBddSpec);
+                conclusion = bddCheck.performCheck(cifBddSpec);
+            } else if (check instanceof ControllerCheckerMddBasedCheck mddCheck) {
+                Assert.notNull(mddPrepareChecks);
+                conclusion = mddCheck.performCheck(mddPrepareChecks);
+            } else {
+                throw new RuntimeException("Unexpected check: " + check);
             }
-            normalOutput.line("Checking for non-blocking under control...");
-            nonBlockingUnderControlConclusion = new NonBlockingUnderControlCheck().performCheck(cifBddSpec);
-            checksPerformed++;
-            if (nonBlockingUnderControlConclusion == null || shouldTerminate.get()) {
+            if (conclusion == null || shouldTerminate.get()) {
                 return null;
             }
+
+            // Performed one more check.
+            checksPerformed++;
+            conclusions.add(conclusion);
         }
 
         // Clean up the BDD representation of the specification, now that it is not needed anymore.
@@ -183,63 +181,32 @@ public class ControllerChecker {
             }
         }
 
-        // Check finite response.
-        FiniteResponseCheckConclusion finiteResponseConclusion = null;
-        if (settings.getCheckFiniteResponse()) {
-            if (debugOutput.isEnabled() || checksPerformed > 0) {
-                normalOutput.line();
-            }
-            normalOutput.line("Checking for finite response...");
-            finiteResponseConclusion = new FiniteResponseCheck().performCheck(mddPrepareChecks);
-            checksPerformed++;
-            if (finiteResponseConclusion == null || shouldTerminate.get()) {
-                return null;
-            }
-        }
-
-        // Check confluence.
-        ConfluenceCheckConclusion confluenceConclusion = null;
-        if (settings.getCheckConfluence()) {
-            if (debugOutput.isEnabled() || checksPerformed > 0) {
-                normalOutput.line();
-            }
-            normalOutput.line("Checking for confluence...");
-            confluenceConclusion = new ConfluenceCheck().performCheck(mddPrepareChecks);
-            checksPerformed++;
-            if (confluenceConclusion == null || shouldTerminate.get()) {
-                return null;
-            }
-        }
-
-        // Sanity check.
-        if (boundedResponseConclusion != null && finiteResponseConclusion != null) {
-            if (finiteResponseConclusion.propertyHolds()) {
-                Assert.check(boundedResponseConclusion.controllablesBound.isBounded());
-            }
-        }
+        // Construct the result.
+        ControllerCheckerResult result = new ControllerCheckerResult(conclusions);
 
         // Output the checker conclusions.
         normalOutput.line();
         normalOutput.line("CONCLUSION:");
 
         normalOutput.inc();
-        if (boundedResponseConclusion != null) {
-            boundedResponseConclusion.printResult();
+        if (result.boundedResponseConclusion != null) {
+            result.boundedResponseConclusion.printResult();
         } else {
             normalOutput
                     .line("[UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.");
         }
         normalOutput.dec();
 
-        if ((boundedResponseConclusion != null && boundedResponseConclusion.hasDetails())
-                || (nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails()))
+        if ((result.boundedResponseConclusion != null && result.boundedResponseConclusion.hasDetails())
+                || (result.nonBlockingUnderControlConclusion != null
+                        && result.nonBlockingUnderControlConclusion.hasDetails()))
         {
             normalOutput.line(); // Empty line between conclusions, if either of them prints details.
         }
 
         normalOutput.inc();
-        if (nonBlockingUnderControlConclusion != null) {
-            nonBlockingUnderControlConclusion.printResult();
+        if (result.nonBlockingUnderControlConclusion != null) {
+            result.nonBlockingUnderControlConclusion.printResult();
         } else {
             normalOutput.line(
                     "[UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is "
@@ -247,37 +214,36 @@ public class ControllerChecker {
         }
         normalOutput.dec();
 
-        if ((nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails())
-                || (finiteResponseConclusion != null && finiteResponseConclusion.hasDetails()))
+        if ((result.nonBlockingUnderControlConclusion != null && result.nonBlockingUnderControlConclusion.hasDetails())
+                || (result.finiteResponseConclusion != null && result.finiteResponseConclusion.hasDetails()))
         {
             normalOutput.line(); // Empty line between conclusions, if either of them prints details.
         }
 
         normalOutput.inc();
-        if (finiteResponseConclusion != null) {
-            finiteResponseConclusion.printResult();
+        if (result.finiteResponseConclusion != null) {
+            result.finiteResponseConclusion.printResult();
         } else {
             normalOutput.line("[UNKNOWN] Finite response checking was disabled, finite response property is unknown.");
         }
         normalOutput.dec();
 
-        if ((finiteResponseConclusion != null && finiteResponseConclusion.hasDetails())
-                || (confluenceConclusion != null && confluenceConclusion.hasDetails()))
+        if ((result.finiteResponseConclusion != null && result.finiteResponseConclusion.hasDetails())
+                || (result.confluenceConclusion != null && result.confluenceConclusion.hasDetails()))
         {
             normalOutput.line(); // Empty line between conclusions, if either of them prints details.
         }
 
         normalOutput.inc();
-        if (confluenceConclusion != null) {
-            confluenceConclusion.printResult();
+        if (result.confluenceConclusion != null) {
+            result.confluenceConclusion.printResult();
         } else {
             normalOutput.line("[UNKNOWN] Confluence checking was disabled, confluence property is unknown.");
         }
         normalOutput.dec();
 
         // Return the result.
-        return new ControllerCheckerResult(boundedResponseConclusion, confluenceConclusion, finiteResponseConclusion,
-                nonBlockingUnderControlConclusion);
+        return result;
     }
 
     /**
