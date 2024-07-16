@@ -13,8 +13,11 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
+import static org.eclipse.escet.common.java.Lists.listc;
+
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -91,18 +94,29 @@ public class ControllerChecker {
         DebugNormalOutput debugOutput = settings.getDebugOutput();
         WarnOutput warnOutput = settings.getWarnOutput();
 
-        // Get checks to perform.
-        boolean checkBoundedResponse = settings.getCheckBoundedResponse();
-        boolean checkConfluence = settings.getCheckConfluence();
-        boolean checkFiniteResponse = settings.getCheckFiniteResponse();
-        boolean checkNonBlockingUnderControl = settings.getCheckNonBlockingUnderControl();
-
         // Preprocess and check the specification.
         spec = preprocessAndCheck(spec, specAbsPath, shouldTerminate, warnOutput);
 
+        // Get checks to perform.
+        List<ControllerCheckerCheck<?>> checksToPerform = listc(4);
+        if (settings.getCheckBoundedResponse()) {
+            checksToPerform.add(new BoundedResponseCheck());
+        }
+        if (settings.getCheckNonBlockingUnderControl()) {
+            checksToPerform.add(new NonBlockingUnderControlCheck());
+        }
+        if (settings.getCheckFiniteResponse()) {
+            checksToPerform.add(new FiniteResponseCheck());
+        }
+        if (settings.getCheckConfluence()) {
+            checksToPerform.add(new ConfluenceCheck());
+        }
+
         // Check which representations are needed.
-        boolean hasBddBasedChecks = checkBoundedResponse || checkNonBlockingUnderControl;
-        boolean hasMddBasedChecks = checkFiniteResponse || checkConfluence;
+        boolean hasBddBasedChecks = checksToPerform.stream().anyMatch(c -> c instanceof ControllerCheckerBddBasedCheck);
+        boolean hasMddBasedChecks = checksToPerform.stream().anyMatch(c -> c instanceof ControllerCheckerMddBasedCheck);
+        boolean computeGlobalGuardedUpdates = hasMddBasedChecks
+                && checksToPerform.stream().anyMatch(c -> c instanceof ConfluenceCheck);
 
         // Preparations for BDD-based checks.
         CifBddSpec cifBddSpec = null; // Used for BDD-based checks.
@@ -123,7 +137,6 @@ public class ControllerChecker {
         MddPrepareChecks mddPrepareChecks = null; // Used for MDD-based checks.
         if (hasMddBasedChecks) {
             debugOutput.line("Preparing for MDD-based checks...");
-            boolean computeGlobalGuardedUpdates = checkConfluence;
             mddPrepareChecks = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate);
             if (mddPrepareChecks == null) {
                 return null;
@@ -135,7 +148,7 @@ public class ControllerChecker {
 
         // Check bounded response.
         BoundedResponseCheckConclusion boundedResponseConclusion = null;
-        if (checkBoundedResponse) {
+        if (settings.getCheckBoundedResponse()) {
             if (debugOutput.isEnabled() || checksPerformed > 0) {
                 normalOutput.line();
             }
@@ -149,7 +162,7 @@ public class ControllerChecker {
 
         // Check non-blocking under control.
         NonBlockingUnderControlCheckConclusion nonBlockingUnderControlConclusion = null;
-        if (checkNonBlockingUnderControl) {
+        if (settings.getCheckNonBlockingUnderControl()) {
             if (debugOutput.isEnabled() || checksPerformed > 0) {
                 normalOutput.line();
             }
@@ -172,7 +185,7 @@ public class ControllerChecker {
 
         // Check finite response.
         FiniteResponseCheckConclusion finiteResponseConclusion = null;
-        if (checkFiniteResponse) {
+        if (settings.getCheckFiniteResponse()) {
             if (debugOutput.isEnabled() || checksPerformed > 0) {
                 normalOutput.line();
             }
@@ -186,7 +199,7 @@ public class ControllerChecker {
 
         // Check confluence.
         ConfluenceCheckConclusion confluenceConclusion = null;
-        if (checkConfluence) {
+        if (settings.getCheckConfluence()) {
             if (debugOutput.isEnabled() || checksPerformed > 0) {
                 normalOutput.line();
             }
