@@ -41,9 +41,17 @@ import org.eclipse.escet.cif.cif2cif.RelabelSupervisorsAsPlants;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheckConclusion;
+import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseChecker;
+import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheckConclusion;
+import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
+import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheckConclusion;
+import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheckConclusion;
+import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlChecker;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -70,11 +78,10 @@ public class ControllerChecker {
      * @param specAbsPath The absolute local file system path to the CIF specification to check.
      * @param settings The settings to use.
      */
-    public static void performChecks(Specification spec, String specAbsPath,
-            ControllerCheckerSettings settings)
-    {
+    public static void performChecks(Specification spec, String specAbsPath, ControllerCheckerSettings settings) {
         // Get some settings.
         Supplier<Boolean> shouldTerminate = settings.getShouldTerminate();
+        DebugNormalOutput normalOutput = settings.getNormalOutput();
         DebugNormalOutput debugOutput = settings.getDebugOutput();
         WarnOutput warnOutput = settings.getWarnOutput();
 
@@ -119,6 +126,74 @@ public class ControllerChecker {
             boolean computeGlobalGuardedUpdates = checkConfluence;
             mddPrepareChecks = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate);
             if (mddPrepareChecks == null) {
+                return;
+            }
+        }
+
+        // Common initialization for the checks.
+        int checksPerformed = 0;
+
+        // Check bounded response.
+        BoundedResponseCheckConclusion boundedResponseConclusion = null;
+        if (checkBoundedResponse) {
+            if (debugOutput.isEnabled() || checksPerformed > 0) {
+                normalOutput.line();
+            }
+            normalOutput.line("Checking for bounded response...");
+            boundedResponseConclusion = new BoundedResponseChecker().checkSystem(cifBddSpec);
+            checksPerformed++;
+            if (boundedResponseConclusion == null || shouldTerminate.get()) {
+                return;
+            }
+        }
+
+        // Check non-blocking under control.
+        NonBlockingUnderControlCheckConclusion nonBlockingUnderControlConclusion = null;
+        if (checkNonBlockingUnderControl) {
+            if (debugOutput.isEnabled() || checksPerformed > 0) {
+                normalOutput.line();
+            }
+            normalOutput.line("Checking for non-blocking under control...");
+            nonBlockingUnderControlConclusion = new NonBlockingUnderControlChecker().checkSystem(cifBddSpec);
+            checksPerformed++;
+            if (nonBlockingUnderControlConclusion == null || shouldTerminate.get()) {
+                return;
+            }
+        }
+
+        // Clean up the BDD representation of the specification, now that it is not needed anymore.
+        if (cifBddSpec != null) {
+            cleanupBdd(cifBddSpec);
+            cifBddSpec = null;
+            if (shouldTerminate.get()) {
+                return;
+            }
+        }
+
+        // Check finite response.
+        FiniteResponseCheckConclusion finiteResponseConclusion = null;
+        if (checkFiniteResponse) {
+            if (debugOutput.isEnabled() || checksPerformed > 0) {
+                normalOutput.line();
+            }
+            normalOutput.line("Checking for finite response...");
+            finiteResponseConclusion = new FiniteResponseChecker().checkSystem(mddPrepareChecks);
+            checksPerformed++;
+            if (finiteResponseConclusion == null || shouldTerminate.get()) {
+                return;
+            }
+        }
+
+        // Check confluence.
+        ConfluenceCheckConclusion confluenceConclusion = null;
+        if (checkConfluence) {
+            if (debugOutput.isEnabled() || checksPerformed > 0) {
+                normalOutput.line();
+            }
+            normalOutput.line("Checking for confluence...");
+            confluenceConclusion = new ConfluenceChecker().checkSystem(mddPrepareChecks);
+            checksPerformed++;
+            if (confluenceConclusion == null || shouldTerminate.get()) {
                 return;
             }
         }
@@ -321,5 +396,17 @@ public class ControllerChecker {
         // Create MDD representation.
         MddPrepareChecks mddPrepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
         return mddPrepareChecks;
+    }
+
+    /**
+     * Clean up the CIF/BDD specification.
+     *
+     * @param cifBddSpec The CIF/BDD specification.
+     */
+    private static void cleanupBdd(CifBddSpec cifBddSpec) {
+        for (CifBddEdge edge: cifBddSpec.edges) {
+            edge.cleanupApply();
+        }
+        cifBddSpec.freeAllBDDs();
     }
 }

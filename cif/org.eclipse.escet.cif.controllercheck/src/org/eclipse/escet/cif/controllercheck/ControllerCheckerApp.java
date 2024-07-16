@@ -20,12 +20,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
-import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheckConclusion;
-import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseChecker;
-import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
-import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
-import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlChecker;
 import org.eclipse.escet.cif.controllercheck.options.EnableBoundedResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
@@ -46,8 +40,6 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
-import org.eclipse.escet.common.app.framework.output.OutputMode;
-import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PathPair;
@@ -107,95 +99,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         if (isTerminationRequested()) {
             return 0;
         }
-
-        // Common initialization for the checks.
-        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
-        int checksPerformed = 0;
-        boolean allChecksHold = true;
-
-        // Check bounded response.
-        BoundedResponseCheckConclusion boundedResponseConclusion = null;
-        boolean boundedResponseHolds = true; // Is true if it holds or was not checked, false otherwise.
-        if (checkBoundedResponse) {
-            // Check the bounded response property.
-            if (dbgEnabled || checksPerformed > 0) {
-                OutputProvider.out();
-            }
-            OutputProvider.out("Checking for bounded response...");
-            boundedResponseConclusion = new BoundedResponseChecker().checkSystem(cifBddSpec);
-            checksPerformed++;
-            if (boundedResponseConclusion == null || isTerminationRequested()) {
-                return 0;
-            }
-            boundedResponseHolds = boundedResponseConclusion.propertyHolds();
-        }
-        allChecksHold &= boundedResponseHolds;
-
-        // Check non-blocking under control.
-        CheckConclusion nonBlockingUnderControlConclusion = null;
-        boolean nonBlockingUnderControlHolds = true; // Is true if it holds or was not checked, false otherwise.
-        if (checkNonBlockingUnderControl) {
-            // Check the non-blocking under control property.
-            if (dbgEnabled || checksPerformed > 0) {
-                OutputProvider.out();
-            }
-            OutputProvider.out("Checking for non-blocking under control...");
-            nonBlockingUnderControlConclusion = new NonBlockingUnderControlChecker().checkSystem(cifBddSpec);
-            checksPerformed++;
-            if (nonBlockingUnderControlConclusion == null || isTerminationRequested()) {
-                return 0;
-            }
-            nonBlockingUnderControlHolds = nonBlockingUnderControlConclusion.propertyHolds();
-        }
-        allChecksHold &= nonBlockingUnderControlHolds;
-
-        // Clean up the BDD representation of the specification, now that it is not needed anymore.
-        if (cifBddSpec != null) {
-            for (CifBddEdge edge: cifBddSpec.edges) {
-                edge.cleanupApply();
-            }
-            cifBddSpec.freeAllBDDs();
-            cifBddSpec = null;
-            if (isTerminationRequested()) {
-                return 0;
-            }
-        }
-
-        // Check finite response.
-        CheckConclusion finiteResponseConclusion = null;
-        boolean finiteResponseHolds = true; // Is true if it holds or was not checked, false otherwise.
-        if (checkFiniteResponse) {
-            // Check the finite response property.
-            if (dbgEnabled || checksPerformed > 0) {
-                OutputProvider.out();
-            }
-            OutputProvider.out("Checking for finite response...");
-            finiteResponseConclusion = new FiniteResponseChecker().checkSystem(prepareChecks);
-            checksPerformed++;
-            if (finiteResponseConclusion == null || isTerminationRequested()) {
-                return 0;
-            }
-            finiteResponseHolds = finiteResponseConclusion.propertyHolds();
-        }
-        allChecksHold &= finiteResponseHolds;
-
-        // Check confluence.
-        CheckConclusion confluenceConclusion = null;
-        boolean confluenceHolds = true; // Is true if it holds or was not checked, false otherwise.
-        if (checkConfluence) {
-            // Check the confluence property.
-            if (dbgEnabled || checksPerformed > 0) {
-                OutputProvider.out();
-            }
-            OutputProvider.out("Checking for confluence...");
-            confluenceConclusion = new ConfluenceChecker().checkSystem(prepareChecks);
-            checksPerformed++;
-            if (confluenceConclusion == null || isTerminationRequested()) {
-                return 0;
-            }
-            confluenceHolds = confluenceConclusion.propertyHolds();
-        }
-        allChecksHold &= confluenceHolds;
 
         // Sanity check.
         if (boundedResponseConclusion != null && finiteResponseConclusion != null) {
