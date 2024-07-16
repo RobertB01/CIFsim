@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.controllercheck.ControllerCheckerCheck;
+import org.eclipse.escet.cif.controllercheck.ControllerCheckerMddBasedCheck;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -47,7 +47,7 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
 
 /** Class for checking a CIF specification has finite response. */
-public class FiniteResponseCheck extends ControllerCheckerCheck<FiniteResponseCheckConclusion> {
+public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteResponseCheckConclusion> {
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
 
@@ -78,13 +78,8 @@ public class FiniteResponseCheck extends ControllerCheckerCheck<FiniteResponseCh
     /** Builder for the MDD tree. */
     private MddSpecBuilder builder;
 
-    /**
-     * Performs the finite response check for a CIF specification.
-     *
-     * @param prepareChecks Collected CIF information to perform the finite response check.
-     * @return {@code null} when the check is aborted, else the conclusion of the finite response check.
-     */
-    public FiniteResponseCheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
+    @Override
+    public FiniteResponseCheckConclusion performCheck(MddPrepareChecks prepareChecks) {
         List<Automaton> automata = prepareChecks.getAutomata();
         controllableEvents = copy(prepareChecks.getControllableEvents());
         if (automata.isEmpty() || controllableEvents.isEmpty()) {

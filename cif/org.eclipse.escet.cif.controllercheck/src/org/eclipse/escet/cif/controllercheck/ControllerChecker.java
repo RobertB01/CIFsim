@@ -140,7 +140,7 @@ public class ControllerChecker {
                 normalOutput.line();
             }
             normalOutput.line("Checking for bounded response...");
-            boundedResponseConclusion = new BoundedResponseCheck().checkSystem(cifBddSpec);
+            boundedResponseConclusion = new BoundedResponseCheck().performCheck(cifBddSpec);
             checksPerformed++;
             if (boundedResponseConclusion == null || shouldTerminate.get()) {
                 return null;
@@ -154,7 +154,7 @@ public class ControllerChecker {
                 normalOutput.line();
             }
             normalOutput.line("Checking for non-blocking under control...");
-            nonBlockingUnderControlConclusion = new NonBlockingUnderControlCheck().checkSystem(cifBddSpec);
+            nonBlockingUnderControlConclusion = new NonBlockingUnderControlCheck().performCheck(cifBddSpec);
             checksPerformed++;
             if (nonBlockingUnderControlConclusion == null || shouldTerminate.get()) {
                 return null;
@@ -177,7 +177,7 @@ public class ControllerChecker {
                 normalOutput.line();
             }
             normalOutput.line("Checking for finite response...");
-            finiteResponseConclusion = new FiniteResponseCheck().checkSystem(mddPrepareChecks);
+            finiteResponseConclusion = new FiniteResponseCheck().performCheck(mddPrepareChecks);
             checksPerformed++;
             if (finiteResponseConclusion == null || shouldTerminate.get()) {
                 return null;
@@ -191,7 +191,7 @@ public class ControllerChecker {
                 normalOutput.line();
             }
             normalOutput.line("Checking for confluence...");
-            confluenceConclusion = new ConfluenceCheck().checkSystem(mddPrepareChecks);
+            confluenceConclusion = new ConfluenceCheck().performCheck(mddPrepareChecks);
             checksPerformed++;
             if (confluenceConclusion == null || shouldTerminate.get()) {
                 return null;

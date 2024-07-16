@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.controllercheck.ControllerCheckerCheck;
+import org.eclipse.escet.cif.controllercheck.ControllerCheckerMddBasedCheck;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -43,7 +43,7 @@ import org.eclipse.escet.common.multivaluetrees.VarInfo;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 
 /** Class to check confluence of the specification. */
-public class ConfluenceCheck extends ControllerCheckerCheck<ConfluenceCheckConclusion> {
+public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCheckConclusion> {
     /** Debug global flow of the checks, which pairs are tested, where are they matched. */
     private static final boolean DEBUG_GLOBAL = false;
 
@@ -77,13 +77,8 @@ public class ConfluenceCheck extends ControllerCheckerCheck<ConfluenceCheckConcl
     /** Builder for the MDD tree. */
     private MddSpecBuilder builder;
 
-    /**
-     * Performs the confluence check for a CIF specification.
-     *
-     * @param prepareChecks Collected CIF information to perform the confluence check.
-     * @return {@code null} if the check was aborted, else the conclusion about the checking process.
-     */
-    public ConfluenceCheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
+    @Override
+    public ConfluenceCheckConclusion performCheck(MddPrepareChecks prepareChecks) {
         List<Automaton> automata = prepareChecks.getAutomata();
         Set<Event> controllableEvents = prepareChecks.getControllableEvents();
 
