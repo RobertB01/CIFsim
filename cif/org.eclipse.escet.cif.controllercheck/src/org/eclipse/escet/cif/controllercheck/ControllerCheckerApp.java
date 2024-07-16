@@ -41,7 +41,6 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
@@ -98,13 +97,6 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
-        }
-
-        // Sanity check.
-        if (boundedResponseConclusion != null && finiteResponseConclusion != null) {
-            if (finiteResponseConclusion.propertyHolds()) {
-                Assert.check(boundedResponseConclusion.controllablesBound.isBounded());
-            }
         }
 
         // Output the checker conclusions.

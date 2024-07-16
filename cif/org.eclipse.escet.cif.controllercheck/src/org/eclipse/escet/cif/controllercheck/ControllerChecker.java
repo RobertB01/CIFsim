@@ -58,6 +58,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.emf.EMFHelper;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
@@ -195,6 +196,13 @@ public class ControllerChecker {
             checksPerformed++;
             if (confluenceConclusion == null || shouldTerminate.get()) {
                 return;
+            }
+        }
+
+        // Sanity check.
+        if (boundedResponseConclusion != null && finiteResponseConclusion != null) {
+            if (finiteResponseConclusion.propertyHolds()) {
+                Assert.check(boundedResponseConclusion.controllablesBound.isBounded());
             }
         }
     }
