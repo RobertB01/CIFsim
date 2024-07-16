@@ -429,6 +429,15 @@ If the size of the CIF variable type does not match with the size of the I/O por
 
 Note that the PLC code generator has no means to verify that the specified or derived type of the I/O port is compatible with the hardware device connected to the given I/O address.
 
+* The fourth column optionally contains the name of the variable with the input or output address.
++
+If supplied, this is the name used for the I/O variable declaration (in the input/output variable table).
+Otherwise, the PLC code generator will generate a name from the CIF variable connected to the I/O address.
++
+Names must use the ASCII character set, and must be valid variable names for the used PLC target.
+The PLC code generator will automatically convert the name to the required form in the PLC code.
+For example, it may surround certain names with double quote characters.
+
 indexterm:[PLC code generator,continuous behavior]
 indexterm:[PLC code generator,timers]
 
