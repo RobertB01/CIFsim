@@ -56,7 +56,7 @@ public class ControllerCheckerResult {
     }
 
     /**
-     * Returns whether all checks (that were not skipped) hold, and thus no failures were found for performed checks.
+     * Returns whether no failures were found for performed checks.
      *
      * @return {@code true} if no failures were found for performed checks, {@code false} if at least one performed
      *     check failed (does not hold).
