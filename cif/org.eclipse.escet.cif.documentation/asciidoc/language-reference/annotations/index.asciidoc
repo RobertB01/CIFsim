@@ -18,9 +18,6 @@ indexterm:[annotation]
 [[lang-ref-extensions-annotations]]
 == Annotations
 
-WARNING: Annotations are currently an experimental work-in-progress language feature.
-Their design may change in a backward incompatible manner.
-
 <<lang-tut-extensions-chapter-annotations,Annotations>> can be added to elements of a CIF specification, to annotate them with extra structured information.
 Tools that take CIF specifications as input can process the annotations that are attached to elements of the specification, and use the supplied information.
 Different tools may support different annotations.

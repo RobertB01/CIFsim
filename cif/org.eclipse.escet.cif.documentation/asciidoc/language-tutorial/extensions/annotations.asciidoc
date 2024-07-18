@@ -16,9 +16,6 @@ include::../_part_attributes.asciidoc[]
 [[lang-tut-extensions-chapter-annotations]]
 == Annotations
 
-WARNING: Annotations are currently an experimental work-in-progress language feature.
-Their design may change in a backward incompatible manner.
-
 indexterm:[annotation]
 Annotations can be added to elements of a CIF specification, to annotate them with extra information.
 Annotations are a form of structured data, and the CIF type checker checks their validity.
