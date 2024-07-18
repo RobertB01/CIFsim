@@ -41,6 +41,7 @@ function getVersions() {
     } else {
         var request = new XMLHttpRequest();
         request.open("GET", '/escet/.versions', false);
+        request.overrideMimeType('text/plain');
         request.send();
         if (request.status == 200) {
             versionsText = request.responseText;
