@@ -56,11 +56,12 @@ public class ControllerCheckerResult {
     }
 
     /**
-     * Returns whether all checks (that were not skipped) hold.
+     * Returns whether all checks (that were not skipped) hold, and thus no failures were found for performed checks.
      *
-     * @return {@code true} if all checks hold or where skipped, {@code false} if any check failed.
+     * @return {@code true} if no failures were found for performed checks, {@code false} if at least one performed
+     *     check failed (does not hold).
      */
-    public boolean allChecksHold() {
+    public boolean noFailureFound() {
         boolean result = true;
         result &= (boundedResponseConclusion == null) || boundedResponseConclusion.propertyHolds();
         result &= (confluenceConclusion == null) || confluenceConclusion.propertyHolds();

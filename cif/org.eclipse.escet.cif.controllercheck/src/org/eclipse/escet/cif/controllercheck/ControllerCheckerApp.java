@@ -106,9 +106,9 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         // Perform checks.
         ControllerCheckerResult result = ControllerChecker.performChecks(spec, specAbsPath, settings);
 
-        // Update specification for outcome of the checks. If a check was not performed, don't update the annotation
-        // for that check, but keep the existing result. That way, we can do checks one by one, or we can only redo a
-        // certain check.
+        // Update the input specification based with the results of the checks. If a check was not performed, don't
+        // update the annotation for that check, but keep the existing result. That way, we can do checks one by one, or
+        // we can only redo a certain check.
         result.updateSpecification(spec);
 
         // Check CIF specification to output.
@@ -128,8 +128,8 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         out("The model with the check results has been written to \"%s\".", outPath);
 
         // Return the application exit code, indicating whether the specification satisfies all the checks that were
-        // performed.
-        return result.allChecksHold() ? 0 : 1;
+        // performed, and thus none of the checks that were performed have failed.
+        return result.noFailureFound() ? 0 : 1;
     }
 
     @Override

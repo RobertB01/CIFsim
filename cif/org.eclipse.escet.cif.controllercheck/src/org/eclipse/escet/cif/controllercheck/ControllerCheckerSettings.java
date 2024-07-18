@@ -49,6 +49,10 @@ public class ControllerCheckerSettings {
     /**
      * Returns whether to perform the bounded response check.
      *
+     * <p>
+     * By default, the check is enabled.
+     * </p>
+     *
      * @return {@code true} to perform the check, {@code false} otherwise.
      */
     public boolean getCheckBoundedResponse() {
@@ -57,6 +61,10 @@ public class ControllerCheckerSettings {
 
     /**
      * Sets whether to perform the bounded response check.
+     *
+     * <p>
+     * By default, the check is enabled.
+     * </p>
      *
      * @param checkBoundedResponse {@code true} to perform the check, {@code false} to skip it.
      */
@@ -67,6 +75,10 @@ public class ControllerCheckerSettings {
     /**
      * Returns whether to perform the confluence check.
      *
+     * <p>
+     * By default, the check is enabled.
+     * </p>
+     *
      * @return {@code true} to perform the check, {@code false} otherwise.
      */
     public boolean getCheckConfluence() {
@@ -75,6 +87,10 @@ public class ControllerCheckerSettings {
 
     /**
      * Sets whether to perform the confluence check.
+     *
+     * <p>
+     * By default, the check is enabled.
+     * </p>
      *
      * @param checkConfluence {@code true} to perform the check, {@code false} to skip it.
      */
@@ -85,6 +101,10 @@ public class ControllerCheckerSettings {
     /**
      * Returns whether to perform the finite response check.
      *
+     * <p>
+     * By default, the check is enabled.
+     * </p>
+     *
      * @return {@code true} to perform the check, {@code false} otherwise.
      */
     public boolean getCheckFiniteResponse() {
@@ -93,6 +113,10 @@ public class ControllerCheckerSettings {
 
     /**
      * Sets whether to perform the finite response check.
+     *
+     * <p>
+     * By default, the check is enabled.
+     * </p>
      *
      * @param checkFiniteResponse {@code true} to perform the check, {@code false} to skip it.
      */
@@ -103,6 +127,10 @@ public class ControllerCheckerSettings {
     /**
      * Returns whether to perform the bounded response check.
      *
+     * <p>
+     * By default, the check is enabled.
+     * </p>
+     *
      * @return {@code true} to perform the check, {@code false} otherwise.
      */
     public boolean getCheckNonBlockingUnderControl() {
@@ -111,6 +139,10 @@ public class ControllerCheckerSettings {
 
     /**
      * Sets whether to perform the non-blocking under control check.
+     *
+     * <p>
+     * By default, the check is enabled.
+     * </p>
      *
      * @param checkNonBlockingUnderControl {@code true} to perform the check, {@code false} to skip it.
      */
@@ -121,6 +153,10 @@ public class ControllerCheckerSettings {
     /**
      * Gets the callback that indicates whether execution should be terminated on user request.
      *
+     * <p>
+     * By default, termination is never requested.
+     * </p>
+     *
      * @return The callback.
      */
     public Supplier<Boolean> getShouldTerminate() {
@@ -129,6 +165,10 @@ public class ControllerCheckerSettings {
 
     /**
      * Sets the callback that indicates whether execution should be terminated on user request.
+     *
+     * <p>
+     * By default, termination is never requested.
+     * </p>
      *
      * @param shouldTerminate The callback.
      */
@@ -139,6 +179,10 @@ public class ControllerCheckerSettings {
     /**
      * Get the callback to send normal output to the user.
      *
+     * <p>
+     * By default, all normal output is ignored.
+     * </p>
+     *
      * @return The callback.
      */
     public DebugNormalOutput getNormalOutput() {
@@ -147,6 +191,10 @@ public class ControllerCheckerSettings {
 
     /**
      * Set the callback to send normal output to the user.
+     *
+     * <p>
+     * By default, all normal output is ignored.
+     * </p>
      *
      * @param normalOutput The callback.
      */
@@ -157,6 +205,10 @@ public class ControllerCheckerSettings {
     /**
      * Get the callback to send debug output to the user.
      *
+     * <p>
+     * By default, all debug output is ignored.
+     * </p>
+     *
      * @return The callback.
      */
     public DebugNormalOutput getDebugOutput() {
@@ -165,6 +217,10 @@ public class ControllerCheckerSettings {
 
     /**
      * Set the callback to send debug output to the user.
+     *
+     * <p>
+     * By default, all debug output is ignored.
+     * </p>
      *
      * @param debugOutput The callback.
      */
@@ -175,6 +231,10 @@ public class ControllerCheckerSettings {
     /**
      * Get the callback to send warnings to the user.
      *
+     * <p>
+     * By default, all warnings are ignored.
+     * </p>
+     *
      * @return The callback.
      */
     public WarnOutput getWarnOutput() {
@@ -184,10 +244,36 @@ public class ControllerCheckerSettings {
     /**
      * Set the callback to send warnings to the user.
      *
+     * <p>
+     * By default, all warnings are ignored.
+     * </p>
+     *
      * @param warnOutput The callback.
      */
     public void setWarnOutput(WarnOutput warnOutput) {
         this.warnOutput = warnOutput;
+    }
+
+    /**
+     * Returns the number of checks that are enabled.
+     *
+     * @return The number of enabled checks.
+     */
+    public int getNumberOfChecksEnabled() {
+        int result = 0;
+        if (checkBoundedResponse) {
+            result++;
+        }
+        if (checkConfluence) {
+            result++;
+        }
+        if (checkFiniteResponse) {
+            result++;
+        }
+        if (checkNonBlockingUnderControl) {
+            result++;
+        }
+        return result;
     }
 
     /**
@@ -197,7 +283,7 @@ public class ControllerCheckerSettings {
      */
     public void check() {
         // Ensure at least one check is enabled.
-        if (!checkBoundedResponse && !checkNonBlockingUnderControl && !checkFiniteResponse && !checkConfluence) {
+        if (getNumberOfChecksEnabled() == 0) {
             throw new InvalidOptionException(
                     "No checks enabled. Enable one of the checks for the controller properties checker to check.");
         }
