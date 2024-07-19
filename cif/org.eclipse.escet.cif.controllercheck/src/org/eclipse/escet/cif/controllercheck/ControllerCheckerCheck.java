@@ -22,7 +22,7 @@ public abstract class ControllerCheckerCheck<T extends CheckConclusion> {
     /**
      * Returns the name of the property to check.
      *
-     * @return The property name. Must start with a lower-case letter. Must not end with a period.
+     * @return The property name. Starts with a lower-case letter and does not end with a period.
      */
     public abstract String getPropertyName();
 
