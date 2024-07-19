@@ -110,6 +110,29 @@ public class InputOutputGenerator {
         warnOutput = settings.warnOutput;
     }
 
+    /**
+     * Retrieve the I/O names that may conflict with other names.
+     *
+     * @return The custom I/O names that may conflict with other names.
+     */
+    public Set<String> getCustomIoNames() {
+        Set<String> result = set();
+        for (List<String> line: getCsvLines()) {
+            if (line.size() > IO_NAME_COLUMN) {
+                String ioName = line.get(IO_NAME_COLUMN);
+                if (!target.checkIoVariableName(ioName)) {
+                    continue; // This name will never be used.
+                }
+
+                // Ad the name in various forms.
+                result.add(ioName);
+                result.add(target.getUsageVariableText(PlcVariablePurpose.INPUT_VAR, ioName));
+                result.add(target.getUsageVariableText(PlcVariablePurpose.OUTPUT_VAR, ioName));
+            }
+        }
+        return result;
+    }
+
     /** Generate input/output code for communicating with the world outside the PLC. */
     public void process() {
         List<IoEntry> entries = convertIoTableEntries();
