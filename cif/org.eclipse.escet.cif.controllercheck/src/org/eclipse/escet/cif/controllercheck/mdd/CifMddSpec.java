@@ -13,14 +13,6 @@
 
 package org.eclipse.escet.cif.controllercheck.mdd;
 
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectControllableEvents;
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
-import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
-import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.common.CifTextUtils.getComponentText1;
-import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText2;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -33,6 +25,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.common.CifCollectUtils;
+import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -122,15 +117,15 @@ public class CifMddSpec {
      */
     public boolean compute(Specification spec) {
         // Collect automata and controllable events.
-        automata = collectAutomata(spec, list());
-        Set<Event> allControllableEvents = collectControllableEvents(spec, set());
+        automata = CifCollectUtils.collectAutomata(spec, list());
+        Set<Event> allControllableEvents = CifCollectUtils.collectControllableEvents(spec, set());
         if (automata.isEmpty() || allControllableEvents.isEmpty()) {
             // All MDD-based checks trivially hold.
             return true;
         }
 
         // Collect variables.
-        variables = collectDiscAndInputVariables(spec, list());
+        variables = CifCollectUtils.collectDiscAndInputVariables(spec, list());
         if (shouldTerminate.get()) {
             return false;
         }
@@ -145,8 +140,8 @@ public class CifMddSpec {
 
         // Compute global guards, global guarded updates, and updated variables for each event.
         for (Automaton aut: automata) {
-            debugOutput.line("Analyzing %s...", getComponentText1(aut));
-            Set<Event> controllableAutEvents = intersection(getAlphabet(aut), allControllableEvents);
+            debugOutput.line("Analyzing %s...", CifTextUtils.getComponentText1(aut));
+            Set<Event> controllableAutEvents = intersection(CifEventUtils.getAlphabet(aut), allControllableEvents);
             if (!controllableAutEvents.isEmpty()) {
                 if (!processAutomaton(aut, controllableAutEvents)) {
                     return false; // Abort requested.
@@ -176,7 +171,7 @@ public class CifMddSpec {
         debugOutput.inc();
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {
-            debugOutput.line("Initializing the automaton data for event \"%s\"...", getAbsName(evt));
+            debugOutput.line("Initializing the automaton data for event \"%s\"...", CifTextUtils.getAbsName(evt));
             autGuards.put(evt, Tree.ZERO);
             if (autGuardedUpdates != null) {
                 autGuardedUpdates.put(evt, Tree.ZERO);
@@ -198,10 +193,10 @@ public class CifMddSpec {
 
         // Process the locations and edges.
         for (Location loc: aut.getLocations()) {
-            debugOutput.line("Processing edges from %s...", getLocationText2(loc));
+            debugOutput.line("Processing edges from %s...", CifTextUtils.getLocationText2(loc));
             for (Edge edge: loc.getEdges()) {
                 // Filter on relevant events.
-                Set<Event> controllableEdgeEvents = intersection(getEvents(edge), controllableAutEvents);
+                Set<Event> controllableEdgeEvents = intersection(CifEventUtils.getEvents(edge), controllableAutEvents);
                 if (controllableEdgeEvents.isEmpty()) {
                     continue;
                 }
@@ -250,7 +245,8 @@ public class CifMddSpec {
 
         // At global level, guards and updates of each event must synchronize between participating automata.
         for (Event autEvent: controllableAutEvents) {
-            debugOutput.line("Updating global guards and updates for event \"%s\"...", getAbsName(autEvent));
+            debugOutput.line("Updating global guards and updates for event \"%s\"...",
+                    CifTextUtils.getAbsName(autEvent));
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));
             if (shouldTerminate.get()) {

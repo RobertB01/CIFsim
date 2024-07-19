@@ -13,16 +13,15 @@
 
 package org.eclipse.escet.cif.controllercheck.checks.finiteresponse;
 
-import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifEdgeUtils;
+import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -30,6 +29,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GraphEdge;
 import org.eclipse.escet.common.java.ListProductIterator;
+import org.eclipse.escet.common.java.Sets;
 
 /** Static class for finding event loops. */
 public class EventLoopSearch {
@@ -98,13 +98,13 @@ public class EventLoopSearch {
         protected List<EventLoopEdge> getOutgoingEdges(Automaton aut, Location vertex) {
             List<EventLoopEdge> edges = list();
             for (Edge edge: vertex.getEdges()) {
-                if (isEmptyIntersection(loopEvents, getEvents(edge))) {
+                if (Sets.isEmptyIntersection(loopEvents, CifEventUtils.getEvents(edge))) {
                     continue;
                 }
 
                 Location edgeTargetLoc = CifEdgeUtils.getTarget(edge);
                 List<Event> edgeEvents = list();
-                for (Event event: getEvents(edge)) {
+                for (Event event: CifEventUtils.getEvents(edge)) {
                     if (loopEvents.contains(event)) {
                         edgeEvents.add(event);
                     }

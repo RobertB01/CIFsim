@@ -13,10 +13,9 @@
 
 package org.eclipse.escet.cif.controllercheck.checks.finiteresponse;
 
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-
 import java.util.List;
 
+import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -66,7 +65,7 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
                 out.line("The following events might still occur in a controllable-event loop:");
                 out.inc();
                 for (Event event: unprovenEvents) {
-                    out.line("- %s", getAbsName(event));
+                    out.line("- %s", CifTextUtils.getAbsName(event));
                 }
                 out.dec();
             }

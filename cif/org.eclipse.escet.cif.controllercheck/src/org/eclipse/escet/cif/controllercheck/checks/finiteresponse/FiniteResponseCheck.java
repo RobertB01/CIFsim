@@ -13,14 +13,8 @@
 
 package org.eclipse.escet.cif.controllercheck.checks.finiteresponse;
 
-import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
-import static org.eclipse.escet.cif.common.CifSortUtils.sortCifObjects;
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.controllercheck.checks.finiteresponse.EventLoopSearch.searchEventLoops;
-import static org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec.READ_INDEX;
 import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Sets.copy;
-import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.BitSet;
@@ -30,6 +24,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.common.CifSortUtils;
+import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerMddBasedCheck;
 import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
@@ -158,7 +155,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
 
         // Construct the conclusion.
         List<Event> orderedEvents = set2list(controllableEvents);
-        sortCifObjects(orderedEvents);
+        CifSortUtils.sortCifObjects(orderedEvents);
         return new FiniteResponseCheckConclusion(orderedEvents, printControlLoops);
     }
 
@@ -173,13 +170,14 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
      */
     private void checkAutomaton(Automaton aut, Supplier<Boolean> shouldTerminate, DebugNormalOutput dbg) {
         // Check if the automaton has any controllable events in its alphabet.
-        if (isEmptyIntersection(getAlphabet(aut), controllableEvents)) {
+        if (Sets.isEmptyIntersection(CifEventUtils.getAlphabet(aut), controllableEvents)) {
             return;
         }
 
         // Find the controllable-event loops in the automata. Here we ignore guards and updates, only use location,
         // edges, and events.
-        Set<EventLoop> controllableEventLoops = searchEventLoops(aut, controllableEvents, shouldTerminate);
+        Set<EventLoop> controllableEventLoops = EventLoopSearch.searchEventLoops(aut, controllableEvents,
+                shouldTerminate);
         if (shouldTerminate.get()) {
             return;
         }
@@ -193,7 +191,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
             BitSet bits = new BitSet(builder.cifVarInfoBuilder.varInfos.size());
             for (Event evt: controllableEvents) {
                 for (Declaration var: eventVarUpdate.getOrDefault(evt, set())) {
-                    VarInfo varInfo = builder.cifVarInfoBuilder.getVarInfo(var, READ_INDEX);
+                    VarInfo varInfo = builder.cifVarInfoBuilder.getVarInfo(var, CifMddSpec.READ_INDEX);
                     bits.set(varInfo.level);
                 }
             }
@@ -216,7 +214,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
         // Print output if controllable-event loops were found.
         if (!controllableEventLoops.isEmpty()) {
             dbg.line("The following events have been encountered in a controllable-event loop of automaton %s:",
-                    getAbsName(aut));
+                    CifTextUtils.getAbsName(aut));
             dbg.inc();
 
             // Check whether the loop is controllable unconnectable. If it is not, it is a potential controllable-event
@@ -239,7 +237,8 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
 
         // Determine which events are in the alphabet of the automaton, but not in any of its potential
         // controllable-event loops.
-        Set<Event> eventsInAlphabetNotInLoop = Sets.difference(getAlphabet(aut), eventsInPotentialControllableLoops);
+        Set<Event> eventsInAlphabetNotInLoop = Sets.difference(CifEventUtils.getAlphabet(aut),
+                eventsInPotentialControllableLoops);
 
         // If there are controllable events that are in the alphabet of the automaton, but not in any of its potential
         // controllable-event loops, these events cannot occur in any controllable-event loops of other automata. Remove
