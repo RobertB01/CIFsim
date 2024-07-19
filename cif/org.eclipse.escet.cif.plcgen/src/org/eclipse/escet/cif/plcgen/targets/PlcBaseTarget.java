@@ -197,6 +197,13 @@ public abstract class PlcBaseTarget extends PlcTarget {
         ioGenerator = new InputOutputGenerator(this, settings);
         continuousVariablesGenerator = new DefaultContinuousVariablesGenerator(this);
 
+        // Preparation.
+        //
+        // Extend the set reserved names in the name generator, to avoid conflicts.
+        nameGenerator.addDisallowedNames(ioGenerator.getCustomIoNames());
+
+        // Processing and code generation.
+        //
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
         if (settings.termination.isRequested()) {
