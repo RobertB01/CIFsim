@@ -17,6 +17,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
@@ -26,6 +27,7 @@ import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
 import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerBddBasedCheck;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 import com.github.javabdd.BDD;
 
@@ -41,31 +43,34 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
 
     @Override
     public BoundedResponseCheckConclusion performCheck(CifBddSpec cifBddSpec) {
+        Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
+        DebugNormalOutput dbg = cifBddSpec.settings.getDebugOutput();
+
         // Compute reachable states.
-        cifBddSpec.settings.getDebugOutput().line("Computing reachable states...");
+        dbg.line("Computing reachable states...");
         BDD reachableStates = computeReachableStates(cifBddSpec);
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (shouldTerminate.get()) {
             return null;
         }
 
         // Compute bounds.
-        cifBddSpec.settings.getDebugOutput().line();
-        cifBddSpec.settings.getDebugOutput().line("Computing bound for uncontrollable events...");
+        dbg.line();
+        dbg.line("Computing bound for uncontrollable events...");
         Bound uncontrollablesBound = computeBound(cifBddSpec, reachableStates, false);
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (shouldTerminate.get()) {
             return null;
         }
 
-        cifBddSpec.settings.getDebugOutput().line();
-        cifBddSpec.settings.getDebugOutput().line("Computing bound for controllable events...");
+        dbg.line();
+        dbg.line("Computing bound for controllable events...");
         Bound controllablesBound = computeBound(cifBddSpec, reachableStates, true);
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (shouldTerminate.get()) {
             return null;
         }
 
         // Clean up.
-        cifBddSpec.settings.getDebugOutput().line();
-        cifBddSpec.settings.getDebugOutput().line("Bounded response check completed.");
+        dbg.line();
+        dbg.line("Bounded response check completed.");
         reachableStates.free();
 
         // Return check result.
@@ -125,6 +130,10 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
         //   each round. If all bounded sequences at some point end, then only the cycles (there could be more of them)
         //   remain. Then a fixed point is reached and there is no bounded response.
 
+        // Get settings.
+        Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
+        DebugNormalOutput dbg = cifBddSpec.settings.getDebugOutput();
+
         // Get edges to apply.
         List<CifBddEdge> orderedEdges = cifBddSpec.orderedEdgesForward;
         Predicate<CifBddEdge> edgeShouldBeApplied = edge -> {
@@ -135,7 +144,7 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
             }
         };
         List<CifBddEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (shouldTerminate.get()) {
             return null;
         }
 
@@ -156,7 +165,7 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
             }
 
             // Output debug information.
-            cifBddSpec.settings.getDebugOutput().line("Bounded response check round %,d (states before round: %s).",
+            dbg.line("Bounded response check round %,d (states before round: %s).",
                     round, BddUtils.bddToStr(prevRoundStates, cifBddSpec));
 
             // Do the next round. Take one transition for each of the relevant events, to get the states reachable after
@@ -166,13 +175,13 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
                 // Apply edge.
                 BDD restriction = null;
                 BDD edgePred = edge.apply(prevRoundStates.id(), CifBddEdgeApplyDirection.FORWARD, restriction);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
                 // Add states reachable by the edge to the states reachable by this round.
                 roundStates = roundStates.id().orWith(edgePred);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
             }
@@ -182,7 +191,7 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
                 round = null;
                 break;
             }
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (shouldTerminate.get()) {
                 return null;
             }
         }
