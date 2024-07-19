@@ -274,10 +274,6 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.d
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/terminals.rr.props:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./releng/org.eclipse.escet.releng.dev.documentation/images/rail/terminals.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef.documentation/images/language-reference/syntax/tooldef.bnf:0$"
-# Exclude third party dependencies.
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\.properties:0$"
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\.xml:0$"
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*/lgpl-.*.html:0$"
 # Exclude files that are only present on the Jenkins build server.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./.Xauthority-.*:0$"
 
