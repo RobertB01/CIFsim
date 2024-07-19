@@ -1123,7 +1123,7 @@ public class ToolDefEval {
     }
 
     /**
-     * Returns whether the given expression part of a built-in tool.
+     * Returns whether the given expression is part of a built-in tool.
      *
      * @param expr The given expression.
      * @return {@code true} if the given expression is part of a built-in tool, {@code false} otherwise.
