@@ -387,18 +387,13 @@ public abstract class PlcBaseTarget extends PlcTarget {
         }
     }
 
-    /**
-     * Check whether a user-supplied I/O variable name is acceptable to the target.
-     *
-     * @param name Name of the I/O variable to check.
-     * @return Whether the given name is acceptable to the target as a name for an I/O variable.
-     */
-    protected boolean checkIoVariableName(String name) {
+    @Override
+    public boolean checkIoVariableName(String name) {
         // The generic implementation checks the name for being a regular ASCII identifier with a few limitations on
         // underscore character usage (not at start or end, and no consecutive underscore characters).
         Assert.notNull(name);
 
-        Pattern p = Pattern.compile("[A-Aa-z][A-Za-z0-9_]*");
+        Pattern p = Pattern.compile("[A-Za-z][A-Za-z0-9_]*");
         Matcher m = p.matcher(name);
         if (!m.matches()) {
             return false;

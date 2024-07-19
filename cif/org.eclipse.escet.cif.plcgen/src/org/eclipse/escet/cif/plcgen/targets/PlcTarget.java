@@ -281,6 +281,14 @@ public abstract class PlcTarget {
             String ioName, String tableLinePositionText);
 
     /**
+     * Check whether a user-supplied I/O variable name is acceptable to the target.
+     *
+     * @param name Name of the I/O variable to check.
+     * @return Whether the given name is acceptable to the target as a name for an I/O variable.
+     */
+    public abstract boolean checkIoVariableName(String name);
+
+    /**
      * Get replacement string for the CIF input file extension including dot, used to derive an output path.
      *
      * @return The replacement string.
