@@ -35,6 +35,7 @@ import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -588,7 +589,14 @@ public class BuiltInFileTools {
      */
     public static List<String> find(String path, String pattern, boolean recursive, boolean files, boolean dirs) {
         // Get absolute root path.
-        Path root = java.nio.file.Paths.get(Paths.resolve(path));
+        String absPath = Paths.resolve(path);
+        Path root;
+        try {
+            root = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to find in directory: root path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check root path.
         if (!Files.exists(root)) {
