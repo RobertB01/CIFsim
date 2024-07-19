@@ -10,7 +10,7 @@
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
     xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/pde/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/SetupWorkingSets.ecore"
     name="escet"
     label="Eclipse ESCET">
   <setupTask
@@ -284,10 +284,14 @@
         name="net.sf.eclipsecs.feature.group"/>
     <requirement
         name="de.jcup.asciidoctoreditor.feature.group"/>
+    <requirement
+        name="de.jcup.jenkinseditor.feature.feature.group"/>
     <repository
         url="https://checkstyle.org/eclipse-cs-update-site/updates/${eclipse-checkstyle.version.major}.x/${eclipse-checkstyle.version.major}.${eclipse-checkstyle.version.minor}.x"/>
     <repository
         url="https://de-jcup.github.io/update-site-eclipse-asciidoctor-editor/update-site/"/>
+    <repository
+        url="https://de-jcup.github.io/update-site-eclipse-jenkins-editor/update-site/"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}.</description>
   </setupTask>
   <setupTask
