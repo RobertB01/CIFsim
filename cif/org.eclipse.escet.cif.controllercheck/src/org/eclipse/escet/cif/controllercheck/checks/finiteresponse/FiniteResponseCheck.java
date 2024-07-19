@@ -49,6 +49,22 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
     public static final String PROPERTY_NAME = "finite response";
 
     /**
+     * Whether to print the events that appear in finite response control loops as part of printing the check
+     * conclusion.
+     */
+    private final boolean printControlLoops;
+
+    /**
+     * Constructor for the {@link FiniteResponseCheck} class.
+     *
+     * @param printControlLoops Whether to print the events that appear in finite response control loops as part of
+     *     printing the check conclusion.
+     */
+    public FiniteResponseCheck(boolean printControlLoops) {
+        this.printControlLoops = printControlLoops;
+    }
+
+    /**
      * The controllable event set. Iteratively, this set is updated. If an event is found in the alphabet of an
      * automaton, but not in any of its potential controllable-event loops, it is removed from this set.
      */
@@ -88,7 +104,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
 
         // If no automata, or no controllable events, then finite response trivially holds.
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
-            return new FiniteResponseCheckConclusion(List.of());
+            return new FiniteResponseCheckConclusion(List.of(), printControlLoops);
         }
 
         // Get additional information from MDD specification.
@@ -143,7 +159,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
         // Construct the conclusion.
         List<Event> orderedEvents = set2list(controllableEvents);
         sortCifObjects(orderedEvents);
-        return new FiniteResponseCheckConclusion(orderedEvents);
+        return new FiniteResponseCheckConclusion(orderedEvents, printControlLoops);
     }
 
     /**

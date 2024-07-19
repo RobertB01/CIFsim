@@ -33,7 +33,7 @@ public interface CheckConclusion {
     public boolean hasDetails();
 
     /**
-     * Output the result of the check. Some of the output may be controlled by options.
+     * Output the result of the check. Some of the output may be controlled by settings.
      *
      * @param out Callback to send normal output to the user.
      * @param warn Callback to send warnings to the user.

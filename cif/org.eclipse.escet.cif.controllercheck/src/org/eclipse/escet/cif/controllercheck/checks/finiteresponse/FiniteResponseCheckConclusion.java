@@ -18,7 +18,6 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import java.util.List;
 
 import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
-import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
@@ -28,13 +27,19 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
     /** Events that may be in a controllable-event loop. */
     private final List<Event> unprovenEvents;
 
+    /** Whether to print the events that appear in finite response control loops as part of printing the results. */
+    private final boolean printControlLoops;
+
     /**
      * Constructor of the {@link FiniteResponseCheckConclusion} class.
      *
      * @param orderedEvents Events that may be in a controllable-event loop.
+     * @param printControlLoops Whether to print the events that appear in finite response control loops as part of
+     *     printing the results.
      */
-    public FiniteResponseCheckConclusion(List<Event> orderedEvents) {
+    public FiniteResponseCheckConclusion(List<Event> orderedEvents, boolean printControlLoops) {
         this.unprovenEvents = orderedEvents;
+        this.printControlLoops = printControlLoops;
     }
 
     @Override
@@ -57,7 +62,7 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
 
             out.inc();
             out.line("At least one controllable-event loop was found.");
-            if (PrintControlLoopsOutputOption.isPrintControlLoopsEnabled()) {
+            if (printControlLoops) {
                 out.line("The following events might still occur in a controllable-event loop:");
                 out.inc();
                 for (Event event: unprovenEvents) {

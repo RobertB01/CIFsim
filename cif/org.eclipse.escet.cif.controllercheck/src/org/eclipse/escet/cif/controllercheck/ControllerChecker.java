@@ -111,7 +111,7 @@ public class ControllerChecker {
             checksToPerform.add(new NonBlockingUnderControlCheck());
         }
         if (settings.getCheckFiniteResponse()) {
-            checksToPerform.add(new FiniteResponseCheck());
+            checksToPerform.add(new FiniteResponseCheck(settings.getPrintFiniteResponseControlLoops()));
         }
         if (settings.getCheckConfluence()) {
             checksToPerform.add(new ConfluenceCheck());

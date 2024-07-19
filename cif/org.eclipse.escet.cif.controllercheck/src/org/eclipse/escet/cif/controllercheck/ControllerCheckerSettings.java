@@ -34,6 +34,12 @@ public class ControllerCheckerSettings {
     /** Whether to perform the non-blocking under control check. */
     private boolean checkNonBlockingUnderControl = true;
 
+    /**
+     * Whether to print the events that appear in finite response control loops as part of printing the finite response
+     * check conclusion.
+     */
+    private boolean printFiniteResponseControlLoops = true;
+
     /** Callback that indicates whether execution should be terminated on user request. */
     private Supplier<Boolean> shouldTerminate = () -> false;
 
@@ -148,6 +154,34 @@ public class ControllerCheckerSettings {
      */
     public void setCheckNonBlockingUnderControl(boolean checkNonBlockingUnderControl) {
         this.checkNonBlockingUnderControl = checkNonBlockingUnderControl;
+    }
+
+    /**
+     * Returns whether to print the events that appear in finite response control loops as part of printing the finite
+     * response check conclusion.
+     *
+     * <p>
+     * By default, the events are printed.
+     * </p>
+     *
+     * @return {@code true} to print the events, {@code false} to not print them.
+     */
+    public boolean getPrintFiniteResponseControlLoops() {
+        return printFiniteResponseControlLoops;
+    }
+
+    /**
+     * Sets whether to print the events that appear in finite response control loops as part of printing the finite
+     * response check conclusion.
+     *
+     * <p>
+     * By default, the events are printed.
+     * </p>
+     *
+     * @param printFiniteResponseControlLoops {@code true} to print the events, {@code false} to not print them.
+     */
+    public void setPrintFiniteResponseControlLoops(boolean printFiniteResponseControlLoops) {
+        this.printFiniteResponseControlLoops = printFiniteResponseControlLoops;
     }
 
     /**
