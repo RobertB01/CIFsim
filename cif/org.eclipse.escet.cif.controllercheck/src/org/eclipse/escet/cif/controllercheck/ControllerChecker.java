@@ -142,7 +142,8 @@ public class ControllerChecker {
         CifMddSpec cifMddSpec = null; // Used for MDD-based checks.
         if (hasMddBasedChecks) {
             debugOutput.line("Preparing for MDD-based checks...");
-            cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate, debugOutput);
+            cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate, normalOutput,
+                    debugOutput);
             if (cifMddSpec == null) {
                 return null;
             }
@@ -369,11 +370,13 @@ public class ControllerChecker {
      * @param specAbsPath The absolute local file system path to the CIF specification to check.
      * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param normalOutput Callback to send normal output to the user.
      * @param debugOutput Callback to send debug output to the user.
      * @return The CIF/BDD specification, or {@code null} if termination was requested.
      */
     private static CifMddSpec convertToMdd(Specification spec, String specAbsPath,
-            boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate, DebugNormalOutput debugOutput)
+            boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate, DebugNormalOutput normalOutput,
+            DebugNormalOutput debugOutput)
     {
         // Use a copy of the specification.
         spec = EMFHelper.deepclone(spec);
@@ -437,7 +440,7 @@ public class ControllerChecker {
         }
 
         // Create MDD representation.
-        CifMddSpec cifMddSpec = new CifMddSpec(computeGlobalGuardedUpdates, shouldTerminate, debugOutput);
+        CifMddSpec cifMddSpec = new CifMddSpec(computeGlobalGuardedUpdates, shouldTerminate, normalOutput, debugOutput);
         if (!cifMddSpec.compute(spec)) {
             return null;
         }

@@ -68,6 +68,9 @@ public class CifMddSpec {
     /** Callback that indicates whether execution should be terminated on user request. */
     private final Supplier<Boolean> shouldTerminate;
 
+    /** Callback to send normal output to the user. */
+    private final DebugNormalOutput normalOutput;
+
     /** Callback to send debug output to the user. */
     private final DebugNormalOutput debugOutput;
 
@@ -97,13 +100,15 @@ public class CifMddSpec {
      *
      * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param normalOutput Callback to send normal output to the user.
      * @param debugOutput Callback to send debug output to the user.
      */
     public CifMddSpec(boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate,
-            DebugNormalOutput debugOutput)
+            DebugNormalOutput normalOutput, DebugNormalOutput debugOutput)
     {
         this.globalGuardedUpdatesByEvent = computeGlobalGuardedUpdates ? map() : null;
         this.shouldTerminate = shouldTerminate;
+        this.normalOutput = normalOutput;
         this.debugOutput = debugOutput;
     }
 
@@ -403,6 +408,33 @@ public class CifMddSpec {
         }
         Assert.areEqual(nextFree, nonOriginalsVarInfos.length);
         return nonOriginalsVarInfos;
+    }
+
+    /**
+     * Returns the callback that indicates whether execution should be terminated on user request.
+     *
+     * @return The callback.
+     */
+    public Supplier<Boolean> getShouldTerminate() {
+        return shouldTerminate;
+    }
+
+    /**
+     * Returns the callback to send debug output to the user.
+     *
+     * @return The callback.
+     */
+    public DebugNormalOutput getDebugOutput() {
+        return debugOutput;
+    }
+
+    /**
+     * Returns the callback to send normal output to the user.
+     *
+     * @return The callback.
+     */
+    public DebugNormalOutput getNormalOutput() {
+        return normalOutput;
     }
 
     /**
