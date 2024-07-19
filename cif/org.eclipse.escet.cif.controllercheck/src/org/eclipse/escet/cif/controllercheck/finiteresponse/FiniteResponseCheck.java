@@ -87,18 +87,18 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
     }
 
     @Override
-    public FiniteResponseCheckConclusion performCheck(MddPrepareChecks prepareChecks) {
-        List<Automaton> automata = prepareChecks.getAutomata();
-        controllableEvents = copy(prepareChecks.getControllableEvents());
+    public FiniteResponseCheckConclusion performCheck(MddPrepareChecks cifMddSpec) {
+        List<Automaton> automata = cifMddSpec.getAutomata();
+        controllableEvents = copy(cifMddSpec.getControllableEvents());
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
             return new FiniteResponseCheckConclusion(List.of());
         }
 
         controllableEventsChanged = true;
-        eventVarUpdate = prepareChecks.getUpdatedVariablesByEvent();
+        eventVarUpdate = cifMddSpec.getUpdatedVariablesByEvent();
         nonCtrlIndependentVarsInfos = null;
-        globalGuardsByEvent = prepareChecks.getGlobalGuardsByEvent();
-        builder = prepareChecks.getBuilder();
+        globalGuardsByEvent = cifMddSpec.getGlobalGuardsByEvent();
+        builder = cifMddSpec.getBuilder();
 
         // Remove controllable events that are always disabled.
         Iterator<Event> evtIterator = controllableEvents.iterator();

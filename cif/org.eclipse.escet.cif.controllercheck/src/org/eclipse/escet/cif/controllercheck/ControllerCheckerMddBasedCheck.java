@@ -24,8 +24,8 @@ public abstract class ControllerCheckerMddBasedCheck<T extends CheckConclusion> 
     /**
      * Performs the check.
      *
-     * @param MddPrepareChecks The MDD representation of the specification to check.
+     * @param cifMddSpec The MDD representation of the specification to check.
      * @return The check result, or {@code null} if termination was requested.
      */
-    public abstract T performCheck(MddPrepareChecks MddPrepareChecks);
+    public abstract T performCheck(MddPrepareChecks cifMddSpec);
 }

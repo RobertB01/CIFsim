@@ -86,23 +86,23 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
     }
 
     @Override
-    public ConfluenceCheckConclusion performCheck(MddPrepareChecks prepareChecks) {
-        List<Automaton> automata = prepareChecks.getAutomata();
-        Set<Event> controllableEvents = prepareChecks.getControllableEvents();
+    public ConfluenceCheckConclusion performCheck(MddPrepareChecks cifMddSpec) {
+        List<Automaton> automata = cifMddSpec.getAutomata();
+        Set<Event> controllableEvents = cifMddSpec.getControllableEvents();
 
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
             return new ConfluenceCheckConclusion(List.of());
         }
 
         // At least one automaton and one controllable event exists, other data is valid too.
-        globalGuardsByEvent = prepareChecks.getGlobalGuardsByEvent();
-        globalGuardedUpdatesByEvent = prepareChecks.getGlobalGuardedUpdatesByEvent();
+        globalGuardsByEvent = cifMddSpec.getGlobalGuardsByEvent();
+        globalGuardedUpdatesByEvent = cifMddSpec.getGlobalGuardedUpdatesByEvent();
 
         // MDD data.
-        varReplacements = prepareChecks.createVarUpdateReplacements();
-        origToReadVariablesRelations = prepareChecks.computeOriginalToReadIdentity();
-        nonOriginalVarInfos = prepareChecks.getNonOriginalVariables();
-        builder = prepareChecks.getBuilder();
+        varReplacements = cifMddSpec.createVarUpdateReplacements();
+        origToReadVariablesRelations = cifMddSpec.computeOriginalToReadIdentity();
+        nonOriginalVarInfos = cifMddSpec.getNonOriginalVariables();
+        builder = cifMddSpec.getBuilder();
         Tree tree = builder.tree;
 
         // Storage of test results.
