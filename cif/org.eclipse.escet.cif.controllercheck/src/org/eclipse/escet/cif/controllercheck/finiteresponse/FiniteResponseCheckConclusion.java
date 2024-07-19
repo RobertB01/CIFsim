@@ -20,7 +20,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 

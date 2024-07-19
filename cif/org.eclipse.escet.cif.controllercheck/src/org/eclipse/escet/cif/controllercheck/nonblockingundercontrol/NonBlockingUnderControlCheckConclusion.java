@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.controllercheck.nonblockingundercontrol;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 
 /** Conclusion of the non-blocking under control check. */
 public class NonBlockingUnderControlCheckConclusion implements CheckConclusion {

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck;
+package org.eclipse.escet.cif.controllercheck.checks;
 
 /** Interface for querying and printing the conclusion of the check. */
 public interface CheckConclusion {

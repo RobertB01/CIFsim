@@ -20,7 +20,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 import org.eclipse.escet.common.java.Pair;
 
 /** Conclusion of the confluence check. */

@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.controllercheck;
 import java.util.List;
 
 import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheckConclusion;
