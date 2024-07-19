@@ -14,15 +14,14 @@
 package org.eclipse.escet.cif.controllercheck.checks.finiteresponse;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 
 import java.util.List;
 
 import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Conclusion of the finite response check. */
 public class FiniteResponseCheckConclusion implements CheckConclusion {
@@ -49,24 +48,24 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public void printResult() {
+    public void printResult(DebugNormalOutput out, WarnOutput warn) {
         if (propertyHolds()) {
-            out("[OK] The specification has finite response.");
+            out.line("[OK] The specification has finite response.");
         } else {
-            out("[ERROR] The specification may NOT have finite response:");
-            out();
+            out.line("[ERROR] The specification may NOT have finite response:");
+            out.line();
 
-            iout();
-            out("At least one controllable-event loop was found.");
+            out.inc();
+            out.line("At least one controllable-event loop was found.");
             if (PrintControlLoopsOutputOption.isPrintControlLoopsEnabled()) {
-                out("The following events might still occur in a controllable-event loop:");
-                iout();
+                out.line("The following events might still occur in a controllable-event loop:");
+                out.inc();
                 for (Event event: unprovenEvents) {
-                    out("- %s", getAbsName(event));
+                    out.line("- %s", getAbsName(event));
                 }
-                dout();
+                out.dec();
             }
-            dout();
+            out.dec();
         }
     }
 }

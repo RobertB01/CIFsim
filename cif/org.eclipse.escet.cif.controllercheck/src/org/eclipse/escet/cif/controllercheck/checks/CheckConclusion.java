@@ -13,6 +13,9 @@
 
 package org.eclipse.escet.cif.controllercheck.checks;
 
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
+import org.eclipse.escet.common.java.output.WarnOutput;
+
 /** Interface for querying and printing the conclusion of the check. */
 public interface CheckConclusion {
     /**
@@ -29,6 +32,11 @@ public interface CheckConclusion {
      */
     public boolean hasDetails();
 
-    /** Output the result of the check. Some of the output may be controlled by options. */
-    public void printResult();
+    /**
+     * Output the result of the check. Some of the output may be controlled by options.
+     *
+     * @param out Callback to send normal output to the user.
+     * @param warn Callback to send warnings to the user.
+     */
+    public void printResult(DebugNormalOutput out, WarnOutput warn);
 }

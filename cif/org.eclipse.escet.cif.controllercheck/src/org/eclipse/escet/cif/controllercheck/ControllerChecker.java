@@ -229,7 +229,7 @@ public class ControllerChecker {
             // Output current conclusion.
             normalOutput.inc();
             if (conclusion != null) {
-                conclusion.printResult();
+                conclusion.printResult(normalOutput, warnOutput);
             } else {
                 normalOutput.line("[UNKNOWN] %s checking was disabled, %s property is unknown.",
                         Strings.makeInitialUppercase(name), name);

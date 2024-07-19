@@ -13,15 +13,13 @@
 
 package org.eclipse.escet.cif.controllercheck.checks.confluence;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Conclusion of the confluence check. */
 public class ConfluenceCheckConclusion implements CheckConclusion {
@@ -48,20 +46,20 @@ public class ConfluenceCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public void printResult() {
+    public void printResult(DebugNormalOutput out, WarnOutput warn) {
         if (propertyHolds()) {
-            out("[OK] The specification has confluence.");
+            out.line("[OK] The specification has confluence.");
         } else {
-            out("[ERROR] The specification may NOT have confluence:");
-            out();
+            out.line("[ERROR] The specification may NOT have confluence:");
+            out.line();
 
-            iout();
+            out.inc();
             String pairText = (cannotProvePairs.size() == 1) ? "pair" : "pairs";
-            out("Confluence of the following event %s could not be decided:", pairText);
-            iout();
-            out(cannotProvePairs.stream().map(Pair::toString).collect(Collectors.joining(", ")));
-            dout();
-            dout();
+            out.line("Confluence of the following event %s could not be decided:", pairText);
+            out.inc();
+            out.line(cannotProvePairs.stream().map(Pair::toString).collect(Collectors.joining(", ")));
+            out.dec();
+            out.dec();
         }
     }
 }
