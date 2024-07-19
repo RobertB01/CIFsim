@@ -148,7 +148,7 @@ public class InputOutputGenerator {
                 String tableLinePositionText = fmt("at line %d of I/O table file \"%s\"", lineNumber,
                         ioTablePaths.userPath);
 
-                // Check the  number of columns returned by the CSV parser.
+                // Check the number of columns returned by the CSV parser.
                 int numColmuns = line.size();
                 if (numColmuns < 3 || numColmuns > 4) {
                     String message = fmt("Incorrect number of fields (expected 3 or 4 fields, found %d) %s.",

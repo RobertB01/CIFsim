@@ -111,7 +111,7 @@ public abstract class PlcTarget {
      *
      * @param purpose Purpose of the variable.
      * @param varName Name of the variable.
-     * @return The text to use for reading or writing the variable in the Plc code.
+     * @return The text to use for reading or writing the variable in the PLC code.
      */
     public abstract String getUsageVariableText(PlcVariablePurpose purpose, String varName);
 

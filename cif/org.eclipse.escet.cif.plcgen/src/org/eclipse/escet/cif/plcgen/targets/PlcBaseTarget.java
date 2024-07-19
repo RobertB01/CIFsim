@@ -119,7 +119,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
     protected NameGenerator nameGenerator;
 
     /**
-     * Constructor of the {@link PlcBaseTarget} class, with empty prefix string for state variables.
+     * Constructor of the {@link PlcBaseTarget} class.
      *
      * @param targetType PLC target type for code generation.
      * @param autoEnumConversion How to convert enumerations when the user selects {@link ConvertEnums#AUTO}. This

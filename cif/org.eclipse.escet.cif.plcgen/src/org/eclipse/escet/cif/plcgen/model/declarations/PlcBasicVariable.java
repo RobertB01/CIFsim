@@ -17,7 +17,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
 /** Abstract variable, typed storage for values. */
 public abstract class PlcBasicVariable {
-    /** Name of the variable in the target, for accessing the variable. */
+    /** Name of the variable in the target code, to use when accessing the variable. */
     public final String targetText;
 
     /** The name of the variable. */

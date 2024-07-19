@@ -25,8 +25,7 @@ public class PlcDataVariable extends PlcBasicVariable {
     public final PlcExpression value;
 
     /**
-     * Constructor for the {@link PlcDataVariable} class, without address and initial value, and with an empty name
-     * prefix.
+     * Constructor for the {@link PlcDataVariable} class, without address and initial value.
      *
      * @param varName The name of the variable.
      * @param type The type of the variable.
