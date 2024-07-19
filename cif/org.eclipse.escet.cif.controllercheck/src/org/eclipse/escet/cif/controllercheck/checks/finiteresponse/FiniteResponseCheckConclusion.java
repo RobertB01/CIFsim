@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.finiteresponse;
+package org.eclipse.escet.cif.controllercheck.checks.finiteresponse;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;

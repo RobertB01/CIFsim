@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.confluence;
+package org.eclipse.escet.cif.controllercheck.checks.confluence;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;

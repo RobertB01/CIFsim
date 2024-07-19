@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.boundedresponse;
+package org.eclipse.escet.cif.controllercheck.checks.boundedresponse;
 
 import java.util.EnumSet;
 import java.util.List;

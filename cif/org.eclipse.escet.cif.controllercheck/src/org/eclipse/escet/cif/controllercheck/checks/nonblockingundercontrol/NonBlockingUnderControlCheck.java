@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.nonblockingundercontrol;
+package org.eclipse.escet.cif.controllercheck.checks.nonblockingundercontrol;
 
 import static org.eclipse.escet.common.java.Maps.mapc;
 

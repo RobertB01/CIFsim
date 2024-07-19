@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.boundedresponse;
+package org.eclipse.escet.cif.controllercheck.checks.boundedresponse;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
