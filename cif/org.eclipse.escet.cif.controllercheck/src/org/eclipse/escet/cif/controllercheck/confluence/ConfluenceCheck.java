@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.controllercheck.ControllerCheckerMddBasedCheck;
-import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -86,7 +86,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
     }
 
     @Override
-    public ConfluenceCheckConclusion performCheck(MddPrepareChecks cifMddSpec) {
+    public ConfluenceCheckConclusion performCheck(CifMddSpec cifMddSpec) {
         List<Automaton> automata = cifMddSpec.getAutomata();
         Set<Event> controllableEvents = cifMddSpec.getControllableEvents();
 
@@ -407,7 +407,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
     /**
      * Verify that the result states cover all {@code originalStates}.
      *
-     * @param originalStates States where the initial combined guards holds, in {@link MddPrepareChecks#ORIGINAL_INDEX
+     * @param originalStates States where the initial combined guards holds, in {@link CifMddSpec#ORIGINAL_INDEX
      *     ORIGINAL_INDEX} variables.
      * @param resultStates Common end states for one of the confluence checks, as a relation between surviving original
      *     states and the end states.

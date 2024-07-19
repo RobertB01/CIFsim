@@ -17,7 +17,7 @@ import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifSortUtils.sortCifObjects;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.controllercheck.finiteresponse.EventLoopSearch.searchEventLoops;
-import static org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks.READ_INDEX;
+import static org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec.READ_INDEX;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.controllercheck.ControllerCheckerMddBasedCheck;
-import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
@@ -87,7 +87,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
     }
 
     @Override
-    public FiniteResponseCheckConclusion performCheck(MddPrepareChecks cifMddSpec) {
+    public FiniteResponseCheckConclusion performCheck(CifMddSpec cifMddSpec) {
         List<Automaton> automata = cifMddSpec.getAutomata();
         controllableEvents = copy(cifMddSpec.getControllableEvents());
         if (automata.isEmpty() || controllableEvents.isEmpty()) {

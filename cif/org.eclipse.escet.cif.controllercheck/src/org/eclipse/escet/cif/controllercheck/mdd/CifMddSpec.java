@@ -52,11 +52,8 @@ import org.eclipse.escet.common.multivaluetrees.VarInfo;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacementsBuilder;
 
-/**
- * Compute and collect CIF specification information for checks that work on an MDD representation of the CIF
- * specification.
- */
-public class MddPrepareChecks {
+/** MDD-based representation of a CIF specification, for use by MDD-based checks. */
+public class CifMddSpec {
     /** Index for denoting the original value of a variable. */
     public static final int ORIGINAL_INDEX = 0;
 
@@ -94,17 +91,17 @@ public class MddPrepareChecks {
     private MddSpecBuilder builder;
 
     /**
-     * Constructor for the {@link MddPrepareChecks} class.
+     * Constructor for the {@link CifMddSpec} class.
      *
      * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
      */
-    public MddPrepareChecks(boolean computeGlobalGuardedUpdates) {
+    public CifMddSpec(boolean computeGlobalGuardedUpdates) {
         this.globalGuardedUpdatesByEvent = computeGlobalGuardedUpdates ? map() : null;
     }
 
     /**
-     * Extract the events and variables structure from the CIF specification, and organize it into a form needed by the
-     * finite response and confluence checkers.
+     * Extract the events and variables structure from the CIF specification, and organize it into a form usable for the
+     * checks.
      *
      * @param spec Specification to analyze.
      * @return Whether the computation finished. The computation only does not finish when the user aborts the
@@ -115,7 +112,7 @@ public class MddPrepareChecks {
         automata = collectAutomata(spec, list());
         Set<Event> allControllableEvents = collectControllableEvents(spec, set());
         if (automata.isEmpty() || allControllableEvents.isEmpty()) {
-            // Both finite response and confluence trivially hold.
+            // All MDD-based checks trivially hold.
             return true;
         }
 
@@ -362,8 +359,8 @@ public class MddPrepareChecks {
      *
      * <p>
      * In further use, the tree operations change {@link #READ_INDEX} variables but not {@link #ORIGINAL_INDEX}
-     * variables. This makes it feasible to check that variable values are treated equally in both branches of the
-     * confluence check.
+     * variables. This makes it feasible to check that variable values are treated equally in both branches of for
+     * instance the confluence check.
      * </p>
      *
      * @return MDD tree with identity equations between {@code #ORIGINAL_INDEX} and {@code #READ_INDEX} for all

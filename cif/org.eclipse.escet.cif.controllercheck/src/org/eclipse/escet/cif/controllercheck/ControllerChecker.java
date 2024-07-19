@@ -50,9 +50,9 @@ import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheck;
 import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheck;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheck;
+import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
-import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
 import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheck;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -135,11 +135,11 @@ public class ControllerChecker {
         }
 
         // Preparations for MDD-based checks.
-        MddPrepareChecks mddPrepareChecks = null; // Used for MDD-based checks.
+        CifMddSpec cifMddSpec = null; // Used for MDD-based checks.
         if (hasMddBasedChecks) {
             debugOutput.line("Preparing for MDD-based checks...");
-            mddPrepareChecks = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate);
-            if (mddPrepareChecks == null) {
+            cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate);
+            if (cifMddSpec == null) {
                 return null;
             }
         }
@@ -163,8 +163,8 @@ public class ControllerChecker {
                 Assert.notNull(cifBddSpec);
                 conclusion = bddCheck.performCheck(cifBddSpec);
             } else if (check instanceof ControllerCheckerMddBasedCheck mddCheck) {
-                Assert.notNull(mddPrepareChecks);
-                conclusion = mddCheck.performCheck(mddPrepareChecks);
+                Assert.notNull(cifMddSpec);
+                conclusion = mddCheck.performCheck(cifMddSpec);
             } else {
                 throw new RuntimeException("Unexpected check: " + check);
             }
@@ -181,8 +181,8 @@ public class ControllerChecker {
                     return null;
                 }
             }
-            if (mddPrepareChecks != null && remainingChecks.stream().noneMatch(c -> c.isMddBasedCheck())) {
-                mddPrepareChecks = null;
+            if (cifMddSpec != null && remainingChecks.stream().noneMatch(c -> c.isMddBasedCheck())) {
+                cifMddSpec = null;
             }
 
             // Performed one more check.
@@ -367,7 +367,7 @@ public class ControllerChecker {
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      * @return The CIF/BDD specification, or {@code null} if termination was requested.
      */
-    private static MddPrepareChecks convertToMdd(Specification spec, String specAbsPath,
+    private static CifMddSpec convertToMdd(Specification spec, String specAbsPath,
             boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate)
     {
         // Use a copy of the specification.
@@ -432,13 +432,13 @@ public class ControllerChecker {
         }
 
         // Create MDD representation.
-        MddPrepareChecks mddPrepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
-        if (!mddPrepareChecks.compute(spec)) {
+        CifMddSpec cifMddSpec = new CifMddSpec(computeGlobalGuardedUpdates);
+        if (!cifMddSpec.compute(spec)) {
             return null;
         }
 
         // Return MDD representation.
-        return mddPrepareChecks;
+        return cifMddSpec;
     }
 
     /**
