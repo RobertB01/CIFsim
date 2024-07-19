@@ -35,6 +35,7 @@ import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -83,8 +84,22 @@ public class BuiltInFileTools {
         // Get absolute paths.
         String absSource = Paths.resolve(source);
         String absTarget = Paths.resolve(target);
-        Path sourcePath = java.nio.file.Paths.get(absSource);
-        Path targetPath = java.nio.file.Paths.get(absTarget);
+
+        Path sourcePath;
+        try {
+            sourcePath = java.nio.file.Paths.get(absSource);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to copy file: source path \"%s\" is invalid.", source);
+            throw new ToolDefException(msg, ex);
+        }
+
+        Path targetPath;
+        try {
+            targetPath = java.nio.file.Paths.get(absTarget);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to copy file: target path \"%s\" is invalid.", target);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check source.
         if (!Files.exists(sourcePath)) {
@@ -181,8 +196,22 @@ public class BuiltInFileTools {
         // Get absolute paths.
         String absSource = Paths.resolve(source);
         String absTarget = Paths.resolve(target);
-        Path sourcePath = java.nio.file.Paths.get(absSource);
-        Path targetPath = java.nio.file.Paths.get(absTarget);
+
+        Path sourcePath;
+        try {
+            sourcePath = java.nio.file.Paths.get(absSource);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to %s directory: source path \"%s\" is invalid.", op, source);
+            throw new ToolDefException(msg, ex);
+        }
+
+        Path targetPath;
+        try {
+            targetPath = java.nio.file.Paths.get(absTarget);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to %s directory: target path \"%s\" is invalid.", op, target);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check source.
         if (!Files.exists(sourcePath)) {
@@ -319,8 +348,22 @@ public class BuiltInFileTools {
         // Get absolute paths.
         String absFile1 = Paths.resolve(file1);
         String absFile2 = Paths.resolve(file2);
-        Path path1 = java.nio.file.Paths.get(absFile1);
-        Path path2 = java.nio.file.Paths.get(absFile2);
+
+        Path path1;
+        try {
+            path1 = java.nio.file.Paths.get(absFile1);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to diff file \"%s\": path is invalid.", file1);
+            throw new ToolDefException(msg, ex);
+        }
+
+        Path path2;
+        try {
+            path2 = java.nio.file.Paths.get(absFile2);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to diff file \"%s\": path is invalid.", file2);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Read lines from first file.
         List<String> lines1;
@@ -407,8 +450,15 @@ public class BuiltInFileTools {
      * @return {@code true} if the file or directory exists, {@code false} otherwise.
      */
     public static boolean exists(String path) {
-        Path absPath = java.nio.file.Paths.get(Paths.resolve(path));
-        return Files.exists(absPath);
+        String absPath = Paths.resolve(path);
+        Path absJavaPath;
+        try {
+            absJavaPath = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to check whether path exists: path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
+        return Files.exists(absJavaPath);
     }
 
     /**
@@ -460,18 +510,34 @@ public class BuiltInFileTools {
      */
     public static boolean filenewer(String path, List<String> refpaths, boolean allowNonExisting, boolean sameAsNewer) {
         // Get absolute paths.
-        Path absPath = java.nio.file.Paths.get(Paths.resolve(path));
+        String absPath = Paths.resolve(path);
+        Path absJavaPath;
+        try {
+            absJavaPath = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to determine if file is newer: path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
+
         List<Path> absRefPaths = listc(refpaths.size());
         for (String refpath: refpaths) {
-            absRefPaths.add(java.nio.file.Paths.get(Paths.resolve(refpath)));
+            String absRefPath = Paths.resolve(refpath);
+            Path absJavaRefPath;
+            try {
+                absJavaRefPath = java.nio.file.Paths.get(absRefPath);
+            } catch (InvalidPathException ex) {
+                String msg = fmt("Failed to determine if file is newer: path \"%s\" is invalid.", refpath);
+                throw new ToolDefException(msg, ex);
+            }
+            absRefPaths.add(absJavaRefPath);
         }
 
         // Make sure first file exist.
-        if (!allowNonExisting && !Files.exists(absPath)) {
+        if (!allowNonExisting && !Files.exists(absJavaPath)) {
             String msg = fmt("Failed to determine if file is newer: file \"%s\" does not exist.", path);
             throw new ToolDefException(msg);
         }
-        if (Files.exists(absPath) && !Files.isRegularFile(absPath)) {
+        if (Files.exists(absJavaPath) && !Files.isRegularFile(absJavaPath)) {
             String msg = fmt("Failed to determine if file is newer: path \"%s\" is not a file.", path);
             throw new ToolDefException(msg);
         }
@@ -489,14 +555,14 @@ public class BuiltInFileTools {
         }
 
         // Special case for non-existing first file.
-        if (!Files.exists(absPath) && allowNonExisting) {
+        if (!Files.exists(absJavaPath) && allowNonExisting) {
             return false;
         }
 
         // Check times.
         FileTime filetime;
         try {
-            filetime = Files.getLastModifiedTime(absPath);
+            filetime = Files.getLastModifiedTime(absJavaPath);
         } catch (IOException ex) {
             String msg = fmt(
                     "Failed to determine if file is newer: failed to get the last modified time of file \"%s\".", path);
@@ -544,10 +610,17 @@ public class BuiltInFileTools {
      */
     public static long filesize(String path, boolean missingAsZero) {
         // Get absolute path.
-        Path absPath = java.nio.file.Paths.get(Paths.resolve(path));
+        String absPath = Paths.resolve(path);
+        Path absJavaPath;
+        try {
+            absJavaPath = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to get size of file: path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check file.
-        if (!Files.exists(absPath)) {
+        if (!Files.exists(absJavaPath)) {
             if (missingAsZero) {
                 return 0;
             }
@@ -555,14 +628,14 @@ public class BuiltInFileTools {
             String msg = fmt("Failed to get size of file: file \"%s\" does not exist.", path);
             throw new ToolDefException(msg);
         }
-        if (!Files.isRegularFile(absPath)) {
+        if (!Files.isRegularFile(absJavaPath)) {
             String msg = fmt("Failed to get size of file: path \"%s\" is not a file.", path);
             throw new ToolDefException(msg);
         }
 
         // Get file size.
         try {
-            return Files.size(absPath);
+            return Files.size(absJavaPath);
         } catch (IOException ex) {
             String msg = fmt("Failed to get size of file \"%s\".", path);
             throw new ToolDefException(msg, ex);
@@ -588,7 +661,14 @@ public class BuiltInFileTools {
      */
     public static List<String> find(String path, String pattern, boolean recursive, boolean files, boolean dirs) {
         // Get absolute root path.
-        Path root = java.nio.file.Paths.get(Paths.resolve(path));
+        String absPath = Paths.resolve(path);
+        Path root;
+        try {
+            root = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to find in directory: root path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check root path.
         if (!Files.exists(root)) {
@@ -719,8 +799,15 @@ public class BuiltInFileTools {
      * @return {@code true} if the directory exists, {@code false} if it doesn't exist or is not a directory.
      */
     public static boolean isdir(String path) {
-        Path absPath = java.nio.file.Paths.get(Paths.resolve(path));
-        return Files.isDirectory(absPath);
+        String absPath = Paths.resolve(path);
+        Path absJavaPath;
+        try {
+            absJavaPath = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to check whether path refers to a directory: path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
+        return Files.isDirectory(absJavaPath);
     }
 
     /**
@@ -731,8 +818,15 @@ public class BuiltInFileTools {
      * @return {@code true} if the file exists, {@code false} if it doesn't exist or is not a file.
      */
     public static boolean isfile(String path) {
-        Path absPath = java.nio.file.Paths.get(Paths.resolve(path));
-        return Files.isRegularFile(absPath);
+        String absPath = Paths.resolve(path);
+        Path absJavaPath;
+        try {
+            absJavaPath = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to check whether path refers to a file: path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
+        return Files.isRegularFile(absJavaPath);
     }
 
     /**
@@ -749,10 +843,17 @@ public class BuiltInFileTools {
      */
     public static void mkdir(String path, boolean force, boolean parents) {
         // Get absolute path.
-        Path absPath = java.nio.file.Paths.get(Paths.resolve(path));
+        String absPath = Paths.resolve(path);
+        Path absJavaPath;
+        try {
+            absJavaPath = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to create directory: path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check path.
-        if (Files.isDirectory(absPath)) {
+        if (Files.isDirectory(absJavaPath)) {
             if (force) {
                 return;
             }
@@ -764,9 +865,9 @@ public class BuiltInFileTools {
         // Create directory/directories.
         try {
             if (parents) {
-                Files.createDirectories(absPath);
+                Files.createDirectories(absJavaPath);
             } else {
-                Files.createDirectory(absPath);
+                Files.createDirectory(absJavaPath);
             }
         } catch (IOException ex) {
             String msg = fmt("Failed to create directory \"%s\".", path);
@@ -796,8 +897,22 @@ public class BuiltInFileTools {
         // Get absolute paths.
         String absSource = Paths.resolve(source);
         String absTarget = Paths.resolve(target);
-        Path sourcePath = java.nio.file.Paths.get(absSource);
-        Path targetPath = java.nio.file.Paths.get(absTarget);
+
+        Path sourcePath;
+        try {
+            sourcePath = java.nio.file.Paths.get(absSource);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to move file: source path \"%s\" is invalid.", source);
+            throw new ToolDefException(msg, ex);
+        }
+
+        Path targetPath;
+        try {
+            targetPath = java.nio.file.Paths.get(absTarget);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to move file: target path \"%s\" is invalid.", target);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check source.
         if (!Files.exists(sourcePath)) {
@@ -918,14 +1033,21 @@ public class BuiltInFileTools {
      */
     public static boolean rmfile(String path, boolean force) {
         // Get absolute path.
-        Path absPath = java.nio.file.Paths.get(Paths.resolve(path));
+        String absPath = Paths.resolve(path);
+        Path absJavaPath;
+        try {
+            absJavaPath = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to remove file: path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check file.
-        if (!force && !Files.exists(absPath)) {
+        if (!force && !Files.exists(absJavaPath)) {
             String msg = fmt("Failed to remove file: file \"%s\" does not exist.", path);
             throw new ToolDefException(msg);
         }
-        if (!force && !Files.isRegularFile(absPath)) {
+        if (!force && !Files.isRegularFile(absJavaPath)) {
             String msg = fmt("Failed to remove file: path \"%s\" is not a file.", path);
             throw new ToolDefException(msg);
         }
@@ -933,9 +1055,9 @@ public class BuiltInFileTools {
         // Remove file.
         try {
             if (force) {
-                return Files.deleteIfExists(absPath);
+                return Files.deleteIfExists(absJavaPath);
             } else {
-                Files.delete(absPath);
+                Files.delete(absJavaPath);
                 return true;
             }
         } catch (IOException ex) {
@@ -979,10 +1101,17 @@ public class BuiltInFileTools {
      */
     private static boolean rmdir(String path, boolean force, String op) {
         // Get absolute path.
-        Path absPath = java.nio.file.Paths.get(Paths.resolve(path));
+        String absPath = Paths.resolve(path);
+        Path absJavaPath;
+        try {
+            absJavaPath = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to %s directory: path \"%s\" is invalid.", op, path);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check directory.
-        if (!Files.exists(absPath)) {
+        if (!Files.exists(absJavaPath)) {
             if (force) {
                 return false;
             }
@@ -990,7 +1119,7 @@ public class BuiltInFileTools {
             String msg = fmt("Failed to %s directory: directory \"%s\" does not exist.", op, path);
             throw new ToolDefException(msg);
         }
-        if (!force && !Files.isDirectory(absPath)) {
+        if (!force && !Files.isDirectory(absJavaPath)) {
             String msg = fmt("Failed to %s directory: path \"%s\" is not a directory.", op, path);
             throw new ToolDefException(msg);
         }
@@ -999,7 +1128,7 @@ public class BuiltInFileTools {
         DirRemover remover = new DirRemover();
         EnumSet<FileVisitOption> options = EnumSet.noneOf(FileVisitOption.class);
         try {
-            Files.walkFileTree(absPath, options, Integer.MAX_VALUE, remover);
+            Files.walkFileTree(absJavaPath, options, Integer.MAX_VALUE, remover);
         } catch (IOException | ToolDefException ex) {
             String msg = fmt("Failed to %s directory \"%s\".", op, path);
             throw new ToolDefException(msg, ex);
