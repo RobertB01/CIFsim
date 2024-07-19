@@ -56,6 +56,9 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
     /** Whether to enable debugging output for update equivalence. */
     private static final boolean DEBUG_UPDATE_EQUIVALENCE = false;
 
+    /** The name of the property being checked. */
+    public static final String PROPERTY_NAME = "confluence";
+
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
 
@@ -79,7 +82,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
 
     @Override
     public String getPropertyName() {
-        return "confluence";
+        return PROPERTY_NAME;
     }
 
     @Override

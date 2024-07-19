@@ -31,9 +31,12 @@ import com.github.javabdd.BDD;
 
 /** Class for checking a CIF specification has bounded response. */
 public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<BoundedResponseCheckConclusion> {
+    /** The name of the property being checked. */
+    public static final String PROPERTY_NAME = "bounded response";
+
     @Override
     public String getPropertyName() {
-        return "bounded response";
+        return PROPERTY_NAME;
     }
 
     @Override

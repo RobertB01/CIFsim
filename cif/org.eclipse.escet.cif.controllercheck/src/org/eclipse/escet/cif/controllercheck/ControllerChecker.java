@@ -198,10 +198,11 @@ public class ControllerChecker {
         normalOutput.line("CONCLUSION:");
 
         List<Pair<String, CheckConclusion>> namedConclusions = list();
-        namedConclusions.add(pair("bounded response", result.boundedResponseConclusion));
-        namedConclusions.add(pair("non-blocking under control", result.nonBlockingUnderControlConclusion));
-        namedConclusions.add(pair("finite response", result.finiteResponseConclusion));
-        namedConclusions.add(pair("confluence", result.confluenceConclusion));
+        namedConclusions.add(pair(BoundedResponseCheck.PROPERTY_NAME, result.boundedResponseConclusion));
+        namedConclusions.add(
+                pair(NonBlockingUnderControlCheck.PROPERTY_NAME, result.nonBlockingUnderControlConclusion));
+        namedConclusions.add(pair(FiniteResponseCheck.PROPERTY_NAME, result.finiteResponseConclusion));
+        namedConclusions.add(pair(ConfluenceCheck.PROPERTY_NAME, result.confluenceConclusion));
 
         for (int i = 0; i < namedConclusions.size(); i++) {
             // Get information on current and next conclusion.

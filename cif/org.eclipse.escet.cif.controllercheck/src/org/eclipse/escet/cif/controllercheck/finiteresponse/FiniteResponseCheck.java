@@ -51,6 +51,9 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
 
+    /** The name of the property being checked. */
+    public static final String PROPERTY_NAME = "finite response";
+
     /**
      * The controllable event set. Iteratively, this set is updated. If an event is found in the alphabet of an
      * automaton, but not in any of its potential controllable-event loops, it is removed from this set.
@@ -80,7 +83,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
 
     @Override
     public String getPropertyName() {
-        return "finite response";
+        return PROPERTY_NAME;
     }
 
     @Override

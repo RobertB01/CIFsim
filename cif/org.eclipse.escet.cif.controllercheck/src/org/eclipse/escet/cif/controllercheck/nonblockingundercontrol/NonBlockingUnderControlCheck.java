@@ -37,9 +37,12 @@ import com.github.javabdd.BDD;
 public class NonBlockingUnderControlCheck
         extends ControllerCheckerBddBasedCheck<NonBlockingUnderControlCheckConclusion>
 {
+    /** The name of the property being checked. */
+    public static final String PROPERTY_NAME = "non-blocking under control";
+
     @Override
     public String getPropertyName() {
-        return "non-blocking under control";
+        return PROPERTY_NAME;
     }
 
     @Override
