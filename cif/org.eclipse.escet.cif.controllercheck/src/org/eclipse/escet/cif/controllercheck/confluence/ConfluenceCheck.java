@@ -29,7 +29,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.ControllerCheckerMddBasedCheck;
+import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -42,7 +43,7 @@ import org.eclipse.escet.common.multivaluetrees.VarInfo;
 import org.eclipse.escet.common.multivaluetrees.VariableReplacement;
 
 /** Class to check confluence of the specification. */
-public class ConfluenceChecker {
+public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCheckConclusion> {
     /** Debug global flow of the checks, which pairs are tested, where are they matched. */
     private static final boolean DEBUG_GLOBAL = false;
 
@@ -54,6 +55,9 @@ public class ConfluenceChecker {
 
     /** Whether to enable debugging output for update equivalence. */
     private static final boolean DEBUG_UPDATE_EQUIVALENCE = false;
+
+    /** The name of the property being checked. */
+    public static final String PROPERTY_NAME = "confluence";
 
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
@@ -76,29 +80,29 @@ public class ConfluenceChecker {
     /** Builder for the MDD tree. */
     private MddSpecBuilder builder;
 
-    /**
-     * Performs the confluence check for a CIF specification.
-     *
-     * @param prepareChecks Collected CIF information to perform the confluence check.
-     * @return {@code null} if the check was aborted, else the conclusion about the checking process.
-     */
-    public ConfluenceCheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
-        List<Automaton> automata = prepareChecks.getAutomata();
-        Set<Event> controllableEvents = prepareChecks.getControllableEvents();
+    @Override
+    public String getPropertyName() {
+        return PROPERTY_NAME;
+    }
+
+    @Override
+    public ConfluenceCheckConclusion performCheck(CifMddSpec cifMddSpec) {
+        List<Automaton> automata = cifMddSpec.getAutomata();
+        Set<Event> controllableEvents = cifMddSpec.getControllableEvents();
 
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
             return new ConfluenceCheckConclusion(List.of());
         }
 
         // At least one automaton and one controllable event exists, other data is valid too.
-        globalGuardsByEvent = prepareChecks.getGlobalGuardsByEvent();
-        globalGuardedUpdatesByEvent = prepareChecks.getGlobalGuardedUpdatesByEvent();
+        globalGuardsByEvent = cifMddSpec.getGlobalGuardsByEvent();
+        globalGuardedUpdatesByEvent = cifMddSpec.getGlobalGuardedUpdatesByEvent();
 
         // MDD data.
-        varReplacements = prepareChecks.createVarUpdateReplacements();
-        origToReadVariablesRelations = prepareChecks.computeOriginalToReadIdentity();
-        nonOriginalVarInfos = prepareChecks.getNonOriginalVariables();
-        builder = prepareChecks.getBuilder();
+        varReplacements = cifMddSpec.createVarUpdateReplacements();
+        origToReadVariablesRelations = cifMddSpec.computeOriginalToReadIdentity();
+        nonOriginalVarInfos = cifMddSpec.getNonOriginalVariables();
+        builder = cifMddSpec.getBuilder();
         Tree tree = builder.tree;
 
         // Storage of test results.
@@ -403,7 +407,7 @@ public class ConfluenceChecker {
     /**
      * Verify that the result states cover all {@code originalStates}.
      *
-     * @param originalStates States where the initial combined guards holds, in {@link MddPrepareChecks#ORIGINAL_INDEX
+     * @param originalStates States where the initial combined guards holds, in {@link CifMddSpec#ORIGINAL_INDEX
      *     ORIGINAL_INDEX} variables.
      * @param resultStates Common end states for one of the confluence checks, as a relation between surviving original
      *     states and the end states.

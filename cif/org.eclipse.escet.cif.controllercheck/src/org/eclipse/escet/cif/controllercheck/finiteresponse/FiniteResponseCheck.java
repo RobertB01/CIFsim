@@ -17,7 +17,7 @@ import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifSortUtils.sortCifObjects;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.controllercheck.finiteresponse.EventLoopSearch.searchEventLoops;
-import static org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks.READ_INDEX;
+import static org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec.READ_INDEX;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
@@ -32,7 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
+import org.eclipse.escet.cif.controllercheck.ControllerCheckerMddBasedCheck;
+import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
@@ -46,9 +47,12 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
 
 /** Class for checking a CIF specification has finite response. */
-public class FiniteResponseChecker {
+public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteResponseCheckConclusion> {
     /** The application context to use. */
     private final AppEnvData env = AppEnv.getData();
+
+    /** The name of the property being checked. */
+    public static final String PROPERTY_NAME = "finite response";
 
     /**
      * The controllable event set. Iteratively, this set is updated. If an event is found in the alphabet of an
@@ -77,24 +81,24 @@ public class FiniteResponseChecker {
     /** Builder for the MDD tree. */
     private MddSpecBuilder builder;
 
-    /**
-     * Performs the finite response check for a CIF specification.
-     *
-     * @param prepareChecks Collected CIF information to perform the finite response check.
-     * @return {@code null} when the check is aborted, else the conclusion of the finite response check.
-     */
-    public FiniteResponseCheckConclusion checkSystem(MddPrepareChecks prepareChecks) {
-        List<Automaton> automata = prepareChecks.getAutomata();
-        controllableEvents = copy(prepareChecks.getControllableEvents());
+    @Override
+    public String getPropertyName() {
+        return PROPERTY_NAME;
+    }
+
+    @Override
+    public FiniteResponseCheckConclusion performCheck(CifMddSpec cifMddSpec) {
+        List<Automaton> automata = cifMddSpec.getAutomata();
+        controllableEvents = copy(cifMddSpec.getControllableEvents());
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
             return new FiniteResponseCheckConclusion(List.of());
         }
 
         controllableEventsChanged = true;
-        eventVarUpdate = prepareChecks.getUpdatedVariablesByEvent();
+        eventVarUpdate = cifMddSpec.getUpdatedVariablesByEvent();
         nonCtrlIndependentVarsInfos = null;
-        globalGuardsByEvent = prepareChecks.getGlobalGuardsByEvent();
-        builder = prepareChecks.getBuilder();
+        globalGuardsByEvent = cifMddSpec.getGlobalGuardsByEvent();
+        builder = cifMddSpec.getBuilder();
 
         // Remove controllable events that are always disabled.
         Iterator<Event> evtIterator = controllableEvents.iterator();

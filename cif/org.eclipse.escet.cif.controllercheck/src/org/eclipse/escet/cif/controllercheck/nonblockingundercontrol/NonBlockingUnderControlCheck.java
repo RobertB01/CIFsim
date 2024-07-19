@@ -28,19 +28,25 @@ import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
+import org.eclipse.escet.cif.controllercheck.ControllerCheckerBddBasedCheck;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 import com.github.javabdd.BDD;
 
 /** Class for checking a CIF specification is non-blocking under control. */
-public class NonBlockingUnderControlChecker {
-    /**
-     * Performs the non-blocking under control check for a CIF specification.
-     *
-     * @param cifBddSpec The CIF/BDD specification to check.
-     * @return The conclusion of the non-blocking under control check, or {@code null} if the check is aborted.
-     */
-    public NonBlockingUnderControlCheckConclusion checkSystem(CifBddSpec cifBddSpec) {
+public class NonBlockingUnderControlCheck
+        extends ControllerCheckerBddBasedCheck<NonBlockingUnderControlCheckConclusion>
+{
+    /** The name of the property being checked. */
+    public static final String PROPERTY_NAME = "non-blocking under control";
+
+    @Override
+    public String getPropertyName() {
+        return PROPERTY_NAME;
+    }
+
+    @Override
+    public NonBlockingUnderControlCheckConclusion performCheck(CifBddSpec cifBddSpec) {
         DebugNormalOutput dbg = cifBddSpec.settings.getDebugOutput();
         Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
 
