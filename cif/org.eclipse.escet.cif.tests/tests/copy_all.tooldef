@@ -17,6 +17,7 @@ tool copy_files(string dirpath, string old_ext, string new_ext):
     for path in paths:
         string path2 = chfileext(path, old_ext, new_ext);
         mvfile(path, path2, overwrite=true);
+        if filesize(path2) == 0:: rmfile(path2);
     end
 end
 
