@@ -138,7 +138,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
@@ -337,16 +336,9 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Collect and check events. May collect more than union of alphabets.
+        // Collect event declarations. May collect more than union of alphabets.
         List<Event> events = list();
         collectEvents(spec, events);
-        for (Event event: events) {
-            if (event.getControllable() == null) {
-                String msg = fmt("Unsupported event \"%s\": event is not declared as controllable or uncontrollable.",
-                        getAbsName(event));
-                problems.add(msg);
-            }
-        }
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
@@ -435,9 +427,6 @@ public class CifToBddConverter {
         // Get controllable events subset of the alphabet.
         cifBddSpec.controllables = set();
         for (Event event: cifBddSpec.alphabet) {
-            if (event.getControllable() == null) {
-                continue;
-            }
             if (event.getControllable()) {
                 cifBddSpec.controllables.add(event);
             }
@@ -1603,7 +1592,7 @@ public class CifToBddConverter {
                 case REQUIREMENT:
                     storeStateEvtExclInv(cifBddSpec.stateEvtExclReqLists, event, compInv.id());
                     conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclReqs, event, compInv.id());
-                    if (Boolean.TRUE.equals(event.getControllable())) {
+                    if (event.getControllable()) {
                         conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclsReqInvs, event, compInv.id());
                     }
                     break;
@@ -1690,7 +1679,7 @@ public class CifToBddConverter {
                         case REQUIREMENT:
                             storeStateEvtExclInv(cifBddSpec.stateEvtExclReqLists, event, locInv.id());
                             conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclReqs, event, locInv.id());
-                            if (Boolean.TRUE.equals(event.getControllable())) {
+                            if (event.getControllable()) {
                                 conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclsReqInvs, event, locInv.id());
                             }
                             break;
@@ -1789,7 +1778,7 @@ public class CifToBddConverter {
                 storeStateEvtExclInv(cifBddSpec.stateEvtExclReqLists, event, cifBddGuard.id());
                 conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclReqs, event, cifBddGuard.id());
 
-                if (Boolean.TRUE.equals(event.getControllable())) {
+                if (event.getControllable()) {
                     conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclsReqAuts, event, cifBddGuard.id());
                 }
 
@@ -1831,117 +1820,77 @@ public class CifToBddConverter {
         List<Automaton> automata = concat(plants, requirements);
         List<Alphabets> alphabets = concat(plantAlphabets, reqAlphabets);
 
-        // Check no 'tau' edges.
-        boolean tauOk = checkNoTauEdges(automata);
+        // Linearize edges for all events in the alphabet.
+        // Must match a similar call to linearize edges in `LinearizedHyperEdgeCreator'.
+        List<Edge> cifEdges = list();
+        LinearizeProduct.linearizeEdges(automata, alphabets, set2list(cifBddSpec.alphabet), locPtrManager, false, true,
+                cifEdges);
 
-        // Add linearized edges.
-        if (tauOk) {
-            // Linearize edges for all events in the alphabet.
-            // Must match a similar call to linearize edges in `LinearizedHyperEdgeCreator'.
-            List<Edge> cifEdges = list();
-            LinearizeProduct.linearizeEdges(automata, alphabets, set2list(cifBddSpec.alphabet), locPtrManager, false,
-                    true, cifEdges);
-
-            // Create and add CIF/BDD edges.
-            cifBddSpec.edges = listc(cifEdges.size());
-            cifBddSpec.eventEdges = mapc(cifBddSpec.alphabet.size());
-            for (Edge cifEdge: cifEdges) {
-                // Check for termination.
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
-                    break;
-                }
-
-                // Create edge.
-                CifBddEdge cifBddEdge = new CifBddEdge(cifBddSpec);
-                cifBddEdge.edges = list(cifEdge);
-
-                // Set event.
-                Assert.check(cifEdge.getEvents().size() == 1);
-                EdgeEvent edgeEvent = first(cifEdge.getEvents());
-                Event event = CifEventUtils.getEventFromEdgeEvent(edgeEvent);
-                cifBddEdge.event = event;
-
-                // Add edge.
-                cifBddSpec.edges.add(cifBddEdge);
-                List<CifBddEdge> cifBddEdges = cifBddSpec.eventEdges.get(event);
-                if (cifBddEdges == null) {
-                    cifBddEdges = list();
-                    cifBddSpec.eventEdges.put(event, cifBddEdges);
-                }
-                cifBddEdges.add(cifBddEdge);
-
-                // Convert and set guards.
-                BDD guard;
-                try {
-                    guard = convertPreds(cifEdge.getGuards(), false, cifBddSpec);
-                } catch (UnsupportedPredicateException ex) {
-                    if (ex.expr != null) {
-                        String msg = fmt("Unsupported linearized guard: unsupported part \"%s\" of guard(s) \"%s\": %s",
-                                CifTextUtils.exprToStr(ex.expr), CifTextUtils.exprsToStr(cifEdge.getGuards()),
-                                ex.getMessage());
-                        problems.add(msg);
-                    }
-
-                    // Set dummy guard to allow continuing. Use 'false' to avoid non-determinism check to give false
-                    // positives.
-                    guard = cifBddSpec.factory.zero();
-                }
-
-                cifBddEdge.guard = guard;
-                cifBddEdge.origGuard = guard.id();
-
-                // Convert and set assignments.
-                List<Update> updates = cifEdge.getUpdates();
-                convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec, this.problems);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
-                    return;
-                }
-
-                // Strengthen the guard to prevent runtime errors.
-                cifBddEdge.guard = cifBddEdge.guard.andWith(cifBddEdge.error.not());
+        // Create and add CIF/BDD edges.
+        cifBddSpec.edges = listc(cifEdges.size());
+        cifBddSpec.eventEdges = mapc(cifBddSpec.alphabet.size());
+        for (Edge cifEdge: cifEdges) {
+            // Check for termination.
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                break;
             }
 
+            // Create edge.
+            CifBddEdge cifBddEdge = new CifBddEdge(cifBddSpec);
+            cifBddEdge.edges = list(cifEdge);
+
+            // Set event.
+            Assert.check(cifEdge.getEvents().size() == 1);
+            EdgeEvent edgeEvent = first(cifEdge.getEvents());
+            Event event = CifEventUtils.getEventFromEdgeEvent(edgeEvent);
+            cifBddEdge.event = event;
+
+            // Add edge.
+            cifBddSpec.edges.add(cifBddEdge);
+            List<CifBddEdge> cifBddEdges = cifBddSpec.eventEdges.get(event);
+            if (cifBddEdges == null) {
+                cifBddEdges = list();
+                cifBddSpec.eventEdges.put(event, cifBddEdges);
+            }
+            cifBddEdges.add(cifBddEdge);
+
+            // Convert and set guards.
+            BDD guard;
+            try {
+                guard = convertPreds(cifEdge.getGuards(), false, cifBddSpec);
+            } catch (UnsupportedPredicateException ex) {
+                if (ex.expr != null) {
+                    String msg = fmt("Unsupported linearized guard: unsupported part \"%s\" of guard(s) \"%s\": %s",
+                            CifTextUtils.exprToStr(ex.expr), CifTextUtils.exprsToStr(cifEdge.getGuards()),
+                            ex.getMessage());
+                    problems.add(msg);
+                }
+
+                // Set dummy guard to allow continuing. Use 'false' to avoid non-determinism check to give false
+                // positives.
+                guard = cifBddSpec.factory.zero();
+            }
+
+            cifBddEdge.guard = guard;
+            cifBddEdge.origGuard = guard.id();
+
+            // Convert and set assignments.
+            List<Update> updates = cifEdge.getUpdates();
+            convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec, this.problems);
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
 
-            // Check for non-determinism.
-            checkNonDeterminism(cifBddSpec.edges, cifBddSpec.settings.getAllowNonDeterminism());
+            // Strengthen the guard to prevent runtime errors.
+            cifBddEdge.guard = cifBddEdge.guard.andWith(cifBddEdge.error.not());
         }
-    }
 
-    /**
-     * Checks the given automata, to make sure they don't have any 'tau' edges. Any 'tau' edges are reported as
-     * {@link #problems}.
-     *
-     * @param automata The automata to check.
-     * @return Whether the automata have no 'tau' edges ({@code true}) or do have 'tau' edges ({@code false}).
-     */
-    private boolean checkNoTauEdges(List<Automaton> automata) {
-        boolean tauOk = true;
-        for (Automaton aut: automata) {
-            for (Location loc: aut.getLocations()) {
-                for (Edge edge: loc.getEdges()) {
-                    if (edge.getEvents().isEmpty()) {
-                        String msg = fmt("Unsupported %s: edges without events (implicitly event \"tau\") "
-                                + "are not supported.", CifTextUtils.getLocationText1(loc));
-                        problems.add(msg);
-                        tauOk = false;
-                    }
-
-                    for (EdgeEvent edgeEvent: edge.getEvents()) {
-                        Expression eventRef = edgeEvent.getEvent();
-                        if (eventRef instanceof TauExpression) {
-                            String msg = fmt("Unsupported %s: edges with \"tau\" events are not supported.",
-                                    CifTextUtils.getLocationText1(loc));
-                            problems.add(msg);
-                            tauOk = false;
-                        }
-                    }
-                }
-            }
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
+            return;
         }
-        return tauOk;
+
+        // Check for non-determinism.
+        checkNonDeterminism(cifBddSpec.edges, cifBddSpec.settings.getAllowNonDeterminism());
     }
 
     /**
@@ -1961,8 +1910,8 @@ public class CifToBddConverter {
             // Skip events for which non-determinism is allowed. Also skip events without controllability (is already
             // previously reported).
             Event evt = edge.event;
-            Boolean controllable = evt.getControllable();
-            if (controllable == null || allowNonDeterminism.allowFor(controllable)) {
+            boolean controllable = evt.getControllable();
+            if (allowNonDeterminism.allowFor(controllable)) {
                 continue;
             }
 
