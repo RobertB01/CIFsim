@@ -126,7 +126,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
@@ -961,7 +960,7 @@ public class CifToBddConverter {
             return;
         }
 
-        // Make sure the CIF/BDD variable domain interleaving groups are ascending and continuous.
+        // Make sure the CIF/BDD variable domain interleaving groups are ascending and contiguous.
         int cur = 0;
         for (int i = 0; i < varCnt; i++) {
             int group = cifBddSpec.variables[i].group;
@@ -2095,10 +2094,6 @@ public class CifToBddConverter {
             return null;
         } else if (addr instanceof ProjectionExpression) {
             String msg = "Unsupported update: partial variable assignments are not supported.";
-            problems.add(msg);
-            return null;
-        } else if (addr instanceof ContVariableExpression) {
-            String msg = "Unsupported update: assignments to continuous variables are not supported.";
             problems.add(msg);
             return null;
         }

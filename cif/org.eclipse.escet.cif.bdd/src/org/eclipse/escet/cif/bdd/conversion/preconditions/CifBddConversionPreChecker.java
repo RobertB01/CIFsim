@@ -21,6 +21,7 @@ import org.eclipse.escet.cif.checkers.checks.AutReqNoChannelCheck;
 import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
@@ -53,7 +54,10 @@ public class CifBddConversionPreChecker extends CifPreconditionChecker {
                         .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.ALL_KINDS,
                                 NoInvariantPlaceKind.ALL_PLACES)
                         .disallow(NoInvariantSupKind.SUPERVISOR, NoInvariantKind.ALL_KINDS,
-                                NoInvariantPlaceKind.ALL_PLACES)
+                                NoInvariantPlaceKind.ALL_PLACES),
+
+                // Continuous variables are not supported.
+                new VarNoContinuousCheck()
 
         );
     }
