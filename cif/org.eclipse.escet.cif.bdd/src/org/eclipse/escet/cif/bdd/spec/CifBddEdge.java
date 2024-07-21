@@ -309,13 +309,6 @@ public class CifBddEdge {
         Declaration addrVar = (Declaration)CifScopeUtils.getRefObjFromRef(addr);
         Expression rhs = asgn.getValue();
         for (CifBddVariable var: cifBddSpec.variables) {
-            // Skip if precondition violation (conversion failure). Should not
-            // occur here once conversion has finished, but check may be useful
-            // when debugging conversion code.
-            if (var == null) {
-                continue;
-            }
-
             // Case distinction based on kind of addressable variable.
             if (var instanceof CifBddDiscVariable) {
                 // Check for match with addressable.
