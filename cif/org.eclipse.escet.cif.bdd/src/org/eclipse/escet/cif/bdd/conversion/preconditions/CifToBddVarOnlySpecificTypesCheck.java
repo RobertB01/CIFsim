@@ -33,7 +33,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
  * <li>Enumeration type.</li>
  * </ul>
  */
-public class CifBddVarOnlySpecificTypesCheck extends CifCheckNoCompDefInst {
+public class CifToBddVarOnlySpecificTypesCheck extends CifCheckNoCompDefInst {
     @Override
     protected void preprocessDiscVariable(DiscVariable discVar, CifCheckViolations violations) {
         // Ignore discrete variables that represent function parameters or local variables of functions.

@@ -64,7 +64,7 @@ import org.eclipse.escet.common.java.Assert;
  * <li>Marker predicates in components and locations must be valid predicates.</li>
  * </ul>
  */
-public class CifBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
+public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
     @Override
     protected void preprocessAssignment(Assignment asgn, CifCheckViolations violations) {
         checkExprOrPred(asgn.getValue(), false, true, violations);

@@ -62,14 +62,14 @@ public class CifToBddConverterPreChecker extends CifPreconditionChecker {
 
                 // Discrete and input variables are only supported if they have a boolean, non-negative ranged integer
                 // or enumeration type.
-                new CifBddVarOnlySpecificTypesCheck(),
+                new CifToBddVarOnlySpecificTypesCheck(),
 
                 // Only allow supported expressions/predicates:
                 // - Only limited forms of predicates (for markers, invariants, initialization, guards, initial values
                 //   of boolean variables, and right hand sides of assignments) are supported.
                 // - Only limited forms of integer and enumeration expressions (for binary comparisons, initial values
                 //   of variables, and right hand sides of assignments) are supported.
-                new CifBddExprOnlySupportedExprsCheck(),
+                new CifToBddExprOnlySupportedExprsCheck(),
 
                 // Conditional updates (if updates), multi-assignments, and partial variable assignments are not
                 // supported.
