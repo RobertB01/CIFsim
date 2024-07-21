@@ -17,6 +17,7 @@ import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
+import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** CIF to BDD conversion precondition checker. */
@@ -30,7 +31,10 @@ public class CifBddConversionPreChecker extends CifPreconditionChecker {
         super(shouldTerminate,
 
                 // Only plant and requirement automata are supported.
-                new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT)
+                new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT),
+
+                // Specifications without plant automata are not supported.
+                new SpecAutomataCountsCheck().setMinMaxPlantAuts(1, SpecAutomataCountsCheck.NO_CHANGE)
 
         );
     }

@@ -369,16 +369,6 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Need at least one plant automaton.
-        if (plants.isEmpty()) {
-            String msg = "Unsupported specification: no plant automata found.";
-            problems.add(msg);
-        }
-
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
-            return cifBddSpec;
-        }
-
         // Update automata for partitioned ordering.
         automata = concat(plants, requirements);
 
