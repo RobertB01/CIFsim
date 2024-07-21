@@ -19,7 +19,11 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutReqNoChannelCheck;
 import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
+import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** CIF to BDD conversion precondition checker. */
@@ -42,7 +46,14 @@ public class CifBddConversionPreChecker extends CifPreconditionChecker {
                 new EventOnlyWithControllabilityCheck(),
 
                 // Requirement automata that are senders or receivers for channels are not supported.
-                new AutReqNoChannelCheck()
+                new AutReqNoChannelCheck(),
+
+                // Only plant and requirement invariants are supported.
+                new InvNoSpecificInvsCheck()
+                        .disallow(NoInvariantSupKind.KINDLESS, NoInvariantKind.ALL_KINDS,
+                                NoInvariantPlaceKind.ALL_PLACES)
+                        .disallow(NoInvariantSupKind.SUPERVISOR, NoInvariantKind.ALL_KINDS,
+                                NoInvariantPlaceKind.ALL_PLACES)
 
         );
     }

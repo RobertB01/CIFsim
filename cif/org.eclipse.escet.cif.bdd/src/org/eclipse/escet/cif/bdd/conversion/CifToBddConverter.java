@@ -1388,15 +1388,6 @@ public class CifToBddConverter {
                 continue;
             }
 
-            // Check kind.
-            if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
-                String msg = fmt(
-                        "Unsupported %s: for state invariants, only plant and requirement invariants are supported.",
-                        CifTextUtils.getComponentText1(comp));
-                problems.add(msg);
-                continue;
-            }
-
             // Convert.
             Expression pred = inv.getPredicate();
             BDD invComp;
@@ -1437,16 +1428,6 @@ public class CifToBddConverter {
                 for (Invariant inv: loc.getInvariants()) {
                     // Skip non-state invariants.
                     if (inv.getInvKind() != InvKind.STATE) {
-                        continue;
-                    }
-
-                    // Check kind.
-                    if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
-                        String msg = fmt(
-                                "Unsupported %s: for state invariants, only plant and requirement invariants are "
-                                        + "supported.",
-                                CifTextUtils.getLocationText1(loc));
-                        problems.add(msg);
                         continue;
                     }
 
@@ -1524,14 +1505,6 @@ public class CifToBddConverter {
                 continue;
             }
 
-            // Check kind.
-            if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
-                String msg = fmt("Unsupported %s: for state/event exclusion invariants, only plant and requirement "
-                        + "invariants are supported.", CifTextUtils.getComponentText1(comp));
-                problems.add(msg);
-                continue;
-            }
-
             // Check that event is in the alphabet.
             Event event = ((EventExpression)inv.getEvent()).getEvent();
             if (!cifBddSpec.alphabet.contains(event)) {
@@ -1592,14 +1565,6 @@ public class CifToBddConverter {
                 for (Invariant inv: loc.getInvariants()) {
                     // Skip state invariants.
                     if (inv.getInvKind() == InvKind.STATE) {
-                        continue;
-                    }
-
-                    // Check kind.
-                    if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
-                        String msg = fmt("Unsupported %s: for state/event exclusion invariants, only plant and "
-                                + "requirement invariants are supported.", CifTextUtils.getLocationText1(loc));
-                        problems.add(msg);
                         continue;
                     }
 
