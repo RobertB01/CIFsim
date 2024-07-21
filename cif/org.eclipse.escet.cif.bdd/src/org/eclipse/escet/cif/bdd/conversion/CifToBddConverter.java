@@ -44,7 +44,6 @@ import static org.eclipse.escet.common.java.Sets.difference;
 import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
-import static org.eclipse.escet.common.java.Sets.sortedstrings;
 import static org.eclipse.escet.common.java.Sets.union;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
@@ -57,9 +56,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.escet.cif.bdd.conversion.preconditions.CifBddConversionPreChecker;
 import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
@@ -147,7 +148,6 @@ import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.setext.runtime.DebugMode;
@@ -174,9 +174,6 @@ import com.github.javabdd.JFactory;
 public class CifToBddConverter {
     /** The human-readable name of the application. Should start with a capital letter. */
     private final String appName;
-
-    /** Precondition violations found so far. */
-    private final Set<String> problems = set();
 
     /**
      * Per requirement automaton, the monitors as specified in the original specification. They are replaced by monitors
@@ -210,15 +207,20 @@ public class CifToBddConverter {
      * <p>
      * Furthermore, it checks the following preconditions:
      * <ul>
+     * <li><@link CifBddConversionPreChecker CIF to BDD conversion preconditions}.</li>
      * <li>{@link PlantsRefsReqsChecker Plants should not refer to requirement state}.</li>
      * </ul>
      * </p>
      *
      * @param spec The CIF specification to preprocess. Is modified in-place.
+     * @param specAbsPath The absolute local file system path to the CIF file.
      * @param warnOutput Callback for warning output.
      * @param doPlantsRefReqsWarn Whether to warn about plants that reference requirement state.
+     * @param shouldTerminate Function that indicates whether termination has been requested.
      */
-    public static void preprocess(Specification spec, WarnOutput warnOutput, boolean doPlantsRefReqsWarn) {
+    public void preprocess(Specification spec, String specAbsPath, WarnOutput warnOutput, boolean doPlantsRefReqsWarn,
+            BooleanSupplier shouldTerminate)
+    {
         // Remove/ignore I/O declarations, to increase the supported subset.
         RemoveIoDecls removeIoDecls = new RemoveIoDecls();
         removeIoDecls.transform(spec);
@@ -228,6 +230,10 @@ public class CifToBddConverter {
 
         // Eliminate component definition/instantiation, to avoid having to handle them.
         new ElimComponentDefInst().transform(spec);
+
+        // Check preconditions.
+        CifBddConversionPreChecker checker = new CifBddConversionPreChecker(shouldTerminate);
+        checker.reportPreconditionViolations(spec, specAbsPath, appName);
 
         // Check whether plants reference requirements.
         if (doPlantsRefReqsWarn) {
@@ -292,7 +298,7 @@ public class CifToBddConverter {
     }
 
     /**
-     * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
+     * Converts a CIF specification to a CIF/BDD representation.
      *
      * @param spec The CIF specification to convert. Must have been {@link #preprocess preprocessed} already.
      * @param settings The settings to use.
@@ -300,28 +306,6 @@ public class CifToBddConverter {
      * @return The CIF/BDD representation of the CIF specification.
      */
     public CifBddSpec convert(Specification spec, CifBddSettings settings, BDDFactory factory) {
-        // Convert CIF specification and return the resulting CIF/BDD specification, but only if no precondition
-        // violations.
-        CifBddSpec cifBddSpec = convertSpec(spec, settings, factory);
-        if (problems.isEmpty()) {
-            return cifBddSpec;
-        }
-
-        // Precondition violations found.
-        String msg = fmt("%s failed due to unsatisfied preconditions:\n - ", appName)
-                + String.join("\n - ", sortedstrings(problems));
-        throw new UnsupportedException(msg);
-    }
-
-    /**
-     * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
-     *
-     * @param spec The CIF specification to convert. Is assumed to have been {@link #preprocess preprocessed} already.
-     * @param settings The settings to use.
-     * @param factory The BDD factory to use.
-     * @return The CIF/BDD representation of the CIF specification.
-     */
-    private CifBddSpec convertSpec(Specification spec, CifBddSettings settings, BDDFactory factory) {
         // Initialize CIF/BDD specification.
         CifBddSpec cifBddSpec = new CifBddSpec(settings);
         cifBddSpec.factory = factory;
@@ -397,12 +381,7 @@ public class CifToBddConverter {
         }
 
         // Get controllable events subset of the alphabet.
-        cifBddSpec.controllables = set();
-        for (Event event: cifBddSpec.alphabet) {
-            if (event.getControllable()) {
-                cifBddSpec.controllables.add(event);
-            }
-        }
+        cifBddSpec.controllables = cifBddSpec.alphabet.stream().filter(Event::getControllable).collect(Sets.toSet());
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
@@ -425,7 +404,7 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check and convert variables. Create location pointers.
+        // Convert variables. Create location pointers.
         cifBddSpec.variables = new CifBddVariable[cifVarObjs.size()];
         for (int i = 0; i < cifBddSpec.variables.length; i++) {
             PositionObject cifVarObj = cifVarObjs.get(i);
@@ -459,7 +438,7 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check and convert initialization predicates.
+        // Convert initialization predicates.
         cifBddSpec.initialsVars = listc(cifBddSpec.variables.length);
         for (int i = 0; i < cifBddSpec.variables.length; i++) {
             cifBddSpec.initialsVars.add(null);
@@ -478,7 +457,7 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check and convert marker predicates.
+        // Convert marker predicates.
         cifBddSpec.markedsComps = list();
         cifBddSpec.markedsLocs = list();
         cifBddSpec.markedComps = cifBddSpec.factory.one();
@@ -617,7 +596,7 @@ public class CifToBddConverter {
      * Converts a CIF variable to a CIF/BDD variable.
      *
      * @param var The CIF variable. Must be a {@link DiscVariable} or a {@link InputVariable}.
-     * @return The CIF/BDD variable, or {@code null} if conversion failed due to a precondition not being satisfied.
+     * @return The CIF/BDD variable.
      */
     private CifBddVariable convertTypedVar(Declaration var) {
         // Get normalized type of the variable.
@@ -692,11 +671,6 @@ public class CifToBddConverter {
      * @param spec The CIF specification.
      */
     private void orderVars(CifBddSpec cifBddSpec, Specification spec) {
-        // Skip ordering, including settings processing and debug output printing, if any variables failed to convert.
-        if (Arrays.asList(cifBddSpec.variables).contains(null)) {
-            return;
-        }
-
         // Configure variable orderer.
         String varOrderTxt = cifBddSpec.settings.getBddVarOrderAdvanced();
         List<VarOrdererInstance> parseResult;
@@ -907,41 +881,17 @@ public class CifToBddConverter {
      * @param cifBddSpec The CIF/BDD specification.
      */
     private void createVarDomains(CifBddSpec cifBddSpec) {
-        // Skip if no variables (due to earlier conversion error).
+        // Skip if no variables.
         int varCnt = cifBddSpec.variables.length;
         if (varCnt == 0) {
             return;
         }
 
-        // If not ordered (due to earlier conversion error), set dummy domains, but of the correct size to prevent
-        // errors later on.
-        boolean ordered = true;
-        for (int i = 0; i < varCnt; i++) {
-            CifBddVariable var = cifBddSpec.variables[i];
-            if (var == null || var.group == -1) {
-                ordered = false;
-                break;
-            }
-        }
-
-        if (!ordered) {
-            for (int i = 0; i < varCnt; i++) {
-                CifBddVariable var = cifBddSpec.variables[i];
-                if (var == null) {
-                    continue;
-                }
-                int size = var.getDomainSize();
-                var.domain = cifBddSpec.factory.extDomain(size);
-                var.domainNew = cifBddSpec.factory.extDomain(size);
-                var.group = i;
-            }
-            return;
-        }
-
-        // Make sure the CIF/BDD variable domain interleaving groups are ascending and contiguous.
+        // Make sure the CIF/BDD variable domain interleaving groups are set, ascending and contiguous.
         int cur = 0;
         for (int i = 0; i < varCnt; i++) {
             int group = cifBddSpec.variables[i].group;
+            Assert.check(group >= 0);
             if (group == cur) {
                 continue;
             }
@@ -995,12 +945,10 @@ public class CifToBddConverter {
      * @see CifBddSpec#varSetNew
      */
     private void createUpdateAuxiliaries(CifBddSpec cifBddSpec) {
-        // Skip if earlier conversion failure.
+        // Sanity check.
         int domainCnt = cifBddSpec.factory.numberOfDomains();
         int cifVarCnt = cifBddSpec.variables.length;
-        if (cifVarCnt * 2 != domainCnt) {
-            return;
-        }
+        Assert.areEqual(cifVarCnt * 2, domainCnt);
 
         // oldToNewVarsPairing = 'x -> x+, y -> y+, z -> z+, ...'.
         // newToOldVarsPairing = 'x+ -> x, y+ -> y, z+ -> z, ...'.
@@ -1071,11 +1019,9 @@ public class CifToBddConverter {
                 }
                 DiscVariable cifVar = (DiscVariable)cifDecl;
 
-                // Get CIF/BDD variable. Skip if earlier precondition violation.
+                // Get CIF/BDD variable.
                 int varIdx = getDiscVarIdx(cifBddSpec.variables, cifVar);
-                if (varIdx == -1) {
-                    continue;
-                }
+                Assert.check(varIdx >= 0);
                 CifBddVariable cifBddVar = cifBddSpec.variables[varIdx];
                 Assert.check(cifBddVar instanceof CifBddDiscVariable);
                 CifBddDiscVariable var = (CifBddDiscVariable)cifBddVar;
@@ -1496,8 +1442,7 @@ public class CifToBddConverter {
             Automaton requirement = requirements.get(i);
             Alphabets reqAlphabets = alphabets.get(i);
 
-            // Add state/event exclusion requirements for non-monitored events. Problems have already been reported in
-            // case of send/receive usage in the requirements.
+            // Add state/event exclusion requirements for non-monitored events.
             for (Event event: reqAlphabets.syncAlphabet) {
                 // Skip events that are already monitored.
                 if (reqAlphabets.moniAlphabet.contains(event)) {
@@ -1598,7 +1543,7 @@ public class CifToBddConverter {
 
             // Convert and set assignments.
             List<Update> updates = cifEdge.getUpdates();
-            convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec, this.problems);
+            convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec);
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
@@ -1796,31 +1741,35 @@ public class CifToBddConverter {
      * @param cifBddEdge The CIF/BDD edge in which to store the CIF/BDD updates. Is modified in-place.
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification.
-     * @param problems Precondition violations found so far.
      */
     public static void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge,
-            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec, Set<String> problems)
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Initialization.
         List<Assignment> assignments = listc(updates.size());
         boolean[] assigned = new boolean[cifBddSpec.variables.length];
 
-        // Convert separate updates, and merge to form the update relation and runtime error predicate.
+        // Convert separate updates, and merge to form the edge's update relation and runtime error predicate.
         BDD relation = cifBddSpec.factory.one();
         BDD error = cifBddSpec.factory.zero();
         for (Update update: updates) {
-            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, cifBddSpec, problems);
+            // Convert update.
+            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, cifBddSpec);
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
 
-            if (rslt != null) {
-                BDD updateRelation = rslt.left;
-                relation = relation.andWith(updateRelation);
+            // Add update to edge update relation.
+            BDD updateRelation = rslt.left;
+            relation = relation.andWith(updateRelation);
 
-                BDD updateError = rslt.right;
-                error = error.orWith(updateError);
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                return;
             }
+
+            // Add error to edge error predicate.
+            BDD updateError = rslt.right;
+            error = error.orWith(updateError);
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
@@ -1848,12 +1797,10 @@ public class CifToBddConverter {
      * @param assigned Per CIF/BDD variable, whether it has been assigned on this edge. Is modified in-place.
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification.
-     * @param problems Precondition violations found so far.
-     * @return The update relation and runtime error predicate. May be {@code null} if the update can't be converted due
-     *     to a precondition violation.
+     * @return The update relation and runtime error predicate.
      */
     public static Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
-            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec, Set<String> problems)
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Get and store assignment.
         Assert.check(update instanceof Assignment);
@@ -1873,9 +1820,7 @@ public class CifToBddConverter {
         if (cifAut != null) {
             // Get CIF/BDD variable.
             int varIdx = getLpVarIdx(cifBddSpec.variables, cifAut);
-            if (varIdx == -1) {
-                return null;
-            }
+            Assert.check(varIdx >= 0);
             CifBddVariable var = cifBddSpec.variables[varIdx];
             Assert.check(var instanceof CifBddLocPtrVariable);
 
@@ -1901,9 +1846,7 @@ public class CifToBddConverter {
 
         // Normal case: assignment originating from original CIF model.
         int varIdx = getTypedVarIdx(cifBddSpec.variables, cifVar);
-        if (varIdx == -1) {
-            return null;
-        }
+        Assert.check(varIdx >= 0);
         CifBddVariable cifBddVar = cifBddSpec.variables[varIdx];
         Assert.check(cifBddVar instanceof CifBddTypedVariable);
         CifBddTypedVariable var = (CifBddTypedVariable)cifBddVar;
@@ -1976,9 +1919,6 @@ public class CifToBddConverter {
         // Add for each input variable.
         for (CifBddVariable var: cifBddSpec.variables) {
             // Handle only input variables.
-            if (var == null) {
-                continue;
-            }
             if (!(var instanceof CifBddInputVariable)) {
                 continue;
             }
@@ -2036,10 +1976,7 @@ public class CifToBddConverter {
      * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
      */
     private void mergeEdges(CifBddSpec cifBddSpec) {
-        // Skip in case of conversion failure.
-        if (cifBddSpec.eventEdges == null) {
-            return;
-        }
+        Assert.notNull(cifBddSpec.eventEdges);
 
         // Merge the edges, if needed.
         switch (cifBddSpec.settings.getEdgeGranularity()) {
@@ -2885,8 +2822,7 @@ public class CifToBddConverter {
      * @param vars The CIF/BDD variables, in which to look for the given CIF discrete variable. May not be a
      *     dummy/internal location pointer variable created for an automaton with two or more locations.
      * @param var The CIF discrete variable to look for, and for which the index is to be returned.
-     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
-     *     available, due to a precondition violation.
+     * @return The 0-based index of the CIF/BDD variable.
      */
     public static int getDiscVarIdx(CifBddVariable[] vars, DiscVariable var) {
         // Make sure the given discrete variable is an actual discrete variable, and not a dummy one created for a
@@ -2902,8 +2838,7 @@ public class CifToBddConverter {
      *
      * @param vars The CIF/BDD variables, in which to look for the given CIF input variable.
      * @param var The CIF input variable to look for, and for which the index is to be returned.
-     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
-     *     available, due to a precondition violation.
+     * @return The 0-based index of the CIF/BDD variable.
      */
     public static int getInputVarIdx(CifBddVariable[] vars, InputVariable var) {
         return getTypedVarIdx(vars, var);
@@ -2915,15 +2850,11 @@ public class CifToBddConverter {
      * @param vars The CIF/BDD variables, in which to look for the given CIF typed object. May not be a dummy/internal
      *     location pointer variable created for an automaton with two or more locations.
      * @param var The CIF variable to look for, and for which the index is to be returned.
-     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
-     *     available, due to a precondition violation.
+     * @return The 0-based index of the CIF/BDD variable.
      */
     public static int getTypedVarIdx(CifBddVariable[] vars, Declaration var) {
         for (int i = 0; i < vars.length; i++) {
             CifBddVariable cifBddVar = vars[i];
-            if (cifBddVar == null) {
-                continue;
-            }
             if (!(cifBddVar instanceof CifBddTypedVariable)) {
                 continue;
             }
@@ -2932,7 +2863,7 @@ public class CifToBddConverter {
                 return i;
             }
         }
-        return -1;
+        throw new AssertionError("Unexpected variable: " + var);
     }
 
     /**
@@ -2942,15 +2873,11 @@ public class CifToBddConverter {
      * @param vars The CIF/BDD variables, in which to look for the given CIF automaton.
      * @param aut The CIF automaton to look for, and for which the index is to be returned.
      * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found. If not found, no location
-     *     pointer was created for the automaton, or the location pointer is not available, due to a precondition
-     *     violation.
+     *     pointer was created for the automaton because it only has one location.
      */
     public static int getLpVarIdx(CifBddVariable[] vars, Automaton aut) {
         for (int i = 0; i < vars.length; i++) {
             CifBddVariable cifBddVar = vars[i];
-            if (cifBddVar == null) {
-                continue;
-            }
             if (!(cifBddVar instanceof CifBddLocPtrVariable)) {
                 continue;
             }
@@ -2959,6 +2886,7 @@ public class CifToBddConverter {
                 return i;
             }
         }
+        Assert.areEqual(aut.getLocations().size(), 1);
         return -1;
     }
 }
