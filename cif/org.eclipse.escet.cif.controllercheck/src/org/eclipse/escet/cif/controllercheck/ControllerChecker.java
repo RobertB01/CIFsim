@@ -123,7 +123,7 @@ public class ControllerChecker {
         CifBddSpec cifBddSpec = null; // Used for BDD-based checks.
         if (hasBddBasedChecks) {
             debugOutput.line("Preparing for BDD-based checks...");
-            cifBddSpec = convertToBdd(spec, settings);
+            cifBddSpec = convertToBdd(spec, specAbsPath, settings);
             if (cifBddSpec == null) {
                 return null;
             }
@@ -291,10 +291,13 @@ public class ControllerChecker {
      * specification.
      *
      * @param spec The specification to convert. Must not be modified.
+     * @param specAbsPath The absolute local file system path to the CIF file.
      * @param checkerSettings The controller properties checker settings.
      * @return The CIF/BDD specification, or {@code null} if termination was requested.
      */
-    private static CifBddSpec convertToBdd(Specification spec, ControllerCheckerSettings checkerSettings) {
+    private static CifBddSpec convertToBdd(Specification spec, String specAbsPath,
+            ControllerCheckerSettings checkerSettings)
+    {
         Supplier<Boolean> shouldTerminate = checkerSettings.getShouldTerminate();
 
         // Use a copy of the specification.
@@ -321,12 +324,13 @@ public class ControllerChecker {
         // Pre-process the CIF specification:
         // - Does not warn about CIF/SVG specifications, as they have been removed already.
         // - Does not warn about plants referring to requirement state, as we disabled that check.
-        CifToBddConverter.preprocess(spec, cifBddSettings.getWarnOutput(), cifBddSettings.getDoPlantsRefReqsWarn());
+        CifToBddConverter converter = new CifToBddConverter("CIF controller properties checker");
+        converter.preprocess(spec, specAbsPath, cifBddSettings.getWarnOutput(),
+                cifBddSettings.getDoPlantsRefReqsWarn(), () -> shouldTerminate.get());
 
         // Convert the CIF specification to its BDD representation. Also checks BDD-specific preconditions.
         BDDFactory factory = CifToBddConverter.createFactory(cifBddSettings, Collections.emptyList(),
                 Collections.emptyList());
-        CifToBddConverter converter = new CifToBddConverter("CIF controller properties checker");
         CifBddSpec cifBddSpec = converter.convert(spec, cifBddSettings, factory);
         if (shouldTerminate.get()) {
             return null;

@@ -198,6 +198,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         // Read CIF specification.
         String inputPath = InputFileOption.getPath();
+        String absInputPath = Paths.resolve(inputPath);
         if (dbgEnabled) {
             dbg("Reading CIF file \"%s\".", inputPath);
         }
@@ -227,8 +228,10 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         if (doTiming) {
             timing.inputPreProcess.start();
         }
+        CifToBddConverter converter1 = new CifToBddConverter("Data-based supervisory controller synthesis");
         try {
-            CifToBddConverter.preprocess(spec, settings.getWarnOutput(), settings.getDoPlantsRefReqsWarn());
+            converter1.preprocess(spec, absInputPath, settings.getWarnOutput(),
+                    settings.getDoPlantsRefReqsWarn(), () -> isTerminationRequested());
         } finally {
             if (doTiming) {
                 timing.inputPreProcess.stop();
@@ -252,7 +255,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Converting CIF specification to internal format.");
             }
-            CifToBddConverter converter1 = new CifToBddConverter("Data-based supervisory controller synthesis");
 
             CifBddSpec cifBddSpec;
             if (doTiming) {
