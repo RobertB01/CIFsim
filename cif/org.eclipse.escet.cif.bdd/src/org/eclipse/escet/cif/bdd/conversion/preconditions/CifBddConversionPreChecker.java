@@ -16,6 +16,8 @@ package org.eclipse.escet.cif.bdd.conversion.preconditions;
 import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** CIF to BDD conversion precondition checker. */
 public class CifBddConversionPreChecker extends CifPreconditionChecker {
@@ -26,6 +28,9 @@ public class CifBddConversionPreChecker extends CifPreconditionChecker {
      */
     public CifBddConversionPreChecker(BooleanSupplier shouldTerminate) {
         super(shouldTerminate,
+
+                // Only plant and requirement automata are supported.
+                new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT)
 
         );
     }

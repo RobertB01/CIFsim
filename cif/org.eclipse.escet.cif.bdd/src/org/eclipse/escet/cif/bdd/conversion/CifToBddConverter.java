@@ -360,24 +360,10 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check automata, and partition into plants/requirements.
-        List<Automaton> plants = list();
-        List<Automaton> requirements = list();
-        for (Automaton cifAut: automata) {
-            switch (cifAut.getKind()) {
-                case PLANT:
-                    plants.add(cifAut);
-                    break;
-                case REQUIREMENT:
-                    requirements.add(cifAut);
-                    break;
-                default: {
-                    String msg = fmt("Unsupported automaton \"%s\": only plant and requirement automata are supported.",
-                            getAbsName(cifAut));
-                    problems.add(msg);
-                }
-            }
-        }
+        // Partition automata into plants and requirements.
+        List<Automaton> plants = automata.stream().filter(a -> a.getKind() == SupKind.PLANT).toList();
+        List<Automaton> requirements = automata.stream().filter(a -> a.getKind() == SupKind.REQUIREMENT).toList();
+        Assert.areEqual(automata.size(), plants.size() + requirements.size());
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
