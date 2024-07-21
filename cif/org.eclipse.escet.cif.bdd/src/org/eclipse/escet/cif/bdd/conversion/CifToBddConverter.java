@@ -646,25 +646,12 @@ public class CifToBddConverter {
             lower = 0;
             upper = 1;
         } else if (type instanceof IntType) {
-            // Check ranged integer type.
+            // Get integer type range.
             IntType intType = (IntType)type;
-            if (CifTypeUtils.isRangeless(intType)) {
-                String msg = fmt(
-                        "Unsupported variable \"%s\": variables with rangeless integer types are not supported.",
-                        getAbsName(var));
-                problems.add(msg);
-                return null;
-            }
-
-            // Check range.
+            Assert.check(!CifTypeUtils.isRangeless(intType));
             lower = intType.getLower();
             upper = intType.getUpper();
-            if (lower < 0) {
-                String msg = fmt("Unsupported variable \"%s\": variables with integer type ranges that include "
-                        + "negative values are not supported.", getAbsName(var));
-                problems.add(msg);
-                return null;
-            }
+            Assert.check(lower >= 0);
 
             // Determine number of values.
             count = upper - lower + 1;
@@ -675,11 +662,7 @@ public class CifToBddConverter {
             lower = 0;
             upper = count - 1;
         } else {
-            // Unsupported.
-            String msg = fmt("Unsupported variable \"%s\": variables of type \"%s\" are not supported.",
-                    getAbsName(var), CifTextUtils.typeToStr(type));
-            problems.add(msg);
-            return null;
+            throw new RuntimeException("Unexpected type: " + type);
         }
 
         // Construct CIF/BDD variable.

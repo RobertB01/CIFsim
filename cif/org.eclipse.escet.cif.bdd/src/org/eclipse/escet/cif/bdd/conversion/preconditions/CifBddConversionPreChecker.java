@@ -57,7 +57,11 @@ public class CifBddConversionPreChecker extends CifPreconditionChecker {
                                 NoInvariantPlaceKind.ALL_PLACES),
 
                 // Continuous variables are not supported.
-                new VarNoContinuousCheck()
+                new VarNoContinuousCheck(),
+
+                // Discrete and input variables are only supported if they have a boolean, non-negative ranged integer
+                // or enumeration type.
+                new CifBddVarOnlySpecificTypesCheck()
 
         );
     }
