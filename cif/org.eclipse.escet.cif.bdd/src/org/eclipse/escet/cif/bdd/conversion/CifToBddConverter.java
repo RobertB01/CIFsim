@@ -402,28 +402,6 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check use of channels in requirements.
-        for (int i = 0; i < requirements.size(); i++) {
-            Set<Event> commEvents = union(reqAlphabets.get(i).sendAlphabet, reqAlphabets.get(i).recvAlphabet);
-            if (commEvents.isEmpty()) {
-                continue;
-            }
-
-            List<String> names = listc(commEvents.size());
-            for (Event extra: commEvents) {
-                names.add("\"" + getAbsName(extra) + "\"");
-            }
-
-            String msg = fmt("Unsupported %s: requirement uses channel%s: %s.",
-                    CifTextUtils.getComponentText1(requirements.get(i)), (commEvents.size() == 1) ? "" : "s",
-                    String.join(", ", names));
-            problems.add(msg);
-        }
-
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
-            return cifBddSpec;
-        }
-
         // Get controllable events subset of the alphabet.
         cifBddSpec.controllables = set();
         for (Event event: cifBddSpec.alphabet) {

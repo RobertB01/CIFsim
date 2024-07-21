@@ -17,6 +17,7 @@ import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutReqNoChannelCheck;
 import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
@@ -38,7 +39,10 @@ public class CifBddConversionPreChecker extends CifPreconditionChecker {
                 new SpecAutomataCountsCheck().setMinMaxPlantAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
 
                 // Events not declared as controllable or uncontrollable are not supported.
-                new EventOnlyWithControllabilityCheck()
+                new EventOnlyWithControllabilityCheck(),
+
+                // Requirement automata that are senders or receivers for channels are not supported.
+                new AutReqNoChannelCheck()
 
         );
     }
