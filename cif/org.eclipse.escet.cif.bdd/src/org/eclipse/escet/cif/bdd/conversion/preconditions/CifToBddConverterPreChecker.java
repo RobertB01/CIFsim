@@ -29,13 +29,13 @@ import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
 /** CIF to BDD conversion precondition checker. */
-public class CifBddConversionPreChecker extends CifPreconditionChecker {
+public class CifToBddConverterPreChecker extends CifPreconditionChecker {
     /**
-     * Constructor for the {@link CifBddConversionPreChecker} class.
+     * Constructor for the {@link CifToBddConverterPreChecker} class.
      *
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
      */
-    public CifBddConversionPreChecker(BooleanSupplier shouldTerminate) {
+    public CifToBddConverterPreChecker(BooleanSupplier shouldTerminate) {
         super(shouldTerminate,
 
                 // Only plant and requirement automata are supported.

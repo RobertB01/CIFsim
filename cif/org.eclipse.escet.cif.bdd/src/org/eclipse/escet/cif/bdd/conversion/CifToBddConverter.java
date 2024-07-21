@@ -60,7 +60,7 @@ import java.util.function.BooleanSupplier;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.cif.bdd.conversion.preconditions.CifBddConversionPreChecker;
+import org.eclipse.escet.cif.bdd.conversion.preconditions.CifToBddConverterPreChecker;
 import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
@@ -234,7 +234,7 @@ public class CifToBddConverter {
         new ElimComponentDefInst().transform(spec);
 
         // Check preconditions.
-        CifBddConversionPreChecker checker = new CifBddConversionPreChecker(shouldTerminate);
+        CifToBddConverterPreChecker checker = new CifToBddConverterPreChecker(shouldTerminate);
         checker.reportPreconditionViolations(spec, specAbsPath, appName);
 
         // Check whether plants reference requirements.
