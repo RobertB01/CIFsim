@@ -218,6 +218,7 @@ public class CifToBddConverter {
      * @param warnOutput Callback for warning output.
      * @param doPlantsRefReqsWarn Whether to warn about plants that reference requirement state.
      * @param shouldTerminate Function that indicates whether termination has been requested.
+     * @throws UnsupportedException In case the specification is unsupported.
      */
     public void preprocess(Specification spec, String specAbsPath, WarnOutput warnOutput, boolean doPlantsRefReqsWarn,
             BooleanSupplier shouldTerminate)
@@ -306,6 +307,7 @@ public class CifToBddConverter {
      * @param settings The settings to use.
      * @param factory The BDD factory to use. A suitable factory can be created using {@link #createFactory}.
      * @return The CIF/BDD representation of the CIF specification.
+     * @throws UnsupportedException In case the specification is non-determinism that is not supported.
      */
     public CifBddSpec convert(Specification spec, CifBddSettings settings, BDDFactory factory) {
         // Initialize CIF/BDD specification.
@@ -1495,6 +1497,7 @@ public class CifToBddConverter {
      * @param reqAlphabets Per requirement automaton, all the alphabets.
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification to be updated.
+     * @throws UnsupportedException In case the specification has non-determinism that is not supported.
      */
     private void convertPlantReqAuts(List<Automaton> plants, List<Automaton> requirements,
             List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets, CifBddLocationPointerManager locPtrManager,
@@ -1568,6 +1571,7 @@ public class CifToBddConverter {
      *
      * @param edges The CIF/BDD edges (self loops). May include edges for both controllable and uncontrollable events.
      * @param allowNonDeterminism Events for which to allow non-determinism.
+     * @throws UnsupportedException In case the specification has non-determinism that is not supported.
      */
     private void checkNonDeterminism(List<CifBddEdge> edges, AllowNonDeterminism allowNonDeterminism) {
         // Initialize conflict information.
