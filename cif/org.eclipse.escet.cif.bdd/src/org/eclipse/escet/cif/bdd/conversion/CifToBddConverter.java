@@ -107,7 +107,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
-import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
@@ -133,10 +132,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
@@ -1858,30 +1855,14 @@ public class CifToBddConverter {
     public static Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
             CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec, Set<String> problems)
     {
-        // Make sure it is not a conditional update ('if' update).
-        if (update instanceof IfUpdate) {
-            String msg = "Unsupported update: conditional updates ('if' updates) are not supported.";
-            problems.add(msg);
-            return null;
-        }
+        // Get and store assignment.
+        Assert.check(update instanceof Assignment);
         Assignment asgn = (Assignment)update;
-
-        // Store assignment.
         assignments.add(asgn);
 
-        // Make sure a discrete variable is assigned.
-        Expression addr = asgn.getAddressable();
-        if (addr instanceof TupleExpression) {
-            String msg = "Unsupported update: multi-assignments are not supported.";
-            problems.add(msg);
-            return null;
-        } else if (addr instanceof ProjectionExpression) {
-            String msg = "Unsupported update: partial variable assignments are not supported.";
-            problems.add(msg);
-            return null;
-        }
-
         // Get assigned variable.
+        Expression addr = asgn.getAddressable();
+        Assert.check(addr instanceof DiscVariableExpression);
         DiscVariable cifVar = ((DiscVariableExpression)addr).getVariable();
 
         // Special case for location pointer variable assignments created during linearization. Note that location

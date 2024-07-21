@@ -18,6 +18,7 @@ import java.util.function.BooleanSupplier;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutReqNoChannelCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
@@ -68,7 +69,11 @@ public class CifBddConversionPreChecker extends CifPreconditionChecker {
                 //   of boolean variables, and right hand sides of assignments) are supported.
                 // - Only limited forms of integer and enumeration expressions (for binary comparisons, initial values
                 //   of variables, and right hand sides of assignments) are supported.
-                new CifBddExprOnlySupportedExprsCheck()
+                new CifBddExprOnlySupportedExprsCheck(),
+
+                // Conditional updates (if updates), multi-assignments, and partial variable assignments are not
+                // supported.
+                new EdgeOnlySimpleAssignmentsCheck()
 
         );
     }
