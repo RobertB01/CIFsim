@@ -148,6 +148,7 @@ import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.setext.runtime.DebugMode;
@@ -298,7 +299,8 @@ public class CifToBddConverter {
     }
 
     /**
-     * Converts a CIF specification to a CIF/BDD representation.
+     * Converts a CIF specification to a CIF/BDD representation. Also checks the specification for non-deterministic
+     * events, as {@link CifBddSettings#getAllowNonDeterminism configured}.
      *
      * @param spec The CIF specification to convert. Must have been {@link #preprocess preprocessed} already.
      * @param settings The settings to use.
@@ -1614,6 +1616,7 @@ public class CifToBddConverter {
         }
 
         // Report conflicts.
+        Set<String> problems = setc(conflicts.size());
         for (Event conflict: conflicts) {
             // Get edges for the event.
             List<CifBddEdge> eventEdges = list();
@@ -1666,17 +1669,26 @@ public class CifToBddConverter {
                 groupsTxt = String.join("", guardsTxts);
             }
 
-            // Report conflict.
+            // Add problem.
             String eventKind = switch (allowNonDeterminism) {
                 case ALL -> throw new AssertionError("Should not get here, as non-determinism is allowed.");
                 case NONE -> "";
                 case CONTROLLABLE -> "uncontrollable ";
                 case UNCONTROLLABLE -> "controllable ";
             };
-            String msg = fmt("Unsupported linearized edges: non-determinism detected for edges of "
+            String msg = fmt("Unsupported linearized edges with non-determinism detected for edges of "
                     + "%sevent \"%s\" with overlapping guards:%s", eventKind, getAbsName(conflict), groupsTxt);
             problems.add(msg);
         }
+
+        // Report problems.
+        if (problems.isEmpty()) {
+            return;
+        }
+
+        String msg = fmt("%s failed due to unsatisfied preconditions:\n - ", appName)
+                + String.join("\n - ", Sets.sortedstrings(problems));
+        throw new UnsupportedException(msg);
     }
 
     /**
