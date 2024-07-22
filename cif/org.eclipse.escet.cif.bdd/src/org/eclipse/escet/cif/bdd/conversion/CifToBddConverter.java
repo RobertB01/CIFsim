@@ -15,10 +15,6 @@ package org.eclipse.escet.cif.bdd.conversion;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
-import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.BI_CONDITIONAL;
-import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.CONJUNCTION;
-import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.DISJUNCTION;
-import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.IMPLICATION;
 import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.INTEGER_DIVISION;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAssignment;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
@@ -2278,63 +2274,63 @@ public class CifToBddConverter {
 
             return (boolean)valueObj ? cifBddSpec.factory.one() : cifBddSpec.factory.zero();
         } else if (pred instanceof UnaryExpression) {
-            // Inverse unary expression.
+            // Unary expression.
             UnaryExpression upred = (UnaryExpression)pred;
             UnaryOperator op = upred.getOperator();
-            Assert.areEqual(op, UnaryOperator.INVERSE);
 
-            // not x
-            BDD child = convertPred(upred.getChild(), initial, cifBddSpec);
-            BDD rslt = child.not();
-            child.free();
-            return rslt;
+            switch (op) {
+                case INVERSE: {
+                    BDD child = convertPred(upred.getChild(), initial, cifBddSpec);
+                    BDD rslt = child.not();
+                    child.free();
+                    return rslt;
+                }
+
+                default:
+                    break; // Try static evaluation.
+            }
         } else if (pred instanceof BinaryExpression) {
-            // Various binary expressions.
+            // Binary expression.
             BinaryExpression bpred = (BinaryExpression)pred;
             BinaryOperator op = (((BinaryExpression)pred).getOperator());
             Expression lhs = bpred.getLeft();
             Expression rhs = bpred.getRight();
 
-            // a and b
-            if (op == CONJUNCTION) {
-                CifType ltype = normalizeType(lhs.getType());
-                CifType rtype = normalizeType(rhs.getType());
-                Assert.check(ltype instanceof BoolType);
-                Assert.check(rtype instanceof BoolType);
-
-                BDD left = convertPred(lhs, initial, cifBddSpec);
-                BDD right = convertPred(rhs, initial, cifBddSpec);
-                return left.andWith(right);
-            }
-
-            // a or b
-            if (op == DISJUNCTION) {
-                CifType ltype = normalizeType(lhs.getType());
-                CifType rtype = normalizeType(rhs.getType());
-                Assert.check(ltype instanceof BoolType);
-                Assert.check(rtype instanceof BoolType);
-
-                BDD left = convertPred(lhs, initial, cifBddSpec);
-                BDD right = convertPred(rhs, initial, cifBddSpec);
-                return left.orWith(right);
-            }
-
-            // a => b
-            if (op == IMPLICATION) {
-                BDD left = convertPred(lhs, initial, cifBddSpec);
-                BDD right = convertPred(rhs, initial, cifBddSpec);
-                return left.impWith(right);
-            }
-
-            // a <=> b
-            if (op == BI_CONDITIONAL) {
-                BDD left = convertPred(lhs, initial, cifBddSpec);
-                BDD right = convertPred(rhs, initial, cifBddSpec);
-                return left.biimpWith(right);
-            }
-
-            // Comparison.
             switch (op) {
+                case CONJUNCTION: {
+                    CifType ltype = normalizeType(lhs.getType());
+                    CifType rtype = normalizeType(rhs.getType());
+                    Assert.check(ltype instanceof BoolType);
+                    Assert.check(rtype instanceof BoolType);
+
+                    BDD left = convertPred(lhs, initial, cifBddSpec);
+                    BDD right = convertPred(rhs, initial, cifBddSpec);
+                    return left.andWith(right);
+                }
+
+                case DISJUNCTION: {
+                    CifType ltype = normalizeType(lhs.getType());
+                    CifType rtype = normalizeType(rhs.getType());
+                    Assert.check(ltype instanceof BoolType);
+                    Assert.check(rtype instanceof BoolType);
+
+                    BDD left = convertPred(lhs, initial, cifBddSpec);
+                    BDD right = convertPred(rhs, initial, cifBddSpec);
+                    return left.orWith(right);
+                }
+
+                case IMPLICATION: {
+                    BDD left = convertPred(lhs, initial, cifBddSpec);
+                    BDD right = convertPred(rhs, initial, cifBddSpec);
+                    return left.impWith(right);
+                }
+
+                case BI_CONDITIONAL: {
+                    BDD left = convertPred(lhs, initial, cifBddSpec);
+                    BDD right = convertPred(rhs, initial, cifBddSpec);
+                    return left.biimpWith(right);
+                }
+
                 case EQUAL:
                 case GREATER_EQUAL:
                 case GREATER_THAN:
@@ -2344,7 +2340,7 @@ public class CifToBddConverter {
                     return convertCmpPred(lhs, rhs, op, initial, cifBddSpec);
 
                 default:
-                    throw new AssertionError("Unexpected binary operator: " + op);
+                    break; // Try static evaluation.
             }
         } else if (pred instanceof IfExpression) {
             // Condition expression with boolean result values.
@@ -2400,9 +2396,20 @@ public class CifToBddConverter {
             }
 
             return rslt;
-        } else {
-            throw new AssertionError("Unexpected predicate: " + pred);
         }
+
+        // Evaluate statically-evaluable predicate.
+        Object valueObj;
+        try {
+            valueObj = CifEvalUtils.eval(pred, initial);
+        } catch (CifEvalException ex) {
+            throw new AssertionError("Precondition violation.", ex);
+        }
+
+        // Create BDD for 'true' or 'false'.
+        Assert.check(valueObj instanceof Boolean);
+        boolean value = (boolean)valueObj;
+        return value ? cifBddSpec.factory.one() : cifBddSpec.factory.zero();
     }
 
     /**

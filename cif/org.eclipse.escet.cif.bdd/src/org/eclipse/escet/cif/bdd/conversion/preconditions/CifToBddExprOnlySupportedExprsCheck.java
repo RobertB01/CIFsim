@@ -196,14 +196,12 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
                 // not
                 case INVERSE:
                     checkPred(unaryExpr.getChild(), initial, violations);
-                    break;
+                    return;
 
-                // Unsupported.
+                // Other.
                 default:
-                    violations.add(pred, "Unary operator \"%s\" is used", CifTextUtils.operatorToStr(op));
-                    break;
+                    break; // Continue, to try to evaluate the expression statically.
             }
-            return;
         } else if (pred instanceof BinaryExpression binaryExpr) {
             // Binary expression.
             Expression lhs = binaryExpr.getLeft();
@@ -244,10 +242,9 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
                     checkCmpPred(binaryExpr, initial, violations);
                     return;
 
-                // Unsupported.
+                // Other.
                 default: {
-                    violations.add(pred, "Binary operator \"%s\" is used", CifTextUtils.operatorToStr(op));
-                    return;
+                    break; // Continue, to try to evaluate the expression statically.
                 }
             }
         } else if (pred instanceof IfExpression ifExpr) {
@@ -278,11 +275,28 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
             // Ignore, since during the actual conversion, we will not have channels anymore. We check the send values
             // elsewhere in this class.
             return;
-        } else {
-            // Others: unsupported.
-            violations.add(pred, "Predicate is not supported");
+        }
+
+        // Check for statically evaluable predicate.
+        Expression notSingleValue = CifValueUtils.checkSingleValue(pred, initial, true);
+        if (notSingleValue != null) {
+            violations.add(notSingleValue, "Value is too complex to be statically evaluated, "
+                    + "or evaluation results in a runtime error");
             return;
         }
+
+        // Evaluate predicate.
+        Object valueObj;
+        try {
+            valueObj = CifEvalUtils.eval(pred, initial);
+        } catch (CifEvalException ex) {
+            Expression reportObj = (ex.expr != null) ? ex.expr : pred;
+            violations.add(reportObj, "Failed to statically evaluate a predicate");
+            return;
+        }
+
+        // Check evaluated value.
+        Assert.check(valueObj instanceof Boolean);
     }
 
     /**
