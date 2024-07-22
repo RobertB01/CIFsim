@@ -208,8 +208,8 @@ public class CifToBddConverter {
      * <p>
      * Furthermore, it checks the following preconditions:
      * <ul>
-     * <li><@link CifBddConversionPreChecker CIF to BDD conversion preconditions}.</li>
      * <li>{@link PlantsRefsReqsChecker Plants should not refer to requirement state}.</li>
+     * <li><@link CifBddConversionPreChecker CIF to BDD conversion preconditions}.</li>
      * </ul>
      * </p>
      *
@@ -233,14 +233,14 @@ public class CifToBddConverter {
         // Eliminate component definition/instantiation, to avoid having to handle them.
         new ElimComponentDefInst().transform(spec);
 
-        // Check preconditions.
-        CifToBddConverterPreChecker checker = new CifToBddConverterPreChecker(shouldTerminate);
-        checker.reportPreconditionViolations(spec, specAbsPath, appName);
-
         // Check whether plants reference requirements.
         if (doPlantsRefReqsWarn) {
             new PlantsRefsReqsChecker(warnOutput).checkPlantRefToRequirement(spec);
         }
+
+        // Check preconditions.
+        CifToBddConverterPreChecker checker = new CifToBddConverterPreChecker(shouldTerminate);
+        checker.reportPreconditionViolations(spec, specAbsPath, appName);
     }
 
     /**

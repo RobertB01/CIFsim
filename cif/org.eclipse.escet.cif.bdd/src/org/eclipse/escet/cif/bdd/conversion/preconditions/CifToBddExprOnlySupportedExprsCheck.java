@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
+import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
@@ -42,6 +43,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ReceivedExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
@@ -62,6 +64,7 @@ import org.eclipse.escet.common.java.Assert;
  * <li>Initialization predicates in components and locations must be valid predicates.</li>
  * <li>Invariant predicates must be valid predicates.</li>
  * <li>Marker predicates in components and locations must be valid predicates.</li>
+ * <li>Send values of edges must be valid expressions/predicates.</li>
  * </ul>
  */
 public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
@@ -97,6 +100,14 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
     @Override
     protected void preprocessInvariant(Invariant inv, CifCheckViolations violations) {
         checkPred(inv.getPredicate(), false, violations);
+    }
+
+    @Override
+    protected void preprocessEdgeSend(EdgeSend edgeSend, CifCheckViolations violations) {
+        Expression value = edgeSend.getValue();
+        if (value != null) {
+            checkExprOrPred(value, false, false, violations);
+        }
     }
 
     /**
@@ -258,6 +269,10 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
                 supported &= checkPred(switchCase.getValue(), initial, violations);
             }
             return supported;
+        } else if (pred instanceof ReceivedExpression) {
+            // Ignore, since during the actual conversion, we will not have channels anymore. We check the send values
+            // elsewhere in this class.
+            return true;
         } else {
             // Others: unsupported.
             violations.add(pred, "Predicate is not supported");
@@ -382,10 +397,10 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
                     // Check divisor/rhs value.
                     int divisor = (int)rhsValueObj;
                     if (divisor == 0) {
-                        violations.add(rhs, "Division by zero for \"%s\"", op);
+                        violations.add(rhs, "Division by zero for \"%s\"", CifTextUtils.operatorToStr(op));
                         return false;
                     } else if (divisor < 0) {
-                        violations.add(rhs, "Division by a negative value for \"%s\"", op);
+                        violations.add(rhs, "Division by a negative value for \"%s\"", CifTextUtils.operatorToStr(op));
                         return false;
                     }
 
@@ -426,6 +441,13 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
                 supported &= checkExpr(switchCase.getValue(), initial, false, violations);
             }
             return supported;
+        }
+
+        // Received expression.
+        if (expr instanceof ReceivedExpression) {
+            // Ignore, since during the actual conversion, we will not have channels anymore. We check the send values
+            // elsewhere in this class.
+            return true;
         }
 
         // Check for statically evaluable expression.
