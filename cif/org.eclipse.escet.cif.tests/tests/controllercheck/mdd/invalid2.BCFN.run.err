@@ -2,7 +2,7 @@ WARNING: The alphabet of the specification contains no controllable events.
 ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
 
   -------------------------------------------------
-  (1/17) A value of type "dict(bool:bool)" is used.
+  (1/15) A value of type "dict(bool:bool)" is used.
   -------------------------------------------------
    * In discrete variable "p.dbb":
      - disc dict(bool:bool) dbb = {true: false};
@@ -12,14 +12,14 @@ ERROR: CIF controller properties checker failed due to unsatisfied preconditions
                         ^
 
   -------------------------------------------
-  (2/17) A value of type "dist bool" is used.
+  (2/15) A value of type "dist bool" is used.
   -------------------------------------------
    * In discrete variable "p.db":
      - disc dist bool db = constant(true);
                                    ^
 
   -------------------------------------------------
-  (3/17) A value of type "func bool(bool)" is used.
+  (3/15) A value of type "func bool(bool)" is used.
   -------------------------------------------------
    * In discrete variable "p.fbb":
      - disc func bool(bool) fbb = f;
@@ -29,21 +29,21 @@ ERROR: CIF controller properties checker failed due to unsatisfied preconditions
                         ^
 
   -------------------------------------------
-  (4/17) A value of type "list bool" is used.
+  (4/15) A value of type "list bool" is used.
   -------------------------------------------
    * In location "p.l":
      - edge u do lb := lb[:];
                          ^
 
   ----------------------------------------------
-  (5/17) A value of type "list[1] bool" is used.
+  (5/15) A value of type "list[1] bool" is used.
   ----------------------------------------------
    * In discrete variable "p.lb":
      - disc list bool lb = [true];
                            ^
 
   --------------------------------------
-  (6/17) A value of type "real" is used.
+  (6/15) A value of type "real" is used.
   --------------------------------------
    * In location "p.l":
      - edge u do r := <real>1;
@@ -65,7 +65,7 @@ ERROR: CIF controller properties checker failed due to unsatisfied preconditions
                      ^
 
   ------------------------------------------
-  (7/17) A value of type "set bool" is used.
+  (7/15) A value of type "set bool" is used.
   ------------------------------------------
    * In location "p.l":
      - edge u do sb := {true} or {false};
@@ -77,7 +77,7 @@ ERROR: CIF controller properties checker failed due to unsatisfied preconditions
                           ^
 
   ----------------------------------------
-  (8/17) A value of type "string" is used.
+  (8/15) A value of type "string" is used.
   ----------------------------------------
    * In location "p.l":
      - edge u do str := "a";
@@ -87,35 +87,21 @@ ERROR: CIF controller properties checker failed due to unsatisfied preconditions
                          ^
 
   ---------------------------------------------------
-  (9/17) A value of type "tuple(bool; bool)" is used.
+  (9/15) A value of type "tuple(bool; bool)" is used.
   ---------------------------------------------------
    * In discrete variable "p.tbb":
      - disc tuple(bool a; bool b) tbb = (true, false);
                                         ^
 
   ---------------------------------------------------------
-  (10/17) A value of type "tuple(bool; dist bool)" is used.
+  (10/15) A value of type "tuple(bool; dist bool)" is used.
   ---------------------------------------------------------
    * In location "p.l":
      - edge u do (b, db) := sample db;
                             ^
 
-  -------------------------------------
-  (11/17) Binary operator "in" is used.
-  -------------------------------------
-   * In location "p.l":
-     - edge u do b := true in sb;
-                           ^
-
-  --------------------------------------
-  (12/17) Binary operator "sub" is used.
-  --------------------------------------
-   * In location "p.l":
-     - edge u do b := sb sub sb;
-                         ^
-
   -------------------------------------------------------------------------------
-  (13/17) Discrete variable does not have a boolean, integer or enumeration type.
+  (11/15) Discrete variable does not have a boolean, integer or enumeration type.
   -------------------------------------------------------------------------------
    * In discrete variable "p.db":
      - disc dist bool db = constant(true);
@@ -143,33 +129,37 @@ ERROR: CIF controller properties checker failed due to unsatisfied preconditions
             ^
 
   -------------------------------------------------------
-  (14/17) Discrete variable has a rangeless integer type.
+  (12/15) Discrete variable has a rangeless integer type.
   -------------------------------------------------------
    * In discrete variable "p.i":
      - disc int i;
             ^
 
   ------------------------------------
-  (15/17) Edge has a multi-assignment.
+  (13/15) Edge has a multi-assignment.
   ------------------------------------
    * In location "p.l":
      - edge u do (b, db) := sample db;
                          ^
 
   -----------------------------------------------
-  (16/17) Edge has a partial variable assignment.
+  (14/15) Edge has a partial variable assignment.
   -----------------------------------------------
    * In location "p.l":
      - edge u do tbb[a] := true;
                     ^
 
   --------------------------------------------------------------------------------------------------
-  (17/17) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
+  (15/15) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
   --------------------------------------------------------------------------------------------------
    * In location "p.l":
      - edge u do i := i div i;
                             ^
      - edge u do i := i mod i;
                             ^
+     - edge u do b := true in sb;
+                              ^
+     - edge u do b := sb sub sb;
+                      ^
      - edge u do i := -i;
                        ^
