@@ -116,9 +116,15 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
     {
         CifType type = CifTypeUtils.normalizeType(expr.getType());
         if (type instanceof BoolType) {
+            // Predicate.
             return checkPred(expr, initial, violations);
-        } else {
+        } else if (type instanceof IntType || type instanceof EnumType) {
+            // Non-boolean expression.
             return checkExpr(expr, initial, allowSubtract, violations);
+        } else {
+            // Unsupported.
+            violations.add(expr, "A value of type \"%s\" is used", CifTextUtils.typeToStr(type));
+            return false;
         }
     }
 
@@ -149,6 +155,11 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
      * @return Whether the predicate is supported.
      */
     public static boolean checkPred(Expression pred, boolean initial, CifCheckViolations violations) {
+        // Sanity check.
+        CifType type = CifTypeUtils.normalizeType(pred.getType());
+        Assert.check(type instanceof BoolType);
+
+        // Handle different expressions.
         if (pred instanceof BoolExpression) {
             // Boolean literal.
             return true;
@@ -263,30 +274,33 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
      * @param violations The violations collected so far.
      * @return Whether the comparison is supported.
      */
-    public static boolean checkCmpPred(BinaryExpression cmpPred, boolean initial, CifCheckViolations violations) {
-        // Check lhs and rhs types.
+    private static boolean checkCmpPred(BinaryExpression cmpPred, boolean initial, CifCheckViolations violations) {
         Expression lhs = cmpPred.getLeft();
         Expression rhs = cmpPred.getRight();
-        BinaryOperator op = cmpPred.getOperator();
         CifType ltype = CifTypeUtils.normalizeType(lhs.getType());
         CifType rtype = CifTypeUtils.normalizeType(rhs.getType());
-        if (!(ltype instanceof BoolType && rtype instanceof BoolType)
-                && !(ltype instanceof EnumType && rtype instanceof EnumType)
-                && !(ltype instanceof IntType && rtype instanceof IntType))
+
+        if (ltype instanceof BoolType && rtype instanceof BoolType) {
+            // Predicates.
+            return checkPred(lhs, initial, violations) && checkPred(rhs, initial, violations);
+        } else if ((ltype instanceof EnumType && rtype instanceof EnumType)
+                || (ltype instanceof IntType && rtype instanceof IntType))
         {
+            // Non-boolean expressions.
+            return checkExpr(lhs, initial, false, violations) && checkExpr(rhs, initial, false, violations);
+        } else {
+            // Unsupported.
             violations.add(cmpPred, "Binary operator \"%s\" is used on values of types \"%s\" and \"%s\"",
-                    CifTextUtils.operatorToStr(op), CifTextUtils.typeToStr(ltype), CifTextUtils.typeToStr(rtype));
+                    CifTextUtils.operatorToStr(cmpPred.getOperator()), CifTextUtils.typeToStr(ltype),
+                    CifTextUtils.typeToStr(rtype));
             return false;
         }
-
-        // Check lhs and rhs.
-        return checkExprOrPred(lhs, initial, false, violations) && checkExprOrPred(rhs, initial, false, violations);
     }
 
     /**
      * Check a non-boolean CIF expression.
      *
-     * @param expr The CIF expression. Has an integer or enumeration type.
+     * @param expr The CIF expression, with an integer or enumeration type.
      * @param initial Whether the expression applies only to the initial state ({@code true}) or any state
      *     ({@code false}, includes the initial state).
      * @param allowSubtract Whether a subtraction is allowed ({@code true}) or not ({@code false}). It must only be
@@ -298,6 +312,10 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
     public static boolean checkExpr(Expression expr, boolean initial, boolean allowSubtract,
             CifCheckViolations violations)
     {
+        // Sanity check.
+        CifType type = CifTypeUtils.normalizeType(expr.getType());
+        Assert.check(type instanceof IntType || type instanceof EnumType);
+
         // Variable references.
         if (expr instanceof DiscVariableExpression) {
             // Discrete variable reference.
