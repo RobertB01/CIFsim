@@ -1,2 +1,5 @@
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
- - Unsupported specification: no plant automata found.
+
+  ----------------------------------------------------------------------------------------
+  (1/1) Specification does not have at least 1 plant automaton (no plant automaton found).
+  ----------------------------------------------------------------------------------------

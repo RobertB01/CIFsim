@@ -85,9 +85,11 @@ end
 plant p3:
   controllable e;
 
+  input int[0..1] i;
+
   location:
     initial;
-    marked true and [true][0];      // Unsupported in plant location marked.
+    marked true and [true][i];      // Unsupported in plant location marked.
     edge e when true and [true][0]; // Unsupported in plant edge guard.
 end
 

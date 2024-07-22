@@ -1,18 +1,115 @@
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
- - Unsupported assignment: unsupported part "(p1.w + 1) mod -3" of assignment "p1.w := (p1.w + 1) mod -3": "(p1.w + 1) mod -3" performs division/modulus by a negative value, which is not supported.
- - Unsupported assignment: unsupported part "(p1.w + 1) mod zero" of assignment "p1.w := (p1.w + 1) mod zero": "(p1.w + 1) mod zero" always results in division by zero.
- - Unsupported assignment: unsupported part "p1.w - 1" of assignment "p1.w := (p1.w - 1) mod 10": value is too complex to be statically evaluated.
- - Unsupported assignment: unsupported part "p1.w div -2" of assignment "p1.w := p1.w div -2": "p1.w div -2" performs division/modulus by a negative value, which is not supported.
- - Unsupported assignment: unsupported part "p1.w div zero" of assignment "p1.w := p1.w div zero": "p1.w div zero" always results in division by zero.
- - Unsupported assignment: unsupported part "p1.w mod -3" of assignment "p1.w := p1.w mod -3": "p1.w mod -3" performs division/modulus by a negative value, which is not supported.
- - Unsupported assignment: unsupported part "p1.w mod zero" of assignment "p1.w := p1.w mod zero": "p1.w mod zero" always results in division by zero.
- - Unsupported assignment: unsupported part "p2.x * 2" of assignment "p2.x := p2.x * 2": value is too complex to be statically evaluated.
- - Unsupported linearized guard: unsupported part "-1" of guard(s) "p4.y = -1": value "-1" is unsupported, as it is negative.
- - Unsupported linearized guard: unsupported part "[true][0]" of guard(s) "true and [true][0]": predicate is not supported.
- - Unsupported location of automaton "p3": unsupported part "[true][0]" of marker predicate(s) "true and [true][0]": predicate is not supported.
- - Unsupported update: assignments to continuous variables are not supported.
- - Unsupported update: conditional updates ('if' updates) are not supported.
- - Unsupported update: multi-assignments are not supported.
- - Unsupported update: partial variable assignments are not supported.
- - Unsupported variable "p1.v2": variables of type "tuple(int a; int b)" are not supported.
- - Unsupported variable "p4.x": variables with integer type ranges that include negative values are not supported.
+
+  ---------------------------------------------
+  (1/15) A negative integer value is used (-1).
+  ---------------------------------------------
+   * In automaton "p4":
+     - edge e when y = -1;
+                       ^
+
+  --------------------------------------
+  (2/15) A value of type "real" is used.
+  --------------------------------------
+   * In automaton "p1":
+     - edge c_evt2 when v = 2 do z := 2.0;
+                                      ^
+
+  -----------------------------------------------------------------------
+  (3/15) A value of type "tuple(int[1..9]; tuple(int a; int b))" is used.
+  -----------------------------------------------------------------------
+   * In automaton "p1":
+     - edge c_evt1 when v = 2 do (v, v2) := (v, v2);
+                                            ^
+
+  ------------------------------------------------------------------------------
+  (4/15) Discrete variable does not have a boolean, integer or enumeration type.
+  ------------------------------------------------------------------------------
+   * In discrete variable "p1.v2":
+     - disc tuple(int a; int b) v2;
+            ^
+
+  --------------------------------------------------------------------------
+  (5/15) Discrete variable has an integer type that allows negative numbers.
+  --------------------------------------------------------------------------
+   * In discrete variable "p4.x":
+     - disc int[-1..1] x;
+            ^
+
+  ----------------------------------------------
+  (6/15) Division by a negative value for "div".
+  ----------------------------------------------
+   * In automaton "p1":
+     - edge c_evt2 when v = 9 do w := w div -2;
+                                            ^
+
+  ----------------------------------------------
+  (7/15) Division by a negative value for "mod".
+  ----------------------------------------------
+   * In automaton "p1":
+     - edge c_evt2 when v = 10 do w := w mod -3;
+                                             ^
+     - edge c_evt2 when v = 11 do w := (w + 1) mod -3;
+                                                   ^
+
+  ----------------------------------
+  (8/15) Division by zero for "div".
+  ----------------------------------
+   * In automaton "p1":
+     - edge c_evt2 when v = 6 do w := w div zero;
+                                            ^
+
+  ----------------------------------
+  (9/15) Division by zero for "mod".
+  ----------------------------------
+   * In automaton "p1":
+     - edge c_evt2 when v = 7 do w := w mod zero;
+                                            ^
+     - edge c_evt2 when v = 8 do w := (w + 1) mod zero;
+                                                  ^
+
+  ------------------------------------
+  (10/15) Edge has a multi-assignment.
+  ------------------------------------
+   * In automaton "p1":
+     - edge c_evt1 when v = 2 do (v, v2) := (v, v2);
+                                         ^
+
+  -----------------------------------------------
+  (11/15) Edge has a partial variable assignment.
+  -----------------------------------------------
+   * In automaton "p1":
+     - edge c_evt2 when v = 1 do v2[0] := 1;
+                                   ^
+
+  --------------------------------
+  (12/15) Edge has an 'if' update.
+  --------------------------------
+   * In automaton "p1":
+     - edge c_evt1 when v = 1 do if true: v := 1 end;
+                                 ^
+
+  -----------------------------------
+  (13/15) Predicate is not supported.
+  -----------------------------------
+   * In automaton "p3":
+     - marked true and [true][i];
+                             ^
+     - edge e when true and [true][0];
+                                  ^
+
+  --------------------------------------------------------------------------------------------------
+  (14/15) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
+  --------------------------------------------------------------------------------------------------
+   * In automaton "p1":
+     - edge c_evt2 when v = 13 do w := (w - 1) mod 10;
+                                        ^
+   * In automaton "p2":
+     - edge c_evt2 when a = 1 do x := x * 2;
+                                      ^
+
+  ------------------------------------------
+  (15/15) Variable is a continuous variable.
+  ------------------------------------------
+   * In automaton "p1":
+     - cont z der 1.0;
+            ^

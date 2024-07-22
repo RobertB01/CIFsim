@@ -2,38 +2,189 @@ WARNING: File "datasynth/invalid1.cif": Semantic warning at line 69, column 3: D
 WARNING: File "datasynth/invalid1.cif": Semantic warning at line 83, column 9: Duplicate state invariant.
 WARNING: File "datasynth/invalid1.cif": Semantic warning at line 97, column 14: Duplicate state invariant.
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
- - Unsupported automaton "aut": only plant and requirement automata are supported.
- - Unsupported automaton "p1": unsupported part "p1.v1 > 0" of initialization predicate "p1.v1 > 0": binary operator ">" on values of types "real" and "int[0..0]" is not supported.
- - Unsupported automaton "r5": unsupported part "-1" of invariant "r5.evt needs r5.v = -1": value "-1" is unsupported, as it is negative.
- - Unsupported automaton "r5": unsupported part "-1" of invariant "r5.v = -1 disables r5.evt": value "-1" is unsupported, as it is negative.
- - Unsupported automaton "r5": unsupported part "-1" of state invariant "r5.v = -1": value "-1" is unsupported, as it is negative.
- - Unsupported automaton "r5": unsupported part "[true][0]" of combined guard "true and [true][0]": predicate is not supported.
- - Unsupported automaton "r5": unsupported part "[true][0]" of state invariant "[true][0]": predicate is not supported.
- - Unsupported automaton "r5": unsupported part "r1.x" of state invariant "r5.v = r5.v div r1.x": value is too complex to be statically evaluated.
- - Unsupported automaton "r5": unsupported part "r1.x" of state invariant "r5.v = r5.v mod r1.x": value is too complex to be statically evaluated.
- - Unsupported automaton "r5": unsupported part "r5.v * 2" of state invariant "r5.v = r5.v * 2": value is too complex to be statically evaluated.
- - Unsupported automaton "r5": unsupported part "r5.v < 5.0" of state invariant "r5.v < 5.0": binary operator "<" on values of types "int[0..5]" and "real" is not supported.
- - Unsupported automaton "r5": unsupported part "r5.v div -2" of state invariant "r5.v = r5.v div -2": "r5.v div -2" performs division/modulus by a negative value, which is not supported.
- - Unsupported automaton "r5": unsupported part "r5.v div zero" of state invariant "r5.v = r5.v div zero": "r5.v div zero" always results in division by zero.
- - Unsupported automaton "r5": unsupported part "r5.v mod -3" of state invariant "r5.v = r5.v mod -3": "r5.v mod -3" performs division/modulus by a negative value, which is not supported.
- - Unsupported automaton "r5": unsupported part "r5.v mod zero" of state invariant "r5.v = r5.v mod zero": "r5.v mod zero" always results in division by zero.
- - Unsupported automaton "r5": unsupported part "{1} sub {2}" of state invariant "{1} sub {2}": binary operator "sub" is not supported.
- - Unsupported automaton "req": requirement uses channels: "g.chan1", "g.chan2".
- - Unsupported automaton "sup": only plant and requirement automata are supported.
- - Unsupported event "g.evt": event is not declared as controllable or uncontrollable.
- - Unsupported group "g2a": for state invariants, only plant and requirement invariants are supported.
- - Unsupported group "g2b": for state/event exclusion invariants, only plant and requirement invariants are supported.
- - Unsupported group "g2c": for state/event exclusion invariants, only plant and requirement invariants are supported.
- - Unsupported group "g4a": for state invariants, only plant and requirement invariants are supported.
- - Unsupported group "g4b": for state/event exclusion invariants, only plant and requirement invariants are supported.
- - Unsupported group "g4c": for state/event exclusion invariants, only plant and requirement invariants are supported.
- - Unsupported location "l1" of automaton "r1": edges with "tau" events are not supported.
- - Unsupported location "l1" of automaton "r1": edges without events (implicitly event "tau") are not supported.
- - Unsupported location of automaton "p4": edges with "tau" events are not supported.
- - Unsupported location of automaton "p4": edges without events (implicitly event "tau") are not supported.
- - Unsupported location of automaton "r2": edges with "tau" events are not supported.
- - Unsupported location of automaton "r2": edges without events (implicitly event "tau") are not supported.
- - Unsupported specification: unsupported part "[true][0]" of initialization predicate "false and [true][0]": predicate is not supported.
- - Unsupported specification: unsupported part "[true][0]" of marker predicate "true and [true][0]": predicate is not supported.
- - Unsupported variable "p1.v1": variables of type "real" are not supported.
- - Unsupported variable "p1.v2": variables with rangeless integer types are not supported.
+
+  ---------------------------------------------
+  (1/21) A negative integer value is used (-1).
+  ---------------------------------------------
+   * In automaton "r5":
+     - requirement invariant v = -1;
+                                 ^
+     - requirement invariant evt needs v = -1;
+                                           ^
+     - requirement invariant v = -1 disables evt;
+                                 ^
+
+  --------------------------------------------------------------------------------------
+  (2/21) Automaton is a kindless automaton rather than a plant or requirement automaton.
+  --------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - automaton aut:
+                 ^
+
+  ----------------------------------------------------------------------------------------
+  (3/21) Automaton is a supervisor automaton rather than a plant or requirement automaton.
+  ----------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - supervisor automaton sup:
+                            ^
+
+  -----------------------------------------------------------------------------
+  (4/21) Binary operator "<" is used on values of types "int[0..5]" and "real".
+  -----------------------------------------------------------------------------
+   * In automaton "r5":
+     - requirement invariant v < 5.0;
+                               ^
+
+  -----------------------------------------------------------------------------
+  (5/21) Binary operator ">" is used on values of types "real" and "int[0..0]".
+  -----------------------------------------------------------------------------
+   * In automaton "p1":
+     - initial v1 > 0;
+                  ^
+
+  -------------------------------------
+  (6/21) Binary operator "sub" is used.
+  -------------------------------------
+   * In automaton "r5":
+     - requirement invariant {1} sub {2};
+                                 ^
+
+  ------------------------------------------------------------------------------
+  (7/21) Discrete variable does not have a boolean, integer or enumeration type.
+  ------------------------------------------------------------------------------
+   * In discrete variable "p1.v1":
+     - disc real v1;
+            ^
+
+  ------------------------------------------------------
+  (8/21) Discrete variable has a rangeless integer type.
+  ------------------------------------------------------
+   * In discrete variable "p1.v2":
+     - disc int v2;
+            ^
+
+  ----------------------------------------------
+  (9/21) Division by a negative value for "div".
+  ----------------------------------------------
+   * In automaton "r5":
+     - requirement invariant v = v div -2;
+                                       ^
+
+  -----------------------------------------------
+  (10/21) Division by a negative value for "mod".
+  -----------------------------------------------
+   * In automaton "r5":
+     - requirement invariant v = v mod -3;
+                                       ^
+
+  -----------------------------------
+  (11/21) Division by zero for "div".
+  -----------------------------------
+   * In automaton "r5":
+     - requirement invariant v = v div zero;
+                                       ^
+
+  -----------------------------------
+  (12/21) Division by zero for "mod".
+  -----------------------------------
+   * In automaton "r5":
+     - requirement invariant v = v mod zero;
+                                       ^
+
+  --------------------------------------------------------------------------------------
+  (13/21) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
+  --------------------------------------------------------------------------------------
+   * In automaton "p4":
+     - edge tau when true;
+            ^
+   * In location "r1.l1":
+     - edge tau when true;
+            ^
+   * In automaton "r2":
+     - edge tau when true;
+            ^
+
+  --------------------------------------------------------------------------------------
+  (14/21) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
+  --------------------------------------------------------------------------------------
+   * In automaton "p4":
+     - edge when true;
+       ^
+   * In location "r1.l1":
+     - edge when true;
+       ^
+   * In automaton "r2":
+     - edge when true;
+       ^
+
+  ----------------------------------------------------------------
+  (15/21) Event is not declared as controllable or uncontrollable.
+  ----------------------------------------------------------------
+   * In group "g":
+     - event evt;
+             ^
+
+  ------------------------------------------
+  (16/21) Invariant is a kindless invariant.
+  ------------------------------------------
+   * In group "g2a":
+     - invariant false;
+       ^
+   * In group "g2b":
+     - invariant evt needs true;
+       ^
+   * In group "g2c":
+     - invariant false disables evt;
+       ^
+
+  --------------------------------------------
+  (17/21) Invariant is a supervisor invariant.
+  --------------------------------------------
+   * In group "g4a":
+     - supervisor invariant false;
+                  ^
+   * In group "g4b":
+     - supervisor invariant evt needs true;
+                  ^
+   * In group "g4c":
+     - supervisor invariant false disables evt;
+                  ^
+
+  -----------------------------------
+  (18/21) Predicate is not supported.
+  -----------------------------------
+   * In the top-level scope of the specification:
+     - initial false and [true][0];
+                               ^
+     - marked true and [true][0];
+                             ^
+   * In automaton "r5":
+     - requirement invariant [true][0];
+                                   ^
+     - edge c_evt when [true][0];
+                             ^
+
+  ------------------------------------------------------
+  (19/21) Requirement automaton receives from a channel.
+  ------------------------------------------------------
+   * In automaton "req":
+     - edge g.chan2?;
+                   ^
+
+  ---------------------------------------------------
+  (20/21) Requirement automaton sends over a channel.
+  ---------------------------------------------------
+   * In automaton "req":
+     - edge g.chan1!1;
+                   ^
+
+  --------------------------------------------------------------------------------------------------
+  (21/21) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
+  --------------------------------------------------------------------------------------------------
+   * In automaton "r5":
+     - requirement invariant v = v * 2;
+                                 ^
+     - requirement invariant v = v div r1.x;
+                                       ^
+     - requirement invariant v = v mod r1.x;
+                                       ^
