@@ -258,41 +258,49 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
     @Override
     public ModelTextGenerator getModelTextGenerator() {
+        Assert.notNull(modelTextGenerator);
         return modelTextGenerator;
     }
 
     @Override
     public CifProcessor getCifProcessor() {
+        Assert.notNull(cifProcessor);
         return cifProcessor;
     }
 
     @Override
     public TransitionGenerator getTransitionGenerator() {
+        Assert.notNull(transitionGenerator);
         return transitionGenerator;
     }
 
     @Override
     public ContinuousVariablesGenerator getContinuousVariablesGenerator() {
+        Assert.notNull(continuousVariablesGenerator);
         return continuousVariablesGenerator;
     }
 
     @Override
     public VariableStorage getVarStorage() {
+        Assert.notNull(varStorage);
         return varStorage;
     }
 
     @Override
     public TypeGenerator getTypeGenerator() {
+        Assert.notNull(typeGenerator);
         return typeGenerator;
     }
 
     @Override
     public PlcCodeStorage getCodeStorage() {
+        Assert.notNull(codeStorage);
         return codeStorage;
     }
 
     @Override
     public NameGenerator getNameGenerator() {
+        Assert.notNull(nameGenerator);
         return nameGenerator;
     }
 
