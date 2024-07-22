@@ -164,9 +164,9 @@ requirement r5:
   requirement invariant true <=> false;     // OK.
   requirement invariant v >= 2;             // OK.
   requirement invariant 1 <= v or v <= 2;   // OK.
+  requirement invariant {1} sub {1, 2};     // OK (statically evaluable).
 
   // Can't test:
-  //  - Wrong unary operator, as can't be top level in predicate.
   //  - Wrong conjunction/disjunction, as can't be top level in predicate.
 
   requirement invariant {v} sub {2};        // Wrong binary operator.
@@ -174,12 +174,14 @@ requirement r5:
   requirement invariant v = v * 2;          // Compared to too complex value.
   requirement invariant [true][v];          // Unsupported predicate.
   requirement invariant v = -1;             // Compared with negative integer value.
+  requirement invariant [-1][0] = 1;        // Compared with negative integer value.
   requirement invariant v = v div zero;     // Division by zero.
   requirement invariant v = v mod zero;     // Division by zero.
   requirement invariant v = v div -2;       // Division by negative number.
   requirement invariant v = v mod -3;       // Modulus by negative number.
   requirement invariant v = v div r1.x;     // Division by too complex value.
   requirement invariant v = v mod r1.x;     // Modulus by too complex value.
+  requirement invariant "a" = "b";          // Unsupported comparison on strings.
 
   requirement invariant evt needs v = -1;       // Compared with negative integer value.
   requirement invariant v = -1 disables evt;    // Compared with negative integer value.
@@ -204,3 +206,37 @@ end
 
 marked true and [true][r5.v2];      // Unsupported component marker predicate.
 initial false and [true][r5.v2];    // Unsupported component init predicate.
+
+uncontrollable bool chan;
+
+plant p6s:
+  disc int[0..2] v;
+  location:
+    initial;
+    marked;
+    edge chan!true;
+    edge chan![true][v];            // Unsupported send value with list and projection.
+end
+
+plant p6r:
+  disc bool x;
+  location:
+    initial;
+    marked;
+    edge chan? do x := ?;
+    edge chan? do x := ? and true;
+end
+
+plant p7:
+  controllable e;
+
+  disc string s in {"a", "b", "c"};                     // Unsupported string typed variable, and string initial values.
+  input bool i;
+  input int[0..1] ii;
+  disc bool b in {ii - ii > 0, floor(sqrt(-1)) > 0};    // Initial values: too complex, static evaluation error.
+
+  location:
+    initial;
+    marked;
+    edge e when s = "x" and b do s := "y";              // Unsupported comparison strings, unsupported string value.
+end

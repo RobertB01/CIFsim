@@ -15,7 +15,10 @@ plant p:
   disc int[0..5] v1 = 0;
   disc int[0..5] v2 = 5 div v1;                 // Static evaluation error.
 
-  requirement invariant v2 > 2;
+  const int[0..1] c = 1;
+  disc bool      v3 = [true][c];                // Static evaluation error.
+
+  requirement invariant v2 > 2 and v3;
 
   location:
     initial;

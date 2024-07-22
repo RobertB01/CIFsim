@@ -4,88 +4,113 @@ WARNING: File "datasynth/invalid1.cif": Semantic warning at line 97, column 14: 
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
 
   ---------------------------------------------
-  (1/19) A negative integer value is used (-1).
+  (1/22) A negative integer value is used (-1).
   ---------------------------------------------
    * In automaton "r5":
      - requirement invariant v = -1;
+                                 ^
+     - requirement invariant [-1][0] = 1;
                                  ^
      - requirement invariant evt needs v = -1;
                                            ^
      - requirement invariant v = -1 disables evt;
                                  ^
 
+  ----------------------------------------
+  (2/22) A value of type "string" is used.
+  ----------------------------------------
+   * In automaton "p7":
+     - edge e when s = "x" and b do s := "y";
+                                         ^
+   * In discrete variable "p7.s":
+     - disc string s in {"a", "b", "c"};
+                         ^    ^    ^
+
   --------------------------------------------------------------------------------------
-  (2/19) Automaton is a kindless automaton rather than a plant or requirement automaton.
+  (3/22) Automaton is a kindless automaton rather than a plant or requirement automaton.
   --------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - automaton aut:
                  ^
 
   ----------------------------------------------------------------------------------------
-  (3/19) Automaton is a supervisor automaton rather than a plant or requirement automaton.
+  (4/22) Automaton is a supervisor automaton rather than a plant or requirement automaton.
   ----------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - supervisor automaton sup:
                             ^
 
   -----------------------------------------------------------------------------
-  (4/19) Binary operator "<" is used on values of types "int[0..5]" and "real".
+  (5/22) Binary operator "<" is used on values of types "int[0..5]" and "real".
   -----------------------------------------------------------------------------
    * In automaton "r5":
      - requirement invariant v < 5.0;
                                ^
 
+  ----------------------------------------------------------------------------
+  (6/22) Binary operator "=" is used on values of types "string" and "string".
+  ----------------------------------------------------------------------------
+   * In automaton "p7":
+     - edge e when s = "x" and b do s := "y";
+                     ^
+   * In automaton "r5":
+     - requirement invariant "a" = "b";
+                                 ^
+
   -----------------------------------------------------------------------------
-  (5/19) Binary operator ">" is used on values of types "real" and "int[0..0]".
+  (7/22) Binary operator ">" is used on values of types "real" and "int[0..0]".
   -----------------------------------------------------------------------------
    * In automaton "p1":
      - initial v1 > 0;
                   ^
 
   ------------------------------------------------------------------------------
-  (6/19) Discrete variable does not have a boolean, integer or enumeration type.
+  (8/22) Discrete variable does not have a boolean, integer or enumeration type.
   ------------------------------------------------------------------------------
    * In discrete variable "p1.v1":
      - disc real v1;
             ^
+   * In discrete variable "p7.s":
+     - disc string s in {"a", "b", "c"};
+            ^
 
   ------------------------------------------------------
-  (7/19) Discrete variable has a rangeless integer type.
+  (9/22) Discrete variable has a rangeless integer type.
   ------------------------------------------------------
    * In discrete variable "p1.v2":
      - disc int v2;
             ^
 
-  ----------------------------------------------
-  (8/19) Division by a negative value for "div".
-  ----------------------------------------------
+  -----------------------------------------------
+  (10/22) Division by a negative value for "div".
+  -----------------------------------------------
    * In automaton "r5":
      - requirement invariant v = v div -2;
                                        ^
 
-  ----------------------------------------------
-  (9/19) Division by a negative value for "mod".
-  ----------------------------------------------
+  -----------------------------------------------
+  (11/22) Division by a negative value for "mod".
+  -----------------------------------------------
    * In automaton "r5":
      - requirement invariant v = v mod -3;
                                        ^
 
   -----------------------------------
-  (10/19) Division by zero for "div".
+  (12/22) Division by zero for "div".
   -----------------------------------
    * In automaton "r5":
      - requirement invariant v = v div zero;
                                        ^
 
   -----------------------------------
-  (11/19) Division by zero for "mod".
+  (13/22) Division by zero for "mod".
   -----------------------------------
    * In automaton "r5":
      - requirement invariant v = v mod zero;
                                        ^
 
   --------------------------------------------------------------------------------------
-  (12/19) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
+  (14/22) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
   --------------------------------------------------------------------------------------
    * In automaton "p4":
      - edge tau when true;
@@ -98,7 +123,7 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
             ^
 
   --------------------------------------------------------------------------------------
-  (13/19) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
+  (15/22) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
   --------------------------------------------------------------------------------------
    * In automaton "p4":
      - edge when true;
@@ -111,14 +136,21 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
        ^
 
   ----------------------------------------------------------------
-  (14/19) Event is not declared as controllable or uncontrollable.
+  (16/22) Event is not declared as controllable or uncontrollable.
   ----------------------------------------------------------------
    * In group "g":
      - event evt;
              ^
 
+  ----------------------------------------------------
+  (17/22) Failed to statically evaluate an expression.
+  ----------------------------------------------------
+   * In discrete variable "p7.b":
+     - disc bool b in {ii - ii > 0, floor(sqrt(-1.0)) > 0};
+                                              ^
+
   ------------------------------------------
-  (15/19) Invariant is a kindless invariant.
+  (18/22) Invariant is a kindless invariant.
   ------------------------------------------
    * In group "g2a":
      - invariant false;
@@ -131,7 +163,7 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
        ^
 
   --------------------------------------------
-  (16/19) Invariant is a supervisor invariant.
+  (19/22) Invariant is a supervisor invariant.
   --------------------------------------------
    * In group "g4a":
      - supervisor invariant false;
@@ -144,27 +176,33 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
                   ^
 
   ------------------------------------------------------
-  (17/19) Requirement automaton receives from a channel.
+  (20/22) Requirement automaton receives from a channel.
   ------------------------------------------------------
    * In automaton "req":
      - edge g.chan2?;
                    ^
 
   ---------------------------------------------------
-  (18/19) Requirement automaton sends over a channel.
+  (21/22) Requirement automaton sends over a channel.
   ---------------------------------------------------
    * In automaton "req":
      - edge g.chan1!1;
                    ^
 
   --------------------------------------------------------------------------------------------------
-  (19/19) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
+  (22/22) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
   --------------------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - initial false and [true][r5.v2];
                                 ^
      - marked true and [true][r5.v2];
                               ^
+   * In automaton "p6s":
+     - edge chan![true][v];
+                        ^
+   * In discrete variable "p7.b":
+     - disc bool b in {ii - ii > 0, floor(sqrt(-1.0)) > 0};
+                       ^
    * In automaton "r5":
      - requirement invariant {v} sub {2};
                               ^
