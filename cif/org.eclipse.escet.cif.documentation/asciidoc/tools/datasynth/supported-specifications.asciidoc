@@ -99,7 +99,7 @@ That is, the computation must essentially represent a fixed/constant value.
 Here are some examples of computations that can be statically evaluated:
 +
 --
-** `{1} in {1, 2}` (result is `true`)
+** `+{1} in {1, 2}+` (result is `true`)
 
 ** `[false, true][0]` (result is `false`)
 
@@ -112,7 +112,7 @@ Here are some examples of computations that can _not_ be statically evaluated:
 ** `v = true` for `v` a discrete variable.
 The computation results in different values for different values of `v`.
 
-** `{v} in {1, 2}` for `v` a discrete variable.
+** `+{v} in {1, 2}+` for `v` a discrete variable.
 The computation results in different values for different values of `v`.
 --
 
