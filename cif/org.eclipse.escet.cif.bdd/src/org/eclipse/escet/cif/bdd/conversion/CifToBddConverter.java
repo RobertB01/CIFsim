@@ -1580,8 +1580,7 @@ public class CifToBddConverter {
 
         // Check edges for conflicts (non-determinism).
         for (CifBddEdge edge: edges) {
-            // Skip events for which non-determinism is allowed. Also skip events without controllability (is already
-            // previously reported).
+            // Skip events for which non-determinism is allowed.
             Event evt = edge.event;
             boolean controllable = evt.getControllable();
             if (allowNonDeterminism.allowFor(controllable)) {
