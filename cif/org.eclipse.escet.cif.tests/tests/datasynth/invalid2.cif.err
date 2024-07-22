@@ -1,49 +1,49 @@
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
 
   ---------------------------------------------
-  (1/15) A negative integer value is used (-1).
+  (1/14) A negative integer value is used (-1).
   ---------------------------------------------
    * In automaton "p4":
      - edge e when y = -1;
                        ^
 
   --------------------------------------
-  (2/15) A value of type "real" is used.
+  (2/14) A value of type "real" is used.
   --------------------------------------
    * In automaton "p1":
      - edge c_evt2 when v = 2 do z := 2.0;
                                       ^
 
   -----------------------------------------------------------------------
-  (3/15) A value of type "tuple(int[1..9]; tuple(int a; int b))" is used.
+  (3/14) A value of type "tuple(int[1..9]; tuple(int a; int b))" is used.
   -----------------------------------------------------------------------
    * In automaton "p1":
      - edge c_evt1 when v = 2 do (v, v2) := (v, v2);
                                             ^
 
   ------------------------------------------------------------------------------
-  (4/15) Discrete variable does not have a boolean, integer or enumeration type.
+  (4/14) Discrete variable does not have a boolean, integer or enumeration type.
   ------------------------------------------------------------------------------
    * In discrete variable "p1.v2":
      - disc tuple(int a; int b) v2;
             ^
 
   --------------------------------------------------------------------------
-  (5/15) Discrete variable has an integer type that allows negative numbers.
+  (5/14) Discrete variable has an integer type that allows negative numbers.
   --------------------------------------------------------------------------
    * In discrete variable "p4.x":
      - disc int[-1..1] x;
             ^
 
   ----------------------------------------------
-  (6/15) Division by a negative value for "div".
+  (6/14) Division by a negative value for "div".
   ----------------------------------------------
    * In automaton "p1":
      - edge c_evt2 when v = 9 do w := w div -2;
                                             ^
 
   ----------------------------------------------
-  (7/15) Division by a negative value for "mod".
+  (7/14) Division by a negative value for "mod".
   ----------------------------------------------
    * In automaton "p1":
      - edge c_evt2 when v = 10 do w := w mod -3;
@@ -52,14 +52,14 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
                                                    ^
 
   ----------------------------------
-  (8/15) Division by zero for "div".
+  (8/14) Division by zero for "div".
   ----------------------------------
    * In automaton "p1":
      - edge c_evt2 when v = 6 do w := w div zero;
                                             ^
 
   ----------------------------------
-  (9/15) Division by zero for "mod".
+  (9/14) Division by zero for "mod".
   ----------------------------------
    * In automaton "p1":
      - edge c_evt2 when v = 7 do w := w mod zero;
@@ -68,37 +68,28 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
                                                   ^
 
   ------------------------------------
-  (10/15) Edge has a multi-assignment.
+  (10/14) Edge has a multi-assignment.
   ------------------------------------
    * In automaton "p1":
      - edge c_evt1 when v = 2 do (v, v2) := (v, v2);
                                          ^
 
   -----------------------------------------------
-  (11/15) Edge has a partial variable assignment.
+  (11/14) Edge has a partial variable assignment.
   -----------------------------------------------
    * In automaton "p1":
      - edge c_evt2 when v = 1 do v2[0] := 1;
                                    ^
 
   --------------------------------
-  (12/15) Edge has an 'if' update.
+  (12/14) Edge has an 'if' update.
   --------------------------------
    * In automaton "p1":
      - edge c_evt1 when v = 1 do if true: v := 1 end;
                                  ^
 
-  -----------------------------------
-  (13/15) Predicate is not supported.
-  -----------------------------------
-   * In automaton "p3":
-     - marked true and [true][i];
-                             ^
-     - edge e when true and [true][0];
-                                  ^
-
   --------------------------------------------------------------------------------------------------
-  (14/15) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
+  (13/14) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
   --------------------------------------------------------------------------------------------------
    * In automaton "p1":
      - edge c_evt2 when v = 13 do w := (w - 1) mod 10;
@@ -106,9 +97,14 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
    * In automaton "p2":
      - edge c_evt2 when a = 1 do x := x * 2;
                                       ^
+   * In automaton "p3":
+     - marked true and [true][i];
+                              ^
+     - edge e when true and [true][i];
+                                   ^
 
   ------------------------------------------
-  (15/15) Variable is a continuous variable.
+  (14/14) Variable is a continuous variable.
   ------------------------------------------
    * In automaton "p1":
      - cont z der 1.0;

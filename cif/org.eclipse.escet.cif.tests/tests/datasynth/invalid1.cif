@@ -169,10 +169,10 @@ requirement r5:
   //  - Wrong unary operator, as can't be top level in predicate.
   //  - Wrong conjunction/disjunction, as can't be top level in predicate.
 
-  requirement invariant {1} sub {2};        // Wrong binary operator.
+  requirement invariant {v} sub {2};        // Wrong binary operator.
   requirement invariant v < 5.0;            // Not compared to integer value.
   requirement invariant v = v * 2;          // Compared to too complex value.
-  requirement invariant [true][0];          // Unsupported predicate.
+  requirement invariant [true][v];          // Unsupported predicate.
   requirement invariant v = -1;             // Compared with negative integer value.
   requirement invariant v = v div zero;     // Division by zero.
   requirement invariant v = v mod zero;     // Division by zero.
@@ -189,7 +189,7 @@ requirement r5:
   location:
     initial;
     marked;
-    edge c_evt when [true][0];      // Unsupported in requirement edge guard.
+    edge c_evt when [true][v];      // Unsupported in requirement edge guard.
 
 end
 
@@ -202,5 +202,5 @@ plant p5:
     edge r5.evt;
 end
 
-marked true and [true][0];          // Unsupported component marker predicate.
-initial false and [true][0];        // Unsupported component init predicate.
+marked true and [true][r5.v2];      // Unsupported component marker predicate.
+initial false and [true][r5.v2];    // Unsupported component init predicate.

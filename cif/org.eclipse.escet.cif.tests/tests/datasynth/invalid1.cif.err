@@ -4,7 +4,7 @@ WARNING: File "datasynth/invalid1.cif": Semantic warning at line 97, column 14: 
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
 
   ---------------------------------------------
-  (1/21) A negative integer value is used (-1).
+  (1/19) A negative integer value is used (-1).
   ---------------------------------------------
    * In automaton "r5":
      - requirement invariant v = -1;
@@ -15,84 +15,77 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
                                  ^
 
   --------------------------------------------------------------------------------------
-  (2/21) Automaton is a kindless automaton rather than a plant or requirement automaton.
+  (2/19) Automaton is a kindless automaton rather than a plant or requirement automaton.
   --------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - automaton aut:
                  ^
 
   ----------------------------------------------------------------------------------------
-  (3/21) Automaton is a supervisor automaton rather than a plant or requirement automaton.
+  (3/19) Automaton is a supervisor automaton rather than a plant or requirement automaton.
   ----------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - supervisor automaton sup:
                             ^
 
   -----------------------------------------------------------------------------
-  (4/21) Binary operator "<" is used on values of types "int[0..5]" and "real".
+  (4/19) Binary operator "<" is used on values of types "int[0..5]" and "real".
   -----------------------------------------------------------------------------
    * In automaton "r5":
      - requirement invariant v < 5.0;
                                ^
 
   -----------------------------------------------------------------------------
-  (5/21) Binary operator ">" is used on values of types "real" and "int[0..0]".
+  (5/19) Binary operator ">" is used on values of types "real" and "int[0..0]".
   -----------------------------------------------------------------------------
    * In automaton "p1":
      - initial v1 > 0;
                   ^
 
-  -------------------------------------
-  (6/21) Binary operator "sub" is used.
-  -------------------------------------
-   * In automaton "r5":
-     - requirement invariant {1} sub {2};
-                                 ^
-
   ------------------------------------------------------------------------------
-  (7/21) Discrete variable does not have a boolean, integer or enumeration type.
+  (6/19) Discrete variable does not have a boolean, integer or enumeration type.
   ------------------------------------------------------------------------------
    * In discrete variable "p1.v1":
      - disc real v1;
             ^
 
   ------------------------------------------------------
-  (8/21) Discrete variable has a rangeless integer type.
+  (7/19) Discrete variable has a rangeless integer type.
   ------------------------------------------------------
    * In discrete variable "p1.v2":
      - disc int v2;
             ^
 
   ----------------------------------------------
-  (9/21) Division by a negative value for "div".
+  (8/19) Division by a negative value for "div".
   ----------------------------------------------
    * In automaton "r5":
      - requirement invariant v = v div -2;
                                        ^
 
-  -----------------------------------------------
-  (10/21) Division by a negative value for "mod".
-  -----------------------------------------------
+  ----------------------------------------------
+  (9/19) Division by a negative value for "mod".
+  ----------------------------------------------
    * In automaton "r5":
      - requirement invariant v = v mod -3;
                                        ^
 
   -----------------------------------
-  (11/21) Division by zero for "div".
+  (10/19) Division by zero for "div".
   -----------------------------------
    * In automaton "r5":
      - requirement invariant v = v div zero;
                                        ^
 
   -----------------------------------
-  (12/21) Division by zero for "mod".
+  (11/19) Division by zero for "mod".
   -----------------------------------
    * In automaton "r5":
      - requirement invariant v = v mod zero;
                                        ^
 
   --------------------------------------------------------------------------------------
-  (13/21) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
+  (12/19) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
   --------------------------------------------------------------------------------------
    * In automaton "p4":
      - edge tau when true;
@@ -105,7 +98,7 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
             ^
 
   --------------------------------------------------------------------------------------
-  (14/21) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
+  (13/19) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
   --------------------------------------------------------------------------------------
    * In automaton "p4":
      - edge when true;
@@ -118,14 +111,14 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
        ^
 
   ----------------------------------------------------------------
-  (15/21) Event is not declared as controllable or uncontrollable.
+  (14/19) Event is not declared as controllable or uncontrollable.
   ----------------------------------------------------------------
    * In group "g":
      - event evt;
              ^
 
   ------------------------------------------
-  (16/21) Invariant is a kindless invariant.
+  (15/19) Invariant is a kindless invariant.
   ------------------------------------------
    * In group "g2a":
      - invariant false;
@@ -138,7 +131,7 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
        ^
 
   --------------------------------------------
-  (17/21) Invariant is a supervisor invariant.
+  (16/19) Invariant is a supervisor invariant.
   --------------------------------------------
    * In group "g4a":
      - supervisor invariant false;
@@ -150,41 +143,38 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
      - supervisor invariant false disables evt;
                   ^
 
-  -----------------------------------
-  (18/21) Predicate is not supported.
-  -----------------------------------
-   * In the top-level scope of the specification:
-     - initial false and [true][0];
-                               ^
-     - marked true and [true][0];
-                             ^
-   * In automaton "r5":
-     - requirement invariant [true][0];
-                                   ^
-     - edge c_evt when [true][0];
-                             ^
-
   ------------------------------------------------------
-  (19/21) Requirement automaton receives from a channel.
+  (17/19) Requirement automaton receives from a channel.
   ------------------------------------------------------
    * In automaton "req":
      - edge g.chan2?;
                    ^
 
   ---------------------------------------------------
-  (20/21) Requirement automaton sends over a channel.
+  (18/19) Requirement automaton sends over a channel.
   ---------------------------------------------------
    * In automaton "req":
      - edge g.chan1!1;
                    ^
 
   --------------------------------------------------------------------------------------------------
-  (21/21) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
+  (19/19) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
   --------------------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - initial false and [true][r5.v2];
+                                ^
+     - marked true and [true][r5.v2];
+                              ^
    * In automaton "r5":
+     - requirement invariant {v} sub {2};
+                              ^
      - requirement invariant v = v * 2;
                                  ^
+     - requirement invariant [true][v];
+                                    ^
      - requirement invariant v = v div r1.x;
                                        ^
      - requirement invariant v = v mod r1.x;
                                        ^
+     - edge c_evt when [true][v];
+                              ^
