@@ -120,22 +120,20 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
      *     allowed for top-level expressions, if the caller can handle the potential unrepresentable results. For
      *     sub-expressions, subtraction is never allowed.
      * @param violations The violations collected so far.
-     * @return Whether the expression is supported.
      */
-    public static boolean checkExprOrPred(Expression expr, boolean initial, boolean allowSubtract,
+    public static void checkExprOrPred(Expression expr, boolean initial, boolean allowSubtract,
             CifCheckViolations violations)
     {
         CifType type = CifTypeUtils.normalizeType(expr.getType());
         if (type instanceof BoolType) {
             // Predicate.
-            return checkPred(expr, initial, violations);
+            checkPred(expr, initial, violations);
         } else if (type instanceof IntType || type instanceof EnumType) {
             // Non-boolean expression.
-            return checkExpr(expr, initial, allowSubtract, violations);
+            checkExpr(expr, initial, allowSubtract, violations);
         } else {
             // Unsupported.
             violations.add(expr, "A value of type \"%s\" is used", CifTextUtils.typeToStr(type));
-            return false;
         }
     }
 
@@ -146,14 +144,11 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
      * @param initial Whether the predicates apply only to the initial state ({@code true}) or any state ({@code false},
      *     includes the initial state).
      * @param violations The violations collected so far.
-     * @return Whether the predicates are supported.
      */
-    public static boolean checkPreds(List<Expression> preds, boolean initial, CifCheckViolations violations) {
-        boolean supported = true;
+    public static void checkPreds(List<Expression> preds, boolean initial, CifCheckViolations violations) {
         for (Expression pred: preds) {
-            supported &= checkPred(pred, initial, violations);
+            checkPred(pred, initial, violations);
         }
-        return supported;
     }
 
     /**
@@ -163,9 +158,8 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
      * @param initial Whether the predicate applies only to the initial state ({@code true}) or any state
      *     ({@code false}, includes the initial state).
      * @param violations The violations collected so far.
-     * @return Whether the predicate is supported.
      */
-    public static boolean checkPred(Expression pred, boolean initial, CifCheckViolations violations) {
+    public static void checkPred(Expression pred, boolean initial, CifCheckViolations violations) {
         // Sanity check.
         CifType type = CifTypeUtils.normalizeType(pred.getType());
         Assert.check(type instanceof BoolType);
@@ -173,13 +167,13 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
         // Handle different expressions.
         if (pred instanceof BoolExpression) {
             // Boolean literal.
-            return true;
+            return;
         } else if (pred instanceof DiscVariableExpression) {
             // Boolean discrete variable reference.
-            return true;
+            return;
         } else if (pred instanceof InputVariableExpression) {
             // Boolean input variable reference.
-            return true;
+            return;
         } else if (pred instanceof AlgVariableExpression algExpr) {
             // Boolean algebraic variable reference. Check the single defining value expression, representing the value
             // of the variable. It is in an 'if' expression if an equation is provided per location of an automaton with
@@ -187,21 +181,29 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
             AlgVariable var = algExpr.getVariable();
             Assert.check(CifTypeUtils.normalizeType(var.getType()) instanceof BoolType);
             Expression value = CifEquationUtils.getSingleValueForAlgVar(var);
-            return checkPred(value, initial, violations);
+            checkPred(value, initial, violations);
+            return;
         } else if (pred instanceof LocationExpression) {
             // Location reference.
-            return true;
+            return;
         } else if (pred instanceof ConstantExpression) {
             // Boolean constant reference. Type checker already checks that the value is statically evaluable.
-            return true;
+            return;
         } else if (pred instanceof UnaryExpression unaryExpr) {
             // Unary expression.
             UnaryOperator op = unaryExpr.getOperator();
-            if (op != UnaryOperator.INVERSE) {
-                violations.add(pred, "Unary operator \"%s\" is used", CifTextUtils.operatorToStr(op));
-                return false;
+            switch (op) {
+                // not
+                case INVERSE:
+                    checkPred(unaryExpr.getChild(), initial, violations);
+                    break;
+
+                // Unsupported.
+                default:
+                    violations.add(pred, "Unary operator \"%s\" is used", CifTextUtils.operatorToStr(op));
+                    break;
             }
-            return checkPred(unaryExpr.getChild(), initial, violations);
+            return;
         } else if (pred instanceof BinaryExpression binaryExpr) {
             // Binary expression.
             Expression lhs = binaryExpr.getLeft();
@@ -217,16 +219,20 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
                         violations.add(pred, "Binary operator \"%s\" is used on values of types \"%s\" and \"%s\"",
                                 CifTextUtils.operatorToStr(op), CifTextUtils.typeToStr(ltype),
                                 CifTextUtils.typeToStr(rtype));
-                        return false;
+                        return;
                     }
 
-                    return checkPred(lhs, initial, violations) && checkPred(rhs, initial, violations);
+                    checkPred(lhs, initial, violations);
+                    checkPred(rhs, initial, violations);
+                    return;
                 }
 
                 // => / <=>
                 case IMPLICATION:
                 case BI_CONDITIONAL:
-                    return checkPred(lhs, initial, violations) && checkPred(rhs, initial, violations);
+                    checkPred(lhs, initial, violations);
+                    checkPred(rhs, initial, violations);
+                    return;
 
                 // Comparisons.
                 case EQUAL:
@@ -235,48 +241,47 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
                 case LESS_EQUAL:
                 case LESS_THAN:
                 case UNEQUAL:
-                    return checkCmpPred(binaryExpr, initial, violations);
+                    checkCmpPred(binaryExpr, initial, violations);
+                    return;
 
                 // Unsupported.
                 default: {
                     violations.add(pred, "Binary operator \"%s\" is used", CifTextUtils.operatorToStr(op));
-                    return false;
+                    return;
                 }
             }
         } else if (pred instanceof IfExpression ifExpr) {
             // Conditional expression with boolean result values.
-            boolean supported = true;
-            supported &= checkPreds(ifExpr.getGuards(), initial, violations);
-            supported &= checkPred(ifExpr.getThen(), initial, violations);
+            checkPreds(ifExpr.getGuards(), initial, violations);
+            checkPred(ifExpr.getThen(), initial, violations);
             for (ElifExpression elif: ifExpr.getElifs()) {
-                supported &= checkPreds(elif.getGuards(), initial, violations);
-                supported &= checkPred(elif.getThen(), initial, violations);
+                checkPreds(elif.getGuards(), initial, violations);
+                checkPred(elif.getThen(), initial, violations);
             }
-            supported &= checkPred(ifExpr.getElse(), initial, violations);
-            return supported;
+            checkPred(ifExpr.getElse(), initial, violations);
+            return;
         } else if (pred instanceof SwitchExpression switchExpr) {
             // Switch expression with boolean result values.
             Expression value = switchExpr.getValue();
             boolean isAutSwitch = CifTypeUtils.isAutRefExpr(value);
-            boolean supported = true;
             if (!isAutSwitch) {
-                supported &= checkExprOrPred(value, initial, false, violations);
+                checkExprOrPred(value, initial, false, violations);
             }
             for (SwitchCase switchCase: switchExpr.getCases()) {
                 if (switchCase.getKey() != null) {
-                    supported &= checkExprOrPred(switchCase.getKey(), initial, false, violations);
+                    checkExprOrPred(switchCase.getKey(), initial, false, violations);
                 }
-                supported &= checkPred(switchCase.getValue(), initial, violations);
+                checkPred(switchCase.getValue(), initial, violations);
             }
-            return supported;
+            return;
         } else if (pred instanceof ReceivedExpression) {
             // Ignore, since during the actual conversion, we will not have channels anymore. We check the send values
             // elsewhere in this class.
-            return true;
+            return;
         } else {
             // Others: unsupported.
             violations.add(pred, "Predicate is not supported");
-            return false;
+            return;
         }
     }
 
@@ -287,9 +292,8 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
      * @param initial Whether the predicate applies only to the initial state ({@code true}) or any state
      *     ({@code false}, includes the initial state).
      * @param violations The violations collected so far.
-     * @return Whether the comparison is supported.
      */
-    private static boolean checkCmpPred(BinaryExpression cmpPred, boolean initial, CifCheckViolations violations) {
+    private static void checkCmpPred(BinaryExpression cmpPred, boolean initial, CifCheckViolations violations) {
         Expression lhs = cmpPred.getLeft();
         Expression rhs = cmpPred.getRight();
         CifType ltype = CifTypeUtils.normalizeType(lhs.getType());
@@ -297,18 +301,19 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
 
         if (ltype instanceof BoolType && rtype instanceof BoolType) {
             // Predicates.
-            return checkPred(lhs, initial, violations) && checkPred(rhs, initial, violations);
+            checkPred(lhs, initial, violations);
+            checkPred(rhs, initial, violations);
         } else if ((ltype instanceof EnumType && rtype instanceof EnumType)
                 || (ltype instanceof IntType && rtype instanceof IntType))
         {
             // Non-boolean expressions.
-            return checkExpr(lhs, initial, false, violations) && checkExpr(rhs, initial, false, violations);
+            checkExpr(lhs, initial, false, violations);
+            checkExpr(rhs, initial, false, violations);
         } else {
             // Unsupported.
             violations.add(cmpPred, "Binary operator \"%s\" is used on values of types \"%s\" and \"%s\"",
                     CifTextUtils.operatorToStr(cmpPred.getOperator()), CifTextUtils.typeToStr(ltype),
                     CifTextUtils.typeToStr(rtype));
-            return false;
         }
     }
 
@@ -322,9 +327,8 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
      *     allowed for top-level expressions, if the caller can handle the potential unrepresentable results. For
      *     sub-expressions, subtraction is never allowed.
      * @param violations The violations collected so far.
-     * @return Whether the expression is supported.
      */
-    public static boolean checkExpr(Expression expr, boolean initial, boolean allowSubtract,
+    public static void checkExpr(Expression expr, boolean initial, boolean allowSubtract,
             CifCheckViolations violations)
     {
         // Sanity check.
@@ -334,24 +338,26 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
         // Variable references.
         if (expr instanceof DiscVariableExpression) {
             // Discrete variable reference.
-            return true;
+            return;
         } else if (expr instanceof InputVariableExpression) {
             // Input variable reference.
-            return true;
+            return;
         } else if (expr instanceof AlgVariableExpression algExpr) {
             // Algebraic variable reference. Check the single defining value expression, representing the value of the
             // variable. It is in an 'if' expression if an equation is provided per location of an automaton with more
             // than one location.
             AlgVariable var = algExpr.getVariable();
             Expression value = CifEquationUtils.getSingleValueForAlgVar(var);
-            return checkExpr(value, initial, allowSubtract, violations);
+            checkExpr(value, initial, allowSubtract, violations);
+            return;
         }
 
         // Unary expression.
         if (expr instanceof UnaryExpression unaryExpr) {
             UnaryOperator op = unaryExpr.getOperator();
             if (op == UnaryOperator.PLUS) {
-                return checkExpr(unaryExpr.getChild(), initial, false, violations);
+                checkExpr(unaryExpr.getChild(), initial, false, violations);
+                return;
             }
             // Continue, to try to evaluate the expression statically.
         }
@@ -363,25 +369,29 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
             BinaryOperator op = binaryExpr.getOperator();
             switch (op) {
                 case ADDITION:
-                    return checkExpr(lhs, initial, false, violations) && checkExpr(rhs, initial, false, violations);
+                    checkExpr(lhs, initial, false, violations);
+                    checkExpr(rhs, initial, false, violations);
+                    return;
 
                 case SUBTRACTION:
                     if (allowSubtract) {
-                        return checkExpr(lhs, initial, false, violations) && checkExpr(rhs, initial, false, violations);
+                        checkExpr(lhs, initial, false, violations);
+                        checkExpr(rhs, initial, false, violations);
+                        return;
                     }
                     break; // Continue, to try to evaluate the expression statically.
 
                 case INTEGER_DIVISION:
                 case MODULUS: {
                     // Check lhs.
-                    boolean supported = checkExpr(lhs, initial, false, violations);
+                    checkExpr(lhs, initial, false, violations);
 
                     // Check statically evaluable divisor/rhs.
                     Expression notSingleValue = CifValueUtils.checkSingleValue(rhs, initial, true);
                     if (notSingleValue != null) {
                         violations.add(notSingleValue, "Value is too complex to be statically evaluated, "
                                 + "or evaluation results in a runtime error");
-                        return false;
+                        return;
                     }
 
                     // Evaluate divisor/rhs.
@@ -391,21 +401,21 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
                     } catch (CifEvalException ex) {
                         Expression reportObj = (ex.expr != null) ? ex.expr : rhs;
                         violations.add(reportObj, "Failed to statically evaluate the divisor for \"%s\"", op);
-                        return false;
+                        return;
                     }
 
                     // Check divisor/rhs value.
                     int divisor = (int)rhsValueObj;
                     if (divisor == 0) {
                         violations.add(rhs, "Division by zero for \"%s\"", CifTextUtils.operatorToStr(op));
-                        return false;
+                        return;
                     } else if (divisor < 0) {
                         violations.add(rhs, "Division by a negative value for \"%s\"", CifTextUtils.operatorToStr(op));
-                        return false;
+                        return;
                     }
 
-                    // RHS is supported. Report whether LHS is supported.
-                    return supported;
+                    // Done.
+                    return;
                 }
 
                 default:
@@ -415,39 +425,37 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
 
         // Conditional expression.
         if (expr instanceof IfExpression ifExpr) {
-            boolean supported = true;
-            supported &= checkPreds(ifExpr.getGuards(), initial, violations);
-            supported &= checkExpr(ifExpr.getThen(), initial, false, violations);
+            checkPreds(ifExpr.getGuards(), initial, violations);
+            checkExpr(ifExpr.getThen(), initial, false, violations);
             for (ElifExpression elif: ifExpr.getElifs()) {
-                supported &= checkPreds(elif.getGuards(), initial, violations);
-                supported &= checkExpr(elif.getThen(), initial, false, violations);
+                checkPreds(elif.getGuards(), initial, violations);
+                checkExpr(elif.getThen(), initial, false, violations);
             }
-            supported &= checkExpr(ifExpr.getElse(), initial, false, violations);
-            return supported;
+            checkExpr(ifExpr.getElse(), initial, false, violations);
+            return;
         }
 
         // Switch expression.
         if (expr instanceof SwitchExpression switchExpr) {
             Expression value = switchExpr.getValue();
             boolean isAutSwitch = CifTypeUtils.isAutRefExpr(value);
-            boolean supported = true;
             if (!isAutSwitch) {
-                supported &= checkExprOrPred(value, initial, false, violations);
+                checkExprOrPred(value, initial, false, violations);
             }
             for (SwitchCase switchCase: switchExpr.getCases()) {
                 if (switchCase.getKey() != null) {
-                    supported &= checkExprOrPred(switchCase.getKey(), initial, false, violations);
+                    checkExprOrPred(switchCase.getKey(), initial, false, violations);
                 }
-                supported &= checkExpr(switchCase.getValue(), initial, false, violations);
+                checkExpr(switchCase.getValue(), initial, false, violations);
             }
-            return supported;
+            return;
         }
 
         // Received expression.
         if (expr instanceof ReceivedExpression) {
             // Ignore, since during the actual conversion, we will not have channels anymore. We check the send values
             // elsewhere in this class.
-            return true;
+            return;
         }
 
         // Check for statically evaluable expression.
@@ -455,7 +463,7 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
         if (notSingleValue != null) {
             violations.add(notSingleValue, "Value is too complex to be statically evaluated, "
                     + "or evaluation results in a runtime error");
-            return false;
+            return;
         }
 
         // Evaluate expression.
@@ -465,7 +473,7 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
         } catch (CifEvalException ex) {
             Expression reportObj = (ex.expr != null) ? ex.expr : expr;
             violations.add(reportObj, "Failed to statically evaluate an expression");
-            return false;
+            return;
         }
 
         // Check evaluated value.
@@ -473,11 +481,11 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
             // Negative integer values not supported.
             if (value < 0) {
                 violations.add(expr, "A negative integer value is used (%d)", value);
-                return false;
+                return;
             }
-            return true;
+            return;
         } else if (valueObj instanceof CifEnumLiteral) {
-            return true;
+            return;
         } else {
             throw new AssertionError("Unexpected value: " + valueObj);
         }
