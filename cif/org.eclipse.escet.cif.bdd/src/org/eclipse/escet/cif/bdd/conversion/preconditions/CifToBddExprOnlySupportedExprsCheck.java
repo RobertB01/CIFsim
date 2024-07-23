@@ -278,7 +278,7 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
         }
 
         // Check for statically evaluable predicate.
-        Expression notSingleValue = CifValueUtils.checkSingleValue(pred, initial, true);
+        Expression notSingleValue = CifValueUtils.findNonSingleValueSubExpr(pred, initial, true);
         if (notSingleValue != null) {
             violations.add(notSingleValue, "Value is too complex to be statically evaluated, "
                     + "or evaluation results in a runtime error");
@@ -401,7 +401,7 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
                     checkExpr(lhs, initial, false, violations);
 
                     // Check statically evaluable divisor/rhs.
-                    Expression notSingleValue = CifValueUtils.checkSingleValue(rhs, initial, true);
+                    Expression notSingleValue = CifValueUtils.findNonSingleValueSubExpr(rhs, initial, true);
                     if (notSingleValue != null) {
                         violations.add(notSingleValue, "Value is too complex to be statically evaluated, "
                                 + "or evaluation results in a runtime error");
@@ -473,7 +473,7 @@ public class CifToBddExprOnlySupportedExprsCheck extends CifCheckNoCompDefInst {
         }
 
         // Check for statically evaluable expression.
-        Expression notSingleValue = CifValueUtils.checkSingleValue(expr, initial, true);
+        Expression notSingleValue = CifValueUtils.findNonSingleValueSubExpr(expr, initial, true);
         if (notSingleValue != null) {
             violations.add(notSingleValue, "Value is too complex to be statically evaluated, "
                     + "or evaluation results in a runtime error");
