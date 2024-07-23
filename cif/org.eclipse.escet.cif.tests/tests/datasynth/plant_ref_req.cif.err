@@ -1,6 +1,6 @@
-WARNING: File "datasynth/plant_ref_req.cif": Semantic warning at line 162, column 1: Duplicate state invariant.
-WARNING: File "datasynth/plant_ref_req.cif": Semantic warning at line 192, column 3: Duplicate state invariant.
-WARNING: File "datasynth/plant_ref_req.cif": Semantic warning at line 199, column 3: Duplicate state invariant.
+WARNING: File "datasynth/plant_ref_req.cif": Semantic warning at line 167, column 1: Duplicate state invariant.
+WARNING: File "datasynth/plant_ref_req.cif": Semantic warning at line 197, column 3: Duplicate state invariant.
+WARNING: File "datasynth/plant_ref_req.cif": Semantic warning at line 204, column 3: Duplicate state invariant.
 WARNING: Plant invariant "<bool>R.l" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "not R.l" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "R.l or true" in the top level scope of the specification references requirement state.
@@ -16,16 +16,16 @@ WARNING: Plant invariant "switch true: case true: R.l else true end" in the top 
 WARNING: Plant invariant "switch true: case true: true else R.l end" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "[true, false][0:R.v][0]" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "[true, false][R.v:1][0]" in the top level scope of the specification references requirement state.
-WARNING: Plant invariant "[R.l, false][0:1][0]" in the top level scope of the specification references requirement state.
+WARNING: Plant invariant "[R.l, iv][0:1][0]" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "f(R.l)" in the top level scope of the specification references requirement state.
-WARNING: Plant invariant "R.l in [true, false]" in the top level scope of the specification references requirement state.
-WARNING: Plant invariant "true in [R.l, false]" in the top level scope of the specification references requirement state.
-WARNING: Plant invariant "R.l in {true}" in the top level scope of the specification references requirement state.
-WARNING: Plant invariant "true in {R.l}" in the top level scope of the specification references requirement state.
+WARNING: Plant invariant "R.l in [iv, false]" in the top level scope of the specification references requirement state.
+WARNING: Plant invariant "true in [R.l, iv]" in the top level scope of the specification references requirement state.
+WARNING: Plant invariant "R.l in {iv}" in the top level scope of the specification references requirement state.
+WARNING: Plant invariant "true in {R.l, iv}" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "a2[0]" in the top level scope of the specification references requirement state.
-WARNING: Plant invariant "true in {R.l: true}" in the top level scope of the specification references requirement state.
-WARNING: Plant invariant "true in {true: R.l}" in the top level scope of the specification references requirement state.
-WARNING: Plant invariant "R.l in {true: true}" in the top level scope of the specification references requirement state.
+WARNING: Plant invariant "true in {R.l: iv}" in the top level scope of the specification references requirement state.
+WARNING: Plant invariant "true in {iv: R.l}" in the top level scope of the specification references requirement state.
+WARNING: Plant invariant "R.l in {true: iv}" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "R.v = 3" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "a" in the top level scope of the specification references requirement state.
 WARNING: Plant invariant "b" in the top level scope of the specification references requirement state.
@@ -53,25 +53,116 @@ WARNING: Plant edge update "if true: P9.d := true elif true: P9.d := R.l else P9
 WARNING: Plant edge update "if true: P9.d := true elif true: P9.d := true else P9.d := R.l end" in the location of automaton "P9" references requirement state.
 WARNING: Plant invariant "true" in the location of automaton "R7" implicitly depends on requirement state.
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
- - Unsupported linearized edges: non-determinism detected for edges of controllable event "P9.c_e" with overlapping guards: "true", "true", "true", "true", "true".
- - Unsupported location of automaton "P3": for state invariants, only plant and requirement invariants are supported.
- - Unsupported specification: unsupported part "<bool>R.l" of state invariant "<bool>R.l": predicate is not supported.
- - Unsupported specification: unsupported part "[R.l, false][0:1][0]" of state invariant "[R.l, false][0:1][0]": predicate is not supported.
- - Unsupported specification: unsupported part "[true, false][0:R.v][0]" of state invariant "[true, false][0:R.v][0]": predicate is not supported.
- - Unsupported specification: unsupported part "[true, false][R.v:1][0]" of state invariant "[true, false][R.v:1][0]": predicate is not supported.
- - Unsupported specification: unsupported part "a2[0]" of state invariant "a2[0]": predicate is not supported.
- - Unsupported specification: unsupported part "c1 = 0.0" of state invariant "c1 = 0.0": binary operator "=" on values of types "real" and "real" is not supported.
- - Unsupported specification: unsupported part "c2 = 0.0" of state invariant "c2 = 0.0": binary operator "=" on values of types "real" and "real" is not supported.
- - Unsupported specification: unsupported part "f(R.l)" of state invariant "f(R.l)": predicate is not supported.
- - Unsupported specification: unsupported part "R.l in [true, false]" of state invariant "R.l in [true, false]": binary operator "in" is not supported.
- - Unsupported specification: unsupported part "R.l in {true: true}" of state invariant "R.l in {true: true}": binary operator "in" is not supported.
- - Unsupported specification: unsupported part "R.l in {true}" of state invariant "R.l in {true}": binary operator "in" is not supported.
- - Unsupported specification: unsupported part "R4.c = 0.0" of state invariant "R4.c = 0.0": binary operator "=" on values of types "real" and "real" is not supported.
- - Unsupported specification: unsupported part "R5.c = 0.0" of state invariant "R5.c = 0.0": binary operator "=" on values of types "real" and "real" is not supported.
- - Unsupported specification: unsupported part "true in [R.l, false]" of state invariant "true in [R.l, false]": binary operator "in" is not supported.
- - Unsupported specification: unsupported part "true in {R.l: true}" of state invariant "true in {R.l: true}": binary operator "in" is not supported.
- - Unsupported specification: unsupported part "true in {R.l}" of state invariant "true in {R.l}": binary operator "in" is not supported.
- - Unsupported specification: unsupported part "true in {true: R.l}" of state invariant "true in {true: R.l}": binary operator "in" is not supported.
- - Unsupported update: assignments to continuous variables are not supported.
- - Unsupported update: conditional updates ('if' updates) are not supported.
- - Unsupported variable "R.v": variables with rangeless integer types are not supported.
+
+  -------------------------------------
+  (1/7) A value of type "real" is used.
+  -------------------------------------
+   * In automaton "P2":
+     - edge c do c1 := 0.0, c3 := 0.0;
+                       ^          ^
+   * In automaton "R4":
+     - edge c_e do c := 0.0;
+                        ^
+
+  -----------------------------------------------------------------------
+  (2/7) Binary operator "=" is used on values of types "real" and "real".
+  -----------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - plant invariant c1 = 0.0;
+                          ^
+     - plant invariant c2 = 0.0;
+                          ^
+     - plant invariant R4.c = 0.0;
+                            ^
+     - plant invariant R5.c = 0.0;
+                            ^
+
+  -----------------------------------------------------
+  (3/7) Discrete variable has a rangeless integer type.
+  -----------------------------------------------------
+   * In discrete variable "R.v":
+     - disc int v = 1;
+            ^
+
+  ------------------------------
+  (4/7) Edge has an 'if' update.
+  ------------------------------
+   * In automaton "P9":
+     - edge c_e do if R.l: d := true elif true: d := true else d := true end;
+                   ^
+     - edge c_e do if true: d := R.l elif true: d := true else d := true end;
+                   ^
+     - edge c_e do if true: d := true elif R.l: d := true else d := true end;
+                   ^
+     - edge c_e do if true: d := true elif true: d := R.l else d := true end;
+                   ^
+     - edge c_e do if true: d := true elif true: d := true else d := R.l end;
+                   ^
+
+  ----------------------------------------
+  (5/7) Invariant is a kindless invariant.
+  ----------------------------------------
+   * In automaton "P3":
+     - invariant d;
+       ^
+
+  ------------------------------------------------------------------------------------------------
+  (6/7) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
+  ------------------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - plant invariant <bool>R.l;
+                             ^
+     - plant invariant [true, false][0:R.v][0];
+                                       ^
+     - plant invariant [true, false][R.v:1][0];
+                                     ^
+     - plant invariant [R.l, iv][0:1][0];
+                        ^
+     - plant invariant f(R.l);
+                       ^
+     - plant invariant R.l in [iv, false];
+                       ^
+     - plant invariant true in [R.l, iv];
+                                ^
+     - plant invariant R.l in {iv};
+                       ^
+     - plant invariant true in {R.l, iv};
+                                ^
+     - plant invariant true in {R.l: iv};
+                                ^
+     - plant invariant true in {iv: R.l};
+                                ^
+     - plant invariant R.l in {true: iv};
+                       ^
+   * In algebraic variable "a2":
+     - alg tuple(bool t1; bool t2) a2 = (R.l, iv);
+                                         ^
+
+  ----------------------------------------
+  (7/7) Variable is a continuous variable.
+  ----------------------------------------
+   * In the top-level scope of the specification:
+     - cont c1 = if R.l: 1.0 else 0.0 end der -1.0;
+            ^
+     - cont c2 = 0.0 der if R.l: 1.0 else 0.0 end;
+            ^
+   * In automaton "P1":
+     - cont c1;
+            ^
+     - cont c2;
+            ^
+   * In automaton "P2":
+     - cont c1 = R.v * 1.0 der 0.0;
+            ^
+     - cont c2 = R.v * 1.0 der 0.0;
+            ^
+     - cont c3 = 0.0 der R.v * 1.0;
+            ^
+     - cont c4 = 0.0 der R.v * 1.0;
+            ^
+   * In automaton "R4":
+     - cont c = 0.0 der 0.0;
+            ^
+   * In automaton "R5":
+     - cont c = 0.0 der 0.0;
+            ^

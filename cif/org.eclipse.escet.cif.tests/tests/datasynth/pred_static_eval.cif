@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -12,24 +12,18 @@
 //////////////////////////////////////////////////////////////////////////////
 
 plant p:
-  controllable c, $event;
+  uncontrollable e;
+
+  disc bool b1 = {1} sub {2};           // false
+  disc bool b2 = {1} sub {1, 2};        // true
+  disc bool b3 = not({1} sub {1, 2});   // false
 
   location:
     initial;
-    marked;
-    edge c when x = 0;
-    edge c when x = 1; // Same event label, should only be listed once.
-    edge $event;
+    marked true;
+    edge e when b1;
+    edge e when b2;
+    edge e when b3;
 end
 
-plant q:
-  controllable c;
-
-  location:
-    initial;
-    marked;
-    edge c;
-end
-
-input int[0..3] x;
-input bool y;
+requirement invariant not p.b1 and p.b2 and not p.b3;

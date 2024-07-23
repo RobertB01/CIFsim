@@ -1,0 +1,11 @@
+group p:
+  uncontrollable e;
+end
+automaton statespace:
+  alphabet p.e;
+  @state(p: "*", p.b1: false, p.b2: true, p.b3: false, sup: "*")
+  location loc1:
+    initial;
+    marked;
+    edge p.e;
+end

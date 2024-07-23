@@ -1,0 +1,37 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ----------------------------------------------------
+  (1/2) Requirement automaton receives from a channel.
+  ----------------------------------------------------
+   * In automaton "rcv_1":
+     - edge g.chan1?;
+                   ^
+   * In automaton "rcv_1_2":
+     - edge g.chan1?;
+                   ^
+     - edge g.chan2?;
+                   ^
+   * In automaton "rcv_2":
+     - edge g.chan2?;
+                   ^
+   * In automaton "rcv_3":
+     - edge g.chan3?;
+                   ^
+
+  -------------------------------------------------
+  (2/2) Requirement automaton sends over a channel.
+  -------------------------------------------------
+   * In automaton "snd_1":
+     - edge g.chan1!true;
+                   ^
+   * In location "snd_1_2.loc":
+     - edge g.chan1!false;
+                   ^
+     - edge g.chan2!2;
+                   ^
+   * In automaton "snd_2":
+     - edge g.chan2!2;
+                   ^
+   * In automaton "snd_3":
+     - edge g.chan3!;
+                   ^

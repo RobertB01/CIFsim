@@ -15,10 +15,6 @@ package org.eclipse.escet.cif.bdd.conversion;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
-import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.BI_CONDITIONAL;
-import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.CONJUNCTION;
-import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.DISJUNCTION;
-import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.IMPLICATION;
 import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.INTEGER_DIVISION;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAssignment;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
@@ -44,7 +40,6 @@ import static org.eclipse.escet.common.java.Sets.difference;
 import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
-import static org.eclipse.escet.common.java.Sets.sortedstrings;
 import static org.eclipse.escet.common.java.Sets.union;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.str;
@@ -57,10 +52,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.escet.cif.bdd.conversion.preconditions.CifToBddConverterPreChecker;
 import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
@@ -108,7 +104,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
-import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
@@ -126,7 +121,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
@@ -135,11 +129,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
@@ -152,7 +143,6 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.output.WarnOutput;
@@ -181,9 +171,6 @@ import com.github.javabdd.JFactory;
 public class CifToBddConverter {
     /** The human-readable name of the application. Should start with a capital letter. */
     private final String appName;
-
-    /** Precondition violations found so far. */
-    private final Set<String> problems = set();
 
     /**
      * Per requirement automaton, the monitors as specified in the original specification. They are replaced by monitors
@@ -218,14 +205,20 @@ public class CifToBddConverter {
      * Furthermore, it checks the following preconditions:
      * <ul>
      * <li>{@link PlantsRefsReqsChecker Plants should not refer to requirement state}.</li>
+     * <li><@link CifBddConversionPreChecker CIF to BDD conversion preconditions}.</li>
      * </ul>
      * </p>
      *
      * @param spec The CIF specification to preprocess. Is modified in-place.
+     * @param specAbsPath The absolute local file system path to the CIF file.
      * @param warnOutput Callback for warning output.
      * @param doPlantsRefReqsWarn Whether to warn about plants that reference requirement state.
+     * @param shouldTerminate Function that indicates whether termination has been requested.
+     * @throws UnsupportedException In case the specification is unsupported.
      */
-    public static void preprocess(Specification spec, WarnOutput warnOutput, boolean doPlantsRefReqsWarn) {
+    public void preprocess(Specification spec, String specAbsPath, WarnOutput warnOutput, boolean doPlantsRefReqsWarn,
+            BooleanSupplier shouldTerminate)
+    {
         // Remove/ignore I/O declarations, to increase the supported subset.
         RemoveIoDecls removeIoDecls = new RemoveIoDecls();
         removeIoDecls.transform(spec);
@@ -240,6 +233,10 @@ public class CifToBddConverter {
         if (doPlantsRefReqsWarn) {
             new PlantsRefsReqsChecker(warnOutput).checkPlantRefToRequirement(spec);
         }
+
+        // Check preconditions.
+        CifToBddConverterPreChecker checker = new CifToBddConverterPreChecker(shouldTerminate);
+        checker.reportPreconditionViolations(spec, specAbsPath, appName);
     }
 
     /**
@@ -299,36 +296,16 @@ public class CifToBddConverter {
     }
 
     /**
-     * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
+     * Converts a CIF specification to a CIF/BDD representation. Also checks the specification for non-deterministic
+     * events, as {@link CifBddSettings#getAllowNonDeterminism configured}.
      *
      * @param spec The CIF specification to convert. Must have been {@link #preprocess preprocessed} already.
      * @param settings The settings to use.
      * @param factory The BDD factory to use. A suitable factory can be created using {@link #createFactory}.
      * @return The CIF/BDD representation of the CIF specification.
+     * @throws UnsupportedException In case the specification is non-determinism that is not supported.
      */
     public CifBddSpec convert(Specification spec, CifBddSettings settings, BDDFactory factory) {
-        // Convert CIF specification and return the resulting CIF/BDD specification, but only if no precondition
-        // violations.
-        CifBddSpec cifBddSpec = convertSpec(spec, settings, factory);
-        if (problems.isEmpty()) {
-            return cifBddSpec;
-        }
-
-        // Precondition violations found.
-        String msg = fmt("%s failed due to unsatisfied preconditions:\n - ", appName)
-                + String.join("\n - ", sortedstrings(problems));
-        throw new UnsupportedException(msg);
-    }
-
-    /**
-     * Converts a CIF specification to a CIF/BDD representation, checking for precondition violations along the way.
-     *
-     * @param spec The CIF specification to convert. Is assumed to have been {@link #preprocess preprocessed} already.
-     * @param settings The settings to use.
-     * @param factory The BDD factory to use.
-     * @return The CIF/BDD representation of the CIF specification.
-     */
-    private CifBddSpec convertSpec(Specification spec, CifBddSettings settings, BDDFactory factory) {
         // Initialize CIF/BDD specification.
         CifBddSpec cifBddSpec = new CifBddSpec(settings);
         cifBddSpec.factory = factory;
@@ -337,16 +314,9 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Collect and check events. May collect more than union of alphabets.
+        // Collect event declarations. May collect more than union of alphabets.
         List<Event> events = list();
         collectEvents(spec, events);
-        for (Event event: events) {
-            if (event.getControllable() == null) {
-                String msg = fmt("Unsupported event \"%s\": event is not declared as controllable or uncontrollable.",
-                        getAbsName(event));
-                problems.add(msg);
-            }
-        }
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
@@ -360,34 +330,10 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check automata, and partition into plants/requirements.
-        List<Automaton> plants = list();
-        List<Automaton> requirements = list();
-        for (Automaton cifAut: automata) {
-            switch (cifAut.getKind()) {
-                case PLANT:
-                    plants.add(cifAut);
-                    break;
-                case REQUIREMENT:
-                    requirements.add(cifAut);
-                    break;
-                default: {
-                    String msg = fmt("Unsupported automaton \"%s\": only plant and requirement automata are supported.",
-                            getAbsName(cifAut));
-                    problems.add(msg);
-                }
-            }
-        }
-
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
-            return cifBddSpec;
-        }
-
-        // Need at least one plant automaton.
-        if (plants.isEmpty()) {
-            String msg = "Unsupported specification: no plant automata found.";
-            problems.add(msg);
-        }
+        // Partition automata into plants and requirements.
+        List<Automaton> plants = automata.stream().filter(a -> a.getKind() == SupKind.PLANT).toList();
+        List<Automaton> requirements = automata.stream().filter(a -> a.getKind() == SupKind.REQUIREMENT).toList();
+        Assert.areEqual(automata.size(), plants.size() + requirements.size());
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
@@ -434,38 +380,8 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check use of channels in requirements.
-        for (int i = 0; i < requirements.size(); i++) {
-            Set<Event> commEvents = union(reqAlphabets.get(i).sendAlphabet, reqAlphabets.get(i).recvAlphabet);
-            if (commEvents.isEmpty()) {
-                continue;
-            }
-
-            List<String> names = listc(commEvents.size());
-            for (Event extra: commEvents) {
-                names.add("\"" + getAbsName(extra) + "\"");
-            }
-
-            String msg = fmt("Unsupported %s: requirement uses channel%s: %s.",
-                    CifTextUtils.getComponentText1(requirements.get(i)), (commEvents.size() == 1) ? "" : "s",
-                    String.join(", ", names));
-            problems.add(msg);
-        }
-
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
-            return cifBddSpec;
-        }
-
         // Get controllable events subset of the alphabet.
-        cifBddSpec.controllables = set();
-        for (Event event: cifBddSpec.alphabet) {
-            if (event.getControllable() == null) {
-                continue;
-            }
-            if (event.getControllable()) {
-                cifBddSpec.controllables.add(event);
-            }
-        }
+        cifBddSpec.controllables = cifBddSpec.alphabet.stream().filter(Event::getControllable).collect(Sets.toSet());
 
         if (cifBddSpec.settings.getShouldTerminate().get()) {
             return cifBddSpec;
@@ -488,7 +404,7 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check and convert variables. Create location pointers.
+        // Convert variables. Create location pointers.
         cifBddSpec.variables = new CifBddVariable[cifVarObjs.size()];
         for (int i = 0; i < cifBddSpec.variables.length; i++) {
             PositionObject cifVarObj = cifVarObjs.get(i);
@@ -522,7 +438,7 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check and convert initialization predicates.
+        // Convert initialization predicates.
         cifBddSpec.initialsVars = listc(cifBddSpec.variables.length);
         for (int i = 0; i < cifBddSpec.variables.length; i++) {
             cifBddSpec.initialsVars.add(null);
@@ -541,7 +457,7 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
-        // Check and convert marker predicates.
+        // Convert marker predicates.
         cifBddSpec.markedsComps = list();
         cifBddSpec.markedsLocs = list();
         cifBddSpec.markedComps = cifBddSpec.factory.one();
@@ -680,7 +596,7 @@ public class CifToBddConverter {
      * Converts a CIF variable to a CIF/BDD variable.
      *
      * @param var The CIF variable. Must be a {@link DiscVariable} or a {@link InputVariable}.
-     * @return The CIF/BDD variable, or {@code null} if conversion failed due to a precondition not being satisfied.
+     * @return The CIF/BDD variable.
      */
     private CifBddVariable convertTypedVar(Declaration var) {
         // Get normalized type of the variable.
@@ -704,25 +620,12 @@ public class CifToBddConverter {
             lower = 0;
             upper = 1;
         } else if (type instanceof IntType) {
-            // Check ranged integer type.
+            // Get integer type range.
             IntType intType = (IntType)type;
-            if (CifTypeUtils.isRangeless(intType)) {
-                String msg = fmt(
-                        "Unsupported variable \"%s\": variables with rangeless integer types are not supported.",
-                        getAbsName(var));
-                problems.add(msg);
-                return null;
-            }
-
-            // Check range.
+            Assert.check(!CifTypeUtils.isRangeless(intType));
             lower = intType.getLower();
             upper = intType.getUpper();
-            if (lower < 0) {
-                String msg = fmt("Unsupported variable \"%s\": variables with integer type ranges that include "
-                        + "negative values are not supported.", getAbsName(var));
-                problems.add(msg);
-                return null;
-            }
+            Assert.check(lower >= 0);
 
             // Determine number of values.
             count = upper - lower + 1;
@@ -733,11 +636,7 @@ public class CifToBddConverter {
             lower = 0;
             upper = count - 1;
         } else {
-            // Unsupported.
-            String msg = fmt("Unsupported variable \"%s\": variables of type \"%s\" are not supported.",
-                    getAbsName(var), CifTextUtils.typeToStr(type));
-            problems.add(msg);
-            return null;
+            throw new RuntimeException("Unexpected type: " + type);
         }
 
         // Construct CIF/BDD variable.
@@ -772,11 +671,6 @@ public class CifToBddConverter {
      * @param spec The CIF specification.
      */
     private void orderVars(CifBddSpec cifBddSpec, Specification spec) {
-        // Skip ordering, including settings processing and debug output printing, if any variables failed to convert.
-        if (Arrays.asList(cifBddSpec.variables).contains(null)) {
-            return;
-        }
-
         // Configure variable orderer.
         String varOrderTxt = cifBddSpec.settings.getBddVarOrderAdvanced();
         List<VarOrdererInstance> parseResult;
@@ -987,41 +881,17 @@ public class CifToBddConverter {
      * @param cifBddSpec The CIF/BDD specification.
      */
     private void createVarDomains(CifBddSpec cifBddSpec) {
-        // Skip if no variables (due to earlier conversion error).
+        // Skip if no variables.
         int varCnt = cifBddSpec.variables.length;
         if (varCnt == 0) {
             return;
         }
 
-        // If not ordered (due to earlier conversion error), set dummy domains, but of the correct size to prevent
-        // errors later on.
-        boolean ordered = true;
-        for (int i = 0; i < varCnt; i++) {
-            CifBddVariable var = cifBddSpec.variables[i];
-            if (var == null || var.group == -1) {
-                ordered = false;
-                break;
-            }
-        }
-
-        if (!ordered) {
-            for (int i = 0; i < varCnt; i++) {
-                CifBddVariable var = cifBddSpec.variables[i];
-                if (var == null) {
-                    continue;
-                }
-                int size = var.getDomainSize();
-                var.domain = cifBddSpec.factory.extDomain(size);
-                var.domainNew = cifBddSpec.factory.extDomain(size);
-                var.group = i;
-            }
-            return;
-        }
-
-        // Make sure the CIF/BDD variable domain interleaving groups are ascending and continuous.
+        // Make sure the CIF/BDD variable domain interleaving groups are set, ascending and contiguous.
         int cur = 0;
         for (int i = 0; i < varCnt; i++) {
             int group = cifBddSpec.variables[i].group;
+            Assert.check(group >= 0);
             if (group == cur) {
                 continue;
             }
@@ -1075,12 +945,10 @@ public class CifToBddConverter {
      * @see CifBddSpec#varSetNew
      */
     private void createUpdateAuxiliaries(CifBddSpec cifBddSpec) {
-        // Skip if earlier conversion failure.
+        // Sanity check.
         int domainCnt = cifBddSpec.factory.numberOfDomains();
         int cifVarCnt = cifBddSpec.variables.length;
-        if (cifVarCnt * 2 != domainCnt) {
-            return;
-        }
+        Assert.areEqual(cifVarCnt * 2, domainCnt);
 
         // oldToNewVarsPairing = 'x -> x+, y -> y+, z -> z+, ...'.
         // newToOldVarsPairing = 'x+ -> x, y+ -> y, z+ -> z, ...'.
@@ -1135,18 +1003,7 @@ public class CifToBddConverter {
         // Initialization predicates of the component.
         for (Expression pred: comp.getInitials()) {
             // Convert.
-            BDD initial;
-            try {
-                initial = convertPred(pred, true, cifBddSpec);
-            } catch (UnsupportedPredicateException ex) {
-                if (ex.expr != null) {
-                    String msg = fmt("Unsupported %s: unsupported part \"%s\" of initialization predicate \"%s\": %s",
-                            CifTextUtils.getComponentText1(comp), CifTextUtils.exprToStr(ex.expr),
-                            CifTextUtils.exprToStr(pred), ex.getMessage());
-                    problems.add(msg);
-                }
-                continue;
-            }
+            BDD initial = convertPred(pred, true, cifBddSpec);
 
             // Store.
             cifBddSpec.initialsComps.add(initial);
@@ -1162,11 +1019,9 @@ public class CifToBddConverter {
                 }
                 DiscVariable cifVar = (DiscVariable)cifDecl;
 
-                // Get CIF/BDD variable. Skip if earlier precondition violation.
+                // Get CIF/BDD variable.
                 int varIdx = getDiscVarIdx(cifBddSpec.variables, cifVar);
-                if (varIdx == -1) {
-                    continue;
-                }
+                Assert.check(varIdx >= 0);
                 CifBddVariable cifBddVar = cifBddSpec.variables[varIdx];
                 Assert.check(cifBddVar instanceof CifBddDiscVariable);
                 CifBddDiscVariable var = (CifBddDiscVariable)cifBddVar;
@@ -1197,27 +1052,7 @@ public class CifToBddConverter {
                         // Case distinction on types of values.
                         if (var.type instanceof BoolType) {
                             // Convert right hand side (value to assign).
-                            BDD valueBdd;
-                            try {
-                                valueBdd = convertPred(value, true, cifBddSpec);
-                            } catch (UnsupportedPredicateException ex) {
-                                // Add new problem, if not failed due to earlier problems.
-                                if (ex.expr != null) {
-                                    String msg = fmt(
-                                            "Unsupported variable \"%s\": unsupported part \"%s\" of initial "
-                                                    + "value \"%s\": %s",
-                                            var.name, CifTextUtils.exprToStr(ex.expr), CifTextUtils.exprToStr(value),
-                                            ex.getMessage());
-                                    problems.add(msg);
-                                }
-
-                                // Set predicate to 'true' to prevent no initialization.
-                                pred.free();
-                                pred = cifBddSpec.factory.one();
-
-                                // Proceed with next value to check it as well.
-                                continue;
-                            }
+                            BDD valueBdd = convertPred(value, true, cifBddSpec);
 
                             // Create BDD for the left hand side (variable to get a new value).
                             Assert.check(var.domain.varNum() == 1);
@@ -1231,30 +1066,7 @@ public class CifToBddConverter {
                             pred = pred.orWith(relation);
                         } else {
                             // Convert value expression.
-                            Supplier<String> partMsg = () -> fmt("initial value \"%s\" of variable \"%s\".",
-                                    CifTextUtils.exprToStr(value), var.name);
-
-                            CifBddBitVectorAndCarry valueRslt;
-                            try {
-                                valueRslt = convertExpr(value, true, cifBddSpec, false, partMsg);
-                            } catch (UnsupportedPredicateException ex) {
-                                // Add new problem, if not failed due to earlier problems.
-                                if (ex.expr != null) {
-                                    String msg = fmt(
-                                            "Unsupported variable \"%s\": unsupported part \"%s\" of initial "
-                                                    + "value \"%s\": %s",
-                                            var.name, CifTextUtils.exprToStr(ex.expr), CifTextUtils.exprToStr(value),
-                                            ex.getMessage());
-                                    problems.add(msg);
-                                }
-
-                                // Set predicate to 'true' to prevent no initialization.
-                                pred.free();
-                                pred = cifBddSpec.factory.one();
-
-                                // Proceed with next value to check it as well.
-                                continue;
-                            }
+                            CifBddBitVectorAndCarry valueRslt = convertExpr(value, true, cifBddSpec, false);
                             CifBddBitVector valueVec = valueRslt.vector;
                             Assert.check(valueRslt.carry.isZero());
 
@@ -1294,34 +1106,12 @@ public class CifToBddConverter {
                 }
 
                 // Convert initialization predicates of the location.
-                BDD locInit = cifBddSpec.factory.one();
                 List<Expression> locInits = loc.getInitials();
-                try {
-                    locInit = convertPreds(locInits, true, cifBddSpec);
-                } catch (UnsupportedPredicateException ex) {
-                    if (ex.expr != null) {
-                        String msg = fmt(
-                                "Unsupported %s: unsupported part \"%s\" of initialization predicate(s) \"%s\": %s",
-                                CifTextUtils.getLocationText1(loc), CifTextUtils.exprToStr(ex.expr),
-                                CifTextUtils.exprsToStr(locInits), ex.getMessage());
-                        problems.add(msg);
-                    }
-                    continue;
-                }
+                BDD locInit = convertPreds(locInits, true, cifBddSpec);
 
                 // Add location predicate.
-                BDD srcLocPred;
-                try {
-                    Expression srcLocRef = locPtrManager.createLocRef(loc);
-                    srcLocPred = convertPred(srcLocRef, true, cifBddSpec);
-                } catch (UnsupportedPredicateException ex) {
-                    if (ex.expr != null) {
-                        // Internally created predicate shouldn't fail conversion.
-                        throw new RuntimeException(ex);
-                    }
-                    continue;
-                }
-
+                Expression srcLocRef = locPtrManager.createLocRef(loc);
+                BDD srcLocPred = convertPred(srcLocRef, true, cifBddSpec);
                 locInit = locInit.and(srcLocPred);
 
                 // Combine with initialization predicates of other locations.
@@ -1352,18 +1142,7 @@ public class CifToBddConverter {
         // Marker predicates of the component.
         for (Expression pred: comp.getMarkeds()) {
             // Convert.
-            BDD marked;
-            try {
-                marked = convertPred(pred, false, cifBddSpec);
-            } catch (UnsupportedPredicateException ex) {
-                if (ex.expr != null) {
-                    String msg = fmt("Unsupported %s: unsupported part \"%s\" of marker predicate \"%s\": %s",
-                            CifTextUtils.getComponentText1(comp), CifTextUtils.exprToStr(ex.expr),
-                            CifTextUtils.exprToStr(pred), ex.getMessage());
-                    problems.add(msg);
-                }
-                continue;
-            }
+            BDD marked = convertPred(pred, false, cifBddSpec);
 
             // Store.
             cifBddSpec.markedsComps.add(marked);
@@ -1384,33 +1163,12 @@ public class CifToBddConverter {
                 }
 
                 // Convert marker predicates of the location.
-                BDD locMarked = cifBddSpec.factory.one();
                 List<Expression> locMarkeds = loc.getMarkeds();
-                try {
-                    locMarked = convertPreds(locMarkeds, false, cifBddSpec);
-                } catch (UnsupportedPredicateException ex) {
-                    if (ex.expr != null) {
-                        String msg = fmt("Unsupported %s: unsupported part \"%s\" of marker predicate(s) \"%s\": %s",
-                                CifTextUtils.getLocationText1(loc), CifTextUtils.exprToStr(ex.expr),
-                                CifTextUtils.exprsToStr(locMarkeds), ex.getMessage());
-                        problems.add(msg);
-                    }
-                    continue;
-                }
+                BDD locMarked = convertPreds(locMarkeds, false, cifBddSpec);
 
                 // Add location predicate.
-                BDD srcLocPred;
-                try {
-                    Expression srcLocRef = locPtrManager.createLocRef(loc);
-                    srcLocPred = convertPred(srcLocRef, false, cifBddSpec);
-                } catch (UnsupportedPredicateException ex) {
-                    if (ex.expr != null) {
-                        // Internally created predicate shouldn't fail conversion.
-                        throw new RuntimeException(ex);
-                    }
-                    continue;
-                }
-
+                Expression srcLocRef = locPtrManager.createLocRef(loc);
+                BDD srcLocPred = convertPred(srcLocRef, false, cifBddSpec);
                 locMarked = locMarked.andWith(srcLocPred);
 
                 // Combine with marker predicates of other locations.
@@ -1445,29 +1203,9 @@ public class CifToBddConverter {
                 continue;
             }
 
-            // Check kind.
-            if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
-                String msg = fmt(
-                        "Unsupported %s: for state invariants, only plant and requirement invariants are supported.",
-                        CifTextUtils.getComponentText1(comp));
-                problems.add(msg);
-                continue;
-            }
-
             // Convert.
             Expression pred = inv.getPredicate();
-            BDD invComp;
-            try {
-                invComp = convertPred(pred, false, cifBddSpec);
-            } catch (UnsupportedPredicateException ex) {
-                if (ex.expr != null) {
-                    String msg = fmt("Unsupported %s: unsupported part \"%s\" of state invariant \"%s\": %s",
-                            CifTextUtils.getComponentText1(comp), CifTextUtils.exprToStr(ex.expr),
-                            CifTextUtils.exprToStr(pred), ex.getMessage());
-                    problems.add(msg);
-                }
-                continue;
-            }
+            BDD invComp = convertPred(pred, false, cifBddSpec);
 
             // Store.
             switch (inv.getSupKind()) {
@@ -1497,44 +1235,13 @@ public class CifToBddConverter {
                         continue;
                     }
 
-                    // Check kind.
-                    if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
-                        String msg = fmt(
-                                "Unsupported %s: for state invariants, only plant and requirement invariants are "
-                                        + "supported.",
-                                CifTextUtils.getLocationText1(loc));
-                        problems.add(msg);
-                        continue;
-                    }
-
                     // Convert.
                     Expression pred = inv.getPredicate();
-                    BDD invLoc;
-                    try {
-                        invLoc = convertPred(pred, false, cifBddSpec);
-                    } catch (UnsupportedPredicateException ex) {
-                        if (ex.expr != null) {
-                            String msg = fmt("Unsupported %s: unsupported part \"%s\" of state invariant \"%s\": %s",
-                                    CifTextUtils.getLocationText1(loc), CifTextUtils.exprToStr(ex.expr),
-                                    CifTextUtils.exprToStr(pred), ex.getMessage());
-                            problems.add(msg);
-                        }
-                        continue;
-                    }
+                    BDD invLoc = convertPred(pred, false, cifBddSpec);
 
                     // Add location predicate (srcLocPred => locInv).
-                    BDD srcLocPred;
-                    try {
-                        Expression srcLocRef = locPtrManager.createLocRef(loc);
-                        srcLocPred = convertPred(srcLocRef, false, cifBddSpec);
-                    } catch (UnsupportedPredicateException ex) {
-                        if (ex.expr != null) {
-                            // Internally created predicate shouldn't fail conversion.
-                            throw new RuntimeException(ex);
-                        }
-                        continue;
-                    }
-
+                    Expression srcLocRef = locPtrManager.createLocRef(loc);
+                    BDD srcLocPred = convertPred(srcLocRef, false, cifBddSpec);
                     invLoc = srcLocPred.not().orWith(invLoc);
                     srcLocPred.free();
 
@@ -1581,14 +1288,6 @@ public class CifToBddConverter {
                 continue;
             }
 
-            // Check kind.
-            if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
-                String msg = fmt("Unsupported %s: for state/event exclusion invariants, only plant and requirement "
-                        + "invariants are supported.", CifTextUtils.getComponentText1(comp));
-                problems.add(msg);
-                continue;
-            }
-
             // Check that event is in the alphabet.
             Event event = ((EventExpression)inv.getEvent()).getEvent();
             if (!cifBddSpec.alphabet.contains(event)) {
@@ -1598,18 +1297,7 @@ public class CifToBddConverter {
 
             // Convert predicate.
             Expression pred = inv.getPredicate();
-            BDD compInv;
-            try {
-                compInv = convertPred(pred, false, cifBddSpec);
-            } catch (UnsupportedPredicateException ex) {
-                if (ex.expr != null) {
-                    String msg = fmt("Unsupported %s: unsupported part \"%s\" of invariant \"%s\": %s",
-                            CifTextUtils.getComponentText1(comp), CifTextUtils.exprToStr(ex.expr),
-                            CifTextUtils.invToStr(inv, false), ex.getMessage());
-                    problems.add(msg);
-                }
-                continue;
-            }
+            BDD compInv = convertPred(pred, false, cifBddSpec);
 
             // Adapt predicate for the kind of invariant.
             if (inv.getInvKind() == InvKind.EVENT_DISABLES) {
@@ -1627,7 +1315,7 @@ public class CifToBddConverter {
                 case REQUIREMENT:
                     storeStateEvtExclInv(cifBddSpec.stateEvtExclReqLists, event, compInv.id());
                     conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclReqs, event, compInv.id());
-                    if (Boolean.TRUE.equals(event.getControllable())) {
+                    if (event.getControllable()) {
                         conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclsReqInvs, event, compInv.id());
                     }
                     break;
@@ -1652,14 +1340,6 @@ public class CifToBddConverter {
                         continue;
                     }
 
-                    // Check kind.
-                    if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
-                        String msg = fmt("Unsupported %s: for state/event exclusion invariants, only plant and "
-                                + "requirement invariants are supported.", CifTextUtils.getLocationText1(loc));
-                        problems.add(msg);
-                        continue;
-                    }
-
                     // Check that event is in the alphabet.
                     Event event = ((EventExpression)inv.getEvent()).getEvent();
                     if (!cifBddSpec.alphabet.contains(event)) {
@@ -1669,32 +1349,11 @@ public class CifToBddConverter {
 
                     // Convert predicate.
                     Expression pred = inv.getPredicate();
-                    BDD locInv;
-                    try {
-                        locInv = convertPred(pred, false, cifBddSpec);
-                    } catch (UnsupportedPredicateException ex) {
-                        if (ex.expr != null) {
-                            String msg = fmt("Unsupported %s: unsupported part \"%s\" of invariant \"%s\": %s",
-                                    CifTextUtils.getLocationText1(loc), CifTextUtils.exprToStr(ex.expr),
-                                    CifTextUtils.invToStr(inv, false), ex.getMessage());
-                            problems.add(msg);
-                        }
-                        continue;
-                    }
+                    BDD locInv = convertPred(pred, false, cifBddSpec);
 
                     // Get location predicate (srcLocPred => locInv).
-                    BDD srcLocPred;
-                    try {
-                        Expression srcLocRef = locPtrManager.createLocRef(loc);
-                        srcLocPred = convertPred(srcLocRef, false, cifBddSpec);
-                    } catch (UnsupportedPredicateException ex) {
-                        if (ex.expr != null) {
-                            // Internally created predicate shouldn't fail conversion.
-                            throw new RuntimeException(ex);
-                        }
-                        continue;
-                    }
-
+                    Expression srcLocRef = locPtrManager.createLocRef(loc);
+                    BDD srcLocPred = convertPred(srcLocRef, false, cifBddSpec);
                     locInv = srcLocPred.not().orWith(locInv);
                     srcLocPred.free();
 
@@ -1714,7 +1373,7 @@ public class CifToBddConverter {
                         case REQUIREMENT:
                             storeStateEvtExclInv(cifBddSpec.stateEvtExclReqLists, event, locInv.id());
                             conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclReqs, event, locInv.id());
-                            if (Boolean.TRUE.equals(event.getControllable())) {
+                            if (event.getControllable()) {
                                 conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclsReqInvs, event, locInv.id());
                             }
                             break;
@@ -1783,8 +1442,7 @@ public class CifToBddConverter {
             Automaton requirement = requirements.get(i);
             Alphabets reqAlphabets = alphabets.get(i);
 
-            // Add state/event exclusion requirements for non-monitored events. Problems have already been reported in
-            // case of send/receive usage in the requirements.
+            // Add state/event exclusion requirements for non-monitored events.
             for (Event event: reqAlphabets.syncAlphabet) {
                 // Skip events that are already monitored.
                 if (reqAlphabets.moniAlphabet.contains(event)) {
@@ -1796,24 +1454,13 @@ public class CifToBddConverter {
                         LocRefExprCreator.DEFAULT);
 
                 // Convert guard.
-                BDD cifBddGuard;
-                try {
-                    cifBddGuard = convertPred(cifGuard, false, cifBddSpec);
-                } catch (UnsupportedPredicateException ex) {
-                    if (ex.expr != null) {
-                        String msg = fmt("Unsupported %s: unsupported part \"%s\" of combined guard \"%s\": %s",
-                                CifTextUtils.getComponentText1(requirement), CifTextUtils.exprToStr(ex.expr),
-                                CifTextUtils.exprToStr(cifGuard), ex.getMessage());
-                        problems.add(msg);
-                    }
-                    continue;
-                }
+                BDD cifBddGuard = convertPred(cifGuard, false, cifBddSpec);
 
                 // Add guard as state/event exclusion requirement for the event.
                 storeStateEvtExclInv(cifBddSpec.stateEvtExclReqLists, event, cifBddGuard.id());
                 conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclReqs, event, cifBddGuard.id());
 
-                if (Boolean.TRUE.equals(event.getControllable())) {
+                if (event.getControllable()) {
                     conjunctAndStoreStateEvtExclInv(cifBddSpec.stateEvtExclsReqAuts, event, cifBddGuard.id());
                 }
 
@@ -1846,6 +1493,7 @@ public class CifToBddConverter {
      * @param reqAlphabets Per requirement automaton, all the alphabets.
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification to be updated.
+     * @throws UnsupportedException In case the specification has non-determinism that is not supported.
      */
     private void convertPlantReqAuts(List<Automaton> plants, List<Automaton> requirements,
             List<Alphabets> plantAlphabets, List<Alphabets> reqAlphabets, CifBddLocationPointerManager locPtrManager,
@@ -1855,117 +1503,62 @@ public class CifToBddConverter {
         List<Automaton> automata = concat(plants, requirements);
         List<Alphabets> alphabets = concat(plantAlphabets, reqAlphabets);
 
-        // Check no 'tau' edges.
-        boolean tauOk = checkNoTauEdges(automata);
+        // Linearize edges for all events in the alphabet.
+        // Must match a similar call to linearize edges in `LinearizedHyperEdgeCreator'.
+        List<Edge> cifEdges = list();
+        LinearizeProduct.linearizeEdges(automata, alphabets, set2list(cifBddSpec.alphabet), locPtrManager, false, true,
+                cifEdges);
 
-        // Add linearized edges.
-        if (tauOk) {
-            // Linearize edges for all events in the alphabet.
-            // Must match a similar call to linearize edges in `LinearizedHyperEdgeCreator'.
-            List<Edge> cifEdges = list();
-            LinearizeProduct.linearizeEdges(automata, alphabets, set2list(cifBddSpec.alphabet), locPtrManager, false,
-                    true, cifEdges);
-
-            // Create and add CIF/BDD edges.
-            cifBddSpec.edges = listc(cifEdges.size());
-            cifBddSpec.eventEdges = mapc(cifBddSpec.alphabet.size());
-            for (Edge cifEdge: cifEdges) {
-                // Check for termination.
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
-                    break;
-                }
-
-                // Create edge.
-                CifBddEdge cifBddEdge = new CifBddEdge(cifBddSpec);
-                cifBddEdge.edges = list(cifEdge);
-
-                // Set event.
-                Assert.check(cifEdge.getEvents().size() == 1);
-                EdgeEvent edgeEvent = first(cifEdge.getEvents());
-                Event event = CifEventUtils.getEventFromEdgeEvent(edgeEvent);
-                cifBddEdge.event = event;
-
-                // Add edge.
-                cifBddSpec.edges.add(cifBddEdge);
-                List<CifBddEdge> cifBddEdges = cifBddSpec.eventEdges.get(event);
-                if (cifBddEdges == null) {
-                    cifBddEdges = list();
-                    cifBddSpec.eventEdges.put(event, cifBddEdges);
-                }
-                cifBddEdges.add(cifBddEdge);
-
-                // Convert and set guards.
-                BDD guard;
-                try {
-                    guard = convertPreds(cifEdge.getGuards(), false, cifBddSpec);
-                } catch (UnsupportedPredicateException ex) {
-                    if (ex.expr != null) {
-                        String msg = fmt("Unsupported linearized guard: unsupported part \"%s\" of guard(s) \"%s\": %s",
-                                CifTextUtils.exprToStr(ex.expr), CifTextUtils.exprsToStr(cifEdge.getGuards()),
-                                ex.getMessage());
-                        problems.add(msg);
-                    }
-
-                    // Set dummy guard to allow continuing. Use 'false' to avoid non-determinism check to give false
-                    // positives.
-                    guard = cifBddSpec.factory.zero();
-                }
-
-                cifBddEdge.guard = guard;
-                cifBddEdge.origGuard = guard.id();
-
-                // Convert and set assignments.
-                List<Update> updates = cifEdge.getUpdates();
-                convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec, this.problems);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
-                    return;
-                }
-
-                // Strengthen the guard to prevent runtime errors.
-                cifBddEdge.guard = cifBddEdge.guard.andWith(cifBddEdge.error.not());
+        // Create and add CIF/BDD edges.
+        cifBddSpec.edges = listc(cifEdges.size());
+        cifBddSpec.eventEdges = mapc(cifBddSpec.alphabet.size());
+        for (Edge cifEdge: cifEdges) {
+            // Check for termination.
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                break;
             }
 
+            // Create edge.
+            CifBddEdge cifBddEdge = new CifBddEdge(cifBddSpec);
+            cifBddEdge.edges = list(cifEdge);
+
+            // Set event.
+            Assert.check(cifEdge.getEvents().size() == 1);
+            EdgeEvent edgeEvent = first(cifEdge.getEvents());
+            Event event = CifEventUtils.getEventFromEdgeEvent(edgeEvent);
+            cifBddEdge.event = event;
+
+            // Add edge.
+            cifBddSpec.edges.add(cifBddEdge);
+            List<CifBddEdge> cifBddEdges = cifBddSpec.eventEdges.get(event);
+            if (cifBddEdges == null) {
+                cifBddEdges = list();
+                cifBddSpec.eventEdges.put(event, cifBddEdges);
+            }
+            cifBddEdges.add(cifBddEdge);
+
+            // Convert and set guards.
+            BDD guard = convertPreds(cifEdge.getGuards(), false, cifBddSpec);
+            cifBddEdge.guard = guard;
+            cifBddEdge.origGuard = guard.id();
+
+            // Convert and set assignments.
+            List<Update> updates = cifEdge.getUpdates();
+            convertUpdates(updates, cifBddEdge, locPtrManager, cifBddSpec);
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
 
-            // Check for non-determinism.
-            checkNonDeterminism(cifBddSpec.edges, cifBddSpec.settings.getAllowNonDeterminism());
+            // Strengthen the guard to prevent runtime errors.
+            cifBddEdge.guard = cifBddEdge.guard.andWith(cifBddEdge.error.not());
         }
-    }
 
-    /**
-     * Checks the given automata, to make sure they don't have any 'tau' edges. Any 'tau' edges are reported as
-     * {@link #problems}.
-     *
-     * @param automata The automata to check.
-     * @return Whether the automata have no 'tau' edges ({@code true}) or do have 'tau' edges ({@code false}).
-     */
-    private boolean checkNoTauEdges(List<Automaton> automata) {
-        boolean tauOk = true;
-        for (Automaton aut: automata) {
-            for (Location loc: aut.getLocations()) {
-                for (Edge edge: loc.getEdges()) {
-                    if (edge.getEvents().isEmpty()) {
-                        String msg = fmt("Unsupported %s: edges without events (implicitly event \"tau\") "
-                                + "are not supported.", CifTextUtils.getLocationText1(loc));
-                        problems.add(msg);
-                        tauOk = false;
-                    }
-
-                    for (EdgeEvent edgeEvent: edge.getEvents()) {
-                        Expression eventRef = edgeEvent.getEvent();
-                        if (eventRef instanceof TauExpression) {
-                            String msg = fmt("Unsupported %s: edges with \"tau\" events are not supported.",
-                                    CifTextUtils.getLocationText1(loc));
-                            problems.add(msg);
-                            tauOk = false;
-                        }
-                    }
-                }
-            }
+        if (cifBddSpec.settings.getShouldTerminate().get()) {
+            return;
         }
-        return tauOk;
+
+        // Check for non-determinism.
+        checkNonDeterminism(cifBddSpec.edges, cifBddSpec.settings.getAllowNonDeterminism());
     }
 
     /**
@@ -1974,6 +1567,7 @@ public class CifToBddConverter {
      *
      * @param edges The CIF/BDD edges (self loops). May include edges for both controllable and uncontrollable events.
      * @param allowNonDeterminism Events for which to allow non-determinism.
+     * @throws UnsupportedException In case the specification has non-determinism that is not supported.
      */
     private void checkNonDeterminism(List<CifBddEdge> edges, AllowNonDeterminism allowNonDeterminism) {
         // Initialize conflict information.
@@ -1982,11 +1576,10 @@ public class CifToBddConverter {
 
         // Check edges for conflicts (non-determinism).
         for (CifBddEdge edge: edges) {
-            // Skip events for which non-determinism is allowed. Also skip events without controllability (is already
-            // previously reported).
+            // Skip events for which non-determinism is allowed.
             Event evt = edge.event;
-            Boolean controllable = evt.getControllable();
-            if (controllable == null || allowNonDeterminism.allowFor(controllable)) {
+            boolean controllable = evt.getControllable();
+            if (allowNonDeterminism.allowFor(controllable)) {
                 continue;
             }
 
@@ -2022,6 +1615,7 @@ public class CifToBddConverter {
         }
 
         // Report conflicts.
+        Set<String> problems = setc(conflicts.size());
         for (Event conflict: conflicts) {
             // Get edges for the event.
             List<CifBddEdge> eventEdges = list();
@@ -2074,17 +1668,26 @@ public class CifToBddConverter {
                 groupsTxt = String.join("", guardsTxts);
             }
 
-            // Report conflict.
+            // Add problem.
             String eventKind = switch (allowNonDeterminism) {
                 case ALL -> throw new AssertionError("Should not get here, as non-determinism is allowed.");
                 case NONE -> "";
                 case CONTROLLABLE -> "uncontrollable ";
                 case UNCONTROLLABLE -> "controllable ";
             };
-            String msg = fmt("Unsupported linearized edges: non-determinism detected for edges of "
+            String msg = fmt("Unsupported linearized edges with non-determinism detected for edges of "
                     + "%sevent \"%s\" with overlapping guards:%s", eventKind, getAbsName(conflict), groupsTxt);
             problems.add(msg);
         }
+
+        // Report problems.
+        if (problems.isEmpty()) {
+            return;
+        }
+
+        String msg = fmt("%s failed due to unsatisfied preconditions:\n - ", appName)
+                + String.join("\n - ", Sets.sortedstrings(problems));
+        throw new UnsupportedException(msg);
     }
 
     /**
@@ -2149,31 +1752,35 @@ public class CifToBddConverter {
      * @param cifBddEdge The CIF/BDD edge in which to store the CIF/BDD updates. Is modified in-place.
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification.
-     * @param problems Precondition violations found so far.
      */
     public static void convertUpdates(List<Update> updates, CifBddEdge cifBddEdge,
-            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec, Set<String> problems)
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
         // Initialization.
         List<Assignment> assignments = listc(updates.size());
         boolean[] assigned = new boolean[cifBddSpec.variables.length];
 
-        // Convert separate updates, and merge to form the update relation and runtime error predicate.
+        // Convert separate updates, and merge to form the edge's update relation and runtime error predicate.
         BDD relation = cifBddSpec.factory.one();
         BDD error = cifBddSpec.factory.zero();
         for (Update update: updates) {
-            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, cifBddSpec, problems);
+            // Convert update.
+            Pair<BDD, BDD> rslt = convertUpdate(update, assignments, assigned, locPtrManager, cifBddSpec);
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
             }
 
-            if (rslt != null) {
-                BDD updateRelation = rslt.left;
-                relation = relation.andWith(updateRelation);
+            // Add update to edge update relation.
+            BDD updateRelation = rslt.left;
+            relation = relation.andWith(updateRelation);
 
-                BDD updateError = rslt.right;
-                error = error.orWith(updateError);
+            if (cifBddSpec.settings.getShouldTerminate().get()) {
+                return;
             }
+
+            // Add error to edge error predicate.
+            BDD updateError = rslt.right;
+            error = error.orWith(updateError);
 
             if (cifBddSpec.settings.getShouldTerminate().get()) {
                 return;
@@ -2201,41 +1808,19 @@ public class CifToBddConverter {
      * @param assigned Per CIF/BDD variable, whether it has been assigned on this edge. Is modified in-place.
      * @param locPtrManager Location pointer manager.
      * @param cifBddSpec The CIF/BDD specification.
-     * @param problems Precondition violations found so far.
-     * @return The update relation and runtime error predicate. May be {@code null} if the update can't be converted due
-     *     to a precondition violation.
+     * @return The update relation and runtime error predicate.
      */
     public static Pair<BDD, BDD> convertUpdate(Update update, List<Assignment> assignments, boolean[] assigned,
-            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec, Set<String> problems)
+            CifBddLocationPointerManager locPtrManager, CifBddSpec cifBddSpec)
     {
-        // Make sure it is not a conditional update ('if' update).
-        if (update instanceof IfUpdate) {
-            String msg = "Unsupported update: conditional updates ('if' updates) are not supported.";
-            problems.add(msg);
-            return null;
-        }
+        // Get and store assignment.
+        Assert.check(update instanceof Assignment);
         Assignment asgn = (Assignment)update;
-
-        // Store assignment.
         assignments.add(asgn);
 
-        // Make sure a discrete variable is assigned.
-        Expression addr = asgn.getAddressable();
-        if (addr instanceof TupleExpression) {
-            String msg = "Unsupported update: multi-assignments are not supported.";
-            problems.add(msg);
-            return null;
-        } else if (addr instanceof ProjectionExpression) {
-            String msg = "Unsupported update: partial variable assignments are not supported.";
-            problems.add(msg);
-            return null;
-        } else if (addr instanceof ContVariableExpression) {
-            String msg = "Unsupported update: assignments to continuous variables are not supported.";
-            problems.add(msg);
-            return null;
-        }
-
         // Get assigned variable.
+        Expression addr = asgn.getAddressable();
+        Assert.check(addr instanceof DiscVariableExpression);
         DiscVariable cifVar = ((DiscVariableExpression)addr).getVariable();
 
         // Special case for location pointer variable assignments created during linearization. Note that location
@@ -2246,9 +1831,7 @@ public class CifToBddConverter {
         if (cifAut != null) {
             // Get CIF/BDD variable.
             int varIdx = getLpVarIdx(cifBddSpec.variables, cifAut);
-            if (varIdx == -1) {
-                return null;
-            }
+            Assert.check(varIdx >= 0);
             CifBddVariable var = cifBddSpec.variables[varIdx];
             Assert.check(var instanceof CifBddLocPtrVariable);
 
@@ -2274,9 +1857,7 @@ public class CifToBddConverter {
 
         // Normal case: assignment originating from original CIF model.
         int varIdx = getTypedVarIdx(cifBddSpec.variables, cifVar);
-        if (varIdx == -1) {
-            return null;
-        }
+        Assert.check(varIdx >= 0);
         CifBddVariable cifBddVar = cifBddSpec.variables[varIdx];
         Assert.check(cifBddVar instanceof CifBddTypedVariable);
         CifBddTypedVariable var = (CifBddTypedVariable)cifBddVar;
@@ -2289,21 +1870,7 @@ public class CifToBddConverter {
         if (var.type instanceof BoolType) {
             // Convert right hand side (value to assign).
             Expression rhsExpr = asgn.getValue();
-            BDD rhsBdd;
-            try {
-                rhsBdd = convertPred(rhsExpr, false, cifBddSpec);
-            } catch (UnsupportedPredicateException ex) {
-                // Add new problem, if not failed due to earlier problems.
-                if (ex.expr != null) {
-                    String msg = fmt("Unsupported assignment: unsupported part \"%s\" of assignment \"%s := %s\": %s",
-                            CifTextUtils.exprToStr(ex.expr), CifTextUtils.exprToStr(addr),
-                            CifTextUtils.exprToStr(rhsExpr), ex.getMessage());
-                    problems.add(msg);
-                }
-
-                // Return identity values.
-                return pair(cifBddSpec.factory.one(), cifBddSpec.factory.zero());
-            }
+            BDD rhsBdd = convertPred(rhsExpr, false, cifBddSpec);
 
             // Create BDD for the left hand side (variable to get a new value).
             Assert.check(var.domainNew.varNum() == 1);
@@ -2318,24 +1885,7 @@ public class CifToBddConverter {
         } else {
             // Convert right hand side (value to assign).
             Expression rhsExpr = asgn.getValue();
-            Supplier<String> partMsg = () -> fmt("assignment \"%s := %s\"", CifTextUtils.exprToStr(addr),
-                    CifTextUtils.exprToStr(rhsExpr));
-
-            CifBddBitVectorAndCarry rhsRslt;
-            try {
-                rhsRslt = convertExpr(rhsExpr, false, cifBddSpec, true, partMsg);
-            } catch (UnsupportedPredicateException ex) {
-                // Add new problem, if not failed due to earlier problems.
-                if (ex.expr != null) {
-                    String msg = fmt("Unsupported assignment: unsupported part \"%s\" of assignment \"%s := %s\": %s",
-                            CifTextUtils.exprToStr(ex.expr), CifTextUtils.exprToStr(addr),
-                            CifTextUtils.exprToStr(rhsExpr), ex.getMessage());
-                    problems.add(msg);
-                }
-
-                // Return identity values.
-                return pair(cifBddSpec.factory.one(), cifBddSpec.factory.zero());
-            }
+            CifBddBitVectorAndCarry rhsRslt = convertExpr(rhsExpr, false, cifBddSpec, true);
             CifBddBitVector rhsVec = rhsRslt.vector;
 
             // The runtime error predicate resulting from the right hand side is used to initialize the runtime error
@@ -2380,9 +1930,6 @@ public class CifToBddConverter {
         // Add for each input variable.
         for (CifBddVariable var: cifBddSpec.variables) {
             // Handle only input variables.
-            if (var == null) {
-                continue;
-            }
             if (!(var instanceof CifBddInputVariable)) {
                 continue;
             }
@@ -2440,10 +1987,7 @@ public class CifToBddConverter {
      * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
      */
     private void mergeEdges(CifBddSpec cifBddSpec) {
-        // Skip in case of conversion failure.
-        if (cifBddSpec.eventEdges == null) {
-            return;
-        }
+        Assert.notNull(cifBddSpec.eventEdges);
 
         // Merge the edges, if needed.
         switch (cifBddSpec.settings.getEdgeGranularity()) {
@@ -2644,11 +2188,8 @@ public class CifToBddConverter {
      *     includes the initial state).
      * @param cifBddSpec The CIF/BDD specification.
      * @return The BDD predicate.
-     * @throws UnsupportedPredicateException If one of the predicates is not supported.
      */
-    public static BDD convertPreds(List<Expression> preds, boolean initial, CifBddSpec cifBddSpec)
-            throws UnsupportedPredicateException
-    {
+    public static BDD convertPreds(List<Expression> preds, boolean initial, CifBddSpec cifBddSpec) {
         BDD rslt = cifBddSpec.factory.one();
         for (Expression pred: preds) {
             rslt = rslt.andWith(convertPred(pred, initial, cifBddSpec));
@@ -2664,11 +2205,8 @@ public class CifToBddConverter {
      *     ({@code false}, includes the initial state).
      * @param cifBddSpec The CIF/BDD specification.
      * @return The BDD predicate.
-     * @throws UnsupportedPredicateException If the predicate is not supported.
      */
-    public static BDD convertPred(Expression pred, boolean initial, CifBddSpec cifBddSpec)
-            throws UnsupportedPredicateException
-    {
+    public static BDD convertPred(Expression pred, boolean initial, CifBddSpec cifBddSpec) {
         if (pred instanceof BoolExpression) {
             // Boolean literal.
             boolean value = ((BoolExpression)pred).isValue();
@@ -2678,9 +2216,7 @@ public class CifToBddConverter {
             DiscVariable cifVar = ((DiscVariableExpression)pred).getVariable();
             Assert.check(normalizeType(cifVar.getType()) instanceof BoolType);
             int varIdx = getDiscVarIdx(cifBddSpec.variables, cifVar);
-            if (varIdx == -1) {
-                throw new UnsupportedPredicateException();
-            }
+            Assert.check(varIdx >= 0);
 
             // Create BDD predicate for 'x' or 'x = true'.
             CifBddVariable var = cifBddSpec.variables[varIdx];
@@ -2690,9 +2226,7 @@ public class CifToBddConverter {
             InputVariable cifVar = ((InputVariableExpression)pred).getVariable();
             Assert.check(normalizeType(cifVar.getType()) instanceof BoolType);
             int varIdx = getInputVarIdx(cifBddSpec.variables, cifVar);
-            if (varIdx == -1) {
-                throw new UnsupportedPredicateException();
-            }
+            Assert.check(varIdx >= 0);
 
             // Create BDD predicate for 'x' or 'x = true'.
             CifBddVariable var = cifBddSpec.variables[varIdx];
@@ -2715,12 +2249,8 @@ public class CifToBddConverter {
             if (varIdx == -1) {
                 // Automata with only one location have no location pointer, but are always the active location. So,
                 // referring to them is as using a 'true' predicate.
-                if (aut.getLocations().size() == 1) {
-                    return cifBddSpec.factory.one();
-                }
-
-                // Unsupported automaton, probably due to wrong kind.
-                throw new UnsupportedPredicateException();
+                Assert.areEqual(aut.getLocations().size(), 1);
+                return cifBddSpec.factory.one();
             }
             Assert.check(varIdx >= 0);
             CifBddVariable var = cifBddSpec.variables[varIdx];
@@ -2739,95 +2269,79 @@ public class CifToBddConverter {
             try {
                 valueObj = CifEvalUtils.eval(constant.getValue(), initial);
             } catch (CifEvalException ex) {
-                String msg = fmt("Failed to statically evaluate the value of constant \"%s\".", getAbsName(constant));
-                throw new InvalidInputException(msg, ex);
+                throw new AssertionError("Precondition violation.", ex);
             }
 
             return (boolean)valueObj ? cifBddSpec.factory.one() : cifBddSpec.factory.zero();
         } else if (pred instanceof UnaryExpression) {
-            // Inverse unary expression.
+            // Unary expression.
             UnaryExpression upred = (UnaryExpression)pred;
             UnaryOperator op = upred.getOperator();
-            if (op != UnaryOperator.INVERSE) {
-                String msg = fmt("unary operator \"%s\" is not supported.", CifTextUtils.operatorToStr(op));
-                throw new UnsupportedPredicateException(msg, upred);
-            }
 
-            // not x
-            BDD child = convertPred(upred.getChild(), initial, cifBddSpec);
-            BDD rslt = child.not();
-            child.free();
-            return rslt;
+            switch (op) {
+                case INVERSE: {
+                    BDD child = convertPred(upred.getChild(), initial, cifBddSpec);
+                    BDD rslt = child.not();
+                    child.free();
+                    return rslt;
+                }
+
+                default:
+                    break; // Try static evaluation.
+            }
         } else if (pred instanceof BinaryExpression) {
-            // Various binary expressions.
+            // Binary expression.
             BinaryExpression bpred = (BinaryExpression)pred;
             BinaryOperator op = (((BinaryExpression)pred).getOperator());
             Expression lhs = bpred.getLeft();
             Expression rhs = bpred.getRight();
 
-            // a and b
-            if (op == CONJUNCTION) {
-                CifType ltype = normalizeType(lhs.getType());
-                CifType rtype = normalizeType(rhs.getType());
-                if (!(ltype instanceof BoolType) || !(rtype instanceof BoolType)) {
-                    String msg = fmt("binary operator \"%s\" on values of types \"%s\" and \"%s\" is not supported.",
-                            CifTextUtils.operatorToStr(op), CifTextUtils.typeToStr(ltype),
-                            CifTextUtils.typeToStr(rtype));
-                    throw new UnsupportedPredicateException(msg, bpred);
-                }
-
-                BDD left = convertPred(lhs, initial, cifBddSpec);
-                BDD right = convertPred(rhs, initial, cifBddSpec);
-                return left.andWith(right);
-            }
-
-            // a or b
-            if (op == DISJUNCTION) {
-                CifType ltype = normalizeType(lhs.getType());
-                CifType rtype = normalizeType(rhs.getType());
-                if (!(ltype instanceof BoolType) || !(rtype instanceof BoolType)) {
-                    String msg = fmt("binary operator \"%s\" on values of types \"%s\" and \"%s\" is not supported.",
-                            CifTextUtils.operatorToStr(op), CifTextUtils.typeToStr(ltype),
-                            CifTextUtils.typeToStr(rtype));
-                    throw new UnsupportedPredicateException(msg, bpred);
-                }
-
-                BDD left = convertPred(lhs, initial, cifBddSpec);
-                BDD right = convertPred(rhs, initial, cifBddSpec);
-                return left.orWith(right);
-            }
-
-            // a => b
-            if (op == IMPLICATION) {
-                BDD left = convertPred(lhs, initial, cifBddSpec);
-                BDD right = convertPred(rhs, initial, cifBddSpec);
-                return left.impWith(right);
-            }
-
-            // a <=> b
-            if (op == BI_CONDITIONAL) {
-                BDD left = convertPred(lhs, initial, cifBddSpec);
-                BDD right = convertPred(rhs, initial, cifBddSpec);
-                return left.biimpWith(right);
-            }
-
-            // Check supported operator.
             switch (op) {
+                case CONJUNCTION: {
+                    CifType ltype = normalizeType(lhs.getType());
+                    CifType rtype = normalizeType(rhs.getType());
+                    Assert.check(ltype instanceof BoolType);
+                    Assert.check(rtype instanceof BoolType);
+
+                    BDD left = convertPred(lhs, initial, cifBddSpec);
+                    BDD right = convertPred(rhs, initial, cifBddSpec);
+                    return left.andWith(right);
+                }
+
+                case DISJUNCTION: {
+                    CifType ltype = normalizeType(lhs.getType());
+                    CifType rtype = normalizeType(rhs.getType());
+                    Assert.check(ltype instanceof BoolType);
+                    Assert.check(rtype instanceof BoolType);
+
+                    BDD left = convertPred(lhs, initial, cifBddSpec);
+                    BDD right = convertPred(rhs, initial, cifBddSpec);
+                    return left.orWith(right);
+                }
+
+                case IMPLICATION: {
+                    BDD left = convertPred(lhs, initial, cifBddSpec);
+                    BDD right = convertPred(rhs, initial, cifBddSpec);
+                    return left.impWith(right);
+                }
+
+                case BI_CONDITIONAL: {
+                    BDD left = convertPred(lhs, initial, cifBddSpec);
+                    BDD right = convertPred(rhs, initial, cifBddSpec);
+                    return left.biimpWith(right);
+                }
+
                 case EQUAL:
                 case GREATER_EQUAL:
                 case GREATER_THAN:
                 case LESS_EQUAL:
                 case LESS_THAN:
                 case UNEQUAL:
-                    break;
+                    return convertCmpPred(lhs, rhs, op, initial, cifBddSpec);
 
-                default: {
-                    String msg = fmt("binary operator \"%s\" is not supported.", CifTextUtils.operatorToStr(op));
-                    throw new UnsupportedPredicateException(msg, bpred);
-                }
+                default:
+                    break; // Try static evaluation.
             }
-
-            return convertCmpPred(lhs, rhs, op, pred, bpred, initial, cifBddSpec);
         } else if (pred instanceof IfExpression) {
             // Condition expression with boolean result values.
             IfExpression ifPred = (IfExpression)pred;
@@ -2882,11 +2396,20 @@ public class CifToBddConverter {
             }
 
             return rslt;
-        } else {
-            // Others: unsupported.
-            String msg = fmt("predicate is not supported.");
-            throw new UnsupportedPredicateException(msg, pred);
         }
+
+        // Evaluate statically-evaluable predicate.
+        Object valueObj;
+        try {
+            valueObj = CifEvalUtils.eval(pred, initial);
+        } catch (CifEvalException ex) {
+            throw new AssertionError("Precondition violation.", ex);
+        }
+
+        // Create BDD for 'true' or 'false'.
+        Assert.check(valueObj instanceof Boolean);
+        boolean value = (boolean)valueObj;
+        return value ? cifBddSpec.factory.one() : cifBddSpec.factory.zero();
     }
 
     /**
@@ -2895,28 +2418,20 @@ public class CifToBddConverter {
      * @param lhs The left hand side of the comparison predicate.
      * @param rhs The right hand side of the comparison predicate.
      * @param op The comparison operator ({@code =}, {@code !=}, {@code <}, {@code <=}, {@code >}, or {@code >=}).
-     * @param pred The whole CIF predicate, of which the comparison predicate is a part.
-     * @param bpred The binary expression of the comparison predicate. Essentially '{@code lhs op rhs}'.
      * @param initial Whether the predicate applies only to the initial state ({@code true}) or any state
      *     ({@code false}, includes the initial state).
      * @param cifBddSpec The CIF/BDD specification.
      * @return The BDD predicate.
-     * @throws UnsupportedPredicateException If the predicate is not supported.
      */
-    public static BDD convertCmpPred(Expression lhs, Expression rhs, BinaryOperator op, Expression pred,
-            BinaryExpression bpred, boolean initial, CifBddSpec cifBddSpec) throws UnsupportedPredicateException
+    public static BDD convertCmpPred(Expression lhs, Expression rhs, BinaryOperator op, boolean initial,
+            CifBddSpec cifBddSpec)
     {
         // Check lhs and rhs types.
         CifType ltype = normalizeType(lhs.getType());
         CifType rtype = normalizeType(rhs.getType());
-        if (!(ltype instanceof BoolType && rtype instanceof BoolType)
-                && !(ltype instanceof EnumType && rtype instanceof EnumType)
-                && !(ltype instanceof IntType && rtype instanceof IntType))
-        {
-            String msg = fmt("binary operator \"%s\" on values of types \"%s\" and \"%s\" is not supported.",
-                    CifTextUtils.operatorToStr(op), CifTextUtils.typeToStr(ltype), CifTextUtils.typeToStr(rtype));
-            throw new UnsupportedPredicateException(msg, bpred);
-        }
+        Assert.check((ltype instanceof BoolType && rtype instanceof BoolType)
+                || (ltype instanceof EnumType && rtype instanceof EnumType)
+                || (ltype instanceof IntType && rtype instanceof IntType));
 
         // Special handling of boolean values.
         if (ltype instanceof BoolType && rtype instanceof BoolType) {
@@ -2939,9 +2454,8 @@ public class CifToBddConverter {
         }
 
         // Convert lhs and rhs to bit vectors.
-        Supplier<String> partMsg = () -> fmt("predicate \"%s\"", CifTextUtils.exprToStr(pred));
-        CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false, partMsg);
-        CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, cifBddSpec, false, partMsg);
+        CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false);
+        CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, cifBddSpec, false);
         Assert.check(lrslt.carry.isZero());
         Assert.check(rrslt.carry.isZero());
         CifBddBitVector lvec = lrslt.vector;
@@ -2986,34 +2500,25 @@ public class CifToBddConverter {
      * Converts a CIF expression to a BDD bit vector.
      *
      * @param expr The CIF expression. Has an integer or enumeration type.
-     * @param initial Whether the predicate applies only to the initial state ({@code true}) or any state
+     * @param initial Whether the expression applies only to the initial state ({@code true}) or any state
      *     ({@code false}, includes the initial state).
      * @param cifBddSpec The CIF/BDD specification.
      * @param allowSubtract Whether a subtraction is allowed ({@code true}) or not ({@code false}). It must only be
      *     allowed for top level expressions, if the caller can handle the potential unrepresentable results. For sub
      *     expressions, subtraction is never allowed.
-     * @param partMsg A supplier of a part of an error message. In case the expression is invalid (e.g. static and can't
-     *     be evaluated), the supplied error message part indicates of what larger thing the invalid expression is a
-     *     part. The partial error message obtained from this supplier will be inserted for {@code "[supplied]"} in
-     *     error messages of the form {@code "Failed to ... the ... part of [supplied]."}. The supplier is not used in
-     *     case the expression is unsupported.
      * @return The BDD bit vector, and a carry indicating situations in which the expression results in an
      *     unrepresentable value. Currently, the only unrepresentable values are negative values resulting from a
      *     subtraction. If subtraction is not allowed, the carry is always {@link BDD#isZero() zero}.
-     * @throws UnsupportedPredicateException If the predicate is not supported.
-     * @throws InvalidInputException If a static part of the given expression can't be evaluated.
      */
     public static CifBddBitVectorAndCarry convertExpr(Expression expr, boolean initial, CifBddSpec cifBddSpec,
-            boolean allowSubtract, Supplier<String> partMsg) throws UnsupportedPredicateException
+            boolean allowSubtract)
     {
         // Variable references.
         if (expr instanceof DiscVariableExpression) {
             // Get variable.
             DiscVariable cifVar = ((DiscVariableExpression)expr).getVariable();
             int varIdx = getDiscVarIdx(cifBddSpec.variables, cifVar);
-            if (varIdx == -1) {
-                throw new UnsupportedPredicateException();
-            }
+            Assert.check(varIdx >= 0);
             CifBddVariable var = cifBddSpec.variables[varIdx];
 
             // Create bit vector for the domain of the variable.
@@ -3023,9 +2528,7 @@ public class CifToBddConverter {
             // Get variable.
             InputVariable cifVar = ((InputVariableExpression)expr).getVariable();
             int varIdx = getInputVarIdx(cifBddSpec.variables, cifVar);
-            if (varIdx == -1) {
-                throw new UnsupportedPredicateException();
-            }
+            Assert.check(varIdx >= 0);
             CifBddVariable var = cifBddSpec.variables[varIdx];
 
             // Create bit vector for the domain of the variable.
@@ -3039,7 +2542,7 @@ public class CifToBddConverter {
             Expression value = CifEquationUtils.getSingleValueForAlgVar(var);
 
             // Convert the defining value expression instead.
-            return convertExpr(value, initial, cifBddSpec, allowSubtract, partMsg);
+            return convertExpr(value, initial, cifBddSpec, allowSubtract);
         }
 
         // Unary operators.
@@ -3047,10 +2550,10 @@ public class CifToBddConverter {
             UnaryExpression uexpr = (UnaryExpression)expr;
             switch (uexpr.getOperator()) {
                 case PLUS:
-                    return convertExpr(uexpr.getChild(), initial, cifBddSpec, false, partMsg);
+                    return convertExpr(uexpr.getChild(), initial, cifBddSpec, false);
 
                 default:
-                    break;
+                    break; // Try static evaluation.
             }
         }
 
@@ -3063,8 +2566,8 @@ public class CifToBddConverter {
             switch (bexpr.getOperator()) {
                 case ADDITION: {
                     // Get lhs and rhs vectors.
-                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false, partMsg);
-                    CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, cifBddSpec, false, partMsg);
+                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false);
+                    CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, cifBddSpec, false);
                     Assert.check(lrslt.carry.isZero());
                     Assert.check(rrslt.carry.isZero());
                     CifBddBitVector lvec = lrslt.vector;
@@ -3088,12 +2591,12 @@ public class CifToBddConverter {
                 case SUBTRACTION: {
                     // Handle subtraction only if allowed.
                     if (!allowSubtract) {
-                        break;
+                        break; // Try static evaluation.
                     }
 
                     // Get lhs and rhs vectors.
-                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false, partMsg);
-                    CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, cifBddSpec, false, partMsg);
+                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false);
+                    CifBddBitVectorAndCarry rrslt = convertExpr(rhs, initial, cifBddSpec, false);
                     Assert.check(lrslt.carry.isZero());
                     Assert.check(rrslt.carry.isZero());
                     CifBddBitVector lvec = lrslt.vector;
@@ -3114,39 +2617,22 @@ public class CifToBddConverter {
                 case INTEGER_DIVISION:
                 case MODULUS: {
                     // Convert lhs.
-                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false, partMsg);
+                    CifBddBitVectorAndCarry lrslt = convertExpr(lhs, initial, cifBddSpec, false);
                     Assert.check(lrslt.carry.isZero());
                     CifBddBitVector lvec = lrslt.vector;
 
                     // Evaluate rhs.
-                    if (!CifValueUtils.hasSingleValue(rhs, initial, true)) {
-                        String msg = "value is too complex to be statically evaluated.";
-                        throw new UnsupportedPredicateException(msg, rhs);
-                    }
-
+                    Assert.check(CifValueUtils.hasSingleValue(rhs, initial, true));
                     Object rhsValueObj;
                     try {
                         rhsValueObj = CifEvalUtils.eval(rhs, initial);
                     } catch (CifEvalException ex) {
-                        // It would be rather complex to provide more context in this error message.
-                        String msg = fmt("Failed to statically evaluate the \"%s\" part of %s.",
-                                CifTextUtils.exprToStr(rhs), partMsg.get());
-                        throw new InvalidInputException(msg, ex);
+                        throw new AssertionError("Precondition violation.", ex);
                     }
 
-                    // Check divisor (rhs value).
+                    // Get divisor (rhs value).
                     int divisor = (int)rhsValueObj;
-                    if (divisor == 0) {
-                        // Unsupported: always division by zero.
-                        String msg = fmt("\"%s\" always results in division by zero.", CifTextUtils.exprToStr(expr));
-                        throw new UnsupportedPredicateException(msg, expr);
-                    } else if (divisor < 0) {
-                        // Unsupported: can't represent negative integers.
-                        String msg = fmt(
-                                "\"%s\" performs division/modulus by a negative value, which is not supported.",
-                                CifTextUtils.exprToStr(expr));
-                        throw new UnsupportedPredicateException(msg, expr);
-                    }
+                    Assert.check(divisor > 0); // No division by zero, no negative divisor.
 
                     // Resize lhs vector if needed. The rhs needs to fit. For 'mod', the highest bit of the lhs needs to
                     // be 'false' as well.
@@ -3166,7 +2652,7 @@ public class CifToBddConverter {
                 }
 
                 default:
-                    break;
+                    break; // Try static evaluation.
             }
         }
 
@@ -3176,7 +2662,7 @@ public class CifToBddConverter {
             IfExpression ifExpr = (IfExpression)expr;
 
             // Convert else.
-            CifBddBitVectorAndCarry elseRslt = convertExpr(ifExpr.getElse(), initial, cifBddSpec, false, partMsg);
+            CifBddBitVectorAndCarry elseRslt = convertExpr(ifExpr.getElse(), initial, cifBddSpec, false);
             Assert.check(elseRslt.carry.isZero());
             CifBddBitVector rslt = elseRslt.vector;
 
@@ -3184,7 +2670,7 @@ public class CifToBddConverter {
             for (int i = ifExpr.getElifs().size() - 1; i >= 0; i--) {
                 ElifExpression elifExpr = ifExpr.getElifs().get(i);
                 BDD elifGuards = convertPreds(elifExpr.getGuards(), initial, cifBddSpec);
-                CifBddBitVectorAndCarry elifThen = convertExpr(elifExpr.getThen(), initial, cifBddSpec, false, partMsg);
+                CifBddBitVectorAndCarry elifThen = convertExpr(elifExpr.getThen(), initial, cifBddSpec, false);
                 Assert.check(elifThen.carry.isZero());
                 CifBddBitVector elifVector = elifThen.vector;
                 int len = Math.max(rslt.length(), elifVector.length());
@@ -3199,7 +2685,7 @@ public class CifToBddConverter {
 
             // Convert if/then.
             BDD ifGuards = convertPreds(ifExpr.getGuards(), initial, cifBddSpec);
-            CifBddBitVectorAndCarry ifThen = convertExpr(ifExpr.getThen(), initial, cifBddSpec, false, partMsg);
+            CifBddBitVectorAndCarry ifThen = convertExpr(ifExpr.getThen(), initial, cifBddSpec, false);
             Assert.check(ifThen.carry.isZero());
             CifBddBitVector ifVector = ifThen.vector;
             int len = Math.max(rslt.length(), ifVector.length());
@@ -3222,7 +2708,7 @@ public class CifToBddConverter {
             List<SwitchCase> cases = switchExpr.getCases();
 
             // Convert else.
-            CifBddBitVectorAndCarry elseRslt = convertExpr(last(cases).getValue(), initial, cifBddSpec, false, partMsg);
+            CifBddBitVectorAndCarry elseRslt = convertExpr(last(cases).getValue(), initial, cifBddSpec, false);
             Assert.check(elseRslt.carry.isZero());
             CifBddBitVector rslt = elseRslt.vector;
 
@@ -3232,7 +2718,7 @@ public class CifToBddConverter {
                 Expression caseGuardExpr = CifTypeUtils.isAutRefExpr(value) ? cse.getKey() : newBinaryExpression(
                         deepclone(value), BinaryOperator.EQUAL, null, deepclone(cse.getKey()), newBoolType());
                 BDD caseGuard = convertPred(caseGuardExpr, initial, cifBddSpec);
-                CifBddBitVectorAndCarry caseThen = convertExpr(cse.getValue(), initial, cifBddSpec, false, partMsg);
+                CifBddBitVectorAndCarry caseThen = convertExpr(cse.getValue(), initial, cifBddSpec, false);
                 Assert.check(caseThen.carry.isZero());
                 CifBddBitVector caseVector = caseThen.vector;
                 int len = Math.max(rslt.length(), caseVector.length());
@@ -3249,33 +2735,19 @@ public class CifToBddConverter {
             return new CifBddBitVectorAndCarry(rslt, cifBddSpec.factory.zero());
         }
 
-        // Static evaluable expression.
-        if (!CifValueUtils.hasSingleValue(expr, initial, true)) {
-            String msg = "value is too complex to be statically evaluated.";
-            throw new UnsupportedPredicateException(msg, expr);
-        }
-
-        // Evaluate expression.
+        // Evaluate statically-evaluable expression.
         Object valueObj;
         try {
             valueObj = CifEvalUtils.eval(expr, initial);
         } catch (CifEvalException ex) {
-            // It would be rather complex to provide more context in this error message.
-            String msg = fmt("Failed to statically evaluate the \"%s\" part of %s.", CifTextUtils.exprToStr(expr),
-                    partMsg.get());
-            throw new InvalidInputException(msg, ex);
+            throw new AssertionError("Precondition violation.", ex);
         }
 
         // Create bit vector.
         if (valueObj instanceof Integer) {
             // Get integer value.
             int value = (Integer)valueObj;
-
-            // Negative integer values not supported.
-            if (value < 0) {
-                String msg = fmt("value \"%d\" is unsupported, as it is negative.", value);
-                throw new UnsupportedPredicateException(msg, expr);
-            }
+            Assert.check(value >= 0);
 
             // Create BDD bit vector for constant value.
             CifBddBitVector vector = CifBddBitVector.createInt(cifBddSpec.factory, value);
@@ -3372,8 +2844,7 @@ public class CifToBddConverter {
      * @param vars The CIF/BDD variables, in which to look for the given CIF discrete variable. May not be a
      *     dummy/internal location pointer variable created for an automaton with two or more locations.
      * @param var The CIF discrete variable to look for, and for which the index is to be returned.
-     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
-     *     available, due to a precondition violation.
+     * @return The 0-based index of the CIF/BDD variable.
      */
     public static int getDiscVarIdx(CifBddVariable[] vars, DiscVariable var) {
         // Make sure the given discrete variable is an actual discrete variable, and not a dummy one created for a
@@ -3389,8 +2860,7 @@ public class CifToBddConverter {
      *
      * @param vars The CIF/BDD variables, in which to look for the given CIF input variable.
      * @param var The CIF input variable to look for, and for which the index is to be returned.
-     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
-     *     available, due to a precondition violation.
+     * @return The 0-based index of the CIF/BDD variable.
      */
     public static int getInputVarIdx(CifBddVariable[] vars, InputVariable var) {
         return getTypedVarIdx(vars, var);
@@ -3402,15 +2872,11 @@ public class CifToBddConverter {
      * @param vars The CIF/BDD variables, in which to look for the given CIF typed object. May not be a dummy/internal
      *     location pointer variable created for an automaton with two or more locations.
      * @param var The CIF variable to look for, and for which the index is to be returned.
-     * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found, due to it not being
-     *     available, due to a precondition violation.
+     * @return The 0-based index of the CIF/BDD variable.
      */
     public static int getTypedVarIdx(CifBddVariable[] vars, Declaration var) {
         for (int i = 0; i < vars.length; i++) {
             CifBddVariable cifBddVar = vars[i];
-            if (cifBddVar == null) {
-                continue;
-            }
             if (!(cifBddVar instanceof CifBddTypedVariable)) {
                 continue;
             }
@@ -3419,7 +2885,7 @@ public class CifToBddConverter {
                 return i;
             }
         }
-        return -1;
+        throw new AssertionError("Unexpected variable: " + var);
     }
 
     /**
@@ -3429,15 +2895,11 @@ public class CifToBddConverter {
      * @param vars The CIF/BDD variables, in which to look for the given CIF automaton.
      * @param aut The CIF automaton to look for, and for which the index is to be returned.
      * @return The 0-based index of the CIF/BDD variable, or {@code -1} if it is not found. If not found, no location
-     *     pointer was created for the automaton, or the location pointer is not available, due to a precondition
-     *     violation.
+     *     pointer was created for the automaton because it only has one location.
      */
     public static int getLpVarIdx(CifBddVariable[] vars, Automaton aut) {
         for (int i = 0; i < vars.length; i++) {
             CifBddVariable cifBddVar = vars[i];
-            if (cifBddVar == null) {
-                continue;
-            }
             if (!(cifBddVar instanceof CifBddLocPtrVariable)) {
                 continue;
             }
@@ -3446,34 +2908,7 @@ public class CifToBddConverter {
                 return i;
             }
         }
+        Assert.areEqual(aut.getLocations().size(), 1);
         return -1;
-    }
-
-    /** Exception to indicate an unsupported predicate. */
-    public static class UnsupportedPredicateException extends Exception {
-        /**
-         * The (part of the) predicate that is not supported. May be {@code null} to indicate that the predicate is not
-         * supported due to earlier precondition violations.
-         */
-        public final Expression expr;
-
-        /**
-         * Constructor for the {@link UnsupportedPredicateException} class, in case a predicate is unsupported due to
-         * earlier precondition violations.
-         */
-        public UnsupportedPredicateException() {
-            this(null, null);
-        }
-
-        /**
-         * Constructor for the {@link UnsupportedPredicateException} class.
-         *
-         * @param msg A message describing the problem.
-         * @param expr The (part of the) predicate that is not supported.
-         */
-        public UnsupportedPredicateException(String msg, Expression expr) {
-            super(msg);
-            this.expr = expr;
-        }
     }
 }

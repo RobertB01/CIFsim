@@ -1,0 +1,135 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Channels.
+
+group g:
+  event bool chan1;
+  event int chan2;
+  event void chan3;
+end
+
+// Requirement automata with different roles for different channels.
+
+requirement snd_1:
+  location:
+    initial;
+    edge g.chan1!true;
+end
+
+requirement snd_1_2:
+  location loc:
+    initial;
+    edge g.chan1!false;
+    edge g.chan2!2;
+end
+
+requirement snd_2:
+  location:
+    initial;
+    edge g.chan2!2;
+end
+
+requirement snd_3:
+  location:
+    initial;
+    edge g.chan3!;
+end
+
+requirement rcv_1:
+  location:
+    initial;
+    edge g.chan1?;
+end
+
+requirement rcv_1_2:
+  location:
+    initial;
+    edge g.chan1?;
+    edge g.chan2?;
+end
+
+requirement rcv_2:
+  location:
+    initial;
+    edge g.chan2?;
+end
+
+requirement rcv_3:
+  location:
+    initial;
+    edge g.chan3?;
+end
+
+requirement sync_1:
+  location:
+    initial;
+    edge g.chan1;
+end
+
+requirement sync_1_2:
+  location:
+    initial;
+    edge g.chan1;
+    edge g.chan2;
+end
+
+requirement sync_2:
+  location:
+    initial;
+    edge g.chan2;
+end
+
+// Other kinds.
+
+plant sender_plant:
+  location:
+    initial;
+    edge g.chan1!true;
+    edge g.chan2!2;
+end
+
+automaton sender_kindless:
+  location:
+    initial;
+    edge g.chan1!true;
+    edge g.chan2!2;
+end
+
+supervisor sender_supervisor:
+  location:
+    initial;
+    edge g.chan1!true;
+    edge g.chan2!2;
+end
+
+plant receiver_plant:
+  location:
+    initial;
+    edge g.chan1?;
+    edge g.chan2?;
+end
+
+automaton receiver_kindless:
+  location:
+    initial;
+    edge g.chan1?;
+    edge g.chan2?;
+end
+
+supervisor receiver_supervisor:
+  location:
+    initial;
+    edge g.chan1?;
+    edge g.chan2?;
+end
