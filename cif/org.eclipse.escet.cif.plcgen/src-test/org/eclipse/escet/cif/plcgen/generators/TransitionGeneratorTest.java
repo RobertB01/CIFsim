@@ -33,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -60,6 +59,7 @@ import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,14 +86,14 @@ public class TransitionGeneratorTest {
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
             ConvertEnums enumConversion = ConvertEnums.KEEP;
-            BooleanSupplier shouldTerminate = () -> false;
+            Termination termination = Termination.NEVER;
             boolean warnOnRename = false;
             WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
                     taskCyceTime, priority, null, null, new PathPair(inputPath, "/" + inputPath),
                     new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath),
-                    programHeader, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
+                    programHeader, intSize, realSize, simplifyValues, enumConversion, termination, warnOnRename,
                     warnOutput);
             setup(settings);
 
