@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -32,6 +31,7 @@ import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
@@ -81,7 +81,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
     @Override
     public ConfluenceCheckConclusion performCheck(CifMddSpec cifMddSpec) {
         // Get information from MDD specification.
-        Supplier<Boolean> shouldTerminate = cifMddSpec.getShouldTerminate();
+        Termination termination = cifMddSpec.getTermination();
         DebugNormalOutput out = cifMddSpec.getNormalOutput();
         DebugNormalOutput dbg = cifMddSpec.getDebugOutput();
         List<Automaton> automata = cifMddSpec.getAutomata();
@@ -126,7 +126,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
             for (Entry<Event, Node> entry2: globalGuardsByEvent.entrySet()) {
                 Event event2 = entry2.getKey();
 
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
@@ -152,7 +152,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                     }
                     continue;
                 }
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
@@ -160,7 +160,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 // space treat variable values differently.
                 commonEnabledGuards = tree.conjunct(origToReadVariablesRelations, commonEnabledGuards);
 
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
@@ -168,7 +168,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 // pair matches one of the checks below.
                 Node originalStates = tree.variableAbstractions(commonEnabledGuards, nonOriginalVarInfos);
 
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
@@ -200,7 +200,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                     updateEquivalents.add(makeSortedPair(evt1Name, evt2Name));
                     continue;
                 }
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
@@ -224,7 +224,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                     event1Enabled2.dumpGraphLines("independence-event1enabled2");
                     event12Done.dumpGraphLines("independence-event12done");
                 }
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
@@ -246,7 +246,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                     }
                     continue;
                 }
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
@@ -262,7 +262,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                     }
                     continue;
                 }
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
@@ -276,7 +276,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                     }
                     continue;
                 }
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
@@ -299,7 +299,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                     if (event3 == event1 || event3 == event2) {
                         continue;
                     }
-                    if (shouldTerminate.get()) {
+                    if (termination.isRequested()) {
                         return null;
                     }
 
@@ -336,7 +336,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                             break;
                         }
                     }
-                    if (shouldTerminate.get()) {
+                    if (termination.isRequested()) {
                         return null;
                     }
 
@@ -361,7 +361,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                             break;
                         }
                     }
-                    if (shouldTerminate.get()) {
+                    if (termination.isRequested()) {
                         return null;
                     }
                 }
@@ -380,7 +380,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 }
             }
         }
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 

@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
@@ -29,6 +28,7 @@ import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
 import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerBddBasedCheck;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 import com.github.javabdd.BDD;
@@ -48,7 +48,7 @@ public class NonBlockingUnderControlCheck
     @Override
     public NonBlockingUnderControlCheckConclusion performCheck(CifBddSpec cifBddSpec) {
         DebugNormalOutput dbg = cifBddSpec.settings.getDebugOutput();
-        Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
+        Termination termination = cifBddSpec.settings.getTermination();
 
         // 1) Compute predicate 'not gc' that indicates when no controllable event is enabled. That is, the negation of
         // the disjunction of the guards of the edges with controllable events.
@@ -56,7 +56,7 @@ public class NonBlockingUnderControlCheck
 
         BDD notGc = computeNotGc(cifBddSpec);
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
         dbg.line("Condition under which no controllable event is enabled: %s", BddUtils.bddToStr(notGc, cifBddSpec));
@@ -69,7 +69,7 @@ public class NonBlockingUnderControlCheck
 
         BDD ccp = computeCcp(cifBddSpec, notGc);
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
         dbg.line("Controllable-complete path states: %s", BddUtils.bddToStr(ccp, cifBddSpec));
@@ -82,7 +82,7 @@ public class NonBlockingUnderControlCheck
 
         BDD bad = computeBad(cifBddSpec, ccp);
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
         dbg.line("Bad states: %s", BddUtils.bddToStr(bad, cifBddSpec));
@@ -96,7 +96,7 @@ public class NonBlockingUnderControlCheck
 
         BDD initialAndBad = cifBddSpec.initial.id().andWith(bad);
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
         dbg.line("Initial states: %s", BddUtils.bddToStr(cifBddSpec.initial, cifBddSpec));
@@ -117,7 +117,7 @@ public class NonBlockingUnderControlCheck
      * @return Predicate 'not gc', or {@code null} if termination is requested.
      */
     private BDD computeNotGc(CifBddSpec cifBddSpec) {
-        Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
+        Termination termination = cifBddSpec.settings.getTermination();
 
         // Compute 'gc'.
         BDD gc = cifBddSpec.factory.zero();
@@ -131,7 +131,7 @@ public class NonBlockingUnderControlCheck
             gc = gc.orWith(edge.guard.id());
 
             // Check for termination request.
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return null;
             }
         }
@@ -154,7 +154,7 @@ public class NonBlockingUnderControlCheck
      * @return The 'ccp' states, or {@code null} if termination is requested.
      */
     private BDD computeCcp(CifBddSpec cifBddSpec, BDD notGc) {
-        Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
+        Termination termination = cifBddSpec.settings.getTermination();
 
         // Get edges with uncontrollable events.
         List<CifBddEdge> unctrlEdges = cifBddSpec.edges.stream().filter(e -> !e.event.getControllable()).toList();
@@ -165,7 +165,7 @@ public class NonBlockingUnderControlCheck
             unctrlEdgeGuards.put(unctrlEdge, unctrlEdge.guard);
         }
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -174,14 +174,14 @@ public class NonBlockingUnderControlCheck
             // Change edge 'guard' to 'guard and not gc'.
             unctrlEdge.guard = unctrlEdge.guard.and(notGc);
 
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return null;
             }
 
             // Re-initialize the modified edge for being applied.
             unctrlEdge.reinitApply();
 
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return null;
             }
         }
@@ -201,14 +201,14 @@ public class NonBlockingUnderControlCheck
         // preconditions forbid state invariants.
         BDD initPred = cifBddSpec.marked.id().andWith(notGc);
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         // Perform forward reachability.
         BDD reachabilityResult = reachability.performReachability(initPred);
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -219,14 +219,14 @@ public class NonBlockingUnderControlCheck
             edge.guard.free();
             edge.guard = entry.getValue();
 
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return null;
             }
 
             // Re-initialize the modified edge for being applied.
             edge.reinitApply();
 
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return null;
             }
         }
@@ -245,7 +245,7 @@ public class NonBlockingUnderControlCheck
      * @return The 'bad' states, or {@code null} if termination is requested.
      */
     private BDD computeBad(CifBddSpec cifBddSpec, BDD ccp) {
-        Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
+        Termination termination = cifBddSpec.settings.getTermination();
 
         // Prepare settings for reachability computation.
         String predName = "bad states"; // Name of the predicate to compute.
@@ -261,13 +261,13 @@ public class NonBlockingUnderControlCheck
         // Get the initial predicate for the reachability computation.
         BDD initPred = ccp.not();
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         ccp.free();
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 

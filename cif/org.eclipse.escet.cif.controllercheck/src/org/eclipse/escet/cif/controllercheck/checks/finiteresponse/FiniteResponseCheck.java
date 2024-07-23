@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifSortUtils;
@@ -35,6 +34,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
@@ -105,7 +105,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
         }
 
         // Get additional information from MDD specification.
-        Supplier<Boolean> shouldTerminate = cifMddSpec.getShouldTerminate();
+        Termination termination = cifMddSpec.getTermination();
         DebugNormalOutput dbg = cifMddSpec.getDebugOutput();
         controllableEventsChanged = true;
         eventVarUpdate = cifMddSpec.getUpdatedVariablesByEvent();
@@ -125,7 +125,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
                 evtIterator.remove();
             }
         }
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -143,9 +143,9 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
 
             dbg.inc();
             for (Automaton aut: automata) {
-                checkAutomaton(aut, shouldTerminate, dbg);
+                checkAutomaton(aut, termination, dbg);
 
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     dbg.dec();
                     return null;
                 }
@@ -165,10 +165,10 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
      * the alphabet of the automaton, but not in any potential controllable-event loop.
      *
      * @param aut The automaton to check for potential controllable-event loops.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @param dbg Callback to send debug output to the user.
      */
-    private void checkAutomaton(Automaton aut, Supplier<Boolean> shouldTerminate, DebugNormalOutput dbg) {
+    private void checkAutomaton(Automaton aut, Termination termination, DebugNormalOutput dbg) {
         // Check if the automaton has any controllable events in its alphabet.
         if (Sets.isEmptyIntersection(CifEventUtils.getAlphabet(aut), controllableEvents)) {
             return;
@@ -176,9 +176,8 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
 
         // Find the controllable-event loops in the automata. Here we ignore guards and updates, only use location,
         // edges, and events.
-        Set<EventLoop> controllableEventLoops = EventLoopSearch.searchEventLoops(aut, controllableEvents,
-                shouldTerminate);
-        if (shouldTerminate.get()) {
+        Set<EventLoop> controllableEventLoops = EventLoopSearch.searchEventLoops(aut, controllableEvents, termination);
+        if (termination.isRequested()) {
             return;
         }
 
@@ -204,7 +203,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
             }
         }
 
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return;
         }
 
@@ -220,14 +219,14 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
             // Check whether the loop is controllable unconnectable. If it is not, it is a potential controllable-event
             // loop in the system. Print the result.
             for (EventLoop controllableEventLoop: controllableEventLoops) {
-                if (isUnconnectable(controllableEventLoop, nonCtrlIndependentVarsInfos, shouldTerminate)) {
+                if (isUnconnectable(controllableEventLoop, nonCtrlIndependentVarsInfos, termination)) {
                     dbg.line("%s, which is controllable unconnectable.", controllableEventLoop.toString());
                 } else {
                     dbg.line("%s, which is not controllable unconnectable.", controllableEventLoop.toString());
                     eventsInPotentialControllableLoops.addAll(controllableEventLoop.events);
                 }
 
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     dbg.dec();
                     return;
                 }
@@ -253,11 +252,11 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
      * @param controllableEventLoop The loop to check to be controllable unconnectable.
      * @param nonCtrlIndependentVarsInfos The variables that are updated by controllable events, not controllable
      *     independent variables.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @return {@code true} if the loop is controllable unconnectable, {@code false} otherwise.
      */
     private boolean isUnconnectable(EventLoop controllableEventLoop, VarInfo[] nonCtrlIndependentVarsInfos,
-            Supplier<Boolean> shouldTerminate)
+            Termination termination)
     {
         Node n = Tree.ONE;
         for (Event evt: controllableEventLoop.events) {
@@ -267,7 +266,7 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
             if (n == Tree.ZERO) {
                 return true;
             }
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return false;
             }
         }

@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
@@ -39,6 +38,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
@@ -60,8 +60,8 @@ public class CifMddSpec {
     /** Number of variable indices that exist. */
     private static final int NUM_INDICES = 3;
 
-    /** Callback that indicates whether execution should be terminated on user request. */
-    private final Supplier<Boolean> shouldTerminate;
+    /** Cooperative termination query function. */
+    private final Termination termination;
 
     /** Callback to send normal output to the user. */
     private final DebugNormalOutput normalOutput;
@@ -94,15 +94,15 @@ public class CifMddSpec {
      * Constructor for the {@link CifMddSpec} class.
      *
      * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @param normalOutput Callback to send normal output to the user.
      * @param debugOutput Callback to send debug output to the user.
      */
-    public CifMddSpec(boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate,
-            DebugNormalOutput normalOutput, DebugNormalOutput debugOutput)
+    public CifMddSpec(boolean computeGlobalGuardedUpdates, Termination termination, DebugNormalOutput normalOutput,
+            DebugNormalOutput debugOutput)
     {
         this.globalGuardedUpdatesByEvent = computeGlobalGuardedUpdates ? map() : null;
-        this.shouldTerminate = shouldTerminate;
+        this.termination = termination;
         this.normalOutput = normalOutput;
         this.debugOutput = debugOutput;
     }
@@ -126,7 +126,7 @@ public class CifMddSpec {
 
         // Collect variables.
         variables = CifCollectUtils.collectDiscAndInputVariables(spec, list());
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return false;
         }
 
@@ -134,7 +134,7 @@ public class CifMddSpec {
         MddCifVarInfoBuilder cifVarInfoBuilder = new MddCifVarInfoBuilder(NUM_INDICES);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
         builder = new MddSpecBuilder(cifVarInfoBuilder, READ_INDEX, WRITE_INDEX);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return false;
         }
 
@@ -185,7 +185,7 @@ public class CifMddSpec {
                 }
                 updatedVariablesByEvent.put(evt, set());
             }
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 debugOutput.dec();
                 return false;
             }
@@ -203,21 +203,21 @@ public class CifMddSpec {
 
                 // Compute guard of the edge.
                 Node guard = computeGuard(edge);
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     debugOutput.dec();
                     return false;
                 }
 
                 // Compute update of the edge.
                 Node update = computeUpdate(edge, controllableEdgeEvents);
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     debugOutput.dec();
                     return false;
                 }
 
                 // Compute combined guard and update of the edge.
                 Node guardedUpdate = (autGuardedUpdates == null) ? null : tree.conjunct(guard, update);
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     debugOutput.dec();
                     return false;
                 }
@@ -226,7 +226,7 @@ public class CifMddSpec {
                 for (Event evt: controllableEdgeEvents) {
                     Node autGuard = autGuards.get(evt);
                     autGuards.put(evt, tree.disjunct(autGuard, guard));
-                    if (shouldTerminate.get()) {
+                    if (termination.isRequested()) {
                         debugOutput.dec();
                         return false;
                     }
@@ -234,7 +234,7 @@ public class CifMddSpec {
                     if (autGuardedUpdates != null) {
                         Node autGuardedUpdate = autGuardedUpdates.get(evt);
                         autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
-                        if (shouldTerminate.get()) {
+                        if (termination.isRequested()) {
                             debugOutput.dec();
                             return false;
                         }
@@ -249,7 +249,7 @@ public class CifMddSpec {
                     CifTextUtils.getAbsName(autEvent));
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 debugOutput.dec();
                 return false;
             }
@@ -258,7 +258,7 @@ public class CifMddSpec {
                 Node globalGuardedUpdate = globalGuardedUpdatesByEvent.get(autEvent);
                 globalGuardedUpdatesByEvent.put(autEvent,
                         tree.conjunct(globalGuardedUpdate, autGuardedUpdates.get(autEvent)));
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     debugOutput.dec();
                     return false;
                 }
@@ -279,12 +279,12 @@ public class CifMddSpec {
         Node guard = Tree.ONE;
         for (Expression grd: edge.getGuards()) {
             Node node = builder.getExpressionConvertor().convert(grd).get(1);
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return guard;
             }
 
             guard = builder.tree.conjunct(guard, node);
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return guard;
             }
         }
@@ -316,11 +316,11 @@ public class CifMddSpec {
 
             if (updateNode != null) {
                 Node asgNode = builder.getExpressionConvertor().convertAssignment(lhs, asg.getValue());
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return updateNode;
                 }
                 updateNode = tree.conjunct(updateNode, asgNode);
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return updateNode;
                 }
             }
@@ -332,7 +332,7 @@ public class CifMddSpec {
                 if (!assignedVariables.contains(otherVariable)) {
                     VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
                     updateNode = tree.conjunct(updateNode, tree.identity(vinfos[READ_INDEX], vinfos[WRITE_INDEX]));
-                    if (shouldTerminate.get()) {
+                    if (termination.isRequested()) {
                         return updateNode;
                     }
                 }
@@ -380,7 +380,7 @@ public class CifMddSpec {
         for (int idx = variables.size() - 1; idx >= 0; idx--) {
             VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(variables.get(idx));
             result = builder.tree.identity(vinfos[ORIGINAL_INDEX], vinfos[READ_INDEX], result);
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return result;
             }
         }
@@ -407,12 +407,12 @@ public class CifMddSpec {
     }
 
     /**
-     * Returns the callback that indicates whether execution should be terminated on user request.
+     * Returns the cooperative termination query function.
      *
-     * @return The callback.
+     * @return The cooperative termination query function.
      */
-    public Supplier<Boolean> getShouldTerminate() {
-        return shouldTerminate;
+    public Termination getTermination() {
+        return termination;
     }
 
     /**
