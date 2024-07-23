@@ -21,7 +21,6 @@ import static org.eclipse.escet.common.java.Sets.setc;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 
 /**
  * Class for finding simple cycles in a directed graph using depth-first search.
@@ -51,16 +50,16 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
     /** Found cycles in the graph. */
     private Set<C> foundCycles;
 
-    /** Test function to detect a user abort request. */
-    private final Supplier<Boolean> shouldTerminate;
+    /** Cooperative termination query function. */
+    private final Termination termination;
 
     /**
      * Constructor of the {@link DirectedGraphCycleFinder} class.
      *
-     * @param shouldTerminate Test function to detect a user abort request.
+     * @param termination Cooperative termination query function.
      */
-    public DirectedGraphCycleFinder(Supplier<Boolean> shouldTerminate) {
-        this.shouldTerminate = shouldTerminate;
+    public DirectedGraphCycleFinder(Termination termination) {
+        this.termination = termination;
     }
 
     /**
@@ -88,7 +87,7 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
 
             expandVertexPath(graph, vertex);
 
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return null;
             }
         }
@@ -108,7 +107,7 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
      * @param vertex Next vertex to search.
      */
     private void expandVertexPath(G graph, V vertex) {
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return;
         }
 
@@ -134,7 +133,7 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
                 addCycle(graph, stack.subList(cycleStartIndex, vertexStackPos + 1), foundCycles);
             }
 
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return;
             }
         }
