@@ -20,7 +20,6 @@ import java.util.Locale;
 
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.XmlSupport;
@@ -99,7 +98,7 @@ public class CifToSupremicaApp extends Application<IOutputComponent> {
 
         // Perform transformation to Supremica.
         Document doc = CifToSupremica.transform(spec, absSpecPath, moduleName, elimEnums,
-                () -> AppEnv.isTerminationRequested());
+                () -> isTerminationRequested());
         if (isTerminationRequested()) {
             return 0;
         }
