@@ -60,7 +60,6 @@ import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -122,7 +121,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         // for uncontrollable events.
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings();
 
-        settings.setShouldTerminate(() -> AppEnv.isTerminationRequested());
+        settings.setTermination(() -> isTerminationRequested());
         settings.setDebugOutput(OutputProvider.getDebugOutputStream());
         settings.setNormalOutput(OutputProvider.getNormalOutputStream());
         settings.setWarnOutput(OutputProvider.getWarningOutputStream());
