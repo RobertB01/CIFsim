@@ -17,9 +17,9 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
-import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
@@ -29,21 +29,21 @@ public class CifPreconditionChecker extends CifChecker {
     /**
      * Constructor for the {@link CifPreconditionChecker} class.
      *
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @param preconditions The preconditions to check.
      */
-    public CifPreconditionChecker(BooleanSupplier shouldTerminate, List<CifCheck> preconditions) {
-        super(shouldTerminate, preconditions);
+    public CifPreconditionChecker(Termination termination, List<CifCheck> preconditions) {
+        super(termination, preconditions);
     }
 
     /**
      * Constructor for the {@link CifPreconditionChecker} class.
      *
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @param preconditions The preconditions to check.
      */
-    public CifPreconditionChecker(BooleanSupplier shouldTerminate, CifCheck... preconditions) {
-        super(shouldTerminate, preconditions);
+    public CifPreconditionChecker(Termination termination, CifCheck... preconditions) {
+        super(termination, preconditions);
     }
 
     /**
