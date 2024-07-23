@@ -11,14 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.boundedresponse;
+package org.eclipse.escet.cif.controllercheck.checks.boundedresponse;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
-
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Conclusion of the bounded response check. */
 public class BoundedResponseCheckConclusion implements CheckConclusion {
@@ -51,44 +48,44 @@ public class BoundedResponseCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public void printResult() {
+    public void printResult(DebugNormalOutput out, WarnOutput warn) {
         if (!uncontrollablesBound.hasInitialState() || !controllablesBound.hasInitialState()) {
-            warn("The specification cannot be initialized.");
+            warn.line("The specification cannot be initialized.");
         }
 
         if (propertyHolds()) {
-            out("[OK] The specification has bounded response:");
+            out.line("[OK] The specification has bounded response:");
         } else {
-            out("[ERROR] The specification does NOT have bounded response:");
+            out.line("[ERROR] The specification does NOT have bounded response:");
         }
 
-        out();
-        iout();
+        out.line();
+        out.inc();
 
         if (uncontrollablesBound.isBounded()) {
             int bound = uncontrollablesBound.getBound();
             if (bound == 0) {
-                out("- No transitions are possible for uncontrollable events.");
+                out.line("- No transitions are possible for uncontrollable events.");
             } else {
-                out("- A sequence of at most %,d transition%s is possible for uncontrollable events.",
+                out.line("- A sequence of at most %,d transition%s is possible for uncontrollable events.",
                         bound, (bound == 1) ? "" : "s");
             }
         } else {
-            out("- An infinite sequence of transitions is possible for uncontrollable events.");
+            out.line("- An infinite sequence of transitions is possible for uncontrollable events.");
         }
 
         if (controllablesBound.isBounded()) {
             int bound = controllablesBound.getBound();
             if (bound == 0) {
-                out("- No transitions are possible for controllable events.");
+                out.line("- No transitions are possible for controllable events.");
             } else {
-                out("- A sequence of at most %,d transition%s is possible for controllable events.",
+                out.line("- A sequence of at most %,d transition%s is possible for controllable events.",
                         bound, (bound == 1) ? "" : "s");
             }
         } else {
-            out("- An infinite sequence of transitions is possible for controllable events.");
+            out.line("- An infinite sequence of transitions is possible for controllable events.");
         }
 
-        dout();
+        out.dec();
     }
 }

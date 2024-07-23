@@ -11,14 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.finiteresponse;
-
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.common.java.Lists.areEqualOrShifted;
+package org.eclipse.escet.cif.controllercheck.checks.finiteresponse;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.java.Lists;
 
 /** Class representing the events in an event loop. */
 public class EventLoop {
@@ -39,7 +38,7 @@ public class EventLoop {
         StringBuilder sb = new StringBuilder();
         for (Event evt: events) {
             sb.append((sb.length() == 0) ? "(" : " ");
-            sb.append(getAbsName(evt));
+            sb.append(CifTextUtils.getAbsName(evt));
         }
         sb.append(")");
         return sb.toString();
@@ -54,7 +53,7 @@ public class EventLoop {
             return false;
         }
         EventLoop otherLoop = (EventLoop)other;
-        return areEqualOrShifted(events, otherLoop.events);
+        return Lists.areEqualOrShifted(events, otherLoop.events);
     }
 
     @Override

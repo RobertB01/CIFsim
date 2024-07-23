@@ -11,31 +11,34 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.finiteresponse;
-
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
+package org.eclipse.escet.cif.controllercheck.checks.finiteresponse;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
-import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
+import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Conclusion of the finite response check. */
 public class FiniteResponseCheckConclusion implements CheckConclusion {
     /** Events that may be in a controllable-event loop. */
     private final List<Event> unprovenEvents;
 
+    /** Whether to print the events that appear in finite response control loops as part of printing the results. */
+    private final boolean printControlLoops;
+
     /**
      * Constructor of the {@link FiniteResponseCheckConclusion} class.
      *
      * @param orderedEvents Events that may be in a controllable-event loop.
+     * @param printControlLoops Whether to print the events that appear in finite response control loops as part of
+     *     printing the results.
      */
-    public FiniteResponseCheckConclusion(List<Event> orderedEvents) {
+    public FiniteResponseCheckConclusion(List<Event> orderedEvents, boolean printControlLoops) {
         this.unprovenEvents = orderedEvents;
+        this.printControlLoops = printControlLoops;
     }
 
     @Override
@@ -49,24 +52,24 @@ public class FiniteResponseCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public void printResult() {
+    public void printResult(DebugNormalOutput out, WarnOutput warn) {
         if (propertyHolds()) {
-            out("[OK] The specification has finite response.");
+            out.line("[OK] The specification has finite response.");
         } else {
-            out("[ERROR] The specification may NOT have finite response:");
-            out();
+            out.line("[ERROR] The specification may NOT have finite response:");
+            out.line();
 
-            iout();
-            out("At least one controllable-event loop was found.");
-            if (PrintControlLoopsOutputOption.isPrintControlLoopsEnabled()) {
-                out("The following events might still occur in a controllable-event loop:");
-                iout();
+            out.inc();
+            out.line("At least one controllable-event loop was found.");
+            if (printControlLoops) {
+                out.line("The following events might still occur in a controllable-event loop:");
+                out.inc();
                 for (Event event: unprovenEvents) {
-                    out("- %s", getAbsName(event));
+                    out.line("- %s", CifTextUtils.getAbsName(event));
                 }
-                dout();
+                out.dec();
             }
-            dout();
+            out.dec();
         }
     }
 }

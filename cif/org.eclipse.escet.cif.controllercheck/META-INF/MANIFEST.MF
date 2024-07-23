@@ -27,10 +27,11 @@ Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="5.0.0",
  org.eclipse.escet.cif.checkers;bundle-version="5.0.0"
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.cif.controllercheck,
- org.eclipse.escet.cif.controllercheck.boundedresponse,
- org.eclipse.escet.cif.controllercheck.confluence,
- org.eclipse.escet.cif.controllercheck.finiteresponse,
+ org.eclipse.escet.cif.controllercheck.checks,
+ org.eclipse.escet.cif.controllercheck.checks.boundedresponse,
+ org.eclipse.escet.cif.controllercheck.checks.confluence,
+ org.eclipse.escet.cif.controllercheck.checks.finiteresponse,
+ org.eclipse.escet.cif.controllercheck.checks.nonblockingundercontrol,
  org.eclipse.escet.cif.controllercheck.mdd,
- org.eclipse.escet.cif.controllercheck.nonblockingundercontrol,
  org.eclipse.escet.cif.controllercheck.options
 Automatic-Module-Name: org.eclipse.escet.cif.controllercheck

@@ -30,7 +30,7 @@ public class GraphCycleFinder
 {
     /** Constructor of the {@link GraphCycleFinder} class. */
     public GraphCycleFinder() {
-        super(null);
+        super(() -> false);
     }
 
     @Override

@@ -13,14 +13,6 @@
 
 package org.eclipse.escet.cif.controllercheck.mdd;
 
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectControllableEvents;
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
-import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
-import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.common.CifTextUtils.getComponentText1;
-import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText2;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -31,7 +23,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.common.CifCollectUtils;
+import org.eclipse.escet.cif.common.CifEventUtils;
+import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -42,10 +38,8 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.AppEnvData;
-import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
@@ -66,8 +60,14 @@ public class CifMddSpec {
     /** Number of variable indices that exist. */
     private static final int NUM_INDICES = 3;
 
-    /** The application context to use. */
-    private final AppEnvData env = AppEnv.getData();
+    /** Callback that indicates whether execution should be terminated on user request. */
+    private final Supplier<Boolean> shouldTerminate;
+
+    /** Callback to send normal output to the user. */
+    private final DebugNormalOutput normalOutput;
+
+    /** Callback to send debug output to the user. */
+    private final DebugNormalOutput debugOutput;
 
     /** Automata of the specification. */
     private List<Automaton> automata;
@@ -94,9 +94,17 @@ public class CifMddSpec {
      * Constructor for the {@link CifMddSpec} class.
      *
      * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param normalOutput Callback to send normal output to the user.
+     * @param debugOutput Callback to send debug output to the user.
      */
-    public CifMddSpec(boolean computeGlobalGuardedUpdates) {
+    public CifMddSpec(boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate,
+            DebugNormalOutput normalOutput, DebugNormalOutput debugOutput)
+    {
         this.globalGuardedUpdatesByEvent = computeGlobalGuardedUpdates ? map() : null;
+        this.shouldTerminate = shouldTerminate;
+        this.normalOutput = normalOutput;
+        this.debugOutput = debugOutput;
     }
 
     /**
@@ -109,16 +117,16 @@ public class CifMddSpec {
      */
     public boolean compute(Specification spec) {
         // Collect automata and controllable events.
-        automata = collectAutomata(spec, list());
-        Set<Event> allControllableEvents = collectControllableEvents(spec, set());
+        automata = CifCollectUtils.collectAutomata(spec, list());
+        Set<Event> allControllableEvents = CifCollectUtils.collectControllableEvents(spec, set());
         if (automata.isEmpty() || allControllableEvents.isEmpty()) {
             // All MDD-based checks trivially hold.
             return true;
         }
 
         // Collect variables.
-        variables = collectDiscAndInputVariables(spec, list());
-        if (env.isTerminationRequested()) {
+        variables = CifCollectUtils.collectDiscAndInputVariables(spec, list());
+        if (shouldTerminate.get()) {
             return false;
         }
 
@@ -126,14 +134,14 @@ public class CifMddSpec {
         MddCifVarInfoBuilder cifVarInfoBuilder = new MddCifVarInfoBuilder(NUM_INDICES);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
         builder = new MddSpecBuilder(cifVarInfoBuilder, READ_INDEX, WRITE_INDEX);
-        if (env.isTerminationRequested()) {
+        if (shouldTerminate.get()) {
             return false;
         }
 
         // Compute global guards, global guarded updates, and updated variables for each event.
         for (Automaton aut: automata) {
-            OutputProvider.dbg("Analyzing %s...", getComponentText1(aut));
-            Set<Event> controllableAutEvents = intersection(getAlphabet(aut), allControllableEvents);
+            debugOutput.line("Analyzing %s...", CifTextUtils.getComponentText1(aut));
+            Set<Event> controllableAutEvents = intersection(CifEventUtils.getAlphabet(aut), allControllableEvents);
             if (!controllableAutEvents.isEmpty()) {
                 if (!processAutomaton(aut, controllableAutEvents)) {
                     return false; // Abort requested.
@@ -160,10 +168,10 @@ public class CifMddSpec {
         Map<Event, Node> autGuardedUpdates = (globalGuardedUpdatesByEvent == null) ? null
                 : mapc(controllableAutEvents.size());
 
-        OutputProvider.idbg();
+        debugOutput.inc();
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {
-            OutputProvider.dbg("Initializing the automaton data for event \"%s\"...", getAbsName(evt));
+            debugOutput.line("Initializing the automaton data for event \"%s\"...", CifTextUtils.getAbsName(evt));
             autGuards.put(evt, Tree.ZERO);
             if (autGuardedUpdates != null) {
                 autGuardedUpdates.put(evt, Tree.ZERO);
@@ -177,40 +185,40 @@ public class CifMddSpec {
                 }
                 updatedVariablesByEvent.put(evt, set());
             }
-            if (env.isTerminationRequested()) {
-                OutputProvider.ddbg();
+            if (shouldTerminate.get()) {
+                debugOutput.dec();
                 return false;
             }
         }
 
         // Process the locations and edges.
         for (Location loc: aut.getLocations()) {
-            OutputProvider.dbg("Processing edges from %s...", getLocationText2(loc));
+            debugOutput.line("Processing edges from %s...", CifTextUtils.getLocationText2(loc));
             for (Edge edge: loc.getEdges()) {
                 // Filter on relevant events.
-                Set<Event> controllableEdgeEvents = intersection(getEvents(edge), controllableAutEvents);
+                Set<Event> controllableEdgeEvents = intersection(CifEventUtils.getEvents(edge), controllableAutEvents);
                 if (controllableEdgeEvents.isEmpty()) {
                     continue;
                 }
 
                 // Compute guard of the edge.
                 Node guard = computeGuard(edge);
-                if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
+                if (shouldTerminate.get()) {
+                    debugOutput.dec();
                     return false;
                 }
 
                 // Compute update of the edge.
                 Node update = computeUpdate(edge, controllableEdgeEvents);
-                if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
+                if (shouldTerminate.get()) {
+                    debugOutput.dec();
                     return false;
                 }
 
                 // Compute combined guard and update of the edge.
                 Node guardedUpdate = (autGuardedUpdates == null) ? null : tree.conjunct(guard, update);
-                if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
+                if (shouldTerminate.get()) {
+                    debugOutput.dec();
                     return false;
                 }
 
@@ -218,16 +226,16 @@ public class CifMddSpec {
                 for (Event evt: controllableEdgeEvents) {
                     Node autGuard = autGuards.get(evt);
                     autGuards.put(evt, tree.disjunct(autGuard, guard));
-                    if (env.isTerminationRequested()) {
-                        OutputProvider.ddbg();
+                    if (shouldTerminate.get()) {
+                        debugOutput.dec();
                         return false;
                     }
 
                     if (autGuardedUpdates != null) {
                         Node autGuardedUpdate = autGuardedUpdates.get(evt);
                         autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
-                        if (env.isTerminationRequested()) {
-                            OutputProvider.ddbg();
+                        if (shouldTerminate.get()) {
+                            debugOutput.dec();
                             return false;
                         }
                     }
@@ -237,11 +245,12 @@ public class CifMddSpec {
 
         // At global level, guards and updates of each event must synchronize between participating automata.
         for (Event autEvent: controllableAutEvents) {
-            OutputProvider.dbg("Updating global guards and updates for event \"%s\"...", getAbsName(autEvent));
+            debugOutput.line("Updating global guards and updates for event \"%s\"...",
+                    CifTextUtils.getAbsName(autEvent));
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));
-            if (env.isTerminationRequested()) {
-                OutputProvider.ddbg();
+            if (shouldTerminate.get()) {
+                debugOutput.dec();
                 return false;
             }
 
@@ -249,14 +258,14 @@ public class CifMddSpec {
                 Node globalGuardedUpdate = globalGuardedUpdatesByEvent.get(autEvent);
                 globalGuardedUpdatesByEvent.put(autEvent,
                         tree.conjunct(globalGuardedUpdate, autGuardedUpdates.get(autEvent)));
-                if (env.isTerminationRequested()) {
-                    OutputProvider.ddbg();
+                if (shouldTerminate.get()) {
+                    debugOutput.dec();
                     return false;
                 }
             }
         }
 
-        OutputProvider.ddbg();
+        debugOutput.dec();
         return true;
     }
 
@@ -270,12 +279,12 @@ public class CifMddSpec {
         Node guard = Tree.ONE;
         for (Expression grd: edge.getGuards()) {
             Node node = builder.getExpressionConvertor().convert(grd).get(1);
-            if (env.isTerminationRequested()) {
+            if (shouldTerminate.get()) {
                 return guard;
             }
 
             guard = builder.tree.conjunct(guard, node);
-            if (env.isTerminationRequested()) {
+            if (shouldTerminate.get()) {
                 return guard;
             }
         }
@@ -307,11 +316,11 @@ public class CifMddSpec {
 
             if (updateNode != null) {
                 Node asgNode = builder.getExpressionConvertor().convertAssignment(lhs, asg.getValue());
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return updateNode;
                 }
                 updateNode = tree.conjunct(updateNode, asgNode);
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return updateNode;
                 }
             }
@@ -323,7 +332,7 @@ public class CifMddSpec {
                 if (!assignedVariables.contains(otherVariable)) {
                     VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(otherVariable);
                     updateNode = tree.conjunct(updateNode, tree.identity(vinfos[READ_INDEX], vinfos[WRITE_INDEX]));
-                    if (env.isTerminationRequested()) {
+                    if (shouldTerminate.get()) {
                         return updateNode;
                     }
                 }
@@ -371,7 +380,7 @@ public class CifMddSpec {
         for (int idx = variables.size() - 1; idx >= 0; idx--) {
             VarInfo[] vinfos = builder.cifVarInfoBuilder.getVarInfos(variables.get(idx));
             result = builder.tree.identity(vinfos[ORIGINAL_INDEX], vinfos[READ_INDEX], result);
-            if (env.isTerminationRequested()) {
+            if (shouldTerminate.get()) {
                 return result;
             }
         }
@@ -395,6 +404,33 @@ public class CifMddSpec {
         }
         Assert.areEqual(nextFree, nonOriginalsVarInfos.length);
         return nonOriginalsVarInfos;
+    }
+
+    /**
+     * Returns the callback that indicates whether execution should be terminated on user request.
+     *
+     * @return The callback.
+     */
+    public Supplier<Boolean> getShouldTerminate() {
+        return shouldTerminate;
+    }
+
+    /**
+     * Returns the callback to send debug output to the user.
+     *
+     * @return The callback.
+     */
+    public DebugNormalOutput getDebugOutput() {
+        return debugOutput;
+    }
+
+    /**
+     * Returns the callback to send normal output to the user.
+     *
+     * @return The callback.
+     */
+    public DebugNormalOutput getNormalOutput() {
+        return normalOutput;
     }
 
     /**

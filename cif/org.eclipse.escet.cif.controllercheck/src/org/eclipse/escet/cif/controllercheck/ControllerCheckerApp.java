@@ -86,6 +86,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         settings.setCheckConfluence(EnableConfluenceChecking.checkConfluence());
         settings.setCheckFiniteResponse(EnableFiniteResponseChecking.checkFiniteResponse());
         settings.setCheckNonBlockingUnderControl(EnableNonBlockingUnderControlChecking.checkNonBlockingUnderControl());
+        settings.setPrintFiniteResponseControlLoops(PrintControlLoopsOutputOption.isPrintControlLoopsEnabled());
         settings.setShouldTerminate(() -> AppEnv.isTerminationRequested());
         settings.setNormalOutput(OutputProvider.getNormalOutputStream());
         settings.setDebugOutput(OutputProvider.getDebugOutputStream());

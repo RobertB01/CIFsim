@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.nonblockingundercontrol;
+package org.eclipse.escet.cif.controllercheck.checks.nonblockingundercontrol;
 
 import static org.eclipse.escet.common.java.Maps.mapc;
 
@@ -28,7 +28,7 @@ import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
-import org.eclipse.escet.cif.controllercheck.ControllerCheckerBddBasedCheck;
+import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerBddBasedCheck;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
 import com.github.javabdd.BDD;

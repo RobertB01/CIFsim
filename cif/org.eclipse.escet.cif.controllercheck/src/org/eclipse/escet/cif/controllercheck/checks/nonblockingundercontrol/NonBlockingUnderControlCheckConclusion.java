@@ -11,11 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.nonblockingundercontrol;
+package org.eclipse.escet.cif.controllercheck.checks.nonblockingundercontrol;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
-
-import org.eclipse.escet.cif.controllercheck.CheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
+import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Conclusion of the non-blocking under control check. */
 public class NonBlockingUnderControlCheckConclusion implements CheckConclusion {
@@ -42,11 +42,11 @@ public class NonBlockingUnderControlCheckConclusion implements CheckConclusion {
     }
 
     @Override
-    public void printResult() {
+    public void printResult(DebugNormalOutput out, WarnOutput warn) {
         if (isNonBlockingUnderControl) {
-            out("[OK] The specification is non-blocking under control.");
+            out.line("[OK] The specification is non-blocking under control.");
         } else {
-            out("[ERROR] The specification is NOT non-blocking under control.");
+            out.line("[ERROR] The specification is NOT non-blocking under control.");
         }
     }
 }

@@ -11,26 +11,25 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.finiteresponse;
+package org.eclipse.escet.cif.controllercheck.checks.finiteresponse;
 
-import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 
 import java.util.List;
 import java.util.Set;
-import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifEdgeUtils;
+import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GraphEdge;
 import org.eclipse.escet.common.java.ListProductIterator;
+import org.eclipse.escet.common.java.Sets;
 
 /** Static class for finding event loops. */
 public class EventLoopSearch {
@@ -46,12 +45,13 @@ public class EventLoopSearch {
      *
      * @param aut The automaton in which to search for the event loops.
      * @param loopEvents The events that can form an event loop.
-     * @param env The application context to use.
-     * @return The event loops in the specified automaton.
+     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @return The event loops in the specified automaton, or {@code null} if termination was requested.
      */
-    public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, AppEnvData env) {
-        BooleanSupplier isTerminationRequested = () -> env.isTerminationRequested();
-        EventLoopFinder finder = new EventLoopFinder(loopEvents, isTerminationRequested);
+    public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents,
+            Supplier<Boolean> shouldTerminate)
+    {
+        EventLoopFinder finder = new EventLoopFinder(loopEvents, shouldTerminate);
         return finder.findSimpleCycles(aut);
     }
 
@@ -66,11 +66,10 @@ public class EventLoopSearch {
          * Constructor of the {@link EventLoopFinder} class.
          *
          * @param loopEvents The events that can form an event loop.
-         * @param isTerminationRequested Test function to detect a user abort request. If {@code null}, termination
-         *     detection is disabled.
+         * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
          */
-        public EventLoopFinder(Set<Event> loopEvents, BooleanSupplier isTerminationRequested) {
-            super(isTerminationRequested);
+        public EventLoopFinder(Set<Event> loopEvents, Supplier<Boolean> shouldTerminate) {
+            super(shouldTerminate);
             this.loopEvents = loopEvents;
         }
 
@@ -99,13 +98,13 @@ public class EventLoopSearch {
         protected List<EventLoopEdge> getOutgoingEdges(Automaton aut, Location vertex) {
             List<EventLoopEdge> edges = list();
             for (Edge edge: vertex.getEdges()) {
-                if (isEmptyIntersection(loopEvents, getEvents(edge))) {
+                if (Sets.isEmptyIntersection(loopEvents, CifEventUtils.getEvents(edge))) {
                     continue;
                 }
 
                 Location edgeTargetLoc = CifEdgeUtils.getTarget(edge);
                 List<Event> edgeEvents = list();
-                for (Event event: getEvents(edge)) {
+                for (Event event: CifEventUtils.getEvents(edge)) {
                     if (loopEvents.contains(event)) {
                         edgeEvents.add(event);
                     }

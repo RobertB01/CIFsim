@@ -25,6 +25,12 @@ map(string:list string) test_options = {
         "--confluence-check=false",
         "--non-blocking-under-control-check=false",
     ],
+    "controllercheck/finite_response/print_control_loops_off.cif": [
+        "--print-events=off",
+    ],
+    "controllercheck/finite_response/print_control_loops_on.cif": [
+        "--print-events=on",
+    ],
 };
 set string test_skip = {};
 

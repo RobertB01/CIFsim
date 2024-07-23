@@ -15,10 +15,11 @@ package org.eclipse.escet.cif.controllercheck;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheckConclusion;
-import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheckConclusion;
-import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheckConclusion;
-import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.boundedresponse.BoundedResponseCheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.confluence.ConfluenceCheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.finiteresponse.FiniteResponseCheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.nonblockingundercontrol.NonBlockingUnderControlCheckConclusion;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.typechecker.annotations.builtin.ControllerPropertiesAnnotationProvider;
 import org.eclipse.escet.common.java.Assert;

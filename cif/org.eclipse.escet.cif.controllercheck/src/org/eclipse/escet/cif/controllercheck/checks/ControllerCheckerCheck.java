@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck;
+package org.eclipse.escet.cif.controllercheck.checks;
 
 /**
  * A check that can be performed by the controller properties checker.

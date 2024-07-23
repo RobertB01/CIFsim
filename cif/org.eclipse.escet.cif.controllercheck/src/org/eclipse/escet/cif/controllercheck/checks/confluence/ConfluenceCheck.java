@@ -11,12 +11,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.cif.controllercheck.confluence;
+package org.eclipse.escet.cif.controllercheck.checks.confluence;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.SORTER;
@@ -26,17 +22,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.controllercheck.ControllerCheckerMddBasedCheck;
+import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerMddBasedCheck;
 import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.common.app.framework.AppEnv;
-import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
@@ -58,9 +54,6 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
 
     /** The name of the property being checked. */
     public static final String PROPERTY_NAME = "confluence";
-
-    /** The application context to use. */
-    private final AppEnvData env = AppEnv.getData();
 
     /** Global guard for each event. */
     private Map<Event, Node> globalGuardsByEvent;
@@ -87,9 +80,14 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
 
     @Override
     public ConfluenceCheckConclusion performCheck(CifMddSpec cifMddSpec) {
+        // Get information from MDD specification.
+        Supplier<Boolean> shouldTerminate = cifMddSpec.getShouldTerminate();
+        DebugNormalOutput out = cifMddSpec.getNormalOutput();
+        DebugNormalOutput dbg = cifMddSpec.getDebugOutput();
         List<Automaton> automata = cifMddSpec.getAutomata();
         Set<Event> controllableEvents = cifMddSpec.getControllableEvents();
 
+        // If no automata, or no controllable events, then confluence trivially holds.
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
             return new ConfluenceCheckConclusion(List.of());
         }
@@ -128,7 +126,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
             for (Entry<Event, Node> entry2: globalGuardsByEvent.entrySet()) {
                 Event event2 = entry2.getKey();
 
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
@@ -139,7 +137,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
 
                 String evt2Name = CifTextUtils.getAbsName(event2);
                 if (DEBUG_GLOBAL) {
-                    dbg("Trying event pair (" + evt1Name + ", " + evt2Name + ")...");
+                    dbg.line("Trying event pair (" + evt1Name + ", " + evt2Name + ")...");
                 }
 
                 Node globalGuard2 = entry2.getValue();
@@ -150,11 +148,11 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 if (commonEnabledGuards == Tree.ZERO) {
                     mutualExclusives.add(makeSortedPair(evt1Name, evt2Name));
                     if (DEBUG_GLOBAL) {
-                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is mutual exclusive.");
+                        dbg.line("  -> event pair (" + evt1Name + ", " + evt2Name + ") is mutual exclusive.");
                     }
                     continue;
                 }
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
@@ -162,7 +160,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 // space treat variable values differently.
                 commonEnabledGuards = tree.conjunct(origToReadVariablesRelations, commonEnabledGuards);
 
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
@@ -170,22 +168,22 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 // pair matches one of the checks below.
                 Node originalStates = tree.variableAbstractions(commonEnabledGuards, nonOriginalVarInfos);
 
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
                 // Check for update equivalence (both events make the same changes).
                 if (DEBUG_UPDATE_EQUIVALENCE) {
                     globalGuard1.dumpGraphLines("updateEquivalent-globalGuard1");
-                    dbg();
+                    dbg.line();
                     globalGuard2.dumpGraphLines("updateEquivalent-globalGuard2");
-                    dbg();
+                    dbg.line();
                     globalUpdate1.dumpGraphLines("updateEquivalent-globalUpdate1");
-                    dbg();
+                    dbg.line();
                     globalUpdate2.dumpGraphLines("updateEquivalent-globalUupdate2");
-                    dbg();
+                    dbg.line();
                     commonEnabledGuards.dumpGraphLines("updateEquivalence-commonEnabledGuards");
-                    dbg();
+                    dbg.line();
                 }
                 Node event1Done = performEdge(commonEnabledGuards, globalUpdate1);
                 Node event2Done = performEdge(commonEnabledGuards, globalUpdate2);
@@ -197,25 +195,25 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                         && allStateCovered(originalStates, event1Done))
                 {
                     if (DEBUG_GLOBAL) {
-                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is update equivalent.");
+                        dbg.line("  -> event pair (" + evt1Name + ", " + evt2Name + ") is update equivalent.");
                     }
                     updateEquivalents.add(makeSortedPair(evt1Name, evt2Name));
                     continue;
                 }
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
                 // Check for independence (diamond shape edges leading to the same changes).
                 if (DEBUG_INDENPENCE) {
                     globalGuard1.dumpGraphLines("independence-globalGuard1");
-                    dbg();
+                    dbg.line();
                     globalGuard2.dumpGraphLines("independence-globalGuard2");
-                    dbg();
+                    dbg.line();
                     globalUpdate1.dumpGraphLines("independence-globalUpdate1");
-                    dbg();
+                    dbg.line();
                     globalUpdate2.dumpGraphLines("independence-globalUupdate2");
-                    dbg();
+                    dbg.line();
                 }
                 //
                 // First event1 then event2.
@@ -226,7 +224,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                     event1Enabled2.dumpGraphLines("independence-event1enabled2");
                     event12Done.dumpGraphLines("independence-event12done");
                 }
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
@@ -244,11 +242,11 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 {
                     independents.add(makeSortedPair(evt1Name, evt2Name));
                     if (DEBUG_GLOBAL) {
-                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is indepenent.");
+                        dbg.line("  -> event pair (" + evt1Name + ", " + evt2Name + ") is indepenent.");
                     }
                     continue;
                 }
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
@@ -260,11 +258,11 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 {
                     skippables.add(makeSortedPair(evt1Name, evt2Name));
                     if (DEBUG_GLOBAL) {
-                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is skippable.");
+                        dbg.line("  -> event pair (" + evt1Name + ", " + evt2Name + ") is skippable.");
                     }
                     continue;
                 }
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
@@ -274,11 +272,11 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 {
                     skippables.add(makeSortedPair(evt1Name, evt2Name));
                     if (DEBUG_GLOBAL) {
-                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is skippable.");
+                        dbg.line("  -> event pair (" + evt1Name + ", " + evt2Name + ") is skippable.");
                     }
                     continue;
                 }
-                if (env.isTerminationRequested()) {
+                if (shouldTerminate.get()) {
                     return null;
                 }
 
@@ -286,13 +284,13 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 // event1).
                 if (DEBUG_REVERSIBLE) {
                     globalGuard1.dumpGraphLines("reversible-globalGuard1");
-                    dbg();
+                    dbg.line();
                     globalGuard2.dumpGraphLines("reversible-globalGuard2");
-                    dbg();
+                    dbg.line();
                     globalUpdate1.dumpGraphLines("reversible-globalUpdate1");
-                    dbg();
+                    dbg.line();
                     globalUpdate2.dumpGraphLines("reversible-globalUpdate2");
-                    dbg();
+                    dbg.line();
                 }
 
                 boolean foundReversible = false;
@@ -301,15 +299,16 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                     if (event3 == event1 || event3 == event2) {
                         continue;
                     }
-                    if (env.isTerminationRequested()) {
+                    if (shouldTerminate.get()) {
                         return null;
                     }
 
                     Node globalGuard3 = entry3.getValue();
                     Node globalUpdate3 = globalGuardedUpdatesByEvent.get(event3);
                     if (DEBUG_REVERSIBLE) {
-                        dbg("----");
-                        dbg("Reversible (" + evt1Name + ", " + evt2Name + "), trying event3 = " + event3.getName());
+                        dbg.line("----");
+                        dbg.line("Reversible (" + evt1Name + ", " + evt2Name + "), trying event3 = "
+                                + event3.getName());
                         event21Done.dumpGraphLines("reversible-event21Done");
                         event12Done.dumpGraphLines("reversible-event12Done");
                         globalGuard3.dumpGraphLines("reversible-globalGuard3");
@@ -330,13 +329,14 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                                 && allStateCovered(originalStates, event1Done))
                         {
                             if (DEBUG_REVERSIBLE) {
-                                dbg("reversible: event213Done != Tree.ZERO && event213Done == event1Done -> Found a match.");
+                                dbg.line("reversible: event213Done != Tree.ZERO && event213Done == event1Done -> "
+                                        + "Found a match.");
                             }
                             foundReversible = true;
                             break;
                         }
                     }
-                    if (env.isTerminationRequested()) {
+                    if (shouldTerminate.get()) {
                         return null;
                     }
 
@@ -354,20 +354,21 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                                 && allStateCovered(originalStates, event2Done))
                         {
                             if (DEBUG_REVERSIBLE) {
-                                dbg("reversible: event123Done != Tree.ZERO && event123Done == event2Done -> Found a match.");
+                                dbg.line("reversible: event123Done != Tree.ZERO && event123Done == event2Done -> "
+                                        + "Found a match.");
                             }
                             foundReversible = true;
                             break;
                         }
                     }
-                    if (env.isTerminationRequested()) {
+                    if (shouldTerminate.get()) {
                         return null;
                     }
                 }
                 if (foundReversible) {
                     reversibles.add(makeSortedPair(evt1Name, evt2Name));
                     if (DEBUG_GLOBAL) {
-                        dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is reversible.");
+                        dbg.line("  -> event pair (" + evt1Name + ", " + evt2Name + ") is reversible.");
                     }
                     continue;
                 }
@@ -375,20 +376,20 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
                 // None of the checks holds, failed to prove confluence.
                 cannotProves.add(makeSortedPair(evt1Name, evt2Name));
                 if (DEBUG_GLOBAL) {
-                    dbg("  -> event pair (" + evt1Name + ", " + evt2Name + ") is CANNOT-PROVE.");
+                    dbg.line("  -> event pair (" + evt1Name + ", " + evt2Name + ") is CANNOT-PROVE.");
                 }
             }
         }
-        if (env.isTerminationRequested()) {
+        if (shouldTerminate.get()) {
             return null;
         }
 
         // Dump results.
-        dumpMatches(mutualExclusives, "Mutual exclusive event pairs");
-        dumpMatches(updateEquivalents, "Update equivalent event pairs");
-        dumpMatches(independents, "Independent event pairs");
-        dumpMatches(skippables, "Skippable event pairs");
-        dumpMatches(reversibles, "Reversible event pairs");
+        dumpMatches(mutualExclusives, "Mutual exclusive event pairs", out);
+        dumpMatches(updateEquivalents, "Update equivalent event pairs", out);
+        dumpMatches(independents, "Independent event pairs", out);
+        dumpMatches(skippables, "Skippable event pairs", out);
+        dumpMatches(reversibles, "Reversible event pairs", out);
 
         return new ConfluenceCheckConclusion(cannotProves);
     }
@@ -439,8 +440,9 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
      *
      * @param pairs Event pairs to output.
      * @param reasonText Description of the reason what the collection means.
+     * @param out Callback to send normal output to the user.
      */
-    private void dumpMatches(List<Pair<String, String>> pairs, String reasonText) {
+    private void dumpMatches(List<Pair<String, String>> pairs, String reasonText, DebugNormalOutput out) {
         if (pairs.isEmpty()) {
             return;
         }
@@ -449,10 +451,10 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
         pairs.sort(
                 Comparator.comparing((Pair<String, String> p) -> p.left, SORTER).thenComparing(p -> p.right, SORTER));
 
-        out();
-        out(reasonText + ":");
-        iout();
-        out(pairs.stream().map(Pair::toString).collect(Collectors.joining(", ")));
-        dout();
+        out.line();
+        out.line(reasonText + ":");
+        out.inc();
+        out.line(pairs.stream().map(Pair::toString).collect(Collectors.joining(", ")));
+        out.dec();
     }
 }

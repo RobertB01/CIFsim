@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.controllercheck.mdd;
 
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -25,6 +24,7 @@ import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifCheckNoCompDefInst;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -72,7 +72,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
     protected void preprocessSpecification(Specification spec, CifCheckViolations violations) {
         // Get discrete and input variables.
         List<Declaration> variables = list();
-        collectDiscAndInputVariables(spec, variables);
+        CifCollectUtils.collectDiscAndInputVariables(spec, variables);
 
         // Construct an MDD tree builder.
         final int READINDEX = 0;

@@ -47,13 +47,17 @@ import org.eclipse.escet.cif.cif2cif.RelabelSupervisorsAsPlants;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.common.CifEventUtils;
-import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheck;
-import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceCheck;
-import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseCheck;
+import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
+import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerBddBasedCheck;
+import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerCheck;
+import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerMddBasedCheck;
+import org.eclipse.escet.cif.controllercheck.checks.boundedresponse.BoundedResponseCheck;
+import org.eclipse.escet.cif.controllercheck.checks.confluence.ConfluenceCheck;
+import org.eclipse.escet.cif.controllercheck.checks.finiteresponse.FiniteResponseCheck;
+import org.eclipse.escet.cif.controllercheck.checks.nonblockingundercontrol.NonBlockingUnderControlCheck;
 import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
 import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
-import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlCheck;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -107,7 +111,7 @@ public class ControllerChecker {
             checksToPerform.add(new NonBlockingUnderControlCheck());
         }
         if (settings.getCheckFiniteResponse()) {
-            checksToPerform.add(new FiniteResponseCheck());
+            checksToPerform.add(new FiniteResponseCheck(settings.getPrintFiniteResponseControlLoops()));
         }
         if (settings.getCheckConfluence()) {
             checksToPerform.add(new ConfluenceCheck());
@@ -138,7 +142,8 @@ public class ControllerChecker {
         CifMddSpec cifMddSpec = null; // Used for MDD-based checks.
         if (hasMddBasedChecks) {
             debugOutput.line("Preparing for MDD-based checks...");
-            cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate);
+            cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate, normalOutput,
+                    debugOutput);
             if (cifMddSpec == null) {
                 return null;
             }
@@ -225,7 +230,7 @@ public class ControllerChecker {
             // Output current conclusion.
             normalOutput.inc();
             if (conclusion != null) {
-                conclusion.printResult();
+                conclusion.printResult(normalOutput, warnOutput);
             } else {
                 normalOutput.line("[UNKNOWN] %s checking was disabled, %s property is unknown.",
                         Strings.makeInitialUppercase(name), name);
@@ -369,10 +374,13 @@ public class ControllerChecker {
      * @param specAbsPath The absolute local file system path to the CIF specification to check.
      * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
      * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param normalOutput Callback to send normal output to the user.
+     * @param debugOutput Callback to send debug output to the user.
      * @return The CIF/BDD specification, or {@code null} if termination was requested.
      */
     private static CifMddSpec convertToMdd(Specification spec, String specAbsPath,
-            boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate)
+            boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate, DebugNormalOutput normalOutput,
+            DebugNormalOutput debugOutput)
     {
         // Use a copy of the specification.
         spec = EMFHelper.deepclone(spec);
@@ -436,7 +444,7 @@ public class ControllerChecker {
         }
 
         // Create MDD representation.
-        CifMddSpec cifMddSpec = new CifMddSpec(computeGlobalGuardedUpdates);
+        CifMddSpec cifMddSpec = new CifMddSpec(computeGlobalGuardedUpdates, shouldTerminate, normalOutput, debugOutput);
         if (!cifMddSpec.compute(spec)) {
             return null;
         }
