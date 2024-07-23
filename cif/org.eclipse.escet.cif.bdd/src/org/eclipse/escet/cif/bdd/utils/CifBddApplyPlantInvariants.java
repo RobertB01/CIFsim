@@ -55,7 +55,7 @@ public class CifBddApplyPlantInvariants {
         boolean firstDbg = true;
         boolean guardChanged = false;
         for (CifBddEdge edge: cifBddSpec.edges) {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -68,7 +68,7 @@ public class CifBddApplyPlantInvariants {
 
             // Enforce the additional condition by restricting the guard.
             BDD newGuard = edge.guard.and(plant);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -90,7 +90,7 @@ public class CifBddApplyPlantInvariants {
             }
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled && guardChanged) {
@@ -125,7 +125,7 @@ public class CifBddApplyPlantInvariants {
 
         boolean guardUpdated = false;
         for (CifBddEdge edge: cifBddSpec.edges) {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -137,7 +137,7 @@ public class CifBddApplyPlantInvariants {
                     CifBddEdgeApplyDirection.BACKWARD, // backward
                     null); // restriction
 
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -154,13 +154,13 @@ public class CifBddApplyPlantInvariants {
                 updPred = cifBddSpec.factory.one();
             }
 
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
             // Store.
             BDD newGuard = edge.guard.id().andWith(updPred);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 

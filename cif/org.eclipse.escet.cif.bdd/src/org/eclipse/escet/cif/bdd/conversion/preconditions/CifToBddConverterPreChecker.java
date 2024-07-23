@@ -13,8 +13,6 @@
 
 package org.eclipse.escet.cif.bdd.conversion.preconditions;
 
-import java.util.function.BooleanSupplier;
-
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutReqNoChannelCheck;
@@ -27,16 +25,17 @@ import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.common.java.Termination;
 
 /** CIF to BDD conversion precondition checker. */
 public class CifToBddConverterPreChecker extends CifPreconditionChecker {
     /**
      * Constructor for the {@link CifToBddConverterPreChecker} class.
      *
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      */
-    public CifToBddConverterPreChecker(BooleanSupplier shouldTerminate) {
-        super(shouldTerminate,
+    public CifToBddConverterPreChecker(Termination termination) {
+        super(termination,
 
                 // Only plant and requirement automata are supported.
                 new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT),
