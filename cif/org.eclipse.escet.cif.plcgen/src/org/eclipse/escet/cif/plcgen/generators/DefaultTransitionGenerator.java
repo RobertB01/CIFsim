@@ -942,7 +942,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         testCode.add(genEdgeTestsDocumentation(event, transAut));
 
         // Generate the checks and assign their findings to edge and/or automaton variables.
-        int edgeIndex = 1;
+        int edgeIndex = 0;
         for (TransitionEdge edge: transAut.transitionEdges) {
             final int finalEdgeIndex = edgeIndex; // Java wants a copy.
             Supplier<List<PlcStatement>> thenStats = () -> {
@@ -1076,7 +1076,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         boolean mustCompute = false; // Collect whether any computation must be done to perform the edges.
 
         // Perform the selected edge, if not empty.
-        int edgeIndex = 1;
+        int edgeIndex = 0;
         for (TransitionEdge edge: transAut.transitionEdges) {
             // Generate code that performs the edge if something needs to be done.
             if (channelValueVar != null || !edge.updates.isEmpty()) {
