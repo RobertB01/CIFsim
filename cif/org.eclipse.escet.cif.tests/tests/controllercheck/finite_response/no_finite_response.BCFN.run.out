@@ -11,90 +11,90 @@ Preparing for BDD-based checks...
       Total                                       3      6         12          12          100%
 
     Applying variable ordering:
-      Applying 4 orderers, sequentially:
-        Applying sorted variable order:
-          Effect: both
+        Applying 4 orderers, sequentially:
+            Applying sorted variable order:
+                Effect: both
 
-        Applying DCSH algorithm:
-          Metric: wes
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 8
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 8
 
-          Applying Weighted Cuthill-McKee algorithm:
-            Node finder: george-liu
-            Relations: legacy
-            Effect: var-order
-            Number of graph edges: 0
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-            Skipping algorithm: no graph edges.
+                    Skipping algorithm: no graph edges.
 
-          Found new best variable order.
+                Found new best variable order.
 
-          Applying Sloan algorithm:
-            Relations: legacy
-            Effect: var-order
-            Number of graph edges: 0
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-            Skipping algorithm: no graph edges.
+                    Skipping algorithm: no graph edges.
 
-          Applying 2 orderers, sequentially:
-            Applying Weighted Cuthill-McKee algorithm:
-              Node finder: george-liu
-              Relations: legacy
-              Effect: var-order
-              Number of graph edges: 0
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-              Skipping algorithm: no graph edges.
+                        Skipping algorithm: no graph edges.
 
-            Reversing the variable order:
-              Relations: legacy
-              Effect: var-order
-              Number of hyper-edges: 8
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 8
 
-              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.031250 (avg/edge) [before]
-              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.031250 (avg/edge) [reversed]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.031250 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.031250 (avg/edge) [reversed]
 
-          Found new best variable order.
+                Found new best variable order.
 
-          Applying 2 orderers, sequentially:
-            Applying Sloan algorithm:
-              Relations: legacy
-              Effect: var-order
-              Number of graph edges: 0
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-              Skipping algorithm: no graph edges.
+                        Skipping algorithm: no graph edges.
 
-            Reversing the variable order:
-              Relations: legacy
-              Effect: var-order
-              Number of hyper-edges: 8
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 8
 
-              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.031250 (avg/edge) [before]
-              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.031250 (avg/edge) [reversed]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.031250 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.031250 (avg/edge) [reversed]
 
-        Applying FORCE algorithm:
-          Metric: total-span
-          Relations: linearized
-          Effect: var-order
-          Number of hyper-edges: 6
-          Maximum number of iterations: 20
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 6
+                Maximum number of iterations: 20
 
-          Total span:   3 (total)   0.50 (avg/edge) / WES:   0.444444 (total)   0.074074 (avg/edge) [before]
-          Total span:   3 (total)   0.50 (avg/edge) / WES:   0.444444 (total)   0.074074 (avg/edge) [iteration 1]
-          Total span:   3 (total)   0.50 (avg/edge) / WES:   0.444444 (total)   0.074074 (avg/edge) [after]
+                Total span:   3 (total)   0.50 (avg/edge) / WES:   0.444444 (total)   0.074074 (avg/edge) [before]
+                Total span:   3 (total)   0.50 (avg/edge) / WES:   0.444444 (total)   0.074074 (avg/edge) [iteration 1]
+                Total span:   3 (total)   0.50 (avg/edge) / WES:   0.444444 (total)   0.074074 (avg/edge) [after]
 
-        Applying sliding window algorithm:
-          Size: 4
-          Metric: total-span
-          Relations: linearized
-          Effect: var-order
-          Number of hyper-edges: 6
-          Window length: 3
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 6
+                Window length: 3
 
-          Total span:   3 (total)   0.50 (avg/edge) / WES:   0.444444 (total)   0.074074 (avg/edge) [before]
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.370370 (total)   0.061728 (avg/edge) [window 0..2]
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.370370 (total)   0.061728 (avg/edge) [after]
+                Total span:   3 (total)   0.50 (avg/edge) / WES:   0.444444 (total)   0.074074 (avg/edge) [before]
+                Total span:   2 (total)   0.33 (avg/edge) / WES:   0.370370 (total)   0.061728 (avg/edge) [window 0..2]
+                Total span:   2 (total)   0.33 (avg/edge) / WES:   0.370370 (total)   0.061728 (avg/edge) [after]
 
     Variable order changed.
 
@@ -114,12 +114,12 @@ Preparing for BDD-based checks...
     Edge (event: Actuator.c_off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> StopButton.Pushed and Actuator.On [plant: StopButton.Pushed].
 
     System:
-        Edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and StartButton.Pushed) (assignments: Actuator := Actuator.On)
-        Edge: (event: Actuator.c_off) (guard: Actuator.On -> StopButton.Pushed and Actuator.On) (assignments: Actuator := Actuator.Off)
-        Edge: (event: StartButton.u_pushed) (guard: StartButton.Released) (assignments: StartButton := StartButton.Pushed)
-        Edge: (event: StartButton.u_released) (guard: StartButton.Pushed) (assignments: StartButton := StartButton.Released)
-        Edge: (event: StopButton.u_pushed) (guard: StopButton.Released) (assignments: StopButton := StopButton.Pushed)
-        Edge: (event: StopButton.u_released) (guard: StopButton.Pushed) (assignments: StopButton := StopButton.Released)
+            Edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and StartButton.Pushed) (assignments: Actuator := Actuator.On)
+            Edge: (event: Actuator.c_off) (guard: Actuator.On -> StopButton.Pushed and Actuator.On) (assignments: Actuator := Actuator.Off)
+            Edge: (event: StartButton.u_pushed) (guard: StartButton.Released) (assignments: StartButton := StartButton.Pushed)
+            Edge: (event: StartButton.u_released) (guard: StartButton.Pushed) (assignments: StartButton := StartButton.Released)
+            Edge: (event: StopButton.u_pushed) (guard: StopButton.Released) (assignments: StopButton := StopButton.Pushed)
+            Edge: (event: StopButton.u_released) (guard: StopButton.Pushed) (assignments: StopButton := StopButton.Released)
 
 Preparing for MDD-based checks...
     Analyzing automaton "Actuator"...
