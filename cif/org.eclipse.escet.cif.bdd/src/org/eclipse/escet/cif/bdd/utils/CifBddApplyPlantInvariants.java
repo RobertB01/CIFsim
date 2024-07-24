@@ -81,7 +81,8 @@ public class CifBddApplyPlantInvariants {
                         cifBddSpec.settings.getDebugOutput().line();
                     }
                     cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s [plant: %s].",
-                            edge.toString(0, ""), bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec),
+                            edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
+                            bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec),
                             bddToStr(plant, cifBddSpec));
                 }
                 edge.guard.free();
@@ -173,7 +174,8 @@ public class CifBddApplyPlantInvariants {
                     if (!guardUpdated) {
                         cifBddSpec.settings.getDebugOutput().line();
                     }
-                    cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s.", edge.toString(0, ""),
+                    cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s.",
+                            edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
                             bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec));
                 }
                 edge.guard.free();

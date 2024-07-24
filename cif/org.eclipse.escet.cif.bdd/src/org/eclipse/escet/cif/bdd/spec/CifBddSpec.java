@@ -407,6 +407,7 @@ public class CifBddSpec {
      * @return The lines of text.
      */
     public List<String> getEdgesText(int indent, boolean includeOnlyOrigGuard) {
-        return edges.stream().map(e -> e.toString(indent, "Edge: ", includeOnlyOrigGuard)).toList();
+        return edges.stream().map(e -> e.toString(indent, settings.getIndentAmount(), "Edge: ", includeOnlyOrigGuard))
+                .toList();
     }
 }

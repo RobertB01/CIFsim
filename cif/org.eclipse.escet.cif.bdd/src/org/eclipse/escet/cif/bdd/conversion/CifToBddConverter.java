@@ -720,7 +720,8 @@ public class CifToBddConverter {
 
         // Create variable order helper, based on model order.
         List<CifBddVariable> varsInModelOrder = Collections.unmodifiableList(Arrays.asList(cifBddSpec.variables));
-        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, cifBddSpec.settings.getDebugOutput());
+        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, cifBddSpec.settings.getDebugOutput(),
+                cifBddSpec.settings.getIndentAmount());
 
         // Get current variable order, which is model order.
         VarOrder curOrder = VarOrder.createFromOrderedVars(varsInModelOrder);

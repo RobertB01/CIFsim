@@ -333,6 +333,7 @@ public class ControllerChecker {
         cifBddSettings.setDebugOutput(checkerSettings.getDebugOutput());
         cifBddSettings.setNormalOutput(checkerSettings.getNormalOutput());
         cifBddSettings.setWarnOutput(checkerSettings.getWarnOutput());
+        cifBddSettings.setIndentAmount(2);
         cifBddSettings.setAllowNonDeterminism(AllowNonDeterminism.ALL);
         cifBddSettings.setCifBddStatistics(EnumSet.noneOf(CifBddStatistics.class));
         cifBddSettings.setDoPlantsRefReqsWarn(false);
