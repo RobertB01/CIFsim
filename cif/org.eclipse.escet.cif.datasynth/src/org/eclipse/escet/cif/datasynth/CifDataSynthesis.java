@@ -120,7 +120,7 @@ public class CifDataSynthesis {
                 return null;
             }
             CifBddApplyPlantInvariants.applyStateEvtExclPlantsInvs(cifBddSpec, "uncontrolled system",
-                    () -> synthResult.getCtrlBehText(1), dbgEnabled);
+                    () -> synthResult.getCtrlBehText(0), dbgEnabled);
 
             // Initialize applying edges.
             for (CifBddEdge edge: cifBddSpec.edges) {

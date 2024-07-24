@@ -37,9 +37,9 @@ public class CifBddApplyPlantInvariants {
      * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
      * @param behaviorName The name of the behavior to which the invariants are applied, e.g.,
      *     {@code "uncontrolled system"}.
-     * @param sysBehTextSupplier Supplier that supplies the system behavior predicate for debug output. It uses two
-     *     spaces indentation. E.g. {@code "  State: (controlled-behavior: ...)"}. If the supplier supplies
-     *     {@code null}, the system behavior is not printed as part of the debug output.
+     * @param sysBehTextSupplier Supplier that supplies the system behavior predicate for debug output. E.g.
+     *     {@code "  State: (controlled-behavior: ...)"}. If the supplier supplies {@code null}, the system behavior is
+     *     not printed as part of the debug output.
      * @param dbgEnabled Whether debug output is enabled.
      */
     public static void applyStateEvtExclPlantsInvs(CifBddSpec cifBddSpec, String behaviorName,
@@ -100,10 +100,12 @@ public class CifBddApplyPlantInvariants {
                 cifBddSpec.settings.getDebugOutput().line();
                 cifBddSpec.settings.getDebugOutput().line("%s:", Strings.makeInitialUppercase(behaviorName));
                 if (sysBehText != null) {
+                    sysBehText = Strings.duplicate(" ", cifBddSpec.settings.getIndentAmount()) + sysBehText;
                     cifBddSpec.settings.getDebugOutput().line(sysBehText);
                 }
                 if (!cifBddSpec.edges.isEmpty()) {
-                    for (String line: cifBddSpec.getEdgesText(2)) {
+                    int indentLevel = (sysBehText == null) ? 1 : 2;
+                    for (String line: cifBddSpec.getEdgesText(indentLevel)) {
                         cifBddSpec.settings.getDebugOutput().line(line);
                     }
                 }
