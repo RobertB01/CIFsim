@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/bounded_response/cycle_in_cycle.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------

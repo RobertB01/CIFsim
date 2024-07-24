@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/finite_response/mult_iterations.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind              Type  Name       Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
@@ -189,7 +188,6 @@ Checking for non-blocking under control...
     Bad initial states: Actuator2.Off and Actuator1.Off
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton Actuator2:
             (Actuator2.c_on Actuator2.c_off), which is not controllable unconnectable.
@@ -204,7 +202,6 @@ Checking for finite response...
             (Actuator2.c_on Actuator2.c_off), which is controllable unconnectable.
 
 Checking for confluence...
-
     Mutual exclusive event pairs:
         (Actuator1.c_off, Actuator1.c_on), (Actuator1.c_off, Actuator2.c_off), (Actuator1.c_on, Actuator2.c_on), (Actuator2.c_off, Actuator2.c_on)
 

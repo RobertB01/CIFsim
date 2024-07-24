@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/finite_response/if_switch_expressions.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -247,7 +246,6 @@ Checking for non-blocking under control...
     Bad initial states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1))
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton Aut1:
             (Aut1.c_a Aut1.c_b), which is not controllable unconnectable.
@@ -271,7 +269,6 @@ Checking for finite response...
             (Aut4.c_a), which is not controllable unconnectable.
 
 Checking for confluence...
-
     Mutual exclusive event pairs:
         (Aut1.c_a, Aut1.c_b), (Aut1.c_a, Aut2.c_a), (Aut1.c_a, Aut5.c_a), (Aut1.c_b, Aut2.c_a), (Aut1.c_b, Aut5.c_a), (Aut2.c_a, Aut2.c_b), (Aut2.c_a, Aut3.c_a), (Aut2.c_a, Aut3.c_b), (Aut2.c_a, Aut4.c_a), (Aut2.c_a, Aut4.c_b), (Aut2.c_a, Aut5.c_a), (Aut2.c_a, Aut5.c_b), (Aut2.c_a, Aut6.c_a), (Aut2.c_a, Aut6.c_b), (Aut2.c_b, Aut5.c_a), (Aut3.c_a, Aut3.c_b), (Aut3.c_a, Aut5.c_a), (Aut3.c_a, Aut6.c_b), (Aut3.c_b, Aut5.c_a), (Aut3.c_b, Aut6.c_a), (Aut4.c_a, Aut4.c_b), (Aut4.c_a, Aut5.c_a), (Aut4.c_b, Aut5.c_a), (Aut5.c_a, Aut5.c_b), (Aut5.c_a, Aut6.c_a), (Aut5.c_a, Aut6.c_b), (Aut6.c_a, Aut6.c_b)
 

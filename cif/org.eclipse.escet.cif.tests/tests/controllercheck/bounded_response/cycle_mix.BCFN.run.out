@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/bounded_response/cycle_mix.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -86,7 +85,6 @@ Checking for non-blocking under control...
     Bad initial states: p.loc1
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton p:
             (c_c1 c_c2), which is not controllable unconnectable.
@@ -96,7 +94,6 @@ Checking for finite response...
             (c_c1 c_c2), which is not controllable unconnectable.
 
 Checking for confluence...
-
     Mutual exclusive event pairs:
         (c_c1, c_c2), (c_c1, c_e1), (c_c1, c_e2), (c_c1, c_e3), (c_c2, c_e1), (c_c2, c_e2), (c_c2, c_e3), (c_e1, c_e2), (c_e1, c_e3), (c_e2, c_e3)
 

@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/bounded_response/bounded_state_evt_excl_inv.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
@@ -190,7 +189,6 @@ Checking for non-blocking under control...
     Bad initial states: false
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton p:
             (c), which is not controllable unconnectable.

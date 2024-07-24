@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/non_blocking_under_control/buc_ctrl_cycle.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind              Type  Name        Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
@@ -61,13 +60,11 @@ Checking for non-blocking under control...
     Bad initial states: Supervisor.Start
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton Supervisor:
             (Supervisor.c_act1 Supervisor.c_act2 Supervisor.c_act3), which is not controllable unconnectable.
 
 Checking for confluence...
-
     Mutual exclusive event pairs:
         (Supervisor.c_act1, Supervisor.c_act2), (Supervisor.c_act1, Supervisor.c_act3), (Supervisor.c_act2, Supervisor.c_act3)
 

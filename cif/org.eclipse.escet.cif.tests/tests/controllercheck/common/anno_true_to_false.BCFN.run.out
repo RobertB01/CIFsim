@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/common/anno_true_to_false.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -149,7 +148,6 @@ Checking for non-blocking under control...
     Bad initial states: p.loc1 and not p.v
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton p:
             (c), which is not controllable unconnectable.
@@ -159,7 +157,6 @@ Checking for finite response...
             (c), which is not controllable unconnectable.
 
 Checking for confluence...
-
     Independent event pairs:
         (a, c), (b, c)
 

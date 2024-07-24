@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/bounded_response/bounded_button_lamp_timer_sup_hw.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind               Type  Name          Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
@@ -224,13 +223,11 @@ Checking for non-blocking under control...
     Bad initial states: false
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton Lamp:
             (Lamp.c_on Lamp.c_off), which is not controllable unconnectable.
 
 Checking for confluence...
-
     Mutual exclusive event pairs:
         (Lamp.c_off, Lamp.c_on), (Lamp.c_off, Timer.c_start), (Lamp.c_on, Timer.c_start)
 

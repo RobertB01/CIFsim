@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/finite_response/three_part_loop.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind              Type       Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ---------  ----  -----  --------  ----------  ----------  -----------
@@ -174,13 +173,11 @@ Checking for non-blocking under control...
     Bad initial states: X.A
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton X:
             (X.a X.b X.c), which is controllable unconnectable.
 
 Checking for confluence...
-
     Mutual exclusive event pairs:
         (X.a, X.b), (X.a, X.c), (X.b, X.c)
 

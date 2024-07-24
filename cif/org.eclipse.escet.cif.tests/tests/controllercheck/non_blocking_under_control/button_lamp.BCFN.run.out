@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/non_blocking_under_control/button_lamp.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
@@ -177,13 +176,11 @@ Checking for non-blocking under control...
     Bad initial states: false
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton lamp:
             (lamp.c_on lamp.c_off), which is controllable unconnectable.
 
 Checking for confluence...
-
     Mutual exclusive event pairs:
         (lamp.c_off, lamp.c_on)
 

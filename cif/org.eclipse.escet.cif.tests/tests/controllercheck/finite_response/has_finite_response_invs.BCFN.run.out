@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/finite_response/has_finite_response_invs.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
@@ -171,13 +170,11 @@ Checking for non-blocking under control...
     Bad initial states: Sensor.Off and Actuator.Off
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton Actuator:
             (Actuator.c_on Actuator.c_off), which is controllable unconnectable.
 
 Checking for confluence...
-
     Mutual exclusive event pairs:
         (Actuator.c_off, Actuator.c_on)
 

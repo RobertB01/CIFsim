@@ -41,7 +41,6 @@ Checking for non-blocking under control...
     Bad initial states: true
 
 Checking for finite response...
-
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton p:
             (c_e), which is not controllable unconnectable.

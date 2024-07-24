@@ -1,6 +1,5 @@
 Loading CIF specification "controllercheck/confluence/mutual_exclusive1.cif"...
 Preparing for BDD-based checks...
-
     CIF variables and location pointers:
         Nr     Kind              Type  Name           Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  -------------  -----  --------  ----------  ----------  -----------
@@ -65,11 +64,9 @@ Checking for non-blocking under control...
     Bad initial states: false
 
 Checking for finite response...
-
     Iteration 1.
 
 Checking for confluence...
-
     Mutual exclusive event pairs:
         (DifferentLocs.a, DifferentLocs.b)
 
