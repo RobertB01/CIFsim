@@ -171,6 +171,8 @@ public class ControllerChecker {
             normalOutput.line("Checking for %s...", check.getPropertyName());
 
             // Perform check.
+            debugOutput.inc();
+
             CheckConclusion conclusion = null;
             if (check instanceof ControllerCheckerBddBasedCheck bddCheck) {
                 Assert.notNull(cifBddSpec);
@@ -181,6 +183,9 @@ public class ControllerChecker {
             } else {
                 throw new RuntimeException("Unexpected check: " + check);
             }
+
+            debugOutput.dec();
+
             if (conclusion == null || termination.isRequested()) {
                 return null;
             }
