@@ -69,7 +69,16 @@ public class PlcElementaryType extends PlcType {
         if (!(other instanceof PlcElementaryType elementaryType)) {
             return false;
         }
-        return name.equals(elementaryType.name);
+        if (name.equals(elementaryType.name)) { // The same elementary types are always equal.
+            return true;
+        }
+        if (this == BOOL_TYPE && elementaryType.name.endsWith("INT")) { // Bool and an integer are ok as well.
+            return true;
+        }
+        if (elementaryType == BOOL_TYPE && name.endsWith("INT")) { // Bool and an integer are ok as well.
+            return true;
+        }
+        return false;
     }
 
     @Override
