@@ -185,12 +185,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         for (Map.Entry<Automaton, Integer> entry: maxEventEdges.entrySet()) {
             Automaton aut = entry.getKey();
             int maxEdges = entry.getValue();
-
-            String edgeVariableName = nameGen.generateGlobalName("edge_" + getAbsName(aut, false), false);
-            target.getCodeStorage().setAutomatonEdgeVariableName(aut, edgeVariableName);
-
             PlcType varType = (maxEdges < 3) ? PlcElementaryType.BOOL_TYPE : PlcElementaryType.DINT_TYPE;
+
+            String edgeVariableName = "edge_" + getAbsName(aut, false);
             PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, varType);
+            target.getCodeStorage().setAutomatonEdgeVariableName(aut, autVar.varName);
             edgeSelectionVariables.put(aut, autVar);
         }
     }
