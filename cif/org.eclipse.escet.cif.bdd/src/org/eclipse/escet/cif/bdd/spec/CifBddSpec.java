@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
@@ -386,16 +385,16 @@ public class CifBddSpec {
 
     @Override
     public String toString() {
-        return getEdgesText(0);
+        return String.join("\n", getEdgesText(0));
     }
 
     /**
      * Returns a textual representation of the {@link #edges}.
      *
      * @param indent The indentation level.
-     * @return The textual representation.
+     * @return The lines of text.
      */
-    public String getEdgesText(int indent) {
+    public List<String> getEdgesText(int indent) {
         return getEdgesText(indent, false);
     }
 
@@ -405,10 +404,9 @@ public class CifBddSpec {
      * @param indent The indentation level.
      * @param includeOnlyOrigGuard Whether to include only the {@link CifBddEdge#origGuard original edge guard}, or also
      *     the {@link CifBddEdge#guard current edge guard}.
-     * @return The textual representation.
+     * @return The lines of text.
      */
-    public String getEdgesText(int indent, boolean includeOnlyOrigGuard) {
-        return edges.stream().map(e -> e.toString(indent, "Edge: ", includeOnlyOrigGuard))
-                .collect(Collectors.joining("\n"));
+    public List<String> getEdgesText(int indent, boolean includeOnlyOrigGuard) {
+        return edges.stream().map(e -> e.toString(indent, "Edge: ", includeOnlyOrigGuard)).toList();
     }
 }

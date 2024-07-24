@@ -102,7 +102,9 @@ public class CifBddApplyPlantInvariants {
                     cifBddSpec.settings.getDebugOutput().line(sysBehText);
                 }
                 if (!cifBddSpec.edges.isEmpty()) {
-                    cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2));
+                    for (String line: cifBddSpec.getEdgesText(2)) {
+                        cifBddSpec.settings.getDebugOutput().line(line);
+                    }
                 }
             }
         }

@@ -259,7 +259,9 @@ public class CifDataSynthesis {
                 cifBddSpec.settings.getDebugOutput().line("Final synthesis result:");
                 cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1));
                 if (!cifBddSpec.edges.isEmpty()) {
-                    cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2));
+                    for (String line: cifBddSpec.getEdgesText(2)) {
+                        cifBddSpec.settings.getDebugOutput().line(line);
+                    }
                 }
             }
 
@@ -667,7 +669,9 @@ public class CifDataSynthesis {
             }
             cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1));
             if (!cifBddSpec.edges.isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2, true));
+                for (String line: cifBddSpec.getEdgesText(2, true)) {
+                    cifBddSpec.settings.getDebugOutput().line(line);
+                }
             }
         }
 
@@ -1061,7 +1065,9 @@ public class CifDataSynthesis {
             cifBddSpec.settings.getDebugOutput().line("Restricted behavior using %s requirements:", dbgDescription);
             cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1));
             if (guardChanged && !cifBddSpec.edges.isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2));
+                for (String line: cifBddSpec.getEdgesText(2)) {
+                    cifBddSpec.settings.getDebugOutput().line(line);
+                }
             }
         }
     }
