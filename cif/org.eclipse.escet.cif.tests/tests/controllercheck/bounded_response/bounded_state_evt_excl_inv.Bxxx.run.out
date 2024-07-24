@@ -109,8 +109,8 @@ Preparing for BDD-based checks...
     Edge (event: c) (guard: true -> p.xc != 7) (assignments: p.xc := p.xc + 1): guard: p.xc != 7 -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6) [plant: p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)].
 
     System:
-            Edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)
-            Edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)
+        Edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)
+        Edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)
 
 Checking for bounded response...
     Computing reachable states...

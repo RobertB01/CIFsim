@@ -16,14 +16,14 @@ Preparing for BDD-based checks...
     Edge (event: c_c) (guard: p.x = 2) (assignments: p.x := p.x - 1): guard: p.x = 2 -> false [plant: false].
 
     System:
-            Edge: (event: u_a) (guard: p.x = 0) (assignments: p.x := p.x + 1)
-            Edge: (event: u_b) (guard: p.x = 1) (assignments: p.x := p.x + 1)
-            Edge: (event: u_c) (guard: p.x = 2) (assignments: p.x := p.x + 1)
-            Edge: (event: u_d) (guard: false) (assignments: p.x := p.x + 1)
-            Edge: (event: c_a) (guard: p.x = 4) (assignments: p.x := p.x - 1)
-            Edge: (event: c_b) (guard: p.x = 3) (assignments: p.x := p.x - 1)
-            Edge: (event: c_c) (guard: p.x = 2 -> false) (assignments: p.x := p.x - 1)
-            Edge: (event: c_d) (guard: p.x = 1) (assignments: p.x := p.x - 1)
+        Edge: (event: u_a) (guard: p.x = 0) (assignments: p.x := p.x + 1)
+        Edge: (event: u_b) (guard: p.x = 1) (assignments: p.x := p.x + 1)
+        Edge: (event: u_c) (guard: p.x = 2) (assignments: p.x := p.x + 1)
+        Edge: (event: u_d) (guard: false) (assignments: p.x := p.x + 1)
+        Edge: (event: c_a) (guard: p.x = 4) (assignments: p.x := p.x - 1)
+        Edge: (event: c_b) (guard: p.x = 3) (assignments: p.x := p.x - 1)
+        Edge: (event: c_c) (guard: p.x = 2 -> false) (assignments: p.x := p.x - 1)
+        Edge: (event: c_d) (guard: p.x = 1) (assignments: p.x := p.x - 1)
 
 Checking for bounded response...
     Computing reachable states...

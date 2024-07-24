@@ -110,10 +110,10 @@ Preparing for BDD-based checks...
     Edge (event: X.c) (guard: X.C) (assignments: X := X.A): guard: X.C -> X.C and Y = 2 or X.C and Y = 1 [plant: Y != 0].
 
     System:
-            Edge: (event: X.a) (guard: X.A -> X.A and Y != 1) (assignments: X := X.B)
-            Edge: (event: X.b) (guard: X.B -> X.B and Y != 2) (assignments: X := X.C)
-            Edge: (event: X.c) (guard: X.C -> X.C and Y = 2 or X.C and Y = 1) (assignments: X := X.A)
-            Edge: (event: Y) (guard: true) (assignments: Y+ != Y)
+        Edge: (event: X.a) (guard: X.A -> X.A and Y != 1) (assignments: X := X.B)
+        Edge: (event: X.b) (guard: X.B -> X.B and Y != 2) (assignments: X := X.C)
+        Edge: (event: X.c) (guard: X.C -> X.C and Y = 2 or X.C and Y = 1) (assignments: X := X.A)
+        Edge: (event: Y) (guard: true) (assignments: Y+ != Y)
 
 Preparing for MDD-based checks...
     Analyzing automaton "X"...
