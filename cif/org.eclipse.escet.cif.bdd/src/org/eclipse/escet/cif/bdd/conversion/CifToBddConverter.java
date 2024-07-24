@@ -849,8 +849,9 @@ public class CifToBddConverter {
         // Print the variable information, for debugging.
         cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("CIF variables and location pointers:");
+        String indent = Strings.duplicate(" ", cifBddSpec.settings.getIndentAmount());
         for (String line: grid.getLines()) {
-            cifBddSpec.settings.getDebugOutput().line("  " + line);
+            cifBddSpec.settings.getDebugOutput().line(indent + line);
         }
     }
 

@@ -120,7 +120,7 @@ public class CifDataSynthesis {
                 return null;
             }
             CifBddApplyPlantInvariants.applyStateEvtExclPlantsInvs(cifBddSpec, "uncontrolled system",
-                    () -> synthResult.getCtrlBehText(0), dbgEnabled);
+                    () -> synthResult.getCtrlBehText(0, cifBddSpec.settings.getIndentAmount()), dbgEnabled);
 
             // Initialize applying edges.
             for (CifBddEdge edge: cifBddSpec.edges) {
@@ -258,7 +258,8 @@ public class CifDataSynthesis {
             if (dbgEnabled) {
                 cifBddSpec.settings.getDebugOutput().line();
                 cifBddSpec.settings.getDebugOutput().line("Final synthesis result:");
-                cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1));
+                cifBddSpec.settings.getDebugOutput()
+                        .line(synthResult.getCtrlBehText(1, cifBddSpec.settings.getIndentAmount()));
                 if (!cifBddSpec.edges.isEmpty()) {
                     for (String line: cifBddSpec.getEdgesText(2)) {
                         cifBddSpec.settings.getDebugOutput().line(line);
@@ -668,7 +669,8 @@ public class CifDataSynthesis {
                 cifBddSpec.settings.getDebugOutput()
                         .line("Uncontrolled system (state/event exclusion plants not applied yet):");
             }
-            cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1));
+            cifBddSpec.settings.getDebugOutput()
+                    .line(synthResult.getCtrlBehText(1, cifBddSpec.settings.getIndentAmount()));
             if (!cifBddSpec.edges.isEmpty()) {
                 for (String line: cifBddSpec.getEdgesText(2, true)) {
                     cifBddSpec.settings.getDebugOutput().line(line);
@@ -1066,7 +1068,8 @@ public class CifDataSynthesis {
         if (dbgEnabled && changed) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput().line("Restricted behavior using %s requirements:", dbgDescription);
-            cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1));
+            cifBddSpec.settings.getDebugOutput()
+                    .line(synthResult.getCtrlBehText(1, cifBddSpec.settings.getIndentAmount()));
             if (guardChanged && !cifBddSpec.edges.isEmpty()) {
                 for (String line: cifBddSpec.getEdgesText(2)) {
                     cifBddSpec.settings.getDebugOutput().line(line);
