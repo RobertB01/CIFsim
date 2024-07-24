@@ -12,7 +12,7 @@ END_VAR
 VAR_TEMP
     current_aut_y: LREAL;
     current_aut_y_1: LREAL;
-    edge_aut_1: DINT;
+    edge_aut: BOOL;
     eventEnabled: BOOL;
     isProgress: BOOL;
 END_VAR]]></Declaration>
@@ -75,7 +75,7 @@ WHILE isProgress DO
      *   - 1st edge in the location
      ***********)
     IF DINT_TO_LREAL(i) + 3.0 > DINT_TO_LREAL(3) THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -89,7 +89,7 @@ WHILE isProgress DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "aut". *)
-        IF edge_aut_1 = 1 THEN
+        IF edge_aut = 0 THEN
             (* Perform assignments of the 1st edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
             aut_y := (-2.14748352499877e9);
@@ -114,7 +114,7 @@ WHILE isProgress DO
      *   - 2nd edge in the location
      ***********)
     IF bol = TRUE OR i = 0 THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -128,7 +128,7 @@ WHILE isProgress DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "aut". *)
-        IF edge_aut_1 = 1 THEN
+        IF edge_aut = 0 THEN
             (* Perform assignments of the 2nd edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
             aut_y := 3087.0;
@@ -153,7 +153,7 @@ WHILE isProgress DO
      *   - 3rd edge in the location
      ***********)
     IF col <> red THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
