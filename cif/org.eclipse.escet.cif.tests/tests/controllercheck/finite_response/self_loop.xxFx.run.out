@@ -7,7 +7,7 @@ Preparing for MDD-based checks...
 
 Checking for finite response...
 
-Iteration 1.
+    Iteration 1.
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

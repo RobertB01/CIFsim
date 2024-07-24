@@ -11,8 +11,8 @@ Preparing for MDD-based checks...
 
 Checking for confluence...
 
-Skippable event pairs:
-    (OptionalChangeBool.a, OptionalChangeBool.b)
+    Skippable event pairs:
+        (OptionalChangeBool.a, OptionalChangeBool.b)
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

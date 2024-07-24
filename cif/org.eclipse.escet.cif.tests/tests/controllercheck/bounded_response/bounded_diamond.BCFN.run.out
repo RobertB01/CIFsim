@@ -151,75 +151,75 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "c_e5"...
 
 Checking for bounded response...
-Computing reachable states...
-Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1))) [initial states predicate]
-Forward reachability: iteration 1.
-Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1))) -> pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu2.loc1 and (pu3.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e1) (guard: pu1.loc1) (assignments: pu1 := pu1.loc2)]
-Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu2.loc1 and (pu3.loc1 and pu4.loc1)) -> pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and pc5.loc1 and (pu3.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e2) (guard: pu2.loc1) (assignments: pu2 := pu2.loc2)]
-Reachable states: pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and pc5.loc1 and (pu3.loc1 and pu4.loc1)) -> pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and (pc5.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e3) (guard: pu3.loc1) (assignments: pu3 := pu3.loc2)]
-Reachable states: pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and (pc5.loc1 and pu4.loc1)) -> pc1.loc1 and pc2.loc1 and (pc3.loc1 and (pc4.loc1 and pc5.loc1)) [forward reach with edge: (event: u_e4) (guard: pu4.loc1) (assignments: pu4 := pu4.loc2)]
-Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and (pc4.loc1 and pc5.loc1)) -> pc2.loc1 and pc3.loc1 and (pc4.loc1 and pc5.loc1) [forward reach with edge: (event: c_e1) (guard: pc1.loc1) (assignments: pc1 := pc1.loc2)]
-Reachable states: pc2.loc1 and pc3.loc1 and (pc4.loc1 and pc5.loc1) -> pc3.loc1 and (pc4.loc1 and pc5.loc1) [forward reach with edge: (event: c_e2) (guard: pc2.loc1) (assignments: pc2 := pc2.loc2)]
-Reachable states: pc3.loc1 and (pc4.loc1 and pc5.loc1) -> pc4.loc1 and pc5.loc1 [forward reach with edge: (event: c_e3) (guard: pc3.loc1) (assignments: pc3 := pc3.loc2)]
-Reachable states: pc4.loc1 and pc5.loc1 -> pc5.loc1 [forward reach with edge: (event: c_e4) (guard: pc4.loc1) (assignments: pc4 := pc4.loc2)]
-Reachable states: pc5.loc1 -> true [forward reach with edge: (event: c_e5) (guard: pc5.loc1) (assignments: pc5 := pc5.loc2)]
-Forward reachability: iteration 2.
-Reachable states: true [fixed point].
+    Computing reachable states...
+    Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1))) [initial states predicate]
+    Forward reachability: iteration 1.
+    Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1))) -> pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu2.loc1 and (pu3.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e1) (guard: pu1.loc1) (assignments: pu1 := pu1.loc2)]
+    Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu2.loc1 and (pu3.loc1 and pu4.loc1)) -> pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and pc5.loc1 and (pu3.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e2) (guard: pu2.loc1) (assignments: pu2 := pu2.loc2)]
+    Reachable states: pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and pc5.loc1 and (pu3.loc1 and pu4.loc1)) -> pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and (pc5.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e3) (guard: pu3.loc1) (assignments: pu3 := pu3.loc2)]
+    Reachable states: pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and (pc5.loc1 and pu4.loc1)) -> pc1.loc1 and pc2.loc1 and (pc3.loc1 and (pc4.loc1 and pc5.loc1)) [forward reach with edge: (event: u_e4) (guard: pu4.loc1) (assignments: pu4 := pu4.loc2)]
+    Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and (pc4.loc1 and pc5.loc1)) -> pc2.loc1 and pc3.loc1 and (pc4.loc1 and pc5.loc1) [forward reach with edge: (event: c_e1) (guard: pc1.loc1) (assignments: pc1 := pc1.loc2)]
+    Reachable states: pc2.loc1 and pc3.loc1 and (pc4.loc1 and pc5.loc1) -> pc3.loc1 and (pc4.loc1 and pc5.loc1) [forward reach with edge: (event: c_e2) (guard: pc2.loc1) (assignments: pc2 := pc2.loc2)]
+    Reachable states: pc3.loc1 and (pc4.loc1 and pc5.loc1) -> pc4.loc1 and pc5.loc1 [forward reach with edge: (event: c_e3) (guard: pc3.loc1) (assignments: pc3 := pc3.loc2)]
+    Reachable states: pc4.loc1 and pc5.loc1 -> pc5.loc1 [forward reach with edge: (event: c_e4) (guard: pc4.loc1) (assignments: pc4 := pc4.loc2)]
+    Reachable states: pc5.loc1 -> true [forward reach with edge: (event: c_e5) (guard: pc5.loc1) (assignments: pc5 := pc5.loc2)]
+    Forward reachability: iteration 2.
+    Reachable states: true [fixed point].
 
-Computing bound for uncontrollable events...
-Bounded response check round 1 (states before round: true).
-Bounded response check round 2 (states before round: pu1.loc2 or pu2.loc2 or (pu3.loc2 or pu4.loc2)).
-Bounded response check round 3 (states before round: (pu1.loc2 or (pu2.loc2 or pu3.loc2)) and (pu1.loc2 or pu2.loc2 or (pu3.loc1 or pu4.loc2)) and ((pu1.loc2 or pu2.loc1 or (pu3.loc2 or pu4.loc2)) and (pu1.loc1 or pu2.loc2 or (pu3.loc2 or pu4.loc2)))).
-Bounded response check round 4 (states before round: pu1.loc1 and pu2.loc2 and (pu3.loc2 and pu4.loc2) or pu1.loc2 and pu2.loc1 and (pu3.loc2 and pu4.loc2) or (pu1.loc2 and pu2.loc2 and (pu3.loc1 and pu4.loc2) or pu1.loc2 and (pu2.loc2 and pu3.loc2))).
-Bounded response check round 5 (states before round: pu1.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)).
+    Computing bound for uncontrollable events...
+    Bounded response check round 1 (states before round: true).
+    Bounded response check round 2 (states before round: pu1.loc2 or pu2.loc2 or (pu3.loc2 or pu4.loc2)).
+    Bounded response check round 3 (states before round: (pu1.loc2 or (pu2.loc2 or pu3.loc2)) and (pu1.loc2 or pu2.loc2 or (pu3.loc1 or pu4.loc2)) and ((pu1.loc2 or pu2.loc1 or (pu3.loc2 or pu4.loc2)) and (pu1.loc1 or pu2.loc2 or (pu3.loc2 or pu4.loc2)))).
+    Bounded response check round 4 (states before round: pu1.loc1 and pu2.loc2 and (pu3.loc2 and pu4.loc2) or pu1.loc2 and pu2.loc1 and (pu3.loc2 and pu4.loc2) or (pu1.loc2 and pu2.loc2 and (pu3.loc1 and pu4.loc2) or pu1.loc2 and (pu2.loc2 and pu3.loc2))).
+    Bounded response check round 5 (states before round: pu1.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)).
 
-Computing bound for controllable events...
-Bounded response check round 1 (states before round: true).
-Bounded response check round 2 (states before round: pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))).
-Bounded response check round 3 (states before round: (pc1.loc2 or pc2.loc2 or (pc3.loc2 or pc4.loc2)) and (pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc2 or pc2.loc2 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2)))))).
-Bounded response check round 4 (states before round: (pc1.loc2 or (pc2.loc2 or pc3.loc2)) and (pc1.loc2 or pc2.loc2 or (pc3.loc1 or pc4.loc2)) and ((pc1.loc2 or pc2.loc2 or (pc3.loc1 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc2 or pc4.loc2)) and (pc1.loc2 or pc2.loc1 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc2 or (pc3.loc2 or pc4.loc2)) and ((pc1.loc1 or pc2.loc2 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc1 or pc2.loc2 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc1 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))))))).
-Bounded response check round 5 (states before round: pc1.loc1 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) or pc1.loc2 and pc2.loc1 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) or (pc1.loc2 and pc2.loc2 and (pc3.loc1 and (pc4.loc2 and pc5.loc2)) or (pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc1 and pc5.loc2)) or pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2)))).
-Bounded response check round 6 (states before round: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2))).
+    Computing bound for controllable events...
+    Bounded response check round 1 (states before round: true).
+    Bounded response check round 2 (states before round: pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))).
+    Bounded response check round 3 (states before round: (pc1.loc2 or pc2.loc2 or (pc3.loc2 or pc4.loc2)) and (pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc2 or pc2.loc2 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2)))))).
+    Bounded response check round 4 (states before round: (pc1.loc2 or (pc2.loc2 or pc3.loc2)) and (pc1.loc2 or pc2.loc2 or (pc3.loc1 or pc4.loc2)) and ((pc1.loc2 or pc2.loc2 or (pc3.loc1 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc2 or pc4.loc2)) and (pc1.loc2 or pc2.loc1 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc2 or (pc3.loc2 or pc4.loc2)) and ((pc1.loc1 or pc2.loc2 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc1 or pc2.loc2 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc1 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))))))).
+    Bounded response check round 5 (states before round: pc1.loc1 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) or pc1.loc2 and pc2.loc1 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) or (pc1.loc2 and pc2.loc2 and (pc3.loc1 and (pc4.loc2 and pc5.loc2)) or (pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc1 and pc5.loc2)) or pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2)))).
+    Bounded response check round 6 (states before round: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2))).
 
-Bounded response check completed.
+    Bounded response check completed.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2))
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2))
 
-Computing the controllable-complete path states...
-Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu1.loc2 and (pu2.loc2 and (pu3.loc2 and pu4.loc2))) [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu1.loc2 and (pu2.loc2 and (pu3.loc2 and pu4.loc2))) -> pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e1) (guard: pu1.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu1.loc1))) (assignments: pu1 := pu1.loc2)]
-Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)) -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and pc5.loc2 and (pu3.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e2) (guard: pu2.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu2.loc1))) (assignments: pu2 := pu2.loc2)]
-Controllable-complete path states: pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and pc5.loc2 and (pu3.loc2 and pu4.loc2)) -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e3) (guard: pu3.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu3.loc1))) (assignments: pu3 := pu3.loc2)]
-Controllable-complete path states: pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc2)) -> pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) [backward reach with edge: (event: u_e4) (guard: pu4.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc1))) (assignments: pu4 := pu4.loc2)]
-Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) -> pc2.loc2 and pc3.loc2 and (pc4.loc2 and pc5.loc2) [backward reach with edge: (event: c_e1) (guard: pc1.loc1) (assignments: pc1 := pc1.loc2)]
-Controllable-complete path states: pc2.loc2 and pc3.loc2 and (pc4.loc2 and pc5.loc2) -> pc3.loc2 and (pc4.loc2 and pc5.loc2) [backward reach with edge: (event: c_e2) (guard: pc2.loc1) (assignments: pc2 := pc2.loc2)]
-Controllable-complete path states: pc3.loc2 and (pc4.loc2 and pc5.loc2) -> pc4.loc2 and pc5.loc2 [backward reach with edge: (event: c_e3) (guard: pc3.loc1) (assignments: pc3 := pc3.loc2)]
-Controllable-complete path states: pc4.loc2 and pc5.loc2 -> pc5.loc2 [backward reach with edge: (event: c_e4) (guard: pc4.loc1) (assignments: pc4 := pc4.loc2)]
-Controllable-complete path states: pc5.loc2 -> true [backward reach with edge: (event: c_e5) (guard: pc5.loc1) (assignments: pc5 := pc5.loc2)]
-Backward reachability: iteration 2.
-Controllable-complete path states: true [fixed point].
-Controllable-complete path states: true
+    Computing the controllable-complete path states...
+    Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu1.loc2 and (pu2.loc2 and (pu3.loc2 and pu4.loc2))) [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu1.loc2 and (pu2.loc2 and (pu3.loc2 and pu4.loc2))) -> pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e1) (guard: pu1.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu1.loc1))) (assignments: pu1 := pu1.loc2)]
+    Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)) -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and pc5.loc2 and (pu3.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e2) (guard: pu2.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu2.loc1))) (assignments: pu2 := pu2.loc2)]
+    Controllable-complete path states: pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and pc5.loc2 and (pu3.loc2 and pu4.loc2)) -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e3) (guard: pu3.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu3.loc1))) (assignments: pu3 := pu3.loc2)]
+    Controllable-complete path states: pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc2)) -> pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) [backward reach with edge: (event: u_e4) (guard: pu4.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc1))) (assignments: pu4 := pu4.loc2)]
+    Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) -> pc2.loc2 and pc3.loc2 and (pc4.loc2 and pc5.loc2) [backward reach with edge: (event: c_e1) (guard: pc1.loc1) (assignments: pc1 := pc1.loc2)]
+    Controllable-complete path states: pc2.loc2 and pc3.loc2 and (pc4.loc2 and pc5.loc2) -> pc3.loc2 and (pc4.loc2 and pc5.loc2) [backward reach with edge: (event: c_e2) (guard: pc2.loc1) (assignments: pc2 := pc2.loc2)]
+    Controllable-complete path states: pc3.loc2 and (pc4.loc2 and pc5.loc2) -> pc4.loc2 and pc5.loc2 [backward reach with edge: (event: c_e3) (guard: pc3.loc1) (assignments: pc3 := pc3.loc2)]
+    Controllable-complete path states: pc4.loc2 and pc5.loc2 -> pc5.loc2 [backward reach with edge: (event: c_e4) (guard: pc4.loc1) (assignments: pc4 := pc4.loc2)]
+    Controllable-complete path states: pc5.loc2 -> true [backward reach with edge: (event: c_e5) (guard: pc5.loc1) (assignments: pc5 := pc5.loc2)]
+    Backward reachability: iteration 2.
+    Controllable-complete path states: true [fixed point].
+    Controllable-complete path states: true
 
-Computing the bad states...
-Bad states: false [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: false
+    Computing the bad states...
+    Bad states: false [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: false
 
-Computing the result of the non-blocking under control check...
-Initial states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1)))
-Bad initial states: false
+    Computing the result of the non-blocking under control check...
+    Initial states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1)))
+    Bad initial states: false
 
 Checking for finite response...
 
-Iteration 1.
+    Iteration 1.
 
 Checking for confluence...
 
-Independent event pairs:
-    (c_e1, c_e2), (c_e1, c_e3), (c_e1, c_e4), (c_e1, c_e5), (c_e2, c_e3), (c_e2, c_e4), (c_e2, c_e5), (c_e3, c_e4), (c_e3, c_e5), (c_e4, c_e5)
+    Independent event pairs:
+        (c_e1, c_e2), (c_e1, c_e3), (c_e1, c_e4), (c_e1, c_e5), (c_e2, c_e3), (c_e2, c_e4), (c_e2, c_e5), (c_e3, c_e4), (c_e3, c_e5), (c_e4, c_e5)
 
 CONCLUSION:
     [OK] The specification has bounded response:

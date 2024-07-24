@@ -111,52 +111,52 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "DifferentConditions.b"...
 
 Checking for bounded response...
-Computing reachable states...
-Reachable states: DifferentConditions.p and not DifferentConditions.z [initial states predicate]
-Forward reachability: iteration 1.
-Reachable states: DifferentConditions.p and not DifferentConditions.z -> not DifferentConditions.z [forward reach with edge: (event: DifferentConditions.b) (guard: DifferentConditions.p and not DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
-Forward reachability: iteration 2.
-Reachable states: not DifferentConditions.z [fixed point].
+    Computing reachable states...
+    Reachable states: DifferentConditions.p and not DifferentConditions.z [initial states predicate]
+    Forward reachability: iteration 1.
+    Reachable states: DifferentConditions.p and not DifferentConditions.z -> not DifferentConditions.z [forward reach with edge: (event: DifferentConditions.b) (guard: DifferentConditions.p and not DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
+    Forward reachability: iteration 2.
+    Reachable states: not DifferentConditions.z [fixed point].
 
-Computing bound for uncontrollable events...
-Bounded response check round 1 (states before round: not DifferentConditions.z).
+    Computing bound for uncontrollable events...
+    Bounded response check round 1 (states before round: not DifferentConditions.z).
 
-Computing bound for controllable events...
-Bounded response check round 1 (states before round: not DifferentConditions.z).
-Bounded response check round 2 (states before round: DifferentConditions.q and not DifferentConditions.z).
+    Computing bound for controllable events...
+    Bounded response check round 1 (states before round: not DifferentConditions.z).
+    Bounded response check round 2 (states before round: DifferentConditions.q and not DifferentConditions.z).
 
-Bounded response check completed.
+    Bounded response check completed.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: DifferentConditions.q
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: DifferentConditions.q
 
-Computing the controllable-complete path states...
-Controllable-complete path states: DifferentConditions.q [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: DifferentConditions.q -> DifferentConditions.q or DifferentConditions.z [backward reach with edge: (event: DifferentConditions.a) (guard: DifferentConditions.p and DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
-Controllable-complete path states: DifferentConditions.q or DifferentConditions.z -> true [backward reach with edge: (event: DifferentConditions.b) (guard: DifferentConditions.p and not DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
-Backward reachability: iteration 2.
-Controllable-complete path states: true [fixed point].
-Controllable-complete path states: true
+    Computing the controllable-complete path states...
+    Controllable-complete path states: DifferentConditions.q [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: DifferentConditions.q -> DifferentConditions.q or DifferentConditions.z [backward reach with edge: (event: DifferentConditions.a) (guard: DifferentConditions.p and DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
+    Controllable-complete path states: DifferentConditions.q or DifferentConditions.z -> true [backward reach with edge: (event: DifferentConditions.b) (guard: DifferentConditions.p and not DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
+    Backward reachability: iteration 2.
+    Controllable-complete path states: true [fixed point].
+    Controllable-complete path states: true
 
-Computing the bad states...
-Bad states: false [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: false
+    Computing the bad states...
+    Bad states: false [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: false
 
-Computing the result of the non-blocking under control check...
-Initial states: DifferentConditions.p and not DifferentConditions.z
-Bad initial states: false
+    Computing the result of the non-blocking under control check...
+    Initial states: DifferentConditions.p and not DifferentConditions.z
+    Bad initial states: false
 
 Checking for finite response...
 
-Iteration 1.
+    Iteration 1.
 
 Checking for confluence...
 
-Mutual exclusive event pairs:
-    (DifferentConditions.a, DifferentConditions.b)
+    Mutual exclusive event pairs:
+        (DifferentConditions.a, DifferentConditions.b)
 
 CONCLUSION:
     [OK] The specification has bounded response:

@@ -12,8 +12,8 @@ Preparing for MDD-based checks...
 
 Checking for confluence...
 
-Independent event pairs:
-    (AutDifferenLocs.a, AutDifferenLocs.b)
+    Independent event pairs:
+        (AutDifferenLocs.a, AutDifferenLocs.b)
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

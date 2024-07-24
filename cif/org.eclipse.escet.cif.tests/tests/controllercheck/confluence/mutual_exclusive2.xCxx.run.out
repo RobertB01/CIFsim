@@ -10,8 +10,8 @@ Preparing for MDD-based checks...
 
 Checking for confluence...
 
-Mutual exclusive event pairs:
-    (DifferentConditions.a, DifferentConditions.b)
+    Mutual exclusive event pairs:
+        (DifferentConditions.a, DifferentConditions.b)
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

@@ -17,12 +17,12 @@ Preparing for MDD-based checks...
 
 Checking for finite response...
 
-Iteration 1.
-    The following events have been encountered in a controllable-event loop of automaton A:
-        (A.a A.c A.e), which is not controllable unconnectable.
-        (A.a A.d A.e), which is not controllable unconnectable.
-        (A.b A.c A.e), which is not controllable unconnectable.
-        (A.b A.d A.e), which is not controllable unconnectable.
+    Iteration 1.
+        The following events have been encountered in a controllable-event loop of automaton A:
+            (A.a A.c A.e), which is not controllable unconnectable.
+            (A.a A.d A.e), which is not controllable unconnectable.
+            (A.b A.c A.e), which is not controllable unconnectable.
+            (A.b A.d A.e), which is not controllable unconnectable.
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

@@ -14,27 +14,27 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: Supervisor.BothDone
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: Supervisor.BothDone
 
-Computing the controllable-complete path states...
-Controllable-complete path states: Supervisor.BothDone [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: Supervisor.BothDone -> not Supervisor.Start [backward reach with edge: (event: Supervisor.c_act2) (guard: Supervisor.Done1) (assignments: Supervisor := Supervisor.BothDone)]
-Backward reachability: iteration 2.
-Controllable-complete path states: not Supervisor.Start -> true [backward reach with edge: (event: Supervisor.c_act1) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.Done1)]
-Backward reachability: iteration 3.
-Controllable-complete path states: true [fixed point].
-Controllable-complete path states: true
+    Computing the controllable-complete path states...
+    Controllable-complete path states: Supervisor.BothDone [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: Supervisor.BothDone -> not Supervisor.Start [backward reach with edge: (event: Supervisor.c_act2) (guard: Supervisor.Done1) (assignments: Supervisor := Supervisor.BothDone)]
+    Backward reachability: iteration 2.
+    Controllable-complete path states: not Supervisor.Start -> true [backward reach with edge: (event: Supervisor.c_act1) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.Done1)]
+    Backward reachability: iteration 3.
+    Controllable-complete path states: true [fixed point].
+    Controllable-complete path states: true
 
-Computing the bad states...
-Bad states: false [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: false
+    Computing the bad states...
+    Bad states: false [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: false
 
-Computing the result of the non-blocking under control check...
-Initial states: Supervisor.Start
-Bad initial states: false
+    Computing the result of the non-blocking under control check...
+    Initial states: Supervisor.Start
+    Bad initial states: false
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

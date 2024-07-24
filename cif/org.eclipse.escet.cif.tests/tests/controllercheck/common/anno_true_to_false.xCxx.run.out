@@ -12,8 +12,8 @@ Preparing for MDD-based checks...
 
 Checking for confluence...
 
-Independent event pairs:
-    (a, c), (b, c)
+    Independent event pairs:
+        (a, c), (b, c)
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

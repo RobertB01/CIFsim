@@ -22,50 +22,50 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "c"...
 
 Checking for bounded response...
-Computing reachable states...
-Reachable states: p.loc1 [initial states predicate]
-Forward reachability: iteration 1.
-Reachable states: p.loc1 -> not p.loc3 [forward reach with edge: (event: c) (guard: p.loc1) (assignments: p := p.loc2)]
-Reachable states: not p.loc3 -> true [forward reach with edge: (event: u) (guard: p.loc2) (assignments: p := p.loc3)]
-Forward reachability: iteration 2.
-Reachable states: true [fixed point].
+    Computing reachable states...
+    Reachable states: p.loc1 [initial states predicate]
+    Forward reachability: iteration 1.
+    Reachable states: p.loc1 -> not p.loc3 [forward reach with edge: (event: c) (guard: p.loc1) (assignments: p := p.loc2)]
+    Reachable states: not p.loc3 -> true [forward reach with edge: (event: u) (guard: p.loc2) (assignments: p := p.loc3)]
+    Forward reachability: iteration 2.
+    Reachable states: true [fixed point].
 
-Computing bound for uncontrollable events...
-Bounded response check round 1 (states before round: true).
-Bounded response check round 2 (states before round: p.loc3).
+    Computing bound for uncontrollable events...
+    Bounded response check round 1 (states before round: true).
+    Bounded response check round 2 (states before round: p.loc3).
 
-Computing bound for controllable events...
-Bounded response check round 1 (states before round: true).
-Bounded response check round 2 (states before round: p.loc2).
+    Computing bound for controllable events...
+    Bounded response check round 1 (states before round: true).
+    Bounded response check round 2 (states before round: p.loc2).
 
-Bounded response check completed.
+    Bounded response check completed.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: not p.loc1
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: not p.loc1
 
-Computing the controllable-complete path states...
-Controllable-complete path states: p.loc3 [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: p.loc3 -> not p.loc1 [backward reach with edge: (event: u) (guard: p.loc2) (assignments: p := p.loc3)]
-Backward reachability: iteration 2.
-Controllable-complete path states: not p.loc1 -> true [backward reach with edge: (event: c) (guard: p.loc1) (assignments: p := p.loc2)]
-Backward reachability: iteration 3.
-Controllable-complete path states: true [fixed point].
-Controllable-complete path states: true
+    Computing the controllable-complete path states...
+    Controllable-complete path states: p.loc3 [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: p.loc3 -> not p.loc1 [backward reach with edge: (event: u) (guard: p.loc2) (assignments: p := p.loc3)]
+    Backward reachability: iteration 2.
+    Controllable-complete path states: not p.loc1 -> true [backward reach with edge: (event: c) (guard: p.loc1) (assignments: p := p.loc2)]
+    Backward reachability: iteration 3.
+    Controllable-complete path states: true [fixed point].
+    Controllable-complete path states: true
 
-Computing the bad states...
-Bad states: false [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: false
+    Computing the bad states...
+    Bad states: false [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: false
 
-Computing the result of the non-blocking under control check...
-Initial states: p.loc1
-Bad initial states: false
+    Computing the result of the non-blocking under control check...
+    Initial states: p.loc1
+    Bad initial states: false
 
 Checking for finite response...
 
-Iteration 1.
+    Iteration 1.
 
 Checking for confluence...
 

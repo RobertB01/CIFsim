@@ -124,78 +124,78 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "c"...
 
 Checking for bounded response...
-Computing reachable states...
-Reachable states: p.xc = 0 and p.xu = 0 [initial states predicate]
-Forward reachability: iteration 1.
-Reachable states: p.xc = 0 and p.xu = 0 -> p.xc = 0 and (p.xu = 0 or p.xu = 1) [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
-Reachable states: p.xc = 0 and (p.xu = 0 or p.xu = 1) -> (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 1) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Forward reachability: iteration 2.
-Reachable states: (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 1) -> (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 1) and p.xu = 1 [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
-Reachable states: (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 1) and p.xu = 1 -> (p.xc = 0 or p.xc = 2) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 2) and p.xu = 1 or (p.xc = 1 and (p.xu = 0 or p.xu = 2) or p.xc = 1 and p.xu = 1) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Forward reachability: iteration 3.
-Reachable states: (p.xc = 0 or p.xc = 2) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 2) and p.xu = 1 or (p.xc = 1 and (p.xu = 0 or p.xu = 2) or p.xc = 1 and p.xu = 1) -> (p.xc = 0 or p.xc = 2) and (0 <= p.xu and p.xu <= 3) or p.xc = 1 and (0 <= p.xu and p.xu <= 3) [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
-Reachable states: (p.xc = 0 or p.xc = 2) and (0 <= p.xu and p.xu <= 3) or p.xc = 1 and (0 <= p.xu and p.xu <= 3) -> 0 <= p.xc and p.xc <= 3 and (0 <= p.xu and p.xu <= 3) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Forward reachability: iteration 4.
-Reachable states: 0 <= p.xc and p.xc <= 3 and (0 <= p.xu and p.xu <= 3) -> (4 <= p.xc and p.xc <= 7 or p.xu != 6) and (4 <= p.xc and p.xc <= 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 3) [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
-Reachable states: (4 <= p.xc and p.xc <= 7 or p.xu != 6) and (4 <= p.xc and p.xc <= 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 3) -> (not(p.xc = 0 or p.xc = 4) or p.xu != 6) and (not(p.xc = 0 or p.xc = 4) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and ((p.xc != 2 or p.xu != 6) and (p.xc != 2 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (p.xc != 6 and (not(p.xc = 1 or p.xc = 3) or p.xu != 6) and ((not(p.xc = 1 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 4 or p.xc = 6))) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Forward reachability: iteration 5.
-Reachable states: (not(p.xc = 0 or p.xc = 4) or p.xu != 6) and (not(p.xc = 0 or p.xc = 4) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and ((p.xc != 2 or p.xu != 6) and (p.xc != 2 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (p.xc != 6 and (not(p.xc = 1 or p.xc = 3) or p.xu != 6) and ((not(p.xc = 1 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 4 or p.xc = 6))) -> (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5)) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Forward reachability: iteration 6.
-Reachable states: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5)) [fixed point].
+    Computing reachable states...
+    Reachable states: p.xc = 0 and p.xu = 0 [initial states predicate]
+    Forward reachability: iteration 1.
+    Reachable states: p.xc = 0 and p.xu = 0 -> p.xc = 0 and (p.xu = 0 or p.xu = 1) [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
+    Reachable states: p.xc = 0 and (p.xu = 0 or p.xu = 1) -> (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 1) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Forward reachability: iteration 2.
+    Reachable states: (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 1) -> (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 1) and p.xu = 1 [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
+    Reachable states: (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 1) and p.xu = 1 -> (p.xc = 0 or p.xc = 2) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 2) and p.xu = 1 or (p.xc = 1 and (p.xu = 0 or p.xu = 2) or p.xc = 1 and p.xu = 1) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Forward reachability: iteration 3.
+    Reachable states: (p.xc = 0 or p.xc = 2) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 2) and p.xu = 1 or (p.xc = 1 and (p.xu = 0 or p.xu = 2) or p.xc = 1 and p.xu = 1) -> (p.xc = 0 or p.xc = 2) and (0 <= p.xu and p.xu <= 3) or p.xc = 1 and (0 <= p.xu and p.xu <= 3) [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
+    Reachable states: (p.xc = 0 or p.xc = 2) and (0 <= p.xu and p.xu <= 3) or p.xc = 1 and (0 <= p.xu and p.xu <= 3) -> 0 <= p.xc and p.xc <= 3 and (0 <= p.xu and p.xu <= 3) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Forward reachability: iteration 4.
+    Reachable states: 0 <= p.xc and p.xc <= 3 and (0 <= p.xu and p.xu <= 3) -> (4 <= p.xc and p.xc <= 7 or p.xu != 6) and (4 <= p.xc and p.xc <= 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 3) [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
+    Reachable states: (4 <= p.xc and p.xc <= 7 or p.xu != 6) and (4 <= p.xc and p.xc <= 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 3) -> (not(p.xc = 0 or p.xc = 4) or p.xu != 6) and (not(p.xc = 0 or p.xc = 4) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and ((p.xc != 2 or p.xu != 6) and (p.xc != 2 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (p.xc != 6 and (not(p.xc = 1 or p.xc = 3) or p.xu != 6) and ((not(p.xc = 1 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 4 or p.xc = 6))) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Forward reachability: iteration 5.
+    Reachable states: (not(p.xc = 0 or p.xc = 4) or p.xu != 6) and (not(p.xc = 0 or p.xc = 4) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and ((p.xc != 2 or p.xu != 6) and (p.xc != 2 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (p.xc != 6 and (not(p.xc = 1 or p.xc = 3) or p.xu != 6) and ((not(p.xc = 1 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 4 or p.xc = 6))) -> (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5)) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Forward reachability: iteration 6.
+    Reachable states: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5)) [fixed point].
 
-Computing bound for uncontrollable events...
-Bounded response check round 1 (states before round: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
-Bounded response check round 2 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or ((p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 2 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and (p.xu = 1 or p.xu = 3)) or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or ((p.xc = 2 or p.xc = 3) and p.xu = 2 or (p.xc = 2 or p.xc = 3) and (p.xu = 1 or p.xu = 3)))).
-Bounded response check round 3 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or ((p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 2 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 3) or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or ((p.xc = 2 or p.xc = 3) and p.xu = 2 or (p.xc = 2 or p.xc = 3) and p.xu = 3))).
-Bounded response check round 4 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 3 or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or (p.xc = 2 or p.xc = 3) and p.xu = 3)).
-Bounded response check round 5 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or (p.xc = 2 or p.xc = 3) and p.xu = 4).
+    Computing bound for uncontrollable events...
+    Bounded response check round 1 (states before round: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
+    Bounded response check round 2 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or ((p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 2 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and (p.xu = 1 or p.xu = 3)) or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or ((p.xc = 2 or p.xc = 3) and p.xu = 2 or (p.xc = 2 or p.xc = 3) and (p.xu = 1 or p.xu = 3)))).
+    Bounded response check round 3 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or ((p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 2 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 3) or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or ((p.xc = 2 or p.xc = 3) and p.xu = 2 or (p.xc = 2 or p.xc = 3) and p.xu = 3))).
+    Bounded response check round 4 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 3 or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or (p.xc = 2 or p.xc = 3) and p.xu = 3)).
+    Bounded response check round 5 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or (p.xc = 2 or p.xc = 3) and p.xu = 4).
 
-Computing bound for controllable events...
-Bounded response check round 1 (states before round: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
-Bounded response check round 2 (states before round: <bdd 8n 12p>).
-Bounded response check round 3 (states before round: 2 <= p.xc and p.xc <= 7 and ((not(p.xc = 4 or p.xc = 5) or p.xu != 6) and (not(p.xc = 4 or p.xc = 5) or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and ((not(p.xc = 2 or p.xc = 3) or p.xu != 6) and (not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
-Bounded response check round 4 (states before round: p.xc != 0 and (p.xc != 4 or p.xu != 6) and ((p.xc != 4 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (not(p.xc = 2 or p.xc = 6) and p.xc != 1)) and ((p.xc != 5 or p.xu != 6) and (p.xc != 5 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and ((p.xc != 3 or p.xu != 6) and ((p.xc != 3 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and p.xc != 7)))).
-Bounded response check round 5 (states before round: (p.xc = 4 or p.xc = 5) and (p.xu = 0 or p.xu = 4) or ((p.xc = 4 or p.xc = 5) and p.xu = 2 or (p.xc = 4 or p.xc = 5) and (p.xu = 1 or p.xu = 3))).
-Bounded response check round 6 (states before round: p.xc = 5 and (p.xu = 0 or p.xu = 4) or (p.xc = 5 and p.xu = 2 or p.xc = 5 and (p.xu = 1 or p.xu = 3))).
+    Computing bound for controllable events...
+    Bounded response check round 1 (states before round: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
+    Bounded response check round 2 (states before round: <bdd 8n 12p>).
+    Bounded response check round 3 (states before round: 2 <= p.xc and p.xc <= 7 and ((not(p.xc = 4 or p.xc = 5) or p.xu != 6) and (not(p.xc = 4 or p.xc = 5) or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and ((not(p.xc = 2 or p.xc = 3) or p.xu != 6) and (not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
+    Bounded response check round 4 (states before round: p.xc != 0 and (p.xc != 4 or p.xu != 6) and ((p.xc != 4 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (not(p.xc = 2 or p.xc = 6) and p.xc != 1)) and ((p.xc != 5 or p.xu != 6) and (p.xc != 5 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and ((p.xc != 3 or p.xu != 6) and ((p.xc != 3 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and p.xc != 7)))).
+    Bounded response check round 5 (states before round: (p.xc = 4 or p.xc = 5) and (p.xu = 0 or p.xu = 4) or ((p.xc = 4 or p.xc = 5) and p.xu = 2 or (p.xc = 4 or p.xc = 5) and (p.xu = 1 or p.xu = 3))).
+    Bounded response check round 6 (states before round: p.xc = 5 and (p.xu = 0 or p.xu = 4) or (p.xc = 5 and p.xu = 2 or p.xc = 5 and (p.xu = 1 or p.xu = 3))).
 
-Bounded response check completed.
+    Bounded response check completed.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: p.xc = 6 or (p.xc = 5 or p.xc = 7)
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: p.xc = 6 or (p.xc = 5 or p.xc = 7)
 
-Computing the controllable-complete path states...
-Controllable-complete path states: p.xc = 6 or (p.xc = 5 or p.xc = 7) [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: p.xc = 6 or (p.xc = 5 or p.xc = 7) -> 4 <= p.xc and p.xc <= 7 [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Backward reachability: iteration 2.
-Controllable-complete path states: 4 <= p.xc and p.xc <= 7 -> (p.xc = 1 or 3 <= p.xc and p.xc <= 7) and p.xc != 1 [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Backward reachability: iteration 3.
-Controllable-complete path states: (p.xc = 1 or 3 <= p.xc and p.xc <= 7) and p.xc != 1 -> 2 <= p.xc and p.xc <= 7 [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Backward reachability: iteration 4.
-Controllable-complete path states: 2 <= p.xc and p.xc <= 7 -> p.xc != 0 [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Backward reachability: iteration 5.
-Controllable-complete path states: p.xc != 0 -> true [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-Backward reachability: iteration 6.
-Controllable-complete path states: true [fixed point].
-Controllable-complete path states: true
+    Computing the controllable-complete path states...
+    Controllable-complete path states: p.xc = 6 or (p.xc = 5 or p.xc = 7) [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: p.xc = 6 or (p.xc = 5 or p.xc = 7) -> 4 <= p.xc and p.xc <= 7 [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Backward reachability: iteration 2.
+    Controllable-complete path states: 4 <= p.xc and p.xc <= 7 -> (p.xc = 1 or 3 <= p.xc and p.xc <= 7) and p.xc != 1 [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Backward reachability: iteration 3.
+    Controllable-complete path states: (p.xc = 1 or 3 <= p.xc and p.xc <= 7) and p.xc != 1 -> 2 <= p.xc and p.xc <= 7 [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Backward reachability: iteration 4.
+    Controllable-complete path states: 2 <= p.xc and p.xc <= 7 -> p.xc != 0 [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Backward reachability: iteration 5.
+    Controllable-complete path states: p.xc != 0 -> true [backward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
+    Backward reachability: iteration 6.
+    Controllable-complete path states: true [fixed point].
+    Controllable-complete path states: true
 
-Computing the bad states...
-Bad states: false [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: false
+    Computing the bad states...
+    Bad states: false [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: false
 
-Computing the result of the non-blocking under control check...
-Initial states: p.xc = 0 and p.xu = 0
-Bad initial states: false
+    Computing the result of the non-blocking under control check...
+    Initial states: p.xc = 0 and p.xu = 0
+    Bad initial states: false
 
 Checking for finite response...
 
-Iteration 1.
-    The following events have been encountered in a controllable-event loop of automaton p:
-        (c), which is not controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton SupervisorStateEvtExcls:
-        (c), which is not controllable unconnectable.
+    Iteration 1.
+        The following events have been encountered in a controllable-event loop of automaton p:
+            (c), which is not controllable unconnectable.
+        The following events have been encountered in a controllable-event loop of automaton SupervisorStateEvtExcls:
+            (c), which is not controllable unconnectable.
 
 Checking for confluence...
 

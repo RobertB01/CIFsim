@@ -18,12 +18,12 @@ Preparing for MDD-based checks...
 
 Checking for finite response...
 
-Iteration 1.
-    The following events have been encountered in a controllable-event loop of automaton Actuator:
-        (Actuator.c_on Actuator.c_off), which is not controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton SupervisorStateEvtExcls:
-        (Actuator.c_on), which is not controllable unconnectable.
-        (Actuator.c_off), which is not controllable unconnectable.
+    Iteration 1.
+        The following events have been encountered in a controllable-event loop of automaton Actuator:
+            (Actuator.c_on Actuator.c_off), which is not controllable unconnectable.
+        The following events have been encountered in a controllable-event loop of automaton SupervisorStateEvtExcls:
+            (Actuator.c_on), which is not controllable unconnectable.
+            (Actuator.c_off), which is not controllable unconnectable.
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

@@ -15,11 +15,11 @@ Preparing for MDD-based checks...
 
 Checking for confluence...
 
-Mutual exclusive event pairs:
-    (a, c), (b, c)
+    Mutual exclusive event pairs:
+        (a, c), (b, c)
 
-Reversible event pairs:
-    (a, b)
+    Reversible event pairs:
+        (a, b)
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

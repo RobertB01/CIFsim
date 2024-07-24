@@ -10,8 +10,8 @@ Preparing for MDD-based checks...
 
 Checking for confluence...
 
-Update equivalent event pairs:
-    (SingleAut.a, SingleAut.b)
+    Update equivalent event pairs:
+        (SingleAut.a, SingleAut.b)
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
