@@ -200,7 +200,7 @@ public class TransitionGeneratorTest {
                 List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -312,7 +312,7 @@ public class TransitionGeneratorTest {
                 List.of(), List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -475,7 +475,7 @@ public class TransitionGeneratorTest {
                 List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -575,7 +575,7 @@ public class TransitionGeneratorTest {
                 List.of(monitor));
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -638,7 +638,7 @@ public class TransitionGeneratorTest {
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -716,7 +716,7 @@ public class TransitionGeneratorTest {
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -762,5 +762,15 @@ public class TransitionGeneratorTest {
                     END_IF;
                 END_IF;""";
         assertEquals(expectedText, actualText);
+    }
+
+    /** Run the transition generator. */
+    private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
+        // Construct edge variables.
+        transitionGenerator.setTransitions(List.of(transition));
+        transitionGenerator.setupEdgeVariables();
+
+        // Generate the transition, and check that it matches expectations.
+        return transitionGenerator.generateCode(isProgressVar, List.of(transition));
     }
 }
