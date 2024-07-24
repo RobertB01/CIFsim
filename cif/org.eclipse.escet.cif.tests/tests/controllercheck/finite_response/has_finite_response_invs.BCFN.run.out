@@ -112,9 +112,9 @@ Preparing for BDD-based checks...
 
     System:
         Edge: (event: Actuator.c_on) (guard: Actuator.Off -> Sensor.On and Actuator.Off) (assignments: Actuator := Actuator.On)
-    Edge: (event: Actuator.c_off) (guard: Actuator.On -> Sensor.Off and Actuator.On) (assignments: Actuator := Actuator.Off)
-    Edge: (event: Sensor.u_on) (guard: Sensor.Off) (assignments: Sensor := Sensor.On)
-    Edge: (event: Sensor.u_off) (guard: Sensor.On) (assignments: Sensor := Sensor.Off)
+        Edge: (event: Actuator.c_off) (guard: Actuator.On -> Sensor.Off and Actuator.On) (assignments: Actuator := Actuator.Off)
+        Edge: (event: Sensor.u_on) (guard: Sensor.Off) (assignments: Sensor := Sensor.On)
+        Edge: (event: Sensor.u_off) (guard: Sensor.On) (assignments: Sensor := Sensor.Off)
 
 Preparing for MDD-based checks...
     Analyzing automaton "Actuator"...

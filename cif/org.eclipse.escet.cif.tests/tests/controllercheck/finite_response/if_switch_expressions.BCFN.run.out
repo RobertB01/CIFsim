@@ -132,19 +132,19 @@ Preparing for BDD-based checks...
 
     System:
         Edge: (event: Aut1.c_a) (guard: Aut1.l1) (assignments: Aut1 := Aut1.l2)
-    Edge: (event: Aut1.c_b) (guard: Aut1.l2) (assignments: Aut1 := Aut1.l1)
-    Edge: (event: Aut2.c_a) (guard: Aut2.l1 -> false) (assignments: Aut2 := Aut2.l2)
-    Edge: (event: Aut2.c_b) (guard: Aut2.l2) (assignments: Aut2 := Aut2.l1)
-    Edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)
-    Edge: (event: Aut3.c_b) (guard: Aut3.l2 -> Aut3.l2 and not A) (assignments: Aut3 := Aut3.l1)
-    Edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)
-    Edge: (event: Aut4.c_b) (guard: Aut4.l2) (assignments: Aut4 := Aut4.l1)
-    Edge: (event: Aut5.c_a) (guard: Aut5.l1 -> false) (assignments: Aut5 := Aut5.l2)
-    Edge: (event: Aut5.c_b) (guard: Aut5.l2) (assignments: Aut5 := Aut5.l1)
-    Edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)
-    Edge: (event: Aut6.c_b) (guard: Aut6.l2 -> not A and Aut6.l2) (assignments: Aut6 := Aut6.l1)
-    Edge: (event: B) (guard: true) (assignments: B+ != B)
-    Edge: (event: A) (guard: true) (assignments: A+ != A)
+        Edge: (event: Aut1.c_b) (guard: Aut1.l2) (assignments: Aut1 := Aut1.l1)
+        Edge: (event: Aut2.c_a) (guard: Aut2.l1 -> false) (assignments: Aut2 := Aut2.l2)
+        Edge: (event: Aut2.c_b) (guard: Aut2.l2) (assignments: Aut2 := Aut2.l1)
+        Edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)
+        Edge: (event: Aut3.c_b) (guard: Aut3.l2 -> Aut3.l2 and not A) (assignments: Aut3 := Aut3.l1)
+        Edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)
+        Edge: (event: Aut4.c_b) (guard: Aut4.l2) (assignments: Aut4 := Aut4.l1)
+        Edge: (event: Aut5.c_a) (guard: Aut5.l1 -> false) (assignments: Aut5 := Aut5.l2)
+        Edge: (event: Aut5.c_b) (guard: Aut5.l2) (assignments: Aut5 := Aut5.l1)
+        Edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)
+        Edge: (event: Aut6.c_b) (guard: Aut6.l2 -> not A and Aut6.l2) (assignments: Aut6 := Aut6.l1)
+        Edge: (event: B) (guard: true) (assignments: B+ != B)
+        Edge: (event: A) (guard: true) (assignments: A+ != A)
 
 Preparing for MDD-based checks...
     Analyzing automaton "Aut1"...
