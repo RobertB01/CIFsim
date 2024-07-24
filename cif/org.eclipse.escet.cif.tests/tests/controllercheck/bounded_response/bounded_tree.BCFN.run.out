@@ -1,131 +1,131 @@
 Loading CIF specification "controllercheck/bounded_response/bounded_tree.cif"...
 Preparing for BDD-based checks...
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   p1    0      3 * 2     5 * 2       8 * 2       ~63%
-  2      location pointer  n/a   p2    1      3 * 2     6 * 2       8 * 2       75%
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                2      12        22          32          ~69%
+    CIF variables and location pointers:
+      Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+      1      location pointer  n/a   p1    0      3 * 2     5 * 2       8 * 2       ~63%
+      2      location pointer  n/a   p2    1      3 * 2     6 * 2       8 * 2       75%
+      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+      Total                                2      12        22          32          ~69%
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying sorted variable order:
-      Effect: both
+    Applying variable ordering:
+      Applying 4 orderers, sequentially:
+        Applying sorted variable order:
+          Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 9
-
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
-
-        Skipping algorithm: no graph edges.
-
-      Found new best variable order.
-
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
-
-        Skipping algorithm: no graph edges.
-
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
-
-          Skipping algorithm: no graph edges.
-
-        Reversing the variable order:
+        Applying DCSH algorithm:
+          Metric: wes
           Relations: legacy
           Effect: var-order
           Number of hyper-edges: 9
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [reversed]
+          Applying Weighted Cuthill-McKee algorithm:
+            Node finder: george-liu
+            Relations: legacy
+            Effect: var-order
+            Number of graph edges: 0
 
-      Found new best variable order.
+            Skipping algorithm: no graph edges.
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+          Found new best variable order.
 
-          Skipping algorithm: no graph edges.
+          Applying Sloan algorithm:
+            Relations: legacy
+            Effect: var-order
+            Number of graph edges: 0
 
-        Reversing the variable order:
-          Relations: legacy
+            Skipping algorithm: no graph edges.
+
+          Applying 2 orderers, sequentially:
+            Applying Weighted Cuthill-McKee algorithm:
+              Node finder: george-liu
+              Relations: legacy
+              Effect: var-order
+              Number of graph edges: 0
+
+              Skipping algorithm: no graph edges.
+
+            Reversing the variable order:
+              Relations: legacy
+              Effect: var-order
+              Number of hyper-edges: 9
+
+              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [before]
+              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [reversed]
+
+          Found new best variable order.
+
+          Applying 2 orderers, sequentially:
+            Applying Sloan algorithm:
+              Relations: legacy
+              Effect: var-order
+              Number of graph edges: 0
+
+              Skipping algorithm: no graph edges.
+
+            Reversing the variable order:
+              Relations: legacy
+              Effect: var-order
+              Number of hyper-edges: 9
+
+              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [before]
+              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [reversed]
+
+        Applying FORCE algorithm:
+          Metric: total-span
+          Relations: linearized
           Effect: var-order
           Number of hyper-edges: 9
+          Maximum number of iterations: 10
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.277778 (total)   0.030864 (avg/edge) [reversed]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [iteration 1]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [after]
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 9
-      Maximum number of iterations: 10
+        Applying sliding window algorithm:
+          Size: 4
+          Metric: total-span
+          Relations: linearized
+          Effect: var-order
+          Number of hyper-edges: 9
+          Window length: 2
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [iteration 1]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [after]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [before]
+          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [after]
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 9
-      Window length: 2
+    Variable order changed.
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.024691 (avg/edge) [after]
-
-Variable order changed.
-
-CIF variables and location pointers:
-  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   p2    0      3 * 2     6 * 2       8 * 2       75%
-  2      location pointer  n/a   p1    1      3 * 2     5 * 2       8 * 2       ~63%
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                2      12        22          32          ~69%
+    CIF variables and location pointers:
+      Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+      1      location pointer  n/a   p2    0      3 * 2     6 * 2       8 * 2       75%
+      2      location pointer  n/a   p1    1      3 * 2     5 * 2       8 * 2       ~63%
+      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+      Total                                2      12        22          32          ~69%
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
 Preparing for MDD-based checks...
-Analyzing automaton "p1"...
-Analyzing automaton "p2"...
-    Initializing the automaton data for event "c_a"...
-    Initializing the automaton data for event "c_b"...
-    Initializing the automaton data for event "c_d"...
-    Initializing the automaton data for event "c_c"...
-    Initializing the automaton data for event "c_e"...
-    Processing edges from location "loc1" of automaton "p2"...
-    Processing edges from location "loc2" of automaton "p2"...
-    Processing edges from location "loc3" of automaton "p2"...
-    Processing edges from location "loc4" of automaton "p2"...
-    Processing edges from location "loc5" of automaton "p2"...
-    Processing edges from location "loc6" of automaton "p2"...
-    Updating global guards and updates for event "c_a"...
-    Updating global guards and updates for event "c_b"...
-    Updating global guards and updates for event "c_d"...
-    Updating global guards and updates for event "c_c"...
-    Updating global guards and updates for event "c_e"...
+    Analyzing automaton "p1"...
+    Analyzing automaton "p2"...
+        Initializing the automaton data for event "c_a"...
+        Initializing the automaton data for event "c_b"...
+        Initializing the automaton data for event "c_d"...
+        Initializing the automaton data for event "c_c"...
+        Initializing the automaton data for event "c_e"...
+        Processing edges from location "loc1" of automaton "p2"...
+        Processing edges from location "loc2" of automaton "p2"...
+        Processing edges from location "loc3" of automaton "p2"...
+        Processing edges from location "loc4" of automaton "p2"...
+        Processing edges from location "loc5" of automaton "p2"...
+        Processing edges from location "loc6" of automaton "p2"...
+        Updating global guards and updates for event "c_a"...
+        Updating global guards and updates for event "c_b"...
+        Updating global guards and updates for event "c_d"...
+        Updating global guards and updates for event "c_c"...
+        Updating global guards and updates for event "c_e"...
 
 Checking for bounded response...
 Computing reachable states...

@@ -1,150 +1,150 @@
 Loading CIF specification "controllercheck/finite_response/mult_iterations.cif"...
 Preparing for BDD-based checks...
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name       Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
-  1      input variable    bool  Sensor     0      1 * 2     2 * 2       2 * 2       100%
-  2      location pointer  n/a   Actuator2  1      1 * 2     2 * 2       2 * 2       100%
-  3      location pointer  n/a   Actuator1  2      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
-  Total                                     3      6         12          12          100%
+    CIF variables and location pointers:
+      Nr     Kind              Type  Name       Group  BDD vars  CIF values  BDD values  Values used
+      -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+      1      input variable    bool  Sensor     0      1 * 2     2 * 2       2 * 2       100%
+      2      location pointer  n/a   Actuator2  1      1 * 2     2 * 2       2 * 2       100%
+      3      location pointer  n/a   Actuator1  2      1 * 2     2 * 2       2 * 2       100%
+      -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+      Total                                     3      6         12          12          100%
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying sorted variable order:
-      Effect: both
+    Applying variable ordering:
+      Applying 4 orderers, sequentially:
+        Applying sorted variable order:
+          Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 8
-
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
-
-        Skipping algorithm: no graph edges.
-
-      Found new best variable order.
-
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
-
-        Skipping algorithm: no graph edges.
-
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
-
-          Skipping algorithm: no graph edges.
-
-        Reversing the variable order:
+        Applying DCSH algorithm:
+          Metric: wes
           Relations: legacy
           Effect: var-order
           Number of hyper-edges: 8
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [reversed]
+          Applying Weighted Cuthill-McKee algorithm:
+            Node finder: george-liu
+            Relations: legacy
+            Effect: var-order
+            Number of graph edges: 0
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
+            Skipping algorithm: no graph edges.
+
+          Found new best variable order.
+
+          Applying Sloan algorithm:
+            Relations: legacy
+            Effect: var-order
+            Number of graph edges: 0
+
+            Skipping algorithm: no graph edges.
+
+          Applying 2 orderers, sequentially:
+            Applying Weighted Cuthill-McKee algorithm:
+              Node finder: george-liu
+              Relations: legacy
+              Effect: var-order
+              Number of graph edges: 0
+
+              Skipping algorithm: no graph edges.
+
+            Reversing the variable order:
+              Relations: legacy
+              Effect: var-order
+              Number of hyper-edges: 8
+
+              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [before]
+              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [reversed]
+
+          Applying 2 orderers, sequentially:
+            Applying Sloan algorithm:
+              Relations: legacy
+              Effect: var-order
+              Number of graph edges: 0
+
+              Skipping algorithm: no graph edges.
+
+            Reversing the variable order:
+              Relations: legacy
+              Effect: var-order
+              Number of hyper-edges: 8
+
+              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [before]
+              Total span:   0 (total)   0.00 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [reversed]
+
+        Applying FORCE algorithm:
+          Metric: total-span
+          Relations: linearized
           Effect: var-order
-          Number of graph edges: 0
+          Number of hyper-edges: 4
+          Maximum number of iterations: 20
 
-          Skipping algorithm: no graph edges.
+          Total span:   6 (total)   1.50 (avg/edge) / WES:   0.888889 (total)   0.222222 (avg/edge) [before]
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [iteration 1]
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [iteration 2]
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
+        Applying sliding window algorithm:
+          Size: 4
+          Metric: total-span
+          Relations: linearized
           Effect: var-order
-          Number of hyper-edges: 8
+          Number of hyper-edges: 4
+          Window length: 3
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.166667 (total)   0.020833 (avg/edge) [reversed]
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 4
-      Maximum number of iterations: 20
+    Variable order changed.
 
-      Total span:   6 (total)   1.50 (avg/edge) / WES:   0.888889 (total)   0.222222 (avg/edge) [before]
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [iteration 1]
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [iteration 2]
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
-
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 4
-      Window length: 3
-
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
-
-Variable order changed.
-
-CIF variables and location pointers:
-  Nr     Kind              Type  Name       Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   Actuator2  0      1 * 2     2 * 2       2 * 2       100%
-  2      location pointer  n/a   Actuator1  1      1 * 2     2 * 2       2 * 2       100%
-  3      input variable    bool  Sensor     2      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
-  Total                                     3      6         12          12          100%
+    CIF variables and location pointers:
+      Nr     Kind              Type  Name       Group  BDD vars  CIF values  BDD values  Values used
+      -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+      1      location pointer  n/a   Actuator2  0      1 * 2     2 * 2       2 * 2       100%
+      2      location pointer  n/a   Actuator1  1      1 * 2     2 * 2       2 * 2       100%
+      3      input variable    bool  Sensor     2      1 * 2     2 * 2       2 * 2       100%
+      -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+      Total                                     3      6         12          12          100%
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
-Edge (event: Actuator2.c_on) (guard: Actuator2.Off) (assignments: Actuator2 := Actuator2.On): guard: Actuator2.Off -> Actuator2.Off and Actuator1.On [plant: Actuator1.On].
-Edge (event: Actuator2.c_off) (guard: Actuator2.On) (assignments: Actuator2 := Actuator2.Off): guard: Actuator2.On -> Actuator2.On and Actuator1.Off [plant: Actuator1.Off].
-Edge (event: Actuator1.c_on) (guard: Actuator1.Off) (assignments: Actuator1 := Actuator1.On): guard: Actuator1.Off -> Actuator1.Off and Sensor [plant: Sensor].
-Edge (event: Actuator1.c_off) (guard: Actuator1.On) (assignments: Actuator1 := Actuator1.Off): guard: Actuator1.On -> Actuator1.On and not Sensor [plant: not Sensor].
+    Edge (event: Actuator2.c_on) (guard: Actuator2.Off) (assignments: Actuator2 := Actuator2.On): guard: Actuator2.Off -> Actuator2.Off and Actuator1.On [plant: Actuator1.On].
+    Edge (event: Actuator2.c_off) (guard: Actuator2.On) (assignments: Actuator2 := Actuator2.Off): guard: Actuator2.On -> Actuator2.On and Actuator1.Off [plant: Actuator1.Off].
+    Edge (event: Actuator1.c_on) (guard: Actuator1.Off) (assignments: Actuator1 := Actuator1.On): guard: Actuator1.Off -> Actuator1.Off and Sensor [plant: Sensor].
+    Edge (event: Actuator1.c_off) (guard: Actuator1.On) (assignments: Actuator1 := Actuator1.Off): guard: Actuator1.On -> Actuator1.On and not Sensor [plant: not Sensor].
 
-System:
-    Edge: (event: Actuator2.c_on) (guard: Actuator2.Off -> Actuator2.Off and Actuator1.On) (assignments: Actuator2 := Actuator2.On)
+    System:
+        Edge: (event: Actuator2.c_on) (guard: Actuator2.Off -> Actuator2.Off and Actuator1.On) (assignments: Actuator2 := Actuator2.On)
     Edge: (event: Actuator2.c_off) (guard: Actuator2.On -> Actuator2.On and Actuator1.Off) (assignments: Actuator2 := Actuator2.Off)
     Edge: (event: Actuator1.c_on) (guard: Actuator1.Off -> Actuator1.Off and Sensor) (assignments: Actuator1 := Actuator1.On)
     Edge: (event: Actuator1.c_off) (guard: Actuator1.On -> Actuator1.On and not Sensor) (assignments: Actuator1 := Actuator1.Off)
     Edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)
 
 Preparing for MDD-based checks...
-Analyzing automaton "Actuator2"...
-    Initializing the automaton data for event "Actuator2.c_on"...
-    Initializing the automaton data for event "Actuator2.c_off"...
-    Processing edges from location "Off" of automaton "Actuator2"...
-    Processing edges from location "On" of automaton "Actuator2"...
-    Updating global guards and updates for event "Actuator2.c_on"...
-    Updating global guards and updates for event "Actuator2.c_off"...
-Analyzing automaton "Actuator1"...
-    Initializing the automaton data for event "Actuator1.c_on"...
-    Initializing the automaton data for event "Actuator1.c_off"...
-    Processing edges from location "Off" of automaton "Actuator1"...
-    Processing edges from location "On" of automaton "Actuator1"...
-    Updating global guards and updates for event "Actuator1.c_on"...
-    Updating global guards and updates for event "Actuator1.c_off"...
-Analyzing automaton "SupervisorStateEvtExcls"...
-    Initializing the automaton data for event "Actuator1.c_on"...
-    Initializing the automaton data for event "Actuator1.c_off"...
-    Initializing the automaton data for event "Actuator2.c_on"...
-    Initializing the automaton data for event "Actuator2.c_off"...
-    Processing edges from the location of automaton "SupervisorStateEvtExcls"...
-    Updating global guards and updates for event "Actuator1.c_on"...
-    Updating global guards and updates for event "Actuator1.c_off"...
-    Updating global guards and updates for event "Actuator2.c_on"...
-    Updating global guards and updates for event "Actuator2.c_off"...
+    Analyzing automaton "Actuator2"...
+        Initializing the automaton data for event "Actuator2.c_on"...
+        Initializing the automaton data for event "Actuator2.c_off"...
+        Processing edges from location "Off" of automaton "Actuator2"...
+        Processing edges from location "On" of automaton "Actuator2"...
+        Updating global guards and updates for event "Actuator2.c_on"...
+        Updating global guards and updates for event "Actuator2.c_off"...
+    Analyzing automaton "Actuator1"...
+        Initializing the automaton data for event "Actuator1.c_on"...
+        Initializing the automaton data for event "Actuator1.c_off"...
+        Processing edges from location "Off" of automaton "Actuator1"...
+        Processing edges from location "On" of automaton "Actuator1"...
+        Updating global guards and updates for event "Actuator1.c_on"...
+        Updating global guards and updates for event "Actuator1.c_off"...
+    Analyzing automaton "SupervisorStateEvtExcls"...
+        Initializing the automaton data for event "Actuator1.c_on"...
+        Initializing the automaton data for event "Actuator1.c_off"...
+        Initializing the automaton data for event "Actuator2.c_on"...
+        Initializing the automaton data for event "Actuator2.c_off"...
+        Processing edges from the location of automaton "SupervisorStateEvtExcls"...
+        Updating global guards and updates for event "Actuator1.c_on"...
+        Updating global guards and updates for event "Actuator1.c_off"...
+        Updating global guards and updates for event "Actuator2.c_on"...
+        Updating global guards and updates for event "Actuator2.c_off"...
 
 Checking for bounded response...
 Computing reachable states...

@@ -1,17 +1,17 @@
 Loading CIF specification "controllercheck/non_blocking_under_control/buc_intermediate_unctrl.cif"...
 Preparing for BDD-based checks...
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name        Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   Supervisor  0      2 * 2     4 * 2       4 * 2       100%
-  -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
-  Total                                      1      4         8           8           100%
+    CIF variables and location pointers:
+      Nr     Kind              Type  Name        Group  BDD vars  CIF values  BDD values  Values used
+      -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
+      1      location pointer  n/a   Supervisor  0      2 * 2     4 * 2       4 * 2       100%
+      -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
+      Total                                      1      4         8           8           100%
 
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
 Checking for non-blocking under control...
 Computing the condition for no controllable event to be enabled...

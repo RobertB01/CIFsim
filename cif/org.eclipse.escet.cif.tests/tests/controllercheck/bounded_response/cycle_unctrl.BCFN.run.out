@@ -1,17 +1,17 @@
 Loading CIF specification "controllercheck/bounded_response/cycle_unctrl.cif"...
 Preparing for BDD-based checks...
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   p     0      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                1      2         4           4           100%
+    CIF variables and location pointers:
+      Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+      1      location pointer  n/a   p     0      1 * 2     2 * 2       2 * 2       100%
+      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+      Total                                1      2         4           4           100%
 
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
 Preparing for MDD-based checks...
 
