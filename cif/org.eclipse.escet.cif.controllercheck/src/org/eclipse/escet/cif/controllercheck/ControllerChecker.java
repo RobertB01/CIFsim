@@ -127,7 +127,11 @@ public class ControllerChecker {
         CifBddSpec cifBddSpec = null; // Used for BDD-based checks.
         if (hasBddBasedChecks) {
             debugOutput.line("Preparing for BDD-based checks...");
+            debugOutput.inc();
+
             cifBddSpec = convertToBdd(spec, specAbsPath, settings);
+
+            debugOutput.dec();
             if (cifBddSpec == null) {
                 return null;
             }
@@ -142,8 +146,12 @@ public class ControllerChecker {
         CifMddSpec cifMddSpec = null; // Used for MDD-based checks.
         if (hasMddBasedChecks) {
             debugOutput.line("Preparing for MDD-based checks...");
+            debugOutput.inc();
+
             cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, termination, normalOutput,
                     debugOutput);
+
+            debugOutput.dec();
             if (cifMddSpec == null) {
                 return null;
             }
