@@ -131,7 +131,7 @@ public class CifBddReachability {
         // Restrict predicate.
         if (restriction != null) {
             BDD restrictedPred = pred.and(restriction);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
 
@@ -160,7 +160,7 @@ public class CifBddReachability {
                 .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet()) : null;
 
         // Apply edges until we get a fixed point.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return null;
         }
 
@@ -170,14 +170,14 @@ public class CifBddReachability {
         } else {
             reachabilityResult = performReachabilityFixedOrder(pred, edgesToApply);
         }
-        if (reachabilityResult == null || cifBddSpec.settings.getShouldTerminate().get()) {
+        if (reachabilityResult == null || cifBddSpec.settings.getTermination().isRequested()) {
             return null;
         }
         pred = reachabilityResult.left;
         changed |= reachabilityResult.right;
 
         // Fixed point reached. Inform the user.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return null;
         }
         if (dbgEnabled && changed) {
@@ -221,13 +221,13 @@ public class CifBddReachability {
                 // Apply selected edge.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, direction, restriction);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
 
                 // Extend reachable states.
                 BDD newPred = pred.id().orWith(updPred);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
 
@@ -307,13 +307,13 @@ public class CifBddReachability {
                 // Apply edge.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, direction, restriction);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
 
                 // Extend reachable states.
                 BDD newPred = pred.id().orWith(updPred);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
 

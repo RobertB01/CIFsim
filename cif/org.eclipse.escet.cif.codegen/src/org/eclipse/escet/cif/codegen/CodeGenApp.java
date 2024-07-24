@@ -101,7 +101,7 @@ public class CodeGenApp extends Application<IOutputComponent> {
                 case C99 -> new C99CodeGen();
                 case SIMULINK -> new SimulinkCodeGen();
             };
-            codegen.generate(spec, absCifSpecDir, absSpecPath, outputPath);
+            codegen.generate(spec, absCifSpecDir, absSpecPath, outputPath, () -> isTerminationRequested());
         } catch (UnsupportedException ex) {
             String msg = fmt("Code generation to %s failed for CIF file \"%s\".", lang.readableName,
                     InputFileOption.getPath());

@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.conversion.CifToBddConverter;
 import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
@@ -67,6 +66,7 @@ import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
@@ -94,13 +94,13 @@ public class ControllerChecker {
         settings.check();
 
         // Get some settings.
-        Supplier<Boolean> shouldTerminate = settings.getShouldTerminate();
+        Termination termination = settings.getTermination();
         DebugNormalOutput normalOutput = settings.getNormalOutput();
         DebugNormalOutput debugOutput = settings.getDebugOutput();
         WarnOutput warnOutput = settings.getWarnOutput();
 
         // Preprocess and check the specification.
-        spec = preprocessAndCheck(spec, specAbsPath, shouldTerminate, warnOutput);
+        spec = preprocessAndCheck(spec, specAbsPath, termination, warnOutput);
 
         // Get checks to perform.
         List<ControllerCheckerCheck<?>> checksToPerform = listc(4);
@@ -142,7 +142,7 @@ public class ControllerChecker {
         CifMddSpec cifMddSpec = null; // Used for MDD-based checks.
         if (hasMddBasedChecks) {
             debugOutput.line("Preparing for MDD-based checks...");
-            cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, shouldTerminate, normalOutput,
+            cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, termination, normalOutput,
                     debugOutput);
             if (cifMddSpec == null) {
                 return null;
@@ -173,7 +173,7 @@ public class ControllerChecker {
             } else {
                 throw new RuntimeException("Unexpected check: " + check);
             }
-            if (conclusion == null || shouldTerminate.get()) {
+            if (conclusion == null || termination.isRequested()) {
                 return null;
             }
 
@@ -182,7 +182,7 @@ public class ControllerChecker {
             if (cifBddSpec != null && remainingChecks.stream().noneMatch(c -> c.isBddBasedCheck())) {
                 cleanupBdd(cifBddSpec);
                 cifBddSpec = null;
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
             }
@@ -248,12 +248,12 @@ public class ControllerChecker {
      * @param spec The specification to preprocess and check. Is modified in-place, but not as much as the result of
      *     this method.
      * @param specAbsPath The absolute local file system path to the CIF specification to check.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @param warnOutput Callback to send warnings to the user.
      * @return The preprocessed and checked specification, or {@code null} if termination was requested.
      */
     private static Specification preprocessAndCheck(Specification spec, String specAbsPath,
-            Supplier<Boolean> shouldTerminate, WarnOutput warnOutput)
+            Termination termination, WarnOutput warnOutput)
     {
         // Eliminate component definition/instantiation. This allows to perform precondition checks, as well as perform
         // annotation post checking.
@@ -271,9 +271,9 @@ public class ControllerChecker {
         }
 
         // Check preconditions that apply to all checks.
-        ControllerCheckerPreChecker checker = new ControllerCheckerPreChecker(() -> shouldTerminate.get());
+        ControllerCheckerPreChecker checker = new ControllerCheckerPreChecker(termination);
         checker.reportPreconditionViolations(spec, specAbsPath, "CIF controller properties checker");
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -303,11 +303,11 @@ public class ControllerChecker {
     private static CifBddSpec convertToBdd(Specification spec, String specAbsPath,
             ControllerCheckerSettings checkerSettings)
     {
-        Supplier<Boolean> shouldTerminate = checkerSettings.getShouldTerminate();
+        Termination termination = checkerSettings.getTermination();
 
         // Use a copy of the specification.
         spec = EMFHelper.deepclone(spec);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -316,7 +316,7 @@ public class ControllerChecker {
 
         // Get CIF/BDD settings.
         CifBddSettings cifBddSettings = new CifBddSettings();
-        cifBddSettings.setShouldTerminate(checkerSettings.getShouldTerminate());
+        cifBddSettings.setTermination(checkerSettings.getTermination());
         cifBddSettings.setDebugOutput(checkerSettings.getDebugOutput());
         cifBddSettings.setNormalOutput(checkerSettings.getNormalOutput());
         cifBddSettings.setWarnOutput(checkerSettings.getWarnOutput());
@@ -331,33 +331,33 @@ public class ControllerChecker {
         // - Does not warn about plants referring to requirement state, as we disabled that check.
         CifToBddConverter converter = new CifToBddConverter("CIF controller properties checker");
         converter.preprocess(spec, specAbsPath, cifBddSettings.getWarnOutput(),
-                cifBddSettings.getDoPlantsRefReqsWarn(), () -> shouldTerminate.get());
+                cifBddSettings.getDoPlantsRefReqsWarn(), cifBddSettings.getTermination());
 
         // Convert the CIF specification to its BDD representation. Also checks BDD-specific preconditions.
         BDDFactory factory = CifToBddConverter.createFactory(cifBddSettings, Collections.emptyList(),
                 Collections.emptyList());
         CifBddSpec cifBddSpec = converter.convert(spec, cifBddSettings, factory);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         // Clean up no longer needed BDD predicates.
         cifBddSpec.freeIntermediateBDDs(true);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         // Apply the plant state/event exclusion invariants.
         CifBddApplyPlantInvariants.applyStateEvtExclPlantsInvs(cifBddSpec, "system", () -> null,
                 cifBddSettings.getDebugOutput().isEnabled());
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         // Initialize applying edges.
         for (CifBddEdge edge: cifBddSpec.edges) {
             edge.initApply();
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return null;
             }
         }
@@ -373,18 +373,18 @@ public class ControllerChecker {
      * @param spec The specification to convert. Must not be modified.
      * @param specAbsPath The absolute local file system path to the CIF specification to check.
      * @param computeGlobalGuardedUpdates Whether to compute global guarded updates.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @param normalOutput Callback to send normal output to the user.
      * @param debugOutput Callback to send debug output to the user.
      * @return The CIF/BDD specification, or {@code null} if termination was requested.
      */
     private static CifMddSpec convertToMdd(Specification spec, String specAbsPath,
-            boolean computeGlobalGuardedUpdates, Supplier<Boolean> shouldTerminate, DebugNormalOutput normalOutput,
+            boolean computeGlobalGuardedUpdates, Termination termination, DebugNormalOutput normalOutput,
             DebugNormalOutput debugOutput)
     {
         // Use a copy of the specification.
         spec = EMFHelper.deepclone(spec);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -411,7 +411,7 @@ public class ControllerChecker {
                 copyLocAnnosToEnumLits).transform(spec);
 
         new EnumsToInts().transform(spec);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -419,32 +419,32 @@ public class ControllerChecker {
         new ElimAlgVariables().transform(spec);
         new ElimConsts().transform(spec);
         new SimplifyValues().transform(spec);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         // Check preconditions.
-        new MddPreChecker(() -> shouldTerminate.get())
+        new MddPreChecker(termination)
                 .reportPreconditionViolations(spec, specAbsPath, "CIF controller properties checker");
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         // Eliminate if updates. This does not support multi-assignments or partial variable assignments.
         new ElimIfUpdates().transform(spec);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         // Non-determinism check.
-        new MddDeterminismChecker(() -> shouldTerminate.get())
+        new MddDeterminismChecker(termination)
                 .reportPreconditionViolations(spec, specAbsPath, "CIF controller properties checker");
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         // Create MDD representation.
-        CifMddSpec cifMddSpec = new CifMddSpec(computeGlobalGuardedUpdates, shouldTerminate, normalOutput, debugOutput);
+        CifMddSpec cifMddSpec = new CifMddSpec(computeGlobalGuardedUpdates, termination, normalOutput, debugOutput);
         if (!cifMddSpec.compute(spec)) {
             return null;
         }

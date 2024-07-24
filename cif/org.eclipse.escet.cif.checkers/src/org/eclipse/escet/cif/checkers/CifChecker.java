@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.checkers;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.io.CifReader;
@@ -24,13 +23,14 @@ import org.eclipse.escet.cif.metamodel.java.CompositeCifWithArgWalker;
 import org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 
 /** CIF checker. Checks whether a given CIF specification satisfies certain {@link CifCheck conditions}. */
 public class CifChecker extends CompositeCifWithArgWalker<CifCheckViolations> {
-    /** Callback that indicates whether execution should be terminated on user request. */
-    private final BooleanSupplier shouldTerminate;
+    /** Cooperative termination query function. */
+    private final Termination termination;
 
     /** Whether all checks can handle component definitions and instantiations properly. */
     private final boolean supportCompDefInst;
@@ -38,22 +38,22 @@ public class CifChecker extends CompositeCifWithArgWalker<CifCheckViolations> {
     /**
      * Constructor for the {@link CifChecker} class.
      *
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @param conditions The conditions to check.
      */
-    public CifChecker(BooleanSupplier shouldTerminate, List<CifCheck> conditions) {
-        this(shouldTerminate, conditions.toArray(n -> new CifCheck[n]));
+    public CifChecker(Termination termination, List<CifCheck> conditions) {
+        this(termination, conditions.toArray(n -> new CifCheck[n]));
     }
 
     /**
      * Constructor for the {@link CifChecker} class.
      *
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @param conditions The conditions to check.
      */
-    public CifChecker(BooleanSupplier shouldTerminate, CifCheck... conditions) {
+    public CifChecker(Termination termination, CifCheck... conditions) {
         super(conditions);
-        this.shouldTerminate = shouldTerminate;
+        this.termination = termination;
         supportCompDefInst = Arrays.stream(conditions).allMatch(chk -> chk.supportsCompDefInst());
     }
 
@@ -85,7 +85,7 @@ public class CifChecker extends CompositeCifWithArgWalker<CifCheckViolations> {
         // Check for violations, and report them back.
         CifCheckViolations violations = new CifCheckViolations(box.getLines());
         walkSpecification(newSpec, violations);
-        if (shouldTerminate.getAsBoolean()) {
+        if (termination.isRequested()) {
             violations.markAsIncomplete();
         }
         return violations;

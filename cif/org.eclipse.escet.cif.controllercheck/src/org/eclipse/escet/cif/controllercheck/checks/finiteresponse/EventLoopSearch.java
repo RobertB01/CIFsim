@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.List;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
@@ -30,6 +29,7 @@ import org.eclipse.escet.common.java.DirectedGraphCycleFinder;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder.GraphEdge;
 import org.eclipse.escet.common.java.ListProductIterator;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.Termination;
 
 /** Static class for finding event loops. */
 public class EventLoopSearch {
@@ -45,13 +45,11 @@ public class EventLoopSearch {
      *
      * @param aut The automaton in which to search for the event loops.
      * @param loopEvents The events that can form an event loop.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @return The event loops in the specified automaton, or {@code null} if termination was requested.
      */
-    public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents,
-            Supplier<Boolean> shouldTerminate)
-    {
-        EventLoopFinder finder = new EventLoopFinder(loopEvents, shouldTerminate);
+    public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, Termination termination) {
+        EventLoopFinder finder = new EventLoopFinder(loopEvents, termination);
         return finder.findSimpleCycles(aut);
     }
 
@@ -66,10 +64,10 @@ public class EventLoopSearch {
          * Constructor of the {@link EventLoopFinder} class.
          *
          * @param loopEvents The events that can form an event loop.
-         * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+         * @param termination Cooperative termination query function.
          */
-        public EventLoopFinder(Set<Event> loopEvents, Supplier<Boolean> shouldTerminate) {
-            super(shouldTerminate);
+        public EventLoopFinder(Set<Event> loopEvents, Termination termination) {
+            super(termination);
             this.loopEvents = loopEvents;
         }
 

@@ -94,13 +94,13 @@ public class CifDataSynthesis {
         }
         try {
             // Check system, and print debug information.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             checkSystem(cifBddSpec, synthResult, dbgEnabled);
 
             // Print debug information on edge guard restrictions for preventing runtime errors.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             if (dbgEnabled) {
@@ -115,7 +115,7 @@ public class CifDataSynthesis {
             }
 
             // Apply state/event exclusion plant invariants.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             CifBddApplyPlantInvariants.applyStateEvtExclPlantsInvs(cifBddSpec, "uncontrolled system",
@@ -123,7 +123,7 @@ public class CifDataSynthesis {
 
             // Initialize applying edges.
             for (CifBddEdge edge: cifBddSpec.edges) {
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
                 edge.initApply();
@@ -131,14 +131,14 @@ public class CifDataSynthesis {
 
             // Apply state plant invariants if there are any.
             if (!cifBddSpec.plantInv.isOne()) {
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
                 CifBddApplyPlantInvariants.applyStatePlantInvs(cifBddSpec, "uncontrolled system", dbgEnabled);
             }
 
             // Initialize controlled behavior.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
 
@@ -154,22 +154,22 @@ public class CifDataSynthesis {
             }
 
             // Apply requirements.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             applyStateReqInvs(cifBddSpec, synthResult, dbgEnabled);
 
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             applyVarRanges(cifBddSpec, synthResult, dbgEnabled);
 
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             applyStateEvtExclReqs(cifBddSpec, synthResult, dbgEnabled);
 
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             applyRuntimeErrorReqs(cifBddSpec, synthResult, dbgEnabled);
@@ -177,14 +177,14 @@ public class CifDataSynthesis {
             // Re-initialize applying edges after applying the state plant invariants, state requirement invariants
             // (depending on settings), and state/event exclusion requirement invariants.
             for (CifBddEdge edge: cifBddSpec.edges) {
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
                 edge.reinitApply();
             }
 
             // Check edges.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             if (synthResult.settings.getDoNeverEnabledEventsWarn()) {
@@ -193,7 +193,7 @@ public class CifDataSynthesis {
 
             // Prepare workset algorithm, if enabled.
             if (cifBddSpec.settings.getDoUseEdgeWorksetAlgo()) {
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
                 prepareWorksetAlgorithm(cifBddSpec, synthResult.settings.getDoForwardReach(), dbgEnabled);
@@ -204,7 +204,7 @@ public class CifDataSynthesis {
             }
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return null;
         }
 
@@ -213,7 +213,7 @@ public class CifDataSynthesis {
             timing.main.start();
         }
         try {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             synthesizeFixedPoints(cifBddSpec, synthResult, doForward, dbgEnabled, doTiming, timing);
@@ -225,7 +225,7 @@ public class CifDataSynthesis {
             }
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return null;
         }
 
@@ -235,13 +235,13 @@ public class CifDataSynthesis {
         }
         try {
             // Determine controlled system guards.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             determineCtrlSysGuards(cifBddSpec, synthResult, dbgEnabled);
 
             // Done with actual synthesis. May no longer apply edges from here on.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             for (CifBddEdge edge: cifBddSpec.edges) {
@@ -251,7 +251,7 @@ public class CifDataSynthesis {
             // At this point, the final controlled system behavior is in the synthesis result.
 
             // Print the final controlled system behavior as debug output.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             if (dbgEnabled) {
@@ -264,27 +264,27 @@ public class CifDataSynthesis {
             }
 
             // Determine controlled system initialization predicate.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             determineCtrlSysInit(cifBddSpec, synthResult);
 
             // Check whether an initial state is present, or the supervisor is empty.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             boolean emptySup = !checkInitStatePresent(synthResult);
 
             // Statistics: number of states in controlled system.
             if (settings.getSynthesisStatistics().contains(SynthesisStatistics.CTRL_SYS_STATES)) {
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
                 printNumberStates(cifBddSpec, synthResult, emptySup, doForward, dbgEnabled);
             }
 
             // Determine the output of synthesis (1/2).
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             determineOutputInitial(cifBddSpec, synthResult, dbgEnabled);
@@ -295,21 +295,21 @@ public class CifDataSynthesis {
             }
 
             // Determine the guards for the controllable events.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             Map<Event, BDD> ctrlGuards = determineGuards(cifBddSpec, cifBddSpec.controllables, false);
 
             // Check edges.
             if (synthResult.settings.getDoNeverEnabledEventsWarn()) {
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
                 checkOutputEdges(cifBddSpec, disabledEvents, synthResult, ctrlGuards);
             }
 
             // Determine the output of synthesis (2/2).
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             determineOutputGuards(cifBddSpec, synthResult, ctrlGuards, dbgEnabled);
@@ -338,7 +338,7 @@ public class CifDataSynthesis {
      */
     private static void checkSystem(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult, boolean dbgEnabled) {
         // Debug state plant invariants (predicates) of the components.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -352,7 +352,7 @@ public class CifDataSynthesis {
         }
 
         // Debug state plant invariants (predicates) of the locations of the automata.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -365,7 +365,7 @@ public class CifDataSynthesis {
         }
 
         // Debug state plant invariant (predicate) of the system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -374,7 +374,7 @@ public class CifDataSynthesis {
         }
 
         // Warn if no state in system, due to state plant invariants.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (cifBddSpec.plantInv.isZero()) {
@@ -383,7 +383,7 @@ public class CifDataSynthesis {
         }
 
         // Debug state requirement invariants (predicates) of the components.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -397,7 +397,7 @@ public class CifDataSynthesis {
         }
 
         // Debug state requirement invariants (predicates) of the locations of the automata.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -410,7 +410,7 @@ public class CifDataSynthesis {
         }
 
         // Debug state requirement invariant (predicate) of the system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -419,7 +419,7 @@ public class CifDataSynthesis {
         }
 
         // Warn if no state in system, due to state requirement invariants.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (cifBddSpec.reqInv.isZero()) {
@@ -428,7 +428,7 @@ public class CifDataSynthesis {
         }
 
         // Debug initialization predicates of the discrete variables.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -449,7 +449,7 @@ public class CifDataSynthesis {
         }
 
         // Debug initialization predicates of the components.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -462,7 +462,7 @@ public class CifDataSynthesis {
         }
 
         // Debug initialization predicates of the locations of the automata.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -475,7 +475,7 @@ public class CifDataSynthesis {
         }
 
         // Debug initialization predicate of the uncontrolled system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -484,7 +484,7 @@ public class CifDataSynthesis {
         }
 
         // Debug combined initialization and state plant invariants of the system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -493,7 +493,7 @@ public class CifDataSynthesis {
         }
 
         // Debug combined initialization and state invariants of the system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -502,7 +502,7 @@ public class CifDataSynthesis {
         }
 
         // Warn if no initial state in uncontrolled system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (cifBddSpec.initial.isZero()) {
@@ -510,7 +510,7 @@ public class CifDataSynthesis {
                     .line("The uncontrolled system has no initial state (taking into account only initialization).");
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (!cifBddSpec.initial.isZero() && !cifBddSpec.plantInv.isZero() && cifBddSpec.initialPlantInv.isZero()) {
@@ -518,7 +518,7 @@ public class CifDataSynthesis {
                     + "account only initialization and state plant invariants).");
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (!cifBddSpec.initialPlantInv.isZero() && !cifBddSpec.initial.isZero() && !cifBddSpec.plantInv.isZero()
@@ -529,7 +529,7 @@ public class CifDataSynthesis {
         }
 
         // Debug marker predicates of the components.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -543,7 +543,7 @@ public class CifDataSynthesis {
         }
 
         // Debug marker predicates of the locations of the automata.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -556,7 +556,7 @@ public class CifDataSynthesis {
         }
 
         // Debug marker predicate of the uncontrolled system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -565,7 +565,7 @@ public class CifDataSynthesis {
         }
 
         // Debug combined marking and state plant invariants of the system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -574,7 +574,7 @@ public class CifDataSynthesis {
         }
 
         // Debug combined marking and state invariants of the system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -583,7 +583,7 @@ public class CifDataSynthesis {
         }
 
         // Warn if no marked state in uncontrolled system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (cifBddSpec.marked.isZero()) {
@@ -591,7 +591,7 @@ public class CifDataSynthesis {
                     .line("The uncontrolled system has no marked state (taking into account only marking).");
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (!cifBddSpec.marked.isZero() && !cifBddSpec.plantInv.isZero() && cifBddSpec.markedPlantInv.isZero()) {
@@ -599,7 +599,7 @@ public class CifDataSynthesis {
                     + "only marking and state plant invariants).");
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (!cifBddSpec.markedPlantInv.isZero() && !cifBddSpec.marked.isZero() && !cifBddSpec.plantInv.isZero()
@@ -610,7 +610,7 @@ public class CifDataSynthesis {
         }
 
         // Debug state/event exclusion plants.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -632,7 +632,7 @@ public class CifDataSynthesis {
         }
 
         // Debug state/event exclusion requirements.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -654,7 +654,7 @@ public class CifDataSynthesis {
         }
 
         // Debug uncontrolled system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled) {
@@ -698,7 +698,7 @@ public class CifDataSynthesis {
                 // Add the invariants to the controlled-behavior predicate. This ensures that a state is only in the
                 // controlled system if the state requirement invariants hold.
                 BDD newCtrlBeh = synthResult.ctrlBeh.and(cifBddSpec.reqInv);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -734,7 +734,7 @@ public class CifDataSynthesis {
                     }
 
                     // If termination is requested, we won't do any extra work on the predicate, as it won't be used.
-                    if (cifBddSpec.settings.getShouldTerminate().get()) {
+                    if (cifBddSpec.settings.getTermination().isRequested()) {
                         return updPred;
                     }
 
@@ -760,7 +760,7 @@ public class CifDataSynthesis {
                 // Restrict the initialization predicate of the controlled system, allowing only states that satisfy
                 // the state requirement invariants.
                 BDD newInitialCtrl = synthResult.initialCtrl.and(cifBddSpec.reqInv);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -820,19 +820,19 @@ public class CifDataSynthesis {
         boolean firstDbg = true;
         boolean changed = false;
         for (CifBddVariable var: cifBddSpec.variables) {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
             // Compute out of range predicate.
             BDD range = BddUtils.getVarDomain(var, false, cifBddSpec.factory);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
             // Update controlled-behavior predicate.
             BDD newCtrlBeh = synthResult.ctrlBeh.and(range);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -857,7 +857,7 @@ public class CifDataSynthesis {
             }
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled && changed) {
@@ -924,7 +924,7 @@ public class CifDataSynthesis {
         // edges, but instead must prevent runtime errors by preventing the transitions. And this is prevented in both
         // forward and backward searches since the edge guards disallow the edge to be taken from runtime error states.
         for (CifBddEdge edge: cifBddSpec.edges) {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -966,7 +966,7 @@ public class CifDataSynthesis {
         boolean guardChanged = false;
         for (CifBddEdge edge: cifBddSpec.edges) {
             // Get requirements for the edge.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
             Stream<BDD> reqsStream = reqsPerEdge.apply(edge);
@@ -974,7 +974,7 @@ public class CifDataSynthesis {
 
             // Process each requirement.
             for (BDD req: reqsIterable) {
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -987,7 +987,7 @@ public class CifDataSynthesis {
                 if (edge.event.getControllable()) {
                     // For controllable events, we can simply restrict the guard.
                     BDD newGuard = edge.guard.and(req);
-                    if (cifBddSpec.settings.getShouldTerminate().get()) {
+                    if (cifBddSpec.settings.getTermination().isRequested()) {
                         return;
                     }
 
@@ -1018,12 +1018,12 @@ public class CifDataSynthesis {
                     //
                     // Only good states in controlled behavior. So restrict controlled behavior with 'reqGood'.
                     BDD reqGood = edge.guard.imp(req);
-                    if (cifBddSpec.settings.getShouldTerminate().get()) {
+                    if (cifBddSpec.settings.getTermination().isRequested()) {
                         return;
                     }
 
                     BDD newCtrlBeh = synthResult.ctrlBeh.id().andWith(reqGood);
-                    if (cifBddSpec.settings.getShouldTerminate().get()) {
+                    if (cifBddSpec.settings.getTermination().isRequested()) {
                         return;
                     }
 
@@ -1053,7 +1053,7 @@ public class CifDataSynthesis {
             }
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled && changed) {
@@ -1077,7 +1077,7 @@ public class CifDataSynthesis {
         Set<Event> disabledEvents = setc(cifBddSpec.alphabet.size());
 
         for (Event event: cifBddSpec.alphabet) {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return disabledEvents;
             }
 
@@ -1130,7 +1130,7 @@ public class CifDataSynthesis {
             // more consistent regardless, we always include the state invariants again.
             boolean alwaysDisabled = true;
             for (CifBddEdge edge: cifBddSpec.eventEdges.get(event)) {
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return disabledEvents;
                 }
 
@@ -1264,7 +1264,7 @@ public class CifDataSynthesis {
         while (true) {
             // Next round.
             round++;
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -1281,7 +1281,7 @@ public class CifDataSynthesis {
                     case CTRL -> synthResult.ctrlBeh.not();
                     case REACH -> synthResult.initialCtrl.id();
                 };
-                if (fixedPointComputation == CTRL && cifBddSpec.settings.getShouldTerminate().get()) {
+                if (fixedPointComputation == CTRL && cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1355,7 +1355,7 @@ public class CifDataSynthesis {
                     }
                 }
 
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1369,7 +1369,7 @@ public class CifDataSynthesis {
                     case CTRL:
                         newCtrlBeh = reachabilityResult.not();
                         reachabilityResult.free();
-                        if (cifBddSpec.settings.getShouldTerminate().get()) {
+                        if (cifBddSpec.settings.getTermination().isRequested()) {
                             return;
                         }
                         break;
@@ -1406,7 +1406,7 @@ public class CifDataSynthesis {
                     }
                     break FIXED_POINT_LOOP;
                 }
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1435,7 +1435,7 @@ public class CifDataSynthesis {
                         }
                         break FIXED_POINT_LOOP;
                     }
-                    if (cifBddSpec.settings.getShouldTerminate().get()) {
+                    if (cifBddSpec.settings.getTermination().isRequested()) {
                         return;
                     }
                 }
@@ -1474,19 +1474,19 @@ public class CifDataSynthesis {
             if (!edge.event.getControllable()) {
                 continue;
             }
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
             BDD updPred = synthResult.ctrlBeh.id();
             updPred = edge.apply(updPred, CifBddEdgeApplyDirection.BACKWARD, null);
             edge.cleanupApply();
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
             BDD newGuard = edge.guard.id().andWith(updPred);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -1589,7 +1589,7 @@ public class CifDataSynthesis {
             cifBddSpec.settings.getDebugOutput().line("Initial (controlled system):           %s",
                     bddToStr(synthResult.initialCtrl, cifBddSpec));
         }
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
 
@@ -1597,12 +1597,12 @@ public class CifDataSynthesis {
         // system, as thus has been removed as allowed initialization? The inverse of that is what the supervisor adds
         // as additional initialization restriction on top of the uncontrolled system.
         BDD initialRemoved = cifBddSpec.initial.id().andWith(synthResult.initialCtrl.not());
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
 
         BDD initialAdded = initialRemoved.not();
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
 
@@ -1612,7 +1612,7 @@ public class CifDataSynthesis {
             cifBddSpec.settings.getDebugOutput().line("Initial (added by supervisor):         %s",
                     bddToStr(initialAdded, cifBddSpec));
         }
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
 
@@ -1628,7 +1628,7 @@ public class CifDataSynthesis {
             // If requested, the controlled system initialization predicate is simplified under the assumption of the
             // uncontrolled system initialization predicate, to obtain the additional initialization restrictions
             // introduced by the controller with respect to the uncontrolled system initialization predicate.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
             if (simplifications.contains(BddSimplify.INITIAL_UNCTRL)) {
@@ -1641,7 +1641,7 @@ public class CifDataSynthesis {
             // If requested, the controlled system initialization predicate is simplified under the assumption of the
             // state plant invariants, to obtain the additional initialization restrictions introduced by the
             // controller with respect to the state plant invariants.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
             if (simplifications.contains(BddSimplify.INITIAL_STATE_PLANT_INVS)) {
@@ -1653,13 +1653,13 @@ public class CifDataSynthesis {
 
             // Perform simplification if there are assumptions.
             if (!assumptionTxts.isEmpty()) {
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
                 String assumptionsTxt = combineAssumptionTexts(assumptionTxts);
 
                 BDD newInitial = synthResult.initialOutput.simplify(assumption);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1678,7 +1678,7 @@ public class CifDataSynthesis {
             assumption.free();
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
 
@@ -1718,7 +1718,7 @@ public class CifDataSynthesis {
             if (!events.contains(cifBddEdge.event)) {
                 continue;
             }
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
 
@@ -1756,19 +1756,19 @@ public class CifDataSynthesis {
         Map<Event, BDD> unctrlGuards = determineGuards(cifBddSpec, uncontrollables, false);
 
         // Warn for controllable events never enabled in the controlled system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         warnEventsDisabled(cifBddSpec, disabledEvents, synthResult, ctrlGuards);
 
         // Warn for uncontrollable events never enabled in the controlled system.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         warnEventsDisabled(cifBddSpec, disabledEvents, synthResult, unctrlGuards);
 
         // Free no longer needed predicates.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         for (BDD bdd: unctrlGuards.values()) {
@@ -1796,7 +1796,7 @@ public class CifDataSynthesis {
 
         // Check all events.
         for (Event event: guards.keySet()) {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -1844,7 +1844,7 @@ public class CifDataSynthesis {
         // If requested, simplify output guards assuming the uncontrolled system guard. This results in the additional
         // restrictions introduced by the controller with respect to the plants (i.e. uncontrolled system), instead of
         // the full controlled system guard. Simplification is best effort.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_PLANTS)) {
@@ -1854,13 +1854,13 @@ public class CifDataSynthesis {
             Map<Event, BDD> unctrlGuards = determineGuards(cifBddSpec, cifBddSpec.controllables, true);
 
             // Add guards to the assumptions.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
             for (Event controllable: cifBddSpec.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = unctrlGuards.get(controllable);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1872,7 +1872,7 @@ public class CifDataSynthesis {
         // If requested, simplify output guards assuming the state/event exclusion requirement invariants derived from
         // the requirement automata. This results in the additional restrictions introduced by the controller with
         // respect to those requirements, instead of the full controlled system guard. Simplification is best effort.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_REQ_AUTS)) {
@@ -1881,7 +1881,7 @@ public class CifDataSynthesis {
             for (Event controllable: cifBddSpec.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.stateEvtExclsReqAuts.get(controllable);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1894,7 +1894,7 @@ public class CifDataSynthesis {
         // If requested, simplify output guards assuming the state/event exclusion plant invariants from the input
         // specification. This results in the additional restrictions introduced by the controller with respect to these
         // plants, instead of the full controlled system guard. Simplification is best effort.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_SE_EXCL_PLANT_INVS)) {
@@ -1903,7 +1903,7 @@ public class CifDataSynthesis {
             for (Event controllable: cifBddSpec.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.stateEvtExclPlants.get(controllable);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1916,7 +1916,7 @@ public class CifDataSynthesis {
         // If requested, simplify output guards assuming the state/event exclusion requirement invariants from the input
         // specification. This results in the additional restrictions introduced by the controller with respect to those
         // requirements, instead of the full controlled system guard. Simplification is best effort.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_SE_EXCL_REQ_INVS)) {
@@ -1925,7 +1925,7 @@ public class CifDataSynthesis {
             for (Event controllable: cifBddSpec.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.stateEvtExclsReqInvs.get(controllable);
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1938,7 +1938,7 @@ public class CifDataSynthesis {
         // If requested, simplify output guards assuming the state plant invariants from the input specification.
         // This results in the additional restrictions introduced by the controller with respect to those plants,
         // instead of the full controlled system guard. Simplification is best effort.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_STATE_PLANT_INVS)) {
@@ -1947,7 +1947,7 @@ public class CifDataSynthesis {
             for (Event controllable: cifBddSpec.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.plantInv.id();
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1961,7 +1961,7 @@ public class CifDataSynthesis {
         // If requested, simplify output guards assuming the state requirement invariants from the input specification.
         // This results in the additional restrictions introduced by the controller with respect to those requirements,
         // instead of the full controlled system guard. Simplification is best effort.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_STATE_REQ_INVS)) {
@@ -1970,7 +1970,7 @@ public class CifDataSynthesis {
             for (Event controllable: cifBddSpec.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.reqInv.id();
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -1985,7 +1985,7 @@ public class CifDataSynthesis {
         // Initialization is restricted to ensure the system starts within the controlled behavior. Each guard ensures
         // the system remains in the controlled behavior. We may assume before a transition, we are in the controlled
         // behavior. We can thus simplify guards using this assumption. Simplification is best effort.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_CTRL_BEH)) {
@@ -1994,7 +1994,7 @@ public class CifDataSynthesis {
             for (Event controllable: cifBddSpec.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = synthResult.ctrlBeh.id();
-                if (cifBddSpec.settings.getShouldTerminate().get()) {
+                if (cifBddSpec.settings.getTermination().isRequested()) {
                     return;
                 }
 
@@ -2006,7 +2006,7 @@ public class CifDataSynthesis {
         synthResult.ctrlBeh = null;
 
         // Initialize output guards.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         synthResult.outputGuards = ctrlGuards;
@@ -2017,7 +2017,7 @@ public class CifDataSynthesis {
         }
 
         // Perform the simplification using all the collected assumptions.
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         String assumptionsTxt = combineAssumptionTexts(assumptionTxts);
@@ -2070,7 +2070,7 @@ public class CifDataSynthesis {
     {
         boolean dbgPrinted = false;
         for (Event controllable: cifBddSpec.controllables) {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -2086,7 +2086,7 @@ public class CifDataSynthesis {
             } else {
                 newGuard = guard.simplify(assumption);
             }
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -2106,7 +2106,7 @@ public class CifDataSynthesis {
             }
 
             // Free no longer needed predicates.
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
             assumption.free();

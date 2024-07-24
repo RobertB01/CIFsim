@@ -17,7 +17,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
@@ -26,6 +25,7 @@ import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.bdd.utils.CifBddReachability;
 import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerBddBasedCheck;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
 
@@ -43,13 +43,13 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
 
     @Override
     public BoundedResponseCheckConclusion performCheck(CifBddSpec cifBddSpec) {
-        Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
+        Termination termination = cifBddSpec.settings.getTermination();
         DebugNormalOutput dbg = cifBddSpec.settings.getDebugOutput();
 
         // Compute reachable states.
         dbg.line("Computing reachable states...");
         BDD reachableStates = computeReachableStates(cifBddSpec);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -57,14 +57,14 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
         dbg.line();
         dbg.line("Computing bound for uncontrollable events...");
         Bound uncontrollablesBound = computeBound(cifBddSpec, reachableStates, false);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
         dbg.line();
         dbg.line("Computing bound for controllable events...");
         Bound controllablesBound = computeBound(cifBddSpec, reachableStates, true);
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -131,7 +131,7 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
         //   remain. Then a fixed point is reached and there is no bounded response.
 
         // Get settings.
-        Supplier<Boolean> shouldTerminate = cifBddSpec.settings.getShouldTerminate();
+        Termination termination = cifBddSpec.settings.getTermination();
         DebugNormalOutput dbg = cifBddSpec.settings.getDebugOutput();
 
         // Get edges to apply.
@@ -144,7 +144,7 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
             }
         };
         List<CifBddEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
-        if (shouldTerminate.get()) {
+        if (termination.isRequested()) {
             return null;
         }
 
@@ -175,13 +175,13 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
                 // Apply edge.
                 BDD restriction = null;
                 BDD edgePred = edge.apply(prevRoundStates.id(), CifBddEdgeApplyDirection.FORWARD, restriction);
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
 
                 // Add states reachable by the edge to the states reachable by this round.
                 roundStates = roundStates.id().orWith(edgePred);
-                if (shouldTerminate.get()) {
+                if (termination.isRequested()) {
                     return null;
                 }
             }
@@ -191,7 +191,7 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
                 round = null;
                 break;
             }
-            if (shouldTerminate.get()) {
+            if (termination.isRequested()) {
                 return null;
             }
         }

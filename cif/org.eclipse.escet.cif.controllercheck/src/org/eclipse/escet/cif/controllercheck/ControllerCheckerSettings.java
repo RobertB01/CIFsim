@@ -13,8 +13,7 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
-import java.util.function.Supplier;
-
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -40,8 +39,8 @@ public class ControllerCheckerSettings {
      */
     private boolean printFiniteResponseControlLoops = true;
 
-    /** Callback that indicates whether execution should be terminated on user request. */
-    private Supplier<Boolean> shouldTerminate = () -> false;
+    /** Cooperative termination query function. */
+    private Termination termination = Termination.NEVER;
 
     /** Callback to send normal output to the user. */
     private DebugNormalOutput normalOutput = new BlackHoleOutputProvider().getNormalOutput();
@@ -185,29 +184,29 @@ public class ControllerCheckerSettings {
     }
 
     /**
-     * Gets the callback that indicates whether execution should be terminated on user request.
+     * Gets the cooperative termination query function.
      *
      * <p>
      * By default, termination is never requested.
      * </p>
      *
-     * @return The callback.
+     * @return The cooperative termination query function.
      */
-    public Supplier<Boolean> getShouldTerminate() {
-        return shouldTerminate;
+    public Termination getTermination() {
+        return termination;
     }
 
     /**
-     * Sets the callback that indicates whether execution should be terminated on user request.
+     * Sets the cooperative termination query function.
      *
      * <p>
      * By default, termination is never requested.
      * </p>
      *
-     * @param shouldTerminate The callback.
+     * @param termination The cooperative termination query function.
      */
-    public void setShouldTerminate(Supplier<Boolean> shouldTerminate) {
-        this.shouldTerminate = shouldTerminate;
+    public void setTermination(Termination termination) {
+        this.termination = termination;
     }
 
     /**

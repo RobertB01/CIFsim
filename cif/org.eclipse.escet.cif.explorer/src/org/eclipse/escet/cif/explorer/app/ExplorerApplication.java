@@ -23,7 +23,6 @@ import java.util.ArrayDeque;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Queue;
-import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
@@ -54,7 +53,6 @@ import org.eclipse.escet.cif.explorer.runtime.ExplorerBuilder;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
@@ -69,6 +67,7 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.Termination;
 
 /** Application implementing untimed unfolding of the state space of a CIF specification. */
 public class ExplorerApplication extends Application<IOutputComponent> {
@@ -297,9 +296,9 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         }
 
         // Warn about features of the specification that may lead to an unexpected resulting state space.
-        BooleanSupplier shouldTerminate = () -> AppEnv.isTerminationRequested();
+        Termination termination = () -> isTerminationRequested();
         CifCheck[] checks = {new RequirementAsPlantChecker()};
-        CifCheckViolations warnings = new CifChecker(shouldTerminate, checks).check(spec, absSpecPath);
+        CifCheckViolations warnings = new CifChecker(termination, checks).check(spec, absSpecPath);
         if (warnings.hasViolations()) {
             String incompleteTxt = "";
             if (warnings.isIncomplete()) {

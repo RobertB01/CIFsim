@@ -16,9 +16,9 @@ package org.eclipse.escet.cif.bdd.settings;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -29,11 +29,8 @@ public class CifBddSettings {
     /** Whether modification of the settings is allowed. */
     protected boolean modificationAllowed = true;
 
-    /**
-     * Function that indicates whether termination has been requested. Once it returns {@code true}, it must return
-     * {@code true} also on subsequent calls.
-     */
-    private Supplier<Boolean> shouldTerminate = () -> false;
+    /** Cooperative termination query function. */
+    private Termination termination = Termination.NEVER;
 
     /** Callback for debug output. */
     private DebugNormalOutput debugOutput = new BlackHoleOutputProvider().getDebugOutput();
@@ -165,28 +162,26 @@ public class CifBddSettings {
     }
 
     /**
-     * Get the function that indicates whether termination has been requested. Once it returns {@code true}, it returns
-     * {@code true} also on subsequent calls.
+     * Get cooperative termination query function.
      *
      * <p>
-     * By default, the function always returns {@code false}.
+     * By default, it indicates termination is never requested.
      * </p>
      *
-     * @return The function that indicates whether termination has been requested.
+     * @return The cooperative termination query function.
      */
-    public Supplier<Boolean> getShouldTerminate() {
-        return shouldTerminate;
+    public Termination getTermination() {
+        return termination;
     }
 
     /**
-     * Set the function that indicates whether termination has been requested. Once it returns {@code true}, it must
-     * returns {@code true} also on subsequent calls.
+     * Set the cooperative termination query function.
      *
-     * @param shouldTerminate The function that indicates whether termination has been requested..
+     * @param termination Cooperative termination query function.
      */
-    public void setShouldTerminate(Supplier<Boolean> shouldTerminate) {
+    public void setTermination(Termination termination) {
         Assert.check(modificationAllowed, "Modification is not allowed.");
-        this.shouldTerminate = shouldTerminate;
+        this.termination = termination;
         checkSettings();
     }
 
