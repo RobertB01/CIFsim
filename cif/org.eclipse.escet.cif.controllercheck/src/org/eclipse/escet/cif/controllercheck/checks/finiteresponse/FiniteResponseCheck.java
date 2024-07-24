@@ -136,7 +136,9 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
         int iterationNumber = 1;
 
         do {
-            dbg.line();
+            if (iterationNumber > 1) {
+                dbg.line();
+            }
             dbg.line("Iteration %d.", iterationNumber);
             iterationNumber++;
             oldSize = controllableEvents.size();

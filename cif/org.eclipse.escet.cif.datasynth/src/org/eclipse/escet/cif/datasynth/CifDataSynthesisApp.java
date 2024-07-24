@@ -261,6 +261,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.inputConvert.start();
             }
             try {
+                converter1.setNeedEmptyDebugLine();
                 cifBddSpec = converter1.convert(spec, settings, factory);
             } finally {
                 if (doTiming) {
