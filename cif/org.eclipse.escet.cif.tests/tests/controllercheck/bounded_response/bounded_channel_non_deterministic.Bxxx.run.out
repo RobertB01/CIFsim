@@ -2,24 +2,24 @@ Loading CIF specification "controllercheck/bounded_response/bounded_channel_non_
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   usend1  0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer  n/a   usend2  1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   usend3  2      1 * 2     2 * 2       2 * 2       100%
-      4      location pointer  n/a   urecv1  3      1 * 2     2 * 2       2 * 2       100%
-      5      location pointer  n/a   urecv2  4      1 * 2     2 * 2       2 * 2       100%
-      6      location pointer  n/a   urecv3  5      1 * 2     2 * 2       2 * 2       100%
-      7      location pointer  n/a   urecv4  6      1 * 2     2 * 2       2 * 2       100%
-      8      location pointer  n/a   csend1  7      1 * 2     2 * 2       2 * 2       100%
-      9      location pointer  n/a   csend2  8      1 * 2     2 * 2       2 * 2       100%
-      10     location pointer  n/a   csend3  9      1 * 2     2 * 2       2 * 2       100%
-      11     location pointer  n/a   csend4  10     1 * 2     2 * 2       2 * 2       100%
-      12     location pointer  n/a   crecv1  11     1 * 2     2 * 2       2 * 2       100%
-      13     location pointer  n/a   crecv2  12     1 * 2     2 * 2       2 * 2       100%
-      14     location pointer  n/a   crecv3  13     1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
-      Total                                  14     28        56          56          100%
+        Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   usend1  0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   usend2  1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   usend3  2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   urecv1  3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   urecv2  4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   urecv3  5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   urecv4  6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   csend1  7      1 * 2     2 * 2       2 * 2       100%
+        9      location pointer  n/a   csend2  8      1 * 2     2 * 2       2 * 2       100%
+        10     location pointer  n/a   csend3  9      1 * 2     2 * 2       2 * 2       100%
+        11     location pointer  n/a   csend4  10     1 * 2     2 * 2       2 * 2       100%
+        12     location pointer  n/a   crecv1  11     1 * 2     2 * 2       2 * 2       100%
+        13     location pointer  n/a   crecv2  12     1 * 2     2 * 2       2 * 2       100%
+        14     location pointer  n/a   crecv3  13     1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+        Total                                  14     28        56          56          100%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
@@ -112,24 +112,24 @@ Preparing for BDD-based checks...
     Variable order changed.
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   csend1  0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer  n/a   crecv1  1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   csend2  2      1 * 2     2 * 2       2 * 2       100%
-      4      location pointer  n/a   crecv2  3      1 * 2     2 * 2       2 * 2       100%
-      5      location pointer  n/a   csend3  4      1 * 2     2 * 2       2 * 2       100%
-      6      location pointer  n/a   crecv3  5      1 * 2     2 * 2       2 * 2       100%
-      7      location pointer  n/a   csend4  6      1 * 2     2 * 2       2 * 2       100%
-      8      location pointer  n/a   urecv1  7      1 * 2     2 * 2       2 * 2       100%
-      9      location pointer  n/a   usend1  8      1 * 2     2 * 2       2 * 2       100%
-      10     location pointer  n/a   urecv2  9      1 * 2     2 * 2       2 * 2       100%
-      11     location pointer  n/a   usend2  10     1 * 2     2 * 2       2 * 2       100%
-      12     location pointer  n/a   urecv3  11     1 * 2     2 * 2       2 * 2       100%
-      13     location pointer  n/a   usend3  12     1 * 2     2 * 2       2 * 2       100%
-      14     location pointer  n/a   urecv4  13     1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
-      Total                                  14     28        56          56          100%
+        Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   csend1  0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   crecv1  1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   csend2  2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   crecv2  3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   csend3  4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   crecv3  5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   csend4  6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   urecv1  7      1 * 2     2 * 2       2 * 2       100%
+        9      location pointer  n/a   usend1  8      1 * 2     2 * 2       2 * 2       100%
+        10     location pointer  n/a   urecv2  9      1 * 2     2 * 2       2 * 2       100%
+        11     location pointer  n/a   usend2  10     1 * 2     2 * 2       2 * 2       100%
+        12     location pointer  n/a   urecv3  11     1 * 2     2 * 2       2 * 2       100%
+        13     location pointer  n/a   usend3  12     1 * 2     2 * 2       2 * 2       100%
+        14     location pointer  n/a   urecv4  13     1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+        Total                                  14     28        56          56          100%
 
 
     Restricting system behavior using state/event exclusion plant invariants.

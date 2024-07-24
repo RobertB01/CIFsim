@@ -2,11 +2,11 @@ Loading CIF specification "controllercheck/non_blocking_under_control/nbuc_two_p
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name         Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  -----------  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   Supervisor1  0      2 * 2     4 * 2       4 * 2       100%
-      -----  ----------------  ----  -----------  -----  --------  ----------  ----------  -----------
-      Total                                       1      4         8           8           100%
+        Nr     Kind              Type  Name         Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  -----------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Supervisor1  0      2 * 2     4 * 2       4 * 2       100%
+        -----  ----------------  ----  -----------  -----  --------  ----------  ----------  -----------
+        Total                                       1      4         8           8           100%
 
     Skipping variable ordering: only one variable present.
 

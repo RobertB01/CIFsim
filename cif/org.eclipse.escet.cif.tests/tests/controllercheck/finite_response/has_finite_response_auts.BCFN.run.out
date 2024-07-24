@@ -2,13 +2,13 @@ Loading CIF specification "controllercheck/finite_response/has_finite_response_a
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   Actuator  0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer  n/a   Sensor    1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   sup       2      1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-      Total                                    3      6         12          12          100%
+        Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Actuator  0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   Sensor    1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   sup       2      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        Total                                    3      6         12          12          100%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
@@ -100,13 +100,13 @@ Preparing for BDD-based checks...
     Variable order changed.
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   Actuator  0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer  n/a   sup       1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   Sensor    2      1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-      Total                                    3      6         12          12          100%
+        Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Actuator  0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   sup       1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   Sensor    2      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        Total                                    3      6         12          12          100%
 
 
     Restricting system behavior using state/event exclusion plant invariants.

@@ -2,13 +2,13 @@ Loading CIF specification "controllercheck/confluence/reversible1.cif"...
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      1      location pointer   n/a        A     0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer   n/a        B     1      1 * 2     2 * 2       2 * 2       100%
-      3      discrete variable  int[0..2]  B.v   2      2 * 2     3 * 2       4 * 2       75%
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      Total                                      3      8         14          16          ~88%
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a        A     0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer   n/a        B     1      1 * 2     2 * 2       2 * 2       100%
+        3      discrete variable  int[0..2]  B.v   2      2 * 2     3 * 2       4 * 2       75%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      3      8         14          16          ~88%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
@@ -104,13 +104,13 @@ Preparing for BDD-based checks...
     Variable order changed.
 
     CIF variables and location pointers:
-      Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      1      discrete variable  int[0..2]  B.v   0      2 * 2     3 * 2       4 * 2       75%
-      2      location pointer   n/a        B     1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer   n/a        A     2      1 * 2     2 * 2       2 * 2       100%
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      Total                                      3      8         14          16          ~88%
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..2]  B.v   0      2 * 2     3 * 2       4 * 2       75%
+        2      location pointer   n/a        B     1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer   n/a        A     2      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      3      8         14          16          ~88%
 
 
     Restricting system behavior using state/event exclusion plant invariants.

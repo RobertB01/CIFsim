@@ -2,12 +2,12 @@ Loading CIF specification "controllercheck/finite_response/special_loops.cif"...
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   A     0      3 * 2     5 * 2       8 * 2       ~63%
-      2      location pointer  n/a   B     1      1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      Total                                2      8         14          20          70%
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   A     0      3 * 2     5 * 2       8 * 2       ~63%
+        2      location pointer  n/a   B     1      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                2      8         14          20          70%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:

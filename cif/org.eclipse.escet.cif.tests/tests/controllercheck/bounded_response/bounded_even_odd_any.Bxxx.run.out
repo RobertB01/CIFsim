@@ -2,11 +2,11 @@ Loading CIF specification "controllercheck/bounded_response/bounded_even_odd_any
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind               Type        Name       Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ----------  ---------  -----  --------  ----------  ----------  -----------
-      1      discrete variable  int[0..25]  p.counter  0      5 * 2     26 * 2      32 * 2      ~81%
-      -----  -----------------  ----------  ---------  -----  --------  ----------  ----------  -----------
-      Total                                            1      10        52          64          ~81%
+        Nr     Kind               Type        Name       Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----------  ---------  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..25]  p.counter  0      5 * 2     26 * 2      32 * 2      ~81%
+        -----  -----------------  ----------  ---------  -----  --------  ----------  ----------  -----------
+        Total                                            1      10        52          64          ~81%
 
     Skipping variable ordering: only one variable present.
 

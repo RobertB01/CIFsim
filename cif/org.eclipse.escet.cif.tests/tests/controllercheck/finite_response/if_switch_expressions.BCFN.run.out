@@ -2,18 +2,18 @@ Loading CIF specification "controllercheck/finite_response/if_switch_expressions
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      1      input variable    bool  A     0      1 * 2     2 * 2       2 * 2       100%
-      2      input variable    bool  B     1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   Aut1  2      1 * 2     2 * 2       2 * 2       100%
-      4      location pointer  n/a   Aut2  3      1 * 2     2 * 2       2 * 2       100%
-      5      location pointer  n/a   Aut3  4      1 * 2     2 * 2       2 * 2       100%
-      6      location pointer  n/a   Aut4  5      1 * 2     2 * 2       2 * 2       100%
-      7      location pointer  n/a   Aut5  6      1 * 2     2 * 2       2 * 2       100%
-      8      location pointer  n/a   Aut6  7      1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      Total                                8      16        32          32          100%
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      input variable    bool  A     0      1 * 2     2 * 2       2 * 2       100%
+        2      input variable    bool  B     1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   Aut1  2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   Aut2  3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   Aut3  4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   Aut4  5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   Aut5  6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   Aut6  7      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                8      16        32          32          100%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
@@ -107,18 +107,18 @@ Preparing for BDD-based checks...
     Variable order changed.
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   Aut1  0      1 * 2     2 * 2       2 * 2       100%
-      2      input variable    bool  B     1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   Aut2  2      1 * 2     2 * 2       2 * 2       100%
-      4      location pointer  n/a   Aut3  3      1 * 2     2 * 2       2 * 2       100%
-      5      input variable    bool  A     4      1 * 2     2 * 2       2 * 2       100%
-      6      location pointer  n/a   Aut6  5      1 * 2     2 * 2       2 * 2       100%
-      7      location pointer  n/a   Aut4  6      1 * 2     2 * 2       2 * 2       100%
-      8      location pointer  n/a   Aut5  7      1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      Total                                8      16        32          32          100%
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Aut1  0      1 * 2     2 * 2       2 * 2       100%
+        2      input variable    bool  B     1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   Aut2  2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   Aut3  3      1 * 2     2 * 2       2 * 2       100%
+        5      input variable    bool  A     4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   Aut6  5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   Aut4  6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   Aut5  7      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                8      16        32          32          100%
 
 
     Restricting system behavior using state/event exclusion plant invariants.

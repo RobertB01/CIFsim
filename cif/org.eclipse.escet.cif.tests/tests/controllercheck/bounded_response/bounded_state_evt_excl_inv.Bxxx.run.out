@@ -2,12 +2,12 @@ Loading CIF specification "controllercheck/bounded_response/bounded_state_evt_ex
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      1      discrete variable  int[0..7]  p.xu  0      3 * 2     8 * 2       8 * 2       100%
-      2      discrete variable  int[0..7]  p.xc  1      3 * 2     8 * 2       8 * 2       100%
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      Total                                      2      12        32          32          100%
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..7]  p.xu  0      3 * 2     8 * 2       8 * 2       100%
+        2      discrete variable  int[0..7]  p.xc  1      3 * 2     8 * 2       8 * 2       100%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      2      12        32          32          100%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
@@ -95,12 +95,12 @@ Preparing for BDD-based checks...
     Variable order changed.
 
     CIF variables and location pointers:
-      Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      1      discrete variable  int[0..7]  p.xc  0      3 * 2     8 * 2       8 * 2       100%
-      2      discrete variable  int[0..7]  p.xu  1      3 * 2     8 * 2       8 * 2       100%
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      Total                                      2      12        32          32          100%
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..7]  p.xc  0      3 * 2     8 * 2       8 * 2       100%
+        2      discrete variable  int[0..7]  p.xu  1      3 * 2     8 * 2       8 * 2       100%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      2      12        32          32          100%
 
 
     Restricting system behavior using state/event exclusion plant invariants.

@@ -2,11 +2,11 @@ Loading CIF specification "controllercheck/finite_response/strongly_connected_co
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   A     0      4 * 2     12 * 2      16 * 2      75%
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      Total                                1      8         24          32          75%
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   A     0      4 * 2     12 * 2      16 * 2      75%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                1      8         24          32          75%
 
     Skipping variable ordering: only one variable present.
 

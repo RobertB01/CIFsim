@@ -2,11 +2,11 @@ Loading CIF specification "controllercheck/bounded_response/bounded_supervised_c
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
-      -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-      Total                                      1      6         12          16          75%
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      1      6         12          16          75%
 
     Skipping variable ordering: only one variable present.
 

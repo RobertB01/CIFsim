@@ -2,18 +2,18 @@ Loading CIF specification "controllercheck/bounded_response/bounded_button_lamp_
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind               Type  Name          Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
-      1      location pointer   n/a   Button        0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer   n/a   Lamp          1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer   n/a   Timer         2      1 * 2     2 * 2       2 * 2       100%
-      4      location pointer   n/a   Cycle         3      3 * 2     5 * 2       8 * 2       ~63%
-      5      location pointer   n/a   ButtonHW      4      1 * 2     2 * 2       2 * 2       100%
-      6      input variable     bool  ButtonHW.bit  5      1 * 2     2 * 2       2 * 2       100%
-      7      location pointer   n/a   LampHW        6      1 * 2     2 * 2       2 * 2       100%
-      8      discrete variable  bool  LampHW.bit    7      1 * 2     2 * 2       2 * 2       100%
-      -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
-      Total                                         8      20        38          44          ~86%
+        Nr     Kind               Type  Name          Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a   Button        0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer   n/a   Lamp          1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer   n/a   Timer         2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer   n/a   Cycle         3      3 * 2     5 * 2       8 * 2       ~63%
+        5      location pointer   n/a   ButtonHW      4      1 * 2     2 * 2       2 * 2       100%
+        6      input variable     bool  ButtonHW.bit  5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer   n/a   LampHW        6      1 * 2     2 * 2       2 * 2       100%
+        8      discrete variable  bool  LampHW.bit    7      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+        Total                                         8      20        38          44          ~86%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
@@ -107,18 +107,18 @@ Preparing for BDD-based checks...
     Variable order changed.
 
     CIF variables and location pointers:
-      Nr     Kind               Type  Name          Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
-      1      discrete variable  bool  LampHW.bit    0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer   n/a   LampHW        1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer   n/a   Lamp          2      1 * 2     2 * 2       2 * 2       100%
-      4      location pointer   n/a   Timer         3      1 * 2     2 * 2       2 * 2       100%
-      5      location pointer   n/a   Cycle         4      3 * 2     5 * 2       8 * 2       ~63%
-      6      input variable     bool  ButtonHW.bit  5      1 * 2     2 * 2       2 * 2       100%
-      7      location pointer   n/a   ButtonHW      6      1 * 2     2 * 2       2 * 2       100%
-      8      location pointer   n/a   Button        7      1 * 2     2 * 2       2 * 2       100%
-      -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
-      Total                                         8      20        38          44          ~86%
+        Nr     Kind               Type  Name          Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+        1      discrete variable  bool  LampHW.bit    0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer   n/a   LampHW        1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer   n/a   Lamp          2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer   n/a   Timer         3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer   n/a   Cycle         4      3 * 2     5 * 2       8 * 2       ~63%
+        6      input variable     bool  ButtonHW.bit  5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer   n/a   ButtonHW      6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer   n/a   Button        7      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
+        Total                                         8      20        38          44          ~86%
 
 
     Restricting system behavior using state/event exclusion plant invariants.

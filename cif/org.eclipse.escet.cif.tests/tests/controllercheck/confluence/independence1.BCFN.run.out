@@ -2,13 +2,13 @@ Loading CIF specification "controllercheck/confluence/independence1.cif"...
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind               Type       Name               Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ---------  -----------------  -----  --------  ----------  ----------  -----------
-      1      location pointer   n/a        AutDifferenLocs    0      2 * 2     4 * 2       4 * 2       100%
-      2      discrete variable  bool       AutDifferenLocs.z  1      1 * 2     2 * 2       2 * 2       100%
-      3      discrete variable  int[0..2]  AutDifferenLocs.v  2      2 * 2     3 * 2       4 * 2       75%
-      -----  -----------------  ---------  -----------------  -----  --------  ----------  ----------  -----------
-      Total                                                   3      10        18          20          90%
+        Nr     Kind               Type       Name               Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  -----------------  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a        AutDifferenLocs    0      2 * 2     4 * 2       4 * 2       100%
+        2      discrete variable  bool       AutDifferenLocs.z  1      1 * 2     2 * 2       2 * 2       100%
+        3      discrete variable  int[0..2]  AutDifferenLocs.v  2      2 * 2     3 * 2       4 * 2       75%
+        -----  -----------------  ---------  -----------------  -----  --------  ----------  ----------  -----------
+        Total                                                   3      10        18          20          90%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
@@ -100,13 +100,13 @@ Preparing for BDD-based checks...
     Variable order changed.
 
     CIF variables and location pointers:
-      Nr     Kind               Type       Name               Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ---------  -----------------  -----  --------  ----------  ----------  -----------
-      1      discrete variable  bool       AutDifferenLocs.z  0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer   n/a        AutDifferenLocs    1      2 * 2     4 * 2       4 * 2       100%
-      3      discrete variable  int[0..2]  AutDifferenLocs.v  2      2 * 2     3 * 2       4 * 2       75%
-      -----  -----------------  ---------  -----------------  -----  --------  ----------  ----------  -----------
-      Total                                                   3      10        18          20          90%
+        Nr     Kind               Type       Name               Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  -----------------  -----  --------  ----------  ----------  -----------
+        1      discrete variable  bool       AutDifferenLocs.z  0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer   n/a        AutDifferenLocs    1      2 * 2     4 * 2       4 * 2       100%
+        3      discrete variable  int[0..2]  AutDifferenLocs.v  2      2 * 2     3 * 2       4 * 2       75%
+        -----  -----------------  ---------  -----------------  -----  --------  ----------  ----------  -----------
+        Total                                                   3      10        18          20          90%
 
 
     Restricting system behavior using state/event exclusion plant invariants.

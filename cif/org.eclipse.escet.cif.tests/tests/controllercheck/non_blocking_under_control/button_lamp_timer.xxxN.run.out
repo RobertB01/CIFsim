@@ -2,15 +2,15 @@ Loading CIF specification "controllercheck/non_blocking_under_control/button_lam
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   Button    0      1 * 2     2 * 2       2 * 2       100%
-      2      input variable    bool  Button.b  1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   Lamp      2      1 * 2     2 * 2       2 * 2       100%
-      4      location pointer  n/a   Timer     3      1 * 2     2 * 2       2 * 2       100%
-      5      location pointer  n/a   Cycle     4      3 * 2     5 * 2       8 * 2       ~63%
-      -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-      Total                                    5      14        26          32          ~81%
+        Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Button    0      1 * 2     2 * 2       2 * 2       100%
+        2      input variable    bool  Button.b  1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   Lamp      2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   Timer     3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   Cycle     4      3 * 2     5 * 2       8 * 2       ~63%
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        Total                                    5      14        26          32          ~81%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
@@ -104,15 +104,15 @@ Preparing for BDD-based checks...
     Variable order changed.
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   Lamp      0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer  n/a   Timer     1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   Cycle     2      3 * 2     5 * 2       8 * 2       ~63%
-      4      input variable    bool  Button.b  3      1 * 2     2 * 2       2 * 2       100%
-      5      location pointer  n/a   Button    4      1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-      Total                                    5      14        26          32          ~81%
+        Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Lamp      0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   Timer     1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   Cycle     2      3 * 2     5 * 2       8 * 2       ~63%
+        4      input variable    bool  Button.b  3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   Button    4      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        Total                                    5      14        26          32          ~81%
 
 
     Restricting system behavior using state/event exclusion plant invariants.

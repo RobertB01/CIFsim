@@ -2,19 +2,19 @@ Loading CIF specification "controllercheck/bounded_response/bounded_diamond.cif"
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   pu1   0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer  n/a   pu2   1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   pu3   2      1 * 2     2 * 2       2 * 2       100%
-      4      location pointer  n/a   pu4   3      1 * 2     2 * 2       2 * 2       100%
-      5      location pointer  n/a   pc1   4      1 * 2     2 * 2       2 * 2       100%
-      6      location pointer  n/a   pc2   5      1 * 2     2 * 2       2 * 2       100%
-      7      location pointer  n/a   pc3   6      1 * 2     2 * 2       2 * 2       100%
-      8      location pointer  n/a   pc4   7      1 * 2     2 * 2       2 * 2       100%
-      9      location pointer  n/a   pc5   8      1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      Total                                9      18        36          36          100%
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   pu1   0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   pu2   1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   pu3   2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   pu4   3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   pc1   4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   pc2   5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   pc3   6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   pc4   7      1 * 2     2 * 2       2 * 2       100%
+        9      location pointer  n/a   pc5   8      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                9      18        36          36          100%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
@@ -102,19 +102,19 @@ Preparing for BDD-based checks...
     Variable order changed.
 
     CIF variables and location pointers:
-      Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      1      location pointer  n/a   pc1   0      1 * 2     2 * 2       2 * 2       100%
-      2      location pointer  n/a   pc2   1      1 * 2     2 * 2       2 * 2       100%
-      3      location pointer  n/a   pc3   2      1 * 2     2 * 2       2 * 2       100%
-      4      location pointer  n/a   pc4   3      1 * 2     2 * 2       2 * 2       100%
-      5      location pointer  n/a   pc5   4      1 * 2     2 * 2       2 * 2       100%
-      6      location pointer  n/a   pu1   5      1 * 2     2 * 2       2 * 2       100%
-      7      location pointer  n/a   pu2   6      1 * 2     2 * 2       2 * 2       100%
-      8      location pointer  n/a   pu3   7      1 * 2     2 * 2       2 * 2       100%
-      9      location pointer  n/a   pu4   8      1 * 2     2 * 2       2 * 2       100%
-      -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      Total                                9      18        36          36          100%
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   pc1   0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   pc2   1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   pc3   2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   pc4   3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   pc5   4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   pu1   5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   pu2   6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   pu3   7      1 * 2     2 * 2       2 * 2       100%
+        9      location pointer  n/a   pu4   8      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                9      18        36          36          100%
 
 
     Restricting system behavior using state/event exclusion plant invariants.

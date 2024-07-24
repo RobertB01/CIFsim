@@ -2,12 +2,12 @@ Loading CIF specification "controllercheck/common/anno_true_to_false.cif"...
 Preparing for BDD-based checks...
 
     CIF variables and location pointers:
-      Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-      -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      1      location pointer   n/a   p     0      1 * 2     2 * 2       2 * 2       100%
-      2      discrete variable  bool  p.v   1      1 * 2     2 * 2       2 * 2       100%
-      -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
-      Total                                 2      4         8           8           100%
+        Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a   p     0      1 * 2     2 * 2       2 * 2       100%
+        2      discrete variable  bool  p.v   1      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                 2      4         8           8           100%
 
     Applying variable ordering:
         Applying 4 orderers, sequentially:
