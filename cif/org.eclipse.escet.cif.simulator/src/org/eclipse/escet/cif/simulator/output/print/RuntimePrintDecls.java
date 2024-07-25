@@ -128,7 +128,7 @@ public abstract class RuntimePrintDecls {
 
             // Open stream.
             try {
-                stream = new FileAppStream(new PathPair(getRelPath(), absFilePath));
+                stream = new FileAppStream(getRelPath(), absFilePath);
             } catch (InputOutputException ex) {
                 String msg = fmt("Failed to open file \"%s\" for writing using print declarations.", getRelPath());
                 throw new InputOutputException(msg, ex);
