@@ -103,9 +103,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private final Map<Automaton, PlcBasicVariable> edgeSelectionVariables = map();
 
-    /** Generator for obtaining clash-free names in the generated code. */
-    private NameGenerator nameGen;
-
     /** Expression generator for the main program. */
     private ExprGenerator mainExprGen;
 
@@ -163,7 +160,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
     /** Construct edge variables for the automata. */
     void setupEdgeVariables() {
-        nameGen = target.getNameGenerator();
         mainExprGen = target.getCodeStorage().getExprGenerator();
 
         // For all automata, find the maximum number of edges to examine for an event.
@@ -226,9 +222,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated PLC event transition code. Is empty if there are no event transitions to convert.
      */
     List<PlcStatement> generateCode(PlcBasicVariable isProgressVar, List<CifEventTransition> eventTransitions) {
-        nameGen = target.getNameGenerator();
-        mainExprGen = target.getCodeStorage().getExprGenerator();
-
         // TODO Currently code generation is straight forward, it generates correct code for the general case. There are
         // heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better
         // names for variables, etc.
