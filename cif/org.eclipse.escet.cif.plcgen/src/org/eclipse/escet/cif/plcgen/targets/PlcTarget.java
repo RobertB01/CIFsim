@@ -243,6 +243,13 @@ public abstract class PlcTarget {
     }
 
     /**
+     * Retrieve the supported bit string types of the target, ordered by increasing size.
+     *
+     * @return The supported bit string types of the target, ordered by increasing size.
+     */
+    public abstract List<PlcElementaryType> getSupportedBitStringTypes();
+
+    /**
      * Parse a PLC I/O address.
      *
      * @param plcAddressText Text to parse.

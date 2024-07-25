@@ -54,6 +54,11 @@ public class TwinCatTarget extends PlcBaseTarget {
     }
 
     @Override
+    public List<PlcElementaryType> getSupportedBitStringTypes() {
+        return PlcElementaryType.BIT_STRING_TYPES_64;
+    }
+
+    @Override
     public String getPathSuffixReplacement() {
         return "_twincat";
     }

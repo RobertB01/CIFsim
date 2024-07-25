@@ -55,6 +55,11 @@ public class AbbTarget extends PlcBaseTarget {
     }
 
     @Override
+    public List<PlcElementaryType> getSupportedBitStringTypes() {
+        return PlcElementaryType.BIT_STRING_TYPES_32;
+    }
+
+    @Override
     public String getPathSuffixReplacement() {
         return "_abb";
     }

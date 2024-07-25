@@ -276,6 +276,11 @@ public class ExprGeneratorTest {
         }
 
         @Override
+        public List<PlcElementaryType> getSupportedBitStringTypes() {
+            return PlcElementaryType.BIT_STRING_TYPES_64;
+        }
+
+        @Override
         public String getPathSuffixReplacement() {
             throw new UnsupportedOperationException("Not needed for the test.");
         }

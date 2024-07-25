@@ -135,6 +135,11 @@ public class TransitionGeneratorTest {
         public List<PlcElementaryType> getSupportedRealTypes() {
             return PlcElementaryType.REAL_TYPES_64;
         }
+
+        @Override
+        public List<PlcElementaryType> getSupportedBitStringTypes() {
+            return PlcElementaryType.BIT_STRING_TYPES_64;
+        }
     }
 
     /** PLC target used in the tests. */

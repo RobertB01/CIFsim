@@ -28,6 +28,8 @@ import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDL
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_SIN;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_SQRT;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_TAN;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.BIT_STRING_TYPES_32;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.BIT_STRING_TYPES_64;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INTEGER_TYPES_32;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INTEGER_TYPES_64;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.REAL_TYPES_32;
@@ -57,6 +59,9 @@ public class SiemensS7Target extends PlcBaseTarget {
     /** Supported stored real types for each target, ordered in increasing size. */
     private static final Map<PlcTargetType, List<PlcElementaryType>> REAL_TYPES;
 
+    /** Supported stored bit string types for each target. */
+    private static final Map<PlcTargetType, List<PlcElementaryType>> BIT_STRING_TYPES;
+
     static {
         OUT_SUFFIX_REPLACEMENTS = Map.of(
                 PlcTargetType.S7_300, "_s7_300", PlcTargetType.S7_400, "_s7_400",
@@ -69,6 +74,10 @@ public class SiemensS7Target extends PlcBaseTarget {
         REAL_TYPES = Map.of(
                 PlcTargetType.S7_300, REAL_TYPES_32, PlcTargetType.S7_400, REAL_TYPES_32,
                 PlcTargetType.S7_1200, REAL_TYPES_64, PlcTargetType.S7_1500, REAL_TYPES_64);
+
+        BIT_STRING_TYPES = Map.of(
+                PlcTargetType.S7_300, BIT_STRING_TYPES_32, PlcTargetType.S7_400, BIT_STRING_TYPES_32,
+                PlcTargetType.S7_1200, BIT_STRING_TYPES_32, PlcTargetType.S7_1500, BIT_STRING_TYPES_64);
     }
 
     /**
@@ -138,6 +147,11 @@ public class SiemensS7Target extends PlcBaseTarget {
     @Override
     public List<PlcElementaryType> getSupportedRealTypes() {
         return REAL_TYPES.get(targetType);
+    }
+
+    @Override
+    public List<PlcElementaryType> getSupportedBitStringTypes() {
+        return BIT_STRING_TYPES.get(targetType);
     }
 
     @Override
