@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
@@ -172,6 +173,13 @@ public abstract class PlcTarget {
     public abstract EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs);
 
     /**
+     * Retrieve the supported integer types of the target, ordered by increasing size.
+     *
+     * @return The supported integer types of the target, ordered by increasing size.
+     */
+    public abstract List<PlcElementaryType> getSupportedIntegerTypes();
+
+    /**
      * Get the size of the largest supported integer type.
      *
      * @return Number of bits used for storing the largest supported integer type.
@@ -198,6 +206,13 @@ public abstract class PlcTarget {
     public PlcIntLiteral makeStdInteger(int value) {
         return new PlcIntLiteral(value, getIntegerType());
     }
+
+    /**
+     * Retrieve the supported real types of the target, ordered by increasing size.
+     *
+     * @return The supported real types of the target, ordered by increasing size.
+     */
+    public abstract List<PlcElementaryType> getSupportedRealTypes();
 
     /**
      * Get the size of the largest supported real type.
