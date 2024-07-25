@@ -336,7 +336,8 @@ public abstract class PlcBaseTarget extends PlcTarget {
     public PlcElementaryType getStdIntegerType() {
         int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
         int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
-        return PlcElementaryType.getIntTypeBySize(userSpecifiedIntSize);
+        return PlcElementaryType.getTypeByRequiredSize(userSpecifiedIntSize,
+                PlcElementaryType.INTEGER_TYPES_ALL);
     }
 
     @Override
@@ -348,7 +349,8 @@ public abstract class PlcBaseTarget extends PlcTarget {
     public PlcElementaryType getStdRealType() {
         int generatorBestRealSize = Math.min(CIF_REAL_SIZE, getMaxRealTypeSize());
         int userSpecifiedRealSize = realTypeSize.getTypeSize(generatorBestRealSize);
-        return PlcElementaryType.getRealTypeBySize(userSpecifiedRealSize);
+        return PlcElementaryType.getTypeByRequiredSize(userSpecifiedRealSize,
+                PlcElementaryType.REAL_TYPES_ALL);
     }
 
     @Override

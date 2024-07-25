@@ -13,7 +13,10 @@
 
 package org.eclipse.escet.cif.plcgen.model.types;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 /** PLC elementary type. */
 public class PlcElementaryType extends PlcType {
@@ -95,33 +98,28 @@ public class PlcElementaryType extends PlcType {
     }
 
     /**
-     * Retrieve the integer type that uses the given number of bits in PLC memory.
+     * Retrieve the numeric type large enough to store the given number of bits a value of an elementary type.
      *
-     * @param numBits Wanted length of integer values in bits.
-     * @return The PLC integer type with exactly the requested number of bits.
+     * @param neededSize Needed number of bits storage for a value.
+     * @param available_types Types to choose from.
+     * @return The smallest large enough type that has sufficient storage size.
+     * @throws AssertionError If the request cannot be met.
      */
-    public static PlcElementaryType getIntTypeBySize(int numBits) {
-        for (PlcElementaryType elemType: INTEGER_TYPES_ALL) {
-            if (elemType.bitSize == numBits) {
-                return elemType;
-            }
+    public static PlcElementaryType getTypeByRequiredSize(int neededSize, List<PlcElementaryType> available_types) {
+        int bestType = available_types.size() - 1;
+        while (bestType > 0 && available_types.get(bestType - 1).bitSize >= neededSize) {
+            bestType--;
         }
-        throw new AssertionError("Unexpected integer size " + String.valueOf(numBits) + " found.");
-    }
+        PlcElementaryType result = available_types.get(bestType);
 
-    /**
-     * Retrieve the real type that uses the given number of bits in PLC memory.
-     *
-     * @param numBits Wanted length of real values in bits.
-     * @return The PLC real type with exactly the requested number of bits.
-     */
-    public static PlcElementaryType getRealTypeBySize(int numBits) {
-        for (PlcElementaryType elemType: REAL_TYPES_ALL) {
-            if (elemType.bitSize == numBits) {
-                return elemType;
-            }
+        if (result.bitSize < neededSize) {
+            // The request was not feasible.
+            String typesText = available_types.stream().map(t -> t.name).collect(Collectors.joining(", "));
+            String msg = fmt("Requested size of %d bits cannot be resolved with the available %s types.",
+                    neededSize, typesText);
+            throw new AssertionError(msg);
         }
-        throw new AssertionError("Unexpected real size " + String.valueOf(numBits) + " found.");
+        return result;
     }
 
     /**
