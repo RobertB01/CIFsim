@@ -24,7 +24,6 @@ import org.eclipse.escet.cif.simulator.runtime.model.RuntimeState;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
-import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Runtime print I/O declarations, for a single file/target. */
