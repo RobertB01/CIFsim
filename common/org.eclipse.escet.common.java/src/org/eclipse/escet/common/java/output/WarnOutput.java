@@ -27,7 +27,8 @@ public interface WarnOutput {
     public boolean isEnabled();
 
     /**
-     * Produce a line with the given message in the output stream if and only if the stream is enabled.
+     * Produce a line with the given message in the output stream if and only if the stream is enabled. If a multi-line
+     * message is given, each line is given separately to the output stream.
      *
      * @param message Message to output.
      * @see #isEnabled
@@ -36,7 +37,8 @@ public interface WarnOutput {
 
     /**
      * {@link Strings#fmt Format} the parameterized message and produce the result as a line of text in the output
-     * stream if and only if the stream is enabled.
+     * stream if and only if the stream is enabled. If a multi-line message is given or produced after formatting, each
+     * line is given separately to the output stream.
      *
      * <p>
      * For performance reasons, it may be better to call this method like this:
