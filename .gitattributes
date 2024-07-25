@@ -34,6 +34,7 @@ Makefile text eol=lf
 *.jar       binary
 *.jpeg      binary diff
 *.jpg       binary diff
+*.mp3       binary
 *.pdf       binary
 *.png       binary diff
 *.ppt       binary

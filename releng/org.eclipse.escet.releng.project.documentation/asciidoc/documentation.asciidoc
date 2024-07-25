@@ -30,11 +30,13 @@ include::_root_attributes.asciidoc[]
 The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project is an link:https://eclipse.org[Eclipse Foundation] open-source project that provides a toolkit for the development of supervisory controllers in the Model-Based Systems Engineering (MBSE) paradigm.
 The toolkit has a strong focus on model-based design, supervisory controller synthesis, and industrial applicability, for example to cyber-physical systems.
 The toolkit supports the entire development process of (supervisory) controllers, from modeling, supervisory controller synthesis, simulation-based validation and visualization, and formal verification, to real-time testing and implementation.
-'ESCET' is pronounced as 'èsèt'.
 
 ifdef::website-output[]
 TIP: You can link:eclipse-escet-project-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
+
+'ESCET' is pronounced as 'èsèt', with an 'e' of 'bed', an 's' of 'see', another 'e' of 'bed' and a 't' of 'tea'.
+In the link:https://en.wikipedia.org/wiki/International_Phonetic_Alphabet[International Phonetic Alphabet] it is spelled as /ɛsɛt/.
 
 This documentation includes general information related to the Eclipse ESCET toolkit as a whole, as well as its general tools.
 The following information is available:
