@@ -52,16 +52,16 @@ public class SiemensS7Target extends PlcBaseTarget {
     private static final Map<PlcTargetType, Integer> MAX_REAL_SIZES;
 
     static {
-        OUT_SUFFIX_REPLACEMENTS = Map.of( //
-                PlcTargetType.S7_300, "_s7_300", PlcTargetType.S7_400, "_s7_400", //
+        OUT_SUFFIX_REPLACEMENTS = Map.of(
+                PlcTargetType.S7_300, "_s7_300", PlcTargetType.S7_400, "_s7_400",
                 PlcTargetType.S7_1200, "_s7_1200", PlcTargetType.S7_1500, "_s7_1500");
 
-        MAX_INTEGER_SIZES = Map.of( //
-                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32, //
+        MAX_INTEGER_SIZES = Map.of(
+                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
                 PlcTargetType.S7_1200, 32, PlcTargetType.S7_1500, 64);
 
-        MAX_REAL_SIZES = Map.of( //
-                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32, //
+        MAX_REAL_SIZES = Map.of(
+                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
                 PlcTargetType.S7_1200, 64, PlcTargetType.S7_1500, 64);
     }
 
