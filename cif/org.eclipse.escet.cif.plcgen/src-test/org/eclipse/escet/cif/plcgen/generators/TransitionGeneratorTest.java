@@ -200,7 +200,7 @@ public class TransitionGeneratorTest {
                 List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -228,7 +228,7 @@ public class TransitionGeneratorTest {
                      ***********)
                     IF TRUE THEN
                         senderAut := 1;
-                        edge_aut1_1 := 1;
+                        edge_aut1 := 0;
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
@@ -253,7 +253,7 @@ public class TransitionGeneratorTest {
                      *******************************)
                     IF senderAut = 1 THEN
                         (* Automaton "aut1" was selected. *)
-                        IF edge_aut1_1 = 1 THEN
+                        IF edge_aut1 = 0 THEN
                             (* Compute sent channel value. *)
                             channelValue := 1;
                         END_IF;
@@ -312,7 +312,7 @@ public class TransitionGeneratorTest {
                 List.of(), List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -342,7 +342,7 @@ public class TransitionGeneratorTest {
                      ***********)
                     IF TRUE THEN
                         senderAut := 1;
-                        edge_sender1_1 := 1;
+                        edge_sender1 := 0;
                     END_IF;
                 END_IF;
                 IF senderAut = 0 THEN
@@ -365,7 +365,7 @@ public class TransitionGeneratorTest {
                          ***********)
                         IF TRUE THEN
                             receiverAut := 1;
-                            edge_receiver1_1 := 1;
+                            edge_receiver1 := 0;
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
@@ -379,7 +379,7 @@ public class TransitionGeneratorTest {
                          ***********)
                         IF TRUE THEN
                             receiverAut := 2;
-                            edge_receiver2_1 := 1;
+                            edge_receiver2 := 0;
                         END_IF;
                     END_IF;
                     IF receiverAut = 0 THEN
@@ -398,7 +398,7 @@ public class TransitionGeneratorTest {
                      *******************************)
                     IF senderAut = 1 THEN
                         (* Automaton "sender1" was selected. *)
-                        IF edge_sender1_1 = 1 THEN
+                        IF edge_sender1 = 0 THEN
                             (* Compute sent channel value. *)
                             channelValue := 1;
                         END_IF;
@@ -408,14 +408,14 @@ public class TransitionGeneratorTest {
                      *******************************)
                     IF receiverAut = 1 THEN
                         (* Automaton "receiver1" was selected. *)
-                        IF edge_receiver1_1 = 1 THEN
+                        IF edge_receiver1 = 0 THEN
                             (* Perform assignments of the 3rd edge in location "receiver1.receiver1Loc". *)
                             (* Perform update of discrete variable "recVar". *)
                             recVar := current_recVar + channelValue;
                         END_IF;
                     ELSIF receiverAut = 2 THEN
                         (* Automaton "receiver2" was selected. *)
-                        IF edge_receiver2_1 = 1 THEN
+                        IF edge_receiver2 = 0 THEN
                             (* Perform assignments of the 4th edge in location "receiver2.receiver2Loc". *)
                             (* Perform update of discrete variable "otherVar". *)
                             otherVar := channelValue;
@@ -475,7 +475,7 @@ public class TransitionGeneratorTest {
                 List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -499,9 +499,9 @@ public class TransitionGeneratorTest {
                  *   - 6th edge in the location
                  ***********)
                 IF otherVar = 1 THEN
-                    edge_syncer1_1 := 1;
+                    edge_syncer1 := 0;
                 ELSIF otherVar = 2 THEN
-                    edge_syncer1_1 := 2;
+                    edge_syncer1 := 1;
                 ELSE
                     (* The automaton has no edge with a true guard. Skip to the next event. *)
                     eventEnabled := FALSE;
@@ -516,7 +516,7 @@ public class TransitionGeneratorTest {
                      *   - 7th edge in the location
                      ***********)
                     IF otherVar = 3 THEN
-                        edge_syncer2_1 := 1;
+                        edge_syncer2 := 0;
                     ELSE
                         (* The automaton has no edge with a true guard. Skip to the next event. *)
                         eventEnabled := FALSE;
@@ -531,17 +531,17 @@ public class TransitionGeneratorTest {
                      * Perform the assignments of each synchronizing automaton.
                      *******************************)
                     (* Perform assignments of automaton "syncer1". *)
-                    IF edge_syncer1_1 = 1 THEN
+                    IF edge_syncer1 = 0 THEN
                         (* Perform assignments of the 5th edge in location "syncer1.syncer1Loc". *)
                         (* Perform update of discrete variable "otherVar". *)
                         otherVar := 2;
-                    ELSIF edge_syncer1_1 = 2 THEN
+                    ELSIF edge_syncer1 = 1 THEN
                         (* Perform assignments of the 6th edge in location "syncer1.syncer1Loc". *)
                         (* Perform update of discrete variable "otherVar". *)
                         otherVar := 3;
                     END_IF;
                     (* Perform assignments of automaton "syncer2". *)
-                    IF edge_syncer2_1 = 1 THEN
+                    IF edge_syncer2 = 0 THEN
                         (* Perform assignments of the 7th edge in location "syncer2.syncer2Loc". *)
                         (* Perform update of discrete variable "otherVar". *)
                         otherVar := 4;
@@ -575,7 +575,7 @@ public class TransitionGeneratorTest {
                 List.of(monitor));
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -638,7 +638,7 @@ public class TransitionGeneratorTest {
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -660,7 +660,7 @@ public class TransitionGeneratorTest {
                  *   - 9th edge in the location
                  ***********)
                 IF TRUE THEN
-                    edge_aut_1 := 1;
+                    edge_aut := 0;
                 ELSE
                     (* The automaton has no edge with a true guard. Skip to the next event. *)
                     eventEnabled := FALSE;
@@ -674,7 +674,7 @@ public class TransitionGeneratorTest {
                      * Perform the assignments of each synchronizing automaton.
                      *******************************)
                     (* Perform assignments of automaton "aut". *)
-                    IF edge_aut_1 = 1 THEN
+                    IF edge_aut = 0 THEN
                         (* Perform assignments of the 9th edge in location "aut.aut2Loc". *)
                         (* Perform update of discrete variable "otherVar". *)
                         otherVar := 1;
@@ -716,7 +716,7 @@ public class TransitionGeneratorTest {
         CifEventTransition transition = new CifEventTransition(event, List.of(), List.of(), List.of(aut), List.of());
 
         // Generate the transition, and check that it matches expectations.
-        List<PlcStatement> code = transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        List<PlcStatement> code = runTransitionGenerator(transition);
         ModelTextGenerator textGen = new ModelTextGenerator();
         String actualText = textGen.toString(code, "noPou", true);
         String expectedText = """
@@ -738,7 +738,7 @@ public class TransitionGeneratorTest {
                  *   - 10th edge in the location
                  ***********)
                 IF TRUE THEN
-                    edge_aut_1 := 1;
+                    edge_aut := 0;
                 ELSE
                     (* The automaton has no edge with a true guard. Skip to the next event. *)
                     eventEnabled := FALSE;
@@ -752,7 +752,7 @@ public class TransitionGeneratorTest {
                      * Perform the assignments of each synchronizing automaton.
                      *******************************)
                     (* Perform assignments of automaton "aut". *)
-                    IF edge_aut_1 = 1 THEN
+                    IF edge_aut = 0 THEN
                         (* Perform assignments of the 10th edge in location "aut.autLoc". *)
                         rightValue := tupVar;
                         (* Perform update of discrete variable "otherVar". *)
@@ -762,5 +762,15 @@ public class TransitionGeneratorTest {
                     END_IF;
                 END_IF;""";
         assertEquals(expectedText, actualText);
+    }
+
+    /** Run the transition generator. */
+    private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
+        // Construct edge variables.
+        transitionGenerator.setTransitions(List.of(transition));
+        transitionGenerator.setupEdgeVariables();
+
+        // Generate the transition.
+        return transitionGenerator.generateCode(isProgressVar, List.of(transition));
     }
 }

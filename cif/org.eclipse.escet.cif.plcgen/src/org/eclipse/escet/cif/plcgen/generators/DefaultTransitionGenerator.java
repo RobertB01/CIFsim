@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -70,6 +71,7 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSe
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
@@ -101,14 +103,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private final Map<Automaton, PlcBasicVariable> edgeSelectionVariables = map();
 
-    /** Generator for obtaining clash-free names in the generated code. */
-    private NameGenerator nameGen;
-
     /** Expression generator for the main program. */
     private ExprGenerator mainExprGen;
 
     /** Generation of standard PLC functions. */
-    private PlcFunctionAppls funcAppls;
+    private final PlcFunctionAppls funcAppls;
 
     /**
      * Constructor of the {@link DefaultTransitionGenerator} class.
@@ -117,6 +116,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     public DefaultTransitionGenerator(PlcTarget target) {
         this.target = target;
+        funcAppls = new PlcFunctionAppls(target);
     }
 
     @Override
@@ -140,6 +140,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
         }
 
+        // Construct edge variables.
+        setupEdgeVariables();
+
         // Variable that tracks whether at least one event was performed in the current event loop cycle.
         PlcBasicVariable isProgressVar = target.getCodeStorage().getIsProgressVariable();
 
@@ -149,6 +152,43 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // And give the result to code storage.
         target.getCodeStorage().addEventTransitions(uncontrollableStatements, controllableStatements);
+
+        // Release the (temporary) edge variables.
+        mainExprGen.releaseTempVariables(edgeSelectionVariables.values());
+        edgeSelectionVariables.clear();
+    }
+
+    /** Construct edge variables for the automata. */
+    void setupEdgeVariables() {
+        mainExprGen = target.getCodeStorage().getExprGenerator();
+
+        // For all automata, find the maximum number of edges to examine for an event.
+        Map<Automaton, Integer> maxEventEdges = map(); // Max number of edges for an event for all automata.
+        for (CifEventTransition evtTrans: eventTransitions) {
+            for (TransitionAutomaton transAut: evtTrans.senders) {
+                maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+            }
+            for (TransitionAutomaton transAut: evtTrans.receivers) {
+                maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+            }
+            for (TransitionAutomaton transAut: evtTrans.syncers) {
+                maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+            }
+            // Monitors do not need edge tracking since the first enabled edge is immediately taken.
+        }
+
+        // Construct edge variables.
+        edgeSelectionVariables.clear();
+        for (Entry<Automaton, Integer> entry: maxEventEdges.entrySet()) {
+            Automaton aut = entry.getKey();
+            // TODO Use entry.getValue() to select a smaller type if possible. Also delete TODOs about that.
+            PlcType varType = PlcElementaryType.DINT_TYPE;
+
+            String edgeVariableName = "edge_" + getAbsName(aut, false);
+            PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, varType);
+            target.getCodeStorage().setAutomatonEdgeVariableName(aut, autVar.varName);
+            edgeSelectionVariables.put(aut, autVar);
+        }
     }
 
     /**
@@ -185,24 +225,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // TODO Currently code generation is straight forward, it generates correct code for the general case. There are
         // heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better
         // names for variables, etc.
-        nameGen = target.getNameGenerator();
-        mainExprGen = target.getCodeStorage().getExprGenerator();
-        funcAppls = new PlcFunctionAppls(target);
-
-        // Set up selected edge tracking variables for the automata.
-        edgeSelectionVariables.clear();
-        for (CifEventTransition evtTrans: eventTransitions) {
-            for (TransitionAutomaton transAut: evtTrans.senders) {
-                ensureEdgeVariable(transAut.aut);
-            }
-            for (TransitionAutomaton transAut: evtTrans.receivers) {
-                ensureEdgeVariable(transAut.aut);
-            }
-            for (TransitionAutomaton transAut: evtTrans.syncers) {
-                ensureEdgeVariable(transAut.aut);
-            }
-            // Monitors do not need edge tracking since the first enabled edge is immediately taken.
-        }
 
         // As all transition code is generated in main program context, only one generated statements list exists and
         // various variables that store decisions in the process can be re-used between different events.
@@ -213,30 +235,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             addEmptyLineBefore = true;
         }
 
-        // Release temporary variables, and return the generated event transition code.
-        mainExprGen.releaseTempVariables(edgeSelectionVariables.values());
-        edgeSelectionVariables.clear();
+        // Return the generated event transition code.
         return statements;
-    }
-
-    /**
-     * Ensure that a variable for tracking the selected edge for the 'aut' automaton exists in
-     * {@link #edgeSelectionVariables} after the call.
-     *
-     * @param aut Automaton that must have or get a variable for tracking the selected edge of the automaton.
-     */
-    private void ensureEdgeVariable(Automaton aut) {
-        if (edgeSelectionVariables.containsKey(aut)) {
-            return;
-        }
-
-        // Automaton does not have an edge variable yet, add it.
-        String edgeVariableName = nameGen.generateGlobalName("edge_" + aut.getName(), false);
-        target.getCodeStorage().setAutomatonEdgeVariableName(aut, edgeVariableName);
-
-        // TODO: Use a smaller integer for edge indexing.
-        PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, PlcElementaryType.DINT_TYPE);
-        edgeSelectionVariables.put(aut, autVar);
     }
 
     /**
@@ -935,7 +935,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         testCode.add(genEdgeTestsDocumentation(event, transAut));
 
         // Generate the checks and assign their findings to edge and/or automaton variables.
-        int edgeIndex = 1;
+        int edgeIndex = 0;
         for (TransitionEdge edge: transAut.transitionEdges) {
             final int finalEdgeIndex = edgeIndex; // Java wants a copy.
             Supplier<List<PlcStatement>> thenStats = () -> {
@@ -1069,7 +1069,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         boolean mustCompute = false; // Collect whether any computation must be done to perform the edges.
 
         // Perform the selected edge, if not empty.
-        int edgeIndex = 1;
+        int edgeIndex = 0;
         for (TransitionEdge edge: transAut.transitionEdges) {
             // Generate code that performs the edge if something needs to be done.
             if (channelValueVar != null || !edge.updates.isEmpty()) {

@@ -44,7 +44,7 @@
                 <DINT/>
               </type>
             </variable>
-            <variable name="edge_p_1">
+            <variable name="edge_p">
               <type>
                 <DINT/>
               </type>
@@ -73,7 +73,7 @@
  * Automaton "p":
  * - Discrete variable "p.x".
  *
- * - PLC edge selection variable "edge_p_1".
+ * - PLC edge selection variable "edge_p".
  *
  * - Uncontrollable event "u".
  *
@@ -114,7 +114,7 @@ WHILE isProgress DO
      *   - 2nd edge in the location
      ***********)
     IF TRUE THEN
-        edge_p_1 := 1;
+        edge_p := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -128,7 +128,7 @@ WHILE isProgress DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "p". *)
-        IF edge_p_1 = 1 THEN
+        IF edge_p = 0 THEN
             (* Perform assignments of the 2nd edge of automaton "p". *)
             (* Perform update of discrete variable "p.x". *)
             p_x := 11 - current_p_x;
@@ -160,7 +160,7 @@ WHILE isProgress DO
      *   - 1st edge in the location
      ***********)
     IF TRUE THEN
-        edge_p_1 := 1;
+        edge_p := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -174,7 +174,7 @@ WHILE isProgress DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "p". *)
-        IF edge_p_1 = 1 THEN
+        IF edge_p = 0 THEN
             (* Perform assignments of the 1st edge of automaton "p". *)
             (* Perform update of discrete variable "p.x". *)
             p_x := 7;

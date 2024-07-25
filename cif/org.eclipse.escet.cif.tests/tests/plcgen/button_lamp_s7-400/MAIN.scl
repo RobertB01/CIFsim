@@ -18,10 +18,10 @@ ORGANIZATION_BLOCK MAIN
         current_timer: DINT;
         current_timer_1: DINT;
         current_timer_t: REAL;
-        edge_hw_button_1: DINT;
-        edge_hw_lamp_1: DINT;
-        edge_sup_1: DINT;
-        edge_timer_1: DINT;
+        edge_hw_button: DINT;
+        edge_hw_lamp: DINT;
+        edge_sup: DINT;
+        edge_timer: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
         timeOut: BOOL;
@@ -63,7 +63,7 @@ BEGIN
      * Automaton "sup":
      * - Current location of automaton "sup".
      *
-     * - PLC edge selection variable "edge_sup_1".
+     * - PLC edge selection variable "edge_sup".
      *
      * - Uncontrollable event "button.push".
      * - Uncontrollable event "button.release".
@@ -77,7 +77,7 @@ BEGIN
      * - Current location of automaton "timer".
      * - Continuous variable "timer.t".
      *
-     * - PLC edge selection variable "edge_timer_1".
+     * - PLC edge selection variable "edge_timer".
      *
      * - Uncontrollable event "timer.timeout".
      *
@@ -147,7 +147,7 @@ BEGIN
          *   - 1st edge in the location
          ***********)
         IF "DB".timer_1 = timer_Running AND "DB".timer_t <= 0.0 THEN
-            edge_timer_1 := 1;
+            edge_timer := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -164,9 +164,9 @@ BEGIN
              *   - 1st edge in the location
              ***********)
             IF "DB".sup = sup_s6 THEN
-                edge_sup_1 := 1;
+                edge_sup := 0;
             ELSIF "DB".sup = sup_s7 THEN
-                edge_sup_1 := 2;
+                edge_sup := 1;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
                 eventEnabled := FALSE;
@@ -182,17 +182,17 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "timer". *)
-            IF edge_timer_1 = 1 THEN
+            IF edge_timer = 0 THEN
                 (* Perform assignments of the 1st edge in location "timer.Running". *)
                 (* Perform update of current location of automaton "timer". *)
                 "DB".timer_1 := timer_Idle;
             END_IF;
             (* Perform assignments of automaton "sup". *)
-            IF edge_sup_1 = 1 THEN
+            IF edge_sup = 0 THEN
                 (* Perform assignments of the 1st edge in location "sup.s6". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s8;
-            ELSIF edge_sup_1 = 2 THEN
+            ELSIF edge_sup = 1 THEN
                 (* Perform assignments of the 1st edge in location "sup.s7". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s9;
@@ -226,15 +226,15 @@ BEGIN
          *   - 2nd edge in the location
          ***********)
         IF "DB".sup = sup_s1 THEN
-            edge_sup_1 := 1;
+            edge_sup := 0;
         ELSIF "DB".sup = sup_s4 THEN
-            edge_sup_1 := 2;
+            edge_sup := 1;
         ELSIF "DB".sup = sup_s5 THEN
-            edge_sup_1 := 3;
+            edge_sup := 2;
         ELSIF "DB".sup = sup_s7 THEN
-            edge_sup_1 := 4;
+            edge_sup := 3;
         ELSIF "DB".sup = sup_s9 THEN
-            edge_sup_1 := 5;
+            edge_sup := 4;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -249,7 +249,7 @@ BEGIN
              *   - 1st edge in the location
              ***********)
             IF "DB".hw_button = hw_button_Released AND "DB".hw_button_bit THEN
-                edge_hw_button_1 := 1;
+                edge_hw_button := 0;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
                 eventEnabled := FALSE;
@@ -266,29 +266,29 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "sup". *)
-            IF edge_sup_1 = 1 THEN
+            IF edge_sup = 0 THEN
                 (* Perform assignments of the 1st edge in location "sup.s1". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s2;
-            ELSIF edge_sup_1 = 2 THEN
+            ELSIF edge_sup = 1 THEN
                 (* Perform assignments of the 2nd edge in location "sup.s4". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s2;
-            ELSIF edge_sup_1 = 3 THEN
+            ELSIF edge_sup = 2 THEN
                 (* Perform assignments of the 2nd edge in location "sup.s5". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s3;
-            ELSIF edge_sup_1 = 4 THEN
+            ELSIF edge_sup = 3 THEN
                 (* Perform assignments of the 2nd edge in location "sup.s7". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s6;
-            ELSIF edge_sup_1 = 5 THEN
+            ELSIF edge_sup = 4 THEN
                 (* Perform assignments of the 2nd edge in location "sup.s9". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s8;
             END_IF;
             (* Perform assignments of automaton "hw_button". *)
-            IF edge_hw_button_1 = 1 THEN
+            IF edge_hw_button = 0 THEN
                 (* Perform assignments of the 1st edge in location "hw_button.Released". *)
                 (* Perform update of discrete variable "hw_button.r". *)
                 "DB".hw_button_r := "DB".hw_button_bat + DINT_TO_REAL("DB".hw_button_bot);
@@ -324,15 +324,15 @@ BEGIN
          *   - 1st edge in the location
          ***********)
         IF "DB".sup = sup_s2 THEN
-            edge_sup_1 := 1;
+            edge_sup := 0;
         ELSIF "DB".sup = sup_s3 THEN
-            edge_sup_1 := 2;
+            edge_sup := 1;
         ELSIF "DB".sup = sup_s6 THEN
-            edge_sup_1 := 3;
+            edge_sup := 2;
         ELSIF "DB".sup = sup_s8 THEN
-            edge_sup_1 := 4;
+            edge_sup := 3;
         ELSIF "DB".sup = sup_s10 THEN
-            edge_sup_1 := 5;
+            edge_sup := 4;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -347,7 +347,7 @@ BEGIN
              *   - 1st edge in the location
              ***********)
             IF "DB".hw_button = hw_button_Pushed AND (NOT "DB".hw_button_bit) THEN
-                edge_hw_button_1 := 1;
+                edge_hw_button := 0;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
                 eventEnabled := FALSE;
@@ -363,29 +363,29 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "sup". *)
-            IF edge_sup_1 = 1 THEN
+            IF edge_sup = 0 THEN
                 (* Perform assignments of the 2nd edge in location "sup.s2". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s4;
-            ELSIF edge_sup_1 = 2 THEN
+            ELSIF edge_sup = 1 THEN
                 (* Perform assignments of the 2nd edge in location "sup.s3". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s5;
-            ELSIF edge_sup_1 = 3 THEN
+            ELSIF edge_sup = 2 THEN
                 (* Perform assignments of the 2nd edge in location "sup.s6". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s7;
-            ELSIF edge_sup_1 = 4 THEN
+            ELSIF edge_sup = 3 THEN
                 (* Perform assignments of the 2nd edge in location "sup.s8". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s9;
-            ELSIF edge_sup_1 = 5 THEN
+            ELSIF edge_sup = 4 THEN
                 (* Perform assignments of the 1st edge in location "sup.s10". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s1;
             END_IF;
             (* Perform assignments of automaton "hw_button". *)
-            IF edge_hw_button_1 = 1 THEN
+            IF edge_hw_button = 0 THEN
                 (* Perform assignments of the 1st edge in location "hw_button.Pushed". *)
                 (* Perform update of current location of automaton "hw_button". *)
                 "DB".hw_button := hw_button_Released;
@@ -418,7 +418,7 @@ BEGIN
          *   - 1st edge in the location
          ***********)
         IF "DB".timer_1 = timer_Idle THEN
-            edge_timer_1 := 1;
+            edge_timer := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -435,9 +435,9 @@ BEGIN
              *   - 1st edge in the location
              ***********)
             IF "DB".sup = sup_s3 THEN
-                edge_sup_1 := 1;
+                edge_sup := 0;
             ELSIF "DB".sup = sup_s5 THEN
-                edge_sup_1 := 2;
+                edge_sup := 1;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
                 eventEnabled := FALSE;
@@ -454,7 +454,7 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "timer". *)
-            IF edge_timer_1 = 1 THEN
+            IF edge_timer = 0 THEN
                 (* Perform assignments of the 1st edge in location "timer.Idle". *)
                 (* Perform update of continuous variable "timer.t". *)
                 "DB".timer_t := 3.0;
@@ -466,11 +466,11 @@ BEGIN
                 "DB".timer_1 := timer_Running;
             END_IF;
             (* Perform assignments of automaton "sup". *)
-            IF edge_sup_1 = 1 THEN
+            IF edge_sup = 0 THEN
                 (* Perform assignments of the 1st edge in location "sup.s3". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s6;
-            ELSIF edge_sup_1 = 2 THEN
+            ELSIF edge_sup = 1 THEN
                 (* Perform assignments of the 1st edge in location "sup.s5". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s7;
@@ -498,9 +498,9 @@ BEGIN
          *   - 1st edge in the location
          ***********)
         IF "DB".sup = sup_s2 THEN
-            edge_sup_1 := 1;
+            edge_sup := 0;
         ELSIF "DB".sup = sup_s4 THEN
-            edge_sup_1 := 2;
+            edge_sup := 1;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -515,7 +515,7 @@ BEGIN
              *   - 1st edge in the location
              ***********)
             IF "DB".hw_lamp = hw_lamp_Off THEN
-                edge_hw_lamp_1 := 1;
+                edge_hw_lamp := 0;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
                 eventEnabled := FALSE;
@@ -532,17 +532,17 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "sup". *)
-            IF edge_sup_1 = 1 THEN
+            IF edge_sup = 0 THEN
                 (* Perform assignments of the 1st edge in location "sup.s2". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s3;
-            ELSIF edge_sup_1 = 2 THEN
+            ELSIF edge_sup = 1 THEN
                 (* Perform assignments of the 1st edge in location "sup.s4". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s5;
             END_IF;
             (* Perform assignments of automaton "hw_lamp". *)
-            IF edge_hw_lamp_1 = 1 THEN
+            IF edge_hw_lamp = 0 THEN
                 (* Perform assignments of the 1st edge in location "hw_lamp.Off". *)
                 (* Perform update of discrete variable "hw_lamp.bit". *)
                 "DB".hw_lamp_bit := TRUE;
@@ -572,9 +572,9 @@ BEGIN
          *   - 1st edge in the location
          ***********)
         IF "DB".sup = sup_s8 THEN
-            edge_sup_1 := 1;
+            edge_sup := 0;
         ELSIF "DB".sup = sup_s9 THEN
-            edge_sup_1 := 2;
+            edge_sup := 1;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -589,7 +589,7 @@ BEGIN
              *   - 1st edge in the location
              ***********)
             IF "DB".hw_lamp = hw_lamp_On THEN
-                edge_hw_lamp_1 := 1;
+                edge_hw_lamp := 0;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
                 eventEnabled := FALSE;
@@ -606,17 +606,17 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "sup". *)
-            IF edge_sup_1 = 1 THEN
+            IF edge_sup = 0 THEN
                 (* Perform assignments of the 1st edge in location "sup.s8". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s10;
-            ELSIF edge_sup_1 = 2 THEN
+            ELSIF edge_sup = 1 THEN
                 (* Perform assignments of the 1st edge in location "sup.s9". *)
                 (* Perform update of current location of automaton "sup". *)
                 "DB".sup := sup_s1;
             END_IF;
             (* Perform assignments of automaton "hw_lamp". *)
-            IF edge_hw_lamp_1 = 1 THEN
+            IF edge_hw_lamp = 0 THEN
                 (* Perform assignments of the 1st edge in location "hw_lamp.On". *)
                 (* Perform update of discrete variable "hw_lamp.bit". *)
                 "DB".hw_lamp_bit := FALSE;
