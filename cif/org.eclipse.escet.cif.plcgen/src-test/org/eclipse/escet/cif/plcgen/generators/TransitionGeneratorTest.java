@@ -770,7 +770,7 @@ public class TransitionGeneratorTest {
         transitionGenerator.setTransitions(List.of(transition));
         transitionGenerator.setupEdgeVariables();
 
-        // Generate the transition, and check that it matches expectations.
+        // Generate the transition.
         return transitionGenerator.generateCode(isProgressVar, List.of(transition));
     }
 }
