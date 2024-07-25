@@ -38,6 +38,24 @@ public class PlcElementaryType extends PlcType {
     /** PLC TIME type. */
     public static final PlcElementaryType TIME_TYPE = new PlcElementaryType("TIME", 0);
 
+    /** Elementary types that are considered 'integer' for 32 bit systems, ordered by increasing size. */
+    public static final List<PlcElementaryType> INTEGER_TYPES_32 = List.of(INT_TYPE, DINT_TYPE);
+
+    /** Elementary types that are considered 'integer' for 64 bit systems, ordered by increasing size. */
+    public static final List<PlcElementaryType> INTEGER_TYPES_64 = List.of(INT_TYPE, DINT_TYPE, LINT_TYPE);
+
+    /** All integer types that are considered 'integer', ordered by increasing size. */
+    public static final List<PlcElementaryType> INTEGER_TYPES_ALL = INTEGER_TYPES_64;
+
+    /** Elementary types that are considered 'real' for 32 bit systems, ordered by increasing size. */
+    public static final List<PlcElementaryType> REAL_TYPES_32 = List.of(REAL_TYPE);
+
+    /** Elementary types that are considered 'real' for 64 bit systems, ordered by increasing size. */
+    public static final List<PlcElementaryType> REAL_TYPES_64 = List.of(REAL_TYPE, LREAL_TYPE);
+
+    /** All real types that are considered 'real', ordered by increasing size. */
+    public static final List<PlcElementaryType> REAL_TYPES_ALL = REAL_TYPES_64;
+
     /** The name of the elementary type. */
     public final String name;
 
@@ -54,12 +72,6 @@ public class PlcElementaryType extends PlcType {
         this.name = name;
         this.bitSize = bitSize;
     }
-
-    /** Elementary types that are considered 'integer'. */
-    private static final List<PlcElementaryType> INTEGER_TYPES = List.of(INT_TYPE, DINT_TYPE, LINT_TYPE);
-
-    /** Elementary types that are considered 'real'. */
-    private static final List<PlcElementaryType> REAL_TYPES = List.of(REAL_TYPE, LREAL_TYPE);
 
     @Override
     public boolean equals(Object other) {
@@ -89,7 +101,7 @@ public class PlcElementaryType extends PlcType {
      * @return The PLC integer type with exactly the requested number of bits.
      */
     public static PlcElementaryType getIntTypeBySize(int numBits) {
-        for (PlcElementaryType elemType: INTEGER_TYPES) {
+        for (PlcElementaryType elemType: INTEGER_TYPES_ALL) {
             if (elemType.bitSize == numBits) {
                 return elemType;
             }
@@ -104,7 +116,7 @@ public class PlcElementaryType extends PlcType {
      * @return The PLC real type with exactly the requested number of bits.
      */
     public static PlcElementaryType getRealTypeBySize(int numBits) {
-        for (PlcElementaryType elemType: REAL_TYPES) {
+        for (PlcElementaryType elemType: REAL_TYPES_ALL) {
             if (elemType.bitSize == numBits) {
                 return elemType;
             }
@@ -119,7 +131,7 @@ public class PlcElementaryType extends PlcType {
      * @return Whether the type is a type for integer values.
      */
     public static boolean isIntType(PlcType type) {
-        return INTEGER_TYPES.contains(type);
+        return INTEGER_TYPES_ALL.contains(type);
     }
 
     /**
@@ -129,6 +141,6 @@ public class PlcElementaryType extends PlcType {
      * @return Whether the type is a type for real values.
      */
     public static boolean isRealType(PlcType type) {
-        return REAL_TYPES.contains(type);
+        return REAL_TYPES_ALL.contains(type);
     }
 }
