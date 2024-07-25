@@ -181,8 +181,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         edgeSelectionVariables.clear();
         for (Entry<Automaton, Integer> entry: maxEventEdges.entrySet()) {
             Automaton aut = entry.getKey();
-            int maxEdges = entry.getValue();
-            PlcType varType = (maxEdges < 3) ? PlcElementaryType.BOOL_TYPE : PlcElementaryType.DINT_TYPE;
+            // TODO Use entry.getValue() to select a smaller type if possible. Also delete TODOs about that.
+            PlcType varType = PlcElementaryType.DINT_TYPE;
 
             String edgeVariableName = "edge_" + getAbsName(aut, false);
             PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, varType);
