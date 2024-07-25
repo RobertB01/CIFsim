@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -241,13 +242,13 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
          */
         private PlcExpression timeToReal(PlcExpression timeMillis, PlcElementaryType destRealType) {
             // Get the largest available integer type to get maximum accuracy.
-            PlcElementaryType intType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
+            PlcElementaryType maxIntType = last(target.getSupportedIntegerTypes());
 
             // TIME are integer milliseconds while reals are seconds. Therefore:
             // 1. Cast to integer.
             // 2. Cast to real.
             // 3. Divide by 1000.0.
-            PlcExpression intMillis = plcFuncAppls.castFunctionAppl(timeMillis, intType);
+            PlcExpression intMillis = plcFuncAppls.castFunctionAppl(timeMillis, maxIntType);
             PlcExpression realMillis = plcFuncAppls.castFunctionAppl(intMillis, destRealType);
             PlcExpression real1000 = new PlcRealLiteral("1000.0", destRealType);
             return plcFuncAppls.divideFuncAppl(realMillis, real1000);
@@ -261,7 +262,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
          */
         private PlcExpression realToTime(PlcExpression realSecs) {
             // Get the largest available integer type to get maximum accuracy.
-            PlcElementaryType maxIntType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
+            PlcElementaryType maxIntType = last(target.getSupportedIntegerTypes());
 
             // Reals are seconds, while PLC TIME are integer milliseconds. Therefore:
             // 1. Multiply by 1000.0.
