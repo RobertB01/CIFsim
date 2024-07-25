@@ -3,10 +3,9 @@ ORGANIZATION_BLOCK MAIN
     VAR_TEMP
         current_aut_y: LREAL;
         current_aut_y_1: LREAL;
-        edge_aut: BOOL;
+        edge_aut: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
-        dummyVar1: DINT;
     END_VAR
 
 BEGIN

@@ -4,9 +4,9 @@ ORGANIZATION_BLOCK MAIN
         channelValue: DINT;
         current_Good_x: DINT;
         current_Good_x_1: DINT;
-        edge_Block: BOOL;
-        edge_Good: BOOL;
-        edge_UseChannel: BOOL;
+        edge_Block: DINT;
+        edge_Good: DINT;
+        edge_UseChannel: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
         receiverAut: DINT;

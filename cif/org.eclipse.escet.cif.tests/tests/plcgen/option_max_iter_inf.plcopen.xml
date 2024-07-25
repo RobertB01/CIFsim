@@ -46,7 +46,7 @@
             </variable>
             <variable name="edge_p">
               <type>
-                <BOOL/>
+                <DINT/>
               </type>
             </variable>
             <variable name="eventEnabled">

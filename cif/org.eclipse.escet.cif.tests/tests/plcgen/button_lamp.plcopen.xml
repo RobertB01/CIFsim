@@ -220,12 +220,12 @@
             </variable>
             <variable name="edge_hw_button">
               <type>
-                <BOOL/>
+                <DINT/>
               </type>
             </variable>
             <variable name="edge_hw_lamp">
               <type>
-                <BOOL/>
+                <DINT/>
               </type>
             </variable>
             <variable name="edge_sup">
@@ -235,7 +235,7 @@
             </variable>
             <variable name="edge_timer">
               <type>
-                <BOOL/>
+                <DINT/>
               </type>
             </variable>
             <variable name="eventEnabled">

@@ -51,17 +51,17 @@
             </variable>
             <variable name="edge_Block">
               <type>
-                <BOOL/>
+                <DINT/>
               </type>
             </variable>
             <variable name="edge_Good">
               <type>
-                <BOOL/>
+                <DINT/>
               </type>
             </variable>
             <variable name="edge_UseChannel">
               <type>
-                <BOOL/>
+                <DINT/>
               </type>
             </variable>
             <variable name="eventEnabled">

@@ -4,13 +4,12 @@ ORGANIZATION_BLOCK MAIN
         loopCount: DINT;
         curValue: TIME;
         current_p_t: REAL;
-        edge_p: BOOL;
+        edge_p: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
         timeOut: BOOL;
         dummyVar1: DINT;
         dummyVar2: DINT;
-        dummyVar3: DINT;
     END_VAR
 
 BEGIN

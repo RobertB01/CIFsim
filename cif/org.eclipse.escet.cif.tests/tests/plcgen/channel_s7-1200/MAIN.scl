@@ -6,12 +6,12 @@ ORGANIZATION_BLOCK MAIN
         current_R1_vr1: DINT;
         current_R2_vr2: DINT;
         current_S2_vs2: DINT;
-        edge_R1: BOOL;
-        edge_R2: BOOL;
-        edge_S1: BOOL;
-        edge_S2: BOOL;
-        edge_Y1: BOOL;
-        edge_Y2: BOOL;
+        edge_R1: DINT;
+        edge_R2: DINT;
+        edge_S1: DINT;
+        edge_S2: DINT;
+        edge_Y1: DINT;
+        edge_Y2: DINT;
         eventEnabled: BOOL;
         isProgress: BOOL;
         receiverAut: DINT;
