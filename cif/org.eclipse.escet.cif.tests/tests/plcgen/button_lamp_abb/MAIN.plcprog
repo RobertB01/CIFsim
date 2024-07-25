@@ -31,10 +31,10 @@ VAR_TEMP
     current_timer: DINT;
     current_timer_1: DINT;
     current_timer_t: REAL;
-    edge_hw_button: DINT;
-    edge_hw_lamp: DINT;
-    edge_sup: DINT;
-    edge_timer: DINT;
+    edge_hw_button: BYTE;
+    edge_hw_lamp: BYTE;
+    edge_sup: BYTE;
+    edge_timer: BYTE;
     eventEnabled: BOOL;
     isProgress: BOOL;
     timeOut: BOOL;

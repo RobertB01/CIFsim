@@ -10,7 +10,7 @@ ORGANIZATION_BLOCK MAIN
         current_p_v3: TupleStruct_1;
         current_p_ve: DINT;
         current_p_x: DINT;
-        edge_p: DINT;
+        edge_p: BYTE;
         eventEnabled: BOOL;
         isProgress: BOOL;
         litStruct: TupleStruct;

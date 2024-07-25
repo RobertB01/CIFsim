@@ -7,7 +7,7 @@ ORGANIZATION_BLOCK MAIN
         current_aut_i: DINT;
         current_aut_r: REAL;
         current_aut_tii: TupleStruct;
-        edge_aut: DINT;
+        edge_aut: BYTE;
         eventEnabled: BOOL;
         ifResult: BOOL;
         isProgress: BOOL;

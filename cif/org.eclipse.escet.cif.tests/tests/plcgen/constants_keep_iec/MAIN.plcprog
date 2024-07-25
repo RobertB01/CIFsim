@@ -9,7 +9,7 @@ END_VAR
 VAR_TEMP
     current_aut_y: LREAL;
     current_aut_y_1: LREAL;
-    edge_aut: DINT;
+    edge_aut: BYTE;
     eventEnabled: BOOL;
     isProgress: BOOL;
     litStruct: TupleStruct;

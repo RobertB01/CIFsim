@@ -128,7 +128,7 @@
             </variable>
             <variable name="edge_aut">
               <type>
-                <DINT/>
+                <BYTE/>
               </type>
             </variable>
             <variable name="eventEnabled">

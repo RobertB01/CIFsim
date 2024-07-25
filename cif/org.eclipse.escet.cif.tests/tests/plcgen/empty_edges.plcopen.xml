@@ -51,17 +51,17 @@
             </variable>
             <variable name="edge_Block">
               <type>
-                <DINT/>
+                <BYTE/>
               </type>
             </variable>
             <variable name="edge_Good">
               <type>
-                <DINT/>
+                <BYTE/>
               </type>
             </variable>
             <variable name="edge_UseChannel">
               <type>
-                <DINT/>
+                <BYTE/>
               </type>
             </variable>
             <variable name="eventEnabled">
