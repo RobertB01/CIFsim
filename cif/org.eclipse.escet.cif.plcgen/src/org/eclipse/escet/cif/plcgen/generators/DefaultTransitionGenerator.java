@@ -182,14 +182,54 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         edgeSelectionVariables.clear();
         for (Entry<Automaton, Integer> entry: maxEventEdges.entrySet()) {
             Automaton aut = entry.getKey();
-            // TODO Use entry.getValue() to select a smaller type if possible. Also delete TODOs about that.
-            PlcType varType = PlcElementaryType.DINT_TYPE;
+            int maxEdges = entry.getValue();
+            int numBits = getNumberOfBits(maxEdges);
+            PlcType varType = PlcElementaryType.getTypeByRequiredSize(numBits, target.getSupportedBitStringTypes());
 
             String edgeVariableName = "edge_" + getAbsName(aut, false);
             PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, varType);
             target.getCodeStorage().setAutomatonEdgeVariableName(aut, autVar.varName);
             edgeSelectionVariables.put(aut, autVar);
         }
+    }
+
+    /**
+     * Compute how many bits are needed to store number {@code num}.
+     *
+     * <p>
+     * Warning: Signed data types need an additional bit to store the sign even if it is always {@code 0}.
+     * </p>
+     *
+     * @param num Number to analyze.
+     * @return Number of bits needed to store value {@code num}.
+     */
+    private int getNumberOfBits(int num) {
+        /**
+         * At bits {@code [(v*3)..(v*3 + 2)]} the number of needed bits to store value v, for all values v of a nibble.
+         */
+        final long nibbleLengths = (1L << 3) | (2L << 6) | (2L << 9) | (3L << 12) | (3L << 15) | (3L << 18) | (3L << 21)
+                | (4L << 24) | (4L << 27) | (4L << 30) | (4L << 33) | (4L << 36) | (4L << 39) | (4L << 42) | (4L << 45);
+
+        int offset = 0;
+        // Check if there is data in the top-most 16 bit.
+        if ((num & 0xFFFF0000) != 0) {
+            num = (num >> 16) & 0xFFFF; // Make value in num positive.
+            offset = 16;
+        }
+
+        // Check if there is data in the top-most 8 bit of 16 bits.
+        if ((num & 0xFF00) != 0) {
+            num = num >> 8;
+            offset += 8;
+        }
+
+        // Check if there is data in the top-most 4 bit of 8 bits.
+        if ((num & 0xF0) != 0) {
+            num = num >> 4;
+            offset += 4;
+        }
+        // Compute the needed number of bits to store the original value.
+        return offset + ((int)(nibbleLengths >> (3 * num)) & 0x7);
     }
 
     /**
