@@ -181,7 +181,7 @@ public class PlcCodeStorage {
         }
 
         // Compute the maximum feasible limit that can be checked.
-        PlcElementaryType loopCountType = target.getIntegerType();
+        PlcElementaryType loopCountType = target.getStdIntegerType();
         int feasibleLimit = switch (loopCountType.bitSize) {
             case 64, 32 -> specifiedLimit; // Java int size is 32 bit, all values of the limit fit.
             case 16 -> Math.min(specifiedLimit, 0x7FFF);
@@ -421,7 +421,7 @@ public class PlcCodeStorage {
 
             // Construct a "loopCount" variable, finite upper bounds on the loop have already been limited to fit in the
             // standard integer PLC type.
-            PlcElementaryType loopCountType = target.getIntegerType();
+            PlcElementaryType loopCountType = target.getStdIntegerType();
             loopCount = exprGen.makeLocalVariable("loopCount", loopCountType);
             addTempVariable(loopCount);
         }

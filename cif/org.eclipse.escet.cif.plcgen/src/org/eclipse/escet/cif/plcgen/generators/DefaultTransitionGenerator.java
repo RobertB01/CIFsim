@@ -540,7 +540,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                         cifDataProvider.getValueForDiscVar(dv)));
             } else if (assignedVar instanceof ContVariable cv) {
                 PlcBasicVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(cv, false),
-                        target.getRealType());
+                        target.getStdRealType());
                 createdTempVariables.add(currentVar);
                 redirectedDecls.put(cv, new PlcVarExpression(currentVar));
                 codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(currentVar),

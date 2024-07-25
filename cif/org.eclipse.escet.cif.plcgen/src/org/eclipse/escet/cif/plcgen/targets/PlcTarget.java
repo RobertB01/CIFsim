@@ -195,7 +195,7 @@ public abstract class PlcTarget {
      *
      * @return The type of a standard integer value in the PLC.
      */
-    public abstract PlcElementaryType getIntegerType();
+    public abstract PlcElementaryType getStdIntegerType();
 
     /**
      * Construct a new standard integer literal with the given value.
@@ -204,7 +204,7 @@ public abstract class PlcTarget {
      * @return The created literal.
      */
     public PlcIntLiteral makeStdInteger(int value) {
-        return new PlcIntLiteral(value, getIntegerType());
+        return new PlcIntLiteral(value, getStdIntegerType());
     }
 
     /**
@@ -230,7 +230,7 @@ public abstract class PlcTarget {
      *
      * @return The type of a standard real value in the PLC.
      */
-    public abstract PlcElementaryType getRealType();
+    public abstract PlcElementaryType getStdRealType();
 
     /**
      * Construct a new standard real literal with the given value.
@@ -239,7 +239,7 @@ public abstract class PlcTarget {
      * @return The created literal.
      */
     public PlcRealLiteral makeStdReal(String value) {
-        return new PlcRealLiteral(value, getRealType());
+        return new PlcRealLiteral(value, getStdRealType());
     }
 
     /**
