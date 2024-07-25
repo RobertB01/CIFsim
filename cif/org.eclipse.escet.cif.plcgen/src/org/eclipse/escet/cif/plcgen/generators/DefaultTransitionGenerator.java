@@ -61,6 +61,7 @@ import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -1344,7 +1345,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private PlcExpression generateCompareVarWithVal(PlcBasicVariable variable, int value) {
         PlcExpression varExpr = new PlcVarExpression(variable);
-        PlcExpression valExpr = target.makeStdInteger(value);
+        PlcExpression valExpr = new PlcIntLiteral(value, variable.type);
         return funcAppls.equalFuncAppl(varExpr, valExpr);
     }
 
@@ -1356,7 +1357,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated statement.
      */
     private PlcAssignmentStatement generatePlcIntAssignment(PlcBasicVariable variable, int value) {
-        return new PlcAssignmentStatement(variable, target.makeStdInteger(value));
+        return new PlcAssignmentStatement(variable, new PlcIntLiteral(value, variable.type));
     }
 
     /**
