@@ -41,6 +41,18 @@ public class PlcElementaryType extends PlcType {
     /** PLC TIME type. */
     public static final PlcElementaryType TIME_TYPE = new PlcElementaryType("TIME", 0);
 
+    /** PLC BYTE type. */
+    public static final PlcElementaryType BYTE_TYPE = new PlcElementaryType("BYTE", 8);
+
+    /** PLC WORD type. */
+    public static final PlcElementaryType WORD_TYPE = new PlcElementaryType("WORD", 16);
+
+    /** PLC DWORD type. */
+    public static final PlcElementaryType DWORD_TYPE = new PlcElementaryType("DWORD", 32);
+
+    /** PLC LWORD type. */
+    public static final PlcElementaryType LWORD_TYPE = new PlcElementaryType("LWORD", 64);
+
     /** Elementary types that are considered 'integer' for 32 bit systems, ordered by increasing size. */
     public static final List<PlcElementaryType> INTEGER_TYPES_32 = List.of(INT_TYPE, DINT_TYPE);
 
@@ -58,6 +70,13 @@ public class PlcElementaryType extends PlcType {
 
     /** All real types that are considered 'real', ordered by increasing size. */
     public static final List<PlcElementaryType> REAL_TYPES_ALL = REAL_TYPES_64;
+
+    /** Elementary types that are considered 'bit string' for 32 bit systems, ordered by increasing size. */
+    public static final List<PlcElementaryType> BIT_STRING_TYPES_32 = List.of(BYTE_TYPE, WORD_TYPE, DWORD_TYPE);
+
+    /** Elementary types that are considered 'bit string' for 64 bit systems, ordered by increasing size. */
+    public static final List<PlcElementaryType> BIT_STRING_TYPES_64 = List.of(BYTE_TYPE, WORD_TYPE, DWORD_TYPE,
+            LWORD_TYPE);
 
     /** The name of the elementary type. */
     public final String name;
