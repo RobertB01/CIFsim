@@ -49,18 +49,8 @@ public class Iec611313Target extends PlcBaseTarget {
     }
 
     @Override
-    public int getMaxIntegerTypeSize() {
-        return 64;
-    }
-
-    @Override
     public List<PlcElementaryType> getSupportedRealTypes() {
         return PlcElementaryType.REAL_TYPES_64;
-    }
-
-    @Override
-    public int getMaxRealTypeSize() {
-        return 64;
     }
 
     @Override

@@ -50,18 +50,8 @@ public class AbbTarget extends PlcBaseTarget {
     }
 
     @Override
-    public int getMaxIntegerTypeSize() {
-        return 32;
-    }
-
-    @Override
     public List<PlcElementaryType> getSupportedRealTypes() {
         return PlcElementaryType.REAL_TYPES_32;
-    }
-
-    @Override
-    public int getMaxRealTypeSize() {
-        return 32;
     }
 
     @Override

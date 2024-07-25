@@ -57,12 +57,6 @@ public class SiemensS7Target extends PlcBaseTarget {
     /** Supported stored real types for each target, ordered in increasing size. */
     private static final Map<PlcTargetType, List<PlcElementaryType>> REAL_TYPES;
 
-    /** Maximum supported stored integer type size for each target. */
-    private static final Map<PlcTargetType, Integer> MAX_INTEGER_SIZES;
-
-    /** Maximum supported stored real type size for each target. */
-    private static final Map<PlcTargetType, Integer> MAX_REAL_SIZES;
-
     static {
         OUT_SUFFIX_REPLACEMENTS = Map.of(
                 PlcTargetType.S7_300, "_s7_300", PlcTargetType.S7_400, "_s7_400",
@@ -72,17 +66,9 @@ public class SiemensS7Target extends PlcBaseTarget {
                 PlcTargetType.S7_300, INTEGER_TYPES_32, PlcTargetType.S7_400, INTEGER_TYPES_32,
                 PlcTargetType.S7_1200, INTEGER_TYPES_32, PlcTargetType.S7_1500, INTEGER_TYPES_64);
 
-        MAX_INTEGER_SIZES = Map.of(
-                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
-                PlcTargetType.S7_1200, 32, PlcTargetType.S7_1500, 64);
-
         REAL_TYPES = Map.of(
                 PlcTargetType.S7_300, REAL_TYPES_32, PlcTargetType.S7_400, REAL_TYPES_32,
                 PlcTargetType.S7_1200, REAL_TYPES_64, PlcTargetType.S7_1500, REAL_TYPES_64);
-
-        MAX_REAL_SIZES = Map.of(
-                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
-                PlcTargetType.S7_1200, 64, PlcTargetType.S7_1500, 64);
     }
 
     /**
@@ -150,18 +136,8 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public int getMaxIntegerTypeSize() {
-        return MAX_INTEGER_SIZES.get(targetType);
-    }
-
-    @Override
     public List<PlcElementaryType> getSupportedRealTypes() {
         return REAL_TYPES.get(targetType);
-    }
-
-    @Override
-    public int getMaxRealTypeSize() {
-        return MAX_REAL_SIZES.get(targetType);
     }
 
     @Override
