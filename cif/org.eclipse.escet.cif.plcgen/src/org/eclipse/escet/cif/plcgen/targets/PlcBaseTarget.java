@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import static org.eclipse.escet.common.java.Lists.last;
+
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -326,10 +328,20 @@ public abstract class PlcBaseTarget extends PlcTarget {
     }
 
     @Override
+    public int getMaxIntegerTypeSize() {
+        return last(getSupportedIntegerTypes()).bitSize;
+    }
+
+    @Override
     public PlcElementaryType getStdIntegerType() {
         int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
         int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
         return PlcElementaryType.getIntTypeBySize(userSpecifiedIntSize);
+    }
+
+    @Override
+    public int getMaxRealTypeSize() {
+        return last(getSupportedRealTypes()).bitSize;
     }
 
     @Override
