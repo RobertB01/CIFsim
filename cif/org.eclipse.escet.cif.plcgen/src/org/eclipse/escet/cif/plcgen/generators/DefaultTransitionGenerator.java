@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -182,7 +183,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Construct edge variables.
         edgeSelectionVariables.clear();
-        for (Map.Entry<Automaton, Integer> entry: maxEventEdges.entrySet()) {
+        for (Entry<Automaton, Integer> entry: maxEventEdges.entrySet()) {
             Automaton aut = entry.getKey();
             int maxEdges = entry.getValue();
             PlcType varType = (maxEdges < 3) ? PlcElementaryType.BOOL_TYPE : PlcElementaryType.DINT_TYPE;
