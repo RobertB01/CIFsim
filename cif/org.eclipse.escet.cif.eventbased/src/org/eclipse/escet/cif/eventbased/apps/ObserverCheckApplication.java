@@ -102,7 +102,6 @@ public class ObserverCheckApplication extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        String outPath;
         int exitCode;
         String rsltMsg;
 
@@ -143,7 +142,7 @@ public class ObserverCheckApplication extends Application<IOutputComponent> {
             }
 
             // Write result.
-            outPath = "_observation.txt";
+            String outPath = "_observation.txt";
             outPath = ReportFileOption.getDerivedPath(".cif", outPath);
             OutputProvider.dbg("Writing result to \"%s\"...", outPath);
             String absOutPath = Paths.resolve(outPath);
@@ -153,7 +152,7 @@ public class ObserverCheckApplication extends Application<IOutputComponent> {
             rsltMsg = fmt("Observer check %s in file \"%s\". See \"%s\" for details.", result,
                     InputFileOption.getPath(), outPath);
 
-            AppStream stream = new FileAppStream(absOutPath);
+            AppStream stream = new FileAppStream(outPath, absOutPath);
             OutputProvider.dbg(rsltMsg);
             stream.printf("Observer check %s in file \"%s\"\n", result, InputFileOption.getPath());
             stream.printf("for observable events");

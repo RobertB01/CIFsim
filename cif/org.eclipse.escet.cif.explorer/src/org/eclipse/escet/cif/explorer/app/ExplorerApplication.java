@@ -207,12 +207,12 @@ public class ExplorerApplication extends Application<IOutputComponent> {
 
         // Get absolute output path.
         String path = ReportFileOption.getDerivedPath(".cif", "_report.txt");
-        path = Paths.resolve(path);
+        String absPath = Paths.resolve(path);
 
         // Write report file.
         AppStream outFile = null;
         try {
-            outFile = new FileAppStream(path);
+            outFile = new FileAppStream(path, absPath);
             if (explorer.states == null || explorer.states.isEmpty()) {
                 outFile.println("No initial state found.");
             } else {

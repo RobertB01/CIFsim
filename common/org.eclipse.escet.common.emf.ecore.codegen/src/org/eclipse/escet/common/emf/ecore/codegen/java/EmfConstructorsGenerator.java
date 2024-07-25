@@ -81,7 +81,7 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
         box.writeToFile(outputFilePath.toString(), absOutputFilePath);
 
         // We are done.
-        System.out.printf("Code written to: %s%n", absOutputFilePath);
+        System.out.printf("Code written to: %s%n", outputFilePath);
     }
 
     /**

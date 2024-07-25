@@ -79,7 +79,7 @@ public class CifWriter {
         }
 
         // Pretty print the CIF specification directly to the file.
-        AppStream stream = new FileAppStream(filePaths.systemPath);
+        AppStream stream = new FileAppStream(filePaths);
         StreamCodeBox code = new StreamCodeBox(stream, INDENT);
         CifPrettyPrinter.boxSpec(spec, code);
 
