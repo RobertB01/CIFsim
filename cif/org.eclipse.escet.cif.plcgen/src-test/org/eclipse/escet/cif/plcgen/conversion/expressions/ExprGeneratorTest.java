@@ -266,8 +266,18 @@ public class ExprGeneratorTest {
         }
 
         @Override
+        public List<PlcElementaryType> getSupportedIntegerTypes() {
+            return PlcElementaryType.INTEGER_TYPES_32;
+        }
+
+        @Override
         public int getMaxIntegerTypeSize() {
             return 32;
+        }
+
+        @Override
+        public List<PlcElementaryType> getSupportedRealTypes() {
+            return PlcElementaryType.REAL_TYPES_64;
         }
 
         @Override

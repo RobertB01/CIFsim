@@ -127,8 +127,18 @@ public class TransitionGeneratorTest {
         }
 
         @Override
+        public List<PlcElementaryType> getSupportedIntegerTypes() {
+            return PlcElementaryType.INTEGER_TYPES_64;
+        }
+
+        @Override
         public int getMaxIntegerTypeSize() {
             return 64;
+        }
+
+        @Override
+        public List<PlcElementaryType> getSupportedRealTypes() {
+            return PlcElementaryType.REAL_TYPES_64;
         }
 
         @Override

@@ -28,13 +28,19 @@ import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDL
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_SIN;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_SQRT;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_TAN;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INTEGER_TYPES_32;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INTEGER_TYPES_64;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.REAL_TYPES_32;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.REAL_TYPES_64;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.writers.S7Writer;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
@@ -44,6 +50,12 @@ import org.eclipse.escet.common.java.Assert;
 public class SiemensS7Target extends PlcBaseTarget {
     /** Replacement strings for the extension in the CIF input file name to construct an output path for each target. */
     private static final Map<PlcTargetType, String> OUT_SUFFIX_REPLACEMENTS;
+
+    /** Supported stored integer types for each target, ordered in increasing size. */
+    private static final Map<PlcTargetType, List<PlcElementaryType>> INTEGER_TYPES;
+
+    /** Supported stored real types for each target, ordered in increasing size. */
+    private static final Map<PlcTargetType, List<PlcElementaryType>> REAL_TYPES;
 
     /** Maximum supported stored integer type size for each target. */
     private static final Map<PlcTargetType, Integer> MAX_INTEGER_SIZES;
@@ -56,9 +68,17 @@ public class SiemensS7Target extends PlcBaseTarget {
                 PlcTargetType.S7_300, "_s7_300", PlcTargetType.S7_400, "_s7_400",
                 PlcTargetType.S7_1200, "_s7_1200", PlcTargetType.S7_1500, "_s7_1500");
 
+        INTEGER_TYPES = Map.of(
+                PlcTargetType.S7_300, INTEGER_TYPES_32, PlcTargetType.S7_400, INTEGER_TYPES_32,
+                PlcTargetType.S7_1200, INTEGER_TYPES_32, PlcTargetType.S7_1500, INTEGER_TYPES_64);
+
         MAX_INTEGER_SIZES = Map.of(
                 PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
                 PlcTargetType.S7_1200, 32, PlcTargetType.S7_1500, 64);
+
+        REAL_TYPES = Map.of(
+                PlcTargetType.S7_300, REAL_TYPES_32, PlcTargetType.S7_400, REAL_TYPES_32,
+                PlcTargetType.S7_1200, REAL_TYPES_64, PlcTargetType.S7_1500, REAL_TYPES_64);
 
         MAX_REAL_SIZES = Map.of(
                 PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
@@ -125,8 +145,18 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
+    public List<PlcElementaryType> getSupportedIntegerTypes() {
+        return INTEGER_TYPES.get(targetType);
+    }
+
+    @Override
     public int getMaxIntegerTypeSize() {
         return MAX_INTEGER_SIZES.get(targetType);
+    }
+
+    @Override
+    public List<PlcElementaryType> getSupportedRealTypes() {
+        return REAL_TYPES.get(targetType);
     }
 
     @Override
