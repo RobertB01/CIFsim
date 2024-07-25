@@ -385,12 +385,14 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
         }
 
         // Dump results.
-        dumpMatches(mutualExclusives, "Mutual exclusive event pairs", out);
-        dumpMatches(updateEquivalents, "Update equivalent event pairs", out);
-        dumpMatches(independents, "Independent event pairs", out);
-        dumpMatches(skippables, "Skippable event pairs", out);
-        dumpMatches(reversibles, "Reversible event pairs", out);
+        boolean needEmptyLine = false;
+        needEmptyLine = dumpMatches(mutualExclusives, "Mutual exclusive event pairs", out, needEmptyLine);
+        needEmptyLine = dumpMatches(updateEquivalents, "Update equivalent event pairs", out, needEmptyLine);
+        needEmptyLine = dumpMatches(independents, "Independent event pairs", out, needEmptyLine);
+        needEmptyLine = dumpMatches(skippables, "Skippable event pairs", out, needEmptyLine);
+        needEmptyLine = dumpMatches(reversibles, "Reversible event pairs", out, needEmptyLine);
 
+        // Return check conclusion.
         return new ConfluenceCheckConclusion(cannotProves);
     }
 
@@ -441,20 +443,29 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
      * @param pairs Event pairs to output.
      * @param reasonText Description of the reason what the collection means.
      * @param out Callback to send normal output to the user.
+     * @param needEmptyLine Whether an empty line is needed if matches are dumped by this method.
+     * @return Whether an empty line is needed if matches are dumped after this method.
      */
-    private void dumpMatches(List<Pair<String, String>> pairs, String reasonText, DebugNormalOutput out) {
+    private boolean dumpMatches(List<Pair<String, String>> pairs, String reasonText, DebugNormalOutput out,
+            boolean needEmptyLine)
+    {
+        // Nothing to do if no pairs. Preserves the need for an empty line for the next dump.
         if (pairs.isEmpty()) {
-            return;
+            return needEmptyLine;
         }
 
         // Sort the pairs for easier reading.
         pairs.sort(
                 Comparator.comparing((Pair<String, String> p) -> p.left, SORTER).thenComparing(p -> p.right, SORTER));
 
-        out.line();
+        // Dump the pairs.
+        if (needEmptyLine) {
+            out.line();
+        }
         out.line(reasonText + ":");
         out.inc();
         out.line(pairs.stream().map(Pair::toString).collect(Collectors.joining(", ")));
         out.dec();
+        return true;
     }
 }

@@ -69,6 +69,9 @@ public class VarOrderHelper {
     /** Callback for debug output. */
     private final DebugNormalOutput debugOutput;
 
+    /** The number of spaces to use per indentation level. */
+    private final int indentAmount;
+
     /**
      * For each CIF/BDD variable in the given {@link #variables variable order}, its 0-based index within that order.
      */
@@ -118,12 +121,16 @@ public class VarOrderHelper {
      * @param variables The CIF/BDD variables, in the order they are to be used to create the various representations of
      *     the relations between the CIF/BDD variables.
      * @param debugOutput Callback for debug output.
+     * @param indentAmount The number of spaces to use per indentation level.
      */
-    public VarOrderHelper(Specification spec, List<CifBddVariable> variables, DebugNormalOutput debugOutput) {
+    public VarOrderHelper(Specification spec, List<CifBddVariable> variables, DebugNormalOutput debugOutput,
+            int indentAmount)
+    {
         // Store the arguments.
         this.spec = spec;
         this.variables = Collections.unmodifiableList(variables);
         this.debugOutput = debugOutput;
+        this.indentAmount = indentAmount;
 
         // Compute and store different representations of the relations from the specification.
         List<BitSet> legacyHyperEdges = createHyperEdges(new LegacyHyperEdgeCreator(spec, variables));
@@ -161,7 +168,7 @@ public class VarOrderHelper {
      *     the relations between the CIF/BDD variables.
      */
     public VarOrderHelper(VarOrderHelper helper, List<CifBddVariable> variables) {
-        this(helper.spec, variables, helper.debugOutput);
+        this(helper.spec, variables, helper.debugOutput, helper.indentAmount);
     }
 
     /**
@@ -255,7 +262,7 @@ public class VarOrderHelper {
      * @param args The arguments of the debug output pattern.
      */
     public void dbg(int dbgLevel, String msg, Object... args) {
-        debugOutput.line(Strings.spaces(dbgLevel * 2) + msg, args);
+        debugOutput.line(Strings.spaces(dbgLevel * indentAmount) + msg, args);
     }
 
     /**

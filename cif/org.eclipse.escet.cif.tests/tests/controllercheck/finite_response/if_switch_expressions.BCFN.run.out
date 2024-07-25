@@ -1,282 +1,279 @@
 Loading CIF specification "controllercheck/finite_response/if_switch_expressions.cif"...
 Preparing for BDD-based checks...
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      input variable    bool  A     0      1 * 2     2 * 2       2 * 2       100%
+        2      input variable    bool  B     1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   Aut1  2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   Aut2  3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   Aut3  4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   Aut4  5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   Aut5  6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   Aut6  7      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                8      16        32          32          100%
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      input variable    bool  A     0      1 * 2     2 * 2       2 * 2       100%
-  2      input variable    bool  B     1      1 * 2     2 * 2       2 * 2       100%
-  3      location pointer  n/a   Aut1  2      1 * 2     2 * 2       2 * 2       100%
-  4      location pointer  n/a   Aut2  3      1 * 2     2 * 2       2 * 2       100%
-  5      location pointer  n/a   Aut3  4      1 * 2     2 * 2       2 * 2       100%
-  6      location pointer  n/a   Aut4  5      1 * 2     2 * 2       2 * 2       100%
-  7      location pointer  n/a   Aut5  6      1 * 2     2 * 2       2 * 2       100%
-  8      location pointer  n/a   Aut6  7      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                8      16        32          32          100%
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying sorted variable order:
+                Effect: both
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying sorted variable order:
-      Effect: both
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 20
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 20
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+                    Total span:   14 (total)   0.70 (avg/edge) / WES:   0.240625 (total)   0.012031 (avg/edge) [before]
+                    Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [after]
 
-        Total span:   14 (total)   0.70 (avg/edge) / WES:   0.240625 (total)   0.012031 (avg/edge) [before]
-        Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [after]
+                Found new best variable order.
 
-      Found new best variable order.
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+                    Total span:   14 (total)   0.70 (avg/edge) / WES:   0.240625 (total)   0.012031 (avg/edge) [before]
+                    Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [after]
 
-        Total span:   14 (total)   0.70 (avg/edge) / WES:   0.240625 (total)   0.012031 (avg/edge) [before]
-        Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 1
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+                        Total span:   14 (total)   0.70 (avg/edge) / WES:   0.240625 (total)   0.012031 (avg/edge) [before]
+                        Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [after]
 
-          Total span:   14 (total)   0.70 (avg/edge) / WES:   0.240625 (total)   0.012031 (avg/edge) [before]
-          Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [after]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 20
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 20
+                        Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [before]
+                        Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [reversed]
 
-          Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [before]
-          Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [reversed]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 1
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+                        Total span:   14 (total)   0.70 (avg/edge) / WES:   0.240625 (total)   0.012031 (avg/edge) [before]
+                        Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [after]
 
-          Total span:   14 (total)   0.70 (avg/edge) / WES:   0.240625 (total)   0.012031 (avg/edge) [before]
-          Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [after]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 20
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 20
+                        Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [before]
+                        Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [reversed]
 
-          Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [before]
-          Total span:    2 (total)   0.10 (avg/edge) / WES:   0.090625 (total)   0.004531 (avg/edge) [reversed]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 12
+                Maximum number of iterations: 30
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 12
-      Maximum number of iterations: 30
+                Total span:   38 (total)   3.17 (avg/edge) / WES:   0.671875 (total)   0.055990 (avg/edge) [before]
+                Total span:   19 (total)   1.58 (avg/edge) / WES:   0.382813 (total)   0.031901 (avg/edge) [iteration 1]
+                Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [iteration 2]
+                Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [iteration 3]
+                Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [after]
 
-      Total span:   38 (total)   3.17 (avg/edge) / WES:   0.671875 (total)   0.055990 (avg/edge) [before]
-      Total span:   19 (total)   1.58 (avg/edge) / WES:   0.382813 (total)   0.031901 (avg/edge) [iteration 1]
-      Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [iteration 2]
-      Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [iteration 3]
-      Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 12
+                Window length: 4
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 12
-      Window length: 4
+                Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [before]
+                Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [after]
 
-      Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [before]
-      Total span:   16 (total)   1.33 (avg/edge) / WES:   0.346354 (total)   0.028863 (avg/edge) [after]
+    Variable order changed.
 
-Variable order changed.
-
-CIF variables and location pointers:
-  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   Aut1  0      1 * 2     2 * 2       2 * 2       100%
-  2      input variable    bool  B     1      1 * 2     2 * 2       2 * 2       100%
-  3      location pointer  n/a   Aut2  2      1 * 2     2 * 2       2 * 2       100%
-  4      location pointer  n/a   Aut3  3      1 * 2     2 * 2       2 * 2       100%
-  5      input variable    bool  A     4      1 * 2     2 * 2       2 * 2       100%
-  6      location pointer  n/a   Aut6  5      1 * 2     2 * 2       2 * 2       100%
-  7      location pointer  n/a   Aut4  6      1 * 2     2 * 2       2 * 2       100%
-  8      location pointer  n/a   Aut5  7      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                8      16        32          32          100%
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Aut1  0      1 * 2     2 * 2       2 * 2       100%
+        2      input variable    bool  B     1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   Aut2  2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   Aut3  3      1 * 2     2 * 2       2 * 2       100%
+        5      input variable    bool  A     4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   Aut6  5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   Aut4  6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   Aut5  7      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                8      16        32          32          100%
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
-Edge (event: Aut2.c_a) (guard: Aut2.l1) (assignments: Aut2 := Aut2.l2): guard: Aut2.l1 -> false [plant: false].
-Edge (event: Aut3.c_a) (guard: Aut3.l1) (assignments: Aut3 := Aut3.l2): guard: Aut3.l1 -> Aut3.l1 and A [plant: A].
-Edge (event: Aut3.c_b) (guard: Aut3.l2) (assignments: Aut3 := Aut3.l1): guard: Aut3.l2 -> Aut3.l2 and not A [plant: not A].
-Edge (event: Aut5.c_a) (guard: Aut5.l1) (assignments: Aut5 := Aut5.l2): guard: Aut5.l1 -> false [plant: false].
-Edge (event: Aut6.c_a) (guard: Aut6.l1) (assignments: Aut6 := Aut6.l2): guard: Aut6.l1 -> A and Aut6.l1 [plant: A].
-Edge (event: Aut6.c_b) (guard: Aut6.l2) (assignments: Aut6 := Aut6.l1): guard: Aut6.l2 -> not A and Aut6.l2 [plant: not A].
+    Edge (event: Aut2.c_a) (guard: Aut2.l1) (assignments: Aut2 := Aut2.l2): guard: Aut2.l1 -> false [plant: false].
+    Edge (event: Aut3.c_a) (guard: Aut3.l1) (assignments: Aut3 := Aut3.l2): guard: Aut3.l1 -> Aut3.l1 and A [plant: A].
+    Edge (event: Aut3.c_b) (guard: Aut3.l2) (assignments: Aut3 := Aut3.l1): guard: Aut3.l2 -> Aut3.l2 and not A [plant: not A].
+    Edge (event: Aut5.c_a) (guard: Aut5.l1) (assignments: Aut5 := Aut5.l2): guard: Aut5.l1 -> false [plant: false].
+    Edge (event: Aut6.c_a) (guard: Aut6.l1) (assignments: Aut6 := Aut6.l2): guard: Aut6.l1 -> A and Aut6.l1 [plant: A].
+    Edge (event: Aut6.c_b) (guard: Aut6.l2) (assignments: Aut6 := Aut6.l1): guard: Aut6.l2 -> not A and Aut6.l2 [plant: not A].
 
-System:
-    Edge: (event: Aut1.c_a) (guard: Aut1.l1) (assignments: Aut1 := Aut1.l2)
-    Edge: (event: Aut1.c_b) (guard: Aut1.l2) (assignments: Aut1 := Aut1.l1)
-    Edge: (event: Aut2.c_a) (guard: Aut2.l1 -> false) (assignments: Aut2 := Aut2.l2)
-    Edge: (event: Aut2.c_b) (guard: Aut2.l2) (assignments: Aut2 := Aut2.l1)
-    Edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)
-    Edge: (event: Aut3.c_b) (guard: Aut3.l2 -> Aut3.l2 and not A) (assignments: Aut3 := Aut3.l1)
-    Edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)
-    Edge: (event: Aut4.c_b) (guard: Aut4.l2) (assignments: Aut4 := Aut4.l1)
-    Edge: (event: Aut5.c_a) (guard: Aut5.l1 -> false) (assignments: Aut5 := Aut5.l2)
-    Edge: (event: Aut5.c_b) (guard: Aut5.l2) (assignments: Aut5 := Aut5.l1)
-    Edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)
-    Edge: (event: Aut6.c_b) (guard: Aut6.l2 -> not A and Aut6.l2) (assignments: Aut6 := Aut6.l1)
-    Edge: (event: B) (guard: true) (assignments: B+ != B)
-    Edge: (event: A) (guard: true) (assignments: A+ != A)
+    System:
+        Edge: (event: Aut1.c_a) (guard: Aut1.l1) (assignments: Aut1 := Aut1.l2)
+        Edge: (event: Aut1.c_b) (guard: Aut1.l2) (assignments: Aut1 := Aut1.l1)
+        Edge: (event: Aut2.c_a) (guard: Aut2.l1 -> false) (assignments: Aut2 := Aut2.l2)
+        Edge: (event: Aut2.c_b) (guard: Aut2.l2) (assignments: Aut2 := Aut2.l1)
+        Edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)
+        Edge: (event: Aut3.c_b) (guard: Aut3.l2 -> Aut3.l2 and not A) (assignments: Aut3 := Aut3.l1)
+        Edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)
+        Edge: (event: Aut4.c_b) (guard: Aut4.l2) (assignments: Aut4 := Aut4.l1)
+        Edge: (event: Aut5.c_a) (guard: Aut5.l1 -> false) (assignments: Aut5 := Aut5.l2)
+        Edge: (event: Aut5.c_b) (guard: Aut5.l2) (assignments: Aut5 := Aut5.l1)
+        Edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)
+        Edge: (event: Aut6.c_b) (guard: Aut6.l2 -> not A and Aut6.l2) (assignments: Aut6 := Aut6.l1)
+        Edge: (event: B) (guard: true) (assignments: B+ != B)
+        Edge: (event: A) (guard: true) (assignments: A+ != A)
 
 Preparing for MDD-based checks...
-Analyzing automaton "Aut1"...
-    Initializing the automaton data for event "Aut1.c_a"...
-    Initializing the automaton data for event "Aut1.c_b"...
-    Processing edges from location "l1" of automaton "Aut1"...
-    Processing edges from location "l2" of automaton "Aut1"...
-    Updating global guards and updates for event "Aut1.c_a"...
-    Updating global guards and updates for event "Aut1.c_b"...
-Analyzing automaton "Aut2"...
-    Initializing the automaton data for event "Aut2.c_a"...
-    Initializing the automaton data for event "Aut2.c_b"...
-    Processing edges from location "l1" of automaton "Aut2"...
-    Processing edges from location "l2" of automaton "Aut2"...
-    Updating global guards and updates for event "Aut2.c_a"...
-    Updating global guards and updates for event "Aut2.c_b"...
-Analyzing automaton "Aut3"...
-    Initializing the automaton data for event "Aut3.c_a"...
-    Initializing the automaton data for event "Aut3.c_b"...
-    Processing edges from location "l1" of automaton "Aut3"...
-    Processing edges from location "l2" of automaton "Aut3"...
-    Updating global guards and updates for event "Aut3.c_a"...
-    Updating global guards and updates for event "Aut3.c_b"...
-Analyzing automaton "Aut4"...
-    Initializing the automaton data for event "Aut4.c_a"...
-    Initializing the automaton data for event "Aut4.c_b"...
-    Processing edges from location "l1" of automaton "Aut4"...
-    Processing edges from location "l2" of automaton "Aut4"...
-    Updating global guards and updates for event "Aut4.c_a"...
-    Updating global guards and updates for event "Aut4.c_b"...
-Analyzing automaton "Aut5"...
-    Initializing the automaton data for event "Aut5.c_a"...
-    Initializing the automaton data for event "Aut5.c_b"...
-    Processing edges from location "l1" of automaton "Aut5"...
-    Processing edges from location "l2" of automaton "Aut5"...
-    Updating global guards and updates for event "Aut5.c_a"...
-    Updating global guards and updates for event "Aut5.c_b"...
-Analyzing automaton "Aut6"...
-    Initializing the automaton data for event "Aut6.c_a"...
-    Initializing the automaton data for event "Aut6.c_b"...
-    Processing edges from location "l1" of automaton "Aut6"...
-    Processing edges from location "l2" of automaton "Aut6"...
-    Updating global guards and updates for event "Aut6.c_a"...
-    Updating global guards and updates for event "Aut6.c_b"...
-Analyzing automaton "SupervisorStateEvtExcls"...
-    Initializing the automaton data for event "Aut1.c_a"...
-    Initializing the automaton data for event "Aut2.c_a"...
-    Initializing the automaton data for event "Aut3.c_a"...
-    Initializing the automaton data for event "Aut3.c_b"...
-    Initializing the automaton data for event "Aut4.c_a"...
-    Initializing the automaton data for event "Aut5.c_a"...
-    Initializing the automaton data for event "Aut6.c_a"...
-    Initializing the automaton data for event "Aut6.c_b"...
-    Processing edges from the location of automaton "SupervisorStateEvtExcls"...
-    Updating global guards and updates for event "Aut1.c_a"...
-    Updating global guards and updates for event "Aut2.c_a"...
-    Updating global guards and updates for event "Aut3.c_a"...
-    Updating global guards and updates for event "Aut3.c_b"...
-    Updating global guards and updates for event "Aut4.c_a"...
-    Updating global guards and updates for event "Aut5.c_a"...
-    Updating global guards and updates for event "Aut6.c_a"...
-    Updating global guards and updates for event "Aut6.c_b"...
+    Analyzing automaton "Aut1"...
+        Initializing the automaton data for event "Aut1.c_a"...
+        Initializing the automaton data for event "Aut1.c_b"...
+        Processing edges from location "l1" of automaton "Aut1"...
+        Processing edges from location "l2" of automaton "Aut1"...
+        Updating global guards and updates for event "Aut1.c_a"...
+        Updating global guards and updates for event "Aut1.c_b"...
+    Analyzing automaton "Aut2"...
+        Initializing the automaton data for event "Aut2.c_a"...
+        Initializing the automaton data for event "Aut2.c_b"...
+        Processing edges from location "l1" of automaton "Aut2"...
+        Processing edges from location "l2" of automaton "Aut2"...
+        Updating global guards and updates for event "Aut2.c_a"...
+        Updating global guards and updates for event "Aut2.c_b"...
+    Analyzing automaton "Aut3"...
+        Initializing the automaton data for event "Aut3.c_a"...
+        Initializing the automaton data for event "Aut3.c_b"...
+        Processing edges from location "l1" of automaton "Aut3"...
+        Processing edges from location "l2" of automaton "Aut3"...
+        Updating global guards and updates for event "Aut3.c_a"...
+        Updating global guards and updates for event "Aut3.c_b"...
+    Analyzing automaton "Aut4"...
+        Initializing the automaton data for event "Aut4.c_a"...
+        Initializing the automaton data for event "Aut4.c_b"...
+        Processing edges from location "l1" of automaton "Aut4"...
+        Processing edges from location "l2" of automaton "Aut4"...
+        Updating global guards and updates for event "Aut4.c_a"...
+        Updating global guards and updates for event "Aut4.c_b"...
+    Analyzing automaton "Aut5"...
+        Initializing the automaton data for event "Aut5.c_a"...
+        Initializing the automaton data for event "Aut5.c_b"...
+        Processing edges from location "l1" of automaton "Aut5"...
+        Processing edges from location "l2" of automaton "Aut5"...
+        Updating global guards and updates for event "Aut5.c_a"...
+        Updating global guards and updates for event "Aut5.c_b"...
+    Analyzing automaton "Aut6"...
+        Initializing the automaton data for event "Aut6.c_a"...
+        Initializing the automaton data for event "Aut6.c_b"...
+        Processing edges from location "l1" of automaton "Aut6"...
+        Processing edges from location "l2" of automaton "Aut6"...
+        Updating global guards and updates for event "Aut6.c_a"...
+        Updating global guards and updates for event "Aut6.c_b"...
+    Analyzing automaton "SupervisorStateEvtExcls"...
+        Initializing the automaton data for event "Aut1.c_a"...
+        Initializing the automaton data for event "Aut2.c_a"...
+        Initializing the automaton data for event "Aut3.c_a"...
+        Initializing the automaton data for event "Aut3.c_b"...
+        Initializing the automaton data for event "Aut4.c_a"...
+        Initializing the automaton data for event "Aut5.c_a"...
+        Initializing the automaton data for event "Aut6.c_a"...
+        Initializing the automaton data for event "Aut6.c_b"...
+        Processing edges from the location of automaton "SupervisorStateEvtExcls"...
+        Updating global guards and updates for event "Aut1.c_a"...
+        Updating global guards and updates for event "Aut2.c_a"...
+        Updating global guards and updates for event "Aut3.c_a"...
+        Updating global guards and updates for event "Aut3.c_b"...
+        Updating global guards and updates for event "Aut4.c_a"...
+        Updating global guards and updates for event "Aut5.c_a"...
+        Updating global guards and updates for event "Aut6.c_a"...
+        Updating global guards and updates for event "Aut6.c_b"...
 
 Checking for bounded response...
-Computing reachable states...
-Reachable states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [initial states predicate]
-Forward reachability: iteration 1.
-Reachable states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [forward reach with edge: (event: Aut1.c_a) (guard: Aut1.l1) (assignments: Aut1 := Aut1.l2)]
-Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) or Aut2.l1 and (Aut3.l2 and A) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [forward reach with edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)]
-Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) or Aut2.l1 and (Aut3.l2 and A) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and (Aut6.l1 and Aut5.l1)) [forward reach with edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)]
-Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and (Aut6.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (not A and (Aut6.l1 and Aut5.l1)) or (Aut2.l1 and Aut3.l1 and (A and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and Aut5.l1)) [forward reach with edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)]
-Reachable states: Aut2.l1 and Aut3.l1 and (not A and (Aut6.l1 and Aut5.l1)) or (Aut2.l1 and Aut3.l1 and (A and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and Aut5.l1)) -> Aut2.l1 and Aut5.l1 [forward reach with edge: (event: A) (guard: true) (assignments: A+ != A)]
-Forward reachability: iteration 2.
-Reachable states: Aut2.l1 and Aut5.l1 [fixed point].
+    Computing reachable states...
+    Reachable states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [initial states predicate]
+    Forward reachability: iteration 1.
+    Reachable states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [forward reach with edge: (event: Aut1.c_a) (guard: Aut1.l1) (assignments: Aut1 := Aut1.l2)]
+    Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) or Aut2.l1 and (Aut3.l2 and A) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [forward reach with edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)]
+    Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) or Aut2.l1 and (Aut3.l2 and A) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and (Aut6.l1 and Aut5.l1)) [forward reach with edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)]
+    Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and (Aut6.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (not A and (Aut6.l1 and Aut5.l1)) or (Aut2.l1 and Aut3.l1 and (A and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and Aut5.l1)) [forward reach with edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)]
+    Reachable states: Aut2.l1 and Aut3.l1 and (not A and (Aut6.l1 and Aut5.l1)) or (Aut2.l1 and Aut3.l1 and (A and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and Aut5.l1)) -> Aut2.l1 and Aut5.l1 [forward reach with edge: (event: A) (guard: true) (assignments: A+ != A)]
+    Forward reachability: iteration 2.
+    Reachable states: Aut2.l1 and Aut5.l1 [fixed point].
 
-Computing bound for uncontrollable events...
-Bounded response check round 1 (states before round: Aut2.l1 and Aut5.l1).
+    Computing bound for uncontrollable events...
+    Bounded response check round 1 (states before round: Aut2.l1 and Aut5.l1).
 
-Computing bound for controllable events...
-Bounded response check round 1 (states before round: Aut2.l1 and Aut5.l1).
+    Computing bound for controllable events...
+    Bounded response check round 1 (states before round: Aut2.l1 and Aut5.l1).
 
-Bounded response check completed.
+    Bounded response check completed.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: false
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: false
 
-Computing the controllable-complete path states...
-Controllable-complete path states: false [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: false
+    Computing the controllable-complete path states...
+    Controllable-complete path states: false [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: false
 
-Computing the bad states...
-Bad states: true [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: true
+    Computing the bad states...
+    Bad states: true [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: true
 
-Computing the result of the non-blocking under control check...
-Initial states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1))
-Bad initial states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1))
+    Computing the result of the non-blocking under control check...
+    Initial states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1))
+    Bad initial states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1))
 
 Checking for finite response...
+    Iteration 1.
+        The following events have been encountered in a controllable-event loop of automaton Aut1:
+            (Aut1.c_a Aut1.c_b), which is not controllable unconnectable.
+        The following events have been encountered in a controllable-event loop of automaton Aut3:
+            (Aut3.c_a Aut3.c_b), which is controllable unconnectable.
+        The following events have been encountered in a controllable-event loop of automaton Aut4:
+            (Aut4.c_a Aut4.c_b), which is not controllable unconnectable.
+        The following events have been encountered in a controllable-event loop of automaton Aut6:
+            (Aut6.c_a Aut6.c_b), which is controllable unconnectable.
+        The following events have been encountered in a controllable-event loop of automaton SupervisorStateEvtExcls:
+            (Aut1.c_a), which is not controllable unconnectable.
+            (Aut4.c_a), which is not controllable unconnectable.
 
-Iteration 1.
-    The following events have been encountered in a controllable-event loop of automaton Aut1:
-        (Aut1.c_a Aut1.c_b), which is not controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton Aut3:
-        (Aut3.c_a Aut3.c_b), which is controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton Aut4:
-        (Aut4.c_a Aut4.c_b), which is not controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton Aut6:
-        (Aut6.c_a Aut6.c_b), which is controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton SupervisorStateEvtExcls:
-        (Aut1.c_a), which is not controllable unconnectable.
-        (Aut4.c_a), which is not controllable unconnectable.
-
-Iteration 2.
-    The following events have been encountered in a controllable-event loop of automaton Aut1:
-        (Aut1.c_a Aut1.c_b), which is not controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton Aut4:
-        (Aut4.c_a Aut4.c_b), which is not controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton SupervisorStateEvtExcls:
-        (Aut1.c_a), which is not controllable unconnectable.
-        (Aut4.c_a), which is not controllable unconnectable.
+    Iteration 2.
+        The following events have been encountered in a controllable-event loop of automaton Aut1:
+            (Aut1.c_a Aut1.c_b), which is not controllable unconnectable.
+        The following events have been encountered in a controllable-event loop of automaton Aut4:
+            (Aut4.c_a Aut4.c_b), which is not controllable unconnectable.
+        The following events have been encountered in a controllable-event loop of automaton SupervisorStateEvtExcls:
+            (Aut1.c_a), which is not controllable unconnectable.
+            (Aut4.c_a), which is not controllable unconnectable.
 
 Checking for confluence...
+    Mutual exclusive event pairs:
+        (Aut1.c_a, Aut1.c_b), (Aut1.c_a, Aut2.c_a), (Aut1.c_a, Aut5.c_a), (Aut1.c_b, Aut2.c_a), (Aut1.c_b, Aut5.c_a), (Aut2.c_a, Aut2.c_b), (Aut2.c_a, Aut3.c_a), (Aut2.c_a, Aut3.c_b), (Aut2.c_a, Aut4.c_a), (Aut2.c_a, Aut4.c_b), (Aut2.c_a, Aut5.c_a), (Aut2.c_a, Aut5.c_b), (Aut2.c_a, Aut6.c_a), (Aut2.c_a, Aut6.c_b), (Aut2.c_b, Aut5.c_a), (Aut3.c_a, Aut3.c_b), (Aut3.c_a, Aut5.c_a), (Aut3.c_a, Aut6.c_b), (Aut3.c_b, Aut5.c_a), (Aut3.c_b, Aut6.c_a), (Aut4.c_a, Aut4.c_b), (Aut4.c_a, Aut5.c_a), (Aut4.c_b, Aut5.c_a), (Aut5.c_a, Aut5.c_b), (Aut5.c_a, Aut6.c_a), (Aut5.c_a, Aut6.c_b), (Aut6.c_a, Aut6.c_b)
 
-Mutual exclusive event pairs:
-    (Aut1.c_a, Aut1.c_b), (Aut1.c_a, Aut2.c_a), (Aut1.c_a, Aut5.c_a), (Aut1.c_b, Aut2.c_a), (Aut1.c_b, Aut5.c_a), (Aut2.c_a, Aut2.c_b), (Aut2.c_a, Aut3.c_a), (Aut2.c_a, Aut3.c_b), (Aut2.c_a, Aut4.c_a), (Aut2.c_a, Aut4.c_b), (Aut2.c_a, Aut5.c_a), (Aut2.c_a, Aut5.c_b), (Aut2.c_a, Aut6.c_a), (Aut2.c_a, Aut6.c_b), (Aut2.c_b, Aut5.c_a), (Aut3.c_a, Aut3.c_b), (Aut3.c_a, Aut5.c_a), (Aut3.c_a, Aut6.c_b), (Aut3.c_b, Aut5.c_a), (Aut3.c_b, Aut6.c_a), (Aut4.c_a, Aut4.c_b), (Aut4.c_a, Aut5.c_a), (Aut4.c_b, Aut5.c_a), (Aut5.c_a, Aut5.c_b), (Aut5.c_a, Aut6.c_a), (Aut5.c_a, Aut6.c_b), (Aut6.c_a, Aut6.c_b)
-
-Independent event pairs:
-    (Aut1.c_b, Aut2.c_b), (Aut1.c_b, Aut4.c_b), (Aut1.c_b, Aut5.c_b), (Aut2.c_b, Aut4.c_b), (Aut2.c_b, Aut5.c_b), (Aut4.c_b, Aut5.c_b)
+    Independent event pairs:
+        (Aut1.c_b, Aut2.c_b), (Aut1.c_b, Aut4.c_b), (Aut1.c_b, Aut5.c_b), (Aut2.c_b, Aut4.c_b), (Aut2.c_b, Aut5.c_b), (Aut4.c_b, Aut5.c_b)
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:

@@ -1,179 +1,176 @@
 Loading CIF specification "controllercheck/finite_response/input_variable.cif"...
 Preparing for BDD-based checks...
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        1      input variable    bool  Sensor    0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   Actuator  1      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        Total                                    2      4         8           8           100%
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-  1      input variable    bool  Sensor    0      1 * 2     2 * 2       2 * 2       100%
-  2      location pointer  n/a   Actuator  1      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-  Total                                    2      4         8           8           100%
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying sorted variable order:
+                Effect: both
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying sorted variable order:
-      Effect: both
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 4
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 4
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+                    Skipping algorithm: no graph edges.
 
-        Skipping algorithm: no graph edges.
+                Found new best variable order.
 
-      Found new best variable order.
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+                    Skipping algorithm: no graph edges.
 
-        Skipping algorithm: no graph edges.
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                        Skipping algorithm: no graph edges.
 
-          Skipping algorithm: no graph edges.
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 4
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 4
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [reversed]
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [reversed]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                        Skipping algorithm: no graph edges.
 
-          Skipping algorithm: no graph edges.
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 4
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 4
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [reversed]
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [reversed]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 2
+                Maximum number of iterations: 10
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 2
-      Maximum number of iterations: 10
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [iteration 1]
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
 
-      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
-      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [iteration 1]
-      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 2
+                Window length: 2
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 2
-      Window length: 2
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
 
-      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
-      Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+    Variable order changed.
 
-Variable order changed.
-
-CIF variables and location pointers:
-  Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   Actuator  0      1 * 2     2 * 2       2 * 2       100%
-  2      input variable    bool  Sensor    1      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
-  Total                                    2      4         8           8           100%
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Actuator  0      1 * 2     2 * 2       2 * 2       100%
+        2      input variable    bool  Sensor    1      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+        Total                                    2      4         8           8           100%
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
-Edge (event: Actuator.c_on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On): guard: Actuator.Off -> Actuator.Off and Sensor [plant: Sensor].
-Edge (event: Actuator.c_off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> Actuator.On and not Sensor [plant: not Sensor].
+    Edge (event: Actuator.c_on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On): guard: Actuator.Off -> Actuator.Off and Sensor [plant: Sensor].
+    Edge (event: Actuator.c_off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> Actuator.On and not Sensor [plant: not Sensor].
 
-System:
-    Edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)
-    Edge: (event: Actuator.c_off) (guard: Actuator.On -> Actuator.On and not Sensor) (assignments: Actuator := Actuator.Off)
-    Edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)
+    System:
+        Edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)
+        Edge: (event: Actuator.c_off) (guard: Actuator.On -> Actuator.On and not Sensor) (assignments: Actuator := Actuator.Off)
+        Edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)
 
 Preparing for MDD-based checks...
-Analyzing automaton "Actuator"...
-    Initializing the automaton data for event "Actuator.c_on"...
-    Initializing the automaton data for event "Actuator.c_off"...
-    Processing edges from location "Off" of automaton "Actuator"...
-    Processing edges from location "On" of automaton "Actuator"...
-    Updating global guards and updates for event "Actuator.c_on"...
-    Updating global guards and updates for event "Actuator.c_off"...
-Analyzing automaton "SupervisorStateEvtExcls"...
-    Initializing the automaton data for event "Actuator.c_on"...
-    Initializing the automaton data for event "Actuator.c_off"...
-    Processing edges from the location of automaton "SupervisorStateEvtExcls"...
-    Updating global guards and updates for event "Actuator.c_on"...
-    Updating global guards and updates for event "Actuator.c_off"...
+    Analyzing automaton "Actuator"...
+        Initializing the automaton data for event "Actuator.c_on"...
+        Initializing the automaton data for event "Actuator.c_off"...
+        Processing edges from location "Off" of automaton "Actuator"...
+        Processing edges from location "On" of automaton "Actuator"...
+        Updating global guards and updates for event "Actuator.c_on"...
+        Updating global guards and updates for event "Actuator.c_off"...
+    Analyzing automaton "SupervisorStateEvtExcls"...
+        Initializing the automaton data for event "Actuator.c_on"...
+        Initializing the automaton data for event "Actuator.c_off"...
+        Processing edges from the location of automaton "SupervisorStateEvtExcls"...
+        Updating global guards and updates for event "Actuator.c_on"...
+        Updating global guards and updates for event "Actuator.c_off"...
 
 Checking for bounded response...
-Computing reachable states...
-Reachable states: Actuator.Off [initial states predicate]
-Forward reachability: iteration 1.
-Reachable states: Actuator.Off -> Actuator.Off or Sensor [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)]
-Reachable states: Actuator.Off or Sensor -> true [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
-Forward reachability: iteration 2.
-Reachable states: true [fixed point].
+    Computing reachable states...
+    Reachable states: Actuator.Off [initial states predicate]
+    Forward reachability: iteration 1.
+    Reachable states: Actuator.Off -> Actuator.Off or Sensor [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)]
+    Reachable states: Actuator.Off or Sensor -> true [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
+    Forward reachability: iteration 2.
+    Reachable states: true [fixed point].
 
-Computing bound for uncontrollable events...
-Bounded response check round 1 (states before round: true).
+    Computing bound for uncontrollable events...
+    Bounded response check round 1 (states before round: true).
 
-Computing bound for controllable events...
-Bounded response check round 1 (states before round: true).
-Bounded response check round 2 (states before round: (Actuator.On or not Sensor) and (Actuator.Off or Sensor)).
+    Computing bound for controllable events...
+    Bounded response check round 1 (states before round: true).
+    Bounded response check round 2 (states before round: (Actuator.On or not Sensor) and (Actuator.Off or Sensor)).
 
-Bounded response check completed.
+    Bounded response check completed.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: (Actuator.On or not Sensor) and (Actuator.Off or Sensor)
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: (Actuator.On or not Sensor) and (Actuator.Off or Sensor)
 
-Computing the controllable-complete path states...
-Controllable-complete path states: false [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: false
+    Computing the controllable-complete path states...
+    Controllable-complete path states: false [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: false
 
-Computing the bad states...
-Bad states: true [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: true
+    Computing the bad states...
+    Bad states: true [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: true
 
-Computing the result of the non-blocking under control check...
-Initial states: Actuator.Off
-Bad initial states: Actuator.Off
+    Computing the result of the non-blocking under control check...
+    Initial states: Actuator.Off
+    Bad initial states: Actuator.Off
 
 Checking for finite response...
-
-Iteration 1.
-    The following events have been encountered in a controllable-event loop of automaton Actuator:
-        (Actuator.c_on Actuator.c_off), which is controllable unconnectable.
+    Iteration 1.
+        The following events have been encountered in a controllable-event loop of automaton Actuator:
+            (Actuator.c_on Actuator.c_off), which is controllable unconnectable.
 
 Checking for confluence...
-
-Mutual exclusive event pairs:
-    (Actuator.c_off, Actuator.c_on)
+    Mutual exclusive event pairs:
+        (Actuator.c_off, Actuator.c_on)
 
 CONCLUSION:
     [OK] The specification has bounded response:

@@ -127,7 +127,11 @@ public class ControllerChecker {
         CifBddSpec cifBddSpec = null; // Used for BDD-based checks.
         if (hasBddBasedChecks) {
             debugOutput.line("Preparing for BDD-based checks...");
+            debugOutput.inc();
+
             cifBddSpec = convertToBdd(spec, specAbsPath, settings);
+
+            debugOutput.dec();
             if (cifBddSpec == null) {
                 return null;
             }
@@ -142,8 +146,12 @@ public class ControllerChecker {
         CifMddSpec cifMddSpec = null; // Used for MDD-based checks.
         if (hasMddBasedChecks) {
             debugOutput.line("Preparing for MDD-based checks...");
+            debugOutput.inc();
+
             cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, termination, normalOutput,
                     debugOutput);
+
+            debugOutput.dec();
             if (cifMddSpec == null) {
                 return null;
             }
@@ -163,6 +171,8 @@ public class ControllerChecker {
             normalOutput.line("Checking for %s...", check.getPropertyName());
 
             // Perform check.
+            debugOutput.inc();
+
             CheckConclusion conclusion = null;
             if (check instanceof ControllerCheckerBddBasedCheck bddCheck) {
                 Assert.notNull(cifBddSpec);
@@ -173,6 +183,9 @@ public class ControllerChecker {
             } else {
                 throw new RuntimeException("Unexpected check: " + check);
             }
+
+            debugOutput.dec();
+
             if (conclusion == null || termination.isRequested()) {
                 return null;
             }
@@ -320,6 +333,7 @@ public class ControllerChecker {
         cifBddSettings.setDebugOutput(checkerSettings.getDebugOutput());
         cifBddSettings.setNormalOutput(checkerSettings.getNormalOutput());
         cifBddSettings.setWarnOutput(checkerSettings.getWarnOutput());
+        cifBddSettings.setIndentAmount(4);
         cifBddSettings.setAllowNonDeterminism(AllowNonDeterminism.ALL);
         cifBddSettings.setCifBddStatistics(EnumSet.noneOf(CifBddStatistics.class));
         cifBddSettings.setDoPlantsRefReqsWarn(false);

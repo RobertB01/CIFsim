@@ -109,7 +109,7 @@ public abstract class CifBddVariable {
 
     @Override
     public String toString() {
-        return toString(0, "Variable: ");
+        return toString(0, 0, "Variable: ");
     }
 
     /**
@@ -131,14 +131,15 @@ public abstract class CifBddVariable {
     /**
      * Returns a textual representation of the CIF/BDD variable.
      *
-     * @param indent The indentation level.
+     * @param indentLevel The indentation level.
+     * @param indentAmount The number of spaces to use per indentation level.
      * @param prefix The prefix to use, e.g. {@code "Variable: "} or {@code ""}.
      * @return The textual representation.
      */
-    public String toString(int indent, String prefix) {
+    public String toString(int indentLevel, int indentAmount, String prefix) {
         return fmt("%s%s%s (group: %d, domain: %d+%d, BDD variables: %d, CIF/BDD values: %d/%d)",
-                Strings.duplicate(" ", 2 * indent), prefix, toStringInternal(), group, domain.getIndex(),
-                domainNew.getIndex(), domain.varNum(), count, 1 << domain.varNum());
+                Strings.duplicate(" ", indentLevel * indentAmount), prefix, toStringInternal(), group,
+                domain.getIndex(), domainNew.getIndex(), domain.varNum(), count, 1 << domain.varNum());
     }
 
     /**

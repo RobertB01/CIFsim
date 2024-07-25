@@ -41,6 +41,9 @@ public class CifBddSettings {
     /** Callback for warning output. */
     private WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
+    /** The number of spaces to use per indentation level. */
+    private int indentAmount = 4;
+
     /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
     private boolean doPlantsRefReqsWarn = CifBddSettingsDefaults.DO_PLANTS_REF_REQS_WARN_DEFAULT;
 
@@ -254,6 +257,30 @@ public class CifBddSettings {
     public void setWarnOutput(WarnOutput warnOutput) {
         Assert.check(modificationAllowed, "Modification is not allowed.");
         this.warnOutput = warnOutput;
+        checkSettings();
+    }
+
+    /**
+     * Get the number of spaces to use per indentation level.
+     *
+     * <p>
+     * By default, 4 spaces are used.
+     * </p>
+     *
+     * @return The the number of spaces to use per indentation level.
+     */
+    public int getIndentAmount() {
+        return indentAmount;
+    }
+
+    /**
+     * Set the number of spaces to use per indentation level.
+     *
+     * @param indentAmount The the number of spaces to use per indentation level.
+     */
+    public void setIndentAmount(int indentAmount) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.indentAmount = indentAmount;
         checkSettings();
     }
 
@@ -764,6 +791,12 @@ public class CifBddSettings {
 
     /** Check that the settings have valid values, for as much as it can be checked locally. */
     private void checkSettings() {
+        // Check BDD debug max nodes.
+        if (indentAmount < 0) {
+            String msg = fmt("The amount of spaces to use for identation \"%d\" is negative.", indentAmount);
+            throw new InvalidOptionException(msg);
+        }
+
         // Check BDD debug max nodes.
         if (bddDebugMaxNodes != null && bddDebugMaxNodes < 0) {
             String msg = fmt("BDD debug max nodes value \"%s\" is not in the range [0 .. 2^31-1].", bddDebugMaxNodes);

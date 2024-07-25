@@ -239,32 +239,34 @@ public class CifBddEdge {
      */
     @Override
     public String toString() {
-        return toString(0, "Edge: ");
+        return toString(0, 0, "Edge: ");
     }
 
     /**
      * Returns a textual representation of the CIF/BDD edge.
      *
-     * @param indent The indentation level.
+     * @param indentLevel The indentation level.
+     * @param indentAmount The number of spaces to use per indentation level.
      * @param prefix The prefix to use, e.g. {@code "Edge: "} or {@code ""}.
      * @return The textual representation.
      */
-    public String toString(int indent, String prefix) {
-        return toString(indent, prefix, false);
+    public String toString(int indentLevel, int indentAmount, String prefix) {
+        return toString(indentLevel, indentAmount, prefix, false);
     }
 
     /**
      * Returns a textual representation of the CIF/BDD edge.
      *
-     * @param indent The indentation level.
+     * @param indentLevel The indentation level.
+     * @param indentAmount The number of spaces to use per indentation level.
      * @param prefix The prefix to use, e.g. {@code "Edge: "} or {@code ""}.
      * @param includeOnlyOrigGuard Whether to include only the {@link #origGuard original edge guard}, or also the
      *     {@link #guard current edge guard}.
      * @return The textual representation.
      */
-    public String toString(int indent, String prefix, boolean includeOnlyOrigGuard) {
+    public String toString(int indentLevel, int indentAmount, String prefix, boolean includeOnlyOrigGuard) {
         StringBuilder txt = new StringBuilder();
-        txt.append(Strings.duplicate(" ", 2 * indent));
+        txt.append(Strings.duplicate(" ", indentLevel * indentAmount));
         txt.append(prefix);
         txt.append(fmt("(event: %s)", CifTextUtils.getAbsName(event)));
 

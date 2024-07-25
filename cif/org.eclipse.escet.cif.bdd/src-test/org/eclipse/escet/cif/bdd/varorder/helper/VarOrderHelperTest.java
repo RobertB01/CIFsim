@@ -83,7 +83,7 @@ public class VarOrderHelperTest {
 
         // Reorder the variables.
         int[] newIndices = {0, 4, 1, 5, 2, 3}; // For each variable in 'variables', its new 0-based index.
-        VarOrderHelper helper = new VarOrderHelper(spec, variables, new BlackHoleOutputProvider().getDebugOutput());
+        VarOrderHelper helper = new VarOrderHelper(spec, variables, new BlackHoleOutputProvider().getDebugOutput(), 0);
         List<CifBddVariable> ordered = helper.reorderForNewIndices(newIndices);
 
         // Check the result. Invariant: ordered[newIndices[i]] == variables[i].
@@ -137,7 +137,7 @@ public class VarOrderHelperTest {
         List<CifBddVariable> variables = list(a, b, c, d, e);
 
         // Create helper.
-        VarOrderHelper helper = new VarOrderHelper(spec, variables, new BlackHoleOutputProvider().getDebugOutput());
+        VarOrderHelper helper = new VarOrderHelper(spec, variables, new BlackHoleOutputProvider().getDebugOutput(), 0);
 
         // Test hyper-edges: c/e (invariant), a/b (guard), b/a (guard), a/c (guard), c/d (update), c/d (update), c/d
         // (update), a/b/c/d (event c_e).

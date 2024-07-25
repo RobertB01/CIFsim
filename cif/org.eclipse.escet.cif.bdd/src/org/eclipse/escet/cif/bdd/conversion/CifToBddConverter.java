@@ -163,6 +163,7 @@ import com.github.javabdd.JFactory;
  * <ul>
  * <li>{@link #preprocess}</li>
  * <li>{@link #createFactory}</li>
+ * <li>Optionally, {@link #setNeedEmptyDebugLine}</li>
  * <li>{@link #convert}</li>
  * </ul>
  * Check their JavaDocs for further details.
@@ -179,6 +180,9 @@ public class CifToBddConverter {
      * available.
      */
     private Map<Automaton, Monitors> originalMonitors;
+
+    /** Whether an empty line of debug output is needed before the next debug output line. */
+    private boolean needEmptyDebugLine = false;
 
     /**
      * Constructor for the {@link CifToBddConverter} class.
@@ -293,6 +297,11 @@ public class CifToBddConverter {
 
         // Return BDD factory.
         return factory;
+    }
+
+    /** Sets that an empty line of debug output is needed before the next debug output line. */
+    public void setNeedEmptyDebugLine() {
+        needEmptyDebugLine = true;
     }
 
     /**
@@ -705,6 +714,10 @@ public class CifToBddConverter {
         // Print variable debugging information, before ordering.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled();
         if (dbgEnabled) {
+            if (needEmptyDebugLine) {
+                needEmptyDebugLine = false;
+                cifBddSpec.settings.getDebugOutput().line();
+            }
             debugCifVars(cifBddSpec);
         }
 
@@ -720,7 +733,8 @@ public class CifToBddConverter {
 
         // Create variable order helper, based on model order.
         List<CifBddVariable> varsInModelOrder = Collections.unmodifiableList(Arrays.asList(cifBddSpec.variables));
-        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, cifBddSpec.settings.getDebugOutput());
+        VarOrderHelper helper = new VarOrderHelper(spec, varsInModelOrder, cifBddSpec.settings.getDebugOutput(),
+                cifBddSpec.settings.getIndentAmount());
 
         // Get current variable order, which is model order.
         VarOrder curOrder = VarOrder.createFromOrderedVars(varsInModelOrder);
@@ -761,6 +775,7 @@ public class CifToBddConverter {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput().line("Variable order %schanged.", orderChanged ? "" : "un");
             if (orderChanged) {
+                cifBddSpec.settings.getDebugOutput().line();
                 debugCifVars(cifBddSpec);
             }
             cifBddSpec.settings.getDebugOutput().line();
@@ -846,10 +861,10 @@ public class CifToBddConverter {
         }
 
         // Print the variable information, for debugging.
-        cifBddSpec.settings.getDebugOutput().line();
         cifBddSpec.settings.getDebugOutput().line("CIF variables and location pointers:");
+        String indent = Strings.duplicate(" ", cifBddSpec.settings.getIndentAmount());
         for (String line: grid.getLines()) {
-            cifBddSpec.settings.getDebugOutput().line("  " + line);
+            cifBddSpec.settings.getDebugOutput().line(indent + line);
         }
     }
 

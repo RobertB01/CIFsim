@@ -125,6 +125,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         settings.setDebugOutput(OutputProvider.getDebugOutputStream());
         settings.setNormalOutput(OutputProvider.getNormalOutputStream());
         settings.setWarnOutput(OutputProvider.getWarningOutputStream());
+        settings.setIndentAmount(2);
         settings.setDoPlantsRefReqsWarn(PlantsRefReqsWarnOption.isEnabled());
         settings.setAllowNonDeterminism(AllowNonDeterminism.UNCONTROLLABLE);
         settings.setBddInitNodeTableSize(BddInitNodeTableSizeOption.getInitialSize());
@@ -260,6 +261,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.inputConvert.start();
             }
             try {
+                converter1.setNeedEmptyDebugLine();
                 cifBddSpec = converter1.convert(spec, settings, factory);
             } finally {
                 if (doTiming) {
