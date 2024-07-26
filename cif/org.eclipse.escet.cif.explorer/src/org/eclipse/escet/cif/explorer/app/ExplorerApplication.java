@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.ArrayDeque;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Queue;
 
@@ -34,7 +33,6 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValuesNoRefsOptimized;
 import org.eclipse.escet.cif.explorer.CifAutomatonBuilder;
 import org.eclipse.escet.cif.explorer.ExplorerPreChecker;
-import org.eclipse.escet.cif.explorer.ExplorerPreChecker.CheckParameters;
 import org.eclipse.escet.cif.explorer.ExplorerStateFactory;
 import org.eclipse.escet.cif.explorer.RequirementAsPlantChecker;
 import org.eclipse.escet.cif.explorer.options.AddStateAnnosOption;
@@ -287,16 +285,15 @@ public class ExplorerApplication extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Check specification for being supported.
-        EnumSet<CheckParameters> params = EnumSet.allOf(CheckParameters.class);
-        ExplorerPreChecker checker = new ExplorerPreChecker(params);
-        checker.checkSpec(spec);
+        // Check preconditions.
+        Termination termination = () -> isTerminationRequested();
+        ExplorerPreChecker checker = new ExplorerPreChecker(termination);
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF explorer");
         if (isTerminationRequested()) {
             return 0;
         }
 
         // Warn about features of the specification that may lead to an unexpected resulting state space.
-        Termination termination = () -> isTerminationRequested();
         CifCheck[] checks = {new RequirementAsPlantChecker()};
         CifCheckViolations warnings = new CifChecker(termination, checks).check(spec, absSpecPath);
         if (warnings.hasViolations()) {
