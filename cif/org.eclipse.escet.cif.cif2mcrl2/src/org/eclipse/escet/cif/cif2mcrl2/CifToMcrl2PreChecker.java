@@ -19,6 +19,12 @@ import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
@@ -78,7 +84,76 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 new AutOnlyWithOneInitLocCheck(),
 
                 // No conditional updates and multi-assignments.
-                new EdgeOnlySimpleAssignmentsCheck()
+                new EdgeOnlySimpleAssignmentsCheck(),
+
+                // Only certain expression:
+                // - For expressions that produce a boolean value, only boolean literals, constants (eliminated
+                //   already), discrete variables, algebraic variables (eliminated already), binary operators 'and',
+                //   'or', '=>', '=', '!=', '<', '<=', '>' and '>=', and unary operator 'not' are supported.
+                // - For expressions that produce an enumeration value, only enumeration literals, constants (eliminated
+                //   already), discrete variables, and algebraic variables (eliminated already) are supported.
+                // - For expressions that produce an integer value, only integer literals, constants (eliminated
+                //   already), discrete variables, algebraic variables (eliminated already), binary operators '+', '*'
+                //   and '-', and unary operators '-' and '+' are supported.
+                // - Unary and binary expressions are only supported with boolean, integer and enumeration operands.
+                new ExprNoSpecificExprsCheck(
+                        NoSpecificExpr.FUNC_REFS,
+                        NoSpecificExpr.CAST_EXPRS,
+                        NoSpecificExpr.COMP_REFS,
+                        NoSpecificExpr.CONT_VAR_REFS,
+                        NoSpecificExpr.DICT_LITS,
+                        NoSpecificExpr.TUPLE_FIELD_REFS,
+                        NoSpecificExpr.FUNC_CALLS,
+                        NoSpecificExpr.IF_EXPRS,
+                        NoSpecificExpr.INPUT_VAR_REFS,
+                        NoSpecificExpr.LIST_LITS,
+                        NoSpecificExpr.LOC_REFS,
+                        NoSpecificExpr.PROJECTION_EXPRS,
+                        NoSpecificExpr.REAL_LITS,
+                        NoSpecificExpr.RECEIVE_EXPRS,
+                        NoSpecificExpr.SET_LITS,
+                        NoSpecificExpr.SLICE_EXPRS,
+                        NoSpecificExpr.STRING_LITS,
+                        NoSpecificExpr.SWITCH_EXPRS,
+                        NoSpecificExpr.TIME_VAR_REFS,
+                        NoSpecificExpr.TUPLE_LITS),
+                new ExprNoSpecificBinaryExprsCheck(
+                        NoSpecificBinaryOp.ADDITION_REALS,
+                        NoSpecificBinaryOp.ADDITION_LISTS,
+                        NoSpecificBinaryOp.ADDITION_STRINGS,
+                        NoSpecificBinaryOp.ADDITION_DICTS,
+                        NoSpecificBinaryOp.CONJUNCTION_SETS,
+                        NoSpecificBinaryOp.DISJUNCTION_SETS,
+                        NoSpecificBinaryOp.DIVISION,
+                        NoSpecificBinaryOp.ELEMENT_OF,
+                        NoSpecificBinaryOp.EQUAL_DICT,
+                        NoSpecificBinaryOp.EQUAL_LIST,
+                        NoSpecificBinaryOp.EQUAL_REAL,
+                        NoSpecificBinaryOp.EQUAL_SET,
+                        NoSpecificBinaryOp.EQUAL_STRING,
+                        NoSpecificBinaryOp.EQUAL_TUPLE,
+                        NoSpecificBinaryOp.GREATER_EQUAL_REALS,
+                        NoSpecificBinaryOp.GREATER_THAN_REALS,
+                        NoSpecificBinaryOp.INTEGER_DIVISION,
+                        NoSpecificBinaryOp.LESS_EQUAL_REALS,
+                        NoSpecificBinaryOp.LESS_THAN_REALS,
+                        NoSpecificBinaryOp.MODULUS,
+                        NoSpecificBinaryOp.MULTIPLICATION_REALS,
+                        NoSpecificBinaryOp.SUBSET,
+                        NoSpecificBinaryOp.SUBTRACTION_REALS,
+                        NoSpecificBinaryOp.SUBTRACTION_LISTS,
+                        NoSpecificBinaryOp.SUBTRACTION_SETS,
+                        NoSpecificBinaryOp.SUBTRACTION_DICTS,
+                        NoSpecificBinaryOp.UNEQUAL_DICT,
+                        NoSpecificBinaryOp.UNEQUAL_LIST,
+                        NoSpecificBinaryOp.UNEQUAL_REAL,
+                        NoSpecificBinaryOp.UNEQUAL_SET,
+                        NoSpecificBinaryOp.UNEQUAL_STRING,
+                        NoSpecificBinaryOp.UNEQUAL_TUPLE),
+                new ExprNoSpecificUnaryExprsCheck(
+                        NoSpecificUnaryOp.NEGATE_REALS,
+                        NoSpecificUnaryOp.PLUS_REALS,
+                        NoSpecificUnaryOp.SAMPLE)
 
         );
     }

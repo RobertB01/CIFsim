@@ -21,27 +21,12 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
-import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
-import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.automata.Update;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
-import org.eclipse.escet.cif.metamodel.cif.types.CifType;
-import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
-import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
@@ -124,132 +109,7 @@ public class Cif2Mcrl2PreChecker {
                 msg = locTextStart + " has invariants.";
                 problems.add(msg);
             }
-            for (Edge edge: loc.getEdges()) {
-                for (Update upd: edge.getUpdates()) {
-                    Assignment asg = (Assignment)upd;
-                    msg = checkExpression(asg.getValue());
-                    if (msg != null) {
-                        msg = fmt("A value in %s %s", locTextMid, msg);
-                        problems.add(msg);
-                    }
-                }
-                for (Expression e: edge.getGuards()) {
-                    msg = checkExpression(e);
-                    if (msg != null) {
-                        msg = fmt("A guard in %s %s", locTextMid, msg);
-                        problems.add(msg);
-                    }
-                }
-            }
         }
-    }
-
-    /**
-     * Check whether the expression supported.
-     *
-     * @param e Expression to check.
-     * @return The last part of an error message if an error was found, else {@code null}.
-     */
-    private String checkExpression(Expression e) {
-        CifType t = CifTypeUtils.normalizeType(e.getType());
-
-        if (t instanceof BoolType) {
-            if (e instanceof BoolExpression) {
-                return null;
-            } else if (e instanceof BinaryExpression) {
-                BinaryExpression be = (BinaryExpression)e;
-                switch (be.getOperator()) {
-                    case CONJUNCTION:
-                    case DISJUNCTION:
-                    case EQUAL:
-                    case GREATER_EQUAL:
-                    case GREATER_THAN:
-                    case LESS_EQUAL:
-                    case LESS_THAN:
-                    case UNEQUAL:
-                    case IMPLICATION:
-                        break;
-                    default: {
-                        String msg = fmt("has unsupported boolean binary operator \"%s\".",
-                                CifTextUtils.operatorToStr(be.getOperator()));
-                        return msg;
-                    }
-                }
-                String msg = checkExpression(be.getLeft());
-                if (msg == null) {
-                    msg = checkExpression(be.getRight());
-                }
-                return msg;
-            } else if (e instanceof UnaryExpression) {
-                UnaryExpression ue = (UnaryExpression)e;
-                switch (ue.getOperator()) {
-                    case INVERSE:
-                        break;
-                    default: {
-                        String msg = fmt("has unsupported boolean unary operator \"%s\".",
-                                CifTextUtils.operatorToStr(ue.getOperator()));
-                        return msg;
-                    }
-                }
-                return checkExpression(ue.getChild());
-            } else if (e instanceof DiscVariableExpression) {
-                return null;
-            }
-
-            return fmt("has unsupported boolean expression \"%s\".", CifTextUtils.exprToStr(e));
-        }
-
-        if (t instanceof IntType) {
-            if (e instanceof IntExpression) {
-                return null;
-            } else if (e instanceof BinaryExpression) {
-                BinaryExpression be = (BinaryExpression)e;
-                switch (be.getOperator()) {
-                    case ADDITION:
-                    case MULTIPLICATION:
-                    case SUBTRACTION:
-                        break;
-                    default: {
-                        String msg = fmt("has unsupported integer binary operator \"%s\".",
-                                CifTextUtils.operatorToStr(be.getOperator()));
-                        return msg;
-                    }
-                }
-                String msg = checkExpression(be.getLeft());
-                if (msg == null) {
-                    msg = checkExpression(be.getRight());
-                }
-                return msg;
-            } else if (e instanceof UnaryExpression) {
-                UnaryExpression ue = (UnaryExpression)e;
-                switch (ue.getOperator()) {
-                    case NEGATE:
-                    case PLUS:
-                        break;
-                    default: {
-                        String msg = fmt("has unsupported integer unary operator \"%s\".",
-                                CifTextUtils.operatorToStr(ue.getOperator()));
-                        return msg;
-                    }
-                }
-                return checkExpression(ue.getChild());
-            } else if (e instanceof DiscVariableExpression) {
-                return null;
-            }
-
-            return fmt("has unsupported integer expression \"%s\".", CifTextUtils.exprToStr(e));
-        }
-
-        if (t instanceof EnumType) {
-            if (e instanceof EnumLiteralExpression) {
-                return null;
-            } else if (e instanceof DiscVariableExpression) {
-                return null;
-            }
-
-            return fmt("has unsupported enumeration expression \"%s\".", CifTextUtils.exprToStr(e));
-        }
-
     }
 
     /**
