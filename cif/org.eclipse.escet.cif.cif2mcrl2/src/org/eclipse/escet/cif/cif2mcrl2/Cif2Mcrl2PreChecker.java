@@ -67,9 +67,7 @@ public class Cif2Mcrl2PreChecker {
      */
     public void checkSpec(Specification spec) {
         problems = list();
-        if (!checkGroup(spec)) {
-            problems.add("Specification must have at least one automaton.");
-        }
+        checkGroup(spec);
 
         if (problems.isEmpty()) {
             return;
@@ -87,30 +85,26 @@ public class Cif2Mcrl2PreChecker {
      * Unfold and check a group.
      *
      * @param grp Group to check and unfold.
-     * @return Whether at least one automaton was found in the group.
      */
-    private boolean checkGroup(Group grp) {
+    private void checkGroup(Group grp) {
         // Definitions should be eliminated already.
         Assert.check(grp.getDefinitions().isEmpty());
         checkComponent(grp);
 
-        boolean foundAut = false;
         for (Component c: grp.getComponents()) {
             if (c instanceof Automaton) {
-                foundAut = true;
                 Automaton aut = (Automaton)c;
                 checkAutomaton(aut);
                 continue;
             } else if (c instanceof Group) {
                 Group g = (Group)c;
-                foundAut |= checkGroup(g);
+                checkGroup(g);
                 continue;
             }
 
             // ComponentInst should not happen, as DefInst has been eliminated.
             throw new RuntimeException("Unexpected type of Component.");
         }
-        return foundAut;
     }
 
     /**
