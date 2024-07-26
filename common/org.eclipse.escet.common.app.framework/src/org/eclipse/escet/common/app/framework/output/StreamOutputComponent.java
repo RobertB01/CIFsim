@@ -51,8 +51,7 @@ public class StreamOutputComponent implements IOutputComponent {
 
     @Override
     public void dbg(String msg, int indent) {
-        String[] lines = Strings.splitLines(msg);
-        for (String line: lines) {
+        for (String line: Strings.splitLines(msg)) {
             if (line.isEmpty()) {
                 out.println();
             } else {
@@ -63,8 +62,7 @@ public class StreamOutputComponent implements IOutputComponent {
 
     @Override
     public void out(String msg, int indent) {
-        String[] lines = Strings.splitLines(msg);
-        for (String line: lines) {
+        for (String line: Strings.splitLines(msg)) {
             if (line.isEmpty()) {
                 out.println();
             } else {
@@ -75,8 +73,7 @@ public class StreamOutputComponent implements IOutputComponent {
 
     @Override
     public void warn(String msg, int indent) {
-        String[] lines = Strings.splitLines(msg);
-        for (String line: lines) {
+        for (String line: Strings.splitLines(msg)) {
             if (line.isEmpty()) {
                 warn.println(Strings.spaces(indent * 4) + "WARNING:");
             } else {
@@ -87,8 +84,7 @@ public class StreamOutputComponent implements IOutputComponent {
 
     @Override
     public void err(String msg) {
-        String[] lines = Strings.splitLines(msg);
-        for (String line: lines) {
+        for (String line: Strings.splitLines(msg)) {
             err.println(line);
         }
     }
