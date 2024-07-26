@@ -145,13 +145,6 @@ public class Cif2Mcrl2PreChecker {
             if (decl instanceof DiscVariable) {
                 DiscVariable dv = (DiscVariable)decl;
 
-                if (dv.getValue().getValues().size() != 1) {
-                    msg = fmt("Discrete variable \"%s\" does not have a single initial value.",
-                            CifTextUtils.getAbsName(dv));
-                    problems.add(msg);
-                    continue;
-                }
-
                 try {
                     CifEvalUtils.eval(dv.getValue().getValues().get(0), true);
                 } catch (CifEvalException err) {

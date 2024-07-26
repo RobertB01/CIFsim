@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.cif2mcrl2;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
+import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF to mCRL2 transformation precondition checker. */
@@ -38,7 +39,10 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                         NoSpecificType.REAL_TYPES,
                         NoSpecificType.SET_TYPES,
                         NoSpecificType.STRING_TYPES,
-                        NoSpecificType.TUPLE_TYPES)
+                        NoSpecificType.TUPLE_TYPES),
+
+                // Discrete variables must not have multiple potential initial values.
+                new VarNoDiscWithMultiInitValuesCheck()
 
         );
     }
