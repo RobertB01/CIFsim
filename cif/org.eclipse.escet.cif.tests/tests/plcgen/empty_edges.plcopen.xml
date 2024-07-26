@@ -49,17 +49,7 @@
                 <DINT/>
               </type>
             </variable>
-            <variable name="edge_Block">
-              <type>
-                <BYTE/>
-              </type>
-            </variable>
             <variable name="edge_Good">
-              <type>
-                <BYTE/>
-              </type>
-            </variable>
-            <variable name="edge_UseChannel">
               <type>
                 <BYTE/>
               </type>
@@ -96,7 +86,7 @@
  * Model overview:
  *
  * Automaton "Block":
- * - PLC edge selection variable "edge_Block".
+ * - No variables in this component.
  *
  * - No use of uncontrollable events.
  *
@@ -114,7 +104,7 @@
  * - Controllable event "noSync".
  *
  * Automaton "UseChannel":
- * - PLC edge selection variable "edge_UseChannel".
+ * - No variables in this component.
  *
  * - No use of uncontrollable events.
  *
