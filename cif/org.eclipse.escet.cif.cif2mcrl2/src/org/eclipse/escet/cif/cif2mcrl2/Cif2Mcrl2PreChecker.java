@@ -30,7 +30,6 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
-import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
@@ -38,10 +37,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -163,20 +160,6 @@ public class Cif2Mcrl2PreChecker {
                         msg = fmt("A guard in %s %s", locTextMid, msg);
                         problems.add(msg);
                     }
-                }
-
-                if (edge.getEvents().isEmpty()) {
-                    msg = locTextStart + " has a \"tau\" event.";
-                    problems.add(msg);
-                    continue;
-                }
-                for (EdgeEvent ee: edge.getEvents()) {
-                    if (ee.getEvent() instanceof TauExpression) {
-                        msg = locTextStart + " has a \"tau\" event.";
-                        problems.add(msg);
-                        continue;
-                    }
-                    Assert.check(ee.getEvent() instanceof EventExpression);
                 }
             }
         }
