@@ -15,9 +15,9 @@ WARNING: File "checks/ExprNoSpecificExprsCheckLevel3.cif": Semantic warning at l
 WARNING: File "checks/ExprNoSpecificExprsCheckLevel3.cif": Semantic warning at line 346, column 3: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
-  --------------------------------------------
-  (1/9) A cast expression from string is used.
-  --------------------------------------------
+  ---------------------------------------------
+  (1/10) A cast expression from string is used.
+  ---------------------------------------------
    * In group "CAST_EXPRS_STRING_TO_BOOLEAN":
      - invariant not <bool>"false";
                      ^
@@ -28,9 +28,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant 1.0 = <real>"1.0";
                        ^
 
-  ------------------------------------------
-  (2/9) A cast expression to string is used.
-  ------------------------------------------
+  -------------------------------------------
+  (2/10) A cast expression to string is used.
+  -------------------------------------------
    * In group "CAST_EXPRS_AUTOMATON_TO_STRING":
      - invariant "A" = <string>X;
                        ^
@@ -47,9 +47,16 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant "A" = <string>self;
                        ^
 
-  ----------------------------------------------------
-  (3/9) A standard library function reference is used.
-  ----------------------------------------------------
+  -----------------------------------------------------
+  (3/10) A derivative of a continuous variable is used.
+  -----------------------------------------------------
+   * In group "CONT_VAR_REFS_DER":
+     - invariant c' = 1.0;
+                 ^
+
+  -----------------------------------------------------
+  (4/10) A standard library function reference is used.
+  -----------------------------------------------------
    * In group "FUNC_CALLS":
      - invariant abs(1) = 1;
                  ^
@@ -57,9 +64,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant abs(1) = 1;
                  ^
 
-  ----------------------------------------------------------------------------------
-  (4/9) A switch expression is used with a ranged integer typed (part of its) value.
-  ----------------------------------------------------------------------------------
+  -----------------------------------------------------------------------------------
+  (5/10) A switch expression is used with a ranged integer typed (part of its) value.
+  -----------------------------------------------------------------------------------
    * In invariant "SWITCH_EXPRS.SWITCH_DICT":
      - invariant SWITCH_DICT: switch {1: 2}: case {1: 2}: true else false end;
                               ^
@@ -70,23 +77,23 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant SWITCH_SET: switch {1, 2}: case {1, 2}: true else false end;
                              ^
 
-  -------------------------------------------------------------------------------------
-  (5/9) A switch expression is used with a rangeless integer typed (part of its) value.
-  -------------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------------
+  (6/10) A switch expression is used with a rangeless integer typed (part of its) value.
+  --------------------------------------------------------------------------------------
    * In invariant "SWITCH_EXPRS.SWITCH_INT_RANGELESS":
      - invariant SWITCH_INT_RANGELESS: switch i2: case 5: true else false end;
                                        ^
 
-  -------------------------------------------------------------------------------
-  (6/9) A switch expression is used with an array list typed (part of its) value.
-  -------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+  (7/10) A switch expression is used with an array list typed (part of its) value.
+  --------------------------------------------------------------------------------
    * In invariant "SWITCH_EXPRS.SWITCH_LIST_ARRAY":
      - invariant SWITCH_LIST_ARRAY: switch i3: case [true]: true else false end;
                                     ^
 
-  --------------------------------------------------
-  (7/9) A tuple field-projection expression is used.
-  --------------------------------------------------
+  ---------------------------------------------------
+  (8/10) A tuple field-projection expression is used.
+  ---------------------------------------------------
    * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                     ^       ^
@@ -94,9 +101,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant c[a];
                   ^
 
-  --------------------------------------------------
-  (8/9) A tuple index-projection expression is used.
-  --------------------------------------------------
+  ---------------------------------------------------
+  (9/10) A tuple index-projection expression is used.
+  ---------------------------------------------------
    * In automaton "PROJECTION_EXPRS_TUPLES_FIELD":
      - edge tau do v[a] := v[b];
                     ^       ^
@@ -115,9 +122,9 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
      - invariant (true, false)[0];
                               ^
 
-  ------------------------------------------------
-  (9/9) A user-defined function reference is used.
-  ------------------------------------------------
+  --------------------------------------------------
+  (10/10) A user-defined function reference is used.
+  --------------------------------------------------
    * In group "FUNC_CALLS":
      - invariant intF(true);
                  ^
