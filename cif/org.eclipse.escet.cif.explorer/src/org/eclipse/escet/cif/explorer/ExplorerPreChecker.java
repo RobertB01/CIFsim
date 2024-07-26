@@ -18,6 +18,8 @@ import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.common.java.Termination;
@@ -37,7 +39,10 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
                 new TypeNoSpecificTypesCheck(NoSpecificType.DIST_TYPES),
 
                 // No derivatives.
-                new ExprNoSpecificExprsCheck(NoSpecificExpr.CONT_VAR_DERIV_REFS)
+                new ExprNoSpecificExprsCheck(NoSpecificExpr.CONT_VAR_DERIV_REFS),
+
+                // No external user-defined functions.
+                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL)
 
         );
     }
@@ -154,12 +159,6 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
 //                return;
 //            }
 //        }
-//    }
-//
-//    @Override
-//    protected void preprocessExternalFunction(ExternalFunction func) {
-//        String msg = fmt("External user-defined function \"%s\" is not supported.", CifTextUtils.getAbsName(func));
-//        problems.add(msg);
 //    }
 //
 //    @Override
