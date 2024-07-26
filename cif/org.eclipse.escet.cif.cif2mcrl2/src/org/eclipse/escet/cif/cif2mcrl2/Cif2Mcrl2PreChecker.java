@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
-import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -156,24 +155,6 @@ public class Cif2Mcrl2PreChecker {
                     }
                 }
             }
-        }
-
-        // Check the number of initial locations.
-        int initLocCount = 0;
-        for (Location loc: aut.getLocations()) {
-            if (!loc.getInitials().isEmpty() && CifValueUtils.isTriviallyTrue(loc.getInitials(), true, true)) {
-                initLocCount++;
-            }
-        }
-
-        if (initLocCount == 0) {
-            msg = fmt("Automaton \"%s\" has no initial location.", CifTextUtils.getAbsName(aut));
-            problems.add(msg);
-        }
-
-        if (initLocCount > 1) {
-            msg = fmt("Automaton \"%s\" has more than one initial location.", CifTextUtils.getAbsName(aut));
-            problems.add(msg);
         }
     }
 
