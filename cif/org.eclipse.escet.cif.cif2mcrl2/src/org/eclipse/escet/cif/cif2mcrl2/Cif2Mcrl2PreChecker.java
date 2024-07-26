@@ -31,8 +31,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
-import org.eclipse.escet.cif.metamodel.cif.automata.EdgeReceive;
-import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
@@ -173,15 +171,7 @@ public class Cif2Mcrl2PreChecker {
                     continue;
                 }
                 for (EdgeEvent ee: edge.getEvents()) {
-                    if (ee instanceof EdgeSend) {
-                        msg = locTextStart + " has a send edge.";
-                        problems.add(msg);
-                        continue;
-                    } else if (ee instanceof EdgeReceive) {
-                        msg = locTextStart + " has a receive edge.";
-                        problems.add(msg);
-                        continue;
-                    } else if (ee.getEvent() instanceof TauExpression) {
+                    if (ee.getEvent() instanceof TauExpression) {
                         msg = locTextStart + " has a \"tau\" event.";
                         problems.add(msg);
                         continue;

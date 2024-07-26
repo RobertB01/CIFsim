@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.cif2mcrl2;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
@@ -58,7 +59,10 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 new VarNoInputCheck(),
 
                 // Equations are not supported.
-                new EqnNotAllowedCheck()
+                new EqnNotAllowedCheck(),
+
+                // Channels are not supported.
+                new EventNoChannelsCheck()
 
         );
     }
