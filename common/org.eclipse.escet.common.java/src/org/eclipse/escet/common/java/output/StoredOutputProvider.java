@@ -173,7 +173,7 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
 
                 // Construct the output, per line.
                 String curIndentText = getIndentText();
-                String[] lines = message.split("\r?\n");
+                String[] lines = Strings.splitLines(message);
                 for (String line: lines) {
                     // Don't indent empty messages. Blank messages are kept and are thus also indented.
                     if (linePrefix != null && !linePrefix.isEmpty()) {
@@ -230,7 +230,7 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
 
                     // Construct the output, per line.
                     String curIndentText = getIndentText();
-                    String[] lines = message.split("\r?\n");
+                    String[] lines = Strings.splitLines(message);
                     for (String line: lines) {
                         // Don't indent empty messages. Blank messages are kept and are thus also indented.
                         if (linePrefix != null && !linePrefix.isEmpty()) {
@@ -266,7 +266,7 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                 @Override
                 public void line(String message) {
                     // Construct the output, per line.
-                    String[] lines = message.split("\r?\n");
+                    String[] lines = Strings.splitLines(message);
                     for (String line: lines) {
                         if (linePrefix != null && !linePrefix.isEmpty()) {
                             if (line.isEmpty()) {
