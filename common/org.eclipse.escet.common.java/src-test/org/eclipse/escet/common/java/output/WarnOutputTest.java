@@ -82,4 +82,35 @@ public class WarnOutputTest {
                 """;
         assertEquals(expected, outputProvider.toString());
     }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMultiLineStoredOutputNoIndentWarn() {
+        StoredOutputProvider provider = new StoredOutputProvider();
+        WarnOutput warn = provider.getWarnOutput("PRE: ");
+        warn.line("a");
+        warn.line("b\nc");
+        warn.line("d\r\ne");
+        warn.line("f\n\ng");
+        warn.line("h\n\r\n\ni");
+        warn.line("j\nk\nl");
+        String expected = """
+                PRE: a
+                PRE: b
+                PRE: c
+                PRE: d
+                PRE: e
+                PRE: f
+                PRE:
+                PRE: g
+                PRE: h
+                PRE:
+                PRE:
+                PRE: i
+                PRE: j
+                PRE: k
+                PRE: l
+                """;
+        assertEquals(expected, provider.toString());
+    }
 }
