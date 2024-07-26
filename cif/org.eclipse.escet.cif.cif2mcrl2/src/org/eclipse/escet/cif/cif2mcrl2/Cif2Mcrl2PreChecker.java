@@ -20,8 +20,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.cif.common.CifEvalException;
-import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
@@ -38,13 +36,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.EdgeSend;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
-import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
-import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
@@ -54,7 +45,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
-import org.eclipse.escet.cif.metamodel.cif.functions.Function;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
@@ -145,10 +135,6 @@ public class Cif2Mcrl2PreChecker {
 
             if (!loc.getInvariants().isEmpty()) {
                 msg = locTextStart + " has invariants.";
-                problems.add(msg);
-            }
-            if (!loc.getEquations().isEmpty()) {
-                msg = locTextStart + " has equations.";
                 problems.add(msg);
             }
             for (Edge edge: loc.getEdges()) {
@@ -343,10 +329,6 @@ public class Cif2Mcrl2PreChecker {
         // IO declarations should be eliminated already.
         Assert.check(comp.getIoDecls().isEmpty());
 
-        if (!comp.getEquations().isEmpty()) {
-            msg = fmt("Equations are not supported in %s.", CifTextUtils.getComponentText2(comp));
-            problems.add(msg);
-        }
         if (!comp.getInitials().isEmpty()) {
             msg = fmt("Initialization predicates are not supported in %s.", CifTextUtils.getComponentText2(comp));
             problems.add(msg);
