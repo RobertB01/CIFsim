@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.explorer;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
+import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
@@ -32,7 +34,10 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
 
                 // No distributions.
                 new FuncNoSpecificStdLibCheck(NoSpecificStdLib.ALL_STOCHASTIC),
-                new TypeNoSpecificTypesCheck(NoSpecificType.DIST_TYPES)
+                new TypeNoSpecificTypesCheck(NoSpecificType.DIST_TYPES),
+
+                // No derivatives.
+                new ExprNoSpecificExprsCheck(NoSpecificExpr.CONT_VAR_DERIV_REFS)
 
         );
     }
@@ -233,14 +238,6 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
 //                msg = fmt("Supervisor invariants in %s are not supported.", parentTxt);
 //                problems.add(msg);
 //                break;
-//        }
-//    }
-//
-//    @Override
-//    protected void preprocessContVariableExpression(ContVariableExpression expr) {
-//        if (expr.isDerivative()) {
-//            String msg = "Use of derivatives of continuous variables is not supported.";
-//            problems.add(msg);
 //        }
 //    }
 }
