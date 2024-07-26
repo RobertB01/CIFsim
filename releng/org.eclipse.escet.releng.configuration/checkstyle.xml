@@ -64,7 +64,6 @@ SPDX-License-Identifier: MIT
     </module>
     <module name="ParameterName">
       <property name="format" value="^_?[a-z][a-zA-Z0-9]*_?$"/>
-      <property name="accessModifiers" value="private"/>
     </module>
     <module name="StaticVariableName">
       <message key="name.invalidPattern" value="Static variable name ''{0}'' must match pattern ''{1}''."/>
