@@ -20,6 +20,7 @@ import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
+import org.eclipse.escet.cif.checkers.checks.SpecNoTooManyPossibleInitialStatesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.checkers.checks.VarNoInputCheck;
@@ -46,39 +47,11 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
                 new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL),
 
                 // No input variables.
-                new VarNoInputCheck()
+                new VarNoInputCheck(),
+
+                // Specifications with too many potential initial states are not supported.
+                new SpecNoTooManyPossibleInitialStatesCheck()
 
         );
     }
-
-//    @Override
-//    protected void preprocessDiscVariable(DiscVariable var) {
-//        // Single initial value is always OK.
-//        if (var.getValue() == null) {
-//            return;
-//        }
-//        List<Expression> initVals = var.getValue().getValues();
-//        if (initVals.size() == 1) {
-//            return;
-//        }
-//
-//        // Finite number of potential initial values is always OK.
-//        if (!initVals.isEmpty()) {
-//            return;
-//        }
-//
-//        // Any value in its domain. Check for finite type. That is, the number
-//        // of possible values must fit within the range of 'int', to ensure we
-//        // can store the potential values in a list.
-//        double cnt = CifValueUtils.getPossibleValueCount(var.getType());
-//        if (cnt <= Integer.MAX_VALUE) {
-//            return;
-//        }
-//
-//        // Unsupported type for multiple initial values.
-//        String cntTxt = Double.isInfinite(cnt) ? "infinite" : CifMath.realToStr(cnt);
-//        String msg = fmt("Discrete variable \"%s\" of type \"%s\" with %s potential initial values is not supported.",
-//                CifTextUtils.getAbsName(var), CifTextUtils.typeToStr(var.getType()), cntTxt);
-//        problems.add(msg);
-//    }
 }
