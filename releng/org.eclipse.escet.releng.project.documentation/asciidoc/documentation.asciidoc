@@ -35,6 +35,9 @@ ifdef::website-output[]
 TIP: You can link:eclipse-escet-project-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
+'ESCET' is pronounced as 'èsèt', with an 'e' of 'bed', an 's' of 'see', another 'e' of 'bed' and a 't' of 'tea'.
+In the link:https://en.wikipedia.org/wiki/International_Phonetic_Alphabet[International Phonetic Alphabet] it is spelled as /ɛsɛt/.
+
 This documentation includes general information related to the Eclipse ESCET toolkit as a whole, as well as its general tools.
 The following information is available:
 
