@@ -140,22 +140,6 @@ public class Cif2Mcrl2PreChecker {
 
         checkComponent(aut);
 
-        // Check type of the discrete variables. Only support Boolean, (ranged) integer and enumeration types.
-        for (Declaration decl: aut.getDeclarations()) {
-            if (decl instanceof DiscVariable) {
-                DiscVariable dv = (DiscVariable)decl;
-
-                try {
-                    CifEvalUtils.eval(dv.getValue().getValues().get(0), true);
-                } catch (CifEvalException err) {
-                    msg = fmt("Initial value of discrete variable \"%s\" cannot be evaluated.",
-                            CifTextUtils.getAbsName(dv));
-                    problems.add(msg);
-                    continue;
-                }
-            }
-        }
-
         // Check locations.
         for (Location loc: aut.getLocations()) {
             String locTextMid = CifTextUtils.getLocationText2(loc);
