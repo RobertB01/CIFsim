@@ -97,6 +97,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         // Read CIF input.
         CifReader cifReader = new CifReader().init();
         Specification spec = cifReader.read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -123,9 +124,9 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Check pre-conditions of the input.
-        Cif2Mcrl2PreChecker pca = new Cif2Mcrl2PreChecker();
-        pca.checkSpec(spec);
+        // Check preconditions.
+        CifToMcrl2PreChecker checker = new CifToMcrl2PreChecker(() -> isTerminationRequested());
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF to mCRL2 transformation");
         if (isTerminationRequested()) {
             return 0;
         }
