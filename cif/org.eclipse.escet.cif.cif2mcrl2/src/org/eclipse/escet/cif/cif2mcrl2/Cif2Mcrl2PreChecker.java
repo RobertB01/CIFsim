@@ -123,10 +123,6 @@ public class Cif2Mcrl2PreChecker {
         // IO declarations should be eliminated already.
         Assert.check(comp.getIoDecls().isEmpty());
 
-        if (!comp.getInitials().isEmpty()) {
-            msg = fmt("Initialization predicates are not supported in %s.", CifTextUtils.getComponentText2(comp));
-            problems.add(msg);
-        }
         if (!comp.getInvariants().isEmpty()) {
             msg = fmt("Invariants are not supported in %s.", CifTextUtils.getComponentText2(comp));
             problems.add(msg);

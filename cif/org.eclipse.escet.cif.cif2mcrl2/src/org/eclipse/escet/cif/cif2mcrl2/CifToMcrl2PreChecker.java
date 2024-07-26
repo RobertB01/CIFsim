@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.cif2mcrl2;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
@@ -153,7 +154,10 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 new ExprNoSpecificUnaryExprsCheck(
                         NoSpecificUnaryOp.NEGATE_REALS,
                         NoSpecificUnaryOp.PLUS_REALS,
-                        NoSpecificUnaryOp.SAMPLE)
+                        NoSpecificUnaryOp.SAMPLE),
+
+                // No initialization predicates in components.
+                new CompNoInitPredsCheck()
 
         );
     }
