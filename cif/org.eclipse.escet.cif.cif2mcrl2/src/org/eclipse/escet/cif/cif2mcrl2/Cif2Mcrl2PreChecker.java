@@ -44,7 +44,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
@@ -334,39 +333,6 @@ public class Cif2Mcrl2PreChecker {
     }
 
     /**
-     * Check that only supported declarations exist.
-     *
-     * @param decls Declarations to inspect.
-     */
-    private void checkDeclarations(List<Declaration> decls) {
-        String msg;
-
-        for (Declaration decl: decls) {
-            if (decl instanceof AlgVariable) {
-                // Eliminated during preprocessing.
-            } else if (decl instanceof Constant) {
-                // Eliminated during preprocessing.
-            } else if (decl instanceof EnumDecl) {
-                continue;
-            } else if (decl instanceof Event) {
-                continue;
-            } else if (decl instanceof Function) {
-                continue;
-            } else if (decl instanceof TypeDecl) {
-                continue;
-            } else if (decl instanceof DiscVariable) {
-                continue;
-            } else if (decl instanceof InputVariable) {
-                msg = fmt("Input variable \"%s\" is unsupported in the transformation.", CifTextUtils.getAbsName(decl));
-                problems.add(msg);
-                continue;
-            }
-
-            throw new RuntimeException("Unexpected type of CIF declaration.");
-        }
-    }
-
-    /**
      * Verify that the given component does not have elements that are not supported in the translation.
      *
      * @param comp Component to check.
@@ -376,8 +342,6 @@ public class Cif2Mcrl2PreChecker {
 
         // IO declarations should be eliminated already.
         Assert.check(comp.getIoDecls().isEmpty());
-
-        checkDeclarations(comp.getDeclarations());
 
         if (!comp.getEquations().isEmpty()) {
             msg = fmt("Equations are not supported in %s.", CifTextUtils.getComponentText2(comp));
