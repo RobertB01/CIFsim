@@ -14,19 +14,15 @@
 package org.eclipse.escet.cif.cif2mcrl2;
 
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
@@ -96,20 +92,7 @@ public class Cif2Mcrl2PreChecker {
      * @param aut Automaton to check.
      */
     private void checkAutomaton(Automaton aut) {
-        String msg;
-
         checkComponent(aut);
-
-        // Check locations.
-        for (Location loc: aut.getLocations()) {
-            String locTextMid = CifTextUtils.getLocationText2(loc);
-            String locTextStart = StringUtils.capitalize(locTextMid);
-
-            if (!loc.getInvariants().isEmpty()) {
-                msg = locTextStart + " has invariants.";
-                problems.add(msg);
-            }
-        }
     }
 
     /**
@@ -118,14 +101,7 @@ public class Cif2Mcrl2PreChecker {
      * @param comp Component to check.
      */
     private void checkComponent(ComplexComponent comp) {
-        String msg;
-
         // IO declarations should be eliminated already.
         Assert.check(comp.getIoDecls().isEmpty());
-
-        if (!comp.getInvariants().isEmpty()) {
-            msg = fmt("Invariants are not supported in %s.", CifTextUtils.getComponentText2(comp));
-            problems.add(msg);
-        }
     }
 }

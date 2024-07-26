@@ -26,6 +26,7 @@ import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck.NoSpecificExpr;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificUnaryExprsCheck.NoSpecificUnaryOp;
+import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
@@ -33,6 +34,9 @@ import org.eclipse.escet.cif.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
 import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
 import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.cif.checkers.checks.VarNoInputCheck;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF to mCRL2 transformation precondition checker. */
@@ -157,7 +161,11 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                         NoSpecificUnaryOp.SAMPLE),
 
                 // No initialization predicates in components.
-                new CompNoInitPredsCheck()
+                new CompNoInitPredsCheck(),
+
+                // No invariants.
+                new InvNoSpecificInvsCheck().disallow(
+                        NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, NoInvariantPlaceKind.ALL_PLACES)
 
         );
     }
