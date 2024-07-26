@@ -51,37 +51,6 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
         );
     }
 
-//    /** Found problems in the specification. */
-//    private Set<String> problems = null;
-//
-//    /**
-//     * Constructor of the {@link ExplorerPreChecker} class.
-//     *
-//     * @param params Set of configurable parameters for the explorer pre-checker.
-//     */
-//    public ExplorerPreChecker(EnumSet<CheckParameters> params) {
-//        this.params = params;
-//    }
-//
-//    /**
-//     * Check the specification for the requirements.
-//     *
-//     * @param spec Specification to check.
-//     */
-//    public void checkSpec(Specification spec) {
-//        problems = set();
-//        walkSpecification(spec);
-//
-//        if (problems.isEmpty()) {
-//            return;
-//        }
-//
-//        // If we have any problems, the specification is unsupported.
-//        String msg = "State space exploration failed due to unsatisfied preconditions:\n - "
-//                + String.join("\n - ", sortedstrings(problems));
-//        throw new UnsupportedException(msg);
-//    }
-//
 //    @Override
 //    protected void preprocessDiscVariable(DiscVariable var) {
 //        // Single initial value is always OK.
