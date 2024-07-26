@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck;
 import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificUserDefCheck.NoSpecificUserDefFunc;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
+import org.eclipse.escet.cif.checkers.checks.VarNoInputCheck;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF explorer precondition checker. */
@@ -42,7 +43,10 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
                 new ExprNoSpecificExprsCheck(NoSpecificExpr.CONT_VAR_DERIV_REFS),
 
                 // No external user-defined functions.
-                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL)
+                new FuncNoSpecificUserDefCheck(NoSpecificUserDefFunc.EXTERNAL),
+
+                // No input variables.
+                new VarNoInputCheck()
 
         );
     }
@@ -159,12 +163,6 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
 //                return;
 //            }
 //        }
-//    }
-//
-//    @Override
-//    protected void preprocessInputVariable(InputVariable var) {
-//        String msg = fmt("Input variable \"%s\" is not supported.", CifTextUtils.getAbsName(var));
-//        problems.add(msg);
 //    }
 //
 //    @Override
