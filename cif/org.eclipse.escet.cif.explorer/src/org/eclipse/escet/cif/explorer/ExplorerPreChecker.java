@@ -54,9 +54,6 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
 //    /** Found problems in the specification. */
 //    private Set<String> problems = null;
 //
-//    /** Set of configurable properties to check. */
-//    private final EnumSet<CheckParameters> params;
-//
 //    /**
 //     * Constructor of the {@link ExplorerPreChecker} class.
 //     *
@@ -83,86 +80,6 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
 //        String msg = "State space exploration failed due to unsatisfied preconditions:\n - "
 //                + String.join("\n - ", sortedstrings(problems));
 //        throw new UnsupportedException(msg);
-//    }
-//
-//    /** Parameters of the explorer check process. */
-//    public static enum CheckParameters {
-//        /** Allow 'none' invariants. */
-//        ALLOW_NON_INVS,
-//
-//        /** Allow 'supervisor' invariants. */
-//        ALLOW_SUP_INVS,
-//
-//        /** Allow 'requirement' invariants. */
-//        ALLOW_REQ_INVS,
-//
-//        /** Allow 'none' automaton. */
-//        ALLOW_NON_AUT,
-//
-//        /** Allow 'supervisor' automaton. */
-//        ALLOW_SUP_AUT,
-//
-//        /** Allow 'requirement' automaton. */
-//        ALLOW_REQ_AUT,
-//
-//        /** Allow 'tau' events. */
-//        ALLOW_TAU,
-//    }
-//
-//    @Override
-//    protected void preprocessAutomaton(Automaton aut) {
-//        String msg;
-//
-//        switch (aut.getKind()) {
-//            case NONE:
-//                if (params.contains(CheckParameters.ALLOW_NON_AUT)) {
-//                    break;
-//                }
-//                msg = fmt("Regular automaton \"%s\" is not supported.", CifTextUtils.getAbsName(aut));
-//                problems.add(msg);
-//                break;
-//
-//            case PLANT:
-//                break; // Always supported.
-//
-//            case REQUIREMENT:
-//                if (params.contains(CheckParameters.ALLOW_REQ_AUT)) {
-//                    break;
-//                }
-//                msg = fmt("Requirement automaton \"%s\" is not supported.", CifTextUtils.getAbsName(aut));
-//                problems.add(msg);
-//                break;
-//
-//            case SUPERVISOR:
-//                if (params.contains(CheckParameters.ALLOW_SUP_AUT)) {
-//                    break;
-//                }
-//                msg = fmt("Supervisor automaton \"%s\" is not supported.", CifTextUtils.getAbsName(aut));
-//                problems.add(msg);
-//                break;
-//        }
-//    }
-//
-//    @Override
-//    protected void preprocessEdge(Edge edge) {
-//        if (params.contains(CheckParameters.ALLOW_TAU)) {
-//            return;
-//        }
-//
-//        String msg;
-//        Location loc = (Location)edge.eContainer();
-//        if (edge.getEvents().isEmpty()) {
-//            msg = fmt("Tau events in edges of %s are not supported.", CifTextUtils.getLocationText2(loc));
-//            problems.add(msg);
-//            return;
-//        }
-//        for (EdgeEvent ee: edge.getEvents()) {
-//            if (ee.getEvent() instanceof TauExpression) {
-//                msg = fmt("Tau events in edges of %s are not supported.", CifTextUtils.getLocationText2(loc));
-//                problems.add(msg);
-//                return;
-//            }
-//        }
 //    }
 //
 //    @Override
@@ -194,47 +111,5 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
 //        String msg = fmt("Discrete variable \"%s\" of type \"%s\" with %s potential initial values is not supported.",
 //                CifTextUtils.getAbsName(var), CifTextUtils.typeToStr(var.getType()), cntTxt);
 //        problems.add(msg);
-//    }
-//
-//    @Override
-//    protected void preprocessInvariant(Invariant inv) {
-//        EObject parent = inv.eContainer();
-//        String parentTxt;
-//        if (parent instanceof Location) {
-//            parentTxt = CifTextUtils.getLocationText2((Location)parent);
-//        } else {
-//            Assert.check(parent instanceof ComplexComponent);
-//            parentTxt = CifTextUtils.getComponentText2((ComplexComponent)parent);
-//        }
-//
-//        String msg;
-//        switch (inv.getSupKind()) {
-//            case NONE:
-//                if (params.contains(CheckParameters.ALLOW_NON_INVS)) {
-//                    break;
-//                }
-//                msg = fmt("Regular invariants in %s are not supported.", parentTxt);
-//                problems.add(msg);
-//                break;
-//
-//            case PLANT:
-//                break; // Always supported.
-//
-//            case REQUIREMENT:
-//                if (params.contains(CheckParameters.ALLOW_REQ_INVS)) {
-//                    break;
-//                }
-//                msg = fmt("Requirement invariants in %s are not supported.", parentTxt);
-//                problems.add(msg);
-//                break;
-//
-//            case SUPERVISOR:
-//                if (params.contains(CheckParameters.ALLOW_SUP_INVS)) {
-//                    break;
-//                }
-//                msg = fmt("Supervisor invariants in %s are not supported.", parentTxt);
-//                problems.add(msg);
-//                break;
-//        }
 //    }
 }
