@@ -13,10 +13,22 @@
 
 package org.eclipse.escet.cif.explorer;
 
-import org.eclipse.escet.cif.metamodel.java.CifWalker;
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.common.java.Termination;
 
-/** Checker class to verify that a given specification satisfies the pre-conditions required for exploration. */
-public class ExplorerPreChecker extends CifWalker {
+/** CIF explorer precondition checker. */
+public class ExplorerPreChecker extends CifPreconditionChecker {
+    /**
+     * Constructor for the {@link ExplorerPreChecker} class.
+     *
+     * @param termination Cooperative termination query function.
+     */
+    public ExplorerPreChecker(Termination termination) {
+        super(termination
+
+        );
+    }
+
 //    /** Found problems in the specification. */
 //    private Set<String> problems = null;
 //
