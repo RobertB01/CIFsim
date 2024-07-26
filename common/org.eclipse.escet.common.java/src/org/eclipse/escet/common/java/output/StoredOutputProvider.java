@@ -171,23 +171,25 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                     return;
                 }
 
-                // Construct the output.
-                // Don't indent empty messages. Blank messages are kept and are thus also indented.
+                // Construct the output, per line.
                 String curIndentText = getIndentText();
-                if (linePrefix != null && !linePrefix.isEmpty()) {
-                    if (message.isEmpty()) {
-                        message = curIndentText + linePrefix.stripTrailing() + "\n";
+                for (String line: Strings.splitLines(message)) {
+                    // Don't indent empty messages. Blank messages are kept and are thus also indented.
+                    if (linePrefix != null && !linePrefix.isEmpty()) {
+                        if (line.isEmpty()) {
+                            line = curIndentText + linePrefix.stripTrailing() + "\n";
+                        } else {
+                            line = curIndentText + linePrefix + line + "\n";
+                        }
                     } else {
-                        message = curIndentText + linePrefix + message + "\n";
+                        if (line.isEmpty()) {
+                            line = "\n";
+                        } else {
+                            line = curIndentText + line + "\n";
+                        }
                     }
-                } else {
-                    if (message.isEmpty()) {
-                        message = "\n";
-                    } else {
-                        message = curIndentText + message + "\n";
-                    }
+                    stringStore.append(line);
                 }
-                stringStore.append(message);
             }
 
             @Override
@@ -225,23 +227,25 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
                         return;
                     }
 
-                    // Construct the output.
-                    // Don't indent empty messages. Blank messages are kept and are thus also indented.
+                    // Construct the output, per line.
                     String curIndentText = getIndentText();
-                    if (linePrefix != null && !linePrefix.isEmpty()) {
-                        if (message.isEmpty()) {
-                            message = curIndentText + linePrefix.stripTrailing() + "\n";
+                    for (String line: Strings.splitLines(message)) {
+                        // Don't indent empty messages. Blank messages are kept and are thus also indented.
+                        if (linePrefix != null && !linePrefix.isEmpty()) {
+                            if (line.isEmpty()) {
+                                line = curIndentText + linePrefix.stripTrailing() + "\n";
+                            } else {
+                                line = curIndentText + linePrefix + line + "\n";
+                            }
                         } else {
-                            message = curIndentText + linePrefix + message + "\n";
+                            if (line.isEmpty()) {
+                                line = "\n";
+                            } else {
+                                line = curIndentText + line + "\n";
+                            }
                         }
-                    } else {
-                        if (message.isEmpty()) {
-                            message = "\n";
-                        } else {
-                            message = curIndentText + message + "\n";
-                        }
+                        stringStore.append(line);
                     }
-                    stringStore.append(message);
                 }
 
                 @Override
@@ -259,16 +263,19 @@ public class StoredOutputProvider implements WarnOutputProvider, ErrorOutputProv
             errorOutput = new ErrorOutput() {
                 @Override
                 public void line(String message) {
-                    if (linePrefix != null && !linePrefix.isEmpty()) {
-                        if (message.isEmpty()) {
-                            message = linePrefix.stripTrailing() + "\n";
+                    // Construct the output, per line.
+                    for (String line: Strings.splitLines(message)) {
+                        if (linePrefix != null && !linePrefix.isEmpty()) {
+                            if (line.isEmpty()) {
+                                line = linePrefix.stripTrailing() + "\n";
+                            } else {
+                                line = linePrefix + line + "\n";
+                            }
                         } else {
-                            message = linePrefix + message + "\n";
+                            line = line + "\n";
                         }
-                    } else {
-                        message = message + "\n";
+                        stringStore.append(line);
                     }
-                    stringStore.append(message);
                 }
             };
         }

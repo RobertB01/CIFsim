@@ -20,7 +20,8 @@ import org.eclipse.escet.common.java.Strings;
 /** Interface to send errors to the user. */
 public interface ErrorOutput {
     /**
-     * Produce a line with the given message in the output stream.
+     * Produce a line with the given message in the output stream. If a multi-line message is given, each line is given
+     * separately to the output stream.
      *
      * @param message Message to output.
      */
@@ -28,7 +29,8 @@ public interface ErrorOutput {
 
     /**
      * {@link Strings#fmt Format} the parameterized message and produce the result as a line of text in the output
-     * stream.
+     * stream. If a multi-line message is given or produced after formatting, each line is given separately to the
+     * output stream.
      *
      * @param message Pattern of the message text to output.
      * @param args The arguments of the pattern text.

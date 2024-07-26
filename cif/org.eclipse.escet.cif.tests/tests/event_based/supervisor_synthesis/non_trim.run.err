@@ -6,5 +6,5 @@ WARNING: Location "r.l1" is a marked deadlock location.
 WARNING: Controllable event "p.u1" is only used by automaton "p".
 WARNING: Controllable event "p.u2" is only used by automaton "p".
 WARNING: Found 2 disjunct groups of automata that do not share events between the groups:
- - Group 1 consists of automaton "r".
- - Group 2 consists of automaton "p".
+WARNING:  - Group 1 consists of automaton "r".
+WARNING:  - Group 2 consists of automaton "p".

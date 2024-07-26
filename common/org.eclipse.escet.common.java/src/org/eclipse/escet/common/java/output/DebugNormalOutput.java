@@ -41,7 +41,8 @@ public interface DebugNormalOutput {
     public void dec();
 
     /**
-     * Produce a line with the given message in the output stream, if and only if the stream is enabled.
+     * Produce a line with the given message in the output stream, if and only if the stream is enabled. If a multi-line
+     * message is given, each line is given separately to the output stream.
      *
      * @param message Message to output.
      * @see #isEnabled
@@ -50,7 +51,8 @@ public interface DebugNormalOutput {
 
     /**
      * {@link Strings#fmt Format} the parameterized message and produce the result as a line of text in the output
-     * stream, if and only if the stream is enabled.
+     * stream, if and only if the stream is enabled. If a multi-line message is given or produced after formatting, each
+     * line is given separately to the output stream.
      *
      * <p>
      * For performance reasons, it may be better to call this method like this:
@@ -80,6 +82,11 @@ public interface DebugNormalOutput {
     /**
      * {@link Strings#fmt Format} the parameterized message, {@link Strings#wrap wrap} the line if it is too long. Then
      * produce the result in the output stream, if the stream is enabled.
+     *
+     * <p>
+     * New-line characters are not treated specially, so it is best to not pass messages with new-lines to this method,
+     * to avoid unexpected results.
+     * </p>
      *
      * <p>
      * For performance reasons, it may be better to call this method like this:

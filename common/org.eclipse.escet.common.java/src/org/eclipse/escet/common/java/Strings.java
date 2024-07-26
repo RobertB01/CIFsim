@@ -636,6 +636,17 @@ public final class Strings {
     }
 
     /**
+     * Split a text at new lines, returning each line separately. The new line characters ('{@code \r\n}' or
+     * '{@code \n}') themselves are removed.
+     *
+     * @param text The text to split.
+     * @return The lines of the text.
+     */
+    public static String[] splitLines(String text) {
+        return text.split("\r?\n");
+    }
+
+    /**
      * Replaces all occurrences of a regular expression pattern in the given input string by the given replacement.
      *
      * <p>

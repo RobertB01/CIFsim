@@ -51,34 +51,42 @@ public class StreamOutputComponent implements IOutputComponent {
 
     @Override
     public void dbg(String msg, int indent) {
-        if (msg.isEmpty()) {
-            out.println();
-        } else {
-            out.println(Strings.spaces(indent * 4) + msg);
+        for (String line: Strings.splitLines(msg)) {
+            if (line.isEmpty()) {
+                out.println();
+            } else {
+                out.println(Strings.spaces(indent * 4) + line);
+            }
         }
     }
 
     @Override
     public void out(String msg, int indent) {
-        if (msg.isEmpty()) {
-            out.println();
-        } else {
-            out.println(Strings.spaces(indent * 4) + msg);
+        for (String line: Strings.splitLines(msg)) {
+            if (line.isEmpty()) {
+                out.println();
+            } else {
+                out.println(Strings.spaces(indent * 4) + line);
+            }
         }
     }
 
     @Override
     public void warn(String msg, int indent) {
-        if (msg.isEmpty()) {
-            warn.println(Strings.spaces(indent * 4) + "WARNING:");
-        } else {
-            warn.println(Strings.spaces(indent * 4) + "WARNING: " + msg);
+        for (String line: Strings.splitLines(msg)) {
+            if (line.isEmpty()) {
+                warn.println(Strings.spaces(indent * 4) + "WARNING:");
+            } else {
+                warn.println(Strings.spaces(indent * 4) + "WARNING: " + line);
+            }
         }
     }
 
     @Override
     public void err(String msg) {
-        err.println(msg);
+        for (String line: Strings.splitLines(msg)) {
+            err.println(line);
+        }
     }
 
     @Override
