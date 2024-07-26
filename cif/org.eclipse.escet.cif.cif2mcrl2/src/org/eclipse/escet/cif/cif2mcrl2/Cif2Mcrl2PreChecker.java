@@ -29,7 +29,6 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
-import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
@@ -127,23 +126,10 @@ public class Cif2Mcrl2PreChecker {
             }
             for (Edge edge: loc.getEdges()) {
                 for (Update upd: edge.getUpdates()) {
-                    if (upd instanceof IfUpdate) {
-                        msg = locTextStart + " has conditional updates.";
-                        problems.add(msg);
-                        continue;
-                    }
-
                     Assignment asg = (Assignment)upd;
                     msg = checkExpression(asg.getValue());
                     if (msg != null) {
                         msg = fmt("A value in %s %s", locTextMid, msg);
-                        problems.add(msg);
-                    }
-
-                    Expression e = asg.getAddressable();
-                    if (!(e instanceof DiscVariableExpression)) {
-                        msg = fmt("An assignment in %s assigns to unsupported addressable form \"%s\".", locTextMid,
-                                CifTextUtils.exprToStr(e));
                         problems.add(msg);
                     }
                 }
