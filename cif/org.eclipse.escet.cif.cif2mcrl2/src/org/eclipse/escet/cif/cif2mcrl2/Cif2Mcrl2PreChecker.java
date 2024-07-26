@@ -40,7 +40,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
-import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
@@ -350,11 +349,6 @@ public class Cif2Mcrl2PreChecker {
             } else if (decl instanceof EnumDecl) {
                 continue;
             } else if (decl instanceof Event) {
-                continue;
-            } else if (decl instanceof ContVariable) {
-                msg = fmt("Continuous variable \"%s\" is unsupported in the transformation.",
-                        CifTextUtils.getAbsName(decl));
-                problems.add(msg);
                 continue;
             } else if (decl instanceof Function) {
                 continue;

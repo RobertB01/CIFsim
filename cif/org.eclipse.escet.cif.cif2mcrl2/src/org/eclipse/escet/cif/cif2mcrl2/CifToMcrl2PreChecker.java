@@ -17,6 +17,7 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
 import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.cif.checkers.checks.VarDiscOnlyStaticEvalInitCheck;
+import org.eclipse.escet.cif.checkers.checks.VarNoContinuousCheck;
 import org.eclipse.escet.cif.checkers.checks.VarNoDiscWithMultiInitValuesCheck;
 import org.eclipse.escet.common.java.Termination;
 
@@ -46,7 +47,10 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 new VarNoDiscWithMultiInitValuesCheck(),
 
                 // Initial values of discrete variables must be statically evaluable.
-                new VarDiscOnlyStaticEvalInitCheck()
+                new VarDiscOnlyStaticEvalInitCheck(),
+
+                // Continuous variables are not supported.
+                new VarNoContinuousCheck()
 
         );
     }
