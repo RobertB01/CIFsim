@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.cif2mcrl2;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF to mCRL2 transformation precondition checker. */
@@ -24,7 +26,19 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
      * @param termination Cooperative termination query function.
      */
     public CifToMcrl2PreChecker(Termination termination) {
-        super(termination
+        super(termination,
+
+                // Only boolean, integer and enumeration types are supported.
+                new TypeNoSpecificTypesCheck(
+                        NoSpecificType.COMP_TYPES,
+                        NoSpecificType.DICT_TYPES,
+                        NoSpecificType.DIST_TYPES,
+                        NoSpecificType.FUNC_TYPES,
+                        NoSpecificType.LIST_TYPES,
+                        NoSpecificType.REAL_TYPES,
+                        NoSpecificType.SET_TYPES,
+                        NoSpecificType.STRING_TYPES,
+                        NoSpecificType.TUPLE_TYPES)
 
         );
     }

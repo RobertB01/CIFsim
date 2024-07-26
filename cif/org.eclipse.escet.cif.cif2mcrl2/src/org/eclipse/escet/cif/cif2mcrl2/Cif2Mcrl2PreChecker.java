@@ -144,13 +144,6 @@ public class Cif2Mcrl2PreChecker {
         for (Declaration decl: aut.getDeclarations()) {
             if (decl instanceof DiscVariable) {
                 DiscVariable dv = (DiscVariable)decl;
-                CifType tp = CifTypeUtils.normalizeType(dv.getType());
-                if (!(tp instanceof BoolType) && !(tp instanceof IntType) && !(tp instanceof EnumType)) {
-                    msg = fmt("Discrete variable \"%s\" does not have a boolean, integer, or enumeration type.",
-                            CifTextUtils.getAbsName(dv));
-                    problems.add(msg);
-                    continue;
-                }
 
                 if (dv.getValue().getValues().size() != 1) {
                     msg = fmt("Discrete variable \"%s\" does not have a single initial value.",
@@ -362,8 +355,6 @@ public class Cif2Mcrl2PreChecker {
             return fmt("has unsupported enumeration expression \"%s\".", CifTextUtils.exprToStr(e));
         }
 
-        String msg = CifTextUtils.typeToStr(t);
-        return fmt("has an unsupported type \"%s\" in expression \"%s\".", msg, CifTextUtils.exprToStr(e));
     }
 
     /**
