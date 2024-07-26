@@ -94,8 +94,108 @@ public class ExplorerApplication extends Application<IOutputComponent> {
     }
 
     @Override
-    protected OutputProvider<IOutputComponent> getProvider() {
-        return new OutputProvider<>();
+    public String getAppName() {
+        return "CIF untimed state space explorer";
+    }
+
+    @Override
+    public String getAppDescription() {
+        return "Explore a CIF specification to its untimed state space.";
+    }
+
+    @Override
+    protected int runInternal() {
+        // Read CIF file.
+        CifReader cifReader = new CifReader().init();
+        Specification spec = cifReader.read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Remove/ignore I/O declarations, to increase the supported subset.
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+        }
+
+        // Perform preprocessing. For value simplification, constants are
+        // not inlined, and the optimized variant is used for performance
+        // reasons.
+        new RemoveAnnotations().transform(spec);
+        new ElimComponentDefInst().transform(spec);
+        new ElimSelf().transform(spec);
+        new SimplifyValuesNoRefsOptimized().transform(spec);
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Check preconditions.
+        Termination termination = () -> isTerminationRequested();
+        ExplorerPreChecker checker = new ExplorerPreChecker(termination);
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF explorer");
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Warn about features of the specification that may lead to an unexpected resulting state space.
+        CifCheck[] checks = {new RequirementAsPlantChecker()};
+        CifCheckViolations warnings = new CifChecker(termination, checks).check(spec, absSpecPath);
+        if (warnings.hasViolations()) {
+            String incompleteTxt = "";
+            if (warnings.isIncomplete()) {
+                incompleteTxt = " (checking was prematurely terminated, so the report below may be incomplete)";
+            }
+            warn(String.join("\n",
+                    concat(fmt(
+                            "The CIF specification has features that may cause an unexpected resulting state space%s:",
+                            incompleteTxt), warnings.createReport())));
+        }
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Explore the state space.
+        Explorer e;
+        try {
+            ExplorerBuilder builder = new ExplorerBuilder(spec);
+            builder.collectData();
+            e = builder.buildExplorer(new ExplorerStateFactory());
+            explore(e);
+        } catch (ExplorationTerminatedException ex) {
+            return 0;
+        }
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Remove duplicate transitions of the state space, if requested.
+        if (RemoveDuplicateTransitionsOption.isEnabled()) {
+            e.removeDuplicateTransitions();
+        }
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Write output.
+        writeStatisticsOutput(e);
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        writeReportOutput(e);
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        writeAutomatonOutput(e, spec, cifReader.getAbsDirPath(), "statespace");
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Done.
+        return 0;
     }
 
     /**
@@ -258,108 +358,8 @@ public class ExplorerApplication extends Application<IOutputComponent> {
     }
 
     @Override
-    protected int runInternal() {
-        // Read CIF file.
-        CifReader cifReader = new CifReader().init();
-        Specification spec = cifReader.read();
-        String absSpecPath = Paths.resolve(InputFileOption.getPath());
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Remove/ignore I/O declarations, to increase the supported subset.
-        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
-        removeIoDecls.transform(spec);
-        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
-        }
-
-        // Perform preprocessing. For value simplification, constants are
-        // not inlined, and the optimized variant is used for performance
-        // reasons.
-        new RemoveAnnotations().transform(spec);
-        new ElimComponentDefInst().transform(spec);
-        new ElimSelf().transform(spec);
-        new SimplifyValuesNoRefsOptimized().transform(spec);
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Check preconditions.
-        Termination termination = () -> isTerminationRequested();
-        ExplorerPreChecker checker = new ExplorerPreChecker(termination);
-        checker.reportPreconditionViolations(spec, absSpecPath, "CIF explorer");
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Warn about features of the specification that may lead to an unexpected resulting state space.
-        CifCheck[] checks = {new RequirementAsPlantChecker()};
-        CifCheckViolations warnings = new CifChecker(termination, checks).check(spec, absSpecPath);
-        if (warnings.hasViolations()) {
-            String incompleteTxt = "";
-            if (warnings.isIncomplete()) {
-                incompleteTxt = " (checking was prematurely terminated, so the report below may be incomplete)";
-            }
-            warn(String.join("\n",
-                    concat(fmt(
-                            "The CIF specification has features that may cause an unexpected resulting state space%s:",
-                            incompleteTxt), warnings.createReport())));
-        }
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Explore the state space.
-        Explorer e;
-        try {
-            ExplorerBuilder builder = new ExplorerBuilder(spec);
-            builder.collectData();
-            e = builder.buildExplorer(new ExplorerStateFactory());
-            explore(e);
-        } catch (ExplorationTerminatedException ex) {
-            return 0;
-        }
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Remove duplicate transitions of the state space, if requested.
-        if (RemoveDuplicateTransitionsOption.isEnabled()) {
-            e.removeDuplicateTransitions();
-        }
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Write output.
-        writeStatisticsOutput(e);
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        writeReportOutput(e);
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        writeAutomatonOutput(e, spec, cifReader.getAbsDirPath(), "statespace");
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Done.
-        return 0;
-    }
-
-    @Override
-    public String getAppName() {
-        return "CIF untimed state space explorer";
-    }
-
-    @Override
-    public String getAppDescription() {
-        return "Explore a CIF specification to its untimed state space.";
+    protected OutputProvider<IOutputComponent> getProvider() {
+        return new OutputProvider<>();
     }
 
     /**
