@@ -53,13 +53,13 @@ public class SiemensS7Target extends PlcBaseTarget {
     /** Replacement strings for the extension in the CIF input file name to construct an output path for each target. */
     private static final Map<PlcTargetType, String> OUT_SUFFIX_REPLACEMENTS;
 
-    /** Supported stored integer types for each target, ordered in increasing size. */
+    /** Supported integer types for each target, ordered in increasing size. */
     private static final Map<PlcTargetType, List<PlcElementaryType>> INTEGER_TYPES;
 
-    /** Supported stored real types for each target, ordered in increasing size. */
+    /** Supported real types for each target, ordered in increasing size. */
     private static final Map<PlcTargetType, List<PlcElementaryType>> REAL_TYPES;
 
-    /** Supported stored bit string types for each target. */
+    /** Supported bit string types for each target, ordered in increasing size. */
     private static final Map<PlcTargetType, List<PlcElementaryType>> BIT_STRING_TYPES;
 
     static {
