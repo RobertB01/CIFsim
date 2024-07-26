@@ -14,6 +14,10 @@
 package org.eclipse.escet.cif.explorer;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck;
+import org.eclipse.escet.cif.checkers.checks.FuncNoSpecificStdLibCheck.NoSpecificStdLib;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck;
+import org.eclipse.escet.cif.checkers.checks.TypeNoSpecificTypesCheck.NoSpecificType;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF explorer precondition checker. */
@@ -24,7 +28,11 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
      * @param termination Cooperative termination query function.
      */
     public ExplorerPreChecker(Termination termination) {
-        super(termination
+        super(termination,
+
+                // No distributions.
+                new FuncNoSpecificStdLibCheck(NoSpecificStdLib.ALL_STOCHASTIC),
+                new TypeNoSpecificTypesCheck(NoSpecificType.DIST_TYPES)
 
         );
     }
@@ -85,12 +93,6 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
 //
 //        /** Allow 'tau' events. */
 //        ALLOW_TAU,
-//    }
-//
-//    @Override
-//    protected void preprocessDistType(DistType tp) {
-//        String msg = fmt("Distribution type \"%s\" is not supported.", CifTextUtils.typeToStr(tp));
-//        problems.add(msg);
 //    }
 //
 //    @Override
@@ -238,15 +240,6 @@ public class ExplorerPreChecker extends CifPreconditionChecker {
 //    protected void preprocessContVariableExpression(ContVariableExpression expr) {
 //        if (expr.isDerivative()) {
 //            String msg = "Use of derivatives of continuous variables is not supported.";
-//            problems.add(msg);
-//        }
-//    }
-//
-//    @Override
-//    protected void preprocessStdLibFunctionExpression(StdLibFunctionExpression expr) {
-//        if (CifTypeUtils.isDistFunction(expr.getFunction())) {
-//            String msg = fmt("Distribution standard library function \"%s\" is not supported.",
-//                    CifTextUtils.functionToStr(expr.getFunction()));
 //            problems.add(msg);
 //        }
 //    }
