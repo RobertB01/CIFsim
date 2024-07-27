@@ -65,7 +65,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.box.StreamCodeBox;
+import org.eclipse.escet.common.box.AppStreamCodeBox;
 import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.Termination;
 
@@ -216,7 +216,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
             if (explorer.states == null || explorer.states.isEmpty()) {
                 outFile.println("No initial state found.");
             } else {
-                StreamCodeBox box = new StreamCodeBox(outFile);
+                AppStreamCodeBox box = new AppStreamCodeBox(outFile);
                 boolean first = true;
                 for (BaseState state: explorer.states.keySet()) {
                     if (!first) {

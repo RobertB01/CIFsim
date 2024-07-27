@@ -28,7 +28,7 @@ import org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
-import org.eclipse.escet.common.box.StreamCodeBox;
+import org.eclipse.escet.common.box.AppStreamCodeBox;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.emf.ecore.xmi.RealXMIResource;
 import org.eclipse.escet.common.java.PathPair;
@@ -80,7 +80,7 @@ public class CifWriter {
 
         // Pretty print the CIF specification directly to the file.
         AppStream stream = new FileAppStream(filePaths);
-        StreamCodeBox code = new StreamCodeBox(stream, INDENT);
+        AppStreamCodeBox code = new AppStreamCodeBox(stream, INDENT);
         CifPrettyPrinter.boxSpec(spec, code);
 
         // Close the file stream.

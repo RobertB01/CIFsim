@@ -55,9 +55,9 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.box.AppStreamCodeBox;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.HBox;
-import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.box.VBox;
 
@@ -182,7 +182,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         if (EnableDebugOutputOption.getEnableDebugOutput()) {
             String path = DebugFileOption.getDerivedPath(".cif", "_dbg.txt");
             AppStream stream = new FileAppStream(path, Paths.resolve(path));
-            StreamCodeBox code = new StreamCodeBox(stream, 4);
+            AppStreamCodeBox code = new AppStreamCodeBox(stream, 4);
             procRoot.dumpActions(code);
             code.close();
         }

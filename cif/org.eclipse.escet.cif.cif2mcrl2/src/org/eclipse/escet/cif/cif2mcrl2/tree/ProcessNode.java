@@ -25,9 +25,9 @@ import org.eclipse.escet.cif.cif2mcrl2.storage.VarUsage;
 import org.eclipse.escet.cif.cif2mcrl2.storage.VariableData;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.box.AppStreamCodeBox;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.HBox;
-import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.box.VBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -95,7 +95,7 @@ public abstract class ProcessNode {
      *
      * @param code Output stream to write to.
      */
-    public void dumpActions(StreamCodeBox code) {
+    public void dumpActions(AppStreamCodeBox code) {
         Map<VariableData, VarUsage> values;
 
         code.add("===============================================================");

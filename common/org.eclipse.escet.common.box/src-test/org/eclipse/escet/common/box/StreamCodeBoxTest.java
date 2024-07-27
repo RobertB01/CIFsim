@@ -34,8 +34,8 @@ public class StreamCodeBoxTest extends CodeBoxTest {
         return new MemoryStreamCodeBox(indentAmount);
     }
 
-    /** {@link StreamCodeBox} with in-memory storage. Kind of defeats the purpose, but is ideal for testing. */
-    private class MemoryStreamCodeBox extends StreamCodeBox {
+    /** {@link AppStreamCodeBox} with in-memory storage. Kind of defeats the purpose, but is ideal for testing. */
+    private class MemoryStreamCodeBox extends AppStreamCodeBox {
         /** Constructor for the {@link MemoryStreamCodeBox} class, with default indentation amount. */
         public MemoryStreamCodeBox() {
             super(stream);

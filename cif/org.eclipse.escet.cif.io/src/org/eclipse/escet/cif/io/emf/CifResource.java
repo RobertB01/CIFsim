@@ -29,7 +29,7 @@ import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.common.app.framework.PlatformUriUtils;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.OutputStreamAppStream;
-import org.eclipse.escet.common.box.StreamCodeBox;
+import org.eclipse.escet.common.box.AppStreamCodeBox;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.setext.runtime.SyntaxWarning;
@@ -131,7 +131,7 @@ public class CifResource extends ResourceImpl {
     protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException {
         // Get stream.
         AppStream appStream = new OutputStreamAppStream(outputStream);
-        StreamCodeBox streamBox = new StreamCodeBox(appStream);
+        AppStreamCodeBox streamBox = new AppStreamCodeBox(appStream);
 
         // Pretty print.
         Specification spec = (Specification)getContents().get(0);
