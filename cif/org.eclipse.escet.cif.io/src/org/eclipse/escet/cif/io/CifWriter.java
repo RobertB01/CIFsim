@@ -16,7 +16,10 @@ package org.eclipse.escet.cif.io;
 import static org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter.INDENT;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Locale;
 
 import org.eclipse.emf.common.util.URI;
@@ -26,12 +29,11 @@ import org.eclipse.escet.cif.common.CifRelativePathUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.io.AppStream;
-import org.eclipse.escet.common.app.framework.io.FileAppStream;
-import org.eclipse.escet.common.box.AppStreamCodeBox;
+import org.eclipse.escet.common.box.OutputStreamCodeBox;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.emf.ecore.xmi.RealXMIResource;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** CIF writer. */
@@ -79,11 +81,12 @@ public class CifWriter {
         }
 
         // Pretty print the CIF specification directly to the file.
-        AppStream stream = new FileAppStream(filePaths);
-        AppStreamCodeBox code = new AppStreamCodeBox(stream, INDENT);
-        CifPrettyPrinter.boxSpec(spec, code);
-
-        // Close the file stream.
-        code.close();
+        try (OutputStream stream = new BufferedOutputStream(new FileOutputStream(filePaths.systemPath));
+             OutputStreamCodeBox code = new OutputStreamCodeBox(stream, fmt("\"%s\"", filePaths.userPath), INDENT))
+        {
+            CifPrettyPrinter.boxSpec(spec, code);
+        } catch (IOException ex) {
+            throw new InputOutputException(fmt("Failed to write CIF file \"%s\".", filePaths.userPath), ex);
+        }
     }
 }
