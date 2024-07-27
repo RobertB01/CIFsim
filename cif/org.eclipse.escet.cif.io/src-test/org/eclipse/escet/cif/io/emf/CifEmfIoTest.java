@@ -14,12 +14,14 @@
 package org.eclipse.escet.cif.io.emf;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -143,5 +145,41 @@ public class CifEmfIoTest {
         assertEquals(1, resource.getContents().size());
         assertEquals(0, resource.getErrors().size());
         assertEquals(1, resource.getWarnings().size());
+    }
+
+    @Test
+    public void testLoadSaveExceptionWrap() throws IOException {
+        // Set input.
+        byte[] bytes = {};
+        InputStream inputStream = new ByteArrayInputStream(bytes);
+
+        // Create resource.
+        ResourceSet resources = new ResourceSetImpl();
+        URI uri = URI.createURI("test.cif");
+        Resource resource = resources.createResource(uri);
+
+        // Load.
+        resource.load(inputStream, null);
+
+        // Check results.
+        assertEquals(0, resource.getErrors().size());
+        assertEquals(0, resource.getWarnings().size());
+        assertEquals(1, resource.getContents().size());
+        EObject root = resource.getContents().get(0);
+        assertTrue(root instanceof Specification);
+
+        // Save.
+        OutputStream outputStream = new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                throw new IOException("Fail writing.");
+            }
+        };
+        IOException ex = assertThrowsExactly(IOException.class, () -> resource.save(outputStream, null));
+
+        // Check results.
+        assertEquals("Failed to write to a CIF file.", ex.getMessage());
+        assertEquals("Fail writing.", ex.getCause().getMessage());
+        assertEquals(null, ex.getCause().getCause());
     }
 }
