@@ -19,34 +19,34 @@ import java.util.List;
 
 import org.eclipse.escet.common.app.framework.io.MemAppStream;
 
-/** Unit tests for the {@link MemoryCodeBox} class. */
-public class StreamCodeBoxTest extends CodeBoxTest {
+/** Unit tests for the {@link AppStreamCodeBox} class. */
+public class AppStreamCodeBoxTest extends CodeBoxTest {
     /** In-memory stream. */
     protected MemAppStream stream = new MemAppStream();
 
     @Override
     protected CodeBox createCodeBox() {
-        return new MemoryStreamCodeBox();
+        return new MemoryAppStreamCodeBox();
     }
 
     @Override
     protected CodeBox createCodeBox(int indentAmount) {
-        return new MemoryStreamCodeBox(indentAmount);
+        return new MemoryAppStreamCodeBox(indentAmount);
     }
 
     /** {@link AppStreamCodeBox} with in-memory storage. Kind of defeats the purpose, but is ideal for testing. */
-    private class MemoryStreamCodeBox extends AppStreamCodeBox {
-        /** Constructor for the {@link MemoryStreamCodeBox} class, with default indentation amount. */
-        public MemoryStreamCodeBox() {
+    private class MemoryAppStreamCodeBox extends AppStreamCodeBox {
+        /** Constructor for the {@link MemoryAppStreamCodeBox} class, with default indentation amount. */
+        public MemoryAppStreamCodeBox() {
             super(stream);
         }
 
         /**
-         * Constructor for the {@link MemoryStreamCodeBox} class, with custom indentation amount.
+         * Constructor for the {@link MemoryAppStreamCodeBox} class, with custom indentation amount.
          *
          * @param indentAmount The indentation amount, the amount of spaces to indent per indentation level.
          */
-        public MemoryStreamCodeBox(int indentAmount) {
+        public MemoryAppStreamCodeBox(int indentAmount) {
             super(stream, indentAmount);
         }
 
