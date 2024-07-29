@@ -25,12 +25,15 @@ public class CsvUtilsTest {
     /** Test {@link CsvUtils#rowsToString}. */
     @Test
     public void testRowsToString() {
-        List<List<String>> rows = list(
-                list("a", "b", "c"),
-                list("d", "e", "fgh"),
-                list("i\"j", "k l", "m,n"),
-                list("o\r\np", "q\rr", "s\nt"));
-        String expected = "a,b,c\nd,e,fgh\n\"i\"\"j\",k l,\"m,n\"\n\"o\r\np\",\"q\rr\",\"s\nt\"";
+        List<List<String>> rows = List.of(
+                List.of("a", "b", "cde"),
+                List.of("f\"g", "h i", "j,k"),
+                List.of("l\r\nm", "n\ro", "p\nq"));
+        List<String> expectedLines = list(
+                "a,b,cde",
+                "\"f\"\"g\",h i,\"j,k\"",
+                "\"l\r\nm\",\"n\ro\",\"p\nq\"");
+        String expected = String.join("\n", expectedLines);
         assertEquals(expected, CsvUtils.rowsToString(rows));
     }
 }
