@@ -41,7 +41,7 @@ public class OutputStreamCodeBox extends CodeBox implements Closeable {
     /** The bytes to write for a platform-specific newline. */
     private static final byte[] NL_BYTES = Strings.NL.getBytes(StandardCharsets.UTF_8);
 
-    /** The output stream to which to write the lines of code. */
+    /** The stream to which to write the lines of code. */
     private final OutputStream stream;
 
     /** A description of the stream, for use in I/O error messages. Is used as a part of a sentence. */
@@ -54,7 +54,7 @@ public class OutputStreamCodeBox extends CodeBox implements Closeable {
      * Constructor for the {@link OutputStreamCodeBox} class, with an indentation amount of 4, meaning each indentation
      * level adds 4 more spaces at the beginning of each code line.
      *
-     * @param stream The output stream to which to write the lines of code.
+     * @param stream The stream to which to write the lines of code.
      * @param description A description of the stream, for use in I/O error messages. Is used as a part of a sentence.
      */
     public OutputStreamCodeBox(OutputStream stream, String description) {
@@ -64,7 +64,7 @@ public class OutputStreamCodeBox extends CodeBox implements Closeable {
     /**
      * Constructor for the {@link OutputStreamCodeBox} class, with a custom indentation amount.
      *
-     * @param stream The output stream to which to write the lines of code.
+     * @param stream The stream to which to write the lines of code.
      * @param description A description of the stream, for use in I/O error messages. Is used as a part of a sentence.
      * @param indentAmount The indentation amount, the amount of spaces to indent per indentation level. Must be a
      *     positive value.

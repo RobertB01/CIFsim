@@ -24,17 +24,17 @@ import org.eclipse.escet.common.app.framework.io.AppStream;
  * keep them in memory. Since the lines of code are not kept in memory, the {@link #getLines} method is not supported.
  */
 public class AppStreamCodeBox extends CodeBox implements Closeable {
-    /** The application stream to which to write the lines of code. */
+    /** The stream to which to write the lines of code. */
     private final AppStream stream;
 
     /** Is the code box empty? */
     private boolean empty = true;
 
     /**
-     * Constructor for the {@link AppStreamCodeBox} class, with an indentation amount of 4, meaning each indentation level
-     * adds 4 more spaces at the beginning of each code line.
+     * Constructor for the {@link AppStreamCodeBox} class, with an indentation amount of 4, meaning each indentation
+     * level adds 4 more spaces at the beginning of each code line.
      *
-     * @param stream The application stream to which to write the lines of code.
+     * @param stream The stream to which to write the lines of code.
      */
     public AppStreamCodeBox(AppStream stream) {
         this(stream, 4);
@@ -43,7 +43,7 @@ public class AppStreamCodeBox extends CodeBox implements Closeable {
     /**
      * Constructor for the {@link AppStreamCodeBox} class, with a custom indentation amount.
      *
-     * @param stream The application stream to which to write the lines of code.
+     * @param stream The stream to which to write the lines of code.
      * @param indentAmount The indentation amount, the amount of spaces to indent per indentation level. Must be a
      *     positive value.
      * @throws IllegalArgumentException If the given indentation amount is not a positive value.
