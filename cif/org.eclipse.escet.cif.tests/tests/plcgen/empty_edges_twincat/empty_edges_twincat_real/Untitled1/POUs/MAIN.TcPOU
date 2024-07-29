@@ -10,9 +10,7 @@ VAR_TEMP
     channelValue: DINT;
     current_Good_x: DINT;
     current_Good_x_1: DINT;
-    edge_Block: DINT;
-    edge_Good: DINT;
-    edge_UseChannel: DINT;
+    edge_Good: BYTE;
     eventEnabled: BOOL;
     isProgress: BOOL;
     receiverAut: DINT;
@@ -27,7 +25,7 @@ END_VAR]]></Declaration>
  * Model overview:
  *
  * Automaton "Block":
- * - PLC edge selection variable "edge_Block".
+ * - No variables in this component.
  *
  * - No use of uncontrollable events.
  *
@@ -45,7 +43,7 @@ END_VAR]]></Declaration>
  * - Controllable event "noSync".
  *
  * Automaton "UseChannel":
- * - PLC edge selection variable "edge_UseChannel".
+ * - No variables in this component.
  *
  * - No use of uncontrollable events.
  *

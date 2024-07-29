@@ -226,7 +226,7 @@
             </variable>
             <variable name="edge_p">
               <type>
-                <DINT/>
+                <BYTE/>
               </type>
             </variable>
             <variable name="eventEnabled">

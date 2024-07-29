@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import static org.eclipse.escet.common.java.Lists.last;
+
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -326,17 +328,29 @@ public abstract class PlcBaseTarget extends PlcTarget {
     }
 
     @Override
-    public PlcElementaryType getIntegerType() {
-        int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
-        int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
-        return PlcElementaryType.getIntTypeBySize(userSpecifiedIntSize);
+    public int getMaxIntegerTypeSize() {
+        return last(getSupportedIntegerTypes()).bitSize;
     }
 
     @Override
-    public PlcElementaryType getRealType() {
+    public PlcElementaryType getStdIntegerType() {
+        int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
+        int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
+        return PlcElementaryType.getTypeByRequiredSize(userSpecifiedIntSize,
+                PlcElementaryType.INTEGER_TYPES_ALL);
+    }
+
+    @Override
+    public int getMaxRealTypeSize() {
+        return last(getSupportedRealTypes()).bitSize;
+    }
+
+    @Override
+    public PlcElementaryType getStdRealType() {
         int generatorBestRealSize = Math.min(CIF_REAL_SIZE, getMaxRealTypeSize());
         int userSpecifiedRealSize = realTypeSize.getTypeSize(generatorBestRealSize);
-        return PlcElementaryType.getRealTypeBySize(userSpecifiedRealSize);
+        return PlcElementaryType.getTypeByRequiredSize(userSpecifiedRealSize,
+                PlcElementaryType.REAL_TYPES_ALL);
     }
 
     @Override

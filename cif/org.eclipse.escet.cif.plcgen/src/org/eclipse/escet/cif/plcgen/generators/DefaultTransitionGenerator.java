@@ -61,6 +61,7 @@ import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -95,7 +96,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private List<CifEventTransition> eventTransitions = null;
 
     /**
-     * For each automaton, the variable that tracks the selected edge to perform for its automaton.
+     * For each automaton with at least one edge outside monitor context, the variable that tracks the selected edge to
+     * perform for its automaton.
      *
      * <p>
      * Use the {@link #getAutomatonEdgeVariable} method to query this map.
@@ -163,16 +165,25 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         mainExprGen = target.getCodeStorage().getExprGenerator();
 
         // For all automata, find the maximum number of edges to examine for an event.
+        //
+        // Skip cases without edges, monitors don't need edge variables. This leads to not having edge variables when
+        // there are no edges that need them.
         Map<Automaton, Integer> maxEventEdges = map(); // Max number of edges for an event for all automata.
         for (CifEventTransition evtTrans: eventTransitions) {
             for (TransitionAutomaton transAut: evtTrans.senders) {
-                maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+                if (!transAut.transitionEdges.isEmpty()) {
+                    maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+                }
             }
             for (TransitionAutomaton transAut: evtTrans.receivers) {
-                maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+                if (!transAut.transitionEdges.isEmpty()) {
+                    maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+                }
             }
             for (TransitionAutomaton transAut: evtTrans.syncers) {
-                maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+                if (!transAut.transitionEdges.isEmpty()) {
+                    maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+                }
             }
             // Monitors do not need edge tracking since the first enabled edge is immediately taken.
         }
@@ -181,9 +192,15 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         edgeSelectionVariables.clear();
         for (Entry<Automaton, Integer> entry: maxEventEdges.entrySet()) {
             Automaton aut = entry.getKey();
-            // TODO Use entry.getValue() to select a smaller type if possible. Also delete TODOs about that.
-            PlcType varType = PlcElementaryType.DINT_TYPE;
+            int numEdges = entry.getValue(); // Maximum number of different edge indices for the automaton.
+            Assert.check(numEdges > 0);
 
+            // Derive a variable type for the edge variable.
+            int numBits = 32 - Integer.numberOfLeadingZeros(numEdges - 1); // Largest used value decides bit-length.
+            PlcType varType = PlcElementaryType.getTypeByRequiredSize(
+                    Math.max(1, numBits), target.getSupportedBitStringTypes());
+
+            // Construct the edge variable itself, and store it for future use.
             String edgeVariableName = "edge_" + getAbsName(aut, false);
             PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, varType);
             target.getCodeStorage().setAutomatonEdgeVariableName(aut, autVar.varName);
@@ -540,7 +557,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                         cifDataProvider.getValueForDiscVar(dv)));
             } else if (assignedVar instanceof ContVariable cv) {
                 PlcBasicVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(cv, false),
-                        target.getRealType());
+                        target.getStdRealType());
                 createdTempVariables.add(currentVar);
                 redirectedDecls.put(cv, new PlcVarExpression(currentVar));
                 codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(currentVar),
@@ -701,7 +718,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Generate code that tests and performs sending or receiving a value to the channel.
         int autIndex = 1; // Index 0 is used to denote no automaton has been selected.
         for (TransitionAutomaton transAut: autTransitions) {
-            // Get the variable that stores the selected edge index for the automaton.
+            // Get the variable that stores the selected edge index for the automaton. Is 'null' if there is no edge
+            // variable.
             PlcBasicVariable edgeVar = getAutomatonEdgeVariable(transAut.aut);
 
             // Generate edge testing code.
@@ -791,7 +809,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Generate code that tests and performs synchronizing on the event.
         for (TransitionAutomaton transAut: autTransitions) {
-            // Get the variable that stores the selected edge index for the automaton.
+            // Get the variable that stores the selected edge index for the automaton. Is 'null' if there is no edge
+            // variable.
             PlcBasicVariable autEdgeVar = getAutomatonEdgeVariable(transAut.aut);
 
             // Initialize intermediate storage for test code of the automaton.
@@ -911,7 +930,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * <p>
      * If an enabled edge is found at PLC runtime, the code sets {@code autVar} to {@code autIndex} if {@code autVar} is
-     * not {@code null}, and sets {@code edgeVar} to the 1-based index of the edge that is found to be enabled.
+     * not {@code null}, and sets {@code edgeVar} to the index of the edge that is found to be enabled.
      * </p>
      *
      * @param event Event being tried.
@@ -921,7 +940,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *     there is no need to store an automaton index.
      * @param edgeVar For senders, receivers and syncers the PLC variable stores the edge in the automaton indicated by
      *     {@code autVar}. For syncers, it indicates the edge in a syncer automaton, as the edge variable implicitly
-     *     also indicates the automaton. Is 1-based to be consistent in how numbers are assigned.
+     *     also indicates the automaton. Is {@code null} if there is no edge variable.
      * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @return The generated code.
      */
@@ -933,6 +952,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Explain the goal of testing the edges.
         testCode.add(genEdgeTestsDocumentation(event, transAut));
+
+        // Shouldn't have edges to select without edge variable.
+        Assert.implies(edgeVar == null, transAut.transitionEdges.isEmpty());
 
         // Generate the checks and assign their findings to edge and/or automaton variables.
         int edgeIndex = 0;
@@ -977,11 +999,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * Get the variable that tracks the selected edge of the provided automaton.
      *
      * @param aut Automaton to use for finding the edge variable.
-     * @return The edge variable.
+     * @return The edge variable. Returns {@code null} if an edge variable if there is no edge variable.
      */
     private PlcBasicVariable getAutomatonEdgeVariable(Automaton aut) {
         PlcBasicVariable edgeVariable = edgeSelectionVariables.get(aut);
-        Assert.notNull(edgeVariable);
         return edgeVariable;
     }
 
@@ -1052,7 +1073,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * sent value and store it into {@code channelValueVar}. Finally, perform the updates if they exist.
      *
      * @param transAut Automaton to generate perform code for.
-     * @param edgeVar Variable containing the 1-based index of the selected edge to perform.
+     * @param edgeVar Variable containing the index of the selected edge to perform. Is {@code null} if there is no edge
+     *     variable.
      * @param channelValueVar Variable that must be assigned the sent value of the channel by the selected edge. Use
      *     {@code null} if not in channel value context.
      * @param autCommentUpdateText Text of a header comment line above the edge perform code that states the automaton
@@ -1067,6 +1089,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         List<PlcStatement> performCode = list();
         PlcSelectionStatement selStat = null;
         boolean mustCompute = false; // Collect whether any computation must be done to perform the edges.
+
+        // Shouldn't have edges to select without edge variable.
+        Assert.implies(edgeVar == null, transAut.transitionEdges.isEmpty());
 
         // Perform the selected edge, if not empty.
         int edgeIndex = 0;
@@ -1344,7 +1369,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private PlcExpression generateCompareVarWithVal(PlcBasicVariable variable, int value) {
         PlcExpression varExpr = new PlcVarExpression(variable);
-        PlcExpression valExpr = target.makeStdInteger(value);
+        PlcExpression valExpr = new PlcIntLiteral(value, variable.type);
         return funcAppls.equalFuncAppl(varExpr, valExpr);
     }
 
@@ -1356,7 +1381,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated statement.
      */
     private PlcAssignmentStatement generatePlcIntAssignment(PlcBasicVariable variable, int value) {
-        return new PlcAssignmentStatement(variable, target.makeStdInteger(value));
+        return new PlcAssignmentStatement(variable, new PlcIntLiteral(value, variable.type));
     }
 
     /**

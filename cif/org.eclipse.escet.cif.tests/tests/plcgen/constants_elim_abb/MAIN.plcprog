@@ -9,7 +9,7 @@ END_VAR
 VAR_TEMP
     current_aut_y: REAL;
     current_aut_y_1: REAL;
-    edge_aut: DINT;
+    edge_aut: BYTE;
     eventEnabled: BOOL;
     isProgress: BOOL;
 END_VAR

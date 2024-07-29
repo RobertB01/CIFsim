@@ -10,7 +10,7 @@ VAR_TEMP
     loopCount: DINT;
     curValue: TIME;
     current_p_t: REAL;
-    edge_p: DINT;
+    edge_p: BYTE;
     eventEnabled: BOOL;
     isProgress: BOOL;
     timeOut: BOOL;

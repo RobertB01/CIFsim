@@ -29,7 +29,7 @@ VAR_TEMP
     current_p_v3: TupleStruct_1;
     current_p_ve: g_E;
     current_p_x: DINT;
-    edge_p: DINT;
+    edge_p: BYTE;
     eventEnabled: BOOL;
     isProgress: BOOL;
     litStruct: TupleStruct;
