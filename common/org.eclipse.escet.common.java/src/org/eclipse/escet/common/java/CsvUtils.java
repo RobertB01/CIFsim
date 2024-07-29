@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 /** Utility functions for handling CSV data. */
 public class CsvUtils {
-    /** Regular expression pattern for checking whether double quotes are needed. */
+    /** Function for checking whether double quotes are needed. */
     private static final Predicate<String> NEEDS_DOUBLE_QUOTES = Pattern.compile("[,\"\r\n]").asPredicate();
 
     /** Constructor of the {@link CsvUtils} class. */
