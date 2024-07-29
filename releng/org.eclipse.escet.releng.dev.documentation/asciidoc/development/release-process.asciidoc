@@ -173,7 +173,7 @@ This should be automatic.
 The old version should no longer be present.
 This should be automatic.
 
-* Manually replace in all `MANIFEST.MF` files the regex `+org\.eclipse\.escet\.([a-z0-9\.]+);bundle-version="<old-version>"+` by `+org.eclipse.escet.\1;bundle-version="<new-version>"+`, where `<old-version>` and `<new-version>` are replaced by actual versions, e.g. `0.1.0`.
+* Manually replace in all `MANIFEST.MF` files the regex `++org\.eclipse\.escet\.([a-z0-9\.]+);bundle-version="<old-version>"++` by `+org.eclipse.escet.\1;bundle-version="<new-version>"+`, where `<old-version>` and `<new-version>` are replaced by actual versions, e.g. `0.1.0`.
 Check for unintended changes.
 Search for the old version in all manifests to ensure none remain.
 
