@@ -14,6 +14,7 @@
 package org.eclipse.escet.common.app.framework;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Monitor;
@@ -24,6 +25,22 @@ public class SWTUtils {
     /** Constructor for the {@link SWTUtils} class. */
     private SWTUtils() {
         // Static class.
+    }
+
+    /**
+     * Get the current monitor for the given display.
+     *
+     * @param display The display.
+     * @return The current monitor, or {@code null} if it could not be determined.
+     */
+    public static Monitor getCurrentMonitor(Display display) {
+        Point cursorLocation = display.getCursorLocation();
+        for (Monitor monitor: display.getMonitors()) {
+            if (monitor.getBounds().contains(cursorLocation)) {
+                return monitor;
+            }
+        }
+        return null;
     }
 
     /**
