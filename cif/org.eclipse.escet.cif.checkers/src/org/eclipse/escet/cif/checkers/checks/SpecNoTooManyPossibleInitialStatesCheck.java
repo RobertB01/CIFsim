@@ -102,7 +102,7 @@ public class SpecNoTooManyPossibleInitialStatesCheck extends CifCheckNoCompDefIn
                     countTxt = "approximately " + countTxt;
                 }
                 violations.add(spec,
-                        "The specification has %s possible initial states, which is more than 2,147,483,647",
+                        "The specification has %s possible initial states, more than the maximum of 2,147,483,647",
                         countTxt);
             }
         }
