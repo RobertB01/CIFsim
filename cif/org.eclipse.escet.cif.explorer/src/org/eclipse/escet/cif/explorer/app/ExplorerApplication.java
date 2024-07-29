@@ -94,16 +94,6 @@ public class ExplorerApplication extends Application<IOutputComponent> {
     }
 
     @Override
-    public String getAppName() {
-        return "CIF untimed state space explorer";
-    }
-
-    @Override
-    public String getAppDescription() {
-        return "Explore a CIF specification to its untimed state space.";
-    }
-
-    @Override
     protected int runInternal() {
         // Read CIF file.
         CifReader cifReader = new CifReader().init();
@@ -355,6 +345,16 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         CifAutomatonBuilder cab = new CifAutomatonBuilder();
         spec = cab.createAutomaton(explorer, spec);
         CifWriter.writeCifSpec(spec, new PathPair(path, absPath), specPath);
+    }
+
+    @Override
+    public String getAppName() {
+        return "CIF untimed state space explorer";
+    }
+
+    @Override
+    public String getAppDescription() {
+        return "Explore a CIF specification to its untimed state space.";
     }
 
     @Override
