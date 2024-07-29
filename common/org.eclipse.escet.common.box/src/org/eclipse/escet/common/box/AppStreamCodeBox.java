@@ -20,10 +20,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 
 /**
- * Box that supports indented code blocks, and writes their lines directly to a stream, to avoid having to keep them in
- * memory. Since the lines of code are not kept in memory, the {@link #getLines} method is not supported.
+ * Box that supports indented code blocks, and writes their lines directly to an {@link AppStream}, to avoid having to
+ * keep them in memory. Since the lines of code are not kept in memory, the {@link #getLines} method is not supported.
  */
-public class StreamCodeBox extends CodeBox implements Closeable {
+public class AppStreamCodeBox extends CodeBox implements Closeable {
     /** The stream to which to write the lines of code. */
     private final AppStream stream;
 
@@ -31,24 +31,24 @@ public class StreamCodeBox extends CodeBox implements Closeable {
     private boolean empty = true;
 
     /**
-     * Constructor for the {@link StreamCodeBox} class, with an indentation amount of 4, meaning each indentation level
-     * adds 4 more spaces at the beginning of each code line.
+     * Constructor for the {@link AppStreamCodeBox} class, with an indentation amount of 4, meaning each indentation
+     * level adds 4 more spaces at the beginning of each code line.
      *
      * @param stream The stream to which to write the lines of code.
      */
-    public StreamCodeBox(AppStream stream) {
+    public AppStreamCodeBox(AppStream stream) {
         this(stream, 4);
     }
 
     /**
-     * Constructor for the {@link StreamCodeBox} class, with a custom indentation amount.
+     * Constructor for the {@link AppStreamCodeBox} class, with a custom indentation amount.
      *
      * @param stream The stream to which to write the lines of code.
      * @param indentAmount The indentation amount, the amount of spaces to indent per indentation level. Must be a
      *     positive value.
      * @throws IllegalArgumentException If the given indentation amount is not a positive value.
      */
-    public StreamCodeBox(AppStream stream, int indentAmount) {
+    public AppStreamCodeBox(AppStream stream, int indentAmount) {
         super(indentAmount);
         this.stream = stream;
     }
