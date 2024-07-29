@@ -1,0 +1,43 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+automaton aut:
+  disc bool       v1;                    // 1
+  disc bool       v2   = true;           // * 1 = 1
+  disc bool       v3   in {true, false}; // * 2 = 2
+  disc bool       v4   in any;           // * 2 = 4
+  disc bool       v5   in any;           // * 2 = 8
+  disc bool       v6   in any;           // * 2 = 16
+  disc bool       v7   in any;           // * 2 = 32
+  disc bool       v8   in any;           // * 2 = 64
+  disc int[0..99] v9   in any;           // * 100 = 6,400
+  disc int[0..99] v10  in any;           // * 100 = 64,000
+  disc int[0..99] v11  in any;           // * 100 = 640,000
+  disc int[0..99] v12  in any;           // * 100 = 6,400,000
+  input bool      v13;                   // * 2 = 12,800,000
+  disc int[0..99] v14  in any;           // * 100 = 1,280,000,000
+
+  invariant v1 and v2 and v3 and v4 and v5 and v6 and v7 and v8 and v13;
+  invariant v9 > 0 and v10 > 0 and v11 > 0 and v12 > 0 and v14 > 0;
+
+  location loc1:                         // * 2 = 2,560,000,000
+    initial;
+    edge e goto loc3;
+
+  location loc2:
+    initial 1 = 1, 2 = 2;
+
+  location loc3;
+end

@@ -374,6 +374,8 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
         // Do the check.
         if (disalloweds.contains(NoSpecificExpr.CONT_VAR_REFS)) {
             violations.add(contRef, "A continuous variable reference is used");
+        } else if (disalloweds.contains(NoSpecificExpr.CONT_VAR_DERIV_REFS) && contRef.isDerivative()) {
+            violations.add(contRef, "A derivative of a continuous variable is used");
         }
     }
 
@@ -896,8 +898,11 @@ public class ExprNoSpecificExprsCheck extends CifCheck {
         /** Disallow constant references. */
         CONST_REFS,
 
-        /** Disallow continuous variable references. */
+        /** Disallow continuous variable references (including derivatives of continuous variables). */
         CONT_VAR_REFS,
+
+        /** Disallow continuous variable derivative references. */
+        CONT_VAR_DERIV_REFS,
 
         /** Disallow dictionary literals. */
         DICT_LITS,
