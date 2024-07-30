@@ -361,12 +361,6 @@ public class ConvertToEventBased {
             }
         }
 
-        // Check urgency.
-        if (loc.isUrgent()) {
-            String msg = fmt("Unsupported %s: urgent locations are not supported.", CifTextUtils.getLocationText1(loc));
-            throw new UnsupportedException(msg);
-        }
-
         // Get marked state.
         boolean marked = getBooleanValue(loc.getMarkeds(), false, loc, "marker");
 
@@ -396,13 +390,6 @@ public class ConvertToEventBased {
      * @throws UnsupportedException When the edge is not supported.
      */
     private boolean checkEdge(Edge edge, Location loc) {
-        // No urgency allowed.
-        if (edge.isUrgent()) {
-            String msg = fmt("Unsupported %s: urgent edges are currently not supported.",
-                    CifTextUtils.getLocationText1(loc));
-            throw new UnsupportedException(msg);
-        }
-
         // Check the guard and return its value.
         return getBooleanValue(edge.getGuards(), true, loc, "guard");
     }

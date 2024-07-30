@@ -17,8 +17,10 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUpdatesCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
+import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF to event-based conversion precondition checker. */
@@ -41,7 +43,11 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
                 new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.AT_MOST_ONE),
 
                 // Edges with updates are not supported.
-                new EdgeNoUpdatesCheck()
+                new EdgeNoUpdatesCheck(),
+
+                // Urgent locations and edges are not supported.
+                new LocNoUrgentCheck(),
+                new EdgeNoUrgentCheck()
 
         );
     }
