@@ -30,6 +30,7 @@ Makefile text eol=lf
 *.exe       binary
 *.gif       binary diff
 *.gz        binary
+*.icns      binary
 *.ico       binary diff
 *.jar       binary
 *.jpeg      binary diff
