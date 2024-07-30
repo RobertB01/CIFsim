@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.apps.options.ReportFileOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.automata.AutomatonHelper;
@@ -151,9 +152,10 @@ public class TrimCheckApplication extends Application<IOutputComponent> {
             // Check preconditions.
             boolean allowPlainEvents = true;
             boolean allowNonDeterminism = true;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = null;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    termination);
+                    expectedNumberOfAutomata, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

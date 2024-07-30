@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.eventbased.ObserverCheck;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ApplicationHelper;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.apps.options.ObservedEventsOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ReportFileOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
@@ -124,9 +125,10 @@ public class ObserverCheckApplication extends Application<IOutputComponent> {
             // Check preconditions.
             boolean allowPlainEvents = true;
             boolean allowNonDeterminism = true;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_ONE_AUTOMATON;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    termination);
+                    expectedNumberOfAutomata, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
@@ -137,14 +139,9 @@ public class ObserverCheckApplication extends Application<IOutputComponent> {
                 return 0;
             }
 
-            if (cte.automata.size() != 1) {
-                String msg = fmt("CIF input file contains %d automata, while observer check requires "
-                        + "a file with exactly one automaton.", cte.automata.size());
-                throw new InvalidInputException(msg);
-            }
-            Automaton aut = cte.automata.get(0);
-
+            // Perform the check.
             OutputProvider.dbg("Applying observer check...");
+            Automaton aut = cte.automata.get(0);
             String[] obsNms = ObservedEventsOption.getEvents();
             Set<Event> observables, badEvents;
             observables = ApplicationHelper.selectEvents(obsNms, aut.alphabet);

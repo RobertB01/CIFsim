@@ -35,13 +35,6 @@ public class LanguageEquivalence {
      * @param auts Automata to check.
      */
     public static void preCheck(List<Automaton> auts) {
-        // Check number of provided automata.
-        if (auts.size() != 2) {
-            String msg = fmt("Expected two automata, found %d automat%s.", auts.size(),
-                    ((auts.size() == 1) ? "on" : "a"));
-            throw new InvalidInputException(msg);
-        }
-
         // Check that the automata have an initial location.
         for (Automaton aut: auts) {
             if (aut.initial == null) {

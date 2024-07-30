@@ -29,6 +29,7 @@ import org.eclipse.escet.cif.eventbased.LanguageEquivalence;
 import org.eclipse.escet.cif.eventbased.apps.conversion.CifOrigin;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.equivalence.CounterExample;
 import org.eclipse.escet.cif.io.CifReader;
@@ -124,9 +125,10 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
             // Check preconditions.
             boolean allowPlainEvents = true;
             boolean allowNonDeterminism = false;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_TWO_AUTOMATA;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    termination);
+                    expectedNumberOfAutomata, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

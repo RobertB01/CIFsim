@@ -27,6 +27,7 @@ import org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpInterface;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.DumpFileEnableOption;
 import org.eclipse.escet.cif.eventbased.apps.options.DumpFileOption;
@@ -138,9 +139,10 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
             // Check preconditions.
             boolean allowPlainEvents = false;
             boolean allowNonDeterminism = false;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.AT_LEAST_ONE_PLANT_AUTOMATON;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    termination);
+                    expectedNumberOfAutomata, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

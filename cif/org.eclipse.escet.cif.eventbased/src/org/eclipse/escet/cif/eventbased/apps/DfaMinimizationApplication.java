@@ -25,6 +25,7 @@ import org.eclipse.escet.cif.eventbased.DfaMinimize;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
@@ -44,7 +45,6 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** DFA minimization application. */
 public class DfaMinimizationApplication extends Application<IOutputComponent> {
@@ -126,9 +126,10 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
             // Check preconditions.
             boolean allowPlainEvents = true;
             boolean allowNonDeterminism = false;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_ONE_AUTOMATON;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    termination);
+                    expectedNumberOfAutomata, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
@@ -139,12 +140,7 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
                 return 0;
             }
 
-            if (cte.automata.size() != 1) {
-                String msg = fmt("DFA minimization can be applied to only one automaton, found %s automata.",
-                        cte.automata.size());
-                throw new InvalidInputException(msg);
-            }
-
+            // Perform minimization.
             OutputProvider.dbg("Applying " + app + "....");
             DfaMinimize.preCheck(cte.automata.get(0));
             if (isTerminationRequested()) {

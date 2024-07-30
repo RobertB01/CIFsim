@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
@@ -43,7 +44,6 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Trim application. */
 public class TrimApplication extends Application<IOutputComponent> {
@@ -120,11 +120,14 @@ public class TrimApplication extends Application<IOutputComponent> {
             new ElimComponentDefInst().transform(spec);
 
             // Check preconditions.
+            // TODO: Generalize to making every automaton in the input trim. This requires modification of the
+            //       "ConvertFromEventBased" class to allow writing more than a single automaton onto the output.
             boolean allowPlainEvents = true;
             boolean allowNonDeterminism = true;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_ONE_AUTOMATON;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    termination);
+                    expectedNumberOfAutomata, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
@@ -135,18 +138,9 @@ public class TrimApplication extends Application<IOutputComponent> {
                 return 0;
             }
 
-            // TODO: Generalize to making every automaton in the input trim.
-            // This requires modification of the "ConvertFromEventBased" class
-            // to allow writing more than a single automaton onto the output.
-            if (cte.automata.size() != 1) {
-                String msg = fmt("CIF input file contains %d automata, while trim requires a file with "
-                        + "exactly one automaton.", cte.automata.size());
-                throw new InvalidInputException(msg);
-            }
-            Automaton aut = cte.automata.get(0);
-
             // Compute the trim automaton.
             OutputProvider.dbg("Computing trim...");
+            Automaton aut = cte.automata.get(0);
             AutomatonHelper.computeTrim(aut);
             if (isTerminationRequested()) {
                 return 0;

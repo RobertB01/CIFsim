@@ -144,12 +144,6 @@ public class SupervisorSynthesis {
             warnCount++;
         }
 
-        // Check for at least one plant.
-        if (plants.isEmpty()) {
-            String msg = "Supervisor synthesis needs at least one plant automaton.";
-            throw new InvalidInputException(msg);
-        }
-
         // Check for no marker state.
         if (unmarked) {
             String msg = "Supervisor is empty (no marker states).";

@@ -22,7 +22,6 @@ import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.cif.eventbased.builders.AutomatonBuilder;
 import org.eclipse.escet.cif.eventbased.builders.State;
 import org.eclipse.escet.cif.eventbased.builders.StateEdges;
-import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 
 /**
  * Compute the synchronous product of two or more automata.
@@ -55,11 +54,6 @@ public class SynchronousProduct {
      * @return Synchronous product result automaton.
      */
     public static Automaton product(List<Automaton> automs) {
-        if (automs.isEmpty()) {
-            String msg = "Cannot compute the product of 0 automata.";
-            throw new InvalidModelException(msg);
-        }
-
         // Compute kind of the result.
         AutomatonKind akind = null;
         for (Automaton a: automs) {

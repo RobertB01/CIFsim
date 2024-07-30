@@ -33,6 +33,7 @@ import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.LocOnlyStaticEvalInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.LocOnlyStaticEvalMarkerPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
@@ -45,12 +46,13 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      *
      * @param allowPlainEvents Whether to allow events without controllability.
      * @param allowNonDeterminism Whether to allow non-deterministic automata.
+     * @param expectedNumberOfAutomata The expected automata, or {@code null} for no constraint.
      * @param termination Cooperative termination query function.
      */
     public ConvertToEventBasedPreChecker(boolean allowPlainEvents, boolean allowNonDeterminism,
-            Termination termination)
+            ExpectedNumberOfAutomata expectedNumberOfAutomata, Termination termination)
     {
-        super(termination, getChecks(allowPlainEvents, allowNonDeterminism));
+        super(termination, getChecks(allowPlainEvents, allowNonDeterminism, expectedNumberOfAutomata));
     }
 
     /**
@@ -58,9 +60,12 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      *
      * @param allowPlainEvents Whether to allow events without controllability.
      * @param allowNonDeterminism Whether to allow non-deterministic automata.
+     * @param expectedNumberOfAutomata The expected automata, or {@code null} for no constraint.
      * @return The checks to use.
      */
-    private static List<CifCheck> getChecks(boolean allowPlainEvents, boolean allowNonDeterminism) {
+    private static List<CifCheck> getChecks(boolean allowPlainEvents, boolean allowNonDeterminism,
+            ExpectedNumberOfAutomata expectedNumberOfAutomata)
+    {
         List<CifCheck> checks = list();
 
         // Events without controllability may not be supported. Event 'tau' is never supported.
@@ -104,7 +109,54 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
             checks.add(new AutOnlyDeterministicCheck());
         }
 
+        // Only certain number of automata may be supported.
+        if (expectedNumberOfAutomata != null) {
+            switch (expectedNumberOfAutomata) {
+                case EXACTLY_ONE_AUTOMATON:
+                    checks.add(new SpecAutomataCountsCheck().setMinMaxAuts(1, 1));
+                    break;
+                case EXACTLY_TWO_AUTOMATA:
+                    checks.add(new SpecAutomataCountsCheck().setMinMaxAuts(2, 2));
+                    break;
+                case AT_LEAST_ONE_AUTOMATON:
+                    checks.add(new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE));
+                    break;
+                case AT_LEAST_ONE_PLANT_AUTOMATON:
+                    checks.add(new SpecAutomataCountsCheck().setMinMaxPlantAuts(1, SpecAutomataCountsCheck.NO_CHANGE));
+                    break;
+                case AT_LEAST_TWO_AUTOMATA:
+                    checks.add(new SpecAutomataCountsCheck().setMinMaxAuts(2, SpecAutomataCountsCheck.NO_CHANGE));
+                    break;
+                case AT_LEAST_ONE_PLANT_EXACTLY_ONE_SUPERVISOR:
+                    checks.add(new SpecAutomataCountsCheck()
+                            .setMinMaxPlantAuts(1, SpecAutomataCountsCheck.NO_CHANGE)
+                            .setMinMaxSupervisorAuts(1, 1));
+                    break;
+            }
+        }
+
         // Return all the checks.
         return checks;
+    }
+
+    /** Expected number of automata. */
+    public static enum ExpectedNumberOfAutomata {
+        /** Exactly one automaton. */
+        EXACTLY_ONE_AUTOMATON,
+
+        /** Exactly two automata. */
+        EXACTLY_TWO_AUTOMATA,
+
+        /** At least one automaton. */
+        AT_LEAST_ONE_AUTOMATON,
+
+        /** At least one plant automaton. */
+        AT_LEAST_ONE_PLANT_AUTOMATON,
+
+        /** At least two automata. */
+        AT_LEAST_TWO_AUTOMATA,
+
+        /** At least one plant automaton and exactly one supervisor automaton. */
+        AT_LEAST_ONE_PLANT_EXACTLY_ONE_SUPERVISOR;
     }
 }

@@ -26,6 +26,7 @@ import org.eclipse.escet.cif.eventbased.apps.conversion.ApplicationHelper;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ObservedEventsOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
@@ -47,7 +48,6 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Application class for computing the automaton abstraction for a set of events. */
 public class AutomatonAbstractionApplication extends Application<IOutputComponent> {
@@ -128,9 +128,10 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
             // Check preconditions.
             boolean allowPlainEvents = true;
             boolean allowNonDeterminism = true;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_ONE_AUTOMATON;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    termination);
+                    expectedNumberOfAutomata, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
@@ -141,14 +142,9 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
                 return 0;
             }
 
-            if (cte.automata.size() != 1) {
-                String msg = fmt("CIF input file contains %d automata, while automaton abstraction requires "
-                        + "a file with exactly one automaton.", cte.automata.size());
-                throw new InvalidInputException(msg);
-            }
-            Automaton aut = cte.automata.get(0);
-
+            // Perform abstraction.
             OutputProvider.dbg("Abstracting automaton...");
+            Automaton aut = cte.automata.get(0);
             String[] obsNms = ObservedEventsOption.getEvents();
             Set<Event> obses;
             obses = ApplicationHelper.selectEvents(obsNms, aut.alphabet);

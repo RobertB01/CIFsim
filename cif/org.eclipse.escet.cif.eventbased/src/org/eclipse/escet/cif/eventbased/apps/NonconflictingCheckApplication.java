@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.eventbased.NonConflictingCheck;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.apps.options.ReportFileOption;
 import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.cif.io.CifReader;
@@ -120,9 +121,10 @@ public class NonconflictingCheckApplication extends Application<IOutputComponent
             // Check preconditions.
             boolean allowPlainEvents = true;
             boolean allowNonDeterminism = false;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.AT_LEAST_TWO_AUTOMATA;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    termination);
+                    expectedNumberOfAutomata, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
@@ -133,13 +135,7 @@ public class NonconflictingCheckApplication extends Application<IOutputComponent
                 return 0;
             }
 
-            int autCount = cte.automata.size();
-            if (autCount < 2) {
-                String msg = fmt("CIF input file contains %d automat%s, while the nonconflicting check expects a "
-                        + "file with at least 2 automata.", autCount, (autCount == 1) ? "on" : "a");
-                throw new InvalidInputException(msg);
-            }
-
+            // Perform the check.
             OutputProvider.dbg("Applying nonconflicting check...");
             NonConflictingCheck.nonconflictingPreCheck(cte.automata);
             if (isTerminationRequested()) {
