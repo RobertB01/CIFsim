@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.common.CifScopeUtils;
+import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.eventdisabler.options.EventNamesFileOption;
 import org.eclipse.escet.cif.eventdisabler.options.EventNamesOption;
 import org.eclipse.escet.cif.eventdisabler.options.EventUsageOption;
@@ -42,7 +42,6 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 /** CIF event disabler application. */
@@ -91,11 +90,8 @@ public class EventDisablerApplication extends Application<IOutputComponent> {
                 return 0;
             }
 
-            // Check supported.
-            if (CifScopeUtils.hasCompDefInst(spec)) {
-                String msg = "Specifications with component definitions are currently not supported.";
-                throw new UnsupportedException(msg);
-            }
+            // Preprocessing.
+            new ElimComponentDefInst().transform(spec);
 
             // Disable events.
             spec = EventDisabler.disableEvents(spec);

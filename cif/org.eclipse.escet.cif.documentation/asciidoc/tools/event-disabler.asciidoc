@@ -72,19 +72,14 @@ indexterm:[CIF event disabler,supported specifications]
 
 === Supported specifications
 
-The event disabler supports a subset of CIF specifications.
-The following restrictions apply:
-
-* Component definitions and component instantiations are not supported.
-
-The event disabler does not process any annotations.
+The event supports all CIF specifications.
+It does not process any annotations.
 
 indexterm:[CIF event disabler,preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation.
-To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be modified:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
