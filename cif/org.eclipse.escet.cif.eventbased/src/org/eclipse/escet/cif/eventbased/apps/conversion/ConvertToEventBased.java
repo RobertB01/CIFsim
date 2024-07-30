@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.eventbased.apps.conversion;
 import static org.eclipse.escet.cif.eventbased.automata.Edge.addEdge;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
@@ -36,8 +35,6 @@ import org.eclipse.escet.cif.eventbased.automata.origin.Origin;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
-import org.eclipse.escet.cif.metamodel.cif.InvKind;
-import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -168,13 +165,6 @@ public class ConvertToEventBased {
      * @throws UnsupportedException When the component is not supported.
      */
     private void convertComponent(ComplexComponent comp) {
-        // Component.
-        if (!comp.getInvariants().isEmpty()) {
-            String msg = fmt("Unsupported %s: invariants in components are currently not supported.",
-                    CifTextUtils.getComponentText1(comp));
-            throw new UnsupportedException(msg);
-        }
-
         // Automaton.
         if (comp instanceof Automaton) {
             convertAutomaton((Automaton)comp);
@@ -330,25 +320,6 @@ public class ConvertToEventBased {
         resLoc = locations.get(loc);
         if (resLoc != null) {
             return resLoc;
-        }
-
-        // New location. Check invariants.
-        List<Invariant> invs = loc.getInvariants();
-        if (!invs.isEmpty()) {
-            List<Expression> preds = listc(invs.size());
-            for (Invariant inv: loc.getInvariants()) {
-                if (inv.getInvKind() != InvKind.STATE) {
-                    String msg = fmt("Unsupported %s: state/event exclusion invariants are not supported.",
-                            CifTextUtils.getLocationText1(loc));
-                    throw new UnsupportedException(msg);
-                }
-                preds.add(inv.getPredicate());
-            }
-            if (!getBooleanValue(preds, true, loc, "invariant")) {
-                String msg = fmt("Unsupported %s: the state invariants are not trivially true.",
-                        CifTextUtils.getLocationText1(loc));
-                throw new UnsupportedException(msg);
-            }
         }
 
         // Get marked state.

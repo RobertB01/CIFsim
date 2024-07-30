@@ -22,7 +22,11 @@ import org.eclipse.escet.cif.checkers.checks.EdgeNoUpdatesCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
+import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
+import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF to event-based conversion precondition checker. */
@@ -53,7 +57,13 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
 
                 // Initialization and marker predicates in components are not supported.
                 new CompNoInitPredsCheck(),
-                new CompNoMarkerPredsCheck()
+                new CompNoMarkerPredsCheck(),
+
+                // Invariants are not supported, unless they do not restrict any behavior.
+                new InvNoSpecificInvsCheck()
+                        .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS,
+                                NoInvariantPlaceKind.ALL_PLACES)
+                        .ignoreNeverBlockingInvariants()
 
         );
     }
