@@ -14,7 +14,8 @@
 package org.eclipse.escet.cif.cif2mcrl2;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
@@ -86,7 +87,7 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
 
                 // Exactly one initial location per automaton.
-                new AutOnlyWithOneInitLocCheck(),
+                new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE),
 
                 // No conditional updates and multi-assignments.
                 new EdgeOnlySimpleAssignmentsCheck(),
