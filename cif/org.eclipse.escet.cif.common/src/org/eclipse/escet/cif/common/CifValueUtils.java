@@ -2604,6 +2604,91 @@ public class CifValueUtils {
     }
 
     /**
+     * Returns the number of possible initial values of the given discrete variable.
+     *
+     * <p>
+     * Note that if multiple explicit initial value expressions are given, these are all counted as separate possible
+     * initial values, even though they could evaluate to the same value. For such variables, the result may be an
+     * over-approximation.
+     * </p>
+     *
+     * <p>
+     * Only the variable itself is considered, not any initialization predicates of the CIF specification.
+     * </p>
+     *
+     * @param var The discrete variable.
+     * @return The counted number of possible initial values.
+     */
+    public static Count getPossibleInitialValuesCount(DiscVariable var) {
+        VariableValue varValue = var.getValue();
+        if (varValue == null) {
+            // Implicit default initial value. Exactly one initial value.
+            return new Count(1, true);
+        } else if (varValue.getValues().size() >= 1) {
+            // Explicit initial values. Some expressions may evaluate to the same value.
+            return new Count(varValue.getValues().size(), false);
+        } else {
+            // Exactly as many values as represented by the variables type.
+            return new Count(CifValueUtils.getPossibleValueCount(var.getType()), true);
+        }
+    }
+
+    /**
+     * Returns the number of possible initial values of the given input variable.
+     *
+     * <p>
+     * Only the variable itself is considered, not any initialization predicates of the CIF specification.
+     * </p>
+     *
+     * @param var The input variable.
+     * @return The counted number of possible initial values.
+     */
+    public static double getPossibleInitialValuesCount(InputVariable var) {
+        return CifValueUtils.getPossibleValueCount(var.getType());
+    }
+
+    /**
+     * Returns the number of possible initial locations of the given automaton.
+     *
+     * <p>
+     * Note that if initialization predicates of the locations can not be statically determined to be be {@code true} or
+     * {@code false}, then the result of this method may be an over-approximation.
+     * </p>
+     *
+     * <p>
+     * Only the initialization predicates of the locations of the automata are considered, not any other initialization
+     * predicates of the CIF specification.
+     * </p>
+     *
+     * @param aut The automaton.
+     * @return The counted number of possible initial locations.
+     */
+    public static Count getPossibleInitialLocationsCount(Automaton aut) {
+        int nrOfLocs = 0;
+        boolean isPrecise = true;
+        for (Location loc: aut.getLocations()) {
+            // Check if for sure not an initial location.
+            if (loc.getInitials().isEmpty()) {
+                continue;
+            }
+            if (CifValueUtils.isTriviallyFalse(loc.getInitials(), true, true)) {
+                continue;
+            }
+
+            // Check if for sure an initial location.
+            if (CifValueUtils.isTriviallyTrue(loc.getInitials(), true, true)) {
+                nrOfLocs++;
+                continue;
+            }
+
+            // Potentially an initial location.
+            nrOfLocs++;
+            isPrecise = false;
+        }
+        return new Count(nrOfLocs, isPrecise);
+    }
+
+    /**
      * Returns the possible number of unique values for the given type.
      *
      * <p>
@@ -3075,5 +3160,15 @@ public class CifValueUtils {
         // Other expressions. This might include some other literal values that
         // we could potentially handle, but we don't.
         return false;
+    }
+
+    /**
+     * A count that may be approximate or precise.
+     *
+     * @param value The count value.
+     * @param isPrecise Whether the {@link #value} is precise ({@code true}) or approximate ({@code false}).
+     */
+    public static record Count(double value, boolean isPrecise) {
+        // Storage only, no other code.
     }
 }

@@ -26,10 +26,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
-import org.eclipse.escet.cif.common.CifMath;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTuple;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -68,7 +68,6 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.ListProductIterator;
 import org.eclipse.escet.common.java.exceptions.InvalidModelException;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** State space explorer that unfolds the untimed state space expressed by a given CIF specification. */
@@ -291,18 +290,12 @@ public class Explorer {
         // Multiple potential initial states. Count the number of states.
         double stateCnt = 1;
         for (Automaton aut: multiInitAuts) {
-            stateCnt *= getPotentialInitialLocCount(aut);
+            stateCnt *= CifValueUtils.getPossibleInitialLocationsCount(aut).value();
         }
         for (DiscVariable var: multiInitVars) {
-            stateCnt *= CifValueUtils.getPossibleValueCount(var.getType());
+            stateCnt *= CifValueUtils.getPossibleInitialValuesCount(var).value();
         }
-
-        // Detect too many potential initial state to hold in a list.
-        if (stateCnt > Integer.MAX_VALUE) {
-            String cntTxt = Double.isInfinite(stateCnt) ? "infinite" : CifMath.realToStr(stateCnt);
-            String msg = fmt("Too many potential initial states to store: %s.", cntTxt);
-            throw new UnsupportedException(msg);
-        }
+        Assert.check(stateCnt <= Integer.MAX_VALUE); // Already checked as precondition.
 
         // Get potential initial values/locations per variable/automaton.
         int objCnt = multiInitAuts.size() + multiInitVars.size();
@@ -327,35 +320,15 @@ public class Explorer {
     }
 
     /**
-     * Returns the number of potential initial locations for the given automaton.
-     *
-     * @param aut The automaton.
-     * @return The number of potential initial locations.
-     */
-    private double getPotentialInitialLocCount(Automaton aut) {
-        double cnt = 0;
-        for (Location loc: aut.getLocations()) {
-            if (!loc.getInitials().isEmpty()) {
-                cnt++;
-            }
-        }
-        return cnt;
-    }
-
-    /**
      * Returns the potential initial locations for the given automaton.
      *
      * @param aut The automaton.
      * @return The potential initial locations.
      */
     private List<Location> getPotentialInitialLocs(Automaton aut) {
-        List<Location> locs = list();
-        for (Location loc: aut.getLocations()) {
-            if (!loc.getInitials().isEmpty()) {
-                locs.add(loc);
-            }
-        }
-        return locs;
+        return aut.getLocations().stream().filter(
+                loc -> !loc.getInitials().isEmpty() && !CifValueUtils.isTriviallyFalse(loc.getInitials(), true, true))
+                .collect(Collectors.toList());
     }
 
     /**

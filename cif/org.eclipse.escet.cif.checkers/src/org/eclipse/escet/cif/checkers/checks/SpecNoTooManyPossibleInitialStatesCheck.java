@@ -17,12 +17,11 @@ import org.eclipse.escet.cif.checkers.CifCheckNoCompDefInst;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
 import org.eclipse.escet.cif.common.CifMath;
 import org.eclipse.escet.cif.common.CifValueUtils;
+import org.eclipse.escet.cif.common.CifValueUtils.Count;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
 
 /**
  * CIF check that disallows specifications with more than {@link Integer#MAX_VALUE} possible initial states. It
@@ -32,62 +31,26 @@ public class SpecNoTooManyPossibleInitialStatesCheck extends CifCheckNoCompDefIn
     /** The current best approximation of the number of possible initial states. */
     private double count = 1;
 
-    /** Whether the {@link #count} is approximate. */
-    private boolean isApproximate = false;
+    /** Whether the {@link #count} is precise. */
+    private boolean isPrecise = true;
 
     @Override
     protected void preprocessDiscVariable(DiscVariable discVar, CifCheckViolations violations) {
-        // Get possible number of initial values of the variable.
-        VariableValue varValue = discVar.getValue();
-        double nrOfValues;
-        if (varValue == null) {
-            nrOfValues = 1; // Implicit default initial value.
-        } else if (varValue.getValues().size() >= 1) {
-            nrOfValues = varValue.getValues().size(); // Explicit initial values.
-            isApproximate = true; // Some expressions may evaluate to the same value.
-        } else {
-            nrOfValues = CifValueUtils.getPossibleValueCount(discVar.getType());
-        }
-
-        // Update possible number of initial states.
-        count *= nrOfValues;
+        Count varCount = CifValueUtils.getPossibleInitialValuesCount(discVar);
+        count *= varCount.value();
+        isPrecise &= varCount.isPrecise();
     }
 
     @Override
     protected void preprocessInputVariable(InputVariable inputVar, CifCheckViolations violations) {
-        // Get number of possible (initial) values.
-        double nrOfValues = CifValueUtils.getPossibleValueCount(inputVar.getType());
-
-        // Update possible number of initial states.
-        count *= nrOfValues;
+        count *= CifValueUtils.getPossibleInitialValuesCount(inputVar);
     }
 
     @Override
     protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
-        // Get possible initial locations of the automaton.
-        int nrOfLocs = 0;
-        for (Location loc: aut.getLocations()) {
-            // Check if for sure not an initial location.
-            if (loc.getInitials().isEmpty()) {
-                continue;
-            }
-            if (CifValueUtils.isTriviallyFalse(loc.getInitials(), true, true)) {
-                continue;
-            }
-
-            // Check if for sure an initial location.
-            if (CifValueUtils.isTriviallyTrue(loc.getInitials(), true, true)) {
-                nrOfLocs++;
-                continue;
-            }
-
-            // Potentially an initial location.
-            nrOfLocs++;
-            isApproximate = true;
-        }
-
-        // Update possible number of initial states.
-        count *= nrOfLocs;
+        Count autCount = CifValueUtils.getPossibleInitialLocationsCount(aut);
+        count *= autCount.value();
+        isPrecise &= autCount.isPrecise();
     }
 
     @Override
@@ -98,7 +61,7 @@ public class SpecNoTooManyPossibleInitialStatesCheck extends CifCheckNoCompDefIn
                 violations.add(spec, "The specification has practically infinitely many possible initial states");
             } else {
                 countTxt = CifMath.realToStr(count);
-                if (isApproximate) {
+                if (!isPrecise) {
                     countTxt = "approximately " + countTxt;
                 }
                 violations.add(spec,
