@@ -80,13 +80,9 @@ public class SupervisorSynthesis {
     }
 
     /**
-     * Perform checks whether the synthesis can be performed.
-     *
-     * <p>
-     * Note that some checks produce warning messages rather than rejecting the input. Such checks are technically not a
+     * Perform checks whether synthesis makes sense. Produces only warnings. Such checks are technically not a
      * requirement for performing synthesis, but if such a check fails (and produces a warning), the synthesis result is
      * unlikely to be useful.
-     * </p>
      *
      * @param automs Automata to use for synthesis.
      * @param warnDisjunct Whether to emit warnings when disjunct groups of automata are found.
@@ -98,7 +94,6 @@ public class SupervisorSynthesis {
             boolean warnDeadlock, boolean warnSingleUse)
     {
         List<Automaton> reqs = list();
-        boolean unmarked = false;
         int warnCount = 0; // Number of printed warnings.
 
         for (Automaton aut: automs) {
@@ -118,7 +113,6 @@ public class SupervisorSynthesis {
                 String msg = "Automaton \"" + aut.name + "\" has no marked location, supervisor will be empty.";
                 OutputProvider.warn(msg);
                 warnCount++;
-                unmarked = true;
             }
 
             // Warn for non-trim.
@@ -134,12 +128,6 @@ public class SupervisorSynthesis {
             String msg = "The specification has no requirement automata.";
             OutputProvider.warn(msg);
             warnCount++;
-        }
-
-        // Check for no marker state.
-        if (unmarked) {
-            String msg = "Supervisor is empty (no marker states).";
-            throw new InvalidModelException(msg);
         }
 
         // Extra non-fatal checks for things that are probably not right.
@@ -263,6 +251,14 @@ public class SupervisorSynthesis {
      * @return Supervisor automaton.
      */
     public static Automaton synthesis(List<Automaton> automs, SynthesisDumpInterface synDump) {
+        // If at least one automaton has no marked location, then trivially we have no supervisor.
+        for (Automaton aut: automs) {
+            if (!aut.hasMarkedLoc()) {
+                throw new InvalidModelException("Supervisor is empty (no marker states).");
+            }
+        }
+
+        // Not simple case. Do full synthesis.
         List<Automaton> plants = list();
         List<Automaton> requirements = list();
         for (Automaton aut: automs) {
