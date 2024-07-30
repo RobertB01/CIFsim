@@ -47,9 +47,9 @@ public class NonConflictingCheck {
     }
 
     /**
-     * Check the pre-conditions for applying the non-conflicting check.
+     * Check additional preconditions for applying the non-conflicting check.
      *
-     * @param automs Automata for which to check the pre-conditions.
+     * @param automs Automata for which to check the preconditions.
      */
     public static void nonconflictingPreCheck(List<Automaton> automs) {
         for (Automaton aut: automs) {
