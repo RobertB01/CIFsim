@@ -20,6 +20,7 @@ import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoMarkerPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUpdatesCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeOnlyStaticEvalGuardPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
@@ -69,7 +70,10 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
                 new InvNoSpecificInvsCheck()
                         .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS,
                                 NoInvariantPlaceKind.ALL_PLACES)
-                        .ignoreNeverBlockingInvariants()
+                        .ignoreNeverBlockingInvariants(),
+
+                // Edge guards only if they are trivially true/false.
+                new EdgeOnlyStaticEvalGuardPredsCheck()
 
         );
     }

@@ -339,10 +339,9 @@ public class ConvertToEventBased {
      * @param edge Edge to check.
      * @param loc Source location of the edge.
      * @return Value of the guard.
-     * @throws UnsupportedException When the edge is not supported.
      */
     private boolean checkEdge(Edge edge, Location loc) {
-        // Check the guard and return its value.
+        // Return guards value.
         return getBooleanValue(edge.getGuards(), true, false);
     }
 }
