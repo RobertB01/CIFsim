@@ -283,7 +283,7 @@ public class ConvertToEventBased {
         for (Location loc: aut.getLocations()) {
             org.eclipse.escet.cif.eventbased.automata.Location srcLoc, dstLoc;
             // Get source location.
-            srcLoc = convertLocation(loc, aut, locs, resAut);
+            srcLoc = convertLocation(loc, locs, resAut);
             if (monitors != null) {
                 seen.clear();
             }
@@ -294,7 +294,7 @@ public class ConvertToEventBased {
                 if (edge.getTarget() == null) {
                     dstLoc = srcLoc;
                 } else {
-                    dstLoc = convertLocation(edge.getTarget(), aut, locs, resAut);
+                    dstLoc = convertLocation(edge.getTarget(), locs, resAut);
                 }
 
                 boolean guard = checkEdge(edge, loc);
@@ -326,13 +326,12 @@ public class ConvertToEventBased {
      * Check and convert a CIF location for use by the event-based synthesis tools.
      *
      * @param loc Location to check and convert.
-     * @param aut Automaton being converted.
      * @param locations Location map from CIF locations to event-based locations.
      * @param resAut Output automaton.
      * @return The converted location.
      * @throws UnsupportedException When the location is not supported.
      */
-    private org.eclipse.escet.cif.eventbased.automata.Location convertLocation(Location loc, Automaton aut,
+    private org.eclipse.escet.cif.eventbased.automata.Location convertLocation(Location loc,
             Map<Location, org.eclipse.escet.cif.eventbased.automata.Location> locations,
             org.eclipse.escet.cif.eventbased.automata.Automaton resAut)
     {
@@ -381,11 +380,7 @@ public class ConvertToEventBased {
 
         // Check and set initial location.
         if (getBooleanValue(loc.getInitials(), false, loc, "initialization")) {
-            if (resAut.initial != null) {
-                String msg = fmt("Unsupported automaton \"%s\": the automaton has multiple initial locations.",
-                        CifTextUtils.getAbsName(aut));
-                throw new UnsupportedException(msg);
-            }
+            Assert.areEqual(resAut.initial, null);
             resAut.setInitial(resLoc);
         }
         return resLoc;

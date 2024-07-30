@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.eventbased.apps.conversion;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.common.java.Termination;
@@ -32,7 +34,10 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
                 new EventNoChannelsCheck(),
 
                 // Event 'tau' is not supported.
-                new EventNoTauCheck()
+                new EventNoTauCheck(),
+
+                // Automata with multiple initial locations are not supported.
+                new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.AT_MOST_ONE)
 
         );
     }
