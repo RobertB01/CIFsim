@@ -56,14 +56,17 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * @param disallowedAutSupKinds The disallowed supervisory kinds of automata.
      * @param requireAutHasInitLoc Whether each automaton must have an initial location.
      * @param requireReqSubsetPlantAlphabet Whether the requirement alphabet must be a subset of the plant alphabet.
+     * @param requireAutMarkedAndNonMarked Whether automata must have both marked and non-marked locations.
      * @param termination Cooperative termination query function.
      */
     public ConvertToEventBasedPreChecker(boolean allowPlainEvents, boolean allowNonDeterminism,
             ExpectedNumberOfAutomata expectedNumberOfAutomata, EnumSet<SupKind> disallowedAutSupKinds,
-            boolean requireAutHasInitLoc, boolean requireReqSubsetPlantAlphabet, Termination termination)
+            boolean requireAutHasInitLoc, boolean requireReqSubsetPlantAlphabet, boolean requireAutMarkedAndNonMarked,
+            Termination termination)
     {
         super(termination, getChecks(allowPlainEvents, allowNonDeterminism, expectedNumberOfAutomata,
-                disallowedAutSupKinds, requireAutHasInitLoc, requireReqSubsetPlantAlphabet));
+                disallowedAutSupKinds, requireAutHasInitLoc, requireReqSubsetPlantAlphabet,
+                requireAutMarkedAndNonMarked));
     }
 
     /**
@@ -75,11 +78,12 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * @param disallowedAutSupKinds The disallowed supervisory kinds of automata.
      * @param requireAutHasInitLoc Whether each automaton must have an initial location.
      * @param requireReqSubsetPlantAlphabet Whether the requirement alphabet must be a subset of the plant alphabet.
+     * @param requireAutMarkedAndNonMarked Whether automata must have both marked and non-marked locations.
      * @return The checks to use.
      */
     private static List<CifCheck> getChecks(boolean allowPlainEvents, boolean allowNonDeterminism,
             ExpectedNumberOfAutomata expectedNumberOfAutomata, Set<SupKind> disallowedAutSupKinds,
-            boolean requireAutHasInitLoc, boolean requireReqSubsetPlantAlphabet)
+            boolean requireAutHasInitLoc, boolean requireReqSubsetPlantAlphabet, boolean requireAutMarkedAndNonMarked)
     {
         List<CifCheck> checks = list();
 
@@ -161,6 +165,11 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
         // We may require that the requirement alphabet is a subset of the plant alphabet.
         if (requireReqSubsetPlantAlphabet) {
             checks.add(new EventOnlyReqSubsetPlantAlphabetCheck());
+        }
+
+        // We may require that automata have both marked and non-marked locations.
+        if (requireAutMarkedAndNonMarked) {
+            checks.add(new AutOnlyMarkedAndNonMarkedLocsCheck());
         }
 
         // Return all the checks.

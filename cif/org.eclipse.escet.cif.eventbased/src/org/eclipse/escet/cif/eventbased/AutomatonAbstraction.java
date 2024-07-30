@@ -139,27 +139,6 @@ public class AutomatonAbstraction extends PartitionRefinement {
                     evt.name);
             throw new InvalidInputException(msg);
         }
-
-        boolean seenMarked = false;
-        boolean seenUnmarked = false;
-        for (Location loc: aut) {
-            if (loc.marked) {
-                seenMarked = true;
-                if (seenUnmarked) {
-                    return;
-                }
-            } else {
-                seenUnmarked = true;
-                if (seenMarked) {
-                    return;
-                }
-            }
-        }
-        // Missing marked or unmarked locations (or both, but we report only
-        // one missing type in that case).
-        String msg = seenMarked ? "unmarked" : "marked";
-        msg = fmt("Automaton \"%s\" cannot be partitioned because it has no %s locations.", aut.name, msg);
-        throw new InvalidInputException(msg);
     }
 
     /**

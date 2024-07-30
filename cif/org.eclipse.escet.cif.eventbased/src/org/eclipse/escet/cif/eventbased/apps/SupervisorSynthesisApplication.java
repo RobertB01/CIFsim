@@ -145,10 +145,11 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.of(SupKind.NONE, SupKind.SUPERVISOR);
             boolean requireAutHasInitLoc = false;
             boolean requireReqSubsetPlantAlphabet = true;
+            boolean requireAutMarkedAndNonMarked = false;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
                     expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc,
-                    requireReqSubsetPlantAlphabet, termination);
+                    requireReqSubsetPlantAlphabet, requireAutMarkedAndNonMarked, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

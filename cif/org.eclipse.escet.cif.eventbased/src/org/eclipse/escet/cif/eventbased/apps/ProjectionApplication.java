@@ -135,10 +135,11 @@ public class ProjectionApplication extends Application<IOutputComponent> {
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
             boolean requireAutHasInitLoc = false;
             boolean requireReqSubsetPlantAlphabet = false;
+            boolean requireAutMarkedAndNonMarked = false;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
                     expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc,
-                    requireReqSubsetPlantAlphabet, termination);
+                    requireReqSubsetPlantAlphabet, requireAutMarkedAndNonMarked, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

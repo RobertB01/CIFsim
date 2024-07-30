@@ -127,10 +127,11 @@ public class ControllabilityCheckApplication extends Application<IOutputComponen
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.of(SupKind.NONE, SupKind.REQUIREMENT);
             boolean requireAutHasInitLoc = false;
             boolean requireReqSubsetPlantAlphabet = false;
+            boolean requireAutMarkedAndNonMarked = false;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
                     expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc,
-                    requireReqSubsetPlantAlphabet, termination);
+                    requireReqSubsetPlantAlphabet, requireAutMarkedAndNonMarked, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

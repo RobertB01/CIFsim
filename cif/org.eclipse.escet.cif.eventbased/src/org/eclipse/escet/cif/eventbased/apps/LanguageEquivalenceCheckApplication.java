@@ -131,10 +131,11 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
             boolean requireAutHasInitLoc = true;
             boolean requireReqSubsetPlantAlphabet = false;
+            boolean requireAutMarkedAndNonMarked = false;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
                     expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc,
-                    requireReqSubsetPlantAlphabet, termination);
+                    requireReqSubsetPlantAlphabet, requireAutMarkedAndNonMarked, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
