@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.eventbased.apps.conversion;
 
 import static org.eclipse.escet.cif.eventbased.automata.Edge.addEdge;
-import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
@@ -28,6 +27,7 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.eventbased.automata.AutomatonComparator;
 import org.eclipse.escet.cif.eventbased.automata.AutomatonKind;
 import org.eclipse.escet.cif.eventbased.automata.Event.EventControllability;
@@ -41,7 +41,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.EdgeEvent;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.Assert;
@@ -94,28 +93,20 @@ public class ConvertToEventBased {
      *
      * @param preds Predicates to evaluate.
      * @param defaultValue Value to assume when no predicates are given.
-     * @param loc Location being converted (used for error reporting).
-     * @param kind The kind of predicates (used for error reporting). This is not related to supervisory/invariant
-     *     kinds.
+     * @param initial Whether the predicates apply only to the initial state.
      * @return Value of the predicates.
      */
-    private static boolean getBooleanValue(List<Expression> preds, boolean defaultValue, Location loc, String kind) {
+    private static boolean getBooleanValue(List<Expression> preds, boolean defaultValue, boolean initial) {
         if (preds.isEmpty()) {
             return defaultValue;
         }
-        if (preds.size() > 1) {
-            String msg = fmt("Unsupported %s: multiple %s predicates are currently not supported.",
-                    CifTextUtils.getLocationText1(loc), kind);
-            throw new UnsupportedException(msg);
+        if (CifValueUtils.isTriviallyTrue(preds, initial, true)) {
+            return true;
         }
-        Expression pred = first(preds);
-        if (!(pred instanceof BoolExpression)) {
-            String aPostfix = kind.startsWith("i") ? "n" : "";
-            String msg = fmt("Unsupported %s: a%s %s predicate is not trivially true or false.",
-                    CifTextUtils.getLocationText1(loc), aPostfix, kind);
-            throw new UnsupportedException(msg);
+        if (CifValueUtils.isTriviallyFalse(preds, initial, true)) {
+            return false;
         }
-        return ((BoolExpression)pred).isValue();
+        throw new RuntimeException("Precondition violation.");
     }
 
     /**
@@ -323,7 +314,7 @@ public class ConvertToEventBased {
         }
 
         // Get marked state.
-        boolean marked = getBooleanValue(loc.getMarkeds(), false, loc, "marker");
+        boolean marked = getBooleanValue(loc.getMarkeds(), false, false);
 
         // Skip edges here.
 
@@ -333,8 +324,8 @@ public class ConvertToEventBased {
         resLoc.marked = marked;
         locations.put(loc, resLoc);
 
-        // Check and set initial location.
-        if (getBooleanValue(loc.getInitials(), false, loc, "initialization")) {
+        // Set initial location.
+        if (getBooleanValue(loc.getInitials(), false, true)) {
             Assert.areEqual(resAut.initial, null);
             resAut.setInitial(resLoc);
         }
@@ -352,6 +343,6 @@ public class ConvertToEventBased {
      */
     private boolean checkEdge(Edge edge, Location loc) {
         // Check the guard and return its value.
-        return getBooleanValue(edge.getGuards(), true, loc, "guard");
+        return getBooleanValue(edge.getGuards(), true, false);
     }
 }

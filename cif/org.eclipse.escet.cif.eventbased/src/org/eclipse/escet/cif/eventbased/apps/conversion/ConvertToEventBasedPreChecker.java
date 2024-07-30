@@ -24,6 +24,8 @@ import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.LocOnlyStaticEvalInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.LocOnlyStaticEvalMarkerPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
@@ -58,6 +60,10 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
                 // Initialization and marker predicates in components are not supported.
                 new CompNoInitPredsCheck(),
                 new CompNoMarkerPredsCheck(),
+
+                // Initialization and marker predicates in locations only if they are trivially true/false.
+                new LocOnlyStaticEvalInitPredsCheck(),
+                new LocOnlyStaticEvalMarkerPredsCheck(),
 
                 // Invariants are not supported, unless they do not restrict any behavior.
                 new InvNoSpecificInvsCheck()
