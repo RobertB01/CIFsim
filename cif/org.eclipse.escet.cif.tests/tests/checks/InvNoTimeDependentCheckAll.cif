@@ -1,0 +1,132 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+cont c der 1;
+
+// Direct use of 'time' or continuous variable in an invariant, for different invariant kinds.
+
+group direct:
+  invariant time > 0;             // Violation.
+  invariant e needs time > 0;     // Violation.
+  invariant time > 0 disables e;  // Violation.
+
+  invariant c > 0;                // Violation.
+  invariant e needs c > 0;        // Violation.
+  invariant c > 0 disables e;     // Violation.
+end
+
+// Use of 'time' or continuous variable in an invariant, via an algebraic variable defined directly.
+
+group via_alg_direct:
+  alg real a1 = a2 + a3;
+  alg real a2 = time;           // Violation.
+  alg real a3 = c;              // Violation.
+
+  invariant a1 > 0;
+  invariant e needs a1 > 0;
+  invariant a1 > 0 disables e;
+end
+
+// Use of 'time' or continuous variable in an invariant, via an algebraic variable defined through a single equation.
+
+group via_alg_single:
+  alg real a1;
+  equation a1 = a2 + a3;
+  alg real a2;
+  equation a2 = time;           // Violation.
+  alg real a3;
+  equation a3 = c;              // Violation.
+
+  invariant a1 > 0;
+  invariant e needs a1 > 0;
+  invariant a1 > 0 disables e;
+end
+
+// Use of 'time' or continuous variable in an invariant, via an algebraic variable defined through location equations.
+
+automaton via_alg_per_loc:
+  alg real a1 = a2;
+  alg real a2;
+
+  invariant a1 > 0;
+  invariant e needs a1 > 0;
+  invariant a1 > 0 disables e;
+
+  location loc1:
+    initial;
+    equation a2 = time;         // Violation.
+
+  location loc2:
+    initial;
+    equation a2 = c;            // Violation.
+end
+
+// Use of 'time' or continuous variable in an invariant, via a derivative defined directly.
+
+group via_deriv_direct:
+  alg real a = c2';
+  cont c2 der time + c;         // Violation (2x).
+
+  invariant a > 0;
+  invariant e needs a > 0;
+  invariant a > 0 disables e;
+end
+
+// Use of 'time' or continuous variable in an invariant, via a derivative defined through a single equation.
+
+group via_deriv_single:
+  alg real a = c2';
+  cont c2;
+  equation c2' = time + c;  // Violation (2x).
+
+  invariant a > 0;
+  invariant e needs a > 0;
+  invariant a > 0 disables e;
+end
+
+// Use of 'time' or continuous variable in an invariant, via a derivative defined through location equations.
+
+automaton via_deriv_per_loc:
+  alg real a = c2';
+  cont c2;
+
+  invariant a > 0;
+  invariant e needs a > 0;
+  invariant a > 0 disables e;
+
+  location loc1:
+    initial;
+    equation c2' = time;        // Violation.
+
+  location loc2:
+    initial;
+    equation c2' = c;           // Violation.
+end
+
+// No violations for other uses of 'time' and continuous variables.
+
+initial time + c > 0;
+marked time + c > 0;
+
+automaton no_violations:
+  location:
+    initial;
+    edge e when time + c > 0;
+end
+
+// No violations for other features of invariants.
+
+@cif:typechecker:tests:anno1(arg: time + c > 0)
+invariant true;
