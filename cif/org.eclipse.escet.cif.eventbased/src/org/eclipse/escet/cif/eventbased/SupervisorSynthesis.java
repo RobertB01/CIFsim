@@ -42,7 +42,6 @@ import org.eclipse.escet.cif.eventbased.builders.State;
 import org.eclipse.escet.cif.eventbased.builders.StateEdges;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 
 /**
@@ -113,11 +112,8 @@ public class SupervisorSynthesis {
                     reqs.add(aut);
                     break;
 
-                default: {
-                    String msg = fmt("Unsupported automaton \"%s\": automaton is neither a plant nor a requirement.",
-                            aut.name);
-                    throw new InvalidInputException(msg);
-                }
+                default:
+                    break;
             }
 
             // Warn for lack of marked locations.

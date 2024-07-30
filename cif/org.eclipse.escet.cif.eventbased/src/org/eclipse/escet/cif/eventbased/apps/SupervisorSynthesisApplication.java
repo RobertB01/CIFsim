@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.eventbased.apps;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
@@ -40,6 +41,7 @@ import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -140,9 +142,10 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
             boolean allowPlainEvents = false;
             boolean allowNonDeterminism = false;
             ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.AT_LEAST_ONE_PLANT_AUTOMATON;
+            EnumSet<SupKind> disallowedAutSupKinds = EnumSet.of(SupKind.NONE, SupKind.SUPERVISOR);
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

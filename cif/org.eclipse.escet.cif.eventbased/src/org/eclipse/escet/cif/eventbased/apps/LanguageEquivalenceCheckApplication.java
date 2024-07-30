@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Maps.invert;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeInitialUppercase;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.equivalence.CounterExample;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.app.framework.Application;
@@ -126,9 +128,10 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
             boolean allowPlainEvents = true;
             boolean allowNonDeterminism = false;
             ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_TWO_AUTOMATA;
+            EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

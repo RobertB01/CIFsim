@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.eventbased.apps;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
@@ -28,6 +29,7 @@ import org.eclipse.escet.cif.eventbased.apps.options.ReportFileOption;
 import org.eclipse.escet.cif.eventbased.automata.EventAtLocation;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
@@ -122,9 +124,10 @@ public class ControllabilityCheckApplication extends Application<IOutputComponen
             boolean allowPlainEvents = false;
             boolean allowNonDeterminism = false;
             ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.AT_LEAST_ONE_PLANT_EXACTLY_ONE_SUPERVISOR;
+            EnumSet<SupKind> disallowedAutSupKinds = EnumSet.of(SupKind.NONE, SupKind.REQUIREMENT);
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
@@ -137,11 +140,6 @@ public class ControllabilityCheckApplication extends Application<IOutputComponen
 
             // Perform the controllability check.
             OutputProvider.dbg("Applying controllability check...");
-            ControllabilityCheck.controllabilityCheckPreCheck(cte.automata);
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
             List<EventAtLocation> disableds;
             disableds = ControllabilityCheck.controllabilityCheck(cte.automata);
             if (isTerminationRequested()) {

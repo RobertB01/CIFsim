@@ -15,10 +15,13 @@ package org.eclipse.escet.cif.eventbased.apps.conversion;
 
 import static org.eclipse.escet.common.java.Lists.list;
 
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
@@ -37,6 +40,8 @@ import org.eclipse.escet.cif.checkers.checks.SpecAutomataCountsCheck;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF to event-based conversion precondition checker. */
@@ -47,12 +52,15 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * @param allowPlainEvents Whether to allow events without controllability.
      * @param allowNonDeterminism Whether to allow non-deterministic automata.
      * @param expectedNumberOfAutomata The expected automata, or {@code null} for no constraint.
+     * @param disallowedAutSupKinds The disallowed supervisory kinds of automata.
      * @param termination Cooperative termination query function.
      */
     public ConvertToEventBasedPreChecker(boolean allowPlainEvents, boolean allowNonDeterminism,
-            ExpectedNumberOfAutomata expectedNumberOfAutomata, Termination termination)
+            ExpectedNumberOfAutomata expectedNumberOfAutomata, EnumSet<SupKind> disallowedAutSupKinds,
+            Termination termination)
     {
-        super(termination, getChecks(allowPlainEvents, allowNonDeterminism, expectedNumberOfAutomata));
+        super(termination,
+                getChecks(allowPlainEvents, allowNonDeterminism, expectedNumberOfAutomata, disallowedAutSupKinds));
     }
 
     /**
@@ -61,10 +69,11 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * @param allowPlainEvents Whether to allow events without controllability.
      * @param allowNonDeterminism Whether to allow non-deterministic automata.
      * @param expectedNumberOfAutomata The expected automata, or {@code null} for no constraint.
+     * @param disallowedAutSupKinds The disallowed supervisory kinds of automata.
      * @return The checks to use.
      */
     private static List<CifCheck> getChecks(boolean allowPlainEvents, boolean allowNonDeterminism,
-            ExpectedNumberOfAutomata expectedNumberOfAutomata)
+            ExpectedNumberOfAutomata expectedNumberOfAutomata, Set<SupKind> disallowedAutSupKinds)
     {
         List<CifCheck> checks = list();
 
@@ -133,6 +142,12 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
                             .setMinMaxSupervisorAuts(1, 1));
                     break;
             }
+        }
+
+        // Only certain supervisory kinds for automata.
+        if (!disallowedAutSupKinds.isEmpty()) {
+            checks.add(new AutOnlySpecificSupKindsCheck(
+                    EnumSet.copyOf(Sets.difference(EnumSet.allOf(SupKind.class), disallowedAutSupKinds))));
         }
 
         // Return all the checks.

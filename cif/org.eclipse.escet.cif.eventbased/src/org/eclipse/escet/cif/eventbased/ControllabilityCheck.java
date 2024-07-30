@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.eventbased;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
@@ -25,7 +24,6 @@ import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.cif.eventbased.builders.AutomatonBuilder;
 import org.eclipse.escet.cif.eventbased.builders.State;
 import org.eclipse.escet.cif.eventbased.builders.StateEdges;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /**
  * Check whether an automaton is a proper supervisor for a set of plants.
@@ -47,33 +45,7 @@ public class ControllabilityCheck {
     }
 
     /**
-     * Check whether the controllability check can be performed with the given automata.
-     *
-     * @param auts Automata to use in the controllability check.
-     */
-    public static void controllabilityCheckPreCheck(List<Automaton> auts) {
-        for (Automaton aut: auts) {
-            switch (aut.kind) {
-                case PLANT:
-                case SUPERVISOR:
-                    break;
-
-                case REQUIREMENT:
-                case UNKNOWN: {
-                    String msg = fmt("Unsupported automaton \"%s\": only plants and a supervisor are allowed "
-                            + "for the controllability check.", aut.name);
-                    throw new InvalidInputException(msg);
-                }
-
-                default:
-                    throw new AssertionError("Unexpected automaton kind.");
-            }
-        }
-    }
-
-    /**
-     * Perform controllability check. It is assumed that the input survived execution of
-     * {@link #controllabilityCheckPreCheck}.
+     * Perform controllability check.
      *
      * @param auts Automata to check for controllability.
      * @return Non-empty list of disabled uncontrollable events, or non-empty list of disabled controllable events (if

@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,7 @@ import org.eclipse.escet.cif.eventbased.automata.AutomatonHelper;
 import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
@@ -153,9 +155,10 @@ public class TrimCheckApplication extends Application<IOutputComponent> {
             boolean allowPlainEvents = true;
             boolean allowNonDeterminism = true;
             ExpectedNumberOfAutomata expectedNumberOfAutomata = null;
+            EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
