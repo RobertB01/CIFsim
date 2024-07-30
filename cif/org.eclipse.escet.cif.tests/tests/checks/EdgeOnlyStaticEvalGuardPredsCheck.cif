@@ -1,0 +1,33 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int zero():
+  return 0;
+end
+
+const bool b = true;
+
+automaton a:
+  disc int x;
+
+  location:
+    initial;
+    edge tau;
+    edge tau when true;
+    edge tau when false;
+    edge tau when true, false;
+    edge tau when b and not b;
+    edge tau when true, 1/0 = 1;    // Evaluation failure.
+    edge tau when true, zero() = 0; // Not statically evaluable.
+    edge tau when x = 0;            // Not statically evaluable.
+end
