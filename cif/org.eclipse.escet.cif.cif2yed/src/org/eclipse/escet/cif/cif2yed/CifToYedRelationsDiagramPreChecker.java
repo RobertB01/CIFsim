@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.cif2yed;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.CompDefNoSpecificParamsCheck;
+import org.eclipse.escet.cif.checkers.checks.CompDefNoSpecificParamsCheck.NoSpecificCompDefParam;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF to yEd transformation precondition checker for generating relations diagrams. */
@@ -24,7 +26,9 @@ public class CifToYedRelationsDiagramPreChecker extends CifPreconditionChecker {
      * @param termination Cooperative termination query function.
      */
     public CifToYedRelationsDiagramPreChecker(Termination termination) {
-        super(termination
+        super(termination,
+
+                new CompDefNoSpecificParamsCheck(NoSpecificCompDefParam.COMPONENT)
 
         );
     }

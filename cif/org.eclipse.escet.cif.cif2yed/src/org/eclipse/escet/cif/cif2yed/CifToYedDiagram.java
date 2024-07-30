@@ -34,6 +34,7 @@ import org.eclipse.escet.cif.texteditor.CifCodeHighlighter;
 import org.eclipse.escet.cif.texteditor.CifTextEditorLightTheme;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -89,10 +90,12 @@ public abstract class CifToYedDiagram {
      * Transform a CIF specification into a yEd/GraphML XML document.
      *
      * @param spec The CIF specification.
+     * @param absSpecPath The absolute local file system path to the CIF file.
+     * @param termination Cooperative termination query function.
      * @return The yEd/GraphML XML document.
      * @throws UnsupportedException If an unsupported feature is found.
      */
-    public Document transform(Specification spec) {
+    public Document transform(Specification spec, String absSpecPath, Termination termination) {
         // Options.
         Assert.check(highlighter == null);
         highlight = SyntaxHighlightingOption.applyHighlighting();
@@ -143,7 +146,7 @@ public abstract class CifToYedDiagram {
             metrics = graphics.getFontMetrics();
 
             // Add content from CIF model.
-            addSpec(spec, root);
+            addSpec(spec, absSpecPath, root, termination);
 
             // Cleanup.
             graphics.dispose();
@@ -163,10 +166,12 @@ public abstract class CifToYedDiagram {
      * Add a CIF specification to the yEd/GraphML diagram.
      *
      * @param spec The CIF specification.
+     * @param absSpecPath The absolute local file system path to the CIF file.
      * @param root The root 'graphml' XML element to which to add new elements.
+     * @param termination Cooperative termination query function.
      * @throws UnsupportedException If an unsupported feature is found.
      */
-    protected abstract void addSpec(Specification spec, Element root);
+    protected abstract void addSpec(Specification spec, String absSpecPath, Element root, Termination termination);
 
     /**
      * Constructs a new yEd/GraphML XML document.
