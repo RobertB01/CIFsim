@@ -85,8 +85,6 @@ public class ControllabilityCheck {
                 default:
                     throw new AssertionError("Unexpected automaton kind.");
             }
-
-            AutomatonHelper.reportNonDeterministic(aut);
         }
         if (!seenPlant) {
             String msg = "No plant automata found in the input for the controllability check.";

@@ -120,9 +120,6 @@ public class SupervisorSynthesis {
                 }
             }
 
-            // Check that the automaton is deterministic.
-            AutomatonHelper.reportNonDeterministic(aut);
-
             // Warn for lack of marked locations.
             boolean autMarked = aut.hasMarkedLoc();
             if (!autMarked) {

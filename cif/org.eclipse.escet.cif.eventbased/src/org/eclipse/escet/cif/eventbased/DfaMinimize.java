@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.eventbased;
 
-import static org.eclipse.escet.cif.eventbased.automata.AutomatonHelper.reportNonDeterministic;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
@@ -37,8 +36,6 @@ public class DfaMinimize {
             String msg = fmt("Automaton \"%s\" has no initial location.", aut.name);
             throw new InvalidInputException(msg);
         }
-
-        reportNonDeterministic(aut);
     }
 
     /**

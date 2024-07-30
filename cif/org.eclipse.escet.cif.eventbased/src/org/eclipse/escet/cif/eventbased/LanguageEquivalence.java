@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.eventbased;
 
-import static org.eclipse.escet.cif.eventbased.automata.AutomatonHelper.reportNonDeterministic;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
@@ -56,11 +55,6 @@ public class LanguageEquivalence {
             String msg = fmt("Automaton \"%s\" has a different alphabet than automaton \"%s\".", auts.get(0).name,
                     auts.get(1).name);
             throw new InvalidInputException(msg);
-        }
-
-        // Check that the automata are deterministic.
-        for (Automaton aut: auts) {
-            reportNonDeterministic(aut);
         }
     }
 

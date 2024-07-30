@@ -44,19 +44,23 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * Constructor for the {@link ConvertToEventBasedPreChecker} class.
      *
      * @param allowPlainEvents Whether to allow events without controllability.
+     * @param allowNonDeterminism Whether to allow non-deterministic automata.
      * @param termination Cooperative termination query function.
      */
-    public ConvertToEventBasedPreChecker(boolean allowPlainEvents, Termination termination) {
-        super(termination, getChecks(allowPlainEvents));
+    public ConvertToEventBasedPreChecker(boolean allowPlainEvents, boolean allowNonDeterminism,
+            Termination termination)
+    {
+        super(termination, getChecks(allowPlainEvents, allowNonDeterminism));
     }
 
     /**
      * Get the checks to use.
      *
      * @param allowPlainEvents Whether to allow events without controllability.
+     * @param allowNonDeterminism Whether to allow non-deterministic automata.
      * @return The checks to use.
      */
-    private static List<CifCheck> getChecks(boolean allowPlainEvents) {
+    private static List<CifCheck> getChecks(boolean allowPlainEvents, boolean allowNonDeterminism) {
         List<CifCheck> checks = list();
 
         // Events without controllability may not be supported. Event 'tau' is never supported.
@@ -94,6 +98,11 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
 
         // Edge guards only if they are trivially true/false.
         checks.add(new EdgeOnlyStaticEvalGuardPredsCheck());
+
+        // Non-deterministic automata may not be supported.
+        if (!allowNonDeterminism) {
+            checks.add(new AutOnlyDeterministicCheck());
+        }
 
         // Return all the checks.
         return checks;

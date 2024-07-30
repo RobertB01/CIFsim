@@ -53,7 +53,6 @@ public class NonConflictingCheck {
      */
     public static void nonconflictingPreCheck(List<Automaton> automs) {
         for (Automaton aut: automs) {
-            AutomatonHelper.reportNonDeterministic(aut);
             if (!AutomatonHelper.trimCheck(aut)) {
                 String msg = fmt("Unsupported automaton \"%s\": the automaton is not trim.", aut.name);
                 throw new InvalidInputException(msg);

@@ -127,8 +127,10 @@ public class AutomatonAbstractionApplication extends Application<IOutputComponen
 
             // Check preconditions.
             boolean allowPlainEvents = true;
+            boolean allowNonDeterminism = true;
             Termination termination = () -> isTerminationRequested();
-            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, termination);
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
+                    termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

@@ -137,8 +137,10 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
 
             // Check preconditions.
             boolean allowPlainEvents = false;
+            boolean allowNonDeterminism = false;
             Termination termination = () -> isTerminationRequested();
-            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, termination);
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
+                    termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
