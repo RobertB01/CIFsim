@@ -57,7 +57,7 @@ public class ConvertToEventBased {
     /**
      * Convert a CIF specification for use by the event-based synthesis tooling.
      *
-     * @param spec CIF specification to check and convert.
+     * @param spec CIF specification to convert.
      */
     public void convertSpecification(Specification spec) {
         events = map();
@@ -110,7 +110,7 @@ public class ConvertToEventBased {
             return autEvt;
         }
 
-        // Check controllability.
+        // Get controllability.
         EventControllability eventContr;
         if (evt.getControllable() == null) {
             eventContr = EventControllability.PLAIN_EVENT;
@@ -168,8 +168,7 @@ public class ConvertToEventBased {
                 for (Edge edge: loc.getEdges()) {
                     // Edges without events (implicit 'tau' event) is disallowed by a precondition.
                     for (EdgeEvent edgeEvent: edge.getEvents()) {
-                        // Add event used to synchronize. No need to check for send/receive, a a precondition check
-                        // disallows channels.
+                        // Add event used to synchronize. Preconditions exclude channels.
                         org.eclipse.escet.cif.eventbased.automata.Event event;
                         event = convertEvent(edgeEvent.getEvent());
                         alphabet.add(event);
@@ -271,7 +270,7 @@ public class ConvertToEventBased {
     /**
      * Convert a CIF location for use by the event-based synthesis tools.
      *
-     * @param loc Location to check and convert.
+     * @param loc Location to convert.
      * @param locations Location map from CIF locations to event-based locations.
      * @param resAut Output automaton.
      * @return The converted location.
