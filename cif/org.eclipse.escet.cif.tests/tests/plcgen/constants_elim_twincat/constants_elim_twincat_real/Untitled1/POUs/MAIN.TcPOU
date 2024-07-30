@@ -24,12 +24,16 @@ END_VAR]]></Declaration>
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Specification (top-level group):
+ *
  * - Input variable "bol".
  * - Input variable "col".
  * - Input variable "i".
  *
+ * ----
  * Automaton "aut":
+ *
  * - Discrete variable "aut.y".
  *
  * - PLC edge selection variable "edge_aut".
@@ -39,7 +43,6 @@ END_VAR]]></Declaration>
  * - Controllable event "aut.e".
  * - Controllable event "aut.f".
  * - Controllable event "aut.g".
- *
  *------------------------------------------------------ *)
 
 (* --- Initialize state. --------------------------------------------------- *)

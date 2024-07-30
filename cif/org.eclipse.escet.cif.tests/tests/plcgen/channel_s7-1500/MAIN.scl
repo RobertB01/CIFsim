@@ -26,14 +26,18 @@ BEGIN
     (*------------------------------------------------------
      * Model overview:
      *
+     * ----
      * Automaton "M1":
+     *
      * - Discrete variable "M1.vm1".
      *
      * - No use of uncontrollable events.
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "M2":
+     *
      * - Current location of automaton "M2".
      * - Discrete variable "M2.vm2".
      *
@@ -41,7 +45,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "R1":
+     *
      * - Discrete variable "R1.vr1".
      *
      * - PLC edge selection variable "edge_R1".
@@ -50,7 +56,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "R2":
+     *
      * - Current location of automaton "R2".
      * - Discrete variable "R2.vr2".
      *
@@ -60,7 +68,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "S1":
+     *
      * - Discrete variable "S1.vs1".
      *
      * - PLC edge selection variable "edge_S1".
@@ -69,7 +79,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "S2":
+     *
      * - Current location of automaton "S2".
      * - Discrete variable "S2.vs2".
      *
@@ -79,7 +91,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "Y1":
+     *
      * - Discrete variable "Y1.vy1".
      *
      * - PLC edge selection variable "edge_Y1".
@@ -88,7 +102,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "Y2":
+     *
      * - Current location of automaton "Y2".
      * - Discrete variable "Y2.vy2".
      *
@@ -97,7 +113,6 @@ BEGIN
      * - No use of uncontrollable events.
      *
      * - Controllable event "c".
-     *
      *------------------------------------------------------ *)
 
     (* --- Initialize state. --------------------------------------------------- *)
@@ -341,7 +356,11 @@ BEGIN
              *******************************)
             (* Perform assignments of automaton "M1". *)
             IF current_M1_vm1 = 1 THEN
-                (* Perform assignments of the 1st edge in location "M1.A". *)
+                (***********
+                 * Location "A":
+                 *
+                 * Perform assignments of the 1st edge in location "M1.A".
+                 ***********)
                 (* Perform update of discrete variable "M1.vm1". *)
                 "DB".M1_vm1 := 1;
             END_IF;

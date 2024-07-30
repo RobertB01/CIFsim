@@ -47,7 +47,9 @@ END_VAR
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Automaton "hw_button":
+ *
  * - Current location of automaton "hw_button".
  * - Input variable "hw_button.bat".
  * - Input variable "hw_button.bit".
@@ -61,7 +63,9 @@ END_VAR
  *
  * - No use of controllable events.
  *
+ * ----
  * Automaton "hw_lamp":
+ *
  * - Current location of automaton "hw_lamp".
  * - Discrete variable "hw_lamp.bit".
  *
@@ -72,7 +76,9 @@ END_VAR
  * - Controllable event "lamp.off".
  * - Controllable event "lamp.on".
  *
+ * ----
  * Automaton "sup":
+ *
  * - Current location of automaton "sup".
  *
  * - PLC edge selection variable "edge_sup".
@@ -85,7 +91,9 @@ END_VAR
  * - Controllable event "lamp.on".
  * - Controllable event "timer.start".
  *
+ * ----
  * Automaton "timer":
+ *
  * - Current location of automaton "timer".
  * - Continuous variable "timer.t".
  *
@@ -94,7 +102,6 @@ END_VAR
  * - Uncontrollable event "timer.timeout".
  *
  * - Controllable event "timer.start".
- *
  *------------------------------------------------------ *)
 
 (* --- Read PLC inputs. ---------------------------------------------------- *)

@@ -21,7 +21,9 @@ END_VAR]]></Declaration>
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Automaton "p":
+ *
  * - Discrete variable "p.x".
  *
  * - PLC edge selection variable "edge_p".
@@ -29,7 +31,6 @@ END_VAR]]></Declaration>
  * - Uncontrollable event "u".
  *
  * - Controllable event "e".
- *
  *------------------------------------------------------ *)
 
 (* --- Initialize state. --------------------------------------------------- *)

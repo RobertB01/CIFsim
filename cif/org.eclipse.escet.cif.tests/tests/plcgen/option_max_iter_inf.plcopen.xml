@@ -70,7 +70,9 @@
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Automaton "p":
+ *
  * - Discrete variable "p.x".
  *
  * - PLC edge selection variable "edge_p".
@@ -78,7 +80,6 @@
  * - Uncontrollable event "u".
  *
  * - Controllable event "e".
- *
  *------------------------------------------------------ *)
 
 (* --- Initialize state. --------------------------------------------------- *)
