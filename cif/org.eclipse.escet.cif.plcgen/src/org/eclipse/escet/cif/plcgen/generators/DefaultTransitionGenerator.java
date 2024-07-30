@@ -955,7 +955,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @param transEdge Edge to perform.
      * @param doAutDocPrint Whether to add documentation about the automaton above the edge updates in the PLC code.
      * @param doLocDocPrint Whether to add documentation about the location above the edge updates in the PLC code.
-
      * @return The generated PLC statements.
      */
     private List<PlcStatement> genMonitorUpdateEdge(TransitionAutomaton transAut, TransitionEdge transEdge,

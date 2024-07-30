@@ -473,14 +473,20 @@ CIF has <<lang-tut-extensions-chapter-annotations-documentation,documentation an
 In such an annotation, design related information can be written about the element it is attached to.
 In that way, design information is available within the model, and it can be used, transported or converted by CIF applications.
 
-The PLC code generator understands documentation annotations of specifications, groups, automata, events, locations, edges, and discrete, continuous and input  variables.
+The PLC code generator understands documentation annotations of specifications, groups, automata, events, locations, edges, and discrete, continuous and input variables.
 Indirectly it also understand documentation annotations of invariants, since it uses CIF conversions to convert these to one of the previously mentioned CIF elements.
-All documentation annotations that it finds in the input specification are copied into the generated PLC code as comments, where appropriate.
+
+All documentation annotations that it understands in the input specification and that affect behavior of the system are copied into the generated PLC code as comments, where appropriate.
 For example, documentation annotations of the specification are only shown in the overall model overview.
 Documentation annotations of variables are shown whenever the variable is updated.
 Edge documentation annotations are shown when the edge is considered to be taken, and when it is actually taken.
 
-As an example, the following automaton will enable the `timed_out` event 10 seconds after the last `reset` event:
+Documentation annotations that it does not understand or that are irrelevant are ignored.
+The former causes documentation of algebraic variables (these are inlined), constants, enumerations and their literals and type declarations to be ignored.
+Irrelevant CIF elements are for example empty automata, empty locations, or unused events.
+As these are not included in the PLC program,the documentation of such elements is also ignored.
+
+As an example of how documentation gets added, consider the following CIF specification:
 
 [source, cif]
 ----
@@ -517,10 +523,12 @@ end
 The example is extensively documented.
 Note that documentation annotations for the specification and for the edges must have a double `@@`.
 
-Below are a few examples of what could be generated in the PLC code.
+Below are a few examples of what can be generated in the PLC code.
 For all details, and to see the code generated for your specific target, please convert the example yourself and check what the PLC code generator produces.
 
-.Global overview description of the specification.
+A global overview description of the specification is created in the PLC code.
+It looks like:
+
 [source]
 ----
 (*------------------------------------------------------
@@ -545,7 +553,8 @@ For all details, and to see the code generated for your specific target, please 
  *------------------------------------------------------ *)
 ----
 
-.Code to test whether event `timed_out` can occur.
+PLC code that tests whether event `timed_out` can occur has a comment describing the CIF elements involved together with their documentation:
+
 [source]
 ----
 (***********
@@ -569,7 +578,8 @@ ELSE
 END_IF;
 ----
 
-.Code that resets the timer while in the active location.
+PLC Code that performs an edge (after deciding it should be taken) has a comment with the documentation of the edge:
+
 [source]
 ----
 ELSIF edge_ActivityTimer_1 = 2 THEN

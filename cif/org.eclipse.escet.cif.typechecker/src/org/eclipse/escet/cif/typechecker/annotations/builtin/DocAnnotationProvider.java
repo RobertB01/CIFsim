@@ -267,7 +267,7 @@ public class DocAnnotationProvider extends AnnotationProvider {
         }
 
         /**
-         * Perform formatting of the given {@code @doc} anotation texts.
+         * Perform formatting of the given {@code @doc} annotation texts.
          *
          * @param docBlocks {@code @doc} documentation lines to format.
          * @return The formatted text.

@@ -238,7 +238,7 @@ public class CifEventTransition {
          * @param guards Guards of the edge.
          * @param updates Updates of the edge.
          */
-        public TransitionEdge(Edge edge , int edgeNumber, Location sourceLoc, Location targetLoc, Expression sendValue,
+        public TransitionEdge(Edge edge, int edgeNumber, Location sourceLoc, Location targetLoc, Expression sendValue,
                 List<Expression> guards, List<Update> updates)
         {
             this.edge = edge;
@@ -253,7 +253,7 @@ public class CifEventTransition {
         /**
          * Return whether the edge has guards.
          *
-         * @return Whether the edge has guard.
+         * @return Whether the edge has guards.
          */
         public boolean hasGuards() {
             return !guards.isEmpty();
