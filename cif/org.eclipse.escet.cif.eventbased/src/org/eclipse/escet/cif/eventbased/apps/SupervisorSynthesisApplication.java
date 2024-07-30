@@ -50,6 +50,7 @@ import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 
@@ -135,7 +136,9 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
             new ElimComponentDefInst().transform(spec);
 
             // Check preconditions.
-            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(false, () -> isTerminationRequested());
+            boolean allowPlainEvents = false;
+            Termination termination = () -> isTerminationRequested();
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

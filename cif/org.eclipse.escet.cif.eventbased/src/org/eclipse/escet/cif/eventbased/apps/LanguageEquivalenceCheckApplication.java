@@ -45,6 +45,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 
 /** Language equivalence check application. */
@@ -121,7 +122,9 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
             new ElimComponentDefInst().transform(spec);
 
             // Check preconditions.
-            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(true, () -> isTerminationRequested());
+            boolean allowPlainEvents = true;
+            Termination termination = () -> isTerminationRequested();
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

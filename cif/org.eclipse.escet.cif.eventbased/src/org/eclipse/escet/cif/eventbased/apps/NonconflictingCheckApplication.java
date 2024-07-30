@@ -38,6 +38,7 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
@@ -117,7 +118,9 @@ public class NonconflictingCheckApplication extends Application<IOutputComponent
             new ElimComponentDefInst().transform(spec);
 
             // Check preconditions.
-            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(true, () -> isTerminationRequested());
+            boolean allowPlainEvents = true;
+            Termination termination = () -> isTerminationRequested();
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
