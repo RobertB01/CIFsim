@@ -47,7 +47,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
@@ -126,19 +125,10 @@ public class ConvertToEventBased {
      * Convert an event reference expression.
      *
      * @param expr Event reference expression to convert.
-     * @param loc Location containing the expression. May be {@code null}, but only if the event reference expression is
-     *     not a 'tau' reference.
      * @return The converted event (referred to by the expression).
      * @throws UnsupportedException When the event is not supported.
      */
-    private org.eclipse.escet.cif.eventbased.automata.Event convertEvent(Expression expr, Location loc) {
-        // Check for 'tau'.
-        if (expr instanceof TauExpression) {
-            String msg = fmt("Unsupported %s: edges with event \"tau\" are not supported.",
-                    CifTextUtils.getLocationText1(loc));
-            throw new UnsupportedException(msg);
-        }
-
+    private org.eclipse.escet.cif.eventbased.automata.Event convertEvent(Expression expr) {
         // Get CIF event.
         Assert.check(expr instanceof EventExpression);
         Event evt = ((EventExpression)expr).getEvent();
@@ -235,7 +225,7 @@ public class ConvertToEventBased {
                         // send/receive, as the conversion of the event already
                         // disallows channels.
                         org.eclipse.escet.cif.eventbased.automata.Event event;
-                        event = convertEvent(edgeEvent.getEvent(), loc);
+                        event = convertEvent(edgeEvent.getEvent());
                         alphabet.add(event);
                     }
                 }
@@ -243,7 +233,7 @@ public class ConvertToEventBased {
         } else {
             for (Expression evt: aut.getAlphabet().getEvents()) {
                 org.eclipse.escet.cif.eventbased.automata.Event event;
-                event = convertEvent(evt, null);
+                event = convertEvent(evt);
                 alphabet.add(event);
             }
         }
@@ -258,7 +248,7 @@ public class ConvertToEventBased {
                 monitors = setc(monEvents.size());
                 for (Expression exprevt: monEvents) {
                     org.eclipse.escet.cif.eventbased.automata.Event event;
-                    event = convertEvent(exprevt, null);
+                    event = convertEvent(exprevt);
                     monitors.add(event);
                 }
             }
@@ -307,16 +297,10 @@ public class ConvertToEventBased {
                     dstLoc = convertLocation(edge.getTarget(), aut, locs, resAut);
                 }
 
-                if (edge.getEvents().isEmpty()) {
-                    String msg = fmt("Unsupported %s: edges with event \"tau\" are not supported.",
-                            CifTextUtils.getLocationText1(loc));
-                    throw new UnsupportedException(msg);
-                }
-
                 boolean guard = checkEdge(edge, loc);
                 for (EdgeEvent ee: edge.getEvents()) {
                     org.eclipse.escet.cif.eventbased.automata.Event evt;
-                    evt = convertEvent(ee.getEvent(), loc);
+                    evt = convertEvent(ee.getEvent());
                     if (guard) {
                         addEdge(evt, srcLoc, dstLoc);
                         if (monitors != null) {

@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.eventbased.apps.conversion;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
+import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF to event-based conversion precondition checker. */
@@ -28,7 +29,10 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
         super(termination,
 
                 // Channels are not supported.
-                new EventNoChannelsCheck()
+                new EventNoChannelsCheck(),
+
+                // Event 'tau' is not supported.
+                new EventNoTauCheck()
 
         );
     }
