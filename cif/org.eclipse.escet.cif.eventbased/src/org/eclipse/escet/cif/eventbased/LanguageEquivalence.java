@@ -30,7 +30,7 @@ public class LanguageEquivalence {
     }
 
     /**
-     * Check whether the provided automata fulfill all preconditions for the language equivalence check.
+     * Check additional preconditions for the language equivalence check.
      *
      * @param auts Automata to check.
      */

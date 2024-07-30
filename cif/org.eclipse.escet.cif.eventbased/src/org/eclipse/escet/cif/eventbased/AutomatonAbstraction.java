@@ -123,8 +123,7 @@ public class AutomatonAbstraction extends PartitionRefinement {
     }
 
     /**
-     * Verify whether the automaton and the set of events are valid for performing automaton abstraction. Generates a
-     * fatal error if the input is not valid.
+     * Check additional preconditions for the automaton abstraction.
      *
      * @param aut Input automaton to abstract.
      * @param observables Set of observable events (to abstract to).
