@@ -11,10 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-controllable z;
+input bool i;
 
 plant a:
   location a:
-    initial true, true;
-    edge z;
+    initial;
+    marked true, i, true;
 end

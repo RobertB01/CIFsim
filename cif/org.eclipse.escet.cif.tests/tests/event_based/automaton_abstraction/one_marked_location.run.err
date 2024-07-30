@@ -1,2 +1,9 @@
 ERROR: Failed to compute automaton abstraction for CIF file "event_based/automaton_abstraction/one_marked_location.cif".
-CAUSE: Automaton "p" cannot be partitioned because it has no unmarked locations.
+CAUSE: CIF automaton abstraction tool failed due to unsatisfied preconditions:
+
+  ------------------------------------------
+  (1/1) Automaton has only marked locations.
+  ------------------------------------------
+   * In the top-level scope of the specification:
+     - plant automaton p:
+                       ^

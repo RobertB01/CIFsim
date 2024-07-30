@@ -13,8 +13,10 @@
 
 controllable z;
 
+input bool i;
+
 plant a:
   location a:
     initial;
-    edge z when 1=1;
+    edge z when true, i, true;
 end

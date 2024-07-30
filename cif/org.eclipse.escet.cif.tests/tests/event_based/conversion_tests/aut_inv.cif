@@ -11,8 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+input bool i;
+
 plant p:
-  plant invariant true;
+  plant invariant i;
 
   location:
     initial;

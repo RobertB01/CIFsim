@@ -1,2 +1,6 @@
 ERROR: Failed to compute synchronous product for CIF file "event_based/synchronous_product/empty_file.cif".
-CAUSE: Cannot compute the product of 0 automata.
+CAUSE: CIF synchronous product tool failed due to unsatisfied preconditions:
+
+  ----------------------------------------------------------------------------
+  (1/1) Specification does not have at least 1 automaton (no automaton found).
+  ----------------------------------------------------------------------------

@@ -1,2 +1,6 @@
 ERROR: Failed to compute trim for CIF file "event_based/trim/empty_file.cif".
-CAUSE: CIF input file contains 0 automata, while trim requires a file with exactly one automaton.
+CAUSE: CIF trim tool failed due to unsatisfied preconditions:
+
+  ---------------------------------------------------------------------------
+  (1/1) Specification does not have exactly 1 automaton (no automaton found).
+  ---------------------------------------------------------------------------

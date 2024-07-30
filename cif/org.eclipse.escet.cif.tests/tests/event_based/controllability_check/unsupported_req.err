@@ -1,2 +1,9 @@
 ERROR: Failed to apply controllability check for CIF file "event_based/controllability_check/unsupported_req.cif".
-CAUSE: Unsupported automaton "r2": only plants and a supervisor are allowed for the controllability check.
+CAUSE: CIF controllability check tool failed due to unsatisfied preconditions:
+
+  ---------------------------------------------------------------------------------------
+  (1/1) Automaton is a requirement automaton rather than a plant or supervisor automaton.
+  ---------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - requirement automaton r2:
+                             ^

@@ -1,2 +1,12 @@
 ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/sup_evt_not_in_plant2.cif".
-CAUSE: Events "r1.e3", "r2.e4" are in the alphabet of the requirements, but not in the alphabet of the plants.
+CAUSE: CIF supervisor synthesis tool failed due to unsatisfied preconditions:
+
+  --------------------------------------------------------------------------
+  (1/1) Event is in the requirement alphabet, but not in the plant alphabet.
+  --------------------------------------------------------------------------
+   * In automaton "r1":
+     - controllable e3;
+                    ^
+   * In automaton "r2":
+     - controllable e4;
+                    ^

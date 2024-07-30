@@ -1,2 +1,9 @@
 ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/loc_urgent.cif".
-CAUSE: Unsupported location of automaton "p": urgent locations are not supported.
+CAUSE: CIF synchronous product tool failed due to unsatisfied preconditions:
+
+  -------------------------
+  (1/1) Location is urgent.
+  -------------------------
+   * In automaton "p":
+     - location:
+       ^

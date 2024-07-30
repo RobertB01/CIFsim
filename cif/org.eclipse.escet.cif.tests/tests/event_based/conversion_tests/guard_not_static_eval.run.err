@@ -1,0 +1,9 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/guard_not_static_eval.cif".
+CAUSE: CIF synchronous product tool failed due to unsatisfied preconditions:
+
+  -----------------------------------------------------------
+  (1/1) Edge has a guard that cannot be evaluated statically.
+  -----------------------------------------------------------
+   * In location "a.a":
+     - edge z when true, i, true;
+                         ^
