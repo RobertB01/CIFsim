@@ -13,6 +13,11 @@
 
 package org.eclipse.escet.cif.eventbased.apps.conversion;
 
+import static org.eclipse.escet.common.java.Lists.list;
+
+import java.util.List;
+
+import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
@@ -40,41 +45,50 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * @param termination Cooperative termination query function.
      */
     public ConvertToEventBasedPreChecker(Termination termination) {
-        super(termination,
+        super(termination, getChecks());
+    }
 
-                // Channels are not supported.
-                new EventNoChannelsCheck(),
+    /**
+     * Get the checks to use.
+     *
+     * @return The checks to use.
+     */
+    private static List<CifCheck> getChecks() {
+        List<CifCheck> checks = list();
 
-                // Event 'tau' is not supported.
-                new EventNoTauCheck(),
+        // Channels are not supported.
+        checks.add(new EventNoChannelsCheck());
 
-                // Automata with multiple initial locations are not supported.
-                new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.AT_MOST_ONE),
+        // Event 'tau' is not supported.
+        checks.add(new EventNoTauCheck());
 
-                // Edges with updates are not supported.
-                new EdgeNoUpdatesCheck(),
+        // Automata with multiple initial locations are not supported.
+        checks.add(new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.AT_MOST_ONE));
 
-                // Urgent locations and edges are not supported.
-                new LocNoUrgentCheck(),
-                new EdgeNoUrgentCheck(),
+        // Edges with updates are not supported.
+        checks.add(new EdgeNoUpdatesCheck());
 
-                // Initialization and marker predicates in components are not supported.
-                new CompNoInitPredsCheck(),
-                new CompNoMarkerPredsCheck(),
+        // Urgent locations and edges are not supported.
+        checks.add(new LocNoUrgentCheck());
+        checks.add(new EdgeNoUrgentCheck());
 
-                // Initialization and marker predicates in locations only if they are trivially true/false.
-                new LocOnlyStaticEvalInitPredsCheck(),
-                new LocOnlyStaticEvalMarkerPredsCheck(),
+        // Initialization and marker predicates in components are not supported.
+        checks.add(new CompNoInitPredsCheck());
+        checks.add(new CompNoMarkerPredsCheck());
 
-                // Invariants are not supported, unless they do not restrict any behavior.
-                new InvNoSpecificInvsCheck()
-                        .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS,
-                                NoInvariantPlaceKind.ALL_PLACES)
-                        .ignoreNeverBlockingInvariants(),
+        // Initialization and marker predicates in locations only if they are trivially true/false.
+        checks.add(new LocOnlyStaticEvalInitPredsCheck());
+        checks.add(new LocOnlyStaticEvalMarkerPredsCheck());
 
-                // Edge guards only if they are trivially true/false.
-                new EdgeOnlyStaticEvalGuardPredsCheck()
+        // Invariants are not supported, unless they do not restrict any behavior.
+        checks.add(new InvNoSpecificInvsCheck()
+                .disallow(NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, NoInvariantPlaceKind.ALL_PLACES)
+                .ignoreNeverBlockingInvariants());
 
-        );
+        // Edge guards only if they are trivially true/false.
+        checks.add(new EdgeOnlyStaticEvalGuardPredsCheck());
+
+        // Return all the checks.
+        return checks;
     }
 }
