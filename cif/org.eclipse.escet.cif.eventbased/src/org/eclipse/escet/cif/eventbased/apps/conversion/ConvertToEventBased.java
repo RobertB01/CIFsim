@@ -174,16 +174,6 @@ public class ConvertToEventBased {
                     CifTextUtils.getComponentText1(comp));
             throw new UnsupportedException(msg);
         }
-        if (!comp.getMarkeds().isEmpty()) {
-            String msg = fmt("Unsupported %s: marker predicates in components are currently not supported.",
-                    CifTextUtils.getComponentText1(comp));
-            throw new UnsupportedException(msg);
-        }
-        if (!comp.getInitials().isEmpty()) {
-            String msg = fmt("Unsupported %s: initialization predicates in components are currently not supported.",
-                    CifTextUtils.getComponentText1(comp));
-            throw new UnsupportedException(msg);
-        }
 
         // Automaton.
         if (comp instanceof Automaton) {

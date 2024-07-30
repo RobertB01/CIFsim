@@ -16,6 +16,8 @@ package org.eclipse.escet.cif.eventbased.apps.conversion;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
+import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.CompNoMarkerPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUpdatesCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
@@ -47,7 +49,11 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
 
                 // Urgent locations and edges are not supported.
                 new LocNoUrgentCheck(),
-                new EdgeNoUrgentCheck()
+                new EdgeNoUrgentCheck(),
+
+                // Initialization and marker predicates in components are not supported.
+                new CompNoInitPredsCheck(),
+                new CompNoMarkerPredsCheck()
 
         );
     }
