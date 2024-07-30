@@ -166,12 +166,6 @@ public class ConvertToEventBased {
         // Create event-based event
         autEvt = new org.eclipse.escet.cif.eventbased.automata.Event(CifTextUtils.getAbsName(evt, false), eventContr);
 
-        // Check type.
-        if (evt.getType() != null) {
-            String msg = fmt("Unsupported event \"%s\": event has a data type.", CifTextUtils.getAbsName(evt));
-            throw new UnsupportedException(msg);
-        }
-
         // Store and return converted event.
         events.put(evt, autEvt);
         return autEvt;
