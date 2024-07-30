@@ -13,29 +13,14 @@
 
 package org.eclipse.escet.cif.eventbased;
 
-import static org.eclipse.escet.common.java.Strings.fmt;
-
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
 import org.eclipse.escet.cif.eventbased.equivalence.AutomatonMinimizer;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Minimize the number of locations of a DFA. */
 public class DfaMinimize {
     /** Constructor of the {@link DfaMinimize} class. */
     private DfaMinimize() {
         // Static class.
-    }
-
-    /**
-     * Check whether the provided automaton fulfills all conditions for the DFA minimization function.
-     *
-     * @param aut Automaton to check.
-     */
-    public static void preCheck(Automaton aut) {
-        if (aut.initial == null) {
-            String msg = fmt("Automaton \"%s\" has no initial location.", aut.name);
-            throw new InvalidInputException(msg);
-        }
     }
 
     /**

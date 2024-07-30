@@ -128,9 +128,10 @@ public class TrimApplication extends Application<IOutputComponent> {
             boolean allowNonDeterminism = true;
             ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_ONE_AUTOMATON;
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
+            boolean requireAutHasInitLoc = false;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, disallowedAutSupKinds, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

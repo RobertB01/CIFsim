@@ -35,14 +35,6 @@ public class LanguageEquivalence {
      * @param auts Automata to check.
      */
     public static void preCheck(List<Automaton> auts) {
-        // Check that the automata have an initial location.
-        for (Automaton aut: auts) {
-            if (aut.initial == null) {
-                String msg = fmt("Automaton \"%s\" has no initial location.", aut.name);
-                throw new InvalidInputException(msg);
-            }
-        }
-
         // Check alphabets.
         if (!auts.get(0).alphabet.equals(auts.get(1).alphabet)) {
             String msg = fmt("Automaton \"%s\" has a different alphabet than automaton \"%s\".", auts.get(0).name,

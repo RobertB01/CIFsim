@@ -130,9 +130,10 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
             boolean allowNonDeterminism = false;
             ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_ONE_AUTOMATON;
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
+            boolean requireAutHasInitLoc = true;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, disallowedAutSupKinds, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
@@ -145,11 +146,6 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
 
             // Perform minimization.
             OutputProvider.dbg("Applying " + app + "....");
-            DfaMinimize.preCheck(cte.automata.get(0));
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
             Automaton result = DfaMinimize.minimize(cte.automata.get(0));
             if (isTerminationRequested()) {
                 return 0;

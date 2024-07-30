@@ -129,9 +129,10 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
             boolean allowNonDeterminism = false;
             ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_TWO_AUTOMATA;
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
+            boolean requireAutHasInitLoc = true;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, disallowedAutSupKinds, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

@@ -53,14 +53,15 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * @param allowNonDeterminism Whether to allow non-deterministic automata.
      * @param expectedNumberOfAutomata The expected automata, or {@code null} for no constraint.
      * @param disallowedAutSupKinds The disallowed supervisory kinds of automata.
+     * @param requireAutHasInitLoc Whether each automaton must have an initial location.
      * @param termination Cooperative termination query function.
      */
     public ConvertToEventBasedPreChecker(boolean allowPlainEvents, boolean allowNonDeterminism,
             ExpectedNumberOfAutomata expectedNumberOfAutomata, EnumSet<SupKind> disallowedAutSupKinds,
-            Termination termination)
+            boolean requireAutHasInitLoc, Termination termination)
     {
-        super(termination,
-                getChecks(allowPlainEvents, allowNonDeterminism, expectedNumberOfAutomata, disallowedAutSupKinds));
+        super(termination, getChecks(allowPlainEvents, allowNonDeterminism, expectedNumberOfAutomata,
+                disallowedAutSupKinds, requireAutHasInitLoc));
     }
 
     /**
@@ -70,10 +71,12 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * @param allowNonDeterminism Whether to allow non-deterministic automata.
      * @param expectedNumberOfAutomata The expected automata, or {@code null} for no constraint.
      * @param disallowedAutSupKinds The disallowed supervisory kinds of automata.
+     * @param requireAutHasInitLoc Whether each automaton must have an initial location.
      * @return The checks to use.
      */
     private static List<CifCheck> getChecks(boolean allowPlainEvents, boolean allowNonDeterminism,
-            ExpectedNumberOfAutomata expectedNumberOfAutomata, Set<SupKind> disallowedAutSupKinds)
+            ExpectedNumberOfAutomata expectedNumberOfAutomata, Set<SupKind> disallowedAutSupKinds,
+            boolean requireAutHasInitLoc)
     {
         List<CifCheck> checks = list();
 
@@ -87,8 +90,10 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
         // Channels are not supported.
         checks.add(new EventNoChannelsCheck());
 
-        // Automata with multiple initial locations are not supported.
-        checks.add(new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.AT_MOST_ONE));
+        // Automata with multiple initial locations are not supported. If we also require at least one initial location,
+        // then each automaton must have exactly one initial location.
+        checks.add(new AutOnlyWithCertainNumberOfInitLocsCheck(
+                requireAutHasInitLoc ? AllowedNumberOfInitLocs.EXACTLY_ONE : AllowedNumberOfInitLocs.AT_MOST_ONE));
 
         // Edges with updates are not supported.
         checks.add(new EdgeNoUpdatesCheck());

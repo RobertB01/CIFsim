@@ -143,9 +143,10 @@ public class SupervisorSynthesisApplication extends Application<IOutputComponent
             boolean allowNonDeterminism = false;
             ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.AT_LEAST_ONE_PLANT_AUTOMATON;
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.of(SupKind.NONE, SupKind.SUPERVISOR);
+            boolean requireAutHasInitLoc = false;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, disallowedAutSupKinds, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

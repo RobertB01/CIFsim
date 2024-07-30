@@ -125,9 +125,10 @@ public class NonconflictingCheckApplication extends Application<IOutputComponent
             boolean allowNonDeterminism = false;
             ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.AT_LEAST_TWO_AUTOMATA;
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
+            boolean requireAutHasInitLoc = false;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, disallowedAutSupKinds, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
