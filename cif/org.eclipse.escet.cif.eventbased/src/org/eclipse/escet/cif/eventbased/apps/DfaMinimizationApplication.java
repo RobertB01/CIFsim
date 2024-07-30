@@ -19,9 +19,12 @@ import static org.eclipse.escet.common.java.Strings.makeInitialUppercase;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.eventbased.DfaMinimize;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
 import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
@@ -111,14 +114,22 @@ public class DfaMinimizationApplication extends Application<IOutputComponent> {
             OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
             CifReader cifReader = new CifReader().init();
             Specification spec = cifReader.read();
+            String absSpecPath = Paths.resolve(InputFileOption.getPath());
             if (isTerminationRequested()) {
                 return 0;
             }
 
+            // Preprocessing.
+            new ElimComponentDefInst().transform(spec);
+
+            // Check preconditions.
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(true, () -> isTerminationRequested());
+            checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
+
             // Convert from CIF.
             OutputProvider.dbg("Converting to internal representation...");
             ConvertToEventBased cte = new ConvertToEventBased();
-            cte.convertSpecification(spec, true);
+            cte.convertSpecification(spec);
             if (isTerminationRequested()) {
                 return 0;
             }

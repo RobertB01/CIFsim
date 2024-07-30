@@ -21,11 +21,14 @@ import static org.eclipse.escet.common.java.Strings.makeInitialUppercase;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.eventbased.LanguageEquivalence;
 import org.eclipse.escet.cif.eventbased.apps.conversion.CifOrigin;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
 import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.eventbased.equivalence.CounterExample;
 import org.eclipse.escet.cif.io.CifReader;
@@ -33,6 +36,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.app.framework.Application;
+import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
@@ -108,14 +112,22 @@ public class LanguageEquivalenceCheckApplication extends Application<IOutputComp
             // Load CIF specification.
             OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
             Specification spec = new CifReader().init().read();
+            String absSpecPath = Paths.resolve(InputFileOption.getPath());
             if (isTerminationRequested()) {
                 return 0;
             }
 
+            // Preprocessing.
+            new ElimComponentDefInst().transform(spec);
+
+            // Check preconditions.
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(true, () -> isTerminationRequested());
+            checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
+
             // Convert from CIF.
             OutputProvider.dbg("Converting to internal representation...");
             ConvertToEventBased cte = new ConvertToEventBased();
-            cte.convertSpecification(spec, true);
+            cte.convertSpecification(spec);
             if (isTerminationRequested()) {
                 return 0;
             }

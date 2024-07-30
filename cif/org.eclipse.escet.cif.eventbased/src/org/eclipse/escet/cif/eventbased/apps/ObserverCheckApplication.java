@@ -19,9 +19,12 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.eventbased.ObserverCheck;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ApplicationHelper;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
 import org.eclipse.escet.cif.eventbased.apps.options.ObservedEventsOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ReportFileOption;
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
@@ -109,14 +112,22 @@ public class ObserverCheckApplication extends Application<IOutputComponent> {
             // Load CIF specification.
             OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
             Specification spec = new CifReader().init().read();
+            String absSpecPath = Paths.resolve(InputFileOption.getPath());
             if (isTerminationRequested()) {
                 return 0;
             }
 
+            // Preprocessing.
+            new ElimComponentDefInst().transform(spec);
+
+            // Check preconditions.
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(true, () -> isTerminationRequested());
+            checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
+
             // Convert from CIF.
             OutputProvider.dbg("Converting to internal representation...");
             ConvertToEventBased cte = new ConvertToEventBased();
-            cte.convertSpecification(spec, true);
+            cte.convertSpecification(spec);
             if (isTerminationRequested()) {
                 return 0;
             }
