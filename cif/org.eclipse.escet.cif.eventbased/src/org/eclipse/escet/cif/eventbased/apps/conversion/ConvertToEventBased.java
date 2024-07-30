@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +43,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** Converter from CIF specification to the representation used internally in the event-based synthesis tools. */
 public class ConvertToEventBased {
@@ -54,12 +52,6 @@ public class ConvertToEventBased {
     /** Converted automata. */
     public List<org.eclipse.escet.cif.eventbased.automata.Automaton> automata;
 
-    /**
-     * If set, the conversion accepts events without controllability, value {@link EventControllability#PLAIN_EVENT} may
-     * be used in the converted result.
-     */
-    public boolean allowPlainEvents;
-
     /** Original automata, ordered by their absolute name. */
     public Map<String, Automaton> origAutoms = map();
 
@@ -68,10 +60,8 @@ public class ConvertToEventBased {
      * definition/instantiation as a side-effect.
      *
      * @param spec CIF specification to check and convert.
-     * @param allowPlainEvents If set, allow events without controllability property.
      */
-    public void convertSpecification(Specification spec, boolean allowPlainEvents) {
-        this.allowPlainEvents = allowPlainEvents;
+    public void convertSpecification(Specification spec) {
         events = map();
         automata = list();
 
@@ -126,11 +116,6 @@ public class ConvertToEventBased {
         // Check controllability.
         EventControllability eventContr;
         if (evt.getControllable() == null) {
-            if (!allowPlainEvents) {
-                String msg = fmt("Unsupported event \"%s\": event is not controllable or uncontrollable.",
-                        CifTextUtils.getAbsName(evt));
-                throw new UnsupportedException(msg);
-            }
             eventContr = EventControllability.PLAIN_EVENT;
         } else {
             eventContr = evt.getControllable() ? EventControllability.CONTR_EVENT : EventControllability.UNCONTR_EVENT;

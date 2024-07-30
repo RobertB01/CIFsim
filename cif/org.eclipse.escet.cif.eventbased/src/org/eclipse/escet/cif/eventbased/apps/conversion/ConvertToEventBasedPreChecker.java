@@ -28,6 +28,7 @@ import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlyStaticEvalGuardPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
+import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.LocOnlyStaticEvalInitPredsCheck;
@@ -42,25 +43,31 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
     /**
      * Constructor for the {@link ConvertToEventBasedPreChecker} class.
      *
+     * @param allowPlainEvents Whether to allow events without controllability.
      * @param termination Cooperative termination query function.
      */
-    public ConvertToEventBasedPreChecker(Termination termination) {
-        super(termination, getChecks());
+    public ConvertToEventBasedPreChecker(boolean allowPlainEvents, Termination termination) {
+        super(termination, getChecks(allowPlainEvents));
     }
 
     /**
      * Get the checks to use.
      *
+     * @param allowPlainEvents Whether to allow events without controllability.
      * @return The checks to use.
      */
-    private static List<CifCheck> getChecks() {
+    private static List<CifCheck> getChecks(boolean allowPlainEvents) {
         List<CifCheck> checks = list();
+
+        // Events without controllability may not be supported. Event 'tau' is never supported.
+        if (allowPlainEvents) {
+            checks.add(new EventNoTauCheck());
+        } else {
+            checks.add(new EventOnlyWithControllabilityCheck());
+        }
 
         // Channels are not supported.
         checks.add(new EventNoChannelsCheck());
-
-        // Event 'tau' is not supported.
-        checks.add(new EventNoTauCheck());
 
         // Automata with multiple initial locations are not supported.
         checks.add(new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.AT_MOST_ONE));
