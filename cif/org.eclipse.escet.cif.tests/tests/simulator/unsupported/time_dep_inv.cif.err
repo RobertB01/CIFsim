@@ -1,1 +1,8 @@
-ERROR: Time dependent state invariants are currently not supported by the CIF simulator: "time < 5".
+ERROR: CIF simulator failed due to unsatisfied preconditions:
+
+  ---------------------------------------------------
+  (1/1) Variable "time" is used in a state invariant.
+  ---------------------------------------------------
+   * In the top-level scope of the specification:
+     - invariant time < 5;
+                 ^
