@@ -46,10 +46,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
-/**
- * Converter from CIF specification to the input data of the event-based synthesis tools. Performs checking along with
- * the conversion, and throws an {@link UnsupportedException} when a non-supported feature is found.
- */
+/** Converter from CIF specification to the representation used internally in the event-based synthesis tools. */
 public class ConvertToEventBased {
     /** Converted events. */
     public Map<Event, org.eclipse.escet.cif.eventbased.automata.Event> events;
@@ -67,12 +64,11 @@ public class ConvertToEventBased {
     public Map<String, Automaton> origAutoms = map();
 
     /**
-     * Check and convert a CIF specification for use by the event-based synthesis tooling. Eliminates component
+     * Convert a CIF specification for use by the event-based synthesis tooling. Eliminates component
      * definition/instantiation as a side-effect.
      *
      * @param spec CIF specification to check and convert.
      * @param allowPlainEvents If set, allow events without controllability property.
-     * @throws UnsupportedException When the specification is not supported.
      */
     public void convertSpecification(Specification spec, boolean allowPlainEvents) {
         this.allowPlainEvents = allowPlainEvents;
@@ -114,7 +110,6 @@ public class ConvertToEventBased {
      *
      * @param expr Event reference expression to convert.
      * @return The converted event (referred to by the expression).
-     * @throws UnsupportedException When the event is not supported.
      */
     private org.eclipse.escet.cif.eventbased.automata.Event convertEvent(Expression expr) {
         // Get CIF event.
@@ -141,7 +136,7 @@ public class ConvertToEventBased {
             eventContr = evt.getControllable() ? EventControllability.CONTR_EVENT : EventControllability.UNCONTR_EVENT;
         }
 
-        // Create event-based event
+        // Create event-based event.
         autEvt = new org.eclipse.escet.cif.eventbased.automata.Event(CifTextUtils.getAbsName(evt, false), eventContr);
 
         // Store and return converted event.
@@ -150,10 +145,9 @@ public class ConvertToEventBased {
     }
 
     /**
-     * Check and convert a CIF component for use by the event-based synthesis tools.
+     * Convert a CIF component for use by the event-based synthesis tools.
      *
-     * @param comp Component to check and convert.
-     * @throws UnsupportedException When the component is not supported.
+     * @param comp Component to convert.
      */
     private void convertComponent(ComplexComponent comp) {
         // Automaton.
@@ -176,9 +170,9 @@ public class ConvertToEventBased {
     }
 
     /**
-     * Check and convert a CIF automaton to an event-based automaton.
+     * Convert a CIF automaton to an event-based automaton.
      *
-     * @param aut Automaton to check and convert.
+     * @param aut Automaton to convert.
      */
     private void convertAutomaton(Automaton aut) {
         // Convert the alphabet.
@@ -190,10 +184,9 @@ public class ConvertToEventBased {
             // automaton.
             for (Location loc: aut.getLocations()) {
                 for (Edge edge: loc.getEdges()) {
-                    // Edges without events (implicit 'tau' event) is already checked elsewhere.
+                    // Edges without events (implicit 'tau' event) is disallowed by a precondition.
                     for (EdgeEvent edgeEvent: edge.getEvents()) {
-                        // Add event used to synchronize. No need to check for
-                        // send/receive, as the conversion of the event already
+                        // Add event used to synchronize. No need to check for send/receive, a a precondition check
                         // disallows channels.
                         org.eclipse.escet.cif.eventbased.automata.Event event;
                         event = convertEvent(edgeEvent.getEvent());
@@ -268,7 +261,7 @@ public class ConvertToEventBased {
                     dstLoc = convertLocation(edge.getTarget(), locs, resAut);
                 }
 
-                boolean guard = checkEdge(edge, loc);
+                boolean guard = getBooleanValue(edge.getGuards(), true, false);
                 for (EdgeEvent ee: edge.getEvents()) {
                     org.eclipse.escet.cif.eventbased.automata.Event evt;
                     evt = convertEvent(ee.getEvent());
@@ -294,13 +287,12 @@ public class ConvertToEventBased {
     }
 
     /**
-     * Check and convert a CIF location for use by the event-based synthesis tools.
+     * Convert a CIF location for use by the event-based synthesis tools.
      *
      * @param loc Location to check and convert.
      * @param locations Location map from CIF locations to event-based locations.
      * @param resAut Output automaton.
      * @return The converted location.
-     * @throws UnsupportedException When the location is not supported.
      */
     private org.eclipse.escet.cif.eventbased.automata.Location convertLocation(Location loc,
             Map<Location, org.eclipse.escet.cif.eventbased.automata.Location> locations,
@@ -313,15 +305,12 @@ public class ConvertToEventBased {
             return resLoc;
         }
 
-        // Get marked state.
-        boolean marked = getBooleanValue(loc.getMarkeds(), false, false);
-
         // Skip edges here.
 
         // Construct new location, and add it to the map.
         Origin org = new CifOrigin(loc);
         resLoc = new org.eclipse.escet.cif.eventbased.automata.Location(resAut, org);
-        resLoc.marked = marked;
+        resLoc.marked = getBooleanValue(loc.getMarkeds(), false, false);
         locations.put(loc, resLoc);
 
         // Set initial location.
@@ -330,18 +319,5 @@ public class ConvertToEventBased {
             resAut.setInitial(resLoc);
         }
         return resLoc;
-    }
-
-    /**
-     * Check whether a CIF edge is supported for the event-based synthesis tools, and get the value of the guard if the
-     * edge is found to be supported.
-     *
-     * @param edge Edge to check.
-     * @param loc Source location of the edge.
-     * @return Value of the guard.
-     */
-    private boolean checkEdge(Edge edge, Location loc) {
-        // Return guards value.
-        return getBooleanValue(edge.getGuards(), true, false);
     }
 }
