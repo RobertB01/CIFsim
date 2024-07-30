@@ -23,7 +23,9 @@ indexterm:[event-based observer check,event-based synthesis toolset]
 The event-based observer check takes an automaton, and a subset of the events of its alphabet that are observable.
 The check verifies whether the automaton after projection (see <<tools-eventbased-chapter-projection>>) can derive the (abstracted) state of another component by synchronizing only on the observable events.
 
-The tool takes a `.cif` file containing a single automaton, and the names of the events that are observable.
+The tool takes a `.cif` file containing one automaton, and the names of the events that are observable.
+In addition, the <<tools-eventbased-supported-specifications,general event-based restrictions>> apply as well.
+
 The output is a report file that indicates whether the observer check property holds.
 If it fails, the events causing failure are also listed.
 

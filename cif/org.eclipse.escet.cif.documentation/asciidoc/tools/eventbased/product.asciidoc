@@ -24,7 +24,9 @@ The event-based synchronous product takes one or more plant or requirement autom
 Synchronous product means events on edges can only be taken if all automata with that event in their alphabet can take an edge with the same event at that time.
 This tool essentially computes the <<tools-cifsim-traces-state-space,state space>>.
 
-The tool takes a `.cif` file containing all automata to combine, and produces a new `.cif` file with the product automaton.
+The tool takes a `.cif` file containing at least one automaton, and produces a new `.cif` file with the product of the automata.
+In addition, the <<tools-eventbased-supported-specifications,general event-based restrictions>> apply as well.
+
 If the <<tools-eventbased-kinds,kinds>> of the source automata are all the same, the resulting product automaton is of that kinds as well.
 Otherwise, the product automaton has unknown kind.
 

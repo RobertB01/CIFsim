@@ -21,7 +21,10 @@ indexterm:[tools,event-based trim]
 indexterm:[event-based synthesis toolset,event-based trim]
 indexterm:[event-based trim,event-based synthesis toolset]
 The trim tool makes an automaton trim by removing all locations that are not reachable or coreachable.
-The input is a `.cif` file with a single automaton, and the tool produces a new `.cif` file with the trim automaton.
+
+The input is a `.cif` file with one automaton, and the tool produces a new `.cif` file with the trim automaton.
+In addition, the <<tools-eventbased-supported-specifications,general event-based restrictions>> apply as well.
+
 If the automaton in the input was already trim, all locations are preserved.
 
 indexterm:[event-based trim,start]

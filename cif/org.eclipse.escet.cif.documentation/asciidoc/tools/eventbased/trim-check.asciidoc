@@ -21,6 +21,9 @@ indexterm:[tools,event-based trim check]
 indexterm:[event-based synthesis toolset,event-based trim check]
 indexterm:[event-based trim check,event-based synthesis toolset]
 This check verifies that the automata in the given file are trim, that is, in each automaton, all the locations must be both reachable and coreachable.
+
+The <<tools-eventbased-supported-specifications,general event-based restrictions>> apply.
+
 If the check fails for one or more automata, the tool reports for each automaton, whether all its locations are reachable and coreachable.
 It also lists the locations where the property fails.
 
