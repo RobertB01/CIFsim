@@ -481,10 +481,10 @@ For example, documentation annotations of the specification are only shown in th
 Documentation annotations of variables are shown whenever the variable is updated.
 Edge documentation annotations are shown when the edge is considered to be taken, and when it is actually taken.
 
-Documentation annotations that it does not understand or that are irrelevant are ignored.
+Documentation annotations for CIF elements that are eliminated to other concepts or that are irrelevant are ignored.
 The former causes documentation of algebraic variables (these are inlined), constants, enumerations and their literals and type declarations to be ignored.
 Irrelevant CIF elements are for example empty automata, empty locations, or unused events.
-As these are not included in the PLC program,the documentation of such elements is also ignored.
+As these are not included in the PLC program, the documentation of such elements is also ignored.
 
 As an example of how documentation gets added, consider the following CIF specification:
 
