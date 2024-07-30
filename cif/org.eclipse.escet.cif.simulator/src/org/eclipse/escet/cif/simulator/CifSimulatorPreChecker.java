@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.simulator;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.InvNoTimeDependentCheck;
+import org.eclipse.escet.cif.checkers.checks.SvgInNoUpdatesCheck;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.common.java.Termination;
 
@@ -29,7 +30,10 @@ public class CifSimulatorPreChecker extends CifPreconditionChecker {
         super(termination,
 
                 // Time-dependent state invariants are not supported.
-                new InvNoTimeDependentCheck().setInvKinds(InvKind.STATE)
+                new InvNoTimeDependentCheck().setInvKinds(InvKind.STATE),
+
+                // No SVG input mappings with updates.
+                new SvgInNoUpdatesCheck()
 
         );
     }
