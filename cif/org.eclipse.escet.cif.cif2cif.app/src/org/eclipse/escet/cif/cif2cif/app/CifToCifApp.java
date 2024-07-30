@@ -37,6 +37,7 @@ import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.emf.EMFHelper;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
@@ -117,8 +118,8 @@ public class CifToCifApp extends Application<IOutputComponent> {
 
         // Write output file.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".transformed.cif");
-        outPath = Paths.resolve(outPath);
-        CifWriter.writeCifSpec(spec, outPath, cifReader.getAbsDirPath());
+        String absOutPath = Paths.resolve(outPath);
+        CifWriter.writeCifSpec(spec, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
 
         // All done.
         return 0;

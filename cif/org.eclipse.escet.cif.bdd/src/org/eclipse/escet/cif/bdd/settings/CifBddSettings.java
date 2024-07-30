@@ -16,9 +16,9 @@ package org.eclipse.escet.cif.bdd.settings;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
-import java.util.function.Supplier;
 
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -29,11 +29,8 @@ public class CifBddSettings {
     /** Whether modification of the settings is allowed. */
     protected boolean modificationAllowed = true;
 
-    /**
-     * Function that indicates whether termination has been requested. Once it returns {@code true}, it must return
-     * {@code true} also on subsequent calls.
-     */
-    private Supplier<Boolean> shouldTerminate = () -> false;
+    /** Cooperative termination query function. */
+    private Termination termination = Termination.NEVER;
 
     /** Callback for debug output. */
     private DebugNormalOutput debugOutput = new BlackHoleOutputProvider().getDebugOutput();
@@ -43,6 +40,9 @@ public class CifBddSettings {
 
     /** Callback for warning output. */
     private WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
+
+    /** The number of spaces to use per indentation level. */
+    private int indentAmount = 4;
 
     /** Whether to warn for plants that reference requirement state ({@code true}) or don't warn ({@code false}). */
     private boolean doPlantsRefReqsWarn = CifBddSettingsDefaults.DO_PLANTS_REF_REQS_WARN_DEFAULT;
@@ -165,28 +165,26 @@ public class CifBddSettings {
     }
 
     /**
-     * Get the function that indicates whether termination has been requested. Once it returns {@code true}, it returns
-     * {@code true} also on subsequent calls.
+     * Get cooperative termination query function.
      *
      * <p>
-     * By default, the function always returns {@code false}.
+     * By default, it indicates termination is never requested.
      * </p>
      *
-     * @return The function that indicates whether termination has been requested.
+     * @return The cooperative termination query function.
      */
-    public Supplier<Boolean> getShouldTerminate() {
-        return shouldTerminate;
+    public Termination getTermination() {
+        return termination;
     }
 
     /**
-     * Set the function that indicates whether termination has been requested. Once it returns {@code true}, it must
-     * returns {@code true} also on subsequent calls.
+     * Set the cooperative termination query function.
      *
-     * @param shouldTerminate The function that indicates whether termination has been requested..
+     * @param termination Cooperative termination query function.
      */
-    public void setShouldTerminate(Supplier<Boolean> shouldTerminate) {
+    public void setTermination(Termination termination) {
         Assert.check(modificationAllowed, "Modification is not allowed.");
-        this.shouldTerminate = shouldTerminate;
+        this.termination = termination;
         checkSettings();
     }
 
@@ -259,6 +257,30 @@ public class CifBddSettings {
     public void setWarnOutput(WarnOutput warnOutput) {
         Assert.check(modificationAllowed, "Modification is not allowed.");
         this.warnOutput = warnOutput;
+        checkSettings();
+    }
+
+    /**
+     * Get the number of spaces to use per indentation level.
+     *
+     * <p>
+     * By default, 4 spaces are used.
+     * </p>
+     *
+     * @return The the number of spaces to use per indentation level.
+     */
+    public int getIndentAmount() {
+        return indentAmount;
+    }
+
+    /**
+     * Set the number of spaces to use per indentation level.
+     *
+     * @param indentAmount The the number of spaces to use per indentation level.
+     */
+    public void setIndentAmount(int indentAmount) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
+        this.indentAmount = indentAmount;
         checkSettings();
     }
 
@@ -769,6 +791,12 @@ public class CifBddSettings {
 
     /** Check that the settings have valid values, for as much as it can be checked locally. */
     private void checkSettings() {
+        // Check BDD debug max nodes.
+        if (indentAmount < 0) {
+            String msg = fmt("The amount of spaces to use for identation \"%d\" is negative.", indentAmount);
+            throw new InvalidOptionException(msg);
+        }
+
         // Check BDD debug max nodes.
         if (bddDebugMaxNodes != null && bddDebugMaxNodes < 0) {
             String msg = fmt("BDD debug max nodes value \"%s\" is not in the range [0 .. 2^31-1].", bddDebugMaxNodes);

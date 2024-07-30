@@ -15,9 +15,14 @@ package org.eclipse.escet.common.java;
 
 import java.io.StringReader;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 /** Utility functions for handling CSV data. */
 public class CsvUtils {
+    /** Function for checking whether double quotes are needed. */
+    private static final Predicate<String> NEEDS_DOUBLE_QUOTES = Pattern.compile("[,\"\r\n]").asPredicate();
+
     /** Constructor of the {@link CsvUtils} class. */
     private CsvUtils() {
         // Static class.
@@ -139,7 +144,11 @@ public class CsvUtils {
                 } else {
                     sb.append(",");
                 }
-                sb.append("\"" + column.replace("\"", "\"\"") + "\""); // RFC-4180 " -> "" escaping.
+                if (NEEDS_DOUBLE_QUOTES.test(column)) {
+                    sb.append("\"" + column.replace("\"", "\"\"") + "\""); // RFC-4180 " -> "" escaping.
+                } else {
+                    sb.append(column);
+                }
             }
         }
         // Skip newline sequence after the last line as allowed by RFC-4180.

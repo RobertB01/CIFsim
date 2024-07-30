@@ -85,10 +85,15 @@ end
 plant p3:
   controllable e;
 
+  input int[0..1] i;
+  input string s;                   // Unsupported input variable with string type.
+  input int ii;                     // Unsupported input variable with rangeless integer type.
+  input int[-1..1] ineg;            // Unsupported input variable with ranged integer type that allows negative value.
+
   location:
     initial;
-    marked true and [true][0];      // Unsupported in plant location marked.
-    edge e when true and [true][0]; // Unsupported in plant edge guard.
+    marked true and [true][i];      // Unsupported in plant location marked.
+    edge e when true and [true][i]; // Unsupported in plant edge guard.
 end
 
 plant p4:

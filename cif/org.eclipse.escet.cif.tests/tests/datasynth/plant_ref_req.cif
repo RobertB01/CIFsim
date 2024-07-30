@@ -12,9 +12,14 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Helper variables:
+input bool iv;
+
 requirement R:
   disc int v = 1;
   location l:
+    initial; marked;
+
+  location l2:
     initial; marked;
 end
 
@@ -49,7 +54,7 @@ plant switch true: case true: true else R.l  end;
 // Slice expression.
 plant ([true, false][0   : R.v])[0];
 plant ([true, false][R.v : 1  ])[0];
-plant ([R.l,  false][0   : 1  ])[0];
+plant ([R.l,  iv]   [0   : 1  ])[0];
 
 // Function call expression.
 func bool f(bool b):
@@ -58,21 +63,21 @@ end
 plant f(R.l);
 
 // List expression.
-plant R.l  in [true, false];
-plant true in [R.l, false];
+plant R.l  in [iv, false];
+plant true in [R.l, iv];
 
 // Set expression.
-plant R.l  in {true};
-plant true in {R.l};
+plant R.l  in {iv};
+plant true in {R.l, iv};
 
 // Tuple expression.
-alg tuple(bool t1, t2) a2 = (R.l, true);
+alg tuple(bool t1, t2) a2 = (R.l, iv);
 plant a2[0];
 
 // Dict expression.
-plant true in {R.l  : true};
-plant true in {true : R.l };
-plant R.l  in {true : true};
+plant true in {R.l  : iv};
+plant true in {iv : R.l };
+plant R.l  in {true : iv};
 
 // Constant expression.
 // Needs a reference that can be statically evaluated, that does not exist.

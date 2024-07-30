@@ -58,4 +58,36 @@ public class ErrorOutputTest {
         String expected = "ERROR: hello world\nERROR:\nERROR: >123<\n";
         assertEquals(expected, outputProvider.toString());
     }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMultiLineStoredOutputNoIndentError() {
+        StoredOutputProvider provider = new StoredOutputProvider();
+        ErrorOutput err = provider.getErrorOutput("PRE: ");
+        err.line("a");
+        err.line("b\nc");
+        err.line("d\r\ne");
+        err.line("f\n\ng");
+        err.line("h\n\r\n\ni");
+        err.line("j\nk\nl");
+        String expected = """
+                PRE: a
+                PRE: b
+                PRE: c
+                PRE: d
+                PRE: e
+                PRE: f
+                PRE:
+                PRE: g
+                PRE: h
+                PRE:
+                PRE:
+                PRE: i
+                PRE: j
+                PRE: k
+                PRE: l
+                """;
+        assertEquals(expected, provider.toString());
+    }
+
 }

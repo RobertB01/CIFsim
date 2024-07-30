@@ -382,7 +382,8 @@ Immediately after the downloads being available, downloading them may thus be sl
 
 * Jenkins will automatically push the website for the new release to the website Git repository, in a directory for the specific release.
 For a version `v0.1`, the website can be accessed at `\https://eclipse.dev/escet/v0.1`.
-It may take a few minutes for the link:https://gitlab.eclipse.org/eclipse/escet/escet-website/-/commits/master[new commit] to the Git repository to be synced to the webserver and for the website for the new version to become available.
+It may take a few minutes for the link:https://gitlab.eclipse.org/eclipse/escet/escet-website/-/commits/master[new commit] to the Git repository to be synced to the webserver.
+It may take up to an hour for the website of the new version to become available, due to browser caches and the Eclipse Foundation webserver using a `max-age` of 3600 seconds for some files.
 
 * For a final release with a version number higher than that of the current standard visible website (at `https://eclipse.dev/escet`), promote the newly released website to be the new standard visible website:
 
@@ -411,9 +412,11 @@ If it is OK, push it by executing `git push`.
 
 ** Remove the website repository clone, by executing `cd ..` and `rm -rf escet-website`.
 
-** It may take a few minutes for the Git repository to be synced to the webserver, and for the new standard visible website to become available.
+** It may take a few minutes for the Git repository to be synced to the webserver.
 The standard visible website can be accessed at `https://eclipse.dev/escet`.
-Depending on browser cache settings and other factors, it may be necessary to force refresh your browser for it to pick up the changes on the server.
+It may take up to an hour for the website of the new version to become available, due to browser caches and the Eclipse Foundation webserver using a `max-age` of 3600 seconds for some files.
+
+* Since we can't ask our end users to force refresh every webpage, nor to clear their browser's cache, wait an hour and five minutes before proceeding with the next step.
 
 * Inform others about the new release:
 

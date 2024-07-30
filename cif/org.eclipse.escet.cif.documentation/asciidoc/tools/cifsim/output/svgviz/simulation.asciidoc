@@ -26,6 +26,8 @@ This page discusses the following simulation related topics:
 
 * <<tools-cifsim-output-svgviz-simulation-demos>>
 
+* <<tools-cifsim-output-svgviz-simulation-undo-reset>>
+
 indexterm:[SVG visualization,application order]
 
 [[tools-cifsim-output-svgviz-simulation-order]]
@@ -99,6 +101,7 @@ Furthermore, it may be beneficial to be able to capture the mouse pointer, so th
 indexterm:[SVG visualization,undo]
 indexterm:[SVG visualization,reset]
 
+[[tools-cifsim-output-svgviz-simulation-undo-reset]]
 === Undo/reset
 
 By <<tools-cifsim-input-history-reset-undo,undoing>> one or more transitions, or by <<tools-cifsim-input-history-reset-undo,resetting>> the simulation, the state may change.

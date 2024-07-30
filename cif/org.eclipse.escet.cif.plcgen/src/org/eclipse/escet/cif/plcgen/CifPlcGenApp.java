@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
@@ -57,7 +56,6 @@ import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
 import org.eclipse.escet.cif.plcgen.targets.SiemensS7Target;
 import org.eclipse.escet.cif.plcgen.targets.TwinCatTarget;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -69,6 +67,7 @@ import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
@@ -180,8 +179,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         boolean simplifyValues = SimplifyValuesOption.simplifyValues();
         ConvertEnums enumConversion = ConvertEnumsOption.getValue();
 
-        // Required invariant: Once it returns true, it must return true on subsequent calls.
-        BooleanSupplier shouldTerminate = () -> AppEnv.isTerminationRequested();
+        Termination termination = () -> isTerminationRequested();
 
         boolean warnOnRename = RenameWarningsOption.isEnabled();
         WarnOutput warnOutput = OutputProvider.getWarningOutputStream();
@@ -190,7 +188,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
                 iterLimits.uncontrollableLimit(), iterLimits.controllableLimit(),
                 new PathPair(inputPath, Paths.resolve(inputPath)), new PathPair(outputPath, Paths.resolve(outputPath)),
                 new PathPair(ioTablePath, Paths.resolve(ioTablePath)), programHeaderLines, intSize, realSize,
-                simplifyValues, enumConversion, shouldTerminate, warnOnRename, warnOutput);
+                simplifyValues, enumConversion, termination, warnOnRename, warnOutput);
     }
 
     @Override

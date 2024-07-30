@@ -302,7 +302,8 @@ public class BddUtils {
 
         // Print the statistics.
         if (doCacheStats) {
-            BddUtils.printBddCacheStats(factory.getCacheStats(), settings.getNormalOutput());
+            BddUtils.printBddCacheStats(factory.getCacheStats(), settings.getNormalOutput(),
+                    settings.getIndentAmount());
         }
         if (doContinuousPerformanceStats) {
             settings.getDebugOutput().line("Writing continuous BDD performance statistics file \"%s\".",
@@ -323,8 +324,9 @@ public class BddUtils {
      *
      * @param stats The BDD cache statistics.
      * @param normalOutput Callback for normal output.
+     * @param indentAmount The number of spaces to use as indentation.
      */
-    public static void printBddCacheStats(CacheStats stats, DebugNormalOutput normalOutput) {
+    public static void printBddCacheStats(CacheStats stats, DebugNormalOutput normalOutput, int indentAmount) {
         // Create grid.
         GridBox grid = new GridBox(7, 2, 0, 1);
 
@@ -346,8 +348,9 @@ public class BddUtils {
 
         // Print statistics.
         normalOutput.line("BDD cache statistics:");
+        String indent = Strings.duplicate(" ", indentAmount);
         for (String line: grid.getLines()) {
-            normalOutput.line("  " + line);
+            normalOutput.line(indent + line);
         }
     }
 

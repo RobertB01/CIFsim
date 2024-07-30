@@ -23,12 +23,12 @@ VAR_TEMP
     current_R1_vr1: DINT;
     current_R2_vr2: DINT;
     current_S2_vs2: DINT;
-    edge_R1_1: DINT;
-    edge_R2_1: DINT;
-    edge_S1_1: DINT;
-    edge_S2_1: DINT;
-    edge_Y1_1: DINT;
-    edge_Y2_1: DINT;
+    edge_R1: BYTE;
+    edge_R2: BYTE;
+    edge_S1: BYTE;
+    edge_S2: BYTE;
+    edge_Y1: BYTE;
+    edge_Y2: BYTE;
     eventEnabled: BOOL;
     isProgress: BOOL;
     receiverAut: DINT;
@@ -201,7 +201,7 @@ WHILE isProgress DO
          ***********)
         IF S1_vs1 = 1 THEN
             senderAut := 1;
-            edge_S1_1 := 1;
+            edge_S1 := 0;
         END_IF;
     END_IF;
     IF senderAut = 0 THEN
@@ -217,10 +217,10 @@ WHILE isProgress DO
          ***********)
         IF S2 = S2_A AND S2_vs2 = 2 THEN
             senderAut := 2;
-            edge_S2_1 := 1;
+            edge_S2 := 0;
         ELSIF S2 = S2_B AND S2_vs2 = 3 THEN
             senderAut := 2;
-            edge_S2_1 := 2;
+            edge_S2 := 1;
         END_IF;
     END_IF;
     IF senderAut = 0 THEN
@@ -243,7 +243,7 @@ WHILE isProgress DO
              ***********)
             IF TRUE THEN
                 receiverAut := 1;
-                edge_R1_1 := 1;
+                edge_R1 := 0;
             END_IF;
         END_IF;
         IF receiverAut = 0 THEN
@@ -259,10 +259,10 @@ WHILE isProgress DO
              ***********)
             IF R2 = S2_A THEN
                 receiverAut := 2;
-                edge_R2_1 := 1;
+                edge_R2 := 0;
             ELSIF R2 = S2_B THEN
                 receiverAut := 2;
-                edge_R2_1 := 2;
+                edge_R2 := 1;
             END_IF;
         END_IF;
         IF receiverAut = 0 THEN
@@ -283,7 +283,7 @@ WHILE isProgress DO
          *   - 1st edge in the location
          ***********)
         IF Y1_vy1 = 1 THEN
-            edge_Y1_1 := 1;
+            edge_Y1 := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -301,9 +301,9 @@ WHILE isProgress DO
          *   - 1st edge in the location
          ***********)
         IF Y2 = S2_A AND Y2_vy2 = 2 THEN
-            edge_Y2_1 := 1;
+            edge_Y2 := 0;
         ELSIF Y2 = S2_B AND Y2_vy2 = 3 THEN
-            edge_Y2_1 := 2;
+            edge_Y2 := 1;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -322,19 +322,19 @@ WHILE isProgress DO
          *******************************)
         IF senderAut = 1 THEN
             (* Automaton "S1" was selected. *)
-            IF edge_S1_1 = 1 THEN
+            IF edge_S1 = 0 THEN
                 (* Compute sent channel value. *)
                 channelValue := 1;
             END_IF;
         ELSIF senderAut = 2 THEN
             (* Automaton "S2" was selected. *)
-            IF edge_S2_1 = 1 THEN
+            IF edge_S2 = 0 THEN
                 (* Compute sent channel value. *)
                 channelValue := 2;
                 (* Perform assignments of the 1st edge in location "S2.A". *)
                 (* Perform update of discrete variable "S2.vs2". *)
                 S2_vs2 := 2;
-            ELSIF edge_S2_1 = 2 THEN
+            ELSIF edge_S2 = 1 THEN
                 (* Compute sent channel value. *)
                 channelValue := 3;
             END_IF;
@@ -344,18 +344,18 @@ WHILE isProgress DO
          *******************************)
         IF receiverAut = 1 THEN
             (* Automaton "R1" was selected. *)
-            IF edge_R1_1 = 1 THEN
+            IF edge_R1 = 0 THEN
                 (* Perform assignments of the 1st edge of automaton "R1". *)
                 (* Perform update of discrete variable "R1.vr1". *)
                 R1_vr1 := channelValue;
             END_IF;
         ELSIF receiverAut = 2 THEN
             (* Automaton "R2" was selected. *)
-            IF edge_R2_1 = 1 THEN
+            IF edge_R2 = 0 THEN
                 (* Perform assignments of the 1st edge in location "R2.A". *)
                 (* Perform update of discrete variable "R2.vr2". *)
                 R2_vr2 := channelValue;
-            ELSIF edge_R2_1 = 2 THEN
+            ELSIF edge_R2 = 1 THEN
                 (* Perform assignments of the 1st edge in location "R2.B". *)
                 (* Perform update of discrete variable "R2.vr2". *)
                 R2_vr2 := channelValue;

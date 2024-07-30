@@ -93,43 +93,64 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
         String mainPkgClassName = args[0];
         String binPath = args[1];
         String outputPath = args[2];
-        String outputClassNameWalker = args[3];
-        String outputClassNameComposite = args[4];
-        String outputClassNameWalkerWithArg = args[5];
-        String outputClassNameCompositeWithArg = args[6];
+        // Arguments 3 and 4 define the names of walker and composite walker without extra arguments.
+        // Arguments 5 and 6 define the names of walker and composite walker with extra arguments.
         String outputPackageName = args[7];
 
         // Resolve the package.
         EPackage mainPkg = loadEPackage(mainPkgClassName, binPath);
 
-        // Generate code for the package.
-        CodeBox boxWalker = generateClass(false, mainPkg, outputClassNameWalker, outputClassNameComposite,
-                outputPackageName, false);
-        CodeBox boxComposite = generateClass(true, mainPkg, outputClassNameWalker, outputClassNameComposite,
-                outputPackageName, false);
-        CodeBox boxWalkerWithArg = generateClass(false, mainPkg, outputClassNameWalkerWithArg,
-                outputClassNameCompositeWithArg, outputPackageName, true);
-        CodeBox boxCompositeWithArg = generateClass(true, mainPkg, outputClassNameWalkerWithArg,
-                outputClassNameCompositeWithArg, outputPackageName, true);
+        // Generate walker and composite walker without extra arguments.
+        String outputClassNameWalker = args[3];
+        String outputClassNameComposite = args[4];
 
-        // Try to write the code to a file.
-        String outputFilePathWalker = new File(new File(outputPath), outputClassNameWalker + ".java").getAbsolutePath();
-        String outputFilePathComposite = new File(new File(outputPath), outputClassNameComposite + ".java")
-                .getAbsolutePath();
-        String outputFilePathWalkerWithArg = new File(new File(outputPath), outputClassNameWalkerWithArg + ".java")
-                .getAbsolutePath();
-        String outputFilePathCompositeWithArg = new File(new File(outputPath),
-                outputClassNameCompositeWithArg + ".java").getAbsolutePath();
-        boxWalker.writeToFile(outputFilePathWalker);
-        boxComposite.writeToFile(outputFilePathComposite);
-        boxWalkerWithArg.writeToFile(outputFilePathWalkerWithArg);
-        boxCompositeWithArg.writeToFile(outputFilePathCompositeWithArg);
+        writeClassCode("Walker", outputPath, false, mainPkg,
+                outputClassNameWalker, outputClassNameComposite, outputPackageName, false);
 
-        // We are done.
-        System.out.printf("Walker code written to: %s%n", outputFilePathWalker);
-        System.out.printf("Composite walker code written to: %s%n", outputFilePathComposite);
-        System.out.printf("Extra-argument walker code written to: %s%n", outputFilePathWalkerWithArg);
-        System.out.printf("Extra-argument composite walker code written to: %s%n", outputFilePathCompositeWithArg);
+        writeClassCode("Composite walker", outputPath, true, mainPkg,
+                outputClassNameWalker, outputClassNameComposite, outputPackageName, false);
+
+        // Generate walker and composite walker with extra arguments.
+        String outputClassNameWalkerWithArg = args[5];
+        String outputClassNameCompositeWithArg = args[6];
+
+        writeClassCode("Extra-argument walker", outputPath, false, mainPkg,
+                outputClassNameWalkerWithArg, outputClassNameCompositeWithArg, outputPackageName, true);
+
+        writeClassCode("Extra-argument composite walker", outputPath, true, mainPkg,
+                outputClassNameWalkerWithArg, outputClassNameCompositeWithArg, outputPackageName, true);
+    }
+
+    /**
+     * Generate code and write it to a Java source file.
+     *
+     * @param walkerDesc Description of the generated walker.
+     * @param outputPath Relative or absolute local file system path to the directory to add the file.
+     * @param genComposite Whether to generate a composite model walker ({@code true}) or a model walker
+     *     ({@code false}).
+     * @param startPackage The {@link EPackage} to generate the code for.
+     * @param genClassNameWalker The name of the model walker Java class to generate.
+     * @param genClassNameComposite The name of the composite model walker Java class to generate.
+     * @param genPackageName The name of the package that the generated Java class will be a part of.
+     * @param withArg Whether to generate an extra-argument walker ({@code true}) or a regular walker ({@code false}).
+     */
+    private static void writeClassCode(String walkerDesc, String outputPath, boolean genComposite,
+            EPackage startPackage, String genClassNameWalker, String genClassNameComposite, String genPackageName,
+            boolean withArg)
+    {
+        // Generate the code.
+        CodeBox box = generateClass(genComposite, startPackage, genClassNameWalker, genClassNameComposite,
+                genPackageName, withArg);
+
+        // Construct the file system path of the file to write.
+        File dirPath = new File(outputPath);
+        String outputClassName = genComposite ? genClassNameComposite : genClassNameWalker;
+        File filePath = new File(dirPath, outputClassName + ".java");
+        String absOutputFilePath = filePath.getAbsolutePath();
+
+        // Write the file and tell the user about it.
+        box.writeToFile(filePath.toString(), absOutputFilePath);
+        System.out.printf("%s code written to: %s%n", walkerDesc, filePath);
     }
 
     /**

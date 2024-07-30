@@ -38,6 +38,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 
 /** Application wrapper class for computing the synchronous product of several event-based automata. */
@@ -150,8 +151,8 @@ public class SynchronousProductApplication extends Application<IOutputComponent>
             String outPath = "_" + resultName + ".cif";
             outPath = OutputFileOption.getDerivedPath(".cif", outPath);
             OutputProvider.dbg("Writing result to \"%s\"...", outPath);
-            outPath = Paths.resolve(outPath);
-            CifWriter.writeCifSpec(spec, outPath, cifReader.getAbsDirPath());
+            String absOutPath = Paths.resolve(outPath);
+            CifWriter.writeCifSpec(spec, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
             return 0;
         } catch (ApplicationException e) {
             String msg = fmt("Failed to compute synchronous product for CIF file \"%s\".", InputFileOption.getPath());

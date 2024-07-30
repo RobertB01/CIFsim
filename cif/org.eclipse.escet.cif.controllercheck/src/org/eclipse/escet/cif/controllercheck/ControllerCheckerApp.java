@@ -13,48 +13,11 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
 
-import org.eclipse.escet.cif.bdd.conversion.CifToBddConverter;
-import org.eclipse.escet.cif.bdd.settings.AllowNonDeterminism;
-import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
-import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
-import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
-import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
-import org.eclipse.escet.cif.bdd.utils.CifBddApplyPlantInvariants;
-import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
-import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
-import org.eclipse.escet.cif.cif2cif.ElimConsts;
-import org.eclipse.escet.cif.cif2cif.ElimIfUpdates;
-import org.eclipse.escet.cif.cif2cif.ElimLocRefExprs;
-import org.eclipse.escet.cif.cif2cif.ElimMonitors;
-import org.eclipse.escet.cif.cif2cif.ElimSelf;
-import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
-import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
-import org.eclipse.escet.cif.cif2cif.EnumsToInts;
-import org.eclipse.escet.cif.cif2cif.RelabelSupervisorsAsPlants;
-import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
-import org.eclipse.escet.cif.cif2cif.SimplifyValues;
-import org.eclipse.escet.cif.common.CifEventUtils;
-import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseCheckConclusion;
-import org.eclipse.escet.cif.controllercheck.boundedresponse.BoundedResponseChecker;
-import org.eclipse.escet.cif.controllercheck.confluence.ConfluenceChecker;
-import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
-import org.eclipse.escet.cif.controllercheck.mdd.MddDeterminismChecker;
-import org.eclipse.escet.cif.controllercheck.mdd.MddPreChecker;
-import org.eclipse.escet.cif.controllercheck.mdd.MddPrepareChecks;
-import org.eclipse.escet.cif.controllercheck.nonblockingundercontrol.NonBlockingUnderControlChecker;
 import org.eclipse.escet.cif.controllercheck.options.EnableBoundedResponseChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableConfluenceChecking;
 import org.eclipse.escet.cif.controllercheck.options.EnableFiniteResponseChecking;
@@ -63,14 +26,8 @@ import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOpti
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
-import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.ControllerPropertiesAnnotationProvider;
 import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -80,15 +37,9 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
-import org.eclipse.escet.common.app.framework.output.OutputMode;
-import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.emf.EMFHelper;
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.typechecker.SemanticException;
-
-import com.github.javabdd.BDDFactory;
 
 /** Controller properties checker application. */
 public class ControllerCheckerApp extends Application<IOutputComponent> {
@@ -128,381 +79,42 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-        // Determine checks to perform.
-        boolean checkBoundedResponse = EnableBoundedResponseChecking.checkBoundedResponse();
-        boolean checkNonBlockingUnderControl = EnableNonBlockingUnderControlChecking.checkNonBlockingUnderControl();
-        boolean checkFiniteResponse = EnableFiniteResponseChecking.checkFiniteResponse();
-        boolean checkConfluence = EnableConfluenceChecking.checkConfluence();
-        boolean hasBddBasedChecks = checkBoundedResponse || checkNonBlockingUnderControl;
-        boolean hasMddBasedChecks = checkFiniteResponse || checkConfluence;
+        // Configure settings.
+        ControllerCheckerSettings settings = new ControllerCheckerSettings();
+        settings.setCheckBoundedResponse(EnableBoundedResponseChecking.checkBoundedResponse());
+        settings.setCheckConfluence(EnableConfluenceChecking.checkConfluence());
+        settings.setCheckFiniteResponse(EnableFiniteResponseChecking.checkFiniteResponse());
+        settings.setCheckNonBlockingUnderControl(EnableNonBlockingUnderControlChecking.checkNonBlockingUnderControl());
+        settings.setPrintFiniteResponseControlLoops(PrintControlLoopsOutputOption.isPrintControlLoopsEnabled());
+        settings.setTermination(() -> isTerminationRequested());
+        settings.setNormalOutput(OutputProvider.getNormalOutputStream());
+        settings.setDebugOutput(OutputProvider.getDebugOutputStream());
+        settings.setWarnOutput(OutputProvider.getWarningOutputStream());
 
-        // Ensure at least one check is enabled.
-        if (!checkBoundedResponse && !checkNonBlockingUnderControl && !checkFiniteResponse && !checkConfluence) {
-            throw new InvalidOptionException(
-                    "No checks enabled. Enable one of the checks for the controller properties checker to check.");
-        }
+        // Check settings.
+        settings.check();
 
         // Load specification.
         OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
         CifReader cifReader = new CifReader();
-        Specification origSpec = cifReader.init().read();
-        String absSpecPath = Paths.resolve(InputFileOption.getPath());
+        Specification spec = cifReader.init().read();
+        String specAbsPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
 
-        // Eliminate component definition/instantiation. This allows to perform precondition checks, as well as perform
-        // annotation post checking.
-        new ElimComponentDefInst().transform(origSpec);
+        // Perform checks.
+        ControllerCheckerResult result = ControllerChecker.performChecks(spec, specAbsPath, settings);
 
-        // Get the output specification, and the internal specification on which to perform the checks.
-        // Copy the internal specification, to preserve the output specification.
-        Specification outputSpec = origSpec;
-        Specification spec = EMFHelper.deepclone(origSpec);
-
-        // Remove/ignore I/O declarations, to increase the supported subset.
-        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
-        removeIoDecls.transform(spec);
-        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
-        }
-
-        // Check preconditions that apply to all checks.
-        ControllerCheckerPreChecker checker = new ControllerCheckerPreChecker(() -> AppEnv.isTerminationRequested());
-        checker.reportPreconditionViolations(spec, absSpecPath, "CIF controller properties checker");
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // Warn if specification doesn't look very useful:
-        // - Due to preconditions, all events have controllability, but check for none of them being (un)controllable.
-        Set<Event> specAlphabet = CifEventUtils.getAlphabet(spec);
-        if (specAlphabet.stream().allMatch(e -> !e.getControllable())) {
-            warn("The alphabet of the specification contains no controllable events.");
-        }
-        if (specAlphabet.stream().allMatch(e -> e.getControllable())) {
-            warn("The alphabet of the specification contains no uncontrollable events.");
-        }
-
-        // Prepare for the checks. Some check use BDDs, other use MDDs, which influences the preparations to perform.
-        // Preparations for both representations may be performed, depending on which checks are enabled.
-        Specification bddSpec = null; // Used for BDD-based checks.
-        Specification mddSpec = null; // Used for MDD-based checks.
-        CifBddSpec cifBddSpec = null; // Used for BDD-based checks.
-        MddPrepareChecks prepareChecks = null; // Used for MDD-based checks.
-
-        // Preparations for BDD-based checks.
-        if (hasBddBasedChecks) {
-            OutputProvider.dbg("Preparing for BDD-based checks...");
-
-            // Use a dedicated copy of the specification.
-            bddSpec = EMFHelper.deepclone(spec);
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Relabel supervisors as plants, to deal with them in the same way.
-            new RelabelSupervisorsAsPlants().transform(bddSpec);
-
-            // Get CIF/BDD settings.
-            CifBddSettings settings = new CifBddSettings();
-            settings.setShouldTerminate(() -> AppEnv.isTerminationRequested());
-            settings.setDebugOutput(OutputProvider.getDebugOutputStream());
-            settings.setNormalOutput(OutputProvider.getNormalOutputStream());
-            settings.setWarnOutput(OutputProvider.getWarningOutputStream());
-            settings.setAllowNonDeterminism(AllowNonDeterminism.ALL);
-            settings.setCifBddStatistics(EnumSet.noneOf(CifBddStatistics.class));
-            settings.setDoPlantsRefReqsWarn(false);
-
-            settings.setModificationAllowed(false);
-
-            // Pre-process the CIF specification:
-            // - Does not warn about CIF/SVG specifications, as they have been removed already.
-            // - Does not warn about plants referring to requirement state, as we disabled that check.
-            CifToBddConverter.preprocess(bddSpec, settings.getWarnOutput(), settings.getDoPlantsRefReqsWarn());
-
-            // Convert the CIF specification to its BDD representation.
-            BDDFactory factory = CifToBddConverter.createFactory(settings, Collections.emptyList(),
-                    Collections.emptyList());
-            CifToBddConverter converter = new CifToBddConverter("CIF controller properties checker");
-            cifBddSpec = converter.convert(bddSpec, settings, factory);
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Clean up no longer needed BDD predicates.
-            cifBddSpec.freeIntermediateBDDs(true);
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Apply the plant state/event exclusion invariants.
-            CifBddApplyPlantInvariants.applyStateEvtExclPlantsInvs(cifBddSpec, "system", () -> null,
-                    settings.getDebugOutput().isEnabled());
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Initialize applying edges.
-            for (CifBddEdge edge: cifBddSpec.edges) {
-                edge.initApply();
-                if (isTerminationRequested()) {
-                    return 0;
-                }
-            }
-        }
-
-        // Preparations for MDD-based checks.
-        if (hasBddBasedChecks && hasMddBasedChecks) {
-            OutputProvider.dbg();
-        }
-        if (hasMddBasedChecks) {
-            OutputProvider.dbg("Preparing for MDD-based checks...");
-
-            // Use a dedicated copy of the specification.
-            mddSpec = EMFHelper.deepclone(spec);
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Pre-processing.
-            // CIF automata structure normalization.
-            new ElimStateEvtExclInvs().transform(mddSpec);
-            new ElimMonitors().transform(mddSpec);
-            new ElimSelf().transform(mddSpec);
-            new ElimTypeDecls().transform(mddSpec);
-
-            final Function<Automaton, String> varNamingFunction = a -> "LP_" + a.getName();
-            final Function<Automaton, String> enumNamingFunction = a -> "LOCS_" + a.getName();
-            final Function<Location, String> litNamingFunction = l -> "LOC_" + l.getName();
-            final boolean considerLocsForRename = true;
-            final boolean addInitPreds = true;
-            final boolean optimized = false;
-            final Map<DiscVariable, String> lpVarToAbsAutNameMap = null;
-            final boolean optInits = true;
-            final boolean addEdgeGuards = true;
-            final boolean copyAutAnnosToEnum = false;
-            final boolean copyLocAnnosToEnumLits = false;
-            new ElimLocRefExprs(varNamingFunction, enumNamingFunction, litNamingFunction, considerLocsForRename,
-                    addInitPreds, optimized, lpVarToAbsAutNameMap, optInits, addEdgeGuards, copyAutAnnosToEnum,
-                    copyLocAnnosToEnumLits).transform(mddSpec);
-
-            new EnumsToInts().transform(mddSpec);
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Simplify expressions.
-            new ElimAlgVariables().transform(mddSpec);
-            new ElimConsts().transform(mddSpec);
-            new SimplifyValues().transform(mddSpec);
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Pre-check.
-            new MddPreChecker(() -> AppEnv.isTerminationRequested())
-                    .reportPreconditionViolations(mddSpec, absSpecPath, "CIF controller properties checker");
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Eliminate if updates, does not support multi-assignments or partial variable assignments.
-            new ElimIfUpdates().transform(mddSpec);
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Non-determinism check.
-            new MddDeterminismChecker(() -> AppEnv.isTerminationRequested())
-                    .reportPreconditionViolations(mddSpec, absSpecPath, "CIF controller properties checker");
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
-            // Perform computations for both checkers.
-            boolean computeGlobalGuardedUpdates = checkConfluence;
-            prepareChecks = new MddPrepareChecks(computeGlobalGuardedUpdates);
-            if (!prepareChecks.compute(mddSpec)) {
-                return 0; // Termination requested.
-            }
-        }
-
-        // Common initialization for the checks.
-        boolean dbgEnabled = OutputModeOption.getOutputMode() == OutputMode.DEBUG;
-        int checksPerformed = 0;
-        boolean allChecksHold = true;
-
-        // Check bounded response.
-        BoundedResponseCheckConclusion boundedResponseConclusion = null;
-        boolean boundedResponseHolds = true; // Is true if it holds or was not checked, false otherwise.
-        if (checkBoundedResponse) {
-            // Check the bounded response property.
-            if (dbgEnabled || checksPerformed > 0) {
-                OutputProvider.out();
-            }
-            OutputProvider.out("Checking for bounded response...");
-            boundedResponseConclusion = new BoundedResponseChecker().checkSystem(cifBddSpec);
-            checksPerformed++;
-            if (boundedResponseConclusion == null || isTerminationRequested()) {
-                return 0;
-            }
-            boundedResponseHolds = boundedResponseConclusion.propertyHolds();
-        }
-        allChecksHold &= boundedResponseHolds;
-
-        // Check non-blocking under control.
-        CheckConclusion nonBlockingUnderControlConclusion = null;
-        boolean nonBlockingUnderControlHolds = true; // Is true if it holds or was not checked, false otherwise.
-        if (checkNonBlockingUnderControl) {
-            // Check the non-blocking under control property.
-            if (dbgEnabled || checksPerformed > 0) {
-                OutputProvider.out();
-            }
-            OutputProvider.out("Checking for non-blocking under control...");
-            nonBlockingUnderControlConclusion = new NonBlockingUnderControlChecker().checkSystem(cifBddSpec);
-            checksPerformed++;
-            if (nonBlockingUnderControlConclusion == null || isTerminationRequested()) {
-                return 0;
-            }
-            nonBlockingUnderControlHolds = nonBlockingUnderControlConclusion.propertyHolds();
-        }
-        allChecksHold &= nonBlockingUnderControlHolds;
-
-        // Clean up the BDD representation of the specification, now that it is not needed anymore.
-        if (cifBddSpec != null) {
-            for (CifBddEdge edge: cifBddSpec.edges) {
-                edge.cleanupApply();
-            }
-            cifBddSpec.freeAllBDDs();
-            cifBddSpec = null;
-            if (isTerminationRequested()) {
-                return 0;
-            }
-        }
-
-        // Check finite response.
-        CheckConclusion finiteResponseConclusion = null;
-        boolean finiteResponseHolds = true; // Is true if it holds or was not checked, false otherwise.
-        if (checkFiniteResponse) {
-            // Check the finite response property.
-            if (dbgEnabled || checksPerformed > 0) {
-                OutputProvider.out();
-            }
-            OutputProvider.out("Checking for finite response...");
-            finiteResponseConclusion = new FiniteResponseChecker().checkSystem(prepareChecks);
-            checksPerformed++;
-            if (finiteResponseConclusion == null || isTerminationRequested()) {
-                return 0;
-            }
-            finiteResponseHolds = finiteResponseConclusion.propertyHolds();
-        }
-        allChecksHold &= finiteResponseHolds;
-
-        // Check confluence.
-        CheckConclusion confluenceConclusion = null;
-        boolean confluenceHolds = true; // Is true if it holds or was not checked, false otherwise.
-        if (checkConfluence) {
-            // Check the confluence property.
-            if (dbgEnabled || checksPerformed > 0) {
-                OutputProvider.out();
-            }
-            OutputProvider.out("Checking for confluence...");
-            confluenceConclusion = new ConfluenceChecker().checkSystem(prepareChecks);
-            checksPerformed++;
-            if (confluenceConclusion == null || isTerminationRequested()) {
-                return 0;
-            }
-            confluenceHolds = confluenceConclusion.propertyHolds();
-        }
-        allChecksHold &= confluenceHolds;
-
-        // Sanity check.
-        if (boundedResponseConclusion != null && finiteResponseConclusion != null) {
-            if (finiteResponseConclusion.propertyHolds()) {
-                Assert.check(boundedResponseConclusion.controllablesBound.isBounded());
-            }
-        }
-
-        // Output the checker conclusions.
-        out();
-        out("CONCLUSION:");
-
-        iout();
-        if (boundedResponseConclusion != null) {
-            boundedResponseConclusion.printResult();
-        } else {
-            out("[UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.");
-        }
-        dout();
-
-        if ((boundedResponseConclusion != null && boundedResponseConclusion.hasDetails())
-                || (nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails()))
-        {
-            out(); // Empty line between conclusions, if either of them prints details.
-        }
-
-        iout();
-        if (nonBlockingUnderControlConclusion != null) {
-            nonBlockingUnderControlConclusion.printResult();
-        } else {
-            out("[UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is "
-                    + "unknown.");
-        }
-        dout();
-
-        if ((nonBlockingUnderControlConclusion != null && nonBlockingUnderControlConclusion.hasDetails())
-                || (finiteResponseConclusion != null && finiteResponseConclusion.hasDetails()))
-        {
-            out(); // Empty line between conclusions, if either of them prints details.
-        }
-
-        iout();
-        if (finiteResponseConclusion != null) {
-            finiteResponseConclusion.printResult();
-        } else {
-            out("[UNKNOWN] Finite response checking was disabled, finite response property is unknown.");
-        }
-        dout();
-
-        if ((finiteResponseConclusion != null && finiteResponseConclusion.hasDetails())
-                || (confluenceConclusion != null && confluenceConclusion.hasDetails()))
-        {
-            out(); // Empty line between conclusions, if either of them prints details.
-        }
-
-        iout();
-        if (confluenceConclusion != null) {
-            confluenceConclusion.printResult();
-        } else {
-            out("[UNKNOWN] Confluence checking was disabled, confluence property is unknown.");
-        }
-        dout();
-
-        // Update specification for outcome of the checks. If a check was not performed, don't update the annotation
-        // for that check, but keep the existing result. That way, we can do checks one by one, or we can only redo a
-        // certain check.
-        if (boundedResponseConclusion != null) {
-            Integer unctrlBound = boundedResponseConclusion.propertyHolds()
-                    ? boundedResponseConclusion.uncontrollablesBound.getBound() : null;
-            Integer ctrlBound = boundedResponseConclusion.propertyHolds()
-                    ? boundedResponseConclusion.controllablesBound.getBound() : null;
-            ControllerPropertiesAnnotationProvider.setBoundedResponse(outputSpec, unctrlBound, ctrlBound);
-        }
-        if (confluenceConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setConfluence(outputSpec, confluenceHolds);
-        }
-        if (finiteResponseConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setFiniteResponse(outputSpec, finiteResponseHolds);
-        }
-        if (nonBlockingUnderControlConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setNonBlockingUnderControl(outputSpec, nonBlockingUnderControlHolds);
-        }
+        // Update the input specification based with the results of the checks. If a check was not performed, don't
+        // update the annotation for that check, but keep the existing result. That way, we can do checks one by one, or
+        // we can only redo a certain check.
+        result.updateSpecification(spec);
 
         // Check CIF specification to output.
         CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "output");
         try {
-            new CifAnnotationsPostChecker(env).check(outputSpec);
+            new CifAnnotationsPostChecker(env).check(spec);
         } catch (SemanticException ex) {
             // Ignore.
         }
@@ -511,13 +123,13 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         // Write the output file.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".checked.cif");
         String absOutPath = Paths.resolve(outPath);
-        CifWriter.writeCifSpec(outputSpec, absOutPath, cifReader.getAbsDirPath());
+        CifWriter.writeCifSpec(spec, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
         out();
         out("The model with the check results has been written to \"%s\".", outPath);
 
         // Return the application exit code, indicating whether the specification satisfies all the checks that were
-        // performed.
-        return allChecksHold ? 0 : 1;
+        // performed, and thus none of the checks that were performed have failed.
+        return result.noFailureFound() ? 0 : 1;
     }
 
     @Override

@@ -77,8 +77,8 @@ public class DefaultTypeGenerator implements TypeGenerator {
      */
     public DefaultTypeGenerator(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
-        standardIntType = target.getIntegerType();
-        standardRealType = target.getRealType();
+        standardIntType = target.getStdIntegerType();
+        standardRealType = target.getStdRealType();
     }
 
     @Override

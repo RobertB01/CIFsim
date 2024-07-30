@@ -13,10 +13,6 @@
 
 package org.eclipse.escet.cif.controllercheck.mdd;
 
-import static org.eclipse.escet.cif.common.CifTypeUtils.getUpperBound;
-import static org.eclipse.escet.cif.common.CifTypeUtils.getVariableType;
-import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
-
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
@@ -44,27 +40,27 @@ public class MddCifVarInfoBuilder extends VarInfoBuilder<Declaration> {
 
     @Override
     protected int getLowerBound(Declaration var) {
-        CifType type = getVariableType(var);
+        CifType type = CifTypeUtils.getVariableType(var);
         if (type instanceof BoolType) {
             return 0;
         }
 
         Assert.check(type instanceof IntType);
         IntType intType = (IntType)type;
-        Assert.check(!isRangeless(intType));
+        Assert.check(!CifTypeUtils.isRangeless(intType));
         return CifTypeUtils.getLowerBound(intType);
     }
 
     @Override
     protected int getNumValues(Declaration var) {
-        CifType type = getVariableType(var);
+        CifType type = CifTypeUtils.getVariableType(var);
         if (type instanceof BoolType) {
             return 2;
         }
 
         Assert.check(type instanceof IntType);
         IntType intType = (IntType)type;
-        Assert.check(!isRangeless(intType));
-        return getUpperBound(intType) - CifTypeUtils.getLowerBound(intType) + 1;
+        Assert.check(!CifTypeUtils.isRangeless(intType));
+        return CifTypeUtils.getUpperBound(intType) - CifTypeUtils.getLowerBound(intType) + 1;
     }
 }

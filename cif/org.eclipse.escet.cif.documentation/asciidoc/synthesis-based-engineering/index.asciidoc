@@ -18,7 +18,7 @@ indexterm:[engineering, synthesis-based]
 [[sbe-chapter-index]]
 == Synthesis-based engineering
 
-CIF supports synthesis-based engineering, an engineering approach to design and implement supervisory controllers.
+CIF supports synthesis-based engineering (SBE), an engineering approach to design and implement supervisory controllers.
 The engineering approach combines model-based engineering with computer-aided design to produce correct-by-construction controllers.
 It does so by automating as many steps as possible in the development process.
 
@@ -47,3 +47,5 @@ Explains concretely how to use the CIF language and toolset to apply synthesis-b
 
 <<sbe-challenges>>::
 Explains the challenges of embedding a synthesis-based engineering approach into industrial practice.
+
+To learn how to use SBE, you can also follow the Eclipse ESCET online link:https://eclipse.dev/escet/{escet-deploy-folder-name}/sbe-course/[SBE course].

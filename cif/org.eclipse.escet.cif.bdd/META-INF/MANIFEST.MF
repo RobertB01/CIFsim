@@ -22,8 +22,10 @@ Require-Bundle: org.eclipse.escet.common.java;bundle-version="5.0.0",
  org.eclipse.escet.common.typechecker;bundle-version="5.0.0",
  org.eclipse.escet.cif.io;bundle-version="5.0.0",
  org.eclipse.escet.cif.parser;bundle-version="5.0.0",
- org.eclipse.escet.cif.typechecker;bundle-version="5.0.0"
+ org.eclipse.escet.cif.typechecker;bundle-version="5.0.0",
+ org.eclipse.escet.cif.checkers;bundle-version="5.0.0"
 Export-Package: org.eclipse.escet.cif.bdd.conversion,
+ org.eclipse.escet.cif.bdd.conversion.preconditions,
  org.eclipse.escet.cif.bdd.settings,
  org.eclipse.escet.cif.bdd.spec,
  org.eclipse.escet.cif.bdd.utils,

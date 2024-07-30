@@ -60,7 +60,6 @@ import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.typechecker.postchk.CifAnnotationsPostChecker;
 import org.eclipse.escet.cif.typechecker.postchk.CifToolPostCheckEnv;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -71,6 +70,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.typechecker.SemanticException;
 
 import com.github.javabdd.BDDFactory;
@@ -121,10 +121,11 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         // for uncontrollable events.
         CifDataSynthesisSettings settings = new CifDataSynthesisSettings();
 
-        settings.setShouldTerminate(() -> AppEnv.isTerminationRequested());
+        settings.setTermination(() -> isTerminationRequested());
         settings.setDebugOutput(OutputProvider.getDebugOutputStream());
         settings.setNormalOutput(OutputProvider.getNormalOutputStream());
         settings.setWarnOutput(OutputProvider.getWarningOutputStream());
+        settings.setIndentAmount(2);
         settings.setDoPlantsRefReqsWarn(PlantsRefReqsWarnOption.isEnabled());
         settings.setAllowNonDeterminism(AllowNonDeterminism.UNCONTROLLABLE);
         settings.setBddInitNodeTableSize(BddInitNodeTableSizeOption.getInitialSize());
@@ -197,6 +198,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         // Read CIF specification.
         String inputPath = InputFileOption.getPath();
+        String absInputPath = Paths.resolve(inputPath);
         if (dbgEnabled) {
             dbg("Reading CIF file \"%s\".", inputPath);
         }
@@ -226,8 +228,10 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         if (doTiming) {
             timing.inputPreProcess.start();
         }
+        CifToBddConverter converter1 = new CifToBddConverter("Data-based supervisory controller synthesis");
         try {
-            CifToBddConverter.preprocess(spec, settings.getWarnOutput(), settings.getDoPlantsRefReqsWarn());
+            converter1.preprocess(spec, absInputPath, settings.getWarnOutput(),
+                    settings.getDoPlantsRefReqsWarn(), () -> isTerminationRequested());
         } finally {
             if (doTiming) {
                 timing.inputPreProcess.stop();
@@ -251,13 +255,13 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (dbgEnabled) {
                 dbg("Converting CIF specification to internal format.");
             }
-            CifToBddConverter converter1 = new CifToBddConverter("Data-based supervisory controller synthesis");
 
             CifBddSpec cifBddSpec;
             if (doTiming) {
                 timing.inputConvert.start();
             }
             try {
+                converter1.setNeedEmptyDebugLine();
                 cifBddSpec = converter1.convert(spec, settings, factory);
             } finally {
                 if (doTiming) {
@@ -326,13 +330,13 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         if (dbgEnabled) {
             dbg("Writing output CIF file \"%s\".", outPath);
         }
-        outPath = Paths.resolve(outPath);
+        String absOutPath = Paths.resolve(outPath);
 
         if (doTiming) {
             timing.outputWrite.start();
         }
         try {
-            CifWriter.writeCifSpec(rslt, outPath, cifReader.getAbsDirPath());
+            CifWriter.writeCifSpec(rslt, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
         } finally {
             if (doTiming) {
                 timing.outputWrite.stop();

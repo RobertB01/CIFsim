@@ -16,9 +16,6 @@ include::../_part_attributes.asciidoc[]
 [[lang-ref-extensions-annotations-documentation]]
 == Documentation annotations
 
-WARNING: Annotations are currently an experimental work-in-progress language feature.
-Their design may change in a backward incompatible manner.
-
 Documentation <<lang-ref-extensions-annotations,annotations>> can be used to add documentation to CIF elements.
 For basic information on documentation annotations, see the <<lang-tut-extensions-chapter-annotations-documentation,language tutorial>>.
 Here we discuss further details.

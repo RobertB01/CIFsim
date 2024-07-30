@@ -464,6 +464,8 @@ are set, synchronizing is not allowed.
 A group component. May contain other components, thus forming a
 component hierarchy. This hierarchy can be used to structure the CIF model.
 
+This class is also used for bodies of group definitions.
+
 All invariants at this level are combined using logical
 conjunction operators. The child component invariants are combined
 using logical conjunction operators as well. Assuming
@@ -643,6 +645,8 @@ determined for the value of the algebraic variable, that range is used as the
 range of the type of the algebraic variable as well. This only applies to
 algebraic variables that have an integer type directly. It for instance does
 not apply to lists of integers.
+
+This class is also used for algebraic parameters of component definitions.
 
 \begin{constraints}
 \citem{AlgVariable.typeValueMatch}
@@ -972,6 +976,8 @@ since `tau' does not synchronize. Channels are exceptions as well, as they
 require exactly one sender and one receiver, and if not further restricted by
 any synchronizing automata, they are pure channels.
 
+This class is also used for event parameters of component definitions.
+
 \begin{constraints}
 \citemnf{Event.matchNameControllability}
   If the name of the event starts with \texttt{c\_}, the event must be defined
@@ -1152,6 +1158,8 @@ This expression is evaluated in the `old' state.
 \newcommand{\clsdocuAutomaton}{
 An automaton component. This class is the basic leaf component of all component
 hierarchies.
+
+This class is also used for bodies of automaton definitions.
 
 All invariants at this level are combined using logical
 conjunction operators. The location invariants are combined
@@ -1423,6 +1431,8 @@ The `then' updates. Executed if the `guards' evaluate to \emph{true}.
 % Location (class)
 \newcommand{\clsdocuLocation}{
 A location of an \cifclass{Automaton}.
+
+This class is also used for location parameters of component definitions.
 }
 
 \newcommand{\featdocuLocationedges}{
@@ -1859,7 +1869,7 @@ positive and negative numbers that consist of a sign and magnitude, but also
 positive and negative zeros, positive and negative infinities, and a special
 Not-a-Number (NaN) value. A NaN value is used to represent the result of
 certain invalid operations such as dividing zero by zero. We explicitly
-exclude positive and negative infinities, as wel as NaN values, and any
+exclude positive and negative infinities, as well as NaN values, and any
 operation that results in them is considered a run-time evaluation error.
 Negative zero values are automatically converted to positive zero values.
 See also the \cifclass{RealExpression} class.
@@ -2356,6 +2366,9 @@ modified seed.
 \newcommand{\clsdocuAlgVariableExpression}{
 An algebraic variable reference expression.
 
+This class is used both to refer to algebraic variables and to algebraic
+parameters of component definitions.
+
 \begin{constraints}
 \citem{AlgVariableExpression.type}
   The type of this expression must match the type of the referenced algebraic
@@ -2706,6 +2719,9 @@ expressions to be used.
 \newcommand{\clsdocuComponentExpression}{
 A component reference expression.
 
+This class is used to refer to automata and groups. It is not used to refer
+to the bodies of component definitions.
+
 \begin{constraints}
 \citem{ComponentExpression.type}
   The type of the component reference expression must be a component type that
@@ -2811,6 +2827,9 @@ The value of the key/value pair.
 \newcommand{\clsdocuDiscVariableExpression}{
 A discrete variable reference expression.
 
+This class is used to refer to discrete variables, as well as to refer to
+parameters and local variables of internal user-defined functions.
+
 \begin{constraints}
 \citem{DiscVariableExpression.type}
   The type of the discrete variable reference expression must match the type
@@ -2875,6 +2894,9 @@ The referenced enumeration literal.
 % EventExpression (class)
 \newcommand{\clsdocuEventExpression}{
 An event reference expression.
+
+This class is used both to refer to events and to event parameters of
+component definitions.
 
 Only used for event references, as events can't be used in a value context. It
 is part of the expression tree, to allow wrapping expressions to be used. See
@@ -3120,6 +3142,9 @@ The elements of the list.
 \newcommand{\clsdocuLocationExpression}{
 A location reference expression. Represents an `is the location active'
 boolean expression.
+
+This class is used both to refer to locations and to location parameters of
+component definitions.
 
 \begin{constraints}
 \citem{LocationExpression.type}

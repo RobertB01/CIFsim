@@ -17,6 +17,7 @@ import org.eclipse.escet.cif.simulator.options.CifSpecOption;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
+import org.eclipse.escet.common.java.PathPair;
 
 /** Trajectory data file path option. */
 public class TrajDataFileOption extends StringOption {
@@ -34,16 +35,16 @@ public class TrajDataFileOption extends StringOption {
     }
 
     /**
-     * Returns the absolute local file system path of the trajectory data file.
+     * Returns the paths of the trajectory data file.
      *
-     * @return The absolute local file system path of the trajectory data file.
+     * @return The paths of the trajectory data file.
      */
-    public static String getAbsPath() {
+    public static PathPair getPaths() {
         String path = Options.get(TrajDataFileOption.class);
         if (path == null) {
             path = CifSpecOption.getCifSpecPath() + ".trajdata";
         }
-        path = Paths.resolve(path);
-        return path;
+        String absPath = Paths.resolve(path);
+        return new PathPair(path, absPath);
     }
 }

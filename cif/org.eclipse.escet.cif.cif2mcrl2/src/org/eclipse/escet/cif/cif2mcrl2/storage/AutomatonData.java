@@ -19,7 +19,6 @@ import static org.eclipse.escet.common.java.Sets.set;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.cif2mcrl2.Cif2Mcrl2PreChecker;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -74,10 +73,6 @@ public class AutomatonData {
 
     /**
      * Find discrete variables in an automaton.
-     *
-     * <p>
-     * Copy of {@link Cif2Mcrl2PreChecker#checkAutomaton}, but without checking on acceptable constructs.
-     * </p>
      *
      * @param variableMap Mapping of discrete variables in the meta model to their representation in the translation.
      */
@@ -162,10 +157,6 @@ public class AutomatonData {
     /**
      * Find discrete variables in an expression.
      *
-     * <p>
-     * Copy of {@link Cif2Mcrl2PreChecker#checkExpression}, but without checking on acceptable constructs.
-     * </p>
-     *
      * @param e Expression to inspect.
      * @return Used discrete variables in the expression.
      */
@@ -219,10 +210,6 @@ public class AutomatonData {
 
     /**
      * Get the events belonging to an edge.
-     *
-     * <p>
-     * Copy of part of {@link Cif2Mcrl2PreChecker#checkAutomaton}, but without checking on allowed constructs.
-     * </p>
      *
      * @param edge Edge to inspect.
      * @return The events of the edge.

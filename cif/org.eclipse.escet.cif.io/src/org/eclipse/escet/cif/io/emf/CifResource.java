@@ -27,9 +27,8 @@ import org.eclipse.escet.cif.parser.ast.ASpecification;
 import org.eclipse.escet.cif.prettyprinter.CifPrettyPrinter;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.common.app.framework.PlatformUriUtils;
-import org.eclipse.escet.common.app.framework.io.AppStream;
-import org.eclipse.escet.common.app.framework.io.OutputStreamAppStream;
-import org.eclipse.escet.common.box.StreamCodeBox;
+import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.box.OutputStreamCodeBox;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.setext.runtime.SyntaxWarning;
@@ -129,13 +128,21 @@ public class CifResource extends ResourceImpl {
 
     @Override
     protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException {
-        // Get stream.
-        AppStream appStream = new OutputStreamAppStream(outputStream);
-        StreamCodeBox streamBox = new StreamCodeBox(appStream);
-
-        // Pretty print.
+        CodeBox streamBox = new OutputStreamCodeBox(outputStream, "a CIF file");
         Specification spec = (Specification)getContents().get(0);
-        CifPrettyPrinter.boxSpec(spec, streamBox);
+        try {
+            CifPrettyPrinter.boxSpec(spec, streamBox);
+        } catch (InputOutputException ex) {
+            // Need to wrap the 'InputOutputException' in an 'IOException' to satisfy this method's contract, and to
+            // ensure that callers will handle it.
+            Throwable cause = ex;
+            String msg = "Failed to write to a CIF file.";
+            if (msg.equals(cause.getMessage())) {
+                // Prevent wrap exception and cause having same message.
+                cause = ex.getCause();
+            }
+            throw new IOException("Failed to write to a CIF file.", cause);
+        }
     }
 
     /** EMF diagnostic wrapping a CIF syntax error. */

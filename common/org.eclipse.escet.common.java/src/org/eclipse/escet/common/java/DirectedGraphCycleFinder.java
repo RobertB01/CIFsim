@@ -21,7 +21,6 @@ import static org.eclipse.escet.common.java.Sets.setc;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BooleanSupplier;
 
 /**
  * Class for finding simple cycles in a directed graph using depth-first search.
@@ -51,24 +50,23 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
     /** Found cycles in the graph. */
     private Set<C> foundCycles;
 
-    /** Test function to detect a user abort request. */
-    private final BooleanSupplier isTerminationRequested;
+    /** Cooperative termination query function. */
+    private final Termination termination;
 
     /**
      * Constructor of the {@link DirectedGraphCycleFinder} class.
      *
-     * @param isTerminationRequested Test function to detect a user abort request. If {@code null}, termination
-     *     detection is disabled.
+     * @param termination Cooperative termination query function.
      */
-    public DirectedGraphCycleFinder(BooleanSupplier isTerminationRequested) {
-        this.isTerminationRequested = isTerminationRequested;
+    public DirectedGraphCycleFinder(Termination termination) {
+        this.termination = termination;
     }
 
     /**
      * Find all simple cycles in the provided graph.
      *
      * @param graph Graph being searched.
-     * @return The found simple cycles in the graph.
+     * @return The found simple cycles in the graph, or {@code null} if termination was requested.
      */
     public Set<C> findSimpleCycles(G graph) {
         // Initialize data fields for the search.
@@ -86,9 +84,10 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
             if (visitedVertices.contains(vertex)) {
                 continue;
             }
+
             expandVertexPath(graph, vertex);
 
-            if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
+            if (termination.isRequested()) {
                 return null;
             }
         }
@@ -108,7 +107,7 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
      * @param vertex Next vertex to search.
      */
     private void expandVertexPath(G graph, V vertex) {
-        if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
+        if (termination.isRequested()) {
             return;
         }
 
@@ -134,7 +133,7 @@ public abstract class DirectedGraphCycleFinder<G, V, E extends DirectedGraphCycl
                 addCycle(graph, stack.subList(cycleStartIndex, vertexStackPos + 1), foundCycles);
             }
 
-            if (isTerminationRequested != null && isTerminationRequested.getAsBoolean()) {
+            if (termination.isRequested()) {
                 return;
             }
         }

@@ -16,9 +16,6 @@ include::../_part_attributes.asciidoc[]
 [[lang-ref-extensions-annotations-controller]]
 == Controller annotations
 
-WARNING: Annotations are currently an experimental work-in-progress language feature.
-Their design may change in a backward incompatible manner.
-
 Controller properties <<lang-ref-extensions-annotations,annotations>> add properties of a controller to a specification.
 For basic information on controller properties annotations, see the <<lang-tut-extensions-chapter-annotations-controller,language tutorial>>.
 Here we discuss further details.

@@ -64,29 +64,31 @@ public class CifDataSynthesisResult {
 
     @Override
     public String toString() {
-        return getCtrlBehText(0);
+        return getCtrlBehText(0, 0);
     }
 
     /**
      * Returns a textual representation of the {@link #ctrlBeh controlled behavior}. Uses {@code "State: "} as prefix.
      *
-     * @param indent The indentation level.
+     * @param indentLevel The indentation level.
+     * @param indentAmount The number of spaces to use per indentation level.
      * @return The textual representation.
      */
-    public String getCtrlBehText(int indent) {
-        return getCtrlBehText(indent, "State: ");
+    public String getCtrlBehText(int indentLevel, int indentAmount) {
+        return getCtrlBehText(indentLevel, indentAmount, "State: ");
     }
 
     /**
      * Returns a textual representation of the {@link #ctrlBeh controlled behavior}.
      *
-     * @param indent The indentation level.
+     * @param indentLevel The indentation level.
+     * @param indentAmount The number of spaces to use per indentation level.
      * @param prefix The prefix to use, e.g. {@code "State: "} or {@code ""}.
      * @return The textual representation.
      */
-    public String getCtrlBehText(int indent, String prefix) {
+    public String getCtrlBehText(int indentLevel, int indentAmount, String prefix) {
         StringBuilder txt = new StringBuilder();
-        txt.append(Strings.duplicate(" ", 2 * indent));
+        txt.append(Strings.duplicate(" ", indentLevel * indentAmount));
         txt.append(prefix);
         String cbTxt = (ctrlBeh == null) ? "?" : bddToStr(ctrlBeh, cifBddSpec);
         txt.append(fmt("(controlled-behavior: %s)", cbTxt));

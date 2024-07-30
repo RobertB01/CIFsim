@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import static org.eclipse.escet.common.java.Lists.last;
+
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -199,37 +201,37 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
-        if (settings.shouldTerminate.getAsBoolean()) {
+        if (settings.termination.isRequested()) {
             return;
         }
 
         // Add code and data to variable storage for the previously supplied continuous variables.
         continuousVariablesGenerator.process();
-        if (settings.shouldTerminate.getAsBoolean()) {
+        if (settings.termination.isRequested()) {
             return;
         }
 
         // Generate input and output code.
         ioGenerator.process();
-        if (settings.shouldTerminate.getAsBoolean()) {
+        if (settings.termination.isRequested()) {
             return;
         }
 
         // Make the globally used variables ready for use in the PLC code.
         varStorage.process();
-        if (settings.shouldTerminate.getAsBoolean()) {
+        if (settings.termination.isRequested()) {
             return;
         }
 
         // Generate the event transition functions.
         transitionGenerator.generate();
-        if (settings.shouldTerminate.getAsBoolean()) {
+        if (settings.termination.isRequested()) {
             return;
         }
 
         // Prepare the PLC program for getting saved to the file system.
         codeStorage.finishPlcProgram();
-        if (settings.shouldTerminate.getAsBoolean()) {
+        if (settings.termination.isRequested()) {
             return;
         }
 
@@ -326,17 +328,29 @@ public abstract class PlcBaseTarget extends PlcTarget {
     }
 
     @Override
-    public PlcElementaryType getIntegerType() {
-        int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
-        int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
-        return PlcElementaryType.getIntTypeBySize(userSpecifiedIntSize);
+    public int getMaxIntegerTypeSize() {
+        return last(getSupportedIntegerTypes()).bitSize;
     }
 
     @Override
-    public PlcElementaryType getRealType() {
+    public PlcElementaryType getStdIntegerType() {
+        int generatorBestIntSize = Math.min(CIF_INTEGER_SIZE, getMaxIntegerTypeSize());
+        int userSpecifiedIntSize = intTypeSize.getTypeSize(generatorBestIntSize);
+        return PlcElementaryType.getTypeByRequiredSize(userSpecifiedIntSize,
+                PlcElementaryType.INTEGER_TYPES_ALL);
+    }
+
+    @Override
+    public int getMaxRealTypeSize() {
+        return last(getSupportedRealTypes()).bitSize;
+    }
+
+    @Override
+    public PlcElementaryType getStdRealType() {
         int generatorBestRealSize = Math.min(CIF_REAL_SIZE, getMaxRealTypeSize());
         int userSpecifiedRealSize = realTypeSize.getTypeSize(generatorBestRealSize);
-        return PlcElementaryType.getRealTypeBySize(userSpecifiedRealSize);
+        return PlcElementaryType.getTypeByRequiredSize(userSpecifiedRealSize,
+                PlcElementaryType.REAL_TYPES_ALL);
     }
 
     @Override
@@ -371,6 +385,6 @@ public abstract class PlcBaseTarget extends PlcTarget {
     @Override
     public void writeOutput(PlcProject project) {
         Writer writer = getPlcCodeWriter();
-        writer.write(project, outputPaths.systemPath);
+        writer.write(project, outputPaths);
     }
 }

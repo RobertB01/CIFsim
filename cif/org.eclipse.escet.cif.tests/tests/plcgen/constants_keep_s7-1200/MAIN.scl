@@ -3,7 +3,7 @@ ORGANIZATION_BLOCK MAIN
     VAR_TEMP
         current_aut_y: LREAL;
         current_aut_y_1: LREAL;
-        edge_aut_1: DINT;
+        edge_aut: BYTE;
         eventEnabled: BOOL;
         isProgress: BOOL;
         litStruct: TupleStruct;
@@ -72,7 +72,7 @@ BEGIN
          *   - 1st edge in the location
          ***********)
         IF DINT_TO_LREAL("DB".i) + c > DINT_TO_LREAL(3) THEN
-            edge_aut_1 := 1;
+            edge_aut := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -86,7 +86,7 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "aut". *)
-            IF edge_aut_1 = 1 THEN
+            IF edge_aut = 0 THEN
                 (* Perform assignments of the 1st edge of automaton "aut". *)
                 (* Perform update of discrete variable "aut.y". *)
                 "DB".aut_y := (DINT_TO_LREAL(xx) + p) - pp;
@@ -113,7 +113,7 @@ BEGIN
         litStruct_1.field1 := 0;
         litStruct_1.field2 := 0;
         IF "DB".bol = holds OR "DB".i = litStruct_1.field1 THEN
-            edge_aut_1 := 1;
+            edge_aut := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -127,7 +127,7 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "aut". *)
-            IF edge_aut_1 = 1 THEN
+            IF edge_aut = 0 THEN
                 (* Perform assignments of the 2nd edge of automaton "aut". *)
                 (* Perform update of discrete variable "aut.y". *)
                 "DB".aut_y := 0.0 + DINT_TO_LREAL(x) + DINT_TO_LREAL(z);
@@ -152,7 +152,7 @@ BEGIN
          *   - 3rd edge in the location
          ***********)
         IF "DB".col <> danger THEN
-            edge_aut_1 := 1;
+            edge_aut := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;

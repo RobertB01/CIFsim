@@ -46,6 +46,7 @@ import org.eclipse.escet.common.box.HBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** Base class for writing PLC code for a given target type. */
@@ -69,23 +70,25 @@ public abstract class Writer {
      * Convert the project contents to output acceptable for a PLC target type.
      *
      * @param project PLC program code to convert.
-     * @param outputPath The absolute local file system destination to write the converted output.
+     * @param outputPaths The relative or absolute local file system path to the destination and the absolute local file
+     *     system path to the destination to write the converted output.
      */
-    public abstract void write(PlcProject project, String outputPath);
+    public abstract void write(PlcProject project, PathPair outputPaths);
 
     /**
      * Ensure a directory with the given path exists, possibly by creating it.
      *
-     * @param outPath Path to the directory that should exist after the call.
+     * @param outPaths The relative or absolute local file path and the absolute local file system path to the directory
+     *     that should exist after the call.
      */
-    protected void ensureDirectory(String outPath) {
-        String absPath = Paths.resolve(outPath);
-        Path nioAbsPath = java.nio.file.Paths.get(absPath);
+    protected void ensureDirectory(PathPair outPaths) {
+        Path nioAbsPath = java.nio.file.Paths.get(outPaths.systemPath);
         if (!Files.isDirectory(nioAbsPath)) {
             try {
                 Files.createDirectories(nioAbsPath);
             } catch (IOException ex) {
-                String msg = fmt("Failed to create output directory \"%s\" for the generated PLC code.", outPath);
+                String msg = fmt("Failed to create output directory \"%s\" for the generated PLC code.",
+                        outPaths.userPath);
                 throw new InputOutputException(msg, ex);
             }
         }
@@ -459,5 +462,19 @@ public abstract class Writer {
      */
     protected Box toTypeRefBox(PlcFuncBlockType blockType) {
         return new TextBox(blockType.typeName);
+    }
+
+    /**
+     * Write the give code to a file with the given name in the directory with the given paths.
+     *
+     * @param code Code to write.
+     * @param dirPaths The relative or absolute local file system path and the absolute local file system path of the
+     *     directory that should store the file.
+     * @param fileName Name of the file to write.
+     */
+    protected void writeFile(Box code, PathPair dirPaths, String fileName) {
+        String userPath = Paths.join(dirPaths.userPath, fileName);
+        String systemPath = Paths.join(dirPaths.systemPath, fileName);
+        code.writeToFile(userPath, systemPath);
     }
 }

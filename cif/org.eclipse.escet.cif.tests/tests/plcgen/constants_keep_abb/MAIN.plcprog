@@ -9,7 +9,7 @@ END_VAR
 VAR_TEMP
     current_aut_y: REAL;
     current_aut_y_1: REAL;
-    edge_aut_1: DINT;
+    edge_aut: BYTE;
     eventEnabled: BOOL;
     isProgress: BOOL;
     litStruct: TupleStruct;
@@ -77,7 +77,7 @@ WHILE isProgress DO
      *   - 1st edge in the location
      ***********)
     IF DINT_TO_REAL(i) + DINT_TO_REAL((1 + 1) * 2) - 1.0 > DINT_TO_REAL(3) THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -91,7 +91,7 @@ WHILE isProgress DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "aut". *)
-        IF edge_aut_1 = 1 THEN
+        IF edge_aut = 0 THEN
             (* Perform assignments of the 1st edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
             aut_y := (DINT_TO_REAL((-2147483647) - 1) + 123.0) - (-123.0e-5);
@@ -118,7 +118,7 @@ WHILE isProgress DO
     litStruct_1.field1 := 0;
     litStruct_1.field2 := 0;
     IF bol = TRUE OR i = litStruct_1.field1 THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -132,7 +132,7 @@ WHILE isProgress DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "aut". *)
-        IF edge_aut_1 = 1 THEN
+        IF edge_aut = 0 THEN
             (* Perform assignments of the 2nd edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
             aut_y := 0.0 + DINT_TO_REAL((-1234)) + DINT_TO_REAL(4321);
@@ -157,7 +157,7 @@ WHILE isProgress DO
      *   - 3rd edge in the location
      ***********)
     IF col <> 0 THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;

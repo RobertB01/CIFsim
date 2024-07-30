@@ -14,11 +14,11 @@
 package org.eclipse.escet.cif.plcgen;
 
 import java.util.List;
-import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** PLC code generator configuration. */
@@ -80,8 +80,8 @@ public class PlcGenSettings {
     /** How to treat enumerations. */
     public final ConvertEnums enumConversion;
 
-    /** Callback that indicates whether execution should be terminated on user request. */
-    public final BooleanSupplier shouldTerminate;
+    /** Cooperative termination query function. */
+    public final Termination termination;
 
     /** Whether to warn the user when renaming CIF identifiers. */
     public final boolean warnOnRename;
@@ -113,7 +113,7 @@ public class PlcGenSettings {
      * @param realTypeSize User-defined real type size to used by the PLC.
      * @param simplifyValues Whether to simplify values during pre-processing.
      * @param enumConversion How to treat enumerations.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      * @param warnOnRename Whether to warn the user when renaming CIF identifiers.
      * @param warnOutput Callback to send warnings to the user.
      */
@@ -121,7 +121,7 @@ public class PlcGenSettings {
             int taskCycleTime, int taskPriority, Integer maxUncontrollableLimit, Integer maxControllableLimit,
             PathPair inputPaths, PathPair outputPaths, PathPair ioTablePaths, List<String> programHeaderTextLines,
             PlcNumberBits intTypeSize, PlcNumberBits realTypeSize, boolean simplifyValues, ConvertEnums enumConversion,
-            BooleanSupplier shouldTerminate, boolean warnOnRename, WarnOutput warnOutput)
+            Termination termination, boolean warnOnRename, WarnOutput warnOutput)
     {
         this.projectName = projectName;
         this.configurationName = configurationName;
@@ -139,7 +139,7 @@ public class PlcGenSettings {
         this.realTypeSize = realTypeSize;
         this.simplifyValues = simplifyValues;
         this.enumConversion = enumConversion;
-        this.shouldTerminate = shouldTerminate;
+        this.termination = termination;
         this.warnOnRename = warnOnRename;
         this.warnOutput = warnOutput;
     }

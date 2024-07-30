@@ -1,35 +1,34 @@
 Loading CIF specification "controllercheck/non_blocking_under_control/buc_ctrl_cycle.cif"...
 Preparing for BDD-based checks...
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name        Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Supervisor  0      2 * 2     3 * 2       4 * 2       75%
+        -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
+        Total                                      1      4         6           8           75%
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name        Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   Supervisor  0      2 * 2     3 * 2       4 * 2       75%
-  -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
-  Total                                      1      4         6           8           75%
-
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: false
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: false
 
-Computing the controllable-complete path states...
-Controllable-complete path states: false [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: false
+    Computing the controllable-complete path states...
+    Controllable-complete path states: false [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: false
 
-Computing the bad states...
-Bad states: true [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: true
+    Computing the bad states...
+    Bad states: true [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: true
 
-Computing the result of the non-blocking under control check...
-Initial states: Supervisor.Start
-Bad initial states: Supervisor.Start
+    Computing the result of the non-blocking under control check...
+    Initial states: Supervisor.Start
+    Bad initial states: Supervisor.Start
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

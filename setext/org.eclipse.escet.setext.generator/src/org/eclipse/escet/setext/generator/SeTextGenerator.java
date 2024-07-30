@@ -56,6 +56,7 @@ import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.JavaCodeUtils;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
@@ -156,10 +157,10 @@ public class SeTextGenerator {
 
         // Write scanner class.
         String scannerFilePath = spec.scannerClass.getSimpleClassName();
-        scannerFilePath += ".java";
-        scannerFilePath = Paths.resolve(scannerFilePath);
+        String relScannerFilePath = scannerFilePath + ".java";
+        String absScannerFilePath = Paths.resolve(relScannerFilePath);
 
-        writeScannerClass(spec, scannerAutomata, scannerFilePath);
+        writeScannerClass(spec, scannerAutomata, new PathPair(relScannerFilePath, absScannerFilePath));
     }
 
     /**
@@ -215,10 +216,10 @@ public class SeTextGenerator {
 
         // Write parser class.
         String javaFilePath = start.javaType.getSimpleClassName();
-        javaFilePath += ".java";
-        javaFilePath = Paths.resolve(javaFilePath);
+        String relJavaFilePath = javaFilePath + ".java";
+        String absJavaFilePath = Paths.resolve(relJavaFilePath);
 
-        writeParserClass(spec, start, aut, generator, javaFilePath);
+        writeParserClass(spec, start, aut, generator, new PathPair(relJavaFilePath, absJavaFilePath));
     }
 
     /**
@@ -241,10 +242,11 @@ public class SeTextGenerator {
      *
      * @param spec The SeText specification.
      * @param scannerAutomata Mapping from scanner states to the DFA for that state.
-     * @param javaFilePath The absolute local file system path of the Java file to which to write the class.
+     * @param javaFilePaths The relative or absolute local file system path and the absolute local file system path of
+     *     the Java file to which to write the class.
      */
     public static void writeScannerClass(Specification spec, Map<String, Automaton> scannerAutomata,
-            String javaFilePath)
+            PathPair javaFilePaths)
     {
         // Initialization.
         CodeBox code = new MemoryCodeBox();
@@ -728,9 +730,9 @@ public class SeTextGenerator {
 
         // Write Java code.
         if (OutputJavaFilesOption.isEnabled()) {
-            code.writeToFile(javaFilePath);
+            code.writeToFile(javaFilePaths);
 
-            out("Scanner class \"%s\" written to file \"%s\".", spec.scannerClass.toString(), javaFilePath);
+            out("Scanner class \"%s\" written to file \"%s\".", spec.scannerClass.toString(), javaFilePaths.userPath);
         }
     }
 
@@ -746,10 +748,10 @@ public class SeTextGenerator {
             path = Strings.slice(path, 0, -".setext".length());
         }
         path += ".bnf";
-        path = Paths.resolve(path);
+        String absPath = Paths.resolve(path);
 
         // Write text.
-        try (AppStream stream = new FileAppStream(path)) {
+        try (AppStream stream = new FileAppStream(path, absPath)) {
             boolean first = true;
             for (boolean generated: new boolean[] {false, true}) {
                 for (NonTerminal nonterm: spec.nonterminals) {
@@ -809,10 +811,11 @@ public class SeTextGenerator {
      * @param start The start/main symbol for which to write the class.
      * @param aut The LALR(1) parser automaton.
      * @param generator The LALR(1) parser generator used to construct the LALR(1) parser automaton.
-     * @param javaFilePath The absolute local file system path of the Java file to which to write the class.
+     * @param javaFilePaths The relative or absolute local file system path and the absolute local file system path of
+     *     the Java file to which to write the class.
      */
     public static void writeParserClass(Specification spec, StartSymbol start, LALR1Automaton aut,
-            LALR1ParserGenerator generator, String javaFilePath)
+            LALR1ParserGenerator generator, PathPair javaFilePaths)
     {
         // Initialization.
         CodeBox code = new MemoryCodeBox();
@@ -1679,10 +1682,10 @@ public class SeTextGenerator {
 
         // Write Java code.
         if (OutputJavaFilesOption.isEnabled()) {
-            code.writeToFile(javaFilePath);
+            code.writeToFile(javaFilePaths);
 
             out("Parser class \"%s\" for %s symbol \"%s\" written to file \"%s\".", start.javaType.toString(),
-                    start.getStartType(), start.symbol.name, javaFilePath);
+                    start.getStartType(), start.symbol.name, javaFilePaths.userPath);
         }
     }
 
@@ -1700,9 +1703,10 @@ public class SeTextGenerator {
      * Writes a hooks class skeleton to a file.
      *
      * @param spec The SeText specification.
-     * @param filePath The absolute local file system path of the file to which to write the class skeleton.
+     * @param filePaths The relative or absolute local file system path and the absolute local file system path of the
+     *     file to which to write the class skeleton.
      */
-    public static void writeHooksSkeleton(Specification spec, String filePath) {
+    public static void writeHooksSkeleton(Specification spec, PathPair filePaths) {
         out("Generating hooks skeleton class \"%s\".", spec.hooksClass.className);
 
         // Initialization.
@@ -1918,9 +1922,9 @@ public class SeTextGenerator {
 
         // Write code.
         if (OutputJavaFilesOption.isEnabled()) {
-            code.writeToFile(filePath);
+            code.writeToFile(filePaths);
 
-            out("Hooks skeleton class \"%s\" written to file \"%s\".", spec.hooksClass.className, filePath);
+            out("Hooks skeleton class \"%s\" written to file \"%s\".", spec.hooksClass.className, filePaths.userPath);
         }
     }
 
@@ -1964,12 +1968,12 @@ public class SeTextGenerator {
      * @return The print stream for the opened debug file.
      */
     public static AppStream openDebugFile(String path) {
-        path = Paths.resolve(path);
+        String absPath = Paths.resolve(path);
 
         AppStream dbgStream;
         try {
             if (OutputDebugFilesOption.isEnabled()) {
-                dbgStream = new FileAppStream(path);
+                dbgStream = new FileAppStream(path, absPath);
             } else {
                 dbgStream = NullAppStream.NULL_APP_STREAM;
             }

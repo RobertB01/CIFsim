@@ -136,6 +136,138 @@ public class DebugNormalOutputTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testMultiLineStoredOutputNoIndentNormal() {
+        StoredOutputProvider provider = new StoredOutputProvider();
+        DebugNormalOutput out = provider.getNormalOutput("PRE: ");
+        out.line("a");
+        out.line("b\nc");
+        out.line("d\r\ne");
+        out.line("f\n\ng");
+        out.line("h\n\r\n\ni");
+        out.line("j\nk\nl");
+        String expected = """
+                PRE: a
+                PRE: b
+                PRE: c
+                PRE: d
+                PRE: e
+                PRE: f
+                PRE:
+                PRE: g
+                PRE: h
+                PRE:
+                PRE:
+                PRE: i
+                PRE: j
+                PRE: k
+                PRE: l
+                """;
+        assertEquals(expected, provider.toString());
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMultiLineStoredOutputNoIndentDebug() {
+        StoredOutputProvider provider = new StoredOutputProvider();
+        DebugNormalOutput dbg = provider.getDebugOutput("PRE: ");
+        dbg.line("a");
+        dbg.line("b\nc");
+        dbg.line("d\r\ne");
+        dbg.line("f\n\ng");
+        dbg.line("h\n\r\n\ni");
+        dbg.line("j\nk\nl");
+        String expected = """
+                PRE: a
+                PRE: b
+                PRE: c
+                PRE: d
+                PRE: e
+                PRE: f
+                PRE:
+                PRE: g
+                PRE: h
+                PRE:
+                PRE:
+                PRE: i
+                PRE: j
+                PRE: k
+                PRE: l
+                """;
+        assertEquals(expected, provider.toString());
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMultiLineStoredOutputWithIndentNormal() {
+        StoredOutputProvider provider = new StoredOutputProvider();
+        DebugNormalOutput out = provider.getNormalOutput("PRE: ");
+        out.line("a");
+        out.inc();
+        out.line("b\nc");
+        out.inc();
+        out.line("d\r\ne");
+        out.line("f\n\ng");
+        out.inc();
+        out.line("h\n\r\n\ni");
+        out.dec();
+        out.line("j\nk\nl");
+        String expected = """
+                PRE: a
+                    PRE: b
+                    PRE: c
+                        PRE: d
+                        PRE: e
+                        PRE: f
+                        PRE:
+                        PRE: g
+                            PRE: h
+                            PRE:
+                            PRE:
+                            PRE: i
+                        PRE: j
+                        PRE: k
+                        PRE: l
+                """;
+        assertEquals(expected, provider.toString());
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testMultiLineStoredOutputWithIndentDebug() {
+        StoredOutputProvider provider = new StoredOutputProvider();
+        DebugNormalOutput dbg = provider.getDebugOutput("PRE: ");
+        dbg.line("a");
+        dbg.inc();
+        dbg.line("b\nc");
+        dbg.inc();
+        dbg.line("d\r\ne");
+        dbg.line("f\n\ng");
+        dbg.inc();
+        dbg.line("h\n\r\n\ni");
+        dbg.dec();
+        dbg.line("j\nk\nl");
+        String expected = """
+                PRE: a
+                    PRE: b
+                    PRE: c
+                        PRE: d
+                        PRE: e
+                        PRE: f
+                        PRE:
+                        PRE: g
+                            PRE: h
+                            PRE:
+                            PRE:
+                            PRE: i
+                        PRE: j
+                        PRE: k
+                        PRE: l
+                """;
+        assertEquals(expected, provider.toString());
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testIncorrectDedentWithDebug() {
         StoredOutputProvider outputProvider = new StoredOutputProvider();
         DebugNormalOutput out = outputProvider.getNormalOutput();

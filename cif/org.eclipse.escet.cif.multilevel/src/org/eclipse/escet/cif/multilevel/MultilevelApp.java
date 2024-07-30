@@ -39,7 +39,6 @@ import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -94,7 +93,6 @@ import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
 import org.eclipse.escet.cif.multilevel.options.DmmOutputFileOption;
 import org.eclipse.escet.cif.multilevel.options.PartialSpecsOutputDirectoryOption;
 import org.eclipse.escet.cif.multilevel.partialspecs.PartialSpecsBuilder;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -109,6 +107,8 @@ import org.eclipse.escet.common.dsm.Dmm;
 import org.eclipse.escet.common.dsm.Dsm;
 import org.eclipse.escet.common.dsm.DsmClustering;
 import org.eclipse.escet.common.java.BitSetIterator;
+import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -192,7 +192,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         // Verify pre-conditions.
-        checkSpec(spec, absSpecPath, () -> AppEnv.isTerminationRequested());
+        checkSpec(spec, absSpecPath, () -> isTerminationRequested());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -335,17 +335,19 @@ public class MultilevelApp extends Application<IOutputComponent> {
     /**
      * Write the partial specifications to the provided directory.
      *
-     * @param partialSpecsDir Directory to use for writing the partial specifications.
+     * @param partialSpecsDir Relative or absolute local file system path to the directory to use for writing the
+     *     partial specifications.
      * @param partialSpecs Created partial specifications.
-     * @param absCifDir Absolute directory path containing the input CIF file.
+     * @param absCifDir Absolute local file system path to the directory path containing the input CIF file.
      */
     private void writePartialSpecs(String partialSpecsDir, List<Specification> partialSpecs, String absCifDir) {
         // Get directory for storing the partial specifications.
-        Path absDirPath = java.nio.file.Paths.get(Paths.resolve(partialSpecsDir));
+        String absSpecDir = Paths.resolve(partialSpecsDir);
+        Path absSpecDirPath = java.nio.file.Paths.get(absSpecDir);
 
         // In case the directory already exists, delete existing "spec_NNN.cif" entries.
-        if (Files.isDirectory(absDirPath)) {
-            try (Stream<Path> dirContent = Files.list(absDirPath)) {
+        if (Files.isDirectory(absSpecDirPath)) {
+            try (Stream<Path> dirContent = Files.list(absSpecDirPath)) {
                 Predicate<String> matcher = SPEC_FILE_PATTERN.asMatchPredicate();
                 dirContent.filter(p -> matcher.test(p.getFileName().toString())).forEach(p -> {
                     try {
@@ -366,7 +368,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // Create directory for storing the partial specifications, and any ancestor directories, if they don't exist
         // yet.
         try {
-            Files.createDirectories(absDirPath);
+            Files.createDirectories(absSpecDirPath);
         } catch (IOException ex) {
             String msg = fmt("Failed to create output directory \"%s\" for the partial specifications.",
                     partialSpecsDir);
@@ -376,9 +378,10 @@ public class MultilevelApp extends Application<IOutputComponent> {
         // And write the output files.
         int specNumber = 1;
         for (Specification partialSpec: partialSpecs) {
-            String outPath = Paths.join(Paths.resolve(partialSpecsDir),
-                    "spec_" + makeFixedLengthNumberText(specNumber, partialSpecs.size()) + ".cif");
-            CifWriter.writeCifSpec(partialSpec, outPath, absCifDir);
+            String cifFilename = "spec_" + makeFixedLengthNumberText(specNumber, partialSpecs.size()) + ".cif";
+            String outPath = Paths.join(partialSpecsDir, cifFilename);
+            String absOutPath = Paths.join(absSpecDir, cifFilename);
+            CifWriter.writeCifSpec(partialSpec, new PathPair(outPath, absOutPath), absCifDir);
             specNumber++;
         }
         out("Wrote %d partial specification%s to directory \"%s\".", partialSpecs.size(),
@@ -390,10 +393,10 @@ public class MultilevelApp extends Application<IOutputComponent> {
      *
      * @param spec Specification to check.
      * @param absSpecPath The absolute local file system path to the CIF file to check.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      */
-    public static void checkSpec(Specification spec, String absSpecPath, BooleanSupplier shouldTerminate) {
-        CifPreconditionChecker checker = new MultiLevelPreChecker(shouldTerminate);
+    public static void checkSpec(Specification spec, String absSpecPath, Termination termination) {
+        CifPreconditionChecker checker = new MultiLevelPreChecker(termination);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF multi-level synthesis");
     }
 
@@ -402,10 +405,10 @@ public class MultilevelApp extends Application<IOutputComponent> {
         /**
          * Constructor of the {@link MultiLevelPreChecker} class.
          *
-         * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+         * @param termination Cooperative termination query function.
          */
-        public MultiLevelPreChecker(BooleanSupplier shouldTerminate) {
-            super(shouldTerminate,
+        public MultiLevelPreChecker(Termination termination) {
+            super(termination,
 
                     // Constraints from CIF to DMM:
 

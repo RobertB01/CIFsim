@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.controllercheck.mdd;
 
-import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -21,10 +20,10 @@ import static org.eclipse.escet.common.java.Maps.map;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifCheckNoCompDefInst;
 import org.eclipse.escet.cif.checkers.CifCheckViolations;
+import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -35,6 +34,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 
@@ -53,8 +53,8 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
  * </p>
  */
 public class MddDeterminismCheck extends CifCheckNoCompDefInst {
-    /** Callback that indicates whether execution should be terminated on user request. */
-    private final BooleanSupplier shouldTerminate;
+    /** Cooperative termination query function. */
+    private final Termination termination;
 
     /** The MDD tree builder to use, or {@code null} if not yet available. */
     private MddSpecBuilder builder;
@@ -62,17 +62,17 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
     /**
      * Constructor for the {@link MddDeterminismCheck} class.
      *
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      */
-    MddDeterminismCheck(BooleanSupplier shouldTerminate) {
-        this.shouldTerminate = shouldTerminate;
+    MddDeterminismCheck(Termination termination) {
+        this.termination = termination;
     }
 
     @Override
     protected void preprocessSpecification(Specification spec, CifCheckViolations violations) {
         // Get discrete and input variables.
         List<Declaration> variables = list();
-        collectDiscAndInputVariables(spec, variables);
+        CifCollectUtils.collectDiscAndInputVariables(spec, variables);
 
         // Construct an MDD tree builder.
         final int READINDEX = 0;
@@ -88,7 +88,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
         Map<Event, List<List<Expression>>> edgesPredsByEvent = map();
         for (Edge edge: loc.getEdges()) {
             for (EdgeEvent ee: edge.getEvents()) {
-                if (shouldTerminate.getAsBoolean()) {
+                if (termination.isRequested()) {
                     return;
                 }
 
@@ -109,7 +109,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
         // Verify that the guards of the different edges do not overlap.
         EVENT:
         for (Entry<Event, List<List<Expression>>> entry: edgesPredsByEvent.entrySet()) {
-            if (shouldTerminate.getAsBoolean()) {
+            if (termination.isRequested()) {
                 return;
             }
 
@@ -124,7 +124,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
             for (List<Expression> edgeGuards: edgesGuards) {
                 Node edgeGuardsNode = builder.getExpressionConvertor().convert(edgeGuards).get(1);
                 edgesGuardsNodes.add(edgeGuardsNode);
-                if (shouldTerminate.getAsBoolean()) {
+                if (termination.isRequested()) {
                     return;
                 }
             }
@@ -134,7 +134,7 @@ public class MddDeterminismCheck extends CifCheckNoCompDefInst {
             for (int i = 0; i < edgesGuardsNodes.size() - 1; i++) {
                 for (int j = i + 1; j < edgesGuardsNodes.size(); j++) {
                     Node overlap = builder.tree.conjunct(edgesGuardsNodes.get(i), edgesGuardsNodes.get(j));
-                    if (shouldTerminate.getAsBoolean()) {
+                    if (termination.isRequested()) {
                         return;
                     }
 

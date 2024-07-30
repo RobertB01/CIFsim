@@ -213,9 +213,8 @@ public class RemoveRequirements implements CifToCifTransformation {
             for (Invariant inv: loc.getInvariants()) {
                 if (!shouldRemoveInvariant(inv)) {
                     // Problems found. Construct message.
-                    SupKind supKind = inv.getSupKind();
-                    String kindTxt = supKind == SupKind.NONE ? "kindless" : CifTextUtils.kindToStr(supKind);
                     String locTxt = loc.getName() == null ? "Location" : fmt("Location \"%s\"", loc.getName());
+                    String kindTxt = CifTextUtils.kindToStr(inv.getSupKind());
                     String msg = fmt("%s of requirement automaton \"%s\" contains a %s invariant.", locTxt,
                             CifTextUtils.getAbsName(aut), kindTxt);
                     problemMessages.add(msg);

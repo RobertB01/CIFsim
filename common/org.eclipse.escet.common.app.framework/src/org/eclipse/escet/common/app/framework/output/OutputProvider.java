@@ -445,7 +445,7 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /**
      * Forward the given debug output to the registered output components, if debug output is enabled in the current
-     * output mode.
+     * output mode. If a multi-line message is given, each line is given separately to the output stream.
      *
      * <p>
      * This method should not be invoked directly. It is invoked by its static variant, when appropriate.
@@ -464,7 +464,7 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /**
      * Forward the given debug output to the registered output components, if debug output is enabled in the current
-     * output mode.
+     * output mode. If a multi-line message is given, each line is given separately to the output stream.
      *
      * @param msg The debug output to forward.
      */
@@ -474,7 +474,8 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /**
      * Forward the given debug output to the registered output components, if debug output is enabled in the current
-     * output mode. This method uses {@link Strings#fmt} to obtain the real output.
+     * output mode. This method uses {@link Strings#fmt} to obtain the real output. If a multi-line message is given or
+     * produced after formatting, each line is given separately to the output stream.
      *
      * <p>
      * For performance reasons, it may be better to call this method like this:
@@ -556,7 +557,7 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /**
      * Forward the given 'normal' output to the registered output components, if 'normal' output is enabled in the
-     * current output mode.
+     * current output mode. If a multi-line message is given, each line is given separately to the output stream.
      *
      * <p>
      * This method should not be invoked directly. It is invoked by its static variant, when appropriate.
@@ -575,7 +576,7 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /**
      * Forward the given 'normal' output to the registered output components, if 'normal' output is enabled in the
-     * current output mode.
+     * current output mode. If a multi-line message is given, each line is given separately to the output stream.
      *
      * @param msg The 'normal' output to forward.
      */
@@ -585,7 +586,8 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /**
      * Forward the given 'normal' output to the registered output components, if 'normal' output is enabled in the
-     * current output mode. This method uses {@link Strings#fmt} to obtain the real output.
+     * current output mode. This method uses {@link Strings#fmt} to obtain the real output. If a multi-line message is
+     * given or produced after formatting, each line is given separately to the output stream.
      *
      * <p>
      * For performance reasons, it may be better to call this method like this:
@@ -615,6 +617,11 @@ public class OutputProvider<T extends IOutputComponent> {
      * output is enabled in the current output mode. This method uses {@link Strings#fmt} to obtain the string to wrap.
      *
      * <p>
+     * New-line characters are not treated specially, so it is best to not pass messages with new-lines to this method,
+     * to avoid unexpected results.
+     * </p>
+     *
+     * <p>
      * For performance reasons, it may be better to call this method like this:
      *
      * <pre>if (doout()) outw(...)</pre>
@@ -642,7 +649,7 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /**
      * Forward the given warning output to the registered output components, if warning output is enabled in the current
-     * output mode.
+     * output mode. If a multi-line message is given, each line is given separately to the output stream.
      *
      * <p>
      * This method should not be invoked directly. It is invoked by its static variant, when appropriate.
@@ -666,7 +673,7 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /**
      * Forward the given warning output to the registered output components, if warning output is enabled in the current
-     * output mode.
+     * output mode. If a multi-line message is given, each line is given separately to the output stream.
      *
      * <p>
      * The default stream output component automatically prefixes warning messages with {@code "WARNING: "}.
@@ -680,7 +687,8 @@ public class OutputProvider<T extends IOutputComponent> {
 
     /**
      * Forward the given warning output to the registered output components, if warning output is enabled in the current
-     * output mode. This method uses {@link Strings#fmt} to obtain the real output.
+     * output mode. This method uses {@link Strings#fmt} to obtain the real output. If a multi-line message is given or
+     * produced after formatting, each line is given separately to the output stream.
      *
      * <p>
      * For performance reasons, it may be better to call this method like this:
@@ -714,7 +722,8 @@ public class OutputProvider<T extends IOutputComponent> {
     }
 
     /**
-     * Forward the given fatal error message to the registered output components.
+     * Forward the given fatal error message to the registered output components. If a multi-line message is given, each
+     * line is given separately to the output stream.
      *
      * <p>
      * This method should not be invoked directly. It is invoked by its static variant, when appropriate.
@@ -734,7 +743,8 @@ public class OutputProvider<T extends IOutputComponent> {
     }
 
     /**
-     * Forward the given fatal error message to the registered output components.
+     * Forward the given fatal error message to the registered output components. If a multi-line message is given, each
+     * line is given separately to the output stream.
      *
      * <p>
      * This method should generally not be invoked directly. If an uncaught exception is caught by the exception
@@ -755,7 +765,8 @@ public class OutputProvider<T extends IOutputComponent> {
     }
 
     /**
-     * Forward the given fatal error message to the registered output components.
+     * Forward the given fatal error message to the registered output components. If a multi-line message is given or
+     * produced after formatting, each line is given separately to the output stream.
      *
      * <p>
      * This method should generally not be invoked directly. If an uncaught exception is caught by the exception

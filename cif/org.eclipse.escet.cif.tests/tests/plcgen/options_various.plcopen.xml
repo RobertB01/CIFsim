@@ -64,9 +64,9 @@
                 <REAL/>
               </type>
             </variable>
-            <variable name="edge_p_1">
+            <variable name="edge_p">
               <type>
-                <DINT/>
+                <BYTE/>
               </type>
             </variable>
             <variable name="eventEnabled">
@@ -155,7 +155,7 @@ WHILE isProgress AND loopCount &lt; 101 DO
      *   - 1st edge in the location
      ***********)
     IF p_t &lt;= 1.0 AND p_x = 5 THEN
-        edge_p_1 := 1;
+        edge_p := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -169,7 +169,7 @@ WHILE isProgress AND loopCount &lt; 101 DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "p". *)
-        IF edge_p_1 = 1 THEN
+        IF edge_p = 0 THEN
             (* Perform assignments of the 1st edge of automaton "p". *)
             (* Perform update of continuous variable "p.t". *)
             p_t := 7.0;

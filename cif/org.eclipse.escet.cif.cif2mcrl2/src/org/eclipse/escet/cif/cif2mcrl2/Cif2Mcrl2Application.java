@@ -55,9 +55,9 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.box.AppStreamCodeBox;
 import org.eclipse.escet.common.box.Box;
 import org.eclipse.escet.common.box.HBox;
-import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.box.TextBox;
 import org.eclipse.escet.common.box.VBox;
 
@@ -97,6 +97,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         // Read CIF input.
         CifReader cifReader = new CifReader().init();
         Specification spec = cifReader.read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -123,9 +124,9 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
             return 0;
         }
 
-        // Check pre-conditions of the input.
-        Cif2Mcrl2PreChecker pca = new Cif2Mcrl2PreChecker();
-        pca.checkSpec(spec);
+        // Check preconditions.
+        CifToMcrl2PreChecker checker = new CifToMcrl2PreChecker(() -> isTerminationRequested());
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF to mCRL2 transformation");
         if (isTerminationRequested()) {
             return 0;
         }
@@ -180,8 +181,8 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         // If requested, dump debug information of the instance tree.
         if (EnableDebugOutputOption.getEnableDebugOutput()) {
             String path = DebugFileOption.getDerivedPath(".cif", "_dbg.txt");
-            AppStream stream = new FileAppStream(path);
-            StreamCodeBox code = new StreamCodeBox(stream, 4);
+            AppStream stream = new FileAppStream(path, Paths.resolve(path));
+            AppStreamCodeBox code = new AppStreamCodeBox(stream, 4);
             procRoot.dumpActions(code);
             code.close();
         }
@@ -196,8 +197,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         }
 
         String outFile = OutputFileOption.getDerivedPath(".cif", ".mcrl2");
-        outFile = Paths.resolve(outFile);
-        code.writeToFile(outFile);
+        code.writeToFile(outFile, Paths.resolve(outFile));
 
         return 0;
     }

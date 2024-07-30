@@ -1,225 +1,222 @@
 Loading CIF specification "controllercheck/bounded_response/bounded_diamond.cif"...
 Preparing for BDD-based checks...
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   pu1   0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   pu2   1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   pu3   2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   pu4   3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   pc1   4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   pc2   5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   pc3   6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   pc4   7      1 * 2     2 * 2       2 * 2       100%
+        9      location pointer  n/a   pc5   8      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                9      18        36          36          100%
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   pu1   0      1 * 2     2 * 2       2 * 2       100%
-  2      location pointer  n/a   pu2   1      1 * 2     2 * 2       2 * 2       100%
-  3      location pointer  n/a   pu3   2      1 * 2     2 * 2       2 * 2       100%
-  4      location pointer  n/a   pu4   3      1 * 2     2 * 2       2 * 2       100%
-  5      location pointer  n/a   pc1   4      1 * 2     2 * 2       2 * 2       100%
-  6      location pointer  n/a   pc2   5      1 * 2     2 * 2       2 * 2       100%
-  7      location pointer  n/a   pc3   6      1 * 2     2 * 2       2 * 2       100%
-  8      location pointer  n/a   pc4   7      1 * 2     2 * 2       2 * 2       100%
-  9      location pointer  n/a   pc5   8      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                9      18        36          36          100%
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying sorted variable order:
+                Effect: both
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying sorted variable order:
-      Effect: both
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 9
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 9
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+                    Skipping algorithm: no graph edges.
 
-        Skipping algorithm: no graph edges.
+                Found new best variable order.
 
-      Found new best variable order.
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+                    Skipping algorithm: no graph edges.
 
-        Skipping algorithm: no graph edges.
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                        Skipping algorithm: no graph edges.
 
-          Skipping algorithm: no graph edges.
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 9
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 9
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [reversed]
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [reversed]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                        Skipping algorithm: no graph edges.
 
-          Skipping algorithm: no graph edges.
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 9
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 9
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [reversed]
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [reversed]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 9
+                Maximum number of iterations: 30
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 9
-      Maximum number of iterations: 30
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [iteration 1]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [after]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [iteration 1]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 9
+                Window length: 4
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 9
-      Window length: 4
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [after]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.098765 (total)   0.010974 (avg/edge) [after]
+    Variable order changed.
 
-Variable order changed.
-
-CIF variables and location pointers:
-  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   pc1   0      1 * 2     2 * 2       2 * 2       100%
-  2      location pointer  n/a   pc2   1      1 * 2     2 * 2       2 * 2       100%
-  3      location pointer  n/a   pc3   2      1 * 2     2 * 2       2 * 2       100%
-  4      location pointer  n/a   pc4   3      1 * 2     2 * 2       2 * 2       100%
-  5      location pointer  n/a   pc5   4      1 * 2     2 * 2       2 * 2       100%
-  6      location pointer  n/a   pu1   5      1 * 2     2 * 2       2 * 2       100%
-  7      location pointer  n/a   pu2   6      1 * 2     2 * 2       2 * 2       100%
-  8      location pointer  n/a   pu3   7      1 * 2     2 * 2       2 * 2       100%
-  9      location pointer  n/a   pu4   8      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                9      18        36          36          100%
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   pc1   0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   pc2   1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   pc3   2      1 * 2     2 * 2       2 * 2       100%
+        4      location pointer  n/a   pc4   3      1 * 2     2 * 2       2 * 2       100%
+        5      location pointer  n/a   pc5   4      1 * 2     2 * 2       2 * 2       100%
+        6      location pointer  n/a   pu1   5      1 * 2     2 * 2       2 * 2       100%
+        7      location pointer  n/a   pu2   6      1 * 2     2 * 2       2 * 2       100%
+        8      location pointer  n/a   pu3   7      1 * 2     2 * 2       2 * 2       100%
+        9      location pointer  n/a   pu4   8      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                9      18        36          36          100%
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
 Preparing for MDD-based checks...
-Analyzing automaton "pu1"...
-Analyzing automaton "pu2"...
-Analyzing automaton "pu3"...
-Analyzing automaton "pu4"...
-Analyzing automaton "pc1"...
-    Initializing the automaton data for event "c_e1"...
-    Processing edges from location "loc1" of automaton "pc1"...
-    Processing edges from location "loc2" of automaton "pc1"...
-    Updating global guards and updates for event "c_e1"...
-Analyzing automaton "pc2"...
-    Initializing the automaton data for event "c_e2"...
-    Processing edges from location "loc1" of automaton "pc2"...
-    Processing edges from location "loc2" of automaton "pc2"...
-    Updating global guards and updates for event "c_e2"...
-Analyzing automaton "pc3"...
-    Initializing the automaton data for event "c_e3"...
-    Processing edges from location "loc1" of automaton "pc3"...
-    Processing edges from location "loc2" of automaton "pc3"...
-    Updating global guards and updates for event "c_e3"...
-Analyzing automaton "pc4"...
-    Initializing the automaton data for event "c_e4"...
-    Processing edges from location "loc1" of automaton "pc4"...
-    Processing edges from location "loc2" of automaton "pc4"...
-    Updating global guards and updates for event "c_e4"...
-Analyzing automaton "pc5"...
-    Initializing the automaton data for event "c_e5"...
-    Processing edges from location "loc1" of automaton "pc5"...
-    Processing edges from location "loc2" of automaton "pc5"...
-    Updating global guards and updates for event "c_e5"...
+    Analyzing automaton "pu1"...
+    Analyzing automaton "pu2"...
+    Analyzing automaton "pu3"...
+    Analyzing automaton "pu4"...
+    Analyzing automaton "pc1"...
+        Initializing the automaton data for event "c_e1"...
+        Processing edges from location "loc1" of automaton "pc1"...
+        Processing edges from location "loc2" of automaton "pc1"...
+        Updating global guards and updates for event "c_e1"...
+    Analyzing automaton "pc2"...
+        Initializing the automaton data for event "c_e2"...
+        Processing edges from location "loc1" of automaton "pc2"...
+        Processing edges from location "loc2" of automaton "pc2"...
+        Updating global guards and updates for event "c_e2"...
+    Analyzing automaton "pc3"...
+        Initializing the automaton data for event "c_e3"...
+        Processing edges from location "loc1" of automaton "pc3"...
+        Processing edges from location "loc2" of automaton "pc3"...
+        Updating global guards and updates for event "c_e3"...
+    Analyzing automaton "pc4"...
+        Initializing the automaton data for event "c_e4"...
+        Processing edges from location "loc1" of automaton "pc4"...
+        Processing edges from location "loc2" of automaton "pc4"...
+        Updating global guards and updates for event "c_e4"...
+    Analyzing automaton "pc5"...
+        Initializing the automaton data for event "c_e5"...
+        Processing edges from location "loc1" of automaton "pc5"...
+        Processing edges from location "loc2" of automaton "pc5"...
+        Updating global guards and updates for event "c_e5"...
 
 Checking for bounded response...
-Computing reachable states...
-Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1))) [initial states predicate]
-Forward reachability: iteration 1.
-Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1))) -> pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu2.loc1 and (pu3.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e1) (guard: pu1.loc1) (assignments: pu1 := pu1.loc2)]
-Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu2.loc1 and (pu3.loc1 and pu4.loc1)) -> pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and pc5.loc1 and (pu3.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e2) (guard: pu2.loc1) (assignments: pu2 := pu2.loc2)]
-Reachable states: pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and pc5.loc1 and (pu3.loc1 and pu4.loc1)) -> pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and (pc5.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e3) (guard: pu3.loc1) (assignments: pu3 := pu3.loc2)]
-Reachable states: pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and (pc5.loc1 and pu4.loc1)) -> pc1.loc1 and pc2.loc1 and (pc3.loc1 and (pc4.loc1 and pc5.loc1)) [forward reach with edge: (event: u_e4) (guard: pu4.loc1) (assignments: pu4 := pu4.loc2)]
-Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and (pc4.loc1 and pc5.loc1)) -> pc2.loc1 and pc3.loc1 and (pc4.loc1 and pc5.loc1) [forward reach with edge: (event: c_e1) (guard: pc1.loc1) (assignments: pc1 := pc1.loc2)]
-Reachable states: pc2.loc1 and pc3.loc1 and (pc4.loc1 and pc5.loc1) -> pc3.loc1 and (pc4.loc1 and pc5.loc1) [forward reach with edge: (event: c_e2) (guard: pc2.loc1) (assignments: pc2 := pc2.loc2)]
-Reachable states: pc3.loc1 and (pc4.loc1 and pc5.loc1) -> pc4.loc1 and pc5.loc1 [forward reach with edge: (event: c_e3) (guard: pc3.loc1) (assignments: pc3 := pc3.loc2)]
-Reachable states: pc4.loc1 and pc5.loc1 -> pc5.loc1 [forward reach with edge: (event: c_e4) (guard: pc4.loc1) (assignments: pc4 := pc4.loc2)]
-Reachable states: pc5.loc1 -> true [forward reach with edge: (event: c_e5) (guard: pc5.loc1) (assignments: pc5 := pc5.loc2)]
-Forward reachability: iteration 2.
-Reachable states: true [fixed point].
+    Computing reachable states...
+    Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1))) [initial states predicate]
+    Forward reachability: iteration 1.
+    Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1))) -> pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu2.loc1 and (pu3.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e1) (guard: pu1.loc1) (assignments: pu1 := pu1.loc2)]
+    Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu2.loc1 and (pu3.loc1 and pu4.loc1)) -> pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and pc5.loc1 and (pu3.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e2) (guard: pu2.loc1) (assignments: pu2 := pu2.loc2)]
+    Reachable states: pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and pc5.loc1 and (pu3.loc1 and pu4.loc1)) -> pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and (pc5.loc1 and pu4.loc1)) [forward reach with edge: (event: u_e3) (guard: pu3.loc1) (assignments: pu3 := pu3.loc2)]
+    Reachable states: pc1.loc1 and (pc2.loc1 and pc3.loc1) and (pc4.loc1 and (pc5.loc1 and pu4.loc1)) -> pc1.loc1 and pc2.loc1 and (pc3.loc1 and (pc4.loc1 and pc5.loc1)) [forward reach with edge: (event: u_e4) (guard: pu4.loc1) (assignments: pu4 := pu4.loc2)]
+    Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and (pc4.loc1 and pc5.loc1)) -> pc2.loc1 and pc3.loc1 and (pc4.loc1 and pc5.loc1) [forward reach with edge: (event: c_e1) (guard: pc1.loc1) (assignments: pc1 := pc1.loc2)]
+    Reachable states: pc2.loc1 and pc3.loc1 and (pc4.loc1 and pc5.loc1) -> pc3.loc1 and (pc4.loc1 and pc5.loc1) [forward reach with edge: (event: c_e2) (guard: pc2.loc1) (assignments: pc2 := pc2.loc2)]
+    Reachable states: pc3.loc1 and (pc4.loc1 and pc5.loc1) -> pc4.loc1 and pc5.loc1 [forward reach with edge: (event: c_e3) (guard: pc3.loc1) (assignments: pc3 := pc3.loc2)]
+    Reachable states: pc4.loc1 and pc5.loc1 -> pc5.loc1 [forward reach with edge: (event: c_e4) (guard: pc4.loc1) (assignments: pc4 := pc4.loc2)]
+    Reachable states: pc5.loc1 -> true [forward reach with edge: (event: c_e5) (guard: pc5.loc1) (assignments: pc5 := pc5.loc2)]
+    Forward reachability: iteration 2.
+    Reachable states: true [fixed point].
 
-Computing bound for uncontrollable events...
-Bounded response check round 1 (states before round: true).
-Bounded response check round 2 (states before round: pu1.loc2 or pu2.loc2 or (pu3.loc2 or pu4.loc2)).
-Bounded response check round 3 (states before round: (pu1.loc2 or (pu2.loc2 or pu3.loc2)) and (pu1.loc2 or pu2.loc2 or (pu3.loc1 or pu4.loc2)) and ((pu1.loc2 or pu2.loc1 or (pu3.loc2 or pu4.loc2)) and (pu1.loc1 or pu2.loc2 or (pu3.loc2 or pu4.loc2)))).
-Bounded response check round 4 (states before round: pu1.loc1 and pu2.loc2 and (pu3.loc2 and pu4.loc2) or pu1.loc2 and pu2.loc1 and (pu3.loc2 and pu4.loc2) or (pu1.loc2 and pu2.loc2 and (pu3.loc1 and pu4.loc2) or pu1.loc2 and (pu2.loc2 and pu3.loc2))).
-Bounded response check round 5 (states before round: pu1.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)).
+    Computing bound for uncontrollable events...
+    Bounded response check round 1 (states before round: true).
+    Bounded response check round 2 (states before round: pu1.loc2 or pu2.loc2 or (pu3.loc2 or pu4.loc2)).
+    Bounded response check round 3 (states before round: (pu1.loc2 or (pu2.loc2 or pu3.loc2)) and (pu1.loc2 or pu2.loc2 or (pu3.loc1 or pu4.loc2)) and ((pu1.loc2 or pu2.loc1 or (pu3.loc2 or pu4.loc2)) and (pu1.loc1 or pu2.loc2 or (pu3.loc2 or pu4.loc2)))).
+    Bounded response check round 4 (states before round: pu1.loc1 and pu2.loc2 and (pu3.loc2 and pu4.loc2) or pu1.loc2 and pu2.loc1 and (pu3.loc2 and pu4.loc2) or (pu1.loc2 and pu2.loc2 and (pu3.loc1 and pu4.loc2) or pu1.loc2 and (pu2.loc2 and pu3.loc2))).
+    Bounded response check round 5 (states before round: pu1.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)).
 
-Computing bound for controllable events...
-Bounded response check round 1 (states before round: true).
-Bounded response check round 2 (states before round: pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))).
-Bounded response check round 3 (states before round: (pc1.loc2 or pc2.loc2 or (pc3.loc2 or pc4.loc2)) and (pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc2 or pc2.loc2 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2)))))).
-Bounded response check round 4 (states before round: (pc1.loc2 or (pc2.loc2 or pc3.loc2)) and (pc1.loc2 or pc2.loc2 or (pc3.loc1 or pc4.loc2)) and ((pc1.loc2 or pc2.loc2 or (pc3.loc1 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc2 or pc4.loc2)) and (pc1.loc2 or pc2.loc1 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc2 or (pc3.loc2 or pc4.loc2)) and ((pc1.loc1 or pc2.loc2 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc1 or pc2.loc2 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc1 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))))))).
-Bounded response check round 5 (states before round: pc1.loc1 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) or pc1.loc2 and pc2.loc1 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) or (pc1.loc2 and pc2.loc2 and (pc3.loc1 and (pc4.loc2 and pc5.loc2)) or (pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc1 and pc5.loc2)) or pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2)))).
-Bounded response check round 6 (states before round: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2))).
+    Computing bound for controllable events...
+    Bounded response check round 1 (states before round: true).
+    Bounded response check round 2 (states before round: pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))).
+    Bounded response check round 3 (states before round: (pc1.loc2 or pc2.loc2 or (pc3.loc2 or pc4.loc2)) and (pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc2 or pc2.loc2 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2)))))).
+    Bounded response check round 4 (states before round: (pc1.loc2 or (pc2.loc2 or pc3.loc2)) and (pc1.loc2 or pc2.loc2 or (pc3.loc1 or pc4.loc2)) and ((pc1.loc2 or pc2.loc2 or (pc3.loc1 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc2 or pc4.loc2)) and (pc1.loc2 or pc2.loc1 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc2 or (pc3.loc2 or pc4.loc2)) and ((pc1.loc1 or pc2.loc2 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc1 or pc2.loc2 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc1 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))))))).
+    Bounded response check round 5 (states before round: pc1.loc1 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) or pc1.loc2 and pc2.loc1 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) or (pc1.loc2 and pc2.loc2 and (pc3.loc1 and (pc4.loc2 and pc5.loc2)) or (pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc1 and pc5.loc2)) or pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2)))).
+    Bounded response check round 6 (states before round: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2))).
 
-Bounded response check completed.
+    Bounded response check completed.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2))
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2))
 
-Computing the controllable-complete path states...
-Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu1.loc2 and (pu2.loc2 and (pu3.loc2 and pu4.loc2))) [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu1.loc2 and (pu2.loc2 and (pu3.loc2 and pu4.loc2))) -> pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e1) (guard: pu1.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu1.loc1))) (assignments: pu1 := pu1.loc2)]
-Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)) -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and pc5.loc2 and (pu3.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e2) (guard: pu2.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu2.loc1))) (assignments: pu2 := pu2.loc2)]
-Controllable-complete path states: pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and pc5.loc2 and (pu3.loc2 and pu4.loc2)) -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e3) (guard: pu3.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu3.loc1))) (assignments: pu3 := pu3.loc2)]
-Controllable-complete path states: pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc2)) -> pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) [backward reach with edge: (event: u_e4) (guard: pu4.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc1))) (assignments: pu4 := pu4.loc2)]
-Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) -> pc2.loc2 and pc3.loc2 and (pc4.loc2 and pc5.loc2) [backward reach with edge: (event: c_e1) (guard: pc1.loc1) (assignments: pc1 := pc1.loc2)]
-Controllable-complete path states: pc2.loc2 and pc3.loc2 and (pc4.loc2 and pc5.loc2) -> pc3.loc2 and (pc4.loc2 and pc5.loc2) [backward reach with edge: (event: c_e2) (guard: pc2.loc1) (assignments: pc2 := pc2.loc2)]
-Controllable-complete path states: pc3.loc2 and (pc4.loc2 and pc5.loc2) -> pc4.loc2 and pc5.loc2 [backward reach with edge: (event: c_e3) (guard: pc3.loc1) (assignments: pc3 := pc3.loc2)]
-Controllable-complete path states: pc4.loc2 and pc5.loc2 -> pc5.loc2 [backward reach with edge: (event: c_e4) (guard: pc4.loc1) (assignments: pc4 := pc4.loc2)]
-Controllable-complete path states: pc5.loc2 -> true [backward reach with edge: (event: c_e5) (guard: pc5.loc1) (assignments: pc5 := pc5.loc2)]
-Backward reachability: iteration 2.
-Controllable-complete path states: true [fixed point].
-Controllable-complete path states: true
+    Computing the controllable-complete path states...
+    Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu1.loc2 and (pu2.loc2 and (pu3.loc2 and pu4.loc2))) [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu1.loc2 and (pu2.loc2 and (pu3.loc2 and pu4.loc2))) -> pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e1) (guard: pu1.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu1.loc1))) (assignments: pu1 := pu1.loc2)]
+    Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and pc4.loc2) and (pc5.loc2 and pu2.loc2 and (pu3.loc2 and pu4.loc2)) -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and pc5.loc2 and (pu3.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e2) (guard: pu2.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu2.loc1))) (assignments: pu2 := pu2.loc2)]
+    Controllable-complete path states: pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and pc5.loc2 and (pu3.loc2 and pu4.loc2)) -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc2)) [backward reach with edge: (event: u_e3) (guard: pu3.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu3.loc1))) (assignments: pu3 := pu3.loc2)]
+    Controllable-complete path states: pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc2)) -> pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) [backward reach with edge: (event: u_e4) (guard: pu4.loc1 -> pc1.loc2 and (pc2.loc2 and pc3.loc2) and (pc4.loc2 and (pc5.loc2 and pu4.loc1))) (assignments: pu4 := pu4.loc2)]
+    Controllable-complete path states: pc1.loc2 and pc2.loc2 and (pc3.loc2 and (pc4.loc2 and pc5.loc2)) -> pc2.loc2 and pc3.loc2 and (pc4.loc2 and pc5.loc2) [backward reach with edge: (event: c_e1) (guard: pc1.loc1) (assignments: pc1 := pc1.loc2)]
+    Controllable-complete path states: pc2.loc2 and pc3.loc2 and (pc4.loc2 and pc5.loc2) -> pc3.loc2 and (pc4.loc2 and pc5.loc2) [backward reach with edge: (event: c_e2) (guard: pc2.loc1) (assignments: pc2 := pc2.loc2)]
+    Controllable-complete path states: pc3.loc2 and (pc4.loc2 and pc5.loc2) -> pc4.loc2 and pc5.loc2 [backward reach with edge: (event: c_e3) (guard: pc3.loc1) (assignments: pc3 := pc3.loc2)]
+    Controllable-complete path states: pc4.loc2 and pc5.loc2 -> pc5.loc2 [backward reach with edge: (event: c_e4) (guard: pc4.loc1) (assignments: pc4 := pc4.loc2)]
+    Controllable-complete path states: pc5.loc2 -> true [backward reach with edge: (event: c_e5) (guard: pc5.loc1) (assignments: pc5 := pc5.loc2)]
+    Backward reachability: iteration 2.
+    Controllable-complete path states: true [fixed point].
+    Controllable-complete path states: true
 
-Computing the bad states...
-Bad states: false [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: false
+    Computing the bad states...
+    Bad states: false [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: false
 
-Computing the result of the non-blocking under control check...
-Initial states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1)))
-Bad initial states: false
+    Computing the result of the non-blocking under control check...
+    Initial states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1)))
+    Bad initial states: false
 
 Checking for finite response...
-
-Iteration 1.
+    Iteration 1.
 
 Checking for confluence...
-
-Independent event pairs:
-    (c_e1, c_e2), (c_e1, c_e3), (c_e1, c_e4), (c_e1, c_e5), (c_e2, c_e3), (c_e2, c_e4), (c_e2, c_e5), (c_e3, c_e4), (c_e3, c_e5), (c_e4, c_e5)
+    Independent event pairs:
+        (c_e1, c_e2), (c_e1, c_e3), (c_e1, c_e4), (c_e1, c_e5), (c_e2, c_e3), (c_e2, c_e4), (c_e2, c_e5), (c_e3, c_e4), (c_e3, c_e5), (c_e4, c_e5)
 
 CONCLUSION:
     [OK] The specification has bounded response:

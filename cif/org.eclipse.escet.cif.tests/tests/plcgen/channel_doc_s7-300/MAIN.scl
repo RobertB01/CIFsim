@@ -10,9 +10,9 @@ ORGANIZATION_BLOCK MAIN
         current_R1_vr1: DINT;
         current_Y1: DINT;
         current_Y1_1: DINT;
-        edge_R1_1: DINT;
-        edge_S1_1: DINT;
-        edge_Y1_1: DINT;
+        edge_R1: BYTE;
+        edge_S1: BYTE;
+        edge_Y1: BYTE;
         eventEnabled: BOOL;
         isProgress: BOOL;
         receiverAut: DINT;
@@ -102,7 +102,7 @@ BEGIN
      * - Discrete variable "Y1.vy1".
      *   doc-sync-disc: Becomes 1
      *
-     * - PLC edge selection variable "edge_Y1_1".
+     * - PLC edge selection variable "edge_Y1".
      *
      * - Uncontrollable event "Y1.u".
      *   doc-unctl-event
@@ -196,7 +196,7 @@ BEGIN
          *     doc-sync-edge-uncontr
          ***********)
         IF "DB".Y1 = Y1_B AND "DB".Y1_vy1 = 1 THEN
-            edge_Y1_1 := 1;
+            edge_Y1 := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -210,7 +210,7 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "Y1". *)
-            IF edge_Y1_1 = 1 THEN
+            IF edge_Y1 = 0 THEN
                 (***********
                  * Perform assignments of the 1st edge in location "Y1.B".
                  * doc-sync-edge-uncontr
@@ -269,7 +269,7 @@ BEGIN
              ***********)
             IF "DB".S1_vs1 <= 1 THEN
                 senderAut := 1;
-                edge_S1_1 := 1;
+                edge_S1 := 0;
             END_IF;
         END_IF;
         IF senderAut = 0 THEN
@@ -295,7 +295,7 @@ BEGIN
                  ***********)
                 IF "DB".R1_t <= DINT_TO_REAL(1) THEN
                     receiverAut := 1;
-                    edge_R1_1 := 1;
+                    edge_R1 := 0;
                 END_IF;
             END_IF;
             IF receiverAut = 0 THEN
@@ -319,7 +319,7 @@ BEGIN
              *     doc-sync-edge-contr
              ***********)
             IF "DB".Y1 = Y1_A AND "DB".Y1_vy1 = 1 THEN
-                edge_Y1_1 := 1;
+                edge_Y1 := 0;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
                 eventEnabled := FALSE;
@@ -340,7 +340,7 @@ BEGIN
              *******************************)
             IF senderAut = 1 THEN
                 (* Automaton "S1" was selected. *)
-                IF edge_S1_1 = 1 THEN
+                IF edge_S1 = 0 THEN
                     (* Compute sent channel value. *)
                     channelValue := "DB".S1_vs1;
                 END_IF;
@@ -350,7 +350,7 @@ BEGIN
              *******************************)
             IF receiverAut = 1 THEN
                 (* Automaton "R1" was selected. *)
-                IF edge_R1_1 = 1 THEN
+                IF edge_R1 = 0 THEN
                     (***********
                      * Perform assignments of the 1st edge of automaton "R1".
                      * doc-recv-edge: This edge accepts the data value.
@@ -369,7 +369,7 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "Y1". *)
-            IF edge_Y1_1 = 1 THEN
+            IF edge_Y1 = 0 THEN
                 (***********
                  * Perform assignments of the 1st edge in location "Y1.A".
                  * doc-sync-edge-contr

@@ -431,7 +431,7 @@ public class ExprGenerator {
         CifType ctype = normalizeType(castExpr.getChild().getType());
         CifType rtype = normalizeType(castExpr.getType());
         if (ctype instanceof IntType && rtype instanceof RealType) {
-            return result.setValue(funcAppls.castFunctionAppl(result.value, target.getRealType()));
+            return result.setValue(funcAppls.castFunctionAppl(result.value, target.getStdRealType()));
         }
         if (CifTypeUtils.checkTypeCompat(ctype, rtype, RangeCompat.EQUAL)) {
             // Ignore cast expression.
@@ -1246,7 +1246,7 @@ public class ExprGenerator {
      */
     private PlcExpression unifyTypeOfExpr(PlcExpression expr, CifType myType, CifType otherType) {
         if (myType instanceof IntType && otherType instanceof RealType) {
-            return funcAppls.castFunctionAppl(expr, target.getRealType());
+            return funcAppls.castFunctionAppl(expr, target.getStdRealType());
         }
         return expr;
     }

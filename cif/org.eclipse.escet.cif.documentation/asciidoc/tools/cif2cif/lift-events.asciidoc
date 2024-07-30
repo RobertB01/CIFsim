@@ -101,7 +101,7 @@ The event is lifted to the top level of the specification, and renamed to `x_y_e
 However, if the specification already contains a declaration of a constant, automaton, other event, etc, named `x_y_e`, then the lifted event is renamed to `x_y_e2` instead.
 If that name is also already in use, it is renamed to `x_y_e3`, etc.
 
-Whenever renaming takes place, a warning is be printed to the console.
+Whenever renaming takes place, a warning is printed to the console.
 
 indexterm:[lift events,size considerations]
 

@@ -5,20 +5,153 @@ WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 39, column 20: D
 WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 43, column 11: Duplicate state invariant.
 WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 44, column 11: Duplicate state invariant.
 ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
- - A value in the location of automaton "g.p" has an unsupported type "list bool" in expression "g.p.lb + [false]".
- - Automaton "g.mult_initials" has more than one initial location.
- - Automaton "g.no_initial" has no initial location.
- - Continuous variable "g.p.cnt" is unsupported in the transformation.
- - Continuous variable "g.x" is unsupported in the transformation.
- - Continuous variable "g.y" is unsupported in the transformation.
- - Discrete variable "g.p.lb" does not have a boolean, integer, or enumeration type.
- - Discrete variable "g.p.x1" does not have a single initial value.
- - Discrete variable "g.p.x2" does not have a single initial value.
- - Equations are not supported in group "g".
- - Initialization predicates are not supported in group "g".
- - Invariants are not supported in automaton "g.p".
- - Invariants are not supported in group "g".
- - The location of automaton "g.no_initial" has a "tau" event.
- - The location of automaton "g.no_initial" has a "tau" event.
- - The location of automaton "g.p" has conditional updates.
- - The location of automaton "g.p" has invariants.
+
+  ------------------------------
+  (1/16) A list literal is used.
+  ------------------------------
+   * In automaton "g.p":
+     - edge e2 do lb := lb + [false];
+                             ^
+   * In discrete variable "g.p.lb":
+     - disc list bool lb = [true];
+                           ^
+
+  ---------------------------
+  (2/16) A list type is used.
+  ---------------------------
+   * In automaton "g.p":
+     - edge e2 do lb := lb + [false];
+                  ^     ^  ^ ^
+   * In discrete variable "g.p.lb":
+     - disc list bool lb = [true];
+            ^              ^
+
+  -------------------------------------
+  (3/16) A real number literal is used.
+  -------------------------------------
+   * In group "g":
+     - equation y' = 2.0;
+                     ^
+   * In continuous variable "g.p.cnt":
+     - cont cnt = 0.0 der 1.0;
+                  ^       ^
+   * In continuous variable "g.x":
+     - cont x = 0.0 der 1.0;
+                ^       ^
+   * In continuous variable "g.y":
+     - cont y = 0.0;
+                ^
+
+  ---------------------------
+  (4/16) A real type is used.
+  ---------------------------
+   * In group "g":
+     - equation y' = 2.0;
+                     ^
+   * In continuous variable "g.p.cnt":
+     - cont cnt = 0.0 der 1.0;
+                  ^       ^
+   * In continuous variable "g.x":
+     - cont x = 0.0 der 1.0;
+                ^       ^
+   * In continuous variable "g.y":
+     - cont y = 0.0;
+                ^
+
+  ---------------------------
+  (5/16) An equation is used.
+  ---------------------------
+   * In group "g":
+     - equation y' = 2.0;
+                   ^
+
+  ----------------------------
+  (6/16) An invariant is used.
+  ----------------------------
+   * In group "g":
+     - invariant false;
+       ^
+   * In automaton "g.p":
+     - plant invariant false;
+             ^
+     - plant invariant false;
+             ^
+
+  ------------------------------------------------
+  (7/16) Automaton has multiple initial locations.
+  ------------------------------------------------
+   * In group "g":
+     - automaton mult_initials:
+                 ^
+
+  -----------------------------------------
+  (8/16) Automaton has no initial location.
+  -----------------------------------------
+   * In group "g":
+     - automaton no_initial:
+                 ^
+
+  -----------------------------------------------------------
+  (9/16) Binary operator "+" is used on a list typed operand.
+  -----------------------------------------------------------
+   * In automaton "g.p":
+     - edge e2 do lb := lb + [false];
+                           ^
+
+  --------------------------------------------------
+  (10/16) Component has an initialization predicate.
+  --------------------------------------------------
+   * In group "g":
+     - initial false;
+               ^
+
+  ----------------------------------------------------------------
+  (11/16) Discrete variable has multiple potential initial values.
+  ----------------------------------------------------------------
+   * In automaton "g.p":
+     - disc int[1..2] x1 in {1, 2};
+                      ^
+
+  ------------------------------------------------------------------------------------------
+  (12/16) Discrete variable has multiple potential initial values (any value in its domain).
+  ------------------------------------------------------------------------------------------
+   * In automaton "g.p":
+     - disc int[1..2] x2 in any;
+                      ^
+
+  --------------------------------
+  (13/16) Edge has an 'if' update.
+  --------------------------------
+   * In automaton "g.p":
+     - edge e1 do if true: x1 := 2 end;
+                  ^
+
+  -----------------------------------------
+  (14/16) Edge has an explicit 'tau' event.
+  -----------------------------------------
+   * In automaton "g.no_initial":
+     - edge e1, e2, tau;
+                    ^
+     - edge tau;
+            ^
+
+  ---------------------------
+  (15/16) Event is a channel.
+  ---------------------------
+   * In group "g":
+     - event int[0..5] e1;
+                       ^
+     - event int[0..5] e2;
+                       ^
+
+  ------------------------------------------
+  (16/16) Variable is a continuous variable.
+  ------------------------------------------
+   * In group "g":
+     - cont x = 0.0 der 1.0;
+            ^
+     - cont y = 0.0;
+            ^
+   * In automaton "g.p":
+     - cont cnt = 0.0 der 1.0;
+            ^

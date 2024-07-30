@@ -39,6 +39,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
@@ -113,8 +114,8 @@ public class EventDisablerApplication extends Application<IOutputComponent> {
 
             // Write output specification.
             String outPath = OutputFileOption.getDerivedPath(".cif", ".disabled.cif");
-            outPath = Paths.resolve(outPath);
-            CifWriter.writeCifSpec(spec, outPath, cifReader.getAbsDirPath());
+            String absOutPath = Paths.resolve(outPath);
+            CifWriter.writeCifSpec(spec, new PathPair(outPath, absOutPath), cifReader.getAbsDirPath());
         } catch (ApplicationException e) {
             String msg = fmt("Failed to disable events for CIF file \"%s\".", InputFileOption.getPath());
             throw new InvalidInputException(msg, e);

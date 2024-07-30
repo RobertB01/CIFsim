@@ -1,167 +1,164 @@
 Loading CIF specification "controllercheck/common/anno_true_to_false.cif"...
 Preparing for BDD-based checks...
+    CIF variables and location pointers:
+        Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a   p     0      1 * 2     2 * 2       2 * 2       100%
+        2      discrete variable  bool  p.v   1      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                 2      4         8           8           100%
 
-CIF variables and location pointers:
-  Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a   p     0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  bool  p.v   1      1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                 2      4         8           8           100%
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying sorted variable order:
+                Effect: both
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying sorted variable order:
-      Effect: both
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 6
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 6
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+                    Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
+                    Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [after]
 
-        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
-        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [after]
+                Found new best variable order.
 
-      Found new best variable order.
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+                    Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
+                    Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [after]
 
-        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
-        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 1
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+                        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
+                        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [after]
 
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [after]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 6
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 6
+                        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
+                        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [reversed]
 
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [reversed]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 1
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+                        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
+                        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [after]
 
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [after]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 6
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 6
+                        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
+                        Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [reversed]
 
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [before]
-          Total span:   2 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.083333 (avg/edge) [reversed]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 5
+                Maximum number of iterations: 10
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 5
-      Maximum number of iterations: 10
+                Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [before]
+                Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [iteration 1]
+                Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [after]
 
-      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [before]
-      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [iteration 1]
-      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 5
+                Window length: 2
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 5
-      Window length: 2
+                Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [before]
+                Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [after]
 
-      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [before]
-      Total span:   2 (total)   0.40 (avg/edge) / WES:   0.400000 (total)   0.080000 (avg/edge) [after]
-
-Variable order unchanged.
+    Variable order unchanged.
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
 Preparing for MDD-based checks...
-Analyzing automaton "p"...
-    Initializing the automaton data for event "c"...
-    Initializing the automaton data for event "a"...
-    Initializing the automaton data for event "b"...
-    Processing edges from location "loc1" of automaton "p"...
-    Processing edges from location "loc2" of automaton "p"...
-    Updating global guards and updates for event "c"...
-    Updating global guards and updates for event "a"...
-    Updating global guards and updates for event "b"...
+    Analyzing automaton "p"...
+        Initializing the automaton data for event "c"...
+        Initializing the automaton data for event "a"...
+        Initializing the automaton data for event "b"...
+        Processing edges from location "loc1" of automaton "p"...
+        Processing edges from location "loc2" of automaton "p"...
+        Updating global guards and updates for event "c"...
+        Updating global guards and updates for event "a"...
+        Updating global guards and updates for event "b"...
 
 Checking for bounded response...
-Computing reachable states...
-Reachable states: p.loc1 and not p.v [initial states predicate]
-Forward reachability: iteration 1.
-Reachable states: p.loc1 and not p.v -> not p.v [forward reach with edge: (event: a) (guard: p.loc1) (assignments: p.v := p.v, p := p.loc2)]
-Reachable states: not p.v -> p.loc2 or not p.v [forward reach with edge: (event: b) (guard: p.loc1) (assignments: p.v := not p.v, p := p.loc2)]
-Forward reachability: iteration 2.
-Reachable states: p.loc2 or not p.v [fixed point].
+    Computing reachable states...
+    Reachable states: p.loc1 and not p.v [initial states predicate]
+    Forward reachability: iteration 1.
+    Reachable states: p.loc1 and not p.v -> not p.v [forward reach with edge: (event: a) (guard: p.loc1) (assignments: p.v := p.v, p := p.loc2)]
+    Reachable states: not p.v -> p.loc2 or not p.v [forward reach with edge: (event: b) (guard: p.loc1) (assignments: p.v := not p.v, p := p.loc2)]
+    Forward reachability: iteration 2.
+    Reachable states: p.loc2 or not p.v [fixed point].
 
-Computing bound for uncontrollable events...
-Bounded response check round 1 (states before round: p.loc2 or not p.v).
-Bounded response check round 2 (states before round: p.loc1 and not p.v).
+    Computing bound for uncontrollable events...
+    Bounded response check round 1 (states before round: p.loc2 or not p.v).
+    Bounded response check round 2 (states before round: p.loc1 and not p.v).
 
-Computing bound for controllable events...
-Bounded response check round 1 (states before round: p.loc2 or not p.v).
+    Computing bound for controllable events...
+    Bounded response check round 1 (states before round: p.loc2 or not p.v).
 
-Bounded response check completed.
+    Bounded response check completed.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: false
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: false
 
-Computing the controllable-complete path states...
-Controllable-complete path states: false [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: false
+    Computing the controllable-complete path states...
+    Controllable-complete path states: false [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: false
 
-Computing the bad states...
-Bad states: true [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: true
+    Computing the bad states...
+    Bad states: true [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: true
 
-Computing the result of the non-blocking under control check...
-Initial states: p.loc1 and not p.v
-Bad initial states: p.loc1 and not p.v
+    Computing the result of the non-blocking under control check...
+    Initial states: p.loc1 and not p.v
+    Bad initial states: p.loc1 and not p.v
 
 Checking for finite response...
+    Iteration 1.
+        The following events have been encountered in a controllable-event loop of automaton p:
+            (c), which is not controllable unconnectable.
 
-Iteration 1.
-    The following events have been encountered in a controllable-event loop of automaton p:
-        (c), which is not controllable unconnectable.
-
-Iteration 2.
-    The following events have been encountered in a controllable-event loop of automaton p:
-        (c), which is not controllable unconnectable.
+    Iteration 2.
+        The following events have been encountered in a controllable-event loop of automaton p:
+            (c), which is not controllable unconnectable.
 
 Checking for confluence...
-
-Independent event pairs:
-    (a, c), (b, c)
+    Independent event pairs:
+        (a, c), (b, c)
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:

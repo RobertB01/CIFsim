@@ -82,7 +82,7 @@ public class CifToUppaalApp extends Application<IOutputComponent> {
         outPath = Paths.resolve(outPath);
 
         // Perform transformation to UPPAAL.
-        Document doc = new CifToUppaal().transform(spec, absSpecPath);
+        Document doc = new CifToUppaal().transform(spec, absSpecPath, () -> isTerminationRequested());
         if (isTerminationRequested()) {
             return 0;
         }

@@ -1361,7 +1361,7 @@ public class CifCompilerContext {
 
         // Get the path for the package of the generated code.
         Assert.check(!PACKAGE.isEmpty());
-        String pkgPath = PACKAGE.replace('.', '/');
+        String relPkgPath = PACKAGE.replace('.', '/');
 
         // Get the path for the output directory.
         String dirPath = null;
@@ -1384,14 +1384,14 @@ public class CifCompilerContext {
             // If not running in Eclipse, or no debug project found.
             dirPath = Paths.resolve(".");
         }
-        pkgPath = Paths.join(dirPath, pkgPath);
+        String absPkgPath = Paths.join(dirPath, relPkgPath);
 
         // Create output directory.
-        File pkgFile = new File(pkgPath);
+        File pkgFile = new File(absPkgPath);
         pkgFile.mkdirs();
         if (!pkgFile.exists() || !pkgFile.isDirectory()) {
             String msg = fmt("Failed to create directory \"%s\", to which the generated code is to be written, for "
-                    + "debugging.", pkgPath);
+                    + "debugging.", relPkgPath);
             throw new InputOutputException(msg);
         }
 
@@ -1401,7 +1401,7 @@ public class CifCompilerContext {
         File[] files = pkgFile.listFiles(filter);
         if (files == null) {
             String msg = fmt("Failed to list the files in directory \"%s\", to which the generated code is to be "
-                    + "written, for debugging.", pkgPath);
+                    + "written, for debugging.", relPkgPath);
             throw new InputOutputException(msg);
         }
         for (File file: files) {
@@ -1412,16 +1412,17 @@ public class CifCompilerContext {
         }
 
         // Generate Java code for debugging the simulator.
-        String classesPath = Paths.resolve("../../target/classes", pkgPath);
+        String classesPath = Paths.resolve("../../target/classes", absPkgPath);
         DebugSimulatorCodeGenerator.gencodeDebugSimulator(classesPath, this);
 
         // Write the generated code files.
         for (JavaCodeFile file: code.values()) {
-            String filePath = Paths.join(pkgPath, file.name + ".java");
+            String relFilePath = Paths.join(relPkgPath, file.name + ".java");
+            String absFilePath = Paths.join(absPkgPath, file.name + ".java");
             try {
-                file.toBox().writeToFile(filePath);
+                file.toBox().writeToFile(relFilePath, absFilePath);
             } catch (InputOutputException e) {
-                String msg = fmt("Failed to write generated code file \"%s\", for debugging.", filePath);
+                String msg = fmt("Failed to write generated code file \"%s\", for debugging.", relFilePath);
                 throw new InputOutputException(msg, e);
             }
         }
@@ -1435,7 +1436,7 @@ public class CifCompilerContext {
                 fileStream = new FileOutputStream(filePath);
                 resStream.writeTo(fileStream);
             } catch (IOException e) {
-                String msg = fmt("Failed to write generated resource file \"%s\", for debugging.", filePath);
+                String msg = fmt("Failed to write generated resource file \"%s\", for debugging.", res.getKey());
                 throw new InputOutputException(msg, e);
             } finally {
                 try {
@@ -1443,7 +1444,7 @@ public class CifCompilerContext {
                         fileStream.close();
                     }
                 } catch (IOException e) {
-                    String msg = fmt("Failed to close file \"%s\".", filePath);
+                    String msg = fmt("Failed to close file \"%s\".", res.getKey());
                     throw new InputOutputException(msg, e);
                 }
             }

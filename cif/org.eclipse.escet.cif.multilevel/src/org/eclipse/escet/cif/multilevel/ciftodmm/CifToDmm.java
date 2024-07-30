@@ -23,7 +23,6 @@ import static org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind.
 
 import java.util.BitSet;
 import java.util.List;
-import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -51,6 +50,7 @@ import org.eclipse.escet.common.dsm.Label;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSetIterator;
 import org.eclipse.escet.common.java.Lists;
+import org.eclipse.escet.common.java.Termination;
 
 /** Construct a set of DMMs to describe multi-level synthesis relations in a CIF specification. */
 public class CifToDmm {
@@ -64,10 +64,10 @@ public class CifToDmm {
      *
      * @param spec Specification to check.
      * @param absSpecPath The absolute local file system path to the CIF file to check.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      */
-    public static void checkSpec(Specification spec, String absSpecPath, BooleanSupplier shouldTerminate) {
-        CifPreconditionChecker checker = new CifToDmmPreChecker(shouldTerminate);
+    public static void checkSpec(Specification spec, String absSpecPath, Termination termination) {
+        CifPreconditionChecker checker = new CifToDmmPreChecker(termination);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF to DMM transformation");
     }
 
@@ -76,10 +76,10 @@ public class CifToDmm {
         /**
          * Constructor of the {@link CifToDmm.CifToDmmPreChecker} class.
          *
-         * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+         * @param termination Cooperative termination query function.
          */
-        public CifToDmmPreChecker(BooleanSupplier shouldTerminate) {
-            super(shouldTerminate,
+        public CifToDmmPreChecker(Termination termination) {
+            super(termination,
 
                     // Ensure there are no relations between elements hidden in initialization expressions.
                     // TODO: Decide the semantics of these expressions in relating plant and/or requirements.

@@ -31,8 +31,8 @@ import org.eclipse.escet.cif.cif2mcrl2.storage.VarUsage;
 import org.eclipse.escet.cif.cif2mcrl2.storage.VariableData;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.box.AppStreamCodeBox;
 import org.eclipse.escet.common.box.HBox;
-import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.box.VBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
@@ -576,7 +576,7 @@ public class CombinedProcessNode extends ProcessNode {
     }
 
     @Override
-    public void dumpActions(StreamCodeBox code) {
+    public void dumpActions(AppStreamCodeBox code) {
         super.dumpActions(code);
 
         code.add();

@@ -76,8 +76,9 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
         CodeBox box = generate(mainPkg, outputClassName, outputPackageName);
 
         // Try to write the code to a file.
-        String outputFilePath = new File(new File(outputPath), outputClassName + ".java").getAbsolutePath();
-        box.writeToFile(outputFilePath);
+        File outputFilePath = new File(new File(outputPath), outputClassName + ".java");
+        String absOutputFilePath = outputFilePath.getAbsolutePath();
+        box.writeToFile(outputFilePath.toString(), absOutputFilePath);
 
         // We are done.
         System.out.printf("Code written to: %s%n", outputFilePath);

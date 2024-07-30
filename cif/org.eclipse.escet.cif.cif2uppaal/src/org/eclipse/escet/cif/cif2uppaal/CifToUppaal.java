@@ -86,11 +86,11 @@ import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.TypeRef;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -129,9 +129,10 @@ public class CifToUppaal {
      *
      * @param spec The CIF specification. The specification is modified in-place.
      * @param absSpecPath The absolute local file system path to the CIF file.
+     * @param termination Cooperative termination query function.
      * @return The UPPAAL XML document.
      */
-    public Document transform(Specification spec, String absSpecPath) {
+    public Document transform(Specification spec, String absSpecPath, Termination termination) {
         // This transformation from CIF to UPPAAL 4 is partially based on the
         // following paper: D.E. Nadales Agut, M.A. Reniers, R.R.H.
         // Schiffelers, K.Y. Jørgensen, D.A. van Beek, A Semantic-Preserving
@@ -159,7 +160,7 @@ public class CifToUppaal {
         new EnumsToInts().transform(spec);
 
         // Check preconditions.
-        CifToUppaalPreChecker checker = new CifToUppaalPreChecker(() -> AppEnv.isTerminationRequested());
+        CifToUppaalPreChecker checker = new CifToUppaalPreChecker(termination);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF to UPPAAL transformation");
 
         // Collect various things from the CIF specification.
