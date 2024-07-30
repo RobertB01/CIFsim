@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.simulator;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.checkers.checks.InvNoTimeDependentCheck;
+import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.common.java.Termination;
 
 /** CIF simulator precondition checker. */
@@ -24,7 +26,10 @@ public class CifSimulatorPreChecker extends CifPreconditionChecker {
      * @param termination Cooperative termination query function.
      */
     public CifSimulatorPreChecker(Termination termination) {
-        super(termination
+        super(termination,
+
+                // Time-dependent state invariants are not supported.
+                new InvNoTimeDependentCheck().setInvKinds(InvKind.STATE)
 
         );
     }
