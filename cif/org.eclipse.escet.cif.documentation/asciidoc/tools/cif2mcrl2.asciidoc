@@ -203,8 +203,8 @@ On the command line or in ToolDef scripts, when using the `-r` short option, use
 * The option value `++*1*+` selects all variables with a `1` at any position.
 This matches both `A.p12` and `B.y1`.
 
-* The option value `++*,-B.*+` selects all variables, except those in automaton `B`.
-(`+*` adds all variables, then `+-B.*+` removes all variables that start with `B.`, that is all variables in automaton `B`.)
+* The option value `++++*,-B.*+++` selects all variables, except those in automaton `B`.
+(`++++*+++` adds all variables, then `+-B.*+` removes all variables that start with `B.`, that is all variables in automaton `B`.)
 
 indexterm:[CIF to mCRL2 transformer,instance tree]
 
