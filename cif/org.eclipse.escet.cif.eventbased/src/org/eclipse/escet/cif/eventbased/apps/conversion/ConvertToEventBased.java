@@ -396,13 +396,6 @@ public class ConvertToEventBased {
      * @throws UnsupportedException When the edge is not supported.
      */
     private boolean checkEdge(Edge edge, Location loc) {
-        // No updates allowed.
-        if (!edge.getUpdates().isEmpty()) {
-            String msg = fmt("Unsupported %s: edges with updates are currently not supported.",
-                    CifTextUtils.getLocationText1(loc));
-            throw new UnsupportedException(msg);
-        }
-
         // No urgency allowed.
         if (edge.isUrgent()) {
             String msg = fmt("Unsupported %s: urgent edges are currently not supported.",
