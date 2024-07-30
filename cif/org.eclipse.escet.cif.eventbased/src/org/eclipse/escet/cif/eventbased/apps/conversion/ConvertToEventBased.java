@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.eventbased.automata.AutomatonComparator;
@@ -56,8 +55,7 @@ public class ConvertToEventBased {
     public Map<String, Automaton> origAutoms = map();
 
     /**
-     * Convert a CIF specification for use by the event-based synthesis tooling. Eliminates component
-     * definition/instantiation as a side-effect.
+     * Convert a CIF specification for use by the event-based synthesis tooling.
      *
      * @param spec CIF specification to check and convert.
      */
@@ -65,7 +63,6 @@ public class ConvertToEventBased {
         events = map();
         automata = list();
 
-        new ElimComponentDefInst().transform(spec);
         convertComponent(spec);
     }
 
