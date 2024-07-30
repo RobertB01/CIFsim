@@ -157,9 +157,11 @@ public class TrimCheckApplication extends Application<IOutputComponent> {
             ExpectedNumberOfAutomata expectedNumberOfAutomata = null;
             EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
             boolean requireAutHasInitLoc = false;
+            boolean requireReqSubsetPlantAlphabet = false;
             Termination termination = () -> isTerminationRequested();
             CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
-                    expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc, termination);
+                    expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc,
+                    requireReqSubsetPlantAlphabet, termination);
             checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.

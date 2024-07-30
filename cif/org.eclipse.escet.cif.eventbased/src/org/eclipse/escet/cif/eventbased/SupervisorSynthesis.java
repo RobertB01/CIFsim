@@ -97,17 +97,13 @@ public class SupervisorSynthesis {
     public static void synthesisPreCheck(List<Automaton> automs, boolean warnDisjunct, boolean warnEmpty,
             boolean warnDeadlock, boolean warnSingleUse)
     {
-        List<Automaton> plants = list();
         List<Automaton> reqs = list();
         boolean unmarked = false;
         int warnCount = 0; // Number of printed warnings.
 
         for (Automaton aut: automs) {
+            // Collect requirements.
             switch (aut.kind) {
-                case PLANT:
-                    plants.add(aut);
-                    break;
-
                 case REQUIREMENT:
                     reqs.add(aut);
                     break;
@@ -143,26 +139,6 @@ public class SupervisorSynthesis {
         // Check for no marker state.
         if (unmarked) {
             String msg = "Supervisor is empty (no marker states).";
-            throw new InvalidModelException(msg);
-        }
-
-        // Check plant vs requirement alphabet.
-        Set<Event> alphabet = set();
-        for (Automaton req: reqs) {
-            alphabet.addAll(req.alphabet);
-        }
-        for (Automaton plant: plants) {
-            alphabet.removeAll(plant.alphabet);
-        }
-        if (!alphabet.isEmpty()) {
-            List<String> eventNames = listc(alphabet.size());
-            for (Event event: alphabet) {
-                eventNames.add("\"" + event.name + "\"");
-            }
-            String msg = fmt(
-                    "Event%s %s %s in the alphabet of the requirements, but not in the alphabet of the plants.",
-                    (alphabet.size() == 1) ? "" : "s", String.join(", ", eventNames),
-                    (alphabet.size() == 1) ? "is" : "are");
             throw new InvalidModelException(msg);
         }
 

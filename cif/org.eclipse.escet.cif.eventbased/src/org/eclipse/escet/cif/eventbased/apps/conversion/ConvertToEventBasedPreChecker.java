@@ -31,6 +31,7 @@ import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlyStaticEvalGuardPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
+import org.eclipse.escet.cif.checkers.checks.EventOnlyReqSubsetPlantAlphabetCheck;
 import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
 import org.eclipse.escet.cif.checkers.checks.LocNoUrgentCheck;
@@ -54,14 +55,15 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * @param expectedNumberOfAutomata The expected automata, or {@code null} for no constraint.
      * @param disallowedAutSupKinds The disallowed supervisory kinds of automata.
      * @param requireAutHasInitLoc Whether each automaton must have an initial location.
+     * @param requireReqSubsetPlantAlphabet Whether the requirement alphabet must be a subset of the plant alphabet.
      * @param termination Cooperative termination query function.
      */
     public ConvertToEventBasedPreChecker(boolean allowPlainEvents, boolean allowNonDeterminism,
             ExpectedNumberOfAutomata expectedNumberOfAutomata, EnumSet<SupKind> disallowedAutSupKinds,
-            boolean requireAutHasInitLoc, Termination termination)
+            boolean requireAutHasInitLoc, boolean requireReqSubsetPlantAlphabet, Termination termination)
     {
         super(termination, getChecks(allowPlainEvents, allowNonDeterminism, expectedNumberOfAutomata,
-                disallowedAutSupKinds, requireAutHasInitLoc));
+                disallowedAutSupKinds, requireAutHasInitLoc, requireReqSubsetPlantAlphabet));
     }
 
     /**
@@ -72,11 +74,12 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
      * @param expectedNumberOfAutomata The expected automata, or {@code null} for no constraint.
      * @param disallowedAutSupKinds The disallowed supervisory kinds of automata.
      * @param requireAutHasInitLoc Whether each automaton must have an initial location.
+     * @param requireReqSubsetPlantAlphabet Whether the requirement alphabet must be a subset of the plant alphabet.
      * @return The checks to use.
      */
     private static List<CifCheck> getChecks(boolean allowPlainEvents, boolean allowNonDeterminism,
             ExpectedNumberOfAutomata expectedNumberOfAutomata, Set<SupKind> disallowedAutSupKinds,
-            boolean requireAutHasInitLoc)
+            boolean requireAutHasInitLoc, boolean requireReqSubsetPlantAlphabet)
     {
         List<CifCheck> checks = list();
 
@@ -153,6 +156,11 @@ public class ConvertToEventBasedPreChecker extends CifPreconditionChecker {
         if (!disallowedAutSupKinds.isEmpty()) {
             checks.add(new AutOnlySpecificSupKindsCheck(
                     EnumSet.copyOf(Sets.difference(EnumSet.allOf(SupKind.class), disallowedAutSupKinds))));
+        }
+
+        // We may require that the requirement alphabet is a subset of the plant alphabet.
+        if (requireReqSubsetPlantAlphabet) {
+            checks.add(new EventOnlyReqSubsetPlantAlphabetCheck());
         }
 
         // Return all the checks.
