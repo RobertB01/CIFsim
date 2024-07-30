@@ -84,7 +84,6 @@ import org.eclipse.escet.cif.metamodel.java.CifConstructors;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
  * In-place transformation that linearizes the CIF specification. It performs process-algebraic linearization, thereby
@@ -303,7 +302,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // Require at least one automaton.
         if (auts.isEmpty()) {
             String msg = "Linearization of CIF specifications without automata is currently not supported.";
-            throw new UnsupportedException(msg);
+            throw new CifToCifPreconditionException(msg);
         }
 
         // Get names in use in specification.
