@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.checkers.checks;
 
 import static org.eclipse.escet.common.java.Strings.makeElementsChoiceText;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
@@ -31,31 +32,19 @@ public class AutOnlySpecificSupKindsCheck extends CifCheck {
     /**
      * Constructor of the {@link AutOnlySpecificSupKindsCheck} class.
      *
-     * @param allowedKind Allowed kind of automata in the specification.
+     * @param allowedKinds Allowed kinds of automata in the specification.
      */
-    public AutOnlySpecificSupKindsCheck(SupKind allowedKind) {
-        this(allowedKind, allowedKind, allowedKind);
+    public AutOnlySpecificSupKindsCheck(SupKind... allowedKinds) {
+        this(EnumSet.copyOf(Arrays.asList(allowedKinds)));
     }
 
     /**
      * Constructor of the {@link AutOnlySpecificSupKindsCheck} class.
      *
-     * @param allowedKind1 Allowed kind of automata in the specification.
-     * @param allowedKind2 Allowed kind of automata in the specification.
+     * @param allowedKinds Allowed kinds of automata in the specification.
      */
-    public AutOnlySpecificSupKindsCheck(SupKind allowedKind1, SupKind allowedKind2) {
-        this(allowedKind1, allowedKind2, allowedKind2);
-    }
-
-    /**
-     * Constructor of the {@link AutOnlySpecificSupKindsCheck} class.
-     *
-     * @param allowedKind1 Allowed kind of automata in the specification.
-     * @param allowedKind2 Allowed kind of automata in the specification.
-     * @param allowedKind3 Allowed kind of automata in the specification.
-     */
-    public AutOnlySpecificSupKindsCheck(SupKind allowedKind1, SupKind allowedKind2, SupKind allowedKind3) {
-        this.allowedKinds = EnumSet.of(allowedKind1, allowedKind2, allowedKind3);
+    public AutOnlySpecificSupKindsCheck(EnumSet<SupKind> allowedKinds) {
+        this.allowedKinds = allowedKinds;
     }
 
     @Override
