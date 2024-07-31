@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
@@ -43,6 +44,9 @@ public class DefaultNameGenerator implements NameGenerator {
 
     /** The global name scope. */
     private final NameScope globalScope = new NameScope();
+
+    /** The union of all local scopes. Is disjunct with the {@link #globalScope global scope}. */
+    private final NameScope unionLocalScopes = new NameScope();
 
     /** If the value holds the user should be warned about changing the name, else the user should not be warned. */
     private final boolean warnOnRename;
@@ -86,18 +90,58 @@ public class DefaultNameGenerator implements NameGenerator {
 
     @Override
     public String generateGlobalName(PositionObject posObject) {
+        return generateGlobalNames(Set.of(""), posObject);
+    }
+
+    @Override
+    public String generateGlobalNames(Set<String> prefixes, PositionObject posObject) {
         Assert.check(CifTextUtils.hasName(posObject), "Missing name for \"" + String.valueOf(posObject) + "\".");
-        return generateName(CifTextUtils.getAbsName(posObject, false), true, null);
+        return generateGlobalNames(prefixes, CifTextUtils.getAbsName(posObject, false), true);
     }
 
     @Override
-    public String generateGlobalName(String initialName, boolean initialIsCifName) {
-        return generateName(initialName, initialIsCifName, null);
+    public String generateGlobalName(String initialName, boolean isCifName) {
+        return generateGlobalNames(Set.of(""), initialName, isCifName);
     }
 
     @Override
-    public String generateLocalName(String initialName, Map<String, Integer> localSuffixes) {
-        return generateName(initialName, false, localSuffixes);
+    public String generateGlobalNames(Set<String> prefixes, String initialName, boolean isCifName) {
+        // - The new global name must not already exist in the global scope and it must be added to the global scope
+        //   afterwards.
+        // - The new global name must not already exist in any local scope, and thus not in the union of local
+        //   scopes.
+        return generateNames(prefixes, initialName, isCifName, globalScope, unionLocalScopes, null);
+    }
+
+    @Override
+    public String generateLocalName(String initialName, NameScope localScope) {
+        return generateLocalNames(Set.of(""), initialName, localScope);
+    }
+
+    @Override
+    public String generateLocalNames(Set<String> prefixes, String initialName, NameScope localScope) {
+        // - The new local name must not already exist in the local scope and it must be added to the local scope
+        //   afterwards.
+        // - The new local name must not already exist in the global scope.
+        // - The new local is added to a local scope, and thus it must be added to the union of local scopes as well.
+        return generateNames(prefixes, initialName, false, localScope, globalScope, unionLocalScopes);
+    }
+
+    /**
+     * Construct a good base name to use.
+     *
+     * @param prefixes The set prefixes in front of the created name that must be available.
+     * @param initialName The initial name to use as starting point for a good name.
+     * @param isCifName Whether the good name represents a CIF element recognizable by the user.
+     * @param usageScope The scope that will use the returned good name.
+     * @param testScope A scope that should not have the good name already, but is not updated.
+     * @param updateScope A scope to update as well for the created good name. Can be {@code null}.
+     * @return A good name to use.
+     */
+    private String generateNames(Set<String> prefixes, String initialName, boolean isCifName,
+            NameScope usageScope, NameScope testScope, NameScope updateScope)
+    {
+        return goodName;
     }
 
     /**
