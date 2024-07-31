@@ -69,7 +69,7 @@ public class Anno1Provider extends AnnotationProvider {
         CifType valueType = CifTypeUtils.normalizeType(arg.getValue().getType());
         if (!(valueType instanceof BoolType)) {
             reporter.reportProblem(annotation,
-                    fmt("argument \"arg\" must have a value of type \"bool\", " + "but has a value of type \"%s\".",
+                    fmt("argument \"arg\" must have a value of type \"bool\", but has a value of type \"%s\".",
                             CifTextUtils.typeToStr(valueType)),
                     arg.getValue().getPosition(), SemanticProblemSeverity.WARNING);
             // Non-fatal problem.
