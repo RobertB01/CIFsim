@@ -42,6 +42,7 @@ import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 import org.w3c.dom.Document;
@@ -86,6 +87,7 @@ public class CifToYedApp extends Application<IOutputComponent> {
     protected int runInternal() {
         // Read CIF specification.
         Specification spec = new CifReader().init().read();
+        String absSpecPath = Paths.resolve(InputFileOption.getPath());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -113,15 +115,16 @@ public class CifToYedApp extends Application<IOutputComponent> {
             outPath = Paths.resolve(outPath);
 
             // Perform transformation to yEd.
+            Termination termination = () -> isTerminationRequested();
             Document doc = null;
             try {
                 switch (kind) {
                     case MODEL:
-                        doc = new CifToYedModelDiagram().transform(spec);
+                        doc = new CifToYedModelDiagram().transform(spec, absSpecPath, termination);
                         break;
 
                     case RELATIONS:
-                        doc = new CifToYedRelationsDiagram().transform(spec);
+                        doc = new CifToYedRelationsDiagram().transform(spec, absSpecPath, termination);
                         break;
                 }
             } catch (UnsupportedException ex) {

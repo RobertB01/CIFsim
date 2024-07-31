@@ -55,7 +55,6 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
-import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.EventParameter;
 import org.eclipse.escet.cif.metamodel.cif.Group;
@@ -91,7 +90,7 @@ import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -144,13 +143,14 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
     private Map<ComponentDef, String> compDefMap;
 
     @Override
-    protected void addSpec(Specification spec, Element root) {
+    protected void addSpec(Specification spec, String absSpecPath, Element root, Termination termination) {
         // Remove annotations to avoid finding relations in them.
         spec = EMFHelper.deepclone(spec);
         new RemoveAnnotations().transform(spec);
 
-        // Precondition checking.
-        preCheck(spec);
+        // Check preconditions.
+        CifToYedRelationsDiagramPreChecker checker = new CifToYedRelationsDiagramPreChecker(termination);
+        checker.reportPreconditionViolations(spec, absSpecPath, "CIF to yEd transformer");
 
         // Initialize.
         relations = RelationKindsOption.getKinds();
@@ -178,53 +178,6 @@ public class CifToYedRelationsDiagram extends CifToYedDiagram {
         collectEdgeSrcTgtIds(root, edgeSrcTgtIds);
         removeInstInternalNodes(root, edgeSrcTgtIds);
         removeEmptyComps(root);
-    }
-
-    /**
-     * Check preconditions for the given component, recursively.
-     *
-     * @param comp The component to check, recursively.
-     * @throws UnsupportedException If an unsupported feature is found.
-     */
-    private void preCheck(ComplexComponent comp) {
-        // Skip automata, as they don't contain component definitions.
-        if (comp instanceof Automaton) {
-            return;
-        }
-        Group group = (Group)comp;
-
-        // Check component definitions.
-        for (ComponentDef cdef: group.getDefinitions()) {
-            preCheck(cdef);
-        }
-
-        // Check recursively. Skip component instantiations as we already check
-        // the component definitions and their bodies.
-        for (Component child: group.getComponents()) {
-            if (child instanceof ComponentInst) {
-                continue;
-            }
-            preCheck((ComplexComponent)child);
-        }
-    }
-
-    /**
-     * Check preconditions for the given component definition, recursively.
-     *
-     * @param cdef The component definition to check, recursively.
-     * @throws UnsupportedException If an unsupported feature is found.
-     */
-    private void preCheck(ComponentDef cdef) {
-        // Check parameters.
-        for (Parameter param: cdef.getParameters()) {
-            if (param instanceof ComponentParameter) {
-                String msg = fmt("Component parameter \"%s\" is not supported.", CifTextUtils.getAbsName(param));
-                throw new UnsupportedException(msg);
-            }
-        }
-
-        // Check body.
-        preCheck(cdef.getBody());
     }
 
     /**

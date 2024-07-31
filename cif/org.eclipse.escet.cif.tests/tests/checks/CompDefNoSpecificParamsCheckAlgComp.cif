@@ -1,0 +1,57 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group grp:
+  group def G(
+      alg int a1, a2; alg bool a3;
+      event e1, e2; controllable e3;
+      location l1, l2
+    ):
+    invariant e1 needs a1 + a2 > 0;
+    invariant e2 needs a3;
+    invariant e3 needs l1 and l2;
+    const bool b = true;
+  end
+end
+
+automaton def A(
+    alg int a1, a2; alg bool a3;
+    grp.G g1, g2;
+    event e1, e2; controllable e3;
+    location l1, l2
+  ):
+
+    invariant e1 needs a1 + a2 > 1;
+    invariant e2 needs not a3;
+    invariant e3 needs l1 or l2;
+    invariant g1.b and g2.b;
+
+  location:
+    initial;
+end
+
+automaton aut:
+  location loc1:
+    initial;
+    edge e1, e2, ec;
+
+  location loc2:
+    initial;
+end
+
+event e1, e2;
+controllable ec;
+
+g1: grp.G(1, 2, true, e1, e2, ec, aut.loc1, aut.loc2);
+g2: grp.G(1, 2, true, e1, e2, ec, aut.loc2, aut.loc1);
+a: A(1, 2, true, g1, g2, e1, e2, ec, aut.loc1, aut.loc2);
