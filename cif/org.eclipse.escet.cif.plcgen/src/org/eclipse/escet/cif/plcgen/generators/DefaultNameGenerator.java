@@ -13,17 +13,16 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Sets.setc;
+import static org.eclipse.escet.common.java.Lists.list;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -32,34 +31,24 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * Generator for obtaining clash-free names in the generated code.
  *
  * <p>
- * The generator can generate globally unique names using {@link #generateGlobalName}. On top of globally unique names
- * you can create local names that are both locally and globally unique in a scope using {@link #generateLocalName}.
- * However, as local names are not taken into account for global names (it is assumed all global names occurring in the
- * local scope are created before generating local names), safely creating new global names for use in the same local
- * scope is not supported after creating the first local names in a scope.
+ * The name generator assumes two levels of scopes, one global scope and zero or more local scopes. The names in the
+ * global scopes are available in all scopes. The names in a local scope are only available for that scope. Different
+ * local scopes however are allowed to use the equal names, except they then represent different PLC elements. Names in
+ * the global scope are disjoint from names in every local scope.
  * </p>
  */
 public class DefaultNameGenerator implements NameGenerator {
     /** Default single lower-case letter name to use if no prefix can be constructed. */
     static final char DEFAULT_CHAR = 'x';
 
-    /**
-     * All names in the PLC language standard, as an unmodifiable set. These are to be avoided for generated names.
-     *
-     * <p>
-     * The PLC language is case insensitive. This set only contains the names in lower-case ASCII.
-     * </p>
-     */
-    private static final Set<String> PLC_RESERVED_WORDS;
+    /** The global name scope. */
+    private final NameScope globalScope = new NameScope();
 
     /** If the value holds the user should be warned about changing the name, else the user should not be warned. */
     private final boolean warnOnRename;
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
-
-    /** Numeric suffix values already given out to a caller for globally unique names, ordered by the name prefix. */
-    private Map<String, Integer> globalSuffixes;
 
     /**
      * Constructor of the {@link DefaultNameGenerator} class.
@@ -70,9 +59,28 @@ public class DefaultNameGenerator implements NameGenerator {
         warnOnRename = settings.warnOnRename;
         warnOutput = settings.warnOutput;
 
-        globalSuffixes = map();
-        for (String name: PLC_RESERVED_WORDS) {
-            globalSuffixes.put(name, 0);
+        disallowReservedPlcNames();
+    }
+
+    /**
+     * Declare the names in the provided array as unavailable in the PLC code.
+     *
+     * @param names Names to declare as unavailable in the PLC code.
+     */
+    private void addDisallowedNames(Collection<String> names) {
+        for (String name: names) {
+            globalScope.addName(name);
+        }
+    }
+
+    /**
+     * Declare the names in the provided array as unavailable in the PLC code.
+     *
+     * @param names Names to declare as unavailable in the PLC code.
+     */
+    private void addDisallowedNames(String[] names) {
+        for (String name: names) {
+            globalScope.addName(name);
         }
     }
 
@@ -242,7 +250,8 @@ public class DefaultNameGenerator implements NameGenerator {
         return endIndex - index;
     }
 
-    static {
+    /** Add reserved names in the PLC as disallowed in the name generator. */
+    private void disallowReservedPlcNames() {
         // Keywords of the language, note that "en" and "eno" special parameter names have been left out.
         String[] languageKeywords = new String[] {"action", "array", "at", "by", "case", "configuration", "constant",
                 "do", "else", "elsif", "end_action", "end_case", "end_configuration", "end_for", "end_function",
@@ -252,10 +261,12 @@ public class DefaultNameGenerator implements NameGenerator {
                 "read_write", "r_edge", "repeat", "resource", "retain", "return", "step", "struct", "task", "then",
                 "to", "transition", "true", "type", "until", "var", "var_access", "var_config", "var_external",
                 "var_global", "var_in_out", "var_input", "var_output", "var_temp", "while", "with"};
+        addDisallowedNames(languageKeywords);
 
         String[] functionNames = new String[] {"abs", "acos", "add", "and", "asin", "atan", "cos", "div", "eq", "exp",
                 "expt", "ge", "gt", "le", "ln", "log", "lt", "max", "min", "mod", "mul", "ne", "not", "or", "sel",
                 "sin", "sqrt", "sub", "tan", "xor"};
+        addDisallowedNames(functionNames);
 
         String[] functionBlockNames = new String[] { //
                 "rs", "sr", // Set/reset.
@@ -267,37 +278,27 @@ public class DefaultNameGenerator implements NameGenerator {
                 "ctd", "ctd_dint", "ctd_lint", "ctd_udint", "ctd_ulint", // Down counters.
                 "ctud", "ctud_dint", "ctud_lint", "ctud_udint", "ctud_ulint", // Up-down counters.
         };
+        addDisallowedNames(functionBlockNames);
 
         String[] typeKeywords = new String[] {"bool", "sint", "int", "dint", "lint", "usint", "uint", "ulint", "udint",
                 "real", "lreal", "time", "date", "time_of_day", "tod", "date_and_time", "dt", "string", "byte", "word",
                 "dword", "lword", "wstring"};
+        addDisallowedNames(typeKeywords);
 
         String[] genericTypeKeywords = new String[] {"any", "and_derived", "any_elementary", "any_magnitude", "any_num",
                 "any_real", "any_int", "any_bit", "any_string", "any_date"};
-
-        // Construct a set container of appropriate size.
-        int numTypes = genericTypeKeywords.length;
-        int reservedWordCount = languageKeywords.length + functionNames.length + functionBlockNames.length
-                + typeKeywords.length + genericTypeKeywords.length + numTypes * (numTypes - 1);
-        Set<String> reservedWords = setc(reservedWordCount);
-
-        // Add everything.
-        reservedWords.addAll(Arrays.asList(languageKeywords));
-        reservedWords.addAll(Arrays.asList(functionNames));
-        reservedWords.addAll(Arrays.asList(functionBlockNames));
-        reservedWords.addAll(Arrays.asList(typeKeywords));
-        reservedWords.addAll(Arrays.asList(genericTypeKeywords));
+        addDisallowedNames(genericTypeKeywords);
 
         // Casts (X_TO_Y functions).
+        List<String> castNames = list();
         for (int i = 0; i < typeKeywords.length; i++) {
             for (int j = 0; j < typeKeywords.length; j++) {
                 if (i == j) {
                     continue;
                 }
-                reservedWords.add(typeKeywords[i] + "_to_" + typeKeywords[j]);
+                castNames.add(typeKeywords[i] + "_to_" + typeKeywords[j]);
             }
         }
-
-        PLC_RESERVED_WORDS = Collections.unmodifiableSet(reservedWords);
+        addDisallowedNames(castNames);
     }
 }
