@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,10 +11,23 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-controllable z;
+func int zero():
+  return 0;
+end
 
-plant a:
-  location a:
+const bool b = true;
+
+automaton a:
+  disc int x;
+
+  location:
     initial;
-    edge z when 1=1;
+    edge tau;
+    edge tau when true;
+    edge tau when false;
+    edge tau when true, false;
+    edge tau when b and not b;
+    edge tau when true, 1/0 = 1;    // Evaluation failure.
+    edge tau when true, zero() = 0; // Not statically evaluable.
+    edge tau when x = 0;            // Not statically evaluable.
 end

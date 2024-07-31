@@ -48,7 +48,8 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoMarkerPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
@@ -413,7 +414,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
                     // Constraints from CIF to DMM:
 
                     // Ensure there are no relations between elements hidden in initialization expressions.
-                    new AutOnlyWithOneInitLocCheck(), //
+                    new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE), //
                     new VarNoDiscWithMultiInitValuesCheck(), //
                     new VarDiscOnlyStaticEvalInitCheck(),
 

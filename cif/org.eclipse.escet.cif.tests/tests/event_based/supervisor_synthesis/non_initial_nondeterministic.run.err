@@ -1,2 +1,11 @@
 ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/non_initial_nondeterministic.cif".
-CAUSE: Unsupported automaton "p": location "p.s3" has several outgoing edges for event "e", only deterministic automata are supported.
+CAUSE: CIF supervisor synthesis tool failed due to unsatisfied preconditions:
+
+  ----------------------------------------
+  (1/1) An automaton is non-deterministic.
+  ----------------------------------------
+   * In location "p.s3":
+     - edge e;
+            ^
+     - edge e;
+            ^

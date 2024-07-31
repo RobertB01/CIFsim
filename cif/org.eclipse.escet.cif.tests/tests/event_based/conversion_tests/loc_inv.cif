@@ -11,8 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant a:
-  location a:
+event e;
+
+plant p:
+  location:
     initial;
-    plant invariant true, true;
+    plant invariant true;
+    plant invariant false;
+    plant invariant e needs true;
+    plant invariant e needs false;
 end

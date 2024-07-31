@@ -42,7 +42,6 @@ import org.eclipse.escet.cif.eventbased.builders.State;
 import org.eclipse.escet.cif.eventbased.builders.StateEdges;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Strings;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 
 /**
@@ -81,13 +80,9 @@ public class SupervisorSynthesis {
     }
 
     /**
-     * Perform checks whether the synthesis can be performed.
-     *
-     * <p>
-     * Note that some checks produce warning messages rather than rejecting the input. Such checks are technically not a
+     * Perform checks whether synthesis makes sense. Produces only warnings. Such checks are technically not a
      * requirement for performing synthesis, but if such a check fails (and produces a warning), the synthesis result is
      * unlikely to be useful.
-     * </p>
      *
      * @param automs Automata to use for synthesis.
      * @param warnDisjunct Whether to emit warnings when disjunct groups of automata are found.
@@ -98,30 +93,19 @@ public class SupervisorSynthesis {
     public static void synthesisPreCheck(List<Automaton> automs, boolean warnDisjunct, boolean warnEmpty,
             boolean warnDeadlock, boolean warnSingleUse)
     {
-        List<Automaton> plants = list();
         List<Automaton> reqs = list();
-        boolean unmarked = false;
         int warnCount = 0; // Number of printed warnings.
 
         for (Automaton aut: automs) {
+            // Collect requirements.
             switch (aut.kind) {
-                case PLANT:
-                    plants.add(aut);
-                    break;
-
                 case REQUIREMENT:
                     reqs.add(aut);
                     break;
 
-                default: {
-                    String msg = fmt("Unsupported automaton \"%s\": automaton is neither a plant nor a requirement.",
-                            aut.name);
-                    throw new InvalidInputException(msg);
-                }
+                default:
+                    break;
             }
-
-            // Check that the automaton is deterministic.
-            AutomatonHelper.reportNonDeterministic(aut);
 
             // Warn for lack of marked locations.
             boolean autMarked = aut.hasMarkedLoc();
@@ -129,7 +113,6 @@ public class SupervisorSynthesis {
                 String msg = "Automaton \"" + aut.name + "\" has no marked location, supervisor will be empty.";
                 OutputProvider.warn(msg);
                 warnCount++;
-                unmarked = true;
             }
 
             // Warn for non-trim.
@@ -145,38 +128,6 @@ public class SupervisorSynthesis {
             String msg = "The specification has no requirement automata.";
             OutputProvider.warn(msg);
             warnCount++;
-        }
-
-        // Check for at least one plant.
-        if (plants.isEmpty()) {
-            String msg = "Supervisor synthesis needs at least one plant automaton.";
-            throw new InvalidInputException(msg);
-        }
-
-        // Check for no marker state.
-        if (unmarked) {
-            String msg = "Supervisor is empty (no marker states).";
-            throw new InvalidModelException(msg);
-        }
-
-        // Check plant vs requirement alphabet.
-        Set<Event> alphabet = set();
-        for (Automaton req: reqs) {
-            alphabet.addAll(req.alphabet);
-        }
-        for (Automaton plant: plants) {
-            alphabet.removeAll(plant.alphabet);
-        }
-        if (!alphabet.isEmpty()) {
-            List<String> eventNames = listc(alphabet.size());
-            for (Event event: alphabet) {
-                eventNames.add("\"" + event.name + "\"");
-            }
-            String msg = fmt(
-                    "Event%s %s %s in the alphabet of the requirements, but not in the alphabet of the plants.",
-                    (alphabet.size() == 1) ? "" : "s", String.join(", ", eventNames),
-                    (alphabet.size() == 1) ? "is" : "are");
-            throw new InvalidModelException(msg);
         }
 
         // Extra non-fatal checks for things that are probably not right.
@@ -300,6 +251,14 @@ public class SupervisorSynthesis {
      * @return Supervisor automaton.
      */
     public static Automaton synthesis(List<Automaton> automs, SynthesisDumpInterface synDump) {
+        // If at least one automaton has no marked location, then trivially we have no supervisor.
+        for (Automaton aut: automs) {
+            if (!aut.hasMarkedLoc()) {
+                throw new InvalidModelException("Supervisor is empty (no marker states).");
+            }
+        }
+
+        // Not simple case. Do full synthesis.
         List<Automaton> plants = list();
         List<Automaton> requirements = list();
         for (Automaton aut: automs) {

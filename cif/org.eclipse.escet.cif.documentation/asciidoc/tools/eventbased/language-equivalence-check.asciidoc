@@ -31,7 +31,7 @@ One practical application is to verify whether a manually created supervisor is 
 If they are not, a counter example is produced.
 
 The tool takes a `.cif` file containing exactly two automata, that must be deterministic, have the same alphabet, and have an initial location.
-In addition, the general event-based restrictions listed at <<tools-eventbased-supported-specifications>> apply as well.
+In addition, the <<tools-eventbased-supported-specifications,general event-based restrictions>> apply as well.
 
 The language equivalence check tool can produce three different results:
 

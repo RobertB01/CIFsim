@@ -1,2 +1,36 @@
 ERROR: Failed to apply controllability check for CIF file "event_based/controllability_check/non_deterministic.cif".
-CAUSE: Unsupported automaton "p1": location "p1.s1" has several outgoing edges for event "e", only deterministic automata are supported.
+CAUSE: CIF controllability check tool failed due to unsatisfied preconditions:
+
+  ----------------------------------------
+  (1/4) An automaton is non-deterministic.
+  ----------------------------------------
+   * In location "p1.s1":
+     - edge e;
+            ^
+     - edge e when true;
+            ^
+     - edge e;
+            ^
+
+  -----------------------------------------------------------
+  (2/4) Edge has a guard that cannot be evaluated statically.
+  -----------------------------------------------------------
+   * In automaton "p3":
+     - edge e when i;
+                   ^
+     - edge e when not i;
+                   ^
+
+  ------------------------------------------------------------------------------------
+  (3/4) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
+  ------------------------------------------------------------------------------------
+   * In location "p1.s1":
+     - edge tau when true;
+            ^
+
+  ------------------------------------------------------------------------------------
+  (4/4) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
+  ------------------------------------------------------------------------------------
+   * In location "p1.s1":
+     - edge when true;
+       ^

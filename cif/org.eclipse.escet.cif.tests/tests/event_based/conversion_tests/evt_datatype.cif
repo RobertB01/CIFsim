@@ -13,6 +13,7 @@
 
 group g:
   controllable int e;
+  controllable int f;
 end
 
 plant a:

@@ -1,3 +1,6 @@
-WARNING: The specification has no requirement automata.
 ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/empty_file.cif".
-CAUSE: Supervisor synthesis needs at least one plant automaton.
+CAUSE: CIF supervisor synthesis tool failed due to unsatisfied preconditions:
+
+  ----------------------------------------------------------------------------------------
+  (1/1) Specification does not have at least 1 plant automaton (no plant automaton found).
+  ----------------------------------------------------------------------------------------

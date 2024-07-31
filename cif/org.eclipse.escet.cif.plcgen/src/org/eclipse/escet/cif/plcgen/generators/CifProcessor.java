@@ -26,7 +26,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
@@ -600,7 +601,7 @@ public class CifProcessor {
                     new VarNoDiscWithMultiInitValuesCheck(),
 
                     // Automata must have a single initial location.
-                    new AutOnlyWithOneInitLocCheck(),
+                    new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE),
 
                     // Disallow state invariants, except ones that never block behavior.
                     new InvNoSpecificInvsCheck()

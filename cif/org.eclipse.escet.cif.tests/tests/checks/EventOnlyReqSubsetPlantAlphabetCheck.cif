@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,8 +11,42 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant p:
+event e1, e2, e3, e4; // Violations for: e3, e4.
+
+plant p1:
   location:
     initial;
-    plant invariant false;
+    edge e1;
+end
+
+plant p2:
+  alphabet e1, e2;
+
+  location:
+    initial;
+    edge e1;
+end
+
+requirement r1:
+  location:
+    initial;
+    edge e2, e3;
+end
+
+requirement r2:
+  location:
+    initial;
+    edge e4;
+end
+
+automaton a:
+  location:
+    initial;
+    edge e3, e4;
+end
+
+supervisor s:
+  location:
+    initial;
+    edge e3, e4;
 end

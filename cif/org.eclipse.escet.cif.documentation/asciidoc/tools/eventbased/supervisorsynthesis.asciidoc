@@ -24,19 +24,18 @@ The supervisor synthesis procedure takes one or more deterministic plant automat
 
 indexterm:[event-based supervisor synthesis,supported specifications]
 The tool takes a `.cif` file containing `plant` and (optionally) `requirement` automata.
-Besides the general event-based restrictions listed at <<tools-eventbased-supported-specifications>>, the current implementation does not support:
+Besides the <<tools-eventbased-supported-specifications,general event-based restrictions>>, the tool does not support:
 
 * Having no `plant` automata at all.
 
 * Having a `supervisor` or kindless automaton in the file.
 See <<tools-eventbased-kinds>> for a list of all automaton kinds.
 
-* Non-determinism in the input automata.
-The tool reports the violating automaton, location, and event, for ease of reference.
+* Having any non-deterministic automata.
 
 * Events in the alphabet of the requirements that are not in the alphabet of the plants.
 
-* Events that are not controllable or uncontrollable, if used (present in the alphabet or on an edge of at least one automaton).
+* Events that are not controllable or uncontrollable.
 
 In addition, it warns about common mistakes:
 

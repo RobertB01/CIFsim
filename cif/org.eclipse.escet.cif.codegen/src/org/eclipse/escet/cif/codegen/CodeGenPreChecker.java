@@ -19,7 +19,8 @@ import java.util.List;
 
 import org.eclipse.escet.cif.checkers.CifCheck;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
@@ -93,7 +94,7 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 
         // Initialization predicates in locations that can not be statically evaluated are not supported.
         // Automata that do not have exactly one initial location are not supported.
-        checks.add(new AutOnlyWithOneInitLocCheck());
+        checks.add(new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE));
 
         // Urgent edges are not supported.
         checks.add(new EdgeNoUrgentCheck());

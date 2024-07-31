@@ -15,7 +15,8 @@ package org.eclipse.escet.cif.cif2supremica;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.CompOnlyVarValueMarkerPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
@@ -75,7 +76,7 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 // Automata that do not have exactly one initial location are not supported. We allow only exactly one
                 // initial location to ensure that the elimination of location references in expressions does not
                 // introduce additional initialization predicates.
-                new AutOnlyWithOneInitLocCheck(),
+                new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE),
 
                 new InvNoSpecificInvsCheck() //
                         // Kindless state/event exclusion invariants are not supported. They must have a supervisory

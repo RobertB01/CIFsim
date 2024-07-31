@@ -1,2 +1,9 @@
 ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/aut_inv.cif".
-CAUSE: Unsupported automaton "p": invariants in components are currently not supported.
+CAUSE: CIF synchronous product tool failed due to unsatisfied preconditions:
+
+  ---------------------------
+  (1/1) An invariant is used.
+  ---------------------------
+   * In automaton "p":
+     - plant invariant i;
+             ^

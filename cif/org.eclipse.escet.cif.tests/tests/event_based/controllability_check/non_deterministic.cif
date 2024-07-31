@@ -20,10 +20,31 @@ supervisor s1:
     edge e;
 end
 
-plant p1:
+plant p1:               // Non-deterministic.
   location s1:
     initial;
     marked;
+    edge when true;     // Implicit 'tau'.
+    edge tau when true; // Explicit 'tau'.
     edge e;
+    edge e when true;
     edge e;
+end
+
+plant p2:
+  location:
+    initial;
+    marked;
+    edge e when false;
+    edge e;
+end
+
+input bool i;
+
+plant p3:
+  location:
+    initial;
+    marked;
+    edge e when i;      // Can't statically evaluate.
+    edge e when not i;  // Can't statically evaluate.
 end

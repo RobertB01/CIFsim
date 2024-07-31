@@ -1,0 +1,17 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  -----------------------------------------------------------
+  (1/2) Edge has a guard that cannot be evaluated statically.
+  -----------------------------------------------------------
+   * In automaton "a":
+     - edge tau when true, zero() = 0;
+                                  ^
+     - edge tau when x = 0;
+                       ^
+
+  ------------------------------------------------------------------------------------------------------------
+  (2/2) Edge has a guard that cannot be evaluated statically, as evaluating it results in an evaluation error.
+  ------------------------------------------------------------------------------------------------------------
+   * In automaton "a":
+     - edge tau when true, 1 / 0 = 1.0;
+                             ^

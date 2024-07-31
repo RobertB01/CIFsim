@@ -26,15 +26,27 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
- * CIF check that allows automata only if they have exactly one initial location. Automata for which this cannot be
- * determined statically, are also not allowed.
+ * CIF check that allows automata only if they have have a certain number of initial locations. Automata for which this
+ * cannot be determined statically, are also not allowed.
  */
-public class AutOnlyWithOneInitLocCheck extends CifCheck {
+public class AutOnlyWithCertainNumberOfInitLocsCheck extends CifCheck {
+    /** What number of initial locations to allow for an automaton. */
+    private final AllowedNumberOfInitLocs allowed;
+
     /**
      * The number of initial locations found for the automaton being checked. Only valid while checking an automaton. Is
      * set to {@code -1} to disable this check due to evaluation errors in initialization predicates.
      */
     private int initLocCount;
+
+    /**
+     * Constructor for the {@link AutOnlyWithCertainNumberOfInitLocsCheck} class.
+     *
+     * @param allowed What number of initial locations to allow for an automaton.
+     */
+    public AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs allowed) {
+        this.allowed = allowed;
+    }
 
     @Override
     protected void preprocessAutomaton(Automaton aut, CifCheckViolations violations) {
@@ -44,12 +56,13 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
 
     @Override
     protected void postprocessAutomaton(Automaton aut, CifCheckViolations violations) {
-        // There must be exactly one initial location.
         if (initLocCount == 0) {
-            violations.add(aut, "Automaton has no initial location");
+            if (allowed == AllowedNumberOfInitLocs.EXACTLY_ONE) {
+                violations.add(aut, "Automaton has no initial location");
+            }
         } else if (initLocCount > 1) {
             violations.add(aut, "Automaton has multiple initial locations");
-        } // Skip if check is disabled (negative value).
+        } // else: exactly one initial location is always allowed; skip if check is disabled (negative value).
     }
 
     @Override
@@ -91,5 +104,14 @@ public class AutOnlyWithOneInitLocCheck extends CifCheck {
         if (initial && initLocCount != -1) {
             initLocCount++;
         }
+    }
+
+    /** The number of initial locations to allow for an automaton. */
+    public enum AllowedNumberOfInitLocs {
+        /** Allow at most one initial location. */
+        AT_MOST_ONE,
+
+        /** Allow only exactly one initial location. */
+        EXACTLY_ONE,
     }
 }

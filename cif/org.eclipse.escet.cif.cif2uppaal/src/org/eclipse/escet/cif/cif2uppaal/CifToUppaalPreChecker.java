@@ -14,7 +14,8 @@
 package org.eclipse.escet.cif.cif2uppaal;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
@@ -53,7 +54,7 @@ public class CifToUppaalPreChecker extends CifPreconditionChecker {
                 new CompNoInitPredsCheck(),
 
                 // Automata that do not have exactly one initial location are not supported.
-                new AutOnlyWithOneInitLocCheck(),
+                new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE),
 
                 // Discrete variables with multiple initial values are not supported.
                 new VarNoDiscWithMultiInitValuesCheck(),

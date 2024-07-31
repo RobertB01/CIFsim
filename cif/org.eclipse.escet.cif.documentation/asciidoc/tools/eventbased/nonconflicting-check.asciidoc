@@ -31,7 +31,7 @@ That is, when the supervisors are used together to control a system, could that 
 If so, which states are conflicting?
 
 The tool takes a `.cif` file containing two or more automata, that must be both deterministic and trim.
-Besides those restrictions, the general event-based restrictions listed at <<tools-eventbased-supported-specifications>> apply as well.
+In addition, the <<tools-eventbased-supported-specifications,general event-based restrictions>> apply as well.
 
 The nonconflicting check tool produces a text file, listing the traces that lead to a conflicting state.
 If no such traces are found, the automata are nonconflicting.

@@ -31,7 +31,8 @@ import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.checkers.checks.InvNoSpecificInvsCheck;
@@ -83,7 +84,7 @@ public class CifToDmm {
 
                     // Ensure there are no relations between elements hidden in initialization expressions.
                     // TODO: Decide the semantics of these expressions in relating plant and/or requirements.
-                    new AutOnlyWithOneInitLocCheck(), //
+                    new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE), //
                     new VarNoDiscWithMultiInitValuesCheck(), //
                     new VarDiscOnlyStaticEvalInitCheck(),
 

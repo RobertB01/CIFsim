@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.escet.common.java;bundle-version="5.0.0",
  org.eclipse.ui;bundle-version="3.115.0",
  org.eclipse.jface.text;bundle-version="3.16.100",
  org.eclipse.ui.editors;bundle-version="3.13.0",
- org.eclipse.escet.common.emf;bundle-version="5.0.0"
+ org.eclipse.escet.common.emf;bundle-version="5.0.0",
+ org.eclipse.escet.cif.checkers;bundle-version="5.0.0"
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Export-Package: org.eclipse.escet.cif.eventbased,
  org.eclipse.escet.cif.eventbased.analysis,

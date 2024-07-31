@@ -1,0 +1,9 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/loc_marked_not_static_eval.cif".
+CAUSE: CIF synchronous product tool failed due to unsatisfied preconditions:
+
+  --------------------------------------------------------------------------
+  (1/1) Location has a marker predicate that cannot be evaluated statically.
+  --------------------------------------------------------------------------
+   * In location "a.a":
+     - marked i;
+              ^

@@ -1,16 +1,16 @@
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 30, column 13: Automaton "auts.no_init_loc" has no initial location.
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 31, column 14: Location "l1" is not reachable from any of the initial locations of automaton "auts.no_init_loc".
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 34, column 14: Location "l2" is not reachable from any of the initial locations of automaton "auts.no_init_loc".
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 36, column 14: Location "l3" is not reachable from any of the initial locations of automaton "auts.no_init_loc".
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 92, column 17: Automaton "autdefs.no_init_loc" has no initial location.
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 93, column 14: Location "l1" is not reachable from any of the initial locations of automaton "autdefs.no_init_loc".
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 96, column 14: Location "l2" is not reachable from any of the initial locations of automaton "autdefs.no_init_loc".
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 98, column 14: Location "l3" is not reachable from any of the initial locations of automaton "autdefs.no_init_loc".
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 144, column 47: Location parameter "loc_params_one_initial.a" is not used anywhere in the specification.
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 144, column 50: Location parameter "loc_params_one_initial.b" is not used anywhere in the specification.
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 149, column 15: Automaton "loc_params_no_initial" has no initial location.
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 149, column 46: Location parameter "loc_params_no_initial.a" is not used anywhere in the specification.
-WARNING: File "checks/AutOnlyWithOneInitLocCheck.cif": Semantic warning at line 149, column 49: Location parameter "loc_params_no_initial.b" is not used anywhere in the specification.
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 30, column 13: Automaton "auts.no_init_loc" has no initial location.
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 31, column 14: Location "l1" is not reachable from any of the initial locations of automaton "auts.no_init_loc".
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 34, column 14: Location "l2" is not reachable from any of the initial locations of automaton "auts.no_init_loc".
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 36, column 14: Location "l3" is not reachable from any of the initial locations of automaton "auts.no_init_loc".
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 92, column 17: Automaton "autdefs.no_init_loc" has no initial location.
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 93, column 14: Location "l1" is not reachable from any of the initial locations of automaton "autdefs.no_init_loc".
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 96, column 14: Location "l2" is not reachable from any of the initial locations of automaton "autdefs.no_init_loc".
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 98, column 14: Location "l3" is not reachable from any of the initial locations of automaton "autdefs.no_init_loc".
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 144, column 47: Location parameter "loc_params_one_initial.a" is not used anywhere in the specification.
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 144, column 50: Location parameter "loc_params_one_initial.b" is not used anywhere in the specification.
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 149, column 15: Automaton "loc_params_no_initial" has no initial location.
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 149, column 46: Location parameter "loc_params_no_initial.a" is not used anywhere in the specification.
+WARNING: File "checks/AutOnlyWithCertainNumberOfInitLocsCheckExactlyOne.cif": Semantic warning at line 149, column 49: Location parameter "loc_params_no_initial.b" is not used anywhere in the specification.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   -----------------------------------------------

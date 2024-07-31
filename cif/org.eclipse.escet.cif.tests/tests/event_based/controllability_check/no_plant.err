@@ -1,2 +1,6 @@
 ERROR: Failed to apply controllability check for CIF file "event_based/controllability_check/no_plant.cif".
-CAUSE: No plant automata found in the input for the controllability check.
+CAUSE: CIF controllability check tool failed due to unsatisfied preconditions:
+
+  ----------------------------------------------------------------------------------------
+  (1/1) Specification does not have at least 1 plant automaton (no plant automaton found).
+  ----------------------------------------------------------------------------------------

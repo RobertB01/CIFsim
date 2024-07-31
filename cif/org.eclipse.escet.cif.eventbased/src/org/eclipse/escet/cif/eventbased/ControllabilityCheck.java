@@ -15,18 +15,15 @@ package org.eclipse.escet.cif.eventbased;
 
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
 import org.eclipse.escet.cif.eventbased.automata.Automaton;
-import org.eclipse.escet.cif.eventbased.automata.AutomatonHelper;
 import org.eclipse.escet.cif.eventbased.automata.EventAtLocation;
 import org.eclipse.escet.cif.eventbased.automata.Location;
 import org.eclipse.escet.cif.eventbased.builders.AutomatonBuilder;
 import org.eclipse.escet.cif.eventbased.builders.State;
 import org.eclipse.escet.cif.eventbased.builders.StateEdges;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /**
  * Check whether an automaton is a proper supervisor for a set of plants.
@@ -48,59 +45,7 @@ public class ControllabilityCheck {
     }
 
     /**
-     * Check whether the controllability check can be performed with the given automata.
-     *
-     * @param auts Automata to use in the controllability check.
-     */
-    public static void controllabilityCheckPreCheck(List<Automaton> auts) {
-        Automaton sup = null;
-        boolean seenPlant = false;
-
-        for (Automaton aut: auts) {
-            // Record and check automaton kind.
-            switch (aut.kind) {
-                case PLANT:
-                    // Only need to verify existence of at least one plant.
-                    seenPlant = true;
-                    break;
-
-                case SUPERVISOR:
-                    if (sup != null) {
-                        String msg = fmt(
-                                "Unsupported supervisor \"%s\": only one supervisor allowed, "
-                                        + "and automaton \"%s\" is already selected as supervisor.",
-                                aut.name, sup.name);
-                        throw new InvalidInputException(msg);
-                    }
-                    sup = aut;
-                    break;
-
-                case REQUIREMENT:
-                case UNKNOWN: {
-                    String msg = fmt("Unsupported automaton \"%s\": only plants and a supervisor are allowed "
-                            + "for the controllability check.", aut.name);
-                    throw new InvalidInputException(msg);
-                }
-
-                default:
-                    throw new AssertionError("Unexpected automaton kind.");
-            }
-
-            AutomatonHelper.reportNonDeterministic(aut);
-        }
-        if (!seenPlant) {
-            String msg = "No plant automata found in the input for the controllability check.";
-            throw new InvalidInputException(msg);
-        }
-        if (sup == null) {
-            String msg = "No supervisor automaton found in the input for the controllability check.";
-            throw new InvalidInputException(msg);
-        }
-    }
-
-    /**
-     * Perform controllability check. It is assumed that the input survived execution of
-     * {@link #controllabilityCheckPreCheck}.
+     * Perform controllability check.
      *
      * @param auts Automata to check for controllability.
      * @return Non-empty list of disabled uncontrollable events, or non-empty list of disabled controllable events (if

@@ -1,2 +1,12 @@
+WARNING: File "event_based/conversion_tests/evt_datatype.cif": Semantic warning at line 16, column 20: Event "g.f" is not used anywhere in the specification.
 ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/evt_datatype.cif".
-CAUSE: Unsupported event "g.e": event has a data type.
+CAUSE: CIF synchronous product tool failed due to unsatisfied preconditions:
+
+  -------------------------
+  (1/1) Event is a channel.
+  -------------------------
+   * In group "g":
+     - controllable int e;
+                        ^
+     - controllable int f;
+                        ^
