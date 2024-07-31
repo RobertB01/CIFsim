@@ -26,10 +26,6 @@ public class CifToYedRelationsDiagramPreChecker extends CifPreconditionChecker {
      * @param termination Cooperative termination query function.
      */
     public CifToYedRelationsDiagramPreChecker(Termination termination) {
-        super(termination,
-
-                new CompDefNoSpecificParamsCheck(NoSpecificCompDefParam.COMPONENT)
-
-        );
+        super(termination, new CompDefNoSpecificParamsCheck(NoSpecificCompDefParam.COMPONENT));
     }
 }
