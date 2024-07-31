@@ -74,6 +74,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
+import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
@@ -102,8 +103,8 @@ public class ExprGenerator {
     /** A real CIF type, used for type conversions. */
     private static final CifType REAL_TYPE = newRealType();
 
-    /** Map for the name generator to create local variables. */
-    private final Map<String, Integer> localNameGenMap = map();
+    /** Name scope to create new local variables. */
+    private final NameScope localNameScope = new NameScope();
 
     /** Local and temporary variables of the generator. */
     private final List<PlcDataVariable> variables = list();
@@ -230,7 +231,7 @@ public class ExprGenerator {
     private PlcDataVariable createVariable(String prefix, PlcType plcType, String address, PlcExpression value,
             boolean isTempVar)
     {
-        String name = target.getNameGenerator().generateLocalName(prefix, localNameGenMap);
+        String name = target.getNameGenerator().generateLocalName(prefix, localNameScope);
         PlcDataVariable newVar = new PlcDataVariable(name, plcType, address, value);
         int newVarIndex = variables.size();
         variables.add(newVar);
