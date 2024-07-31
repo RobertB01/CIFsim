@@ -18,13 +18,13 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -141,61 +141,48 @@ public class DefaultNameGenerator implements NameGenerator {
     private String generateNames(Set<String> prefixes, String initialName, boolean isCifName,
             NameScope usageScope, NameScope testScope, NameScope updateScope)
     {
-        return goodName;
-    }
-
-    /**
-     * Convert the given name to a proper name that does not clash with the PLC language or with previously generated
-     * names.
-     *
-     * @param initialName Suggested name to to use.
-     * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings. As
-     *     producing such rename warnings for objects that have no name in CIF is meaningless to the user, this
-     *     parameter should be {@code false} for those names.
-     * @param localSuffixes Name suffix information of local names. Use the same map to generate all local names in a
-     *     scope. Must be {@code null} when generating global names.
-     * @return A proper name that does not clash with PLC language keywords or previously generated global names. If a
-     *     {@code localSuffixes} map is supplied, the produced names also don't clash with all previously generated
-     *     local names that used that same map.
-     */
-    private String generateName(String initialName, boolean initialIsCifName, Map<String, Integer> localSuffixes) {
         // Cleanup the name.
-        StringBuilder cleanedName = cleanName(initialName);
+        String cleanedName = cleanName(initialName);
 
-        // Make the name unique.
+        // Make the name unique and create lower case versions of the prefixes..
         String lowerCleanedName = cleanedName.toString().toLowerCase(Locale.US);
-        int maxUsedNumber = globalSuffixes.getOrDefault(lowerCleanedName, -1);
-        if (localSuffixes != null) {
-            maxUsedNumber = Math.max(maxUsedNumber, localSuffixes.getOrDefault(lowerCleanedName, -1));
-        }
+        List<String> lowerPrefixes = prefixes.stream().map(s -> s.toLowerCase(Locale.US)).collect(Lists.toList());
 
-        if (maxUsedNumber < 0) {
-            // First use of a name without numeric suffix -> use as-is.
-            //
-            // Store it as 0 suffix, next use will get "_1" appended.
-            if (localSuffixes != null) {
-                localSuffixes.put(lowerCleanedName, 0);
-            } else {
-                globalSuffixes.put(lowerCleanedName, 0);
-            }
-            return cleanedName.toString();
-        } else {
-            // Identifier already used, append a new suffix.
-            maxUsedNumber++;
-            if (localSuffixes != null) {
-                localSuffixes.put(lowerCleanedName, maxUsedNumber);
-            } else {
-                globalSuffixes.put(lowerCleanedName, maxUsedNumber);
+        // Find a number that causes no clashes with existing names in the usage and test scopes.
+        int number = 0;
+        while (true) {
+            // Construct a candidate name, and check for clashes with other names in the scopes, for all prefixes.
+            String candidateLowerCleaned = (number == 0) ? lowerCleanedName : (lowerCleanedName + "_" + number);
+            boolean isUsed = lowerPrefixes.stream().map(prefix -> prefix + candidateLowerCleaned)
+                    .anyMatch(testName -> usageScope.isNameUsed(testName) || testScope.isNameUsed(testName));
+
+            if (isUsed) {
+                // At least one name clash exists. Try again with the next number.
+                number++;
+                continue;
             }
 
-            cleanedName.append("_");
-            cleanedName.append(maxUsedNumber);
-            String newName = cleanedName.toString();
-            if (initialIsCifName && warnOnRename) {
-                warnOutput.line("Renaming \"%s\" to \"%s\".", initialName, newName);
+            // Number is good. Add the new names to the scopes that must be updated, and break out of the loop.
+            for (String prefix: lowerPrefixes) {
+                String addedLowerCleanedName = prefix + candidateLowerCleaned;
+                usageScope.addName(addedLowerCleanedName);
+                if (updateScope != null) {
+                    updateScope.addName(addedLowerCleanedName);
+                }
             }
-            return newName;
+            break;
         }
+
+        // Construct the good name.
+        String goodName = (number == 0) ? cleanedName : (cleanedName + "_" + number);
+
+        // Print a rename warning if applicable.
+        if (isCifName && warnOnRename && number > 0) {
+            warnOutput.line("Renaming \"%s\" to \"%s\".", initialName, goodName);
+        }
+
+        // And done, return the result.
+        return goodName;
     }
 
     /**
