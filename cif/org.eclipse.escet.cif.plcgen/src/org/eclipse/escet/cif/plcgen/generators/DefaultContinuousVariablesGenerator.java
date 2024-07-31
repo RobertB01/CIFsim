@@ -21,6 +21,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
@@ -173,11 +174,10 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             PlcCodeStorage codeStorage = target.getCodeStorage();
 
             String cvarName = getAbsName(contVar, false);
-            String tonVarName = nameGen.generateGlobalName("ton_" + cvarName, false);
-            String presetName = nameGen.generateGlobalName("preset_" + cvarName, false);
-            tonVar = new PlcDataVariable("", tonVarName, plcFuncAppls.getTonFuncBlockType(), null, null);
+            String baseName = nameGen.generateGlobalNames(Set.of("ton_", "preset_"), cvarName, true);
+            tonVar = new PlcDataVariable("", "ton_" + baseName, plcFuncAppls.getTonFuncBlockType(), null, null);
             codeStorage.addTimerVariable(tonVar);
-            presetVar = codeStorage.addStateVariable(presetName, PlcElementaryType.TIME_TYPE);
+            presetVar = codeStorage.addStateVariable("preset_" + baseName, PlcElementaryType.TIME_TYPE);
         }
 
         @Override
