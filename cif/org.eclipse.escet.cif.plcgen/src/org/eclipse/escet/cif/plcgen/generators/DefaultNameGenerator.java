@@ -210,9 +210,9 @@ public class DefaultNameGenerator implements NameGenerator {
      * </p>
      *
      * @param text Input text to clean up.
-     * @return The cleaned-up name, wrapped in a string builder to assist in further manipulation of the name.
+     * @return The cleaned-up name.
      */
-    private StringBuilder cleanName(String text) {
+    private String cleanName(String text) {
         // Construct the destination string builder. Likely sufficient length is all text, 4 inserted default
         // characters, an underscore, and an assumed 3 digit number.
         StringBuilder sb = new StringBuilder(text.length() + 4 + 1 + 3);
@@ -250,7 +250,7 @@ public class DefaultNameGenerator implements NameGenerator {
         if (sb.isEmpty()) {
             sb.append(DEFAULT_CHAR);
         }
-        return sb;
+        return sb.toString();
     }
 
     /**
