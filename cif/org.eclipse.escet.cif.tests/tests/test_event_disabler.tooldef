@@ -31,6 +31,7 @@ map(string:list string) test_options = {
     "event_disabler/opt_event_svgin.cif":                  ["-s1"],
     "event_disabler/parent_aut.cif":                       ["-i1 -e g.a.b.c"],
     "event_disabler/parent_decl.cif":                      ["-e a.b,a.b.c"],
+    "event_disabler/remove_controller_properties.cif":     ["-e c"],
     "event_disabler/usage_alphabet_incl_input.cif":        ["-ualphabet -i1 -e is,ns,new,g.is,g.ns,g.new,g.a.is,g.a.ns,g.a.new"],
     "event_disabler/usage_alphabet_no_input.cif":          ["-ualphabet -i0 -e is,ns,new,g.is,g.ns,g.new,g.a.is,g.a.ns,g.a.new"],
     "event_disabler/usage_disable_incl_input.cif":         ["-udisable -i1 -e is,ns,new,g.is,g.ns,g.new,g.a.is,g.a.ns,g.a.new"],
