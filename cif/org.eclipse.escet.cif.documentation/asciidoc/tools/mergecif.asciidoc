@@ -376,6 +376,9 @@ Invariants can never be merged with other objects of the same name.
 
 User-defined functions can never be merged with other objects of the same name.
 
+Specifications are treated as groups.
+The merged specification never has a <<lang-tut-extensions-chapter-annotations-controller,controller properties annotation>>, even if any of the input specifications has one.
+
 indexterm:[CIF merger,merge problems]
 
 === Merge problems

@@ -124,5 +124,8 @@ n/a
 === Annotations
 
 This transformation does not process or add any annotations.
+
 If requirement automata have annotations, or if elements in requirement automata have annotations, removing these requirement automata removes those annotations as well.
 Similarly, if requirement invariants are removed, then so are their annotations.
+
+If the specification has a <<lang-tut-extensions-chapter-annotations-controller,controller properties annotation>>, it is removed.

@@ -52,6 +52,7 @@ The resulting supervisor may have an initialization predicate that restricts the
 For more information on this initialization predicate, see the <<tools-datasynth-init,section about initialization>>.
 
 The added supervisor automaton and all its elements do not have any annotations.
+The output specification never has a <<lang-tut-extensions-chapter-annotations-controller,controller properties annotation>>, even if the input specification has one.
 
 [[tools-datasynth-supervisor-namespace]]
 === Namespace

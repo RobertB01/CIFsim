@@ -73,7 +73,6 @@ indexterm:[CIF event disabler,supported specifications]
 === Supported specifications
 
 The event supports all CIF specifications.
-It does not process any annotations.
 
 indexterm:[CIF event disabler,preprocessing]
 
@@ -210,3 +209,6 @@ If the _Include input specification_ option is enabled, and events are disabled 
 If the _Include input specification_ option is disabled, event declarations are added for all events that are disabled.
 Event declarations that are added and existed in the input specification (in case the _Include input specification_ option is disabled), inherit their controllability from the input specification.
 All other events that are added are declared as controllable events if their name starts with `+c_+`, are declared as uncontrollable events if their name starts with `+u_+`, and are declared as neither controllable nor uncontrollable otherwise.
+
+The event disabler does not process or add any annotations.
+The output specification never has a <<lang-tut-extensions-chapter-annotations-controller,controller properties annotation>>, even if the input specification has one and the input specification is included in the output.
