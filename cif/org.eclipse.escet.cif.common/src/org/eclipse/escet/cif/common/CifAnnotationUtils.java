@@ -112,6 +112,21 @@ public class CifAnnotationUtils {
     }
 
     /**
+     * Removes all annotations of the given name from the given object.
+     *
+     * @param annotatedObject The annotated object.
+     * @param annoName The name of the annotation.
+     */
+    public static void removeAnnotations(AnnotatedObject annotatedObject, String annoName) {
+        if (hasAnnotation(annotatedObject, annoName)) {
+            List<Annotation> annos = annotatedObject.getAnnotations().stream()
+                    .filter(anno -> !anno.getName().equals(annoName)).toList();
+            annotatedObject.getAnnotations().clear();
+            annotatedObject.getAnnotations().addAll(annos);
+        }
+    }
+
+    /**
      * Returns the annotation argument with the given name, for the given annotation, if present.
      *
      * @param anno The annotation.
