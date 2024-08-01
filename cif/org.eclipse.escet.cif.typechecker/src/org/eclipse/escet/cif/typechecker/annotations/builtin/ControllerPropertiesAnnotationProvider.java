@@ -358,4 +358,13 @@ public class ControllerPropertiesAnnotationProvider extends AnnotationProvider {
         CifAnnotationUtils.setArgument(anno, "nonBlockingUnderControl",
                 CifValueUtils.makeBool(nonBlockingUnderControl));
     }
+
+    /**
+     * Remove the controller property annotation of the given specification, if it exists.
+     *
+     * @param spec The specification.
+     */
+    public static void remove(Specification spec) {
+        CifAnnotationUtils.removeAnnotations(spec, "controller:properties");
+    }
 }
