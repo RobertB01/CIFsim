@@ -59,6 +59,7 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
+import org.eclipse.escet.cif.common.CifDocAnnotationUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -77,7 +78,6 @@ import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
@@ -371,7 +371,7 @@ public class C89CodeGen extends CodeGen {
             VariableInformation constInfo = ctxt.getReadVarInfo(varWrap);
             String typeName = constInfo.typeInfo.getTargetType();
             String varName = constInfo.targetRef;
-            List<String> docs = DocAnnotationProvider.getDocs(constant);
+            List<String> docs = CifDocAnnotationUtils.getDocs(constant);
 
             // Generate definition and declaration.
             defCode.add();
@@ -436,7 +436,7 @@ public class C89CodeGen extends CodeGen {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
-            List<String> docs = DocAnnotationProvider.getDocs(evt);
+            List<String> docs = CifDocAnnotationUtils.getDocs(evt);
 
             evtDeclsCode.add();
             if (docs.isEmpty()) {
@@ -499,7 +499,7 @@ public class C89CodeGen extends CodeGen {
             }
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(decl);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetRef);
-            List<String> docs = DocAnnotationProvider.getDocs(decl);
+            List<String> docs = CifDocAnnotationUtils.getDocs(decl);
 
             for (boolean isDecl: new boolean[] {false, true}) {
                 CodeBox code = isDecl ? varDeclCode : varDefCode;
@@ -626,7 +626,7 @@ public class C89CodeGen extends CodeGen {
             String header = fmt("%s %s(void)", ti.getTargetType(), algVarInfo.targetRef);
             declCode.add("%s;", header);
 
-            List<String> docs = DocAnnotationProvider.getDocs(algVar);
+            List<String> docs = CifDocAnnotationUtils.getDocs(algVar);
             if (docs.isEmpty()) {
                 defCode.add("/** Algebraic variable %s = %s. */", algVarInfo.name, exprToStr(algVar.getValue()));
             } else {
@@ -668,7 +668,7 @@ public class C89CodeGen extends CodeGen {
             String typeText = typeToStr(var.getType());
             VariableInformation declVarInfo = ctxt.getWriteVarInfo(var);
             String declaration = fmt("%s %s;", declVarInfo.typeInfo.getTargetType(), declVarInfo.targetRef);
-            List<String> docs = DocAnnotationProvider.getDocs(var);
+            List<String> docs = CifDocAnnotationUtils.getDocs(var);
 
             for (boolean isDecl: new boolean[] {false, true}) {
                 CodeBox code = isDecl ? varDeclCode : varDefCode;
@@ -762,7 +762,7 @@ public class C89CodeGen extends CodeGen {
             }
 
             EnumLiteral lit = eLits.get(i);
-            List<String> docs = DocAnnotationProvider.getDocs(lit);
+            List<String> docs = CifDocAnnotationUtils.getDocs(lit);
             String name = lit.getName();
 
             if (docs.isEmpty()) {
@@ -1037,7 +1037,7 @@ public class C89CodeGen extends CodeGen {
             // Add method code.
 
             // Header.
-            List<String> docs = (event == null) ? Collections.emptyList() : DocAnnotationProvider.getDocs(event);
+            List<String> docs = (event == null) ? Collections.emptyList() : CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
@@ -1157,7 +1157,7 @@ public class C89CodeGen extends CodeGen {
 
     @Override
     protected void addSpec(CodeContext ctxt) {
-        List<String> docs = DocAnnotationProvider.getDocs(spec);
+        List<String> docs = CifDocAnnotationUtils.getDocs(spec);
         CodeBox specCommentsBox = makeCodeBox(0);
         for (String doc: docs) {
             specCommentsBox.add(" *");

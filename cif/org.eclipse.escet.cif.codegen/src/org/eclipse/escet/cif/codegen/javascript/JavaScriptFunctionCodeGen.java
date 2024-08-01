@@ -27,12 +27,12 @@ import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
 import org.eclipse.escet.cif.codegen.typeinfos.TypeInfo;
 import org.eclipse.escet.cif.codegen.updates.VariableWrapper;
+import org.eclipse.escet.cif.common.CifDocAnnotationUtils;
 import org.eclipse.escet.cif.common.FuncLocalVarOrderer;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.FunctionParameter;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -72,7 +72,7 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
             // Function created by preprocessing or linearization.
             origFuncName = function.getName();
         }
-        List<String> docs = DocAnnotationProvider.getDocs(function);
+        List<String> docs = CifDocAnnotationUtils.getDocs(function);
         code.add();
         code.add("/**");
         code.add(" * Function \"%s\".", origFuncName);
@@ -89,7 +89,7 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
             DiscVariable param = params.get(i).getParameter();
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(param, false));
             code.add(" * @param %s Function parameter \"%s\".", varInfo.targetVariableName, varInfo.name);
-            List<String> paramDocs = DocAnnotationProvider.getDocs(param);
+            List<String> paramDocs = CifDocAnnotationUtils.getDocs(param);
             for (String doc: paramDocs) {
                 code.add(" *     <p>");
                 for (String line: doc.split("\\r?\\n")) {
@@ -128,7 +128,7 @@ public class JavaScriptFunctionCodeGen extends FunctionCodeGen {
             // Generate comment for the variable.
             VariableInformation varInfo = ctxt.getReadVarInfo(new VariableWrapper(var, false));
             code.add("// Variable \"%s\".", varInfo.name);
-            List<String> docs = DocAnnotationProvider.getDocs(var);
+            List<String> docs = CifDocAnnotationUtils.getDocs(var);
             for (String doc: docs) {
                 code.add("//");
                 for (String line: doc.split("\\r?\\n")) {

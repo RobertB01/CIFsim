@@ -25,11 +25,11 @@ import org.eclipse.escet.cif.codegen.DataValue;
 import org.eclipse.escet.cif.codegen.ExprCode;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.typeinfos.EnumTypeInfo;
+import org.eclipse.escet.cif.common.CifDocAnnotationUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 
 /**
@@ -139,7 +139,7 @@ public class C89EnumTypeInfo extends EnumTypeInfo implements C89TypeInfo {
             }
 
             EnumLiteral lit = eLits.get(i);
-            List<String> docs = DocAnnotationProvider.getDocs(lit);
+            List<String> docs = CifDocAnnotationUtils.getDocs(lit);
             String name = lit.getName();
 
             if (docs.isEmpty()) {

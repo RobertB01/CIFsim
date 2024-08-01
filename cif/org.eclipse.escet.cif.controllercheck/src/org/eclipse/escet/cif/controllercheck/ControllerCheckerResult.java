@@ -15,13 +15,13 @@ package org.eclipse.escet.cif.controllercheck;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.common.CifControllerPropertiesAnnotationUtils;
 import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.checks.boundedresponse.BoundedResponseCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.checks.confluence.ConfluenceCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.checks.finiteresponse.FiniteResponseCheckConclusion;
 import org.eclipse.escet.cif.controllercheck.checks.nonblockingundercontrol.NonBlockingUnderControlCheckConclusion;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.ControllerPropertiesAnnotationProvider;
 import org.eclipse.escet.common.java.Assert;
 
 /** Controller properties checker result. */
@@ -109,19 +109,19 @@ public class ControllerCheckerResult {
                     ? boundedResponseConclusion.uncontrollablesBound.getBound() : null;
             Integer ctrlBound = boundedResponseConclusion.propertyHolds()
                     ? boundedResponseConclusion.controllablesBound.getBound() : null;
-            ControllerPropertiesAnnotationProvider.setBoundedResponse(spec, unctrlBound, ctrlBound);
+            CifControllerPropertiesAnnotationUtils.setBoundedResponse(spec, unctrlBound, ctrlBound);
         }
 
         if (confluenceConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setConfluence(spec, confluenceConclusion.propertyHolds());
+            CifControllerPropertiesAnnotationUtils.setConfluence(spec, confluenceConclusion.propertyHolds());
         }
 
         if (finiteResponseConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setFiniteResponse(spec, finiteResponseConclusion.propertyHolds());
+            CifControllerPropertiesAnnotationUtils.setFiniteResponse(spec, finiteResponseConclusion.propertyHolds());
         }
 
         if (nonBlockingUnderControlConclusion != null) {
-            ControllerPropertiesAnnotationProvider.setNonBlockingUnderControl(spec,
+            CifControllerPropertiesAnnotationUtils.setNonBlockingUnderControl(spec,
                     nonBlockingUnderControlConclusion.propertyHolds());
         }
     }
