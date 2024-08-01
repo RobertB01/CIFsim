@@ -591,7 +591,7 @@ ELSIF edge_ActivityTimer_1 = 2 THEN
     "DB".ActivityTimer_t := 10.0;
 
     (* Reset timer of "ActivityTimer_t". *)
-    ....  // Omitted for brevity.
+    ...  // Omitted for brevity.
 END_IF;
 ----
 
