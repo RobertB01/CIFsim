@@ -43,6 +43,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2cif.RefReplace;
+import org.eclipse.escet.cif.common.CifControllerPropertiesAnnotationUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
@@ -130,6 +131,9 @@ public class CifMerger {
         // Reroute references for merged declarations.
         RefReplace replacer = new RefReplace(refExprReplacements, refTypeReplacements, Collections.emptyMap());
         replacer.transform(merged);
+
+        // Remove controller properties annotation.
+        CifControllerPropertiesAnnotationUtils.remove(merged);
 
         // Return the merged specification.
         return merged;
