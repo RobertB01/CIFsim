@@ -131,7 +131,7 @@ public class DefaultNameGenerator implements NameGenerator {
     /**
      * Construct a good base name to use.
      *
-     * @param prefixes The set prefixes in front of the created name that must be available.
+     * @param prefixes The set of prefixes in front of the created name that must be available.
      * @param initialName The initial name to use as starting point for a good name.
      * @param isCifName Whether the good name represents a CIF element recognizable by the user.
      * @param usageScope The scope that will use the returned good name.
