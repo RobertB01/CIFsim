@@ -67,7 +67,7 @@ public class DefaultNameGenerator implements NameGenerator {
     }
 
     /**
-     * Declare the names in the provided array as unavailable in the PLC code.
+     * Declare the names in the provided collection as unavailable in the PLC code.
      *
      * @param names Names to declare as unavailable in the PLC code.
      */
