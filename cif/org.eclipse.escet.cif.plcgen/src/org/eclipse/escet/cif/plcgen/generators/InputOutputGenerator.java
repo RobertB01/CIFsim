@@ -384,7 +384,7 @@ public class InputOutputGenerator {
 
             // Construct a variable with the I/O address.
             String varPrefix = isInput ? "in_" : "out_";
-            String ioVarName = getAbsName(entry.cifObject, true);
+            String ioVarName = getAbsName(entry.cifObject, false);
             ioVarName = varPrefix + nameGenerator.generateGlobalNames(Set.of(varPrefix), ioVarName, false);
             PlcDataVariable ioVar = new PlcDataVariable(ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
             if (isInput) {
