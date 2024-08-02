@@ -529,7 +529,7 @@ For all details, and to see the code generated for your specific target, please 
 A global overview description of the specification is created in the PLC code.
 It looks like:
 
-[source]
+[source,plcst]
 ----
 (*------------------------------------------------------
  * Model overview:
@@ -555,7 +555,7 @@ It looks like:
 
 PLC code that tests whether event `timed_out` can occur has a comment describing the CIF elements involved together with their documentation:
 
-[source]
+[source,plcst]
 ----
 (***********
  * Test edge of automaton "ActivityTimer" to synchronize for event "timed_out".
@@ -580,7 +580,7 @@ END_IF;
 
 PLC Code that performs an edge (after deciding it should be taken) has a comment with the documentation of the edge:
 
-[source]
+[source,plcst]
 ----
 ELSIF edge_ActivityTimer_1 = 2 THEN
     (***********
@@ -591,7 +591,7 @@ ELSIF edge_ActivityTimer_1 = 2 THEN
     "DB".ActivityTimer_t := 10.0;
 
     (* Reset timer of "ActivityTimer_t". *)
-    ....  // Omitted for brevity.
+    ...  // Omitted for brevity.
 END_IF;
 ----
 
