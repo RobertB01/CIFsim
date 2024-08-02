@@ -181,7 +181,7 @@ public class DefaultNameGenerator implements NameGenerator {
             warnOutput.line("Renaming \"%s\" to \"%s\".", initialName, goodName);
         }
 
-        // And done, return the result.
+        // Return the result.
         return goodName;
     }
 
