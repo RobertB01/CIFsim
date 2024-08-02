@@ -7,9 +7,9 @@ DATA_BLOCK "DB"
         p_y: REAL;
         p_ve: DINT;
         p_v1: DINT;
-        p_v2: TupleStruct;
-        p_v3: TupleStruct_1;
-        p_tv: TupleStruct_2;
+        p_v2: g_trr;
+        p_v3: g_ttrrr;
+        p_tv: TupleStruct2;
         p_j: DINT;
         p_r: REAL;
         p_t: REAL;

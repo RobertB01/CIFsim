@@ -15,8 +15,8 @@ VAR_TEMP
     edge_aut: BYTE;
     eventEnabled: BOOL;
     isProgress: BOOL;
-    litStruct: TupleStruct;
-    litStruct_1: TupleStruct;
+    litStruct: TupleStruct2;
+    litStruct_1: TupleStruct2;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Header text file for:

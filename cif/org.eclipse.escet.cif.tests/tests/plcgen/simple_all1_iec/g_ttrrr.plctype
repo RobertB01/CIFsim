@@ -1,0 +1,6 @@
+TYPE g_ttrrr:
+    STRUCT
+        field1: g_trr;
+        field2: LREAL;
+    END_STRUCT;
+END_TYPE
