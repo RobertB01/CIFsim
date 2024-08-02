@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -173,8 +172,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             NameGenerator nameGen = target.getNameGenerator();
             PlcCodeStorage codeStorage = target.getCodeStorage();
 
-            String cvarName = getAbsName(contVar, false);
-            String baseName = nameGen.generateGlobalNames(Set.of("ton_", "preset_"), cvarName, true);
+            String baseName = nameGen.generateGlobalNames(Set.of("ton_", "preset_"), contVar);
             tonVar = new PlcDataVariable("", "ton_" + baseName, plcFuncAppls.getTonFuncBlockType(), null, null);
             codeStorage.addTimerVariable(tonVar);
             presetVar = codeStorage.addStateVariable("preset_" + baseName, PlcElementaryType.TIME_TYPE);
