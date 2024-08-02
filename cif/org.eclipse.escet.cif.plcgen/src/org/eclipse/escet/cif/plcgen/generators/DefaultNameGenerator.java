@@ -24,7 +24,6 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -147,7 +146,7 @@ public class DefaultNameGenerator implements NameGenerator {
 
         // Make the name unique and create lower case versions of the prefixes.
         String lowerCleanedName = cleanedName.toString().toLowerCase(Locale.US);
-        List<String> lowerPrefixes = prefixes.stream().map(s -> s.toLowerCase(Locale.US)).collect(Lists.toList());
+        List<String> lowerPrefixes = prefixes.stream().map(s -> s.toLowerCase(Locale.US)).toList();
 
         // Find a number that causes no clashes with existing names in the usage and test scopes.
         int number = 0;
