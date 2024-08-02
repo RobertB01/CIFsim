@@ -145,7 +145,7 @@ public class DefaultNameGenerator implements NameGenerator {
         // Cleanup the name.
         String cleanedName = cleanName(initialName);
 
-        // Make the name unique and create lower case versions of the prefixes..
+        // Make the name unique and create lower case versions of the prefixes.
         String lowerCleanedName = cleanedName.toString().toLowerCase(Locale.US);
         List<String> lowerPrefixes = prefixes.stream().map(s -> s.toLowerCase(Locale.US)).collect(Lists.toList());
 
