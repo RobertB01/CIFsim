@@ -123,7 +123,8 @@ public class DefaultNameGenerator implements NameGenerator {
         // - The new local name must not already exist in the local scope and it must be added to the local scope
         //   afterwards.
         // - The new local name must not already exist in the global scope.
-        // - The new local is added to a local scope, and thus it must be added to the union of local scopes as well.
+        // - The new local name is added to a local scope, and thus it must be added to the union of local scopes as
+        //   well.
         return generateNames(prefixes, initialName, false, localScope, globalScope, unionLocalScopes);
     }
 
