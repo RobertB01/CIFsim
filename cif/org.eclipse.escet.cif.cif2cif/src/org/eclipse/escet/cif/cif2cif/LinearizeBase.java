@@ -366,6 +366,9 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // do this here at the end, and not earlier, to keep them contained
         // somewhere in the specification.
         convertAutomataToGroups(auts);
+
+        // Perform post-processing.
+        postprocess(spec);
     }
 
     /**
@@ -1047,5 +1050,14 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
             // Compare orders.
             return Integer.compare(order1, order2);
         }
+    }
+
+    /**
+     * Perform post-processing on the linearized specification.
+     *
+     * @param spec The linearized specification.
+     */
+    protected void postprocess(Specification spec) {
+        // By default, no post-processing is performed.
     }
 }

@@ -1,3 +1,4 @@
+@@controller:properties
 event e12;
 event e13;
 event e14;

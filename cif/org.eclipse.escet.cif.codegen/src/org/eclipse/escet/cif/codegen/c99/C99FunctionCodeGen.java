@@ -28,11 +28,11 @@ import org.eclipse.escet.cif.codegen.IfElseGenerator;
 import org.eclipse.escet.cif.codegen.assignments.Destination;
 import org.eclipse.escet.cif.codegen.assignments.VariableInformation;
 import org.eclipse.escet.cif.codegen.typeinfos.TypeInfo;
+import org.eclipse.escet.cif.common.CifDocAnnotationUtils;
 import org.eclipse.escet.cif.common.FuncLocalVarOrderer;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 
@@ -118,7 +118,7 @@ public class C99FunctionCodeGen extends FunctionCodeGen {
 
             // Create and initialize the local variable.
             vardeclCode.add("// Variable \"%s\".", localVar.name);
-            List<String> docs = DocAnnotationProvider.getDocs(var);
+            List<String> docs = CifDocAnnotationUtils.getDocs(var);
             for (String doc: docs) {
                 vardeclCode.add("//");
                 for (String line: doc.split("\\r?\\n")) {
@@ -144,7 +144,7 @@ public class C99FunctionCodeGen extends FunctionCodeGen {
 
         // Generate function description.
         CodeBox descriptionCode = ctxt.makeCodeBox();
-        List<String> docs = DocAnnotationProvider.getDocs(function);
+        List<String> docs = CifDocAnnotationUtils.getDocs(function);
         descriptionCode.add();
         descriptionCode.add("/**");
         descriptionCode.add(" * Function \"%s\".", origFuncName);
@@ -159,7 +159,7 @@ public class C99FunctionCodeGen extends FunctionCodeGen {
             DiscVariable param = function.getParameters().get(i).getParameter();
             VariableInformation varInfo = paramVars[i];
             descriptionCode.add(" * @param %s Function parameter \"%s\".", varInfo.targetVariableName, varInfo.name);
-            List<String> paramDocs = DocAnnotationProvider.getDocs(param);
+            List<String> paramDocs = CifDocAnnotationUtils.getDocs(param);
             for (String doc: paramDocs) {
                 descriptionCode.add(" *");
                 for (String line: doc.split("\\r?\\n")) {

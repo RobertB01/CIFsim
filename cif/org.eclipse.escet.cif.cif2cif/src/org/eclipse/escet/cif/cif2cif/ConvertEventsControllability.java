@@ -25,6 +25,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.escet.cif.common.CifControllerPropertiesAnnotationUtils;
 import org.eclipse.escet.cif.common.ScopeCache;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -39,6 +40,11 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
  *
  * <p>
  * Precondition: Specifications with component definitions/instantiations are currently not supported.
+ * </p>
+ *
+ * <p>
+ * This transformation also {@link CifControllerPropertiesAnnotationUtils#remove removes the controller properties
+ * annotation} of the specification.
  * </p>
  */
 public final class ConvertEventsControllability {
@@ -99,6 +105,9 @@ public final class ConvertEventsControllability {
                 // Else name was not modified, no need to rename.
             }
         }
+
+        // Remove controller properties annotation.
+        CifControllerPropertiesAnnotationUtils.remove(spec);
     }
 
     /**

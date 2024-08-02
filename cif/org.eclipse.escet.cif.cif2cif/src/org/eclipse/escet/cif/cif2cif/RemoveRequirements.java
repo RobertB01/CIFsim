@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.ExternalCrossReferencer;
+import org.eclipse.escet.cif.common.CifControllerPropertiesAnnotationUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -54,6 +55,11 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * remains after removal of requirements is not supported.</li>
  * <li>Invariants that may not be removed in locations of requirement automata (if removed) are not supported.</li>
  * </ul>
+ * </p>
+ *
+ * <p>
+ * This transformation also {@link CifControllerPropertiesAnnotationUtils#remove removes the controller properties
+ * annotation} of the specification.
  * </p>
  */
 public class RemoveRequirements implements CifToCifTransformation {
@@ -102,6 +108,9 @@ public class RemoveRequirements implements CifToCifTransformation {
                     + "- " + String.join("\n - ", sortedstrings(problemMessages));
             throw new CifToCifPreconditionException(msg);
         }
+
+        // Remove controller properties annotation.
+        CifControllerPropertiesAnnotationUtils.remove(spec);
     }
 
     /**

@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.escet.cif.common.CifDocAnnotationFormatter;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
@@ -52,7 +53,6 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider.DocAnnotationFormatter;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.output.WarnOutput;
@@ -683,8 +683,10 @@ public class PlcCodeStorage {
      */
     private List<String> generateComponentDocumentation() {
         // Construct @doc annotation formatters, one for automata and one for the information inside automata.
-        DocAnnotationFormatter autDocFormatter = new DocAnnotationFormatter(null, null, " * ", List.of(" *"), null);
-        DocAnnotationFormatter subDocFormatter = new DocAnnotationFormatter(null, null, " *   ", List.of(" *"), null);
+        CifDocAnnotationFormatter autDocFormatter = new CifDocAnnotationFormatter(null, null, " * ", List.of(" *"),
+                null);
+        CifDocAnnotationFormatter subDocFormatter = new CifDocAnnotationFormatter(null, null, " *   ", List.of(" *"),
+                null);
 
         TextTopics topics = new TextTopics(" *");
 

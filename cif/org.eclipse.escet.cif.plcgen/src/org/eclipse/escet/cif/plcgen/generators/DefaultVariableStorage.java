@@ -22,6 +22,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.escet.cif.common.CifDocAnnotationFormatter;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.StateInitVarOrderer;
@@ -46,7 +47,6 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider.DocAnnotationFormatter;
 import org.eclipse.escet.common.java.Assert;
 
 /** Class for handling storage and retrieval of globally used variables in the PLC program. */
@@ -115,7 +115,7 @@ public class DefaultVariableStorage implements VariableStorage {
 
         // Generate initialization code and store it.
         List<PlcStatement> statements = list();
-        DocAnnotationFormatter varInitFormatter = new DocAnnotationFormatter(null, List.of(""), null, null, null);
+        CifDocAnnotationFormatter varInitFormatter = new CifDocAnnotationFormatter(null, List.of(""), null, null, null);
 
         statements.add(new PlcCommentLine("Initialize the state variables."));
         for (Declaration decl: varOrderer.computeOrder(true)) {

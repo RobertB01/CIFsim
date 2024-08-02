@@ -39,12 +39,14 @@ import static org.eclipse.escet.common.java.Triple.triple;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.escet.cif.common.CifControllerPropertiesAnnotationUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifGuardUtils;
 import org.eclipse.escet.cif.common.CifGuardUtils.LocRefExprCreator;
 import org.eclipse.escet.cif.common.CifSortUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -82,6 +84,11 @@ import org.eclipse.escet.common.java.Triple;
  *
  * <p>
  * See the {@link LinearizeBase} class for further details.
+ * </p>
+ *
+ * <p>
+ * This transformation also {@link CifControllerPropertiesAnnotationUtils#remove removes the controller properties
+ * annotation} of the specification.
  * </p>
  */
 public class LinearizeMerge extends LinearizeBase {
@@ -492,5 +499,11 @@ public class LinearizeMerge extends LinearizeBase {
         } else {
             throw new RuntimeException("Unexpected update: " + update.toString());
         }
+    }
+
+    @Override
+    protected void postprocess(Specification spec) {
+        // Remove controller properties annotation.
+        CifControllerPropertiesAnnotationUtils.remove(spec);
     }
 }

@@ -32,6 +32,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.common.CifDocAnnotationFormatter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
@@ -75,7 +76,6 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider.DocAnnotationFormatter;
 import org.eclipse.escet.common.java.Assert;
 
 /** Generator for creating PLC code to perform CIF event transitions in the PLC. */
@@ -456,10 +456,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return Comment block stating the event, and listing what is needed for the event to occur.
      */
     private PlcCommentBlock genAnnounceEventBeingTried(CifEventTransition eventTrans) {
-        DocAnnotationFormatter eventDocFormatter, sendRecvAutDocFormatter, syncMonAutDocFormatter;
-        eventDocFormatter = new DocAnnotationFormatter(null, null, null, List.of(""), null);
-        sendRecvAutDocFormatter = new DocAnnotationFormatter(null, null, "     ", List.of(""), null);
-        syncMonAutDocFormatter = new DocAnnotationFormatter(null, null, "  ", List.of(""), null);
+        CifDocAnnotationFormatter eventDocFormatter, sendRecvAutDocFormatter, syncMonAutDocFormatter;
+        eventDocFormatter = new CifDocAnnotationFormatter(null, null, null, List.of(""), null);
+        sendRecvAutDocFormatter = new CifDocAnnotationFormatter(null, null, "     ", List.of(""), null);
+        syncMonAutDocFormatter = new CifDocAnnotationFormatter(null, null, "  ", List.of(""), null);
 
         TextTopics topics = new TextTopics();
         topics.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
@@ -965,7 +965,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         TextTopics topics;
         // If requested, output documentation about the automaton.
         if (doAutDocPrint || doLocDocPrint) {
-            DocAnnotationFormatter docFormatter = new DocAnnotationFormatter(null, null, null, List.of(""), null);
+            CifDocAnnotationFormatter docFormatter = new CifDocAnnotationFormatter(null, null, null, List.of(""), null);
             topics = new TextTopics();
 
             if (doAutDocPrint) {
@@ -998,7 +998,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The produced text.
      */
     private List<String> generateAutomatonHeaderForUpdates(Automaton aut) {
-        DocAnnotationFormatter docFormatter = new DocAnnotationFormatter(null, null, null, List.of(""), null);
+        CifDocAnnotationFormatter docFormatter = new CifDocAnnotationFormatter(null, null, null, List.of(""), null);
         TextTopics topics = new TextTopics();
         topics.add(fmt("Perform assignments of automaton \"%s\".", getAbsName(aut, false)));
         topics.addAll(docFormatter.formatDocs(aut));
@@ -1108,8 +1108,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private PlcCommentBlock genEdgeTestsDocumentation(Event event, TransitionAutomaton transAut) {
         TextTopics topics = new TextTopics();
-        DocAnnotationFormatter locDocFormatter = new DocAnnotationFormatter(null, null, "  ", List.of(""), null);
-        DocAnnotationFormatter edgeDocFormatter = new DocAnnotationFormatter(null, null, "    ", List.of(""), null);
+        CifDocAnnotationFormatter locDocFormatter = new CifDocAnnotationFormatter(null, null, "  ", List.of(""), null);
+        CifDocAnnotationFormatter edgeDocFormatter = new CifDocAnnotationFormatter(null, null, "    ", List.of(""),
+                null);
 
         String edgePluralText = (transAut.transitionEdges.size() != 1) ? "s" : "";
         topics.add("Test edge%s of automaton \"%s\" to %s for event \"%s\".", edgePluralText,
@@ -1276,7 +1277,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         }
 
         // Create the documentation.
-        DocAnnotationFormatter edgeUpdateDocFormatter = new DocAnnotationFormatter(null, null, null, List.of(""), null);
+        CifDocAnnotationFormatter edgeUpdateDocFormatter = new CifDocAnnotationFormatter(null, null, null, List.of(""),
+                null);
         topics.ensureEmptyAtEnd();
         topics.add(text);
         topics.addAll(edgeUpdateDocFormatter.formatDocs(transEdge.edge));

@@ -11,6 +11,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+@@controller:properties()
+
 group G:
   controllable c_a;
   automaton A:

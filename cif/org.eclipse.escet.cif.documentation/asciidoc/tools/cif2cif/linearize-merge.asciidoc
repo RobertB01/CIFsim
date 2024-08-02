@@ -486,7 +486,10 @@ Currently, no effort is made by this transformation to reduce for instance the n
 === Annotations
 
 This transformation does not process or add any specific annotations.
+
 The annotations of the original automata are moved to the enumeration declarations of the newly created location pointer enumerations, but only for automata with at least two locations.
 Similarly, the annotations of the original locations are moved to the enumeration literals of the newly created location pointer enumerations, but only for automata with at least two locations.
 For automata with a single location, the annotations of the automata and their locations are removed.
 The single new automaton and its single new location do not have any annotations, nor do the linearized edges.
+
+If the specification has a <<lang-tut-extensions-chapter-annotations-controller,controller properties annotation>>, it is removed.

@@ -47,6 +47,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.escet.cif.common.CifControllerPropertiesAnnotationUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifValidationUtils;
 import org.eclipse.escet.cif.eventdisabler.options.EventNamesFileOption;
@@ -133,6 +134,9 @@ public class EventDisabler {
 
         // Add new automaton that disables the events.
         disabler.addAutomaton(eventsToDisable);
+
+        // Remove controller properties annotation.
+        CifControllerPropertiesAnnotationUtils.remove(disabler.resultSpec);
 
         // Return the result specification.
         return disabler.resultSpec;
