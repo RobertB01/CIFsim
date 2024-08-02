@@ -33,9 +33,9 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  *
  * <p>
  * The name generator assumes two levels of scopes, one global scope and zero or more local scopes. The names in the
- * global scopes are available in all scopes. The names in a local scope are only available for that scope. Different
- * local scopes however are allowed to use the equal names, except they then represent different PLC elements. Names in
- * the global scope are disjoint from names in every local scope.
+ * global scope are available in all scopes. The names in a local scope are only available for that scope. Different
+ * local scopes however are allowed to use equal names, except they then represent different PLC elements. Names in the
+ * global scope are disjoint from names in every local scope.
  * </p>
  */
 public class DefaultNameGenerator implements NameGenerator {
