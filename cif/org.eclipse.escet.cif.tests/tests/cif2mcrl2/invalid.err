@@ -33,14 +33,11 @@ ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
      - equation y' = 2.0;
                      ^
    * In continuous variable "g.p.cnt":
-     - cont cnt = 0.0 der 1.0;
-                  ^       ^
+     - cont cnt der 1.0;
+                    ^
    * In continuous variable "g.x":
-     - cont x = 0.0 der 1.0;
-                ^       ^
-   * In continuous variable "g.y":
-     - cont y = 0.0;
-                ^
+     - cont x der 1.0;
+                  ^
 
   ---------------------------
   (4/16) A real type is used.
@@ -49,14 +46,11 @@ ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
      - equation y' = 2.0;
                      ^
    * In continuous variable "g.p.cnt":
-     - cont cnt = 0.0 der 1.0;
-                  ^       ^
+     - cont cnt der 1.0;
+                    ^
    * In continuous variable "g.x":
-     - cont x = 0.0 der 1.0;
-                ^       ^
-   * In continuous variable "g.y":
-     - cont y = 0.0;
-                ^
+     - cont x der 1.0;
+                  ^
 
   ---------------------------
   (5/16) An equation is used.
@@ -148,10 +142,10 @@ ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
   (16/16) Variable is a continuous variable.
   ------------------------------------------
    * In group "g":
-     - cont x = 0.0 der 1.0;
+     - cont x der 1.0;
             ^
-     - cont y = 0.0;
+     - cont y;
             ^
    * In automaton "g.p":
-     - cont cnt = 0.0 der 1.0;
+     - cont cnt der 1.0;
             ^
