@@ -13,12 +13,10 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.common.java.Maps.map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Map;
-
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -100,23 +98,23 @@ public class NameGeneratorTest {
     @Test
     public void oneLocalScopeTest() {
         // Local names avoid other local names.
-        Map<String, Integer> localSuffixes = map();
-        assertEquals("s", nameGenerator.generateLocalName("s", localSuffixes));
-        assertEquals("s_1", nameGenerator.generateLocalName("s", localSuffixes));
+        NameScope localScope = new NameScope();
+        assertEquals("s", nameGenerator.generateLocalName("s", localScope));
+        assertEquals("s_1", nameGenerator.generateLocalName("s", localScope));
     }
 
     @SuppressWarnings("javadoc")
     @Test
     public void twoLocalScopesTest() {
         // Local names in a scope avoid other local names in the same scope.
-        Map<String, Integer> localSuffixes = map();
-        assertEquals("s", nameGenerator.generateLocalName("s", localSuffixes));
-        assertEquals("s_1", nameGenerator.generateLocalName("s", localSuffixes));
+        NameScope localScope = new NameScope();
+        assertEquals("s", nameGenerator.generateLocalName("s", localScope));
+        assertEquals("s_1", nameGenerator.generateLocalName("s", localScope));
 
         // Local names between different scopes may be duplicate.
-        localSuffixes = map(); // Use a different map for a different scope.
-        assertEquals("s", nameGenerator.generateLocalName("s", localSuffixes));
-        assertEquals("s_1", nameGenerator.generateLocalName("s", localSuffixes));
+        localScope = new NameScope();
+        assertEquals("s", nameGenerator.generateLocalName("s", localScope));
+        assertEquals("s_1", nameGenerator.generateLocalName("s", localScope));
     }
 
     @SuppressWarnings("javadoc")
@@ -124,8 +122,12 @@ public class NameGeneratorTest {
     public void globalAndLocalTest() {
         // Local names avoid pre-existing global names.
         assertEquals("s", nameGenerator.generateGlobalName("s", false));
-        Map<String, Integer> localSuffixes = map();
-        assertEquals("s_1", nameGenerator.generateLocalName("s", localSuffixes));
-        assertEquals("s_2", nameGenerator.generateLocalName("s", localSuffixes));
+        NameScope localScope = new NameScope();
+        assertEquals("s_1", nameGenerator.generateLocalName("s", localScope));
+        assertEquals("s_2", nameGenerator.generateLocalName("s", localScope));
+
+        // Global scope should not use names of the local scope.
+        assertEquals("s_3", nameGenerator.generateGlobalName("s", false));
+
     }
 }

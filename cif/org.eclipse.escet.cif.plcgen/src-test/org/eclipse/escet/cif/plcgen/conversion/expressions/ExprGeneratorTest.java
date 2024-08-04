@@ -57,7 +57,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -89,6 +89,7 @@ import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
+import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
@@ -371,9 +372,24 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public String generateLocalName(String initialName, Map<String, Integer> localSuffixes) {
+        public String generateLocalName(String initialName, NameScope nameScope) {
             nextNameSuffix++;
             return initialName + String.valueOf(nextNameSuffix);
+        }
+
+        @Override
+        public String generateGlobalNames(Set<String> prefixes, PositionObject posObject) {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public String generateGlobalNames(Set<String> prefixes, String initialName, boolean initialIsCifName) {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public String generateLocalNames(Set<String> prefixes, String initialName, NameScope localScope) {
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
     }
 
