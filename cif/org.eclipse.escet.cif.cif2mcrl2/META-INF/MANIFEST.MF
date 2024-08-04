@@ -25,8 +25,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.115.0",
 Import-Package: org.junit.jupiter.api;version="5.9.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy
-Export-Package: org.eclipse.escet.cif.cif2mcrl2,
- org.eclipse.escet.cif.cif2mcrl2.options,
- org.eclipse.escet.cif.cif2mcrl2.storage,
- org.eclipse.escet.cif.cif2mcrl2.tree
+Export-Package: org.eclipse.escet.cif.cif2mcrl2
 Automatic-Module-Name: org.eclipse.escet.cif.cif2mcrl2
