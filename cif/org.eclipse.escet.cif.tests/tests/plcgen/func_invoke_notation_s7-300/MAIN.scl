@@ -6,12 +6,12 @@ ORGANIZATION_BLOCK MAIN
         current_aut_b: BOOL;
         current_aut_i: DINT;
         current_aut_r: REAL;
-        current_aut_tii: TupleStruct;
+        current_aut_tii: TupleStruct2;
         edge_aut: BYTE;
         eventEnabled: BOOL;
         ifResult: BOOL;
         isProgress: BOOL;
-        litStruct: TupleStruct;
+        litStruct: TupleStruct2;
         timeOut: BOOL;
     END_VAR
 

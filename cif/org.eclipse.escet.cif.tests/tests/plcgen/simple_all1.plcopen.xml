@@ -25,7 +25,7 @@
           </enum>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct">
+      <dataType name="g_trr">
         <baseType>
           <struct>
             <variable name="field1">
@@ -41,12 +41,12 @@
           </struct>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct_1">
+      <dataType name="g_ttrrr">
         <baseType>
           <struct>
             <variable name="field1">
               <type>
-                <derived name="TupleStruct"/>
+                <derived name="g_trr"/>
               </type>
             </variable>
             <variable name="field2">
@@ -57,7 +57,7 @@
           </struct>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct_2">
+      <dataType name="TupleStruct2">
         <baseType>
           <struct>
             <variable name="field1">
@@ -131,17 +131,17 @@
             </variable>
             <variable name="p_v2">
               <type>
-                <derived name="TupleStruct"/>
+                <derived name="g_trr"/>
               </type>
             </variable>
             <variable name="p_v3">
               <type>
-                <derived name="TupleStruct_1"/>
+                <derived name="g_ttrrr"/>
               </type>
             </variable>
             <variable name="p_tv">
               <type>
-                <derived name="TupleStruct_2"/>
+                <derived name="TupleStruct2"/>
               </type>
             </variable>
             <variable name="p_j">
@@ -206,12 +206,12 @@
             </variable>
             <variable name="current_p_tv">
               <type>
-                <derived name="TupleStruct_2"/>
+                <derived name="TupleStruct2"/>
               </type>
             </variable>
             <variable name="current_p_v3">
               <type>
-                <derived name="TupleStruct_1"/>
+                <derived name="g_ttrrr"/>
               </type>
             </variable>
             <variable name="current_p_ve">
@@ -241,22 +241,22 @@
             </variable>
             <variable name="litStruct">
               <type>
-                <derived name="TupleStruct"/>
+                <derived name="g_trr"/>
               </type>
             </variable>
             <variable name="litStruct_1">
               <type>
-                <derived name="TupleStruct_1"/>
+                <derived name="g_ttrrr"/>
               </type>
             </variable>
             <variable name="litStruct_2">
               <type>
-                <derived name="TupleStruct_2"/>
+                <derived name="TupleStruct2"/>
               </type>
             </variable>
             <variable name="rightValue">
               <type>
-                <derived name="TupleStruct_2"/>
+                <derived name="TupleStruct2"/>
               </type>
             </variable>
             <variable name="timeOut">

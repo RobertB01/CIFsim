@@ -12,8 +12,8 @@ VAR_TEMP
     edge_aut: BOOL;
     eventEnabled: BOOL;
     isProgress: BOOL;
-    litStruct: TupleStruct;
-    litStruct_1: TupleStruct;
+    litStruct: TupleStruct2;
+    litStruct_1: TupleStruct2;
 END_VAR
 
 (* Header text file for:

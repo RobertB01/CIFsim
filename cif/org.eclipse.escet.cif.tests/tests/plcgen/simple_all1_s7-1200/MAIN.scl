@@ -6,17 +6,17 @@ ORGANIZATION_BLOCK MAIN
         current_p_b: BOOL;
         current_p_j: DINT;
         current_p_r: LREAL;
-        current_p_tv: TupleStruct_2;
-        current_p_v3: TupleStruct_1;
+        current_p_tv: TupleStruct2;
+        current_p_v3: g_ttrrr;
         current_p_ve: DINT;
         current_p_x: DINT;
         edge_p: BYTE;
         eventEnabled: BOOL;
         isProgress: BOOL;
-        litStruct: TupleStruct;
-        litStruct_1: TupleStruct_1;
-        litStruct_2: TupleStruct_2;
-        rightValue: TupleStruct_2;
+        litStruct: g_trr;
+        litStruct_1: g_ttrrr;
+        litStruct_2: TupleStruct2;
+        rightValue: TupleStruct2;
         timeOut: BOOL;
     END_VAR
 

@@ -26,7 +26,7 @@
           </enum>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct">
+      <dataType name="TupleStruct2">
         <baseType>
           <struct>
             <variable name="field1">
@@ -104,12 +104,12 @@
             </variable>
             <variable name="litStruct">
               <type>
-                <derived name="TupleStruct"/>
+                <derived name="TupleStruct2"/>
               </type>
             </variable>
             <variable name="litStruct_1">
               <type>
-                <derived name="TupleStruct"/>
+                <derived name="TupleStruct2"/>
               </type>
             </variable>
           </tempVars>
