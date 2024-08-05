@@ -18,10 +18,10 @@ ORGANIZATION_BLOCK MAIN
         current_timer: DINT;
         current_timer_1: DINT;
         current_timer_t: LREAL;
-        edge_hw_button: BYTE;
-        edge_hw_lamp: BYTE;
+        edge_hw_button: BOOL;
+        edge_hw_lamp: BOOL;
         edge_sup: BYTE;
-        edge_timer: BYTE;
+        edge_timer: BOOL;
         eventEnabled: BOOL;
         isProgress: BOOL;
         timeOut: BOOL;

@@ -10,7 +10,7 @@ VAR_TEMP
     channelValue: DINT;
     current_Good_x: DINT;
     current_Good_x_1: DINT;
-    edge_Good: BYTE;
+    edge_Good: BOOL;
     eventEnabled: BOOL;
     isProgress: BOOL;
     receiverAut: DINT;

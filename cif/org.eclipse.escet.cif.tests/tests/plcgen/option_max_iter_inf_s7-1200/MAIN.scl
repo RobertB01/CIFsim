@@ -3,7 +3,7 @@ ORGANIZATION_BLOCK MAIN
     VAR_TEMP
         current_p_x: DINT;
         current_p_x_1: DINT;
-        edge_p: BYTE;
+        edge_p: BOOL;
         eventEnabled: BOOL;
         isProgress: BOOL;
         dummyVar1: DINT;
