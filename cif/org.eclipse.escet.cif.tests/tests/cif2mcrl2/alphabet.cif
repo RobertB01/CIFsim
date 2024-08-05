@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,25 +11,15 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton P:
-  event a;
-  disc int[0..10] x = 0;
-  disc int[-5..5] zero = 0;
+automaton A:
+  controllable a, b, c; // Event c is disabled.
+  alphabet a, b, c;
 
-  location p1:
-    initial;
-    edge a goto p2;
+  location P:
+    initial true;
+    edge a goto Q;
 
-  location p2;
-end
-
-automaton Q:
-  event b;
-  disc int[0..1] y = 1;
-
-  location q1:
-    initial;
-    edge b goto q2;
-
-  location q2;
+  location Q:
+    edge b goto P;
+    marked;
 end

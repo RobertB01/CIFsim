@@ -11,25 +11,13 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton P:
-  event a;
-  disc int[0..10] x = 0;
-  disc int[-5..5] zero = 0;
+event e, f, g;
 
-  location p1:
+automaton a:
+  disc int x, y;
+  location:
     initial;
-    edge a goto p2;
-
-  location p2;
-end
-
-automaton Q:
-  event b;
-  disc int[0..1] y = 1;
-
-  location q1:
-    initial;
-    edge b goto q2;
-
-  location q2;
+    edge e;                     // No assignments.
+    edge f do x := 1;           // One assignment.
+    edge g do x := 2, y := 3;   // Two assignments (all variables).
 end

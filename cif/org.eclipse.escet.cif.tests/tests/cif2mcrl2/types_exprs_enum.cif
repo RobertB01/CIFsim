@@ -11,25 +11,23 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton P:
-  event a;
-  disc int[0..10] x = 0;
-  disc int[-5..5] zero = 0;
+enum E = L1, L2, L3;
 
-  location p1:
+const E t = L1;
+alg E a = t;
+
+automaton aut:
+  disc E v = L1;
+
+  event e1, e2, e3;
+
+  location:
     initial;
-    edge a goto p2;
 
-  location p2;
-end
+    // Discrete variable and literals.
+    edge e1 when v = L3;
 
-automaton Q:
-  event b;
-  disc int[0..1] y = 1;
-
-  location q1:
-    initial;
-    edge b goto q2;
-
-  location q2;
+    // Constant and algebraic variable.
+    edge e2 when v = t;
+    edge e3 when v = a;
 end
