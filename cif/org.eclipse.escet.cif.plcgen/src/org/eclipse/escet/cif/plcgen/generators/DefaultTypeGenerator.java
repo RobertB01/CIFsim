@@ -138,13 +138,14 @@ public class DefaultTypeGenerator implements TypeGenerator {
         }
 
         // Construct the structure type.
-        String structName;
+        String typeName;
         if (tupleType.eContainer() instanceof TypeDecl typeDecl) {
-            structName = CifTextUtils.getAbsName(typeDecl, false);
+            String structName = CifTextUtils.getAbsName(typeDecl, false);
+            typeName = target.getNameGenerator().generateGlobalName(structName, true);
         } else {
-            structName = "TupleStruct" + tupleType.getFields().size();
+            String structName = "TupleStruct" + tupleType.getFields().size();
+            typeName = target.getNameGenerator().generateGlobalName(structName, false);
         }
-        String typeName = target.getNameGenerator().generateGlobalName(structName, true);
         PlcStructType structType = new PlcStructType(typeName, structFields);
 
         // Declare the type.
