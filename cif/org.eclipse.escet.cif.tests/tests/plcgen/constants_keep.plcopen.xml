@@ -89,7 +89,7 @@
             </variable>
             <variable name="edge_aut">
               <type>
-                <BYTE/>
+                <BOOL/>
               </type>
             </variable>
             <variable name="eventEnabled">

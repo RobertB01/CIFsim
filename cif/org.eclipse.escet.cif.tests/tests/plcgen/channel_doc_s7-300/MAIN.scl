@@ -10,9 +10,9 @@ ORGANIZATION_BLOCK MAIN
         current_R1_vr1: DINT;
         current_Y1: DINT;
         current_Y1_1: DINT;
-        edge_R1: BYTE;
-        edge_S1: BYTE;
-        edge_Y1: BYTE;
+        edge_R1: BOOL;
+        edge_S1: BOOL;
+        edge_Y1: BOOL;
         eventEnabled: BOOL;
         isProgress: BOOL;
         receiverAut: DINT;

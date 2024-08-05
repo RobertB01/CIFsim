@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /** PLC elementary type. */
 public class PlcElementaryType extends PlcType {
     /** PLC BOOL type. */
-    public static final PlcElementaryType BOOL_TYPE = new PlcElementaryType("BOOL", 0);
+    public static final PlcElementaryType BOOL_TYPE = new PlcElementaryType("BOOL", 1);
 
     /** PLC INT type. */
     public static final PlcElementaryType INT_TYPE = new PlcElementaryType("INT", 16);
@@ -72,11 +72,12 @@ public class PlcElementaryType extends PlcType {
     public static final List<PlcElementaryType> REAL_TYPES_ALL = REAL_TYPES_64;
 
     /** Elementary types that are considered 'bit string' for 32 bit systems, ordered by increasing size. */
-    public static final List<PlcElementaryType> BIT_STRING_TYPES_32 = List.of(BYTE_TYPE, WORD_TYPE, DWORD_TYPE);
+    public static final List<PlcElementaryType> BIT_STRING_TYPES_32 =
+            List.of(BOOL_TYPE, BYTE_TYPE, WORD_TYPE, DWORD_TYPE);
 
     /** Elementary types that are considered 'bit string' for 64 bit systems, ordered by increasing size. */
-    public static final List<PlcElementaryType> BIT_STRING_TYPES_64 = List.of(BYTE_TYPE, WORD_TYPE, DWORD_TYPE,
-            LWORD_TYPE);
+    public static final List<PlcElementaryType> BIT_STRING_TYPES_64 =
+            List.of(BOOL_TYPE, BYTE_TYPE, WORD_TYPE, DWORD_TYPE, LWORD_TYPE);
 
     /** The name of the elementary type. */
     public final String name;

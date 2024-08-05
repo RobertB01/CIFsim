@@ -51,7 +51,7 @@
             </variable>
             <variable name="edge_Good">
               <type>
-                <BYTE/>
+                <BOOL/>
               </type>
             </variable>
             <variable name="eventEnabled">

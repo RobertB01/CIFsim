@@ -9,7 +9,7 @@ END_VAR
 VAR_TEMP
     current_aut_y: LREAL;
     current_aut_y_1: LREAL;
-    edge_aut: BYTE;
+    edge_aut: BOOL;
     eventEnabled: BOOL;
     isProgress: BOOL;
 END_VAR

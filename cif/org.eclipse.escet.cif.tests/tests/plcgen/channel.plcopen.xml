@@ -127,32 +127,32 @@
             </variable>
             <variable name="edge_R1">
               <type>
-                <BYTE/>
+                <BOOL/>
               </type>
             </variable>
             <variable name="edge_R2">
               <type>
-                <BYTE/>
+                <BOOL/>
               </type>
             </variable>
             <variable name="edge_S1">
               <type>
-                <BYTE/>
+                <BOOL/>
               </type>
             </variable>
             <variable name="edge_S2">
               <type>
-                <BYTE/>
+                <BOOL/>
               </type>
             </variable>
             <variable name="edge_Y1">
               <type>
-                <BYTE/>
+                <BOOL/>
               </type>
             </variable>
             <variable name="edge_Y2">
               <type>
-                <BYTE/>
+                <BOOL/>
               </type>
             </variable>
             <variable name="eventEnabled">
