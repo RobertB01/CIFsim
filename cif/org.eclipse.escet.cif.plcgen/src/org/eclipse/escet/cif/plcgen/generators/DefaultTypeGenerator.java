@@ -144,7 +144,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
         } else {
             structName = "TupleStruct" + tupleType.getFields().size();
         }
-        String typeName = target.getNameGenerator().generateGlobalName(structName, false);
+        String typeName = target.getNameGenerator().generateGlobalName(structName, true);
         PlcStructType structType = new PlcStructType(typeName, structFields);
 
         // Declare the type.
