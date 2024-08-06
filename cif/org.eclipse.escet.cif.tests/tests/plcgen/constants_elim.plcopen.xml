@@ -19,9 +19,9 @@
         <baseType>
           <enum>
             <values>
-              <value name="red"/>
-              <value name="yellow"/>
-              <value name="blue"/>
+              <value name="red_Color"/>
+              <value name="yellow_Color"/>
+              <value name="blue_Color"/>
             </values>
           </enum>
         </baseType>
@@ -228,7 +228,7 @@ WHILE isProgress DO
      * - Location:
      *   - 3rd edge in the location
      ***********)
-    IF col &lt;&gt; red THEN
+    IF col &lt;&gt; red_Color THEN
         edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)

@@ -125,25 +125,25 @@ BEGIN
         (* Initialize discrete variable "S2.vs2". *)
         "DB".S2_vs2 := 0;
         (* Initialize current location of automaton "S2". *)
-        "DB".S2 := S2_A;
+        "DB".S2 := A_S2_location;
         (* Initialize discrete variable "R1.vr1". *)
         "DB".R1_vr1 := 0;
         (* Initialize discrete variable "R2.vr2". *)
         "DB".R2_vr2 := 0;
         (* Initialize current location of automaton "R2". *)
-        "DB".R2 := R2_A;
+        "DB".R2 := A_S2_location;
         (* Initialize discrete variable "Y1.vy1". *)
         "DB".Y1_vy1 := 0;
         (* Initialize discrete variable "Y2.vy2". *)
         "DB".Y2_vy2 := 0;
         (* Initialize current location of automaton "Y2". *)
-        "DB".Y2 := Y2_A;
+        "DB".Y2 := A_S2_location;
         (* Initialize discrete variable "M1.vm1". *)
         "DB".M1_vm1 := 0;
         (* Initialize discrete variable "M2.vm2". *)
         "DB".M2_vm2 := 0;
         (* Initialize current location of automaton "M2". *)
-        "DB".M2 := M2_A;
+        "DB".M2 := A_S2_location;
     END_IF;
 
     (* --- Process controllable events. ---------------------------------------- *)
@@ -199,10 +199,10 @@ BEGIN
              * - Location "B":
              *   - 1st edge in the location
              ***********)
-            IF "DB".S2 = S2_A AND "DB".S2_vs2 = 2 THEN
+            IF "DB".S2 = A_S2_location AND "DB".S2_vs2 = 2 THEN
                 senderAut := 2;
                 edge_S2 := 0;
-            ELSIF "DB".S2 = S2_B AND "DB".S2_vs2 = 3 THEN
+            ELSIF "DB".S2 = B_S2_location AND "DB".S2_vs2 = 3 THEN
                 senderAut := 2;
                 edge_S2 := 1;
             END_IF;
@@ -241,10 +241,10 @@ BEGIN
                  * - Location "B":
                  *   - 1st edge in the location
                  ***********)
-                IF "DB".R2 = R2_A THEN
+                IF "DB".R2 = A_S2_location THEN
                     receiverAut := 2;
                     edge_R2 := 0;
-                ELSIF "DB".R2 = R2_B THEN
+                ELSIF "DB".R2 = B_S2_location THEN
                     receiverAut := 2;
                     edge_R2 := 1;
                 END_IF;
@@ -284,9 +284,9 @@ BEGIN
              * - Location "B":
              *   - 1st edge in the location
              ***********)
-            IF "DB".Y2 = Y2_A AND "DB".Y2_vy2 = 2 THEN
+            IF "DB".Y2 = A_S2_location AND "DB".Y2_vy2 = 2 THEN
                 edge_Y2 := 0;
-            ELSIF "DB".Y2 = Y2_B AND "DB".Y2_vy2 = 3 THEN
+            ELSIF "DB".Y2 = B_S2_location AND "DB".Y2_vy2 = 3 THEN
                 edge_Y2 := 1;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)

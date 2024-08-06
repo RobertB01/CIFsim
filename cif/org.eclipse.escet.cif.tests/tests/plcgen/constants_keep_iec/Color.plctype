@@ -1,3 +1,3 @@
 TYPE Color:
-    (red, yellow, blue);
+    (red_Color, yellow_Color, blue_Color);
 END_TYPE

@@ -7,9 +7,9 @@ DATA_BLOCK "DB"
         R1_t: REAL;
         preset_R1_t: TIME;
         Y1_vy1: DINT;
-        Y1: DINT;
+        Y1: BOOL;
         M1_vm1: DINT;
-        M1: DINT;
+        M1: BOOL;
         M2_vm2: DINT;
         firstRun: BOOL;
     END_VAR

@@ -2,7 +2,7 @@ PROGRAM MAIN
 VAR
     i: DINT;
     bol: BOOL;
-    col: DINT;
+    col: BYTE;
     aut_y: REAL;
     firstRun: BOOL := TRUE;
 END_VAR

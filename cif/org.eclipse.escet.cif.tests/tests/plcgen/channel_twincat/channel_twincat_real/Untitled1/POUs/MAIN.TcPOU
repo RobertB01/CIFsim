@@ -141,25 +141,25 @@ IF firstRun THEN
     (* Initialize discrete variable "S2.vs2". *)
     S2_vs2 := 0;
     (* Initialize current location of automaton "S2". *)
-    S2 := S2_A;
+    S2 := A_S2_location;
     (* Initialize discrete variable "R1.vr1". *)
     R1_vr1 := 0;
     (* Initialize discrete variable "R2.vr2". *)
     R2_vr2 := 0;
     (* Initialize current location of automaton "R2". *)
-    R2 := S2_A;
+    R2 := A_S2_location;
     (* Initialize discrete variable "Y1.vy1". *)
     Y1_vy1 := 0;
     (* Initialize discrete variable "Y2.vy2". *)
     Y2_vy2 := 0;
     (* Initialize current location of automaton "Y2". *)
-    Y2 := S2_A;
+    Y2 := A_S2_location;
     (* Initialize discrete variable "M1.vm1". *)
     M1_vm1 := 0;
     (* Initialize discrete variable "M2.vm2". *)
     M2_vm2 := 0;
     (* Initialize current location of automaton "M2". *)
-    M2 := S2_A;
+    M2 := A_S2_location;
 END_IF;
 
 (* --- Process controllable events. ---------------------------------------- *)
@@ -215,10 +215,10 @@ WHILE isProgress DO
          * - Location "B":
          *   - 1st edge in the location
          ***********)
-        IF S2 = S2_A AND S2_vs2 = 2 THEN
+        IF S2 = A_S2_location AND S2_vs2 = 2 THEN
             senderAut := 2;
             edge_S2 := 0;
-        ELSIF S2 = S2_B AND S2_vs2 = 3 THEN
+        ELSIF S2 = B_S2_location AND S2_vs2 = 3 THEN
             senderAut := 2;
             edge_S2 := 1;
         END_IF;
@@ -257,10 +257,10 @@ WHILE isProgress DO
              * - Location "B":
              *   - 1st edge in the location
              ***********)
-            IF R2 = S2_A THEN
+            IF R2 = A_S2_location THEN
                 receiverAut := 2;
                 edge_R2 := 0;
-            ELSIF R2 = S2_B THEN
+            ELSIF R2 = B_S2_location THEN
                 receiverAut := 2;
                 edge_R2 := 1;
             END_IF;
@@ -300,9 +300,9 @@ WHILE isProgress DO
          * - Location "B":
          *   - 1st edge in the location
          ***********)
-        IF Y2 = S2_A AND Y2_vy2 = 2 THEN
+        IF Y2 = A_S2_location AND Y2_vy2 = 2 THEN
             edge_Y2 := 0;
-        ELSIF Y2 = S2_B AND Y2_vy2 = 3 THEN
+        ELSIF Y2 = B_S2_location AND Y2_vy2 = 3 THEN
             edge_Y2 := 1;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
