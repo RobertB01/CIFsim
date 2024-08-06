@@ -1,0 +1,99 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const bool t = true;
+alg bool a = t;
+
+automaton aut:
+  event e;
+  disc bool v = false;
+
+  location f:
+    initial;
+    edge e do v := true goto t;
+
+  location t:
+    edge e do v := false goto f;
+end
+
+enum E = L1, L2, L3;
+
+automaton b:
+  event e01, e02, e03, e04, e05, e06, e07, e08, e09, e10;
+  event e11, e12, e13, e14, e15, e16, e17, e18, e19, e20;
+  event e21, e22, e23, e24, e25, e26, e27, e28, e29, e30;
+  event e31, e32, e33, e34, e35, e36;
+
+  disc bool vt = true, vf = false;
+  disc int v1 = 1, v2 = 2, v3 = 3;
+  disc E ve1 = L1;
+
+  location:
+    initial;
+
+    // Discrete variable and literals.
+    edge e01 when aut.v = false;
+    edge e02 when aut.v = true;
+
+    // Constant and algebraic variable.
+    edge e03 when aut.v = t;
+    edge e04 when aut.v = a;
+
+    // Binary expressions.
+    edge e05 when aut.v and vt;
+    edge e06 when aut.v and vf;
+
+    edge e07 when aut.v or  vt;
+    edge e08 when aut.v or  vf;
+
+    edge e09 when aut.v =>  vt;
+    edge e10 when aut.v =>  vf;
+
+    edge e11 when v1    <   v3;
+    edge e12 when v3    <   v3;
+    edge e13 when v3    <   v2;
+
+    edge e14 when v1    >   v3;
+    edge e15 when v3    >   v3;
+    edge e16 when v3    >   v2;
+
+    edge e17 when v1   <=   v3;
+    edge e18 when v3   <=   v3;
+    edge e19 when v3   <=   v2;
+
+    edge e20 when v1   >=   v3;
+    edge e21 when v3   >=   v3;
+    edge e22 when v3   >=   v2;
+
+    edge e23 when v1   =    v3;
+    edge e24 when v3   =    v3;
+
+    edge e25 when v1   !=   v3;
+    edge e26 when v3   !=   v3;
+
+    edge e27 when vt   =    vt;
+    edge e28 when vt   =    vf;
+
+    edge e29 when vt   !=   vt;
+    edge e30 when vt   !=   vf;
+
+    edge e31 when ve1  =    L1;
+    edge e32 when ve1  =    L2;
+
+    edge e33 when ve1  !=   L1;
+    edge e34 when ve1  !=   L2;
+
+    // Unary expressions.
+    edge e35 when not aut.v;
+    edge e36 when not not aut.v;
+end

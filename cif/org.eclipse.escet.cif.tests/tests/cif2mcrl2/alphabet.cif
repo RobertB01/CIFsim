@@ -12,20 +12,14 @@
 //////////////////////////////////////////////////////////////////////////////
 
 automaton A:
-  event a, b, c;
-  disc int[0..2] x, y;
+  controllable a, b, c; // Event c is disabled.
+  alphabet a, b, c;
 
-  location AS0:
-    initial;
-    edge a do x := 0, y := 0 goto AS1;
+  location P:
+    initial true;
+    edge a goto Q;
 
-  location AS1:
-    edge b when x < 2 do x := x + 1 goto AS1;
-    edge c when x = 2 do x := 0     goto AS0;
-end
-
-automaton B:
-  location BS0:
-    initial;
-    edge A.c when A.x = 2 and A.y = 0;
+  location Q:
+    edge b goto P;
+    marked;
 end

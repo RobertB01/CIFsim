@@ -156,6 +156,25 @@ public class CifCollectUtils {
     }
 
     /**
+     * Collect the discrete variables declared in the given component (recursively).
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param <T> The type of the collection for storing found discrete variables.
+     * @param comp The component.
+     * @param variables The discrete variables collected so far. Is modified in-place.
+     * @return The updated variables collection.
+     */
+    public static <T extends Collection<DiscVariable>> T collectDiscVariables(ComplexComponent comp, T variables) {
+        getComplexComponentsStream(comp).flatMap(cc -> cc.getDeclarations().stream())
+                .filter(decl -> decl instanceof DiscVariable).map(decl -> (DiscVariable)decl)
+                .collect(Collectors.toCollection(() -> variables));
+        return variables;
+    }
+
+    /**
      * Collect the discrete and input variables declared in the given component (recursively).
      *
      * <p>

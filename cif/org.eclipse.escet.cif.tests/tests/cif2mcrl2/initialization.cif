@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,21 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton A:
-  event a, b, c;
-  disc int[0..2] x, y;
+event e;
 
-  location AS0:
+automaton a:
+  disc int w = z + 2;   // 5
+  disc int x;           // 0
+  disc int y = 3;       // 3
+  disc int z = x + y;   // 3
+  location:
     initial;
-    edge a do x := 0, y := 0 goto AS1;
-
-  location AS1:
-    edge b when x < 2 do x := x + 1 goto AS1;
-    edge c when x = 2 do x := 0     goto AS0;
-end
-
-automaton B:
-  location BS0:
-    initial;
-    edge A.c when A.x = 2 and A.y = 0;
+    edge e when w + x + y + z < 0;
 end

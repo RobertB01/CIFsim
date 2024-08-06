@@ -29,6 +29,7 @@ copy_files(".",           "cif.real",     "cif");
 copy_files(".",           "xml.real",     "xml");
 copy_files(".",           "txt.real",     "txt");
 copy_files(".",           "graphml.real", "graphml");
+copy_files(".",           "mcrl2.real",   "mcrl2");
 copy_files(".",           "wmod.real",    "wmod");
 copy_files(".",           "trajdata",     "trajdata.expected");
 copy_files(".",           "dmms.txt",     "dmms.expected.txt");

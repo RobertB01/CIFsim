@@ -1,0 +1,1 @@
+WARNING: File "cif2mcrl2/alphabet.cif": Semantic warning at line 16, column 18: The alphabet of automaton "A" globally disables event "A.c", as the event is not used on any of the edges of the automaton.

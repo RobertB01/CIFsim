@@ -8,6 +8,10 @@ sort Q'LPE' = struct Q'q1' | Q'q2';
 act P'a';
 act Q'b';
 
+% Actions for CIF variables having certain values.
+act P'zero''varvalue: Int;
+act Q''varvalue: Q'LPE';
+
 % Process for behavior of the CIF specification.
 proc P(
     P'x': Int,
@@ -20,6 +24,11 @@ proc P(
     ((P' == P'p1')) -> P'a' . P(P' = P'p2')
     +
     ((Q' == Q'q1')) -> Q'b' . P(Q' = Q'q2')
+    +
+    % CIF variable value actions.
+    P'zero''varvalue(P'zero') . P()
+    +
+    Q''varvalue(Q') . P()
 ;
 
 % Initialization.

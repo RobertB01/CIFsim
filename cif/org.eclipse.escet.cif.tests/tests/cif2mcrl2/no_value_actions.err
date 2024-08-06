@@ -1,0 +1,3 @@
+WARNING: File "cif2mcrl2/no_value_actions.cif": Semantic warning at line 16, column 19: Discrete variable "P.x" is not used anywhere in the specification.
+WARNING: File "cif2mcrl2/no_value_actions.cif": Semantic warning at line 17, column 19: Discrete variable "P.zero" is not used anywhere in the specification.
+WARNING: File "cif2mcrl2/no_value_actions.cif": Semantic warning at line 28, column 18: Discrete variable "Q.y" is not used anywhere in the specification.
