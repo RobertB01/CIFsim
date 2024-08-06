@@ -21,8 +21,7 @@ group g:
 
   automaton no_initial:             // No initial location.
     location:
-      edge e1, e2, tau;             // Explicit 'tau'.
-      edge when true;               // Implicit 'tau'.
+      edge e1, e2;
   end
 
   automaton mult_initials:          // Multiple initial locations.
