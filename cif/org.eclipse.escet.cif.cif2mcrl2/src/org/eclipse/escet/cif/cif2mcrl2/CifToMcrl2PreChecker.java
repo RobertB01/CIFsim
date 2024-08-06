@@ -21,7 +21,6 @@ import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
-import org.eclipse.escet.cif.checkers.checks.EventNoTauCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
@@ -81,9 +80,6 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
 
                 // Channels are not supported.
                 new EventNoChannelsCheck(),
-
-                // 'Tau' events are not supported.
-                new EventNoTauCheck(),
 
                 // There must be at least one automaton.
                 new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
