@@ -14,11 +14,13 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
-import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 
 /** Code generation interface for a {@link DefaultTypeGenerator}. */
 public interface TypeGenerator {
@@ -41,8 +43,23 @@ public interface TypeGenerator {
     /**
      * Convert a CIF enumeration declaration to a named PLC enumeration.
      *
+     * <p>
+     * Conversion should follow the {@link PlcTarget#getActualEnumerationsConversion} setting.
+     * </p>
+     *
      * @param enumDecl Enumeration declaration to convert.
-     * @return The PLC type generated for the enumeration.
      */
-    public PlcEnumType convertEnumDecl(EnumDecl enumDecl);
+    public void convertEnumDecl(EnumDecl enumDecl);
+
+    /**
+     * Convert a CIF enumeration literal to a value.
+     *
+     * <p>
+     * Conversion should follow the {@link PlcTarget#getActualEnumerationsConversion} setting.
+     * </p>
+     *
+     * @param enumLit Enumeration literal to convert.
+     * @return The converted value.
+     */
+    public PlcExpression convertEnumLiteral(EnumLiteral enumLit);
 }
