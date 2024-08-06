@@ -196,9 +196,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             Assert.check(numEdges > 0);
 
             // Derive a variable type for the edge variable.
-            int numBits = 32 - Integer.numberOfLeadingZeros(numEdges - 1); // Largest used value decides bit-length.
-            PlcType varType = PlcElementaryType.getTypeByRequiredSize(
-                    Math.max(1, numBits), target.getSupportedBitStringTypes());
+            PlcType varType = PlcElementaryType.getTypeByRequiredCount(numEdges, target.getSupportedBitStringTypes());
 
             // Construct the edge variable itself, and store it for future use.
             String edgeVariableName = "edge_" + getAbsName(aut, false);
