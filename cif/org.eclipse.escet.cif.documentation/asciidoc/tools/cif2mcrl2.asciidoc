@@ -183,7 +183,7 @@ By default, a 'value' action is generated for each discrete variable and for eac
 In some cases, this may not be wanted.
 Variables that never have to be queried for their value do not need such an action.
 Having such an action available anyway increases the amount of work that has to be done by the mCRL2 tool.
-To restrict the generation of 'value' actions, the _Generate 'value' actions_ option can be used.
+To restrict the generation of 'value' actions, the _Generate 'value' actions_ option can be used (`--value-actions=...` or `-v ...`).
 
 The option takes a comma separated list of variable/automata name patterns, that are considered in the order they are given.
 Each pattern can add or remove variables and automata.
@@ -214,7 +214,7 @@ Below a number of example option values are given, together with what automata a
 * The option value `++*+` selects all automata and variables.
 
 * The 'empty' option value selects no automata and variables.
-On the command line or in ToolDef scripts, when using the `-r` short option, use `''` for the 'empty' option value.
+On the command line or in ToolDef scripts, when using the `-v` short option, use `''` for the 'empty' option value.
 
 * The option value `++*1+` selects all automata and variables that end with a `1`, which in this case is variable `B.y1` only.
 Variable `A.p12` does have a `1` in it, but not at the end.

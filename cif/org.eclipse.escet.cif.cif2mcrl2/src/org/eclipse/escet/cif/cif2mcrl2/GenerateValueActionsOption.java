@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
-/** Option to specify the variables that need to have a 'value' action. */
+/** Option to specify the automata and variables that need to have a 'value' action. */
 public class GenerateValueActionsOption extends StringOption {
     /** Name of the option. */
     private static final String NAME = "Generate 'value' actions";
@@ -42,10 +42,10 @@ public class GenerateValueActionsOption extends StringOption {
     private static final boolean EMPTY_AS_NULL = false;
 
     /** Short option name. */
-    private static final Character CMD_SHORT = 'r';
+    private static final Character CMD_SHORT = 'v';
 
     /** Long option name. */
-    private static final String CMD_LONG = "read-values";
+    private static final String CMD_LONG = "value-actions";
 
     /** Name of the option value. */
     private static final String CMD_VALUE = "PATTERNS";
