@@ -199,7 +199,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
         EnumDeclEqHashWrap wrappedEnumDecl = new EnumDeclEqHashWrap(enumDecl);
         return enumTypes.computeIfAbsent(wrappedEnumDecl,
                 key -> switch(selectedEnumConversion) {
-                    case CONSTS ->convertToPlcConstants(enumDecl);
+                    case CONSTS -> convertToPlcConstants(enumDecl);
                     case INTS -> convertToPlcIntegers(enumDecl);
                     case KEEP -> convertToPlcEnumType(enumDecl);
 
@@ -264,7 +264,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
             litValues[idx] = new PlcVarExpression(constVar);
         }
 
-        // Return the data to  the caller.
+        // Return the data to the caller.
         return new EnumDeclData(valueType, litValues);
     }
 
@@ -283,7 +283,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
         PlcExpression[] litValues = IntStream.range(0, numLiterals)
                 .mapToObj(idx -> new PlcIntLiteral(idx, valueType)).toArray(PlcExpression[]::new);
 
-        // Return the data to  the caller.
+        // Return the data to the caller.
         return new EnumDeclData(valueType, litValues);
     }
 
@@ -307,7 +307,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
         }
 
         /**
-         * Convert an enumeration literal of theis enumeration declaration to its PLC expression.
+         * Convert an enumeration literal of the enumeration declaration to its PLC expression.
          *
          * @param litIndex Index of the literal in the CIF enumeration declaration.
          * @return The associated PLC expression.

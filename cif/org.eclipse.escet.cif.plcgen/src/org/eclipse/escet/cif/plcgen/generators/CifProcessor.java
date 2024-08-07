@@ -150,11 +150,11 @@ public class CifProcessor {
 
         // Collect or convert the declarations of the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
-            // Store the found declarations in the data of its complex component.
+            // Store the found declaration in the data of its complex component.
             ComponentDocData compData = componentDatas.computeIfAbsent((ComplexComponent)decl.eContainer(),
                     comp -> new ComponentDocData(comp));
 
-            // Tell other generators about the declarations.
+            // Tell other generators about the declaration.
             if (decl instanceof DiscVariable discVar) {
                 compData.variables.add(decl);
                 target.getVarStorage().addStateVariable(decl, discVar.getType());
