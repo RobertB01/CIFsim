@@ -1,3 +1,4 @@
+WARNING: I/O table file "plcgen/prechecker_var_cont_only_timers.csv" not found. The PLC code will not perform any I/O with the environment.
 ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
 
   ---------------------------
