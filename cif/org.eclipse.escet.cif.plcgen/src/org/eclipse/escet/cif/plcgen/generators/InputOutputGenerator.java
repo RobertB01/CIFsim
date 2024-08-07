@@ -204,10 +204,10 @@ public class InputOutputGenerator {
                     ioTablePaths.userPath);
 
             // Check the number of columns returned by the CSV parser.
-            int numColmuns = line.size();
-            if (numColmuns < 3 || numColmuns > 4) {
+            int numColumns = line.size();
+            if (numColumns < 3 || numColumns > 4) {
                 String message = fmt("Incorrect number of fields (expected 3 or 4 fields, found %d) %s.",
-                        numColmuns, tableLinePositionText);
+                        numColumns, tableLinePositionText);
                 throw new InvalidInputException(message);
             }
 
@@ -273,7 +273,7 @@ public class InputOutputGenerator {
             }
 
             // Fourth field, optional name of the I/O variable.
-            String ioName = (numColmuns > IO_NAME_COLUMN) ? line.get(IO_NAME_COLUMN) : null;
+            String ioName = (numColumns > IO_NAME_COLUMN) ? line.get(IO_NAME_COLUMN) : null;
             ioName = (ioName == null || ioName.isBlank()) ? null : ioName;
 
             // Verify with the target whether the configured I/O table data makes sense and add it to the collection
