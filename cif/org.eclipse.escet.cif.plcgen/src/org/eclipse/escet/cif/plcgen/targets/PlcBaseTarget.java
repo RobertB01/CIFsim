@@ -199,7 +199,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
         // Preparation.
         //
-        // Extend the set reserved names in the name generator, to avoid conflicts.
+        // Extend the set of reserved names in the name generator, to avoid conflicts.
         nameGenerator.addDisallowedNames(ioGenerator.getCustomIoNames());
 
         // Processing and code generation.

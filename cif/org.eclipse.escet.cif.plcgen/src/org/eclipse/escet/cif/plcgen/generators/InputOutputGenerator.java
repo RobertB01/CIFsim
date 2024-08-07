@@ -124,7 +124,7 @@ public class InputOutputGenerator {
                     continue; // This name will never be used.
                 }
 
-                // Ad the name in various forms.
+                // Add the name in various forms.
                 result.add(ioName);
                 result.add(target.getUsageVariableText(PlcVariablePurpose.INPUT_VAR, ioName));
                 result.add(target.getUsageVariableText(PlcVariablePurpose.OUTPUT_VAR, ioName));
@@ -149,7 +149,7 @@ public class InputOutputGenerator {
             return csvLines; // Already attempted to load the CSV file.
         }
 
-        // Read the I/O table file, process each line, and store the entries.
+        // Read the I/O table file.
         csvLines = list();
         try (BufferedReader ioTableText = new BufferedReader(new FileReader(ioTablePaths.systemPath))) {
             CsvParser parser = new CsvParser(ioTableText);
@@ -445,7 +445,7 @@ public class InputOutputGenerator {
             boolean isInput = (entry.ioDirection == IoDirection.IO_READ);
             List<PlcStatement> stats = isInput ? inputStats : outputStats;
 
-            // Construct the name of the variable with the I/O address..
+            // Construct the name of the variable with the I/O address.
             String ioVarName;
             if (entry.ioName != null) {
                 ioVarName = entry.ioName; // Pick the custom name if available.
