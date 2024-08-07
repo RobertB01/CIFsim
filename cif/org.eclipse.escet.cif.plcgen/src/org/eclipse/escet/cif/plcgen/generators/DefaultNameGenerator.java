@@ -13,17 +13,16 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Sets.setc;
+import static org.eclipse.escet.common.java.Lists.list;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
+import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -32,34 +31,27 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * Generator for obtaining clash-free names in the generated code.
  *
  * <p>
- * The generator can generate globally unique names using {@link #generateGlobalName}. On top of globally unique names
- * you can create local names that are both locally and globally unique in a scope using {@link #generateLocalName}.
- * However, as local names are not taken into account for global names (it is assumed all global names occurring in the
- * local scope are created before generating local names), safely creating new global names for use in the same local
- * scope is not supported after creating the first local names in a scope.
+ * The name generator assumes two levels of scopes, one global scope and zero or more local scopes. The names in the
+ * global scope are available in all scopes. The names in a local scope are only available for that scope. Different
+ * local scopes however are allowed to use equal names, except they then represent different PLC elements. Names in the
+ * global scope are disjoint from names in every local scope.
  * </p>
  */
 public class DefaultNameGenerator implements NameGenerator {
     /** Default single lower-case letter name to use if no prefix can be constructed. */
     static final char DEFAULT_CHAR = 'x';
 
-    /**
-     * All names in the PLC language standard, as an unmodifiable set. These are to be avoided for generated names.
-     *
-     * <p>
-     * The PLC language is case insensitive. This set only contains the names in lower-case ASCII.
-     * </p>
-     */
-    private static final Set<String> PLC_RESERVED_WORDS;
+    /** The global name scope. */
+    private final NameScope globalScope = new NameScope();
+
+    /** The union of all local scopes. Is disjunct with the {@link #globalScope global scope}. */
+    private final NameScope unionLocalScopes = new NameScope();
 
     /** If the value holds the user should be warned about changing the name, else the user should not be warned. */
     private final boolean warnOnRename;
 
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
-
-    /** Numeric suffix values already given out to a caller for globally unique names, ordered by the name prefix. */
-    private Map<String, Integer> globalSuffixes;
 
     /**
      * Constructor of the {@link DefaultNameGenerator} class.
@@ -70,80 +62,127 @@ public class DefaultNameGenerator implements NameGenerator {
         warnOnRename = settings.warnOnRename;
         warnOutput = settings.warnOutput;
 
-        globalSuffixes = map();
-        for (String name: PLC_RESERVED_WORDS) {
-            globalSuffixes.put(name, 0);
+        disallowReservedPlcNames();
+    }
+
+    /**
+     * Declare the names in the provided collection as unavailable in the PLC code.
+     *
+     * @param names Names to declare as unavailable in the PLC code.
+     */
+    private void addDisallowedNames(Collection<String> names) {
+        for (String name: names) {
+            globalScope.addName(name);
+        }
+    }
+
+    /**
+     * Declare the names in the provided array as unavailable in the PLC code.
+     *
+     * @param names Names to declare as unavailable in the PLC code.
+     */
+    private void addDisallowedNames(String[] names) {
+        for (String name: names) {
+            globalScope.addName(name);
         }
     }
 
     @Override
     public String generateGlobalName(PositionObject posObject) {
+        return generateGlobalNames(Set.of(""), posObject);
+    }
+
+    @Override
+    public String generateGlobalNames(Set<String> prefixes, PositionObject posObject) {
         Assert.check(CifTextUtils.hasName(posObject), "Missing name for \"" + String.valueOf(posObject) + "\".");
-        return generateName(CifTextUtils.getAbsName(posObject, false), true, null);
+        return generateGlobalNames(prefixes, CifTextUtils.getAbsName(posObject, false), true);
     }
 
     @Override
-    public String generateGlobalName(String initialName, boolean initialIsCifName) {
-        return generateName(initialName, initialIsCifName, null);
+    public String generateGlobalName(String initialName, boolean isCifName) {
+        return generateGlobalNames(Set.of(""), initialName, isCifName);
     }
 
     @Override
-    public String generateLocalName(String initialName, Map<String, Integer> localSuffixes) {
-        return generateName(initialName, false, localSuffixes);
+    public String generateGlobalNames(Set<String> prefixes, String initialName, boolean isCifName) {
+        // - The new global name must not already exist in the global scope and it must be added to the global scope
+        //   afterwards.
+        // - The new global name must not already exist in any local scope, and thus not in the union of local
+        //   scopes.
+        return generateNames(prefixes, initialName, isCifName, globalScope, unionLocalScopes, null);
+    }
+
+    @Override
+    public String generateLocalName(String initialName, NameScope localScope) {
+        return generateLocalNames(Set.of(""), initialName, localScope);
+    }
+
+    @Override
+    public String generateLocalNames(Set<String> prefixes, String initialName, NameScope localScope) {
+        // - The new local name must not already exist in the local scope and it must be added to the local scope
+        //   afterwards.
+        // - The new local name must not already exist in the global scope.
+        // - The new local name is added to a local scope, and thus it must be added to the union of local scopes as
+        //   well.
+        return generateNames(prefixes, initialName, false, localScope, globalScope, unionLocalScopes);
     }
 
     /**
-     * Convert the given name to a proper name that does not clash with the PLC language or with previously generated
-     * names.
+     * Construct a good base name to use.
      *
-     * @param initialName Suggested name to to use.
-     * @param initialIsCifName Whether the initial name is known by the CIF user. Used to produce rename warnings. As
-     *     producing such rename warnings for objects that have no name in CIF is meaningless to the user, this
-     *     parameter should be {@code false} for those names.
-     * @param localSuffixes Name suffix information of local names. Use the same map to generate all local names in a
-     *     scope. Must be {@code null} when generating global names.
-     * @return A proper name that does not clash with PLC language keywords or previously generated global names. If a
-     *     {@code localSuffixes} map is supplied, the produced names also don't clash with all previously generated
-     *     local names that used that same map.
+     * @param prefixes The set of prefixes in front of the created name that must be available.
+     * @param initialName The initial name to use as starting point for a good name.
+     * @param isCifName Whether the good name represents a CIF element recognizable by the user.
+     * @param usageScope The scope that will use the returned good name.
+     * @param testScope A scope that should not have the good name already, but is not updated.
+     * @param updateScope A scope to update as well for the created good name. Can be {@code null}.
+     * @return A good name to use.
      */
-    private String generateName(String initialName, boolean initialIsCifName, Map<String, Integer> localSuffixes) {
+    private String generateNames(Set<String> prefixes, String initialName, boolean isCifName,
+            NameScope usageScope, NameScope testScope, NameScope updateScope)
+    {
         // Cleanup the name.
-        StringBuilder cleanedName = cleanName(initialName);
+        String cleanedName = cleanName(initialName);
 
-        // Make the name unique.
+        // Make the name unique and create lower case versions of the prefixes.
         String lowerCleanedName = cleanedName.toString().toLowerCase(Locale.US);
-        int maxUsedNumber = globalSuffixes.getOrDefault(lowerCleanedName, -1);
-        if (localSuffixes != null) {
-            maxUsedNumber = Math.max(maxUsedNumber, localSuffixes.getOrDefault(lowerCleanedName, -1));
-        }
+        List<String> lowerPrefixes = prefixes.stream().map(s -> s.toLowerCase(Locale.US)).toList();
 
-        if (maxUsedNumber < 0) {
-            // First use of a name without numeric suffix -> use as-is.
-            //
-            // Store it as 0 suffix, next use will get "_1" appended.
-            if (localSuffixes != null) {
-                localSuffixes.put(lowerCleanedName, 0);
-            } else {
-                globalSuffixes.put(lowerCleanedName, 0);
-            }
-            return cleanedName.toString();
-        } else {
-            // Identifier already used, append a new suffix.
-            maxUsedNumber++;
-            if (localSuffixes != null) {
-                localSuffixes.put(lowerCleanedName, maxUsedNumber);
-            } else {
-                globalSuffixes.put(lowerCleanedName, maxUsedNumber);
+        // Find a number that causes no clashes with existing names in the usage and test scopes.
+        int number = 0;
+        while (true) {
+            // Construct a candidate name, and check for clashes with other names in the scopes, for all prefixes.
+            String candidateLowerCleaned = (number == 0) ? lowerCleanedName : (lowerCleanedName + "_" + number);
+            boolean isUsed = lowerPrefixes.stream().map(prefix -> prefix + candidateLowerCleaned)
+                    .anyMatch(testName -> usageScope.isNameUsed(testName) || testScope.isNameUsed(testName));
+
+            if (isUsed) {
+                // At least one name clash exists. Try again with the next number.
+                number++;
+                continue;
             }
 
-            cleanedName.append("_");
-            cleanedName.append(maxUsedNumber);
-            String newName = cleanedName.toString();
-            if (initialIsCifName && warnOnRename) {
-                warnOutput.line("Renaming \"%s\" to \"%s\".", initialName, newName);
+            // Number is good. Add the new names to the scopes that must be updated, and break out of the loop.
+            for (String prefix: lowerPrefixes) {
+                String addedLowerCleanedName = prefix + candidateLowerCleaned;
+                usageScope.addName(addedLowerCleanedName);
+                if (updateScope != null) {
+                    updateScope.addName(addedLowerCleanedName);
+                }
             }
-            return newName;
+            break;
         }
+
+        // Construct the good name.
+        String goodName = (number == 0) ? cleanedName : (cleanedName + "_" + number);
+
+        // Print a rename warning if applicable.
+        if (isCifName && warnOnRename && number > 0) {
+            warnOutput.line("Renaming \"%s\" to \"%s\".", initialName, goodName);
+        }
+
+        // Return the result.
+        return goodName;
     }
 
     /**
@@ -158,9 +197,9 @@ public class DefaultNameGenerator implements NameGenerator {
      * </p>
      *
      * @param text Input text to clean up.
-     * @return The cleaned-up name, wrapped in a string builder to assist in further manipulation of the name.
+     * @return The cleaned-up name.
      */
-    private StringBuilder cleanName(String text) {
+    private String cleanName(String text) {
         // Construct the destination string builder. Likely sufficient length is all text, 4 inserted default
         // characters, an underscore, and an assumed 3 digit number.
         StringBuilder sb = new StringBuilder(text.length() + 4 + 1 + 3);
@@ -198,7 +237,7 @@ public class DefaultNameGenerator implements NameGenerator {
         if (sb.isEmpty()) {
             sb.append(DEFAULT_CHAR);
         }
-        return sb;
+        return sb.toString();
     }
 
     /**
@@ -242,7 +281,8 @@ public class DefaultNameGenerator implements NameGenerator {
         return endIndex - index;
     }
 
-    static {
+    /** Add reserved names in the PLC as disallowed in the name generator. */
+    private void disallowReservedPlcNames() {
         // Keywords of the language, note that "en" and "eno" special parameter names have been left out.
         String[] languageKeywords = new String[] {"action", "array", "at", "by", "case", "configuration", "constant",
                 "do", "else", "elsif", "end_action", "end_case", "end_configuration", "end_for", "end_function",
@@ -252,10 +292,12 @@ public class DefaultNameGenerator implements NameGenerator {
                 "read_write", "r_edge", "repeat", "resource", "retain", "return", "step", "struct", "task", "then",
                 "to", "transition", "true", "type", "until", "var", "var_access", "var_config", "var_external",
                 "var_global", "var_in_out", "var_input", "var_output", "var_temp", "while", "with"};
+        addDisallowedNames(languageKeywords);
 
         String[] functionNames = new String[] {"abs", "acos", "add", "and", "asin", "atan", "cos", "div", "eq", "exp",
                 "expt", "ge", "gt", "le", "ln", "log", "lt", "max", "min", "mod", "mul", "ne", "not", "or", "sel",
                 "sin", "sqrt", "sub", "tan", "xor"};
+        addDisallowedNames(functionNames);
 
         String[] functionBlockNames = new String[] { //
                 "rs", "sr", // Set/reset.
@@ -267,37 +309,27 @@ public class DefaultNameGenerator implements NameGenerator {
                 "ctd", "ctd_dint", "ctd_lint", "ctd_udint", "ctd_ulint", // Down counters.
                 "ctud", "ctud_dint", "ctud_lint", "ctud_udint", "ctud_ulint", // Up-down counters.
         };
+        addDisallowedNames(functionBlockNames);
 
         String[] typeKeywords = new String[] {"bool", "sint", "int", "dint", "lint", "usint", "uint", "ulint", "udint",
                 "real", "lreal", "time", "date", "time_of_day", "tod", "date_and_time", "dt", "string", "byte", "word",
                 "dword", "lword", "wstring"};
+        addDisallowedNames(typeKeywords);
 
         String[] genericTypeKeywords = new String[] {"any", "and_derived", "any_elementary", "any_magnitude", "any_num",
                 "any_real", "any_int", "any_bit", "any_string", "any_date"};
-
-        // Construct a set container of appropriate size.
-        int numTypes = genericTypeKeywords.length;
-        int reservedWordCount = languageKeywords.length + functionNames.length + functionBlockNames.length
-                + typeKeywords.length + genericTypeKeywords.length + numTypes * (numTypes - 1);
-        Set<String> reservedWords = setc(reservedWordCount);
-
-        // Add everything.
-        reservedWords.addAll(Arrays.asList(languageKeywords));
-        reservedWords.addAll(Arrays.asList(functionNames));
-        reservedWords.addAll(Arrays.asList(functionBlockNames));
-        reservedWords.addAll(Arrays.asList(typeKeywords));
-        reservedWords.addAll(Arrays.asList(genericTypeKeywords));
+        addDisallowedNames(genericTypeKeywords);
 
         // Casts (X_TO_Y functions).
+        List<String> castNames = list();
         for (int i = 0; i < typeKeywords.length; i++) {
             for (int j = 0; j < typeKeywords.length; j++) {
                 if (i == j) {
                     continue;
                 }
-                reservedWords.add(typeKeywords[i] + "_to_" + typeKeywords[j]);
+                castNames.add(typeKeywords[i] + "_to_" + typeKeywords[j]);
             }
         }
-
-        PLC_RESERVED_WORDS = Collections.unmodifiableSet(reservedWords);
+        addDisallowedNames(castNames);
     }
 }

@@ -17,8 +17,8 @@ plant p:
   location:
     initial;
     marked;
-    edge c;
-    edge c; // Same event label, should only be listed once.
+    edge c when x = 0;
+    edge c when x = 1; // Same event label, should only be listed once.
     edge $event;
 end
 

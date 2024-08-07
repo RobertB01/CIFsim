@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Numbers;
 import org.eclipse.escet.tooldef.common.ToolDefTextUtils;
@@ -76,6 +77,9 @@ import org.eclipse.escet.tooldef.runtime.ToolDefMap;
 import org.eclipse.escet.tooldef.runtime.ToolDefRuntimeUtils;
 import org.eclipse.escet.tooldef.runtime.ToolDefSet;
 import org.eclipse.escet.tooldef.runtime.ToolDefTuple;
+import org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 /** ToolDef interpreter expression evaluation. */
 public class ToolDefEval {
@@ -693,7 +697,7 @@ public class ToolDefEval {
             if (tool instanceof ToolDefTool) {
                 rslt = eval((ToolDefTool)tool, toolRef.isBuiltin(), args, ctxt);
             } else if (tool instanceof JavaTool) {
-                rslt = eval((JavaTool)tool, args, invoke.getType(), ctxt);
+                rslt = eval((JavaTool)tool, args, invoke.getType(), ctxt, isFromBuiltInTool(invoke));
             } else {
                 throw new RuntimeException("Unknown tool: " + tool);
             }
@@ -811,9 +815,12 @@ public class ToolDefEval {
      * @param resultType The expected result type. This is the type of the invoke expression (with type parameters
      *     filled in), not the result type of the tool (with type parameters still present).
      * @param ctxt The execution context from the invocation expression.
+     * @param fromBuiltInTool Whether the Java tool invocation is part of a built-in tool.
      * @return The return value.
      */
-    private static Object eval(JavaTool tool, Object[] args, ToolDefType resultType, ExecContext ctxt) {
+    private static Object eval(JavaTool tool, Object[] args, ToolDefType resultType, ExecContext ctxt,
+            boolean fromBuiltInTool)
+    {
         // Get Java method.
         Method method = tool.getMethod();
 
@@ -845,8 +852,11 @@ public class ToolDefEval {
                 throw (ToolDefException)ex.getCause();
             } else if (ex.getCause() instanceof ExitException) {
                 throw (ExitException)ex.getCause();
-            } else {
+            } else if (fromBuiltInTool) {
                 throw new RuntimeException("Java method invoke failed.", ex);
+            } else {
+                String msg = fmt("Execution of Java method \"%s\" failed with an exception.", tool.getMethodName());
+                throw new ToolDefException(msg, ex.getCause());
             }
         }
 
@@ -1110,5 +1120,31 @@ public class ToolDefEval {
 
         // Unknown/unsupported types.
         throw new RuntimeException("Unknown/unsupported type: " + type);
+    }
+
+    /**
+     * Returns whether the given expression is part of a built-in tool.
+     *
+     * @param expr The given expression.
+     * @return {@code true} if the given expression is part of a built-in tool, {@code false} otherwise.
+     */
+    private static boolean isFromBuiltInTool(Expression expr) {
+        EObject ancestor = expr.eContainer();
+        while (ancestor != null) {
+            if (ancestor instanceof ToolDefTool tooldefTool) {
+                String location = tooldefTool.getPosition().getLocation();
+                Class<?> someBuiltinClass = BuiltInDataTools.class;
+                ClassLoader builtInClassLoader = someBuiltinClass.getClassLoader();
+                Bundle runtimeBundle = FrameworkUtil.getBundle(builtInClassLoader).get();
+                String runtimeBundleName = runtimeBundle.getSymbolicName();
+                String builtinPkg = someBuiltinClass.getPackageName().replace('.', '/');
+                String builtinPrefix = "tooldef://" + runtimeBundleName + "/" + builtinPkg + "/";
+                if (location.startsWith(builtinPrefix)) {
+                    return true;
+                }
+            }
+            ancestor = ancestor.eContainer();
+        }
+        return false;
     }
 }

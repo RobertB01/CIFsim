@@ -1,0 +1,11 @@
+WARNING: File "checks/EdgeNoUpdatesCheck.cif": Semantic warning at line 14, column 11: Automaton "aut" has no initial location.
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  -------------------------
+  (1/1) Edge has an update.
+  -------------------------
+   * In automaton "aut":
+     - edge do a := 1, b := 2, c := 3;
+                 ^       ^       ^
+     - edge do if true: a := 1 else a := 2 end, if true: b := 1 else b := 2 end, c := 4;
+               ^                                ^                                  ^

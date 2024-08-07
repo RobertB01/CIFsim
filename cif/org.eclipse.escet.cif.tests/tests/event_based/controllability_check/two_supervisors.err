@@ -1,2 +1,6 @@
 ERROR: Failed to apply controllability check for CIF file "event_based/controllability_check/two_supervisors.cif".
-CAUSE: Unsupported supervisor "s2": only one supervisor allowed, and automaton "s1" is already selected as supervisor.
+CAUSE: CIF controllability check tool failed due to unsatisfied preconditions:
+
+  -----------------------------------------------------------------------------------------------
+  (1/1) Specification does not have exactly 1 supervisor automaton (2 supervisor automata found).
+  -----------------------------------------------------------------------------------------------

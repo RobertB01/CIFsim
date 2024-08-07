@@ -21,7 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 
 /** {@link AppStream} that writes to a file. */
@@ -35,13 +35,13 @@ public class FileAppStream extends AppStream {
     /**
      * Constructor for the {@link FileAppStream} class. Overwrites the file if it already exists.
      *
-     * @param path The absolute or relative local file system path to the file to which to write the output. The
-     *     absolute path is resolved using {@link Paths#resolve}.
+     * @param pathPair The absolute or relative local file system path and the absolute local file system path to the
+     *     file to which to write the output.
      * @throws InputOutputException If the file exists but is a directory rather than a regular file, does not exist but
      *     cannot be created, or cannot be opened for any other reason.
      */
-    public FileAppStream(String path) {
-        this(path, false);
+    public FileAppStream(PathPair pathPair) {
+        this(pathPair.userPath, pathPair.systemPath);
     }
 
     /**
@@ -59,15 +59,15 @@ public class FileAppStream extends AppStream {
     /**
      * Constructor for the {@link FileAppStream} class.
      *
-     * @param path The absolute or relative local file system path to the file to which to write the output. The
-     *     absolute path is resolved using {@link Paths#resolve}.
+     * @param pathPair The absolute or relative local file system path and the absolute local file system path to the
+     *     file to which to write the output.
      * @param append Whether to append to the file if it already exists ({@code true}) or overwrite it if it already
      *     exists ({@code false}).
      * @throws InputOutputException If the file exists but is a directory rather than a regular file, does not exist but
      *     cannot be created, or cannot be opened for any other reason.
      */
-    public FileAppStream(String path, boolean append) {
-        this(path, Paths.resolve(path), append);
+    public FileAppStream(PathPair pathPair, boolean append) {
+        this(pathPair.userPath, pathPair.systemPath, append);
     }
 
     /**

@@ -21,6 +21,7 @@ import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.simulator.CifSimulatorPreChecker;
 import org.eclipse.escet.cif.simulator.output.DebugOutputOption;
 import org.eclipse.escet.cif.typechecker.CifTypeChecker;
 import org.eclipse.escet.common.app.framework.Paths;
@@ -61,6 +62,10 @@ public class CifCompiler {
         // Eliminate position information from CIF specification, to
         // free some memory. This takes CPU time, though.
         new RemovePositionInfo().transform(cifSpec);
+
+        // Check preconditions.
+        CifSimulatorPreChecker checker = new CifSimulatorPreChecker(() -> ctxt.app.isTerminationRequested());
+        checker.reportPreconditionViolations(cifSpec, absCifPath, "CIF simulator");
 
         // Compile the CIF specification.
         String cifSpecFileDir = cifReader.getTypeChecker().getSourceFileDir();

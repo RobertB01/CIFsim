@@ -7,13 +7,13 @@
     <Compile Include="DUTs\g_E.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TupleStruct.TcDUT">
+    <Compile Include="DUTs\g_trr.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TupleStruct_1.TcDUT">
+    <Compile Include="DUTs\g_ttrrr.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TupleStruct_2.TcDUT">
+    <Compile Include="DUTs\TupleStruct2.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\p_location.TcDUT">

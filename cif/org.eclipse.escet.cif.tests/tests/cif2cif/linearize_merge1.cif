@@ -11,6 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Controller properties annotation.
+@@controller:properties()
+
 // No edges, no initial location, nameless location.
 automaton p1:
   location;

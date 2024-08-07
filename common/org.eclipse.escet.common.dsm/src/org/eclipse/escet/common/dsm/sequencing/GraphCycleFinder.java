@@ -23,6 +23,7 @@ import org.eclipse.escet.common.dsm.sequencing.graph.Graph;
 import org.eclipse.escet.common.dsm.sequencing.graph.Vertex;
 import org.eclipse.escet.common.java.DirectedGraphCycleFinder;
 import org.eclipse.escet.common.java.Lists;
+import org.eclipse.escet.common.java.Termination;
 
 /** Class for finding cycles in the graph. */
 public class GraphCycleFinder
@@ -30,7 +31,7 @@ public class GraphCycleFinder
 {
     /** Constructor of the {@link GraphCycleFinder} class. */
     public GraphCycleFinder() {
-        super(null);
+        super(Termination.NEVER);
     }
 
     @Override

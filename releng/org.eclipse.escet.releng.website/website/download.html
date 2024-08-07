@@ -129,7 +129,9 @@
       <div class="mx-auto">
         <div class="d-flex justify-content-center">
           <p class="lead fw-normal col-12 col-md-10 col-lg-8 col-xxl-5">
-            The Eclipse ESCET toolkit includes both the IDE (all platforms) and the command line tools (Windows and Linux only).
+            The Eclipse ESCET toolkit contains the tooling for CIF, Chi and ToolDef.
+            For each supported platform, the download contains the IDE.
+            In addition, for Windows and Linux also command line tools are included.
             It is portable, so just download, extract, and run it, to get started quickly.
           </p>
         </div>
@@ -145,21 +147,25 @@
                 <td>Windows x64 (64-bit)</td>
                 <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-win32.win32.x86_64.zip&r=1" class="btn btn-sm escet-btn">Download</a></td>
                 <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-win32.win32.x86_64.zip" class="btn btn-sm escet-outline-btn">Mirrors</a></td>
+                <td><a href="#windows" class="btn btn-sm escet-outline-btn">More info</a></td>
               </tr>
               <tr>
                 <td>Linux x64 (64-bit)</td>
                 <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-linux.gtk.x86_64.tar.gz&r=1" class="btn btn-sm escet-btn">Download</a></td>
                 <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-linux.gtk.x86_64.tar.gz" class="btn btn-sm escet-outline-btn">Mirrors</a></td>
+                <td><a href="#linux" class="btn btn-sm escet-outline-btn">More info</a></td>
               </tr>
               <tr>
-                <td>macOS x64 (64-bit)</td>
-                <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-macosx.cocoa.x86_64.dmg&r=1" class="btn btn-sm escet-btn">Download</a></td>
-                <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-macosx.cocoa.x86_64.dmg" class="btn btn-sm escet-outline-btn">Mirrors</a></td>
-              </tr>
-              <tr>
-                <td>macOS aarch64 (64-bit)</td>
+                <td>macOS aarch64 (64-bit <a href="https://support.apple.com/en-us/116943">Apple M-chip</a>)</td>
                 <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-macosx.cocoa.aarch64.dmg&r=1" class="btn btn-sm escet-btn">Download</a></td>
                 <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-macosx.cocoa.aarch64.dmg" class="btn btn-sm escet-outline-btn">Mirrors</a></td>
+                <td><a href="#macos" class="btn btn-sm escet-outline-btn">More info</a></td>
+              </tr>
+              <tr>
+                <td>macOS x64 (64-bit <a href="https://support.apple.com/en-us/116943">Intel processor</a>)</td>
+                <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-macosx.cocoa.x86_64.dmg&r=1" class="btn btn-sm escet-btn">Download</a></td>
+                <td><a href="https://www.eclipse.org/downloads/download.php?file=/escet/@@ESCET-DEPLOY-FOLDER-NAME@@/eclipse-escet-@@ESCET-VERSION-ENDUSER@@-macosx.cocoa.x86_64.dmg" class="btn btn-sm escet-outline-btn">Mirrors</a></td>
+                <td><a href="#macos" class="btn btn-sm escet-outline-btn">More info</a></td>
               </tr>
             </tbody>
           </table>
@@ -185,7 +191,7 @@
           <h2>More information</h2>
         </div>
         <div class="col-12 col-md-10 col-xl-8 col-xxl-6">
-          <h4 class="mt-3">Windows</h4>
+          <h4 id="windows" class="mt-3">Windows</h4>
           <p>
             Extract the downloaded archive somewhere on your hard disk:
             <ul>
@@ -194,9 +200,14 @@
               <li>Don't extract in too deep a path as then you may get issues with too long paths.</li>
             </ul>
             Execute <code>eclipse-escet.exe</code> from the directory that contains the extracted files to launch the Eclipse ESCET IDE.
-            The <code>bin</code> directory contains the command line scripts.
+            The <code>bin</code> directory contains the <a href="#command-line">command line scripts</a>.
           </p>
-          <h4 class="mt-5">Linux</h4>
+          <p>
+            For more information on the Eclipse ESCET IDE, see the Eclipse ESCET <a href="documentation.html">general toolkit documentation</a>.
+            In particular the section on starting the Eclipse ESCET IDE <a href="use/starting-first-time.html">for the first time</a>.
+          </p>
+
+          <h4 id="linux" class="mt-5">Linux</h4>
           <p>
             Extract the downloaded archive somewhere on your hard disk:
             <ul>
@@ -204,9 +215,21 @@
               <li>There is no need to extract to an empty folder, as all files in the archive are contained within a root folder.</li>
             </ul>
             Execute <code>eclipse-escet</code> from the directory that contains the extracted files to launch the Eclipse ESCET IDE.
-            The <code>bin</code> directory contains the command line scripts.
+            The <code>bin</code> directory contains the <a href="#command-line">command line scripts</a>.
           </p>
-          <h4 class="mt-5">macOS</h4>
+          <p>
+            For more information on the Eclipse ESCET IDE, see the Eclipse ESCET <a href="documentation.html">general toolkit documentation</a>.
+            In particular the section on starting the Eclipse ESCET IDE <a href="use/starting-first-time.html">for the first time</a>.
+          </p>
+
+          <h4 id="macos" class="mt-5">macOS</h4>
+          <p>
+            Make sure to download the Eclipse ESCET version matching the architecture of your Apple computer.
+            The x64 version will work on older as well as newer Apple computers.
+            The aarch64 version natively supports newer Apple computers with an Apple M-chip, and therefore runs faster than the x64 version on those computers.
+            The aarch64 version does not work on older Apple computers with an Intel processor.
+            To find out what architecture your Apple computer has, check out <a href="https://support.apple.com/en-us/116943">this Apple Support page</a>.
+          </p>
           <p>
             Add the Eclipse ESCET app to the Applications folder:
             <ul>
@@ -225,12 +248,12 @@
               <li>Start Eclipse ESCET again (if not restarted automatically), and when the popup appears with the same error message as before, click <em>Open</em>.</li>
             </ul>
           </p>
-          <h4 class="mt-5">Eclipse ESCET IDE</h4>
           <p>
             For more information on the Eclipse ESCET IDE, see the Eclipse ESCET <a href="documentation.html">general toolkit documentation</a>.
             In particular the section on starting the Eclipse ESCET IDE <a href="use/starting-first-time.html">for the first time</a>.
           </p>
-          <h4 class="mt-5">Eclipse ESCET command line tools</h4>
+
+          <h4 id="command-line" class="mt-5">Eclipse ESCET command line tools</h4>
           <p>
             After extracting the downloaded archive, the command line tools are located in the <code>bin</code> directory.
             The command line tools are only available for Windows and Linux, not for macOS.

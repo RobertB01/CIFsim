@@ -4,10 +4,11 @@ ORGANIZATION_BLOCK MAIN
         current_S_a_wire: BOOL;
         current_S_an_output: DINT;
         current_S_data: LREAL;
-        edge_S_1: DINT;
+        edge_S: BOOL;
         eventEnabled: BOOL;
         isProgress: BOOL;
         dummyVar1: DINT;
+        dummyVar2: DINT;
     END_VAR
 
 BEGIN
@@ -18,12 +19,16 @@ BEGIN
     (*------------------------------------------------------
      * Model overview:
      *
+     * ----
      * Specification (top-level group):
+     *
      * - Input variable "avalue".
      * - Input variable "flag".
      * - Input variable "measurement".
      *
+     * ----
      * Automaton "S":
+     *
      * - Discrete variable "S.a_wire".
      * - Discrete variable "S.an_output".
      * - Discrete variable "S.data".
@@ -33,7 +38,6 @@ BEGIN
      * - No use of uncontrollable events.
      *
      * - Controllable event "e".
-     *
      *------------------------------------------------------ *)
 
     (* --- Read PLC inputs. ---------------------------------------------------- *)
@@ -81,7 +85,7 @@ BEGIN
          *   - 1st edge in the location
          ***********)
         IF TRUE THEN
-            edge_S_1 := 1;
+            edge_S := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -97,7 +101,7 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "S". *)
-            IF edge_S_1 = 1 THEN
+            IF edge_S = 0 THEN
                 (* Perform assignments of the 1st edge of automaton "S". *)
                 (* Perform update of discrete variable "S.an_output". *)
                 "DB".S_an_output := "DB".avalue;

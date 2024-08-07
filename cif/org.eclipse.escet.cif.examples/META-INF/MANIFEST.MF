@@ -4,8 +4,7 @@ Bundle-Name: ESCET CIF Examples
 Bundle-SymbolicName: org.eclipse.escet.cif.examples;singleton:=true
 Bundle-Version: 5.0.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Require-Bundle: org.eclipse.escet.cif.examples;bundle-version="5.0.0",
- org.eclipse.escet.common.eclipse.ui;bundle-version="5.0.0",
+Require-Bundle: org.eclipse.escet.common.eclipse.ui;bundle-version="5.0.0",
  org.eclipse.escet.common.java;bundle-version="5.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy

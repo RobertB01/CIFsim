@@ -67,7 +67,7 @@
                                 <!-- Syntax highlighting languages: 'html' and 'svg' are aliases of 'xml'. -->
                                 <highlightjs-languages>
                                     asciidoc, bash, bnf, c, chi, cif, console, css, dsm, java, javascript, markdown,
-                                    mcrl2, none, properties, raildiagram, setext, shell, tooldef, xml
+                                    mcrl2, none, plcst, properties, raildiagram, setext, shell, tooldef, xml
                                 </highlightjs-languages>
                                 <highlightjs-theme>asciidoctor-highlightjs-escet</highlightjs-theme>
                             </attributes>
@@ -134,7 +134,7 @@
                                 <!-- Syntax highlighting languages: 'html' and 'svg' are aliases of 'xml'. -->
                                 <highlightjs-languages>
                                     asciidoc, bash, bnf, c, chi, cif, console, css, dsm, java, javascript, markdown,
-                                    mcrl2, none, properties, raildiagram, setext, shell, tooldef, xml
+                                    mcrl2, none, plcst, properties, raildiagram, setext, shell, tooldef, xml
                                 </highlightjs-languages>
                                 <highlightjs-theme>asciidoctor-highlightjs-escet</highlightjs-theme>
                             </attributes>

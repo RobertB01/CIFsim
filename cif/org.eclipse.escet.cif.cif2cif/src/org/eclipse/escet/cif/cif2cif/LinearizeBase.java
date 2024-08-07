@@ -84,7 +84,6 @@ import org.eclipse.escet.cif.metamodel.java.CifConstructors;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /**
  * In-place transformation that linearizes the CIF specification. It performs process-algebraic linearization, thereby
@@ -303,7 +302,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // Require at least one automaton.
         if (auts.isEmpty()) {
             String msg = "Linearization of CIF specifications without automata is currently not supported.";
-            throw new UnsupportedException(msg);
+            throw new CifToCifPreconditionException(msg);
         }
 
         // Get names in use in specification.
@@ -367,6 +366,9 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // do this here at the end, and not earlier, to keep them contained
         // somewhere in the specification.
         convertAutomataToGroups(auts);
+
+        // Perform post-processing.
+        postprocess(spec);
     }
 
     /**
@@ -1048,5 +1050,14 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
             // Compare orders.
             return Integer.compare(order1, order2);
         }
+    }
+
+    /**
+     * Perform post-processing on the linearized specification.
+     *
+     * @param spec The linearized specification.
+     */
+    protected void postprocess(Specification spec) {
+        // By default, no post-processing is performed.
     }
 }

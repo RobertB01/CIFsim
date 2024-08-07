@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -21,6 +22,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.escet.cif.common.CifDocAnnotationFormatter;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.StateInitVarOrderer;
@@ -40,6 +42,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentBlock;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
@@ -113,12 +116,17 @@ public class DefaultVariableStorage implements VariableStorage {
 
         // Generate initialization code and store it.
         List<PlcStatement> statements = list();
-        // TODO Initialize the constants if not done in its declaration.
+        CifDocAnnotationFormatter varInitFormatter = new CifDocAnnotationFormatter(null, List.of(""), null, null, null);
+
         statements.add(new PlcCommentLine("Initialize the state variables."));
         for (Declaration decl: varOrderer.computeOrder(true)) {
             // Generate a comment about the CIF variable getting initialized.
             String commentText = fmt("Initialize %s.", DocumentingSupport.getDescription(decl));
-            statements.add(new PlcCommentLine(commentText));
+            if (!varInitFormatter.hasDocs(decl)) {
+                statements.add(new PlcCommentLine(commentText));
+            } else {
+                statements.add(new PlcCommentBlock(concat(commentText, varInitFormatter.formatDocs(decl))));
+            }
 
             // Generate the initialization code.
             ExprValueResult exprResult;

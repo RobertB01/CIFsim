@@ -732,7 +732,7 @@ public class SeTextGenerator {
         if (OutputJavaFilesOption.isEnabled()) {
             code.writeToFile(javaFilePaths);
 
-            out("Scanner class \"%s\" written to file \"%s\".", spec.scannerClass.toString(), javaFilePaths.systemPath);
+            out("Scanner class \"%s\" written to file \"%s\".", spec.scannerClass.toString(), javaFilePaths.userPath);
         }
     }
 
@@ -748,10 +748,10 @@ public class SeTextGenerator {
             path = Strings.slice(path, 0, -".setext".length());
         }
         path += ".bnf";
-        path = Paths.resolve(path);
+        String absPath = Paths.resolve(path);
 
         // Write text.
-        try (AppStream stream = new FileAppStream(path)) {
+        try (AppStream stream = new FileAppStream(path, absPath)) {
             boolean first = true;
             for (boolean generated: new boolean[] {false, true}) {
                 for (NonTerminal nonterm: spec.nonterminals) {
@@ -1685,7 +1685,7 @@ public class SeTextGenerator {
             code.writeToFile(javaFilePaths);
 
             out("Parser class \"%s\" for %s symbol \"%s\" written to file \"%s\".", start.javaType.toString(),
-                    start.getStartType(), start.symbol.name, javaFilePaths.systemPath);
+                    start.getStartType(), start.symbol.name, javaFilePaths.userPath);
         }
     }
 
@@ -1924,7 +1924,7 @@ public class SeTextGenerator {
         if (OutputJavaFilesOption.isEnabled()) {
             code.writeToFile(filePaths);
 
-            out("Hooks skeleton class \"%s\" written to file \"%s\".", spec.hooksClass.className, filePaths.systemPath);
+            out("Hooks skeleton class \"%s\" written to file \"%s\".", spec.hooksClass.className, filePaths.userPath);
         }
     }
 
@@ -1968,12 +1968,12 @@ public class SeTextGenerator {
      * @return The print stream for the opened debug file.
      */
     public static AppStream openDebugFile(String path) {
-        path = Paths.resolve(path);
+        String absPath = Paths.resolve(path);
 
         AppStream dbgStream;
         try {
             if (OutputDebugFilesOption.isEnabled()) {
-                dbgStream = new FileAppStream(path);
+                dbgStream = new FileAppStream(path, absPath);
             } else {
                 dbgStream = NullAppStream.NULL_APP_STREAM;
             }

@@ -187,6 +187,14 @@ code.hljs {
 .language-mcrl2 .hljs-number  { color: #00c000; }
 .language-mcrl2 .hljs-comment { color: #aaaaaa; font-style: italic; }
 
+/* PLC structured text language style. */
+
+.language-plcst .hljs-comment  { color: #aaaaaa; font-style: italic; }
+.language-plcst .hljs-string   { color: #dd0000; }
+.language-plcst .hljs-keyword  { color: #0000e8; }
+.language-plcst .hljs-built_in { color: #c000f0; }
+.language-plcst .hljs-number   { color: #00c000; }
+
 /* Rail diagram language style. */
 
 .language-raildiagram .hljs-comment                  { color: #aaaaaa; font-style: italic; }

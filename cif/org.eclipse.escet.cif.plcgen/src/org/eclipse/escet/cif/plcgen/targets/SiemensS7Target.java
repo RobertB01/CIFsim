@@ -28,15 +28,23 @@ import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDL
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_SIN;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_SQRT;
 import static org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation.STDLIB_TAN;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.BIT_STRING_TYPES_32;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.BIT_STRING_TYPES_64;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INTEGER_TYPES_32;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INTEGER_TYPES_64;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.REAL_TYPES_32;
+import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.REAL_TYPES_64;
 
 import java.util.BitSet;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.plcgen.generators.PlcVariablePurpose;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.writers.S7Writer;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
@@ -47,11 +55,14 @@ public class SiemensS7Target extends PlcBaseTarget {
     /** Replacement strings for the extension in the CIF input file name to construct an output path for each target. */
     private static final Map<PlcTargetType, String> OUT_SUFFIX_REPLACEMENTS;
 
-    /** Maximum supported stored integer type size for each target. */
-    private static final Map<PlcTargetType, Integer> MAX_INTEGER_SIZES;
+    /** Supported integer types for each target, ordered in increasing size. */
+    private static final Map<PlcTargetType, List<PlcElementaryType>> INTEGER_TYPES;
 
-    /** Maximum supported stored real type size for each target. */
-    private static final Map<PlcTargetType, Integer> MAX_REAL_SIZES;
+    /** Supported real types for each target, ordered in increasing size. */
+    private static final Map<PlcTargetType, List<PlcElementaryType>> REAL_TYPES;
+
+    /** Supported bit string types for each target, ordered in increasing size. */
+    private static final Map<PlcTargetType, List<PlcElementaryType>> BIT_STRING_TYPES;
 
     /** Special characters in an identifier. */
     private static final BitSet SPECIAL_CHARS;
@@ -64,13 +75,17 @@ public class SiemensS7Target extends PlcBaseTarget {
                 PlcTargetType.S7_300, "_s7_300", PlcTargetType.S7_400, "_s7_400",
                 PlcTargetType.S7_1200, "_s7_1200", PlcTargetType.S7_1500, "_s7_1500");
 
-        MAX_INTEGER_SIZES = Map.of(
-                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
-                PlcTargetType.S7_1200, 32, PlcTargetType.S7_1500, 64);
+        INTEGER_TYPES = Map.of(
+                PlcTargetType.S7_300, INTEGER_TYPES_32, PlcTargetType.S7_400, INTEGER_TYPES_32,
+                PlcTargetType.S7_1200, INTEGER_TYPES_32, PlcTargetType.S7_1500, INTEGER_TYPES_64);
 
-        MAX_REAL_SIZES = Map.of(
-                PlcTargetType.S7_300, 32, PlcTargetType.S7_400, 32,
-                PlcTargetType.S7_1200, 64, PlcTargetType.S7_1500, 64);
+        REAL_TYPES = Map.of(
+                PlcTargetType.S7_300, REAL_TYPES_32, PlcTargetType.S7_400, REAL_TYPES_32,
+                PlcTargetType.S7_1200, REAL_TYPES_64, PlcTargetType.S7_1500, REAL_TYPES_64);
+
+        BIT_STRING_TYPES = Map.of(
+                PlcTargetType.S7_300, BIT_STRING_TYPES_32, PlcTargetType.S7_400, BIT_STRING_TYPES_32,
+                PlcTargetType.S7_1200, BIT_STRING_TYPES_32, PlcTargetType.S7_1500, BIT_STRING_TYPES_64);
 
         // ASCII characters neither in NORMAL_CHARS nor in SPECIAL_CHARS are 0..31, 127, '"', '+' and '~'.
         SPECIAL_CHARS = new BitSet(128);
@@ -90,7 +105,6 @@ public class SiemensS7Target extends PlcBaseTarget {
         for (int i = 0; i < 10; i++) {
             NORMAL_CHARS.set('0' + i);
         }
-
     }
 
     /**
@@ -153,13 +167,18 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
-    public int getMaxIntegerTypeSize() {
-        return MAX_INTEGER_SIZES.get(targetType);
+    public List<PlcElementaryType> getSupportedIntegerTypes() {
+        return INTEGER_TYPES.get(targetType);
     }
 
     @Override
-    public int getMaxRealTypeSize() {
-        return MAX_REAL_SIZES.get(targetType);
+    public List<PlcElementaryType> getSupportedRealTypes() {
+        return REAL_TYPES.get(targetType);
+    }
+
+    @Override
+    public List<PlcElementaryType> getSupportedBitStringTypes() {
+        return BIT_STRING_TYPES.get(targetType);
     }
 
     @Override

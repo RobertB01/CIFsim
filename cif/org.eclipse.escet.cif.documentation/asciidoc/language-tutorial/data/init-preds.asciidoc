@@ -17,7 +17,7 @@ include::../_part_attributes.asciidoc[]
 == Initialization predicates
 
 indexterm:[initialization,predicate]
-_Initialization predicates_ can be used to specify the allowed initial locations of automata, as well as to restrict the allowed initial values of variables.
+_Initialization predicates_ can be used to specify the allowed initial locations of automata, as well as to restrict the allowed initial values of variables and initial states in general.
 
 indexterm:[location,initial]
 
@@ -105,7 +105,7 @@ automaton odd_even:
 end
 ----
 
-In this specification, location `odd` can only be the initial location if the value is odd (the value link:https://en.wikipedia.org/wiki/Modular_arithmetic[modulo] two is congruent to one), and location `even` can only be the initial location if the value is even.
+In this specification, location `odd` can only be the initial location if the value is odd (the value link:https://en.wikipedia.org/wiki/Modular_arithmetic[modulo] two is equal to one), and location `even` can only be the initial location if the value is even.
 Changing the initial value of variable `n` then also changes the potential initial locations.
 Since the value is always odd or even, and can't be both odd and even, automaton `+odd_even+` always has exactly one potential initial location.
 
@@ -114,7 +114,10 @@ indexterm:[initialization,restricted]
 === Restricting initialization
 
 Initialization predicates can also be used to restrict the initial values of variables.
-Consider the following CIF specification:
+And more generally, they restrict the possible initial states.
+It is for instance also possible to specify which combinations of locations of automata and values of variables are allowed as initial states.
+
+As an example of restricting the allowed initial values of variables, consider the following CIF specification:
 
 [source, cif]
 ----
@@ -128,10 +131,10 @@ end
 ----
 
 In this partial automaton, variable `x` can be initialized to any integer value, as indicated by its `int` type and the `any` keyword.
-However, the initialization predicate states that initially, the value of `x` module two must be congruent to one.
+However, the initialization predicate states that initially, the value of `x` module two must be equal to one.
 That is, the value of variable `x` must initially be odd.
 
-It is allowed to specify initialization predicates inside automata, but it is also allowed to place them outside of them:
+It is allowed to specify initialization predicates inside automata, but it is also allowed to place them outside the automata:
 
 [source, cif]
 ----
@@ -153,4 +156,70 @@ initial a.x = 2 * b.x;
 Here, two automata each declare a variable that can have arbitrary initial values.
 The initialization predicate specifies that the initial value of variable `x` from automaton `b` must be twice the initial value of variable `x` from automaton `a`.
 
-It is generally recommended to place an initialization predicate inside an automaton if the condition only applies to declarations from that automaton, and to place it outside of the automata if the condition applies to declarations of multiple automata.
+Similarly, the initial locations of two automata can be restricted using additional initialization predicates:
+
+[source, cif]
+----
+automaton a:
+  location a1:
+    initial;
+    ...
+
+  location a2:
+    initial;
+    ...
+end
+
+automaton b:
+  location b1:
+    initial;
+    ...
+
+  location b2:
+    initial;
+    ...
+end
+
+initial (a.a1 and b.b1) or (a.a2 and b.b2);
+----
+
+The two automata, `a` and `b`, each have two potential initial locations.
+The initialization predicate outside the automata only allows certain combinations of initial locations of the two automata.
+It specifies that if automaton `a` starts in location `a1`, then automaton `b` must start in `b1`.
+Alternatively, if automaton `a` starts in location `a2`, then `b` must start in `b2`.
+
+Note that locations of automata that are not indicated as being potentially initial are never initial locations.
+The initialization predicates outside the automata further restrict initialization, but can never make locations initial that were not already indicated as such.
+
+This last example can however be more simply specified using only initialization predicates in locations:
+
+[source, cif]
+----
+automaton a:
+  location a1:
+    initial;
+    ...
+
+  location a2:
+    initial;
+    ...
+end
+
+automaton b:
+  location b1:
+    initial a.a1;
+    ...
+
+  location b2:
+    initial a.a2;
+    ...
+end
+----
+
+The initialization for automaton `a1` remains as it was before.
+Instead of restricting the initialization combinations of the two automata using an extra initialization predicate, these restrictions are not put in the initialization predicates of the locations of automaton `b`.
+Location `b1` can only be the initial location of automaton `b` if automaton `a` is in location `a1`.
+And similarly, location `b2` can only be its initial location if automaton `a` starts in `a2`.
+
+It is generally recommended to use initialization predicates in locations, where possible.
+If initialization must be further restricted by an initialization predicates outside locations, it is recommended to place it inside an automaton if the condition only applies to declarations from that automaton, and to place it outside of the automata if the condition applies to declarations of multiple automata.

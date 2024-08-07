@@ -1,79 +1,76 @@
 Loading CIF specification "controllercheck/non_blocking_under_control/nbuc_two_paths.cif"...
 Preparing for BDD-based checks...
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name         Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  -----------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Supervisor1  0      2 * 2     4 * 2       4 * 2       100%
+        -----  ----------------  ----  -----------  -----  --------  ----------  ----------  -----------
+        Total                                       1      4         8           8           100%
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name         Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  -----------  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   Supervisor1  0      2 * 2     4 * 2       4 * 2       100%
-  -----  ----------------  ----  -----------  -----  --------  ----------  ----------  -----------
-  Total                                       1      4         8           8           100%
-
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 
-Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants.
 
 Preparing for MDD-based checks...
-Analyzing automaton "Supervisor1"...
-    Initializing the automaton data for event "Supervisor1.c_act1"...
-    Initializing the automaton data for event "Supervisor1.c_act2"...
-    Processing edges from location "Start" of automaton "Supervisor1"...
-    Processing edges from location "Done1" of automaton "Supervisor1"...
-    Processing edges from location "Done2" of automaton "Supervisor1"...
-    Processing edges from location "BothDone" of automaton "Supervisor1"...
-    Updating global guards and updates for event "Supervisor1.c_act1"...
-    Updating global guards and updates for event "Supervisor1.c_act2"...
+    Analyzing automaton "Supervisor1"...
+        Initializing the automaton data for event "Supervisor1.c_act1"...
+        Initializing the automaton data for event "Supervisor1.c_act2"...
+        Processing edges from location "Start" of automaton "Supervisor1"...
+        Processing edges from location "Done1" of automaton "Supervisor1"...
+        Processing edges from location "Done2" of automaton "Supervisor1"...
+        Processing edges from location "BothDone" of automaton "Supervisor1"...
+        Updating global guards and updates for event "Supervisor1.c_act1"...
+        Updating global guards and updates for event "Supervisor1.c_act2"...
 
 Checking for bounded response...
-Computing reachable states...
-Reachable states: Supervisor1.Start [initial states predicate]
-Forward reachability: iteration 1.
-Reachable states: Supervisor1.Start -> Supervisor1.Start or Supervisor1.Done1 [forward reach with edge: (event: Supervisor1.c_act1) (guard: Supervisor1.Start or Supervisor1.Done2) (assignments: Supervisor1 := Supervisor1.Done1 / Supervisor1 := Supervisor1.BothDone)]
-Reachable states: Supervisor1.Start or Supervisor1.Done1 -> true [forward reach with edge: (event: Supervisor1.c_act2) (guard: Supervisor1.Start or Supervisor1.Done1) (assignments: Supervisor1 := Supervisor1.Done2 / Supervisor1 := Supervisor1.BothDone)]
-Forward reachability: iteration 2.
-Reachable states: true [fixed point].
+    Computing reachable states...
+    Reachable states: Supervisor1.Start [initial states predicate]
+    Forward reachability: iteration 1.
+    Reachable states: Supervisor1.Start -> Supervisor1.Start or Supervisor1.Done1 [forward reach with edge: (event: Supervisor1.c_act1) (guard: Supervisor1.Start or Supervisor1.Done2) (assignments: Supervisor1 := Supervisor1.Done1 / Supervisor1 := Supervisor1.BothDone)]
+    Reachable states: Supervisor1.Start or Supervisor1.Done1 -> true [forward reach with edge: (event: Supervisor1.c_act2) (guard: Supervisor1.Start or Supervisor1.Done1) (assignments: Supervisor1 := Supervisor1.Done2 / Supervisor1 := Supervisor1.BothDone)]
+    Forward reachability: iteration 2.
+    Reachable states: true [fixed point].
 
-Computing bound for uncontrollable events...
-Bounded response check round 1 (states before round: true).
-Bounded response check round 2 (states before round: Supervisor1.Start).
+    Computing bound for uncontrollable events...
+    Bounded response check round 1 (states before round: true).
+    Bounded response check round 2 (states before round: Supervisor1.Start).
 
-Computing bound for controllable events...
-Bounded response check round 1 (states before round: true).
-Bounded response check round 2 (states before round: not Supervisor1.Start).
-Bounded response check round 3 (states before round: Supervisor1.BothDone).
+    Computing bound for controllable events...
+    Bounded response check round 1 (states before round: true).
+    Bounded response check round 2 (states before round: not Supervisor1.Start).
+    Bounded response check round 3 (states before round: Supervisor1.BothDone).
 
-Bounded response check completed.
+    Bounded response check completed.
 
 Checking for non-blocking under control...
-Computing the condition for no controllable event to be enabled...
-Condition under which no controllable event is enabled: Supervisor1.BothDone
+    Computing the condition for no controllable event to be enabled...
+    Condition under which no controllable event is enabled: Supervisor1.BothDone
 
-Computing the controllable-complete path states...
-Controllable-complete path states: Supervisor1.BothDone [controllable-complete path end states predicate]
-Backward reachability: iteration 1.
-Controllable-complete path states: Supervisor1.BothDone -> Supervisor1.Done2 or Supervisor1.BothDone [backward reach with edge: (event: Supervisor1.c_act1) (guard: Supervisor1.Start or Supervisor1.Done2) (assignments: Supervisor1 := Supervisor1.Done1 / Supervisor1 := Supervisor1.BothDone)]
-Controllable-complete path states: Supervisor1.Done2 or Supervisor1.BothDone -> true [backward reach with edge: (event: Supervisor1.c_act2) (guard: Supervisor1.Start or Supervisor1.Done1) (assignments: Supervisor1 := Supervisor1.Done2 / Supervisor1 := Supervisor1.BothDone)]
-Backward reachability: iteration 2.
-Controllable-complete path states: true [fixed point].
-Controllable-complete path states: true
+    Computing the controllable-complete path states...
+    Controllable-complete path states: Supervisor1.BothDone [controllable-complete path end states predicate]
+    Backward reachability: iteration 1.
+    Controllable-complete path states: Supervisor1.BothDone -> Supervisor1.Done2 or Supervisor1.BothDone [backward reach with edge: (event: Supervisor1.c_act1) (guard: Supervisor1.Start or Supervisor1.Done2) (assignments: Supervisor1 := Supervisor1.Done1 / Supervisor1 := Supervisor1.BothDone)]
+    Controllable-complete path states: Supervisor1.Done2 or Supervisor1.BothDone -> true [backward reach with edge: (event: Supervisor1.c_act2) (guard: Supervisor1.Start or Supervisor1.Done1) (assignments: Supervisor1 := Supervisor1.Done2 / Supervisor1 := Supervisor1.BothDone)]
+    Backward reachability: iteration 2.
+    Controllable-complete path states: true [fixed point].
+    Controllable-complete path states: true
 
-Computing the bad states...
-Bad states: false [not controllable-complete path states predicate]
-Backward reachability: iteration 1.
-Bad states: false
+    Computing the bad states...
+    Bad states: false [not controllable-complete path states predicate]
+    Backward reachability: iteration 1.
+    Bad states: false
 
-Computing the result of the non-blocking under control check...
-Initial states: Supervisor1.Start
-Bad initial states: false
+    Computing the result of the non-blocking under control check...
+    Initial states: Supervisor1.Start
+    Bad initial states: false
 
 Checking for finite response...
-
-Iteration 1.
+    Iteration 1.
 
 Checking for confluence...
-
-Independent event pairs:
-    (Supervisor1.c_act1, Supervisor1.c_act2)
+    Independent event pairs:
+        (Supervisor1.c_act1, Supervisor1.c_act2)
 
 CONCLUSION:
     [OK] The specification has bounded response:

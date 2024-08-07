@@ -245,6 +245,37 @@ public class StringsTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testSplitLines() {
+        String input = """
+                a
+                b\nc
+                d\r\ne
+                f\n\ng
+                h\n\r\n\ni
+                j\nk\nl
+                """;
+        String[] expected = {
+                "a",
+                "b",
+                "c",
+                "d",
+                "e",
+                "f",
+                "",
+                "g",
+                "h",
+                "",
+                "",
+                "i",
+                "j",
+                "k",
+                "l",
+        };
+        assertArrayEquals(expected, Strings.splitLines(input));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testTruncate() {
         assertEquals("", Strings.truncate("", 10));
         assertEquals("0123456789", Strings.truncate("0123456789", 10));

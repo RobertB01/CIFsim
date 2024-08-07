@@ -57,6 +57,7 @@ public class Sequencer {
         // Find simple cycles (cycles that don't cross themselves).
         GraphCycleFinder cycleFinder = new GraphCycleFinder();
         Set<Cycle> foundCycles = cycleFinder.findSimpleCycles(g);
+        Assert.notNull(foundCycles);
 
         // Group the found cycles in collections of related cycles (cycles that share at least one vertex).
         List<List<Cycle>> cycleCollections = makeCycleCollections(foundCycles);

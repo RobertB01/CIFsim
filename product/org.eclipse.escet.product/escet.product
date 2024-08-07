@@ -29,6 +29,8 @@
    <splash
       location="org.eclipse.escet.product.branding" />
    <launcher name="eclipse-escet">
+      <linux icon="/org.eclipse.escet.product.branding/images/escet.xpm"/>
+      <macosx icon="/org.eclipse.escet.product.branding/images/escet.icns"/>
       <win useIco="true">
          <ico path="/org.eclipse.escet.product.branding/images/escet.ico"/>
          <bmp/>

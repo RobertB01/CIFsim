@@ -1,0 +1,18 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  -------------------------------------------------------
+  (1/2) A component definition has a component parameter.
+  -------------------------------------------------------
+   * In automaton definition "A":
+     - automaton def A(alg int a1; alg int a2; alg bool a3; grp.G g1; grp.G g2; event e1; event e2; controllable e3; location l1; location l2):
+                                                                  ^         ^
+
+  --------------------------------------------------------
+  (2/2) A component definition has an algebraic parameter.
+  --------------------------------------------------------
+   * In automaton definition "A":
+     - automaton def A(alg int a1; alg int a2; alg bool a3; grp.G g1; grp.G g2; event e1; event e2; controllable e3; location l1; location l2):
+                               ^           ^            ^
+   * In group definition "grp.G":
+     - group def G(alg int a1; alg int a2; alg bool a3; event e1; event e2; controllable e3; location l1; location l2):
+                           ^           ^            ^

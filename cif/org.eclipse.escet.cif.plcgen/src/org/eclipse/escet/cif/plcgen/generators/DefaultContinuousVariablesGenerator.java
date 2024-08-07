@@ -13,13 +13,14 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
-import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
@@ -171,13 +172,24 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             NameGenerator nameGen = target.getNameGenerator();
             PlcCodeStorage codeStorage = target.getCodeStorage();
 
-            String cvarName = getAbsName(contVar, false);
-            String tonVarName = nameGen.generateGlobalName("ton_" + cvarName, false);
-            String presetName = nameGen.generateGlobalName("preset_" + cvarName, false);
+//<<<<<<< HEAD
+//            String cvarName = getAbsName(contVar, false);
+//            String tonVarName = nameGen.generateGlobalName("ton_" + cvarName, false);
+//            String presetName = nameGen.generateGlobalName("preset_" + cvarName, false);
+//            tonVar = new PlcDataVariable(target.getUsageVariableText(PlcVariablePurpose.TIMER_VAR, tonVarName),
+//                    tonVarName, plcFuncAppls.getTonFuncBlockType(), null, null);
+//=======
+//            String baseName = nameGen.generateGlobalNames(Set.of("ton_", "preset_"), contVar);
+//            tonVar = new PlcDataVariable("", "ton_" + baseName, plcFuncAppls.getTonFuncBlockType(), null, null);
+//>>>>>>> project/develop
+
+            String baseName = nameGen.generateGlobalNames(Set.of("ton_", "preset_"), contVar);
+            String tonVarName = "ton_" + baseName;
             tonVar = new PlcDataVariable(target.getUsageVariableText(PlcVariablePurpose.TIMER_VAR, tonVarName),
                     tonVarName, plcFuncAppls.getTonFuncBlockType(), null, null);
+
             codeStorage.addTimerVariable(tonVar);
-            presetVar = codeStorage.addStateVariable(presetName, PlcElementaryType.TIME_TYPE);
+            presetVar = codeStorage.addStateVariable("preset_" + baseName, PlcElementaryType.TIME_TYPE);
         }
 
         @Override
@@ -242,13 +254,13 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
          */
         private PlcExpression timeToReal(PlcExpression timeMillis, PlcElementaryType destRealType) {
             // Get the largest available integer type to get maximum accuracy.
-            PlcElementaryType intType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
+            PlcElementaryType maxIntType = last(target.getSupportedIntegerTypes());
 
             // TIME are integer milliseconds while reals are seconds. Therefore:
             // 1. Cast to integer.
             // 2. Cast to real.
             // 3. Divide by 1000.0.
-            PlcExpression intMillis = plcFuncAppls.castFunctionAppl(timeMillis, intType);
+            PlcExpression intMillis = plcFuncAppls.castFunctionAppl(timeMillis, maxIntType);
             PlcExpression realMillis = plcFuncAppls.castFunctionAppl(intMillis, destRealType);
             PlcExpression real1000 = new PlcRealLiteral("1000.0", destRealType);
             return plcFuncAppls.divideFuncAppl(realMillis, real1000);
@@ -262,7 +274,7 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
          */
         private PlcExpression realToTime(PlcExpression realSecs) {
             // Get the largest available integer type to get maximum accuracy.
-            PlcElementaryType maxIntType = PlcElementaryType.getIntTypeBySize(target.getMaxIntegerTypeSize());
+            PlcElementaryType maxIntType = last(target.getSupportedIntegerTypes());
 
             // Reals are seconds, while PLC TIME are integer milliseconds. Therefore:
             // 1. Multiply by 1000.0.

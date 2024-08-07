@@ -1,0 +1,48 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant ok1:
+  location loc1:
+    marked;
+
+  location loc2;
+end
+
+plant ok2:
+  location loc1:
+    marked true, true, 1 = 1;
+
+  location loc2:
+    marked false, false, 1 != 1;
+end
+
+plant only_marked:      // Only marked.
+  location loc1:
+    marked true, true;
+
+  location loc2:
+    marked 1 = 1;
+end
+
+plant only_non_marked:  // Only non-marked.
+  location loc1:
+    marked false, false;
+
+  location loc2:
+    marked 1 != 1;
+end
+
+supervisor s:           // Only non-marked.
+  location:
+    initial;
+end

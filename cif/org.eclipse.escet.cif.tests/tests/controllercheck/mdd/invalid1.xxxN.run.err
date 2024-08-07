@@ -1,6 +1,45 @@
 WARNING: File "controllercheck/mdd/invalid1.cif": Semantic warning at line 16, column 26: Event "g.e2" is not used anywhere in the specification.
 WARNING: The alphabet of the specification contains no controllable events.
 ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
- - Unsupported update: multi-assignments are not supported.
- - Unsupported update: partial variable assignments are not supported.
- - Unsupported variable "g.p0.lb": variables of type "list bool" are not supported.
+
+  ---------------------------------------------
+  (1/6) A value of type "list[1] bool" is used.
+  ---------------------------------------------
+   * In discrete variable "g.p0.lb":
+     - disc list bool lb = [true];
+                           ^
+
+  ------------------------------------------------------------
+  (2/6) A value of type "tuple(int[1..1]; int[2..2])" is used.
+  ------------------------------------------------------------
+   * In location "g.p0.l1":
+     - edge e1 do (x1, x2) := (1, 2);
+                              ^
+
+  -----------------------------------------------------------------------------
+  (3/6) Discrete variable does not have a boolean, integer or enumeration type.
+  -----------------------------------------------------------------------------
+   * In discrete variable "g.p0.lb":
+     - disc list bool lb = [true];
+            ^
+
+  ----------------------------------
+  (4/6) Edge has a multi-assignment.
+  ----------------------------------
+   * In location "g.p0.l1":
+     - edge e1 do (x1, x2) := (1, 2);
+                           ^
+
+  ---------------------------------------------
+  (5/6) Edge has a partial variable assignment.
+  ---------------------------------------------
+   * In location "g.p0.l1":
+     - edge e1 do lb[0] := true;
+                    ^
+
+  ----------------------------------------
+  (6/6) Variable is a continuous variable.
+  ----------------------------------------
+   * In automaton "g.p0":
+     - cont cnt der 1.0;
+            ^

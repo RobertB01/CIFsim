@@ -1,0 +1,2 @@
+WARNING: File "cif2mcrl2/only_vars_no_edges.cif": Semantic warning at line 15, column 12: Discrete variable "a.x" is not used anywhere in the specification.
+WARNING: File "cif2mcrl2/only_vars_no_edges.cif": Semantic warning at line 15, column 15: Discrete variable "a.y" is not used anywhere in the specification.

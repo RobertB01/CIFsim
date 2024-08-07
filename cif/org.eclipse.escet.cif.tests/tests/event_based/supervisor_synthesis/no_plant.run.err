@@ -1,2 +1,13 @@
 ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/no_plant.cif".
-CAUSE: Supervisor synthesis needs at least one plant automaton.
+CAUSE: CIF supervisor synthesis tool failed due to unsatisfied preconditions:
+
+  --------------------------------------------------------------------------
+  (1/2) Event is in the requirement alphabet, but not in the plant alphabet.
+  --------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - controllable e;
+                    ^
+
+  ----------------------------------------------------------------------------------------
+  (2/2) Specification does not have at least 1 plant automaton (no plant automaton found).
+  ----------------------------------------------------------------------------------------

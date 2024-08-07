@@ -72,6 +72,7 @@ import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.bdd.spec.CifBddVariable;
 import org.eclipse.escet.cif.cif2cif.CifToCifPreconditionException;
 import org.eclipse.escet.cif.cif2cif.RemoveRequirements;
+import org.eclipse.escet.cif.common.CifControllerPropertiesAnnotationUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -292,6 +293,9 @@ public class SynthesisToCifConverter {
             spec = addNamespace(synthResult.settings.getSupervisorNamespace());
             this.spec = spec;
         }
+
+        // Remove controller properties annotation.
+        CifControllerPropertiesAnnotationUtils.remove(spec);
 
         // Return the modified input CIF specification as output.
         return spec;

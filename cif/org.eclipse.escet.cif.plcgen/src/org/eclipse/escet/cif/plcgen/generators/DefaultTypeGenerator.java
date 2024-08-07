@@ -24,6 +24,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.TypeEqHashWrap;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
@@ -77,8 +78,8 @@ public class DefaultTypeGenerator implements TypeGenerator {
      */
     public DefaultTypeGenerator(PlcTarget target, PlcGenSettings settings) {
         this.target = target;
-        standardIntType = target.getIntegerType();
-        standardRealType = target.getRealType();
+        standardIntType = target.getStdIntegerType();
+        standardRealType = target.getStdRealType();
     }
 
     @Override
@@ -137,7 +138,14 @@ public class DefaultTypeGenerator implements TypeGenerator {
         }
 
         // Construct the structure type.
-        String typeName = target.getNameGenerator().generateGlobalName("TupleStruct", false);
+        String typeName;
+        if (tupleType.eContainer() instanceof TypeDecl typeDecl) {
+            String structName = CifTextUtils.getAbsName(typeDecl, false);
+            typeName = target.getNameGenerator().generateGlobalName(structName, true);
+        } else {
+            String structName = "TupleStruct" + tupleType.getFields().size();
+            typeName = target.getNameGenerator().generateGlobalName(structName, false);
+        }
         PlcStructType structType = new PlcStructType(typeName, structFields);
 
         // Declare the type.

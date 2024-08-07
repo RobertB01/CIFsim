@@ -565,7 +565,7 @@ public class PlcOpenXmlWriter extends Writer {
                 throw new RuntimeException(e);
             }
         } catch (IOException e) {
-            String msg = fmt("Failed to validate \"%s\" due to an I/O error.", filePaths.systemPath);
+            String msg = fmt("Failed to validate \"%s\" due to an I/O error.", filePaths.userPath);
             throw new InputOutputException(msg, e);
         } finally {
             // Always close streams.
@@ -611,7 +611,7 @@ public class PlcOpenXmlWriter extends Writer {
         try {
             xmlStream = new FileOutputStream(filePaths.systemPath);
         } catch (FileNotFoundException ex) {
-            String msg = fmt("Failed to write PLCopen XML file to \"%s\".", filePaths.systemPath);
+            String msg = fmt("Failed to write PLCopen XML file to \"%s\".", filePaths.userPath);
             throw new InputOutputException(msg, ex);
         }
         StreamResult result = new StreamResult(xmlStream);
@@ -627,7 +627,7 @@ public class PlcOpenXmlWriter extends Writer {
         try {
             xmlStream.close();
         } catch (IOException e) {
-            String msg = fmt("Failed to close file \"%s\".", filePaths.systemPath);
+            String msg = fmt("Failed to close file \"%s\".", filePaths.userPath);
             throw new InputOutputException(msg, e);
         }
     }

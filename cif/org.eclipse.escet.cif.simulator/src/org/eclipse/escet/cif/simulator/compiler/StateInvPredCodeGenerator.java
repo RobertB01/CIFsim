@@ -16,13 +16,11 @@ package org.eclipse.escet.cif.simulator.compiler;
 import static org.apache.commons.text.StringEscapeUtils.escapeJava;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.cif.common.CifTextUtils.invToStr;
 import static org.eclipse.escet.cif.common.CifValueUtils.isTimeConstant;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodeExpr;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Pair.pair;
-import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.truncate;
 
 import java.util.List;
@@ -39,8 +37,8 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
-import org.eclipse.escet.common.java.exceptions.UnsupportedException;
 
 /** State invariant predicate code generator. */
 public class StateInvPredCodeGenerator {
@@ -279,43 +277,35 @@ public class StateInvPredCodeGenerator {
      * Checks the given invariant, and makes sure it is time constant.
      *
      * @param inv The invariant.
-     * @throws UnsupportedException If the invariant is time dependent.
      */
     private static void checkInvTimeConstant(Invariant inv) {
-        // In the context of the simulator, input variables are regarded as being 'time constant'.
-        if (isTimeConstant(inv.getPredicate(), true)) {
-            return;
-        }
-
-        // Time dependent state invariants are currently not supported. If they were
-        // supported, consider this specification:
+        // Time dependent state invariants are currently not supported. If they were supported, consider this
+        // specification:
         //
         // plant a:
-        // location l1:
-        // initial;
-        // edge tau goto l2;
-        // location l2:
-        // invariant time >= 10.0;
+        //   location l1:
+        //     initial;
+        //     edge tau goto l2;
+        //
+        //   location l2:
+        //     invariant time >= 10.0;
         // end
         //
-        // then event 'tau' in location 'l1' is not allowed for the first
-        // 10 time units. That is, we would have to take into account the
-        // invariants of the target locations of the edges of the current
-        // locations when calculating the maximum delay.
-
+        // then event 'tau' in location 'l1' is not allowed for the first 10 time units. That is, we would have to take
+        // into account the invariants of the target locations of the edges of the current locations when calculating
+        // the maximum delay.
+        //
         // Furthermore, consider:
         //
         // invariant time <= 10.0;
         //
-        // we can delay for 10 time units. However, the ODE solver will delay
-        // until 10.000000000001 or so. After that, we would have to check the
-        // invariants, to make sure they are still valid, and thus still allow
-        // subsequent transitions. In fact, if the invariant wouldn't hold
-        // after the time transition, the new state is invalid.
+        // we can delay for 10 time units. However, the ODE solver will delay until 10.000000000001 or so. After that,
+        // we would have to check the invariants, to make sure they are still valid, and thus still allow subsequent
+        // transitions. In fact, if the invariant wouldn't hold after the time transition, the new state is invalid.
 
-        String msg = fmt("Time dependent state invariants are currently not supported by the CIF simulator: \"%s\".",
-                escapeJava(invToStr(inv, false)));
-        throw new UnsupportedException(msg);
+        // In the context of the simulator, input variables are regarded as being 'time constant'.
+        // The precondition checker already checked this. As a sanity check, check it again.
+        Assert.check(isTimeConstant(inv.getPredicate(), true));
     }
 
     /**

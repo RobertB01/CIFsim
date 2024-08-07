@@ -1,0 +1,10 @@
+@@controller:properties(finiteResponse: false)
+plant automaton p:
+  controllable c1;
+  controllable c2;
+  location loc1:
+    initial;
+    edge c1 goto loc2;
+  location loc2:
+    edge c2 goto loc1;
+end

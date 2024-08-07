@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.eventbased.automata;
 import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
-import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Numbers.formatNumber;
 import static org.eclipse.escet.common.java.Sets.copy;
 import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
@@ -24,14 +23,11 @@ import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
 import org.eclipse.escet.cif.eventbased.analysis.SynthesisDumpInterface;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.exceptions.InvalidModelException;
 
 /** Several routines to inspect or operate at an automaton. */
@@ -39,60 +35,6 @@ public class AutomatonHelper {
     /** Constructor of the {@link AutomatonHelper} class. */
     private AutomatonHelper() {
         // Static class.
-    }
-
-    /**
-     * Check whether an automaton is deterministic. If not, provide a counter example.
-     *
-     * <p>
-     * Code assumes that all locations of the automaton are used. Technically, we could allow non-deterministic edges
-     * from locations that are not used in the computation. However, beforehand, it is hard to determine which locations
-     * are not used (except non-reachable locations, but such locations are not common).
-     * </p>
-     *
-     * @param aut Automaton to check.
-     * @return {@code null} when the automaton is deterministic, else a counter-example in the form of an event at a
-     *     location that leads to a non-deterministic location.
-     */
-    private static EventAtLocation checkDeterministic(Automaton aut) {
-        // Set up data structures for non-determinism detection.
-        // seenEvent keeps track of seen events at a location,
-        // eventMap provides fast access into seenEvent.
-        boolean[] seenEvent = new boolean[aut.alphabet.size()];
-        Map<Event, Integer> eventMap = mapc(aut.alphabet.size());
-        int idx = 0;
-        for (Event evt: aut.alphabet) {
-            eventMap.put(evt, idx);
-            idx++;
-        }
-
-        for (Location loc: aut) {
-            Arrays.fill(seenEvent, false);
-            for (Edge edge: loc.getOutgoing()) {
-                // Check event.
-                idx = eventMap.get(edge.event);
-                if (seenEvent[idx]) {
-                    return new EventAtLocation(loc, edge.event);
-                }
-                seenEvent[idx] = true;
-                // Expand locations.
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Verify that the provided automaton is deterministic. If not, fail with a counter example.
-     *
-     * @param aut Automaton to check.
-     */
-    public static void reportNonDeterministic(Automaton aut) {
-        EventAtLocation el = checkDeterministic(aut);
-        if (el != null) {
-            String msg = fmt("Unsupported automaton \"%s\": %s has several outgoing edges for event \"%s\", only "
-                    + "deterministic automata are supported.", aut.name, el.loc.toString(), el.evt.name);
-            throw new InvalidInputException(msg);
-        }
     }
 
     /**

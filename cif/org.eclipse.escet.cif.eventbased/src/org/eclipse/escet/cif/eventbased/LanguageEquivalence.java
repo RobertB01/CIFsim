@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.eventbased;
 
-import static org.eclipse.escet.cif.eventbased.automata.AutomatonHelper.reportNonDeterministic;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
@@ -31,36 +30,16 @@ public class LanguageEquivalence {
     }
 
     /**
-     * Check whether the provided automata fulfill all preconditions for the language equivalence check.
+     * Check additional preconditions for the language equivalence check.
      *
      * @param auts Automata to check.
      */
     public static void preCheck(List<Automaton> auts) {
-        // Check number of provided automata.
-        if (auts.size() != 2) {
-            String msg = fmt("Expected two automata, found %d automat%s.", auts.size(),
-                    ((auts.size() == 1) ? "on" : "a"));
-            throw new InvalidInputException(msg);
-        }
-
-        // Check that the automata have an initial location.
-        for (Automaton aut: auts) {
-            if (aut.initial == null) {
-                String msg = fmt("Automaton \"%s\" has no initial location.", aut.name);
-                throw new InvalidInputException(msg);
-            }
-        }
-
         // Check alphabets.
         if (!auts.get(0).alphabet.equals(auts.get(1).alphabet)) {
             String msg = fmt("Automaton \"%s\" has a different alphabet than automaton \"%s\".", auts.get(0).name,
                     auts.get(1).name);
             throw new InvalidInputException(msg);
-        }
-
-        // Check that the automata are deterministic.
-        for (Automaton aut: auts) {
-            reportNonDeterministic(aut);
         }
     }
 

@@ -194,7 +194,7 @@ public class OptionDialog implements Runnable {
         SWTUtils.resize(shell, 0.75);
         shell.setMinimumSize(640, 480);
         addComponents();
-        SWTUtils.center(shell);
+        SWTUtils.center(shell, SWTUtils.getCurrentMonitor(display));
         shell.open();
 
         // Event loop.

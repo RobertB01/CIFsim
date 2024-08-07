@@ -150,7 +150,7 @@ public class ModelWalkerGenerator extends EmfJavaCodeGenerator {
 
         // Write the file and tell the user about it.
         box.writeToFile(filePath.toString(), absOutputFilePath);
-        System.out.printf("%s code written to: %s%n", walkerDesc, absOutputFilePath);
+        System.out.printf("%s code written to: %s%n", walkerDesc, filePath);
     }
 
     /**

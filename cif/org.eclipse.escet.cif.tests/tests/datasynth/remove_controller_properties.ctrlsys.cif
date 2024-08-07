@@ -1,0 +1,21 @@
+controllable c;
+uncontrollable u;
+plant automaton p:
+  location:
+    initial;
+    marked;
+    edge c, u;
+end
+supervisor automaton r:
+  location:
+    initial;
+    marked;
+    edge c, u;
+end
+supervisor automaton sup:
+  alphabet c;
+  location:
+    initial;
+    marked;
+    edge c when true;
+end

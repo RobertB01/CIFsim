@@ -9,7 +9,7 @@ VAR
     aut_r: LREAL;
     aut_b: BOOL;
     aut_i: DINT;
-    aut_tii: TupleStruct;
+    aut_tii: TupleStruct2;
     aut: aut_location;
     firstRun: BOOL := TRUE;
 END_VAR
@@ -19,12 +19,12 @@ VAR_TEMP
     current_aut_b: BOOL;
     current_aut_i: DINT;
     current_aut_r: LREAL;
-    current_aut_tii: TupleStruct;
-    edge_aut_1: DINT;
+    current_aut_tii: TupleStruct2;
+    edge_aut: BYTE;
     eventEnabled: BOOL;
     ifResult: BOOL;
     isProgress: BOOL;
-    litStruct: TupleStruct;
+    litStruct: TupleStruct2;
     timeOut: BOOL;
 END_VAR]]></Declaration>
     <Implementation>
@@ -35,23 +35,26 @@ END_VAR]]></Declaration>
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Specification (top-level group):
+ *
  * - Continuous variable "c".
  * - Input variable "inp".
  *
+ * ----
  * Automaton "aut":
+ *
  * - Current location of automaton "aut".
  * - Discrete variable "aut.b".
  * - Discrete variable "aut.i".
  * - Discrete variable "aut.r".
  * - Discrete variable "aut.tii".
  *
- * - PLC edge selection variable "edge_aut_1".
+ * - PLC edge selection variable "edge_aut".
  *
  * - Uncontrollable event "aut.f".
  *
  * - Controllable event "aut.e".
- *
  *------------------------------------------------------ *)
 
 (* --- Initialize state or update continuous variables. -------------------- *)
@@ -108,9 +111,9 @@ WHILE isProgress DO
      *   - 31st edge in the location
      ***********)
     IF aut = aut_l1 AND (aut_b OR aut_b) THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSIF aut = aut_l1 AND aut_b THEN
-        edge_aut_1 := 2;
+        edge_aut := 1;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -178,63 +181,63 @@ WHILE isProgress DO
      *   - 29th edge in the location
      ***********)
     IF aut = aut_l1 THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 2;
+        edge_aut := 1;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 3;
+        edge_aut := 2;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 4;
+        edge_aut := 3;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 5;
+        edge_aut := 4;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 6;
+        edge_aut := 5;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 7;
+        edge_aut := 6;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 8;
+        edge_aut := 7;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 9;
+        edge_aut := 8;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 10;
+        edge_aut := 9;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 11;
+        edge_aut := 10;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 12;
+        edge_aut := 11;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 13;
+        edge_aut := 12;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 14;
+        edge_aut := 13;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 15;
+        edge_aut := 14;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 16;
+        edge_aut := 15;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 17;
+        edge_aut := 16;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 18;
+        edge_aut := 17;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 19;
+        edge_aut := 18;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 20;
+        edge_aut := 19;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 21;
+        edge_aut := 20;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 22;
+        edge_aut := 21;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 23;
+        edge_aut := 22;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 24;
+        edge_aut := 23;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 25;
+        edge_aut := 24;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 26;
+        edge_aut := 25;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 27;
+        edge_aut := 26;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 28;
+        edge_aut := 27;
     ELSIF aut = aut_l1 THEN
-        edge_aut_1 := 29;
+        edge_aut := 28;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -252,33 +255,33 @@ WHILE isProgress DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "aut". *)
-        IF edge_aut_1 = 1 THEN
+        IF edge_aut = 0 THEN
             (* Perform assignments of the 1st edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := inp;
-        ELSIF edge_aut_1 = 2 THEN
+        ELSIF edge_aut = 1 THEN
             (* Perform assignments of the 2nd edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := inp + (-1.0);
             (* Perform update of current location of automaton "aut". *)
             aut := aut_l2;
-        ELSIF edge_aut_1 = 3 THEN
+        ELSIF edge_aut = 2 THEN
             (* Perform assignments of the 3rd edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := DINT_TO_LREAL(current_aut_i);
-        ELSIF edge_aut_1 = 4 THEN
+        ELSIF edge_aut = 3 THEN
             (* Perform assignments of the 4th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.b". *)
             aut_b := (NOT current_aut_b);
-        ELSIF edge_aut_1 = 5 THEN
+        ELSIF edge_aut = 4 THEN
             (* Perform assignments of the 5th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.b". *)
             aut_b := current_aut_b OR (NOT current_aut_b);
-        ELSIF edge_aut_1 = 6 THEN
+        ELSIF edge_aut = 5 THEN
             (* Perform assignments of the 6th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := DINT_TO_LREAL(current_aut_i) / DINT_TO_LREAL(current_aut_i);
-        ELSIF edge_aut_1 = 7 THEN
+        ELSIF edge_aut = 6 THEN
             (* Perform assignments of the 7th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.b". *)
             IF current_aut_b THEN
@@ -287,93 +290,93 @@ WHILE isProgress DO
                 ifResult := current_aut_b;
             END_IF;
             aut_b := ifResult;
-        ELSIF edge_aut_1 = 8 THEN
+        ELSIF edge_aut = 7 THEN
             (* Perform assignments of the 8th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.i". *)
             aut_i := current_aut_tii.field1;
-        ELSIF edge_aut_1 = 9 THEN
+        ELSIF edge_aut = 8 THEN
             (* Perform assignments of the 9th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := ABS(current_aut_r);
-        ELSIF edge_aut_1 = 10 THEN
+        ELSIF edge_aut = 9 THEN
             (* Perform assignments of the 10th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := EXP(current_aut_r);
-        ELSIF edge_aut_1 = 11 THEN
+        ELSIF edge_aut = 10 THEN
             (* Perform assignments of the 11th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := LN(current_aut_r);
-        ELSIF edge_aut_1 = 12 THEN
+        ELSIF edge_aut = 11 THEN
             (* Perform assignments of the 12th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := LOG(current_aut_r);
-        ELSIF edge_aut_1 = 13 THEN
+        ELSIF edge_aut = 12 THEN
             (* Perform assignments of the 13th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.i". *)
             aut_i := MIN(current_aut_i, current_aut_i);
-        ELSIF edge_aut_1 = 14 THEN
+        ELSIF edge_aut = 13 THEN
             (* Perform assignments of the 14th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := MIN(DINT_TO_LREAL(current_aut_i), current_aut_r);
-        ELSIF edge_aut_1 = 15 THEN
+        ELSIF edge_aut = 14 THEN
             (* Perform assignments of the 15th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := MIN(current_aut_r, DINT_TO_LREAL(current_aut_i));
-        ELSIF edge_aut_1 = 16 THEN
+        ELSIF edge_aut = 15 THEN
             (* Perform assignments of the 16th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := MIN(current_aut_r, current_aut_r);
-        ELSIF edge_aut_1 = 17 THEN
+        ELSIF edge_aut = 16 THEN
             (* Perform assignments of the 17th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.i". *)
             aut_i := MAX(current_aut_i, current_aut_i);
-        ELSIF edge_aut_1 = 18 THEN
+        ELSIF edge_aut = 17 THEN
             (* Perform assignments of the 18th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := MAX(DINT_TO_LREAL(current_aut_i), current_aut_r);
-        ELSIF edge_aut_1 = 19 THEN
+        ELSIF edge_aut = 18 THEN
             (* Perform assignments of the 19th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := MAX(current_aut_r, DINT_TO_LREAL(current_aut_i));
-        ELSIF edge_aut_1 = 20 THEN
+        ELSIF edge_aut = 19 THEN
             (* Perform assignments of the 20th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := MAX(current_aut_r, current_aut_r);
-        ELSIF edge_aut_1 = 21 THEN
+        ELSIF edge_aut = 20 THEN
             (* Perform assignments of the 21st edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := SQRT(current_aut_r);
-        ELSIF edge_aut_1 = 22 THEN
+        ELSIF edge_aut = 21 THEN
             (* Perform assignments of the 22nd edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := ASIN(current_aut_r);
-        ELSIF edge_aut_1 = 23 THEN
+        ELSIF edge_aut = 22 THEN
             (* Perform assignments of the 23rd edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := ACOS(current_aut_r);
-        ELSIF edge_aut_1 = 24 THEN
+        ELSIF edge_aut = 23 THEN
             (* Perform assignments of the 24th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := ATAN(current_aut_r);
-        ELSIF edge_aut_1 = 25 THEN
+        ELSIF edge_aut = 24 THEN
             (* Perform assignments of the 25th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := SIN(current_aut_r);
-        ELSIF edge_aut_1 = 26 THEN
+        ELSIF edge_aut = 25 THEN
             (* Perform assignments of the 26th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := COS(current_aut_r);
-        ELSIF edge_aut_1 = 27 THEN
+        ELSIF edge_aut = 26 THEN
             (* Perform assignments of the 27th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := TAN(current_aut_r);
-        ELSIF edge_aut_1 = 28 THEN
+        ELSIF edge_aut = 27 THEN
             (* Perform assignments of the 28th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.tii". *)
             litStruct.field1 := current_aut_i;
             litStruct.field2 := current_aut_i + 1;
             aut_tii := litStruct;
-        ELSIF edge_aut_1 = 29 THEN
+        ELSIF edge_aut = 28 THEN
             (* Perform assignments of the 29th edge in location "aut.l1". *)
             (* Perform update of discrete variable "aut.r". *)
             aut_r := current_aut_r * 2.0;

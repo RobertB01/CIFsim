@@ -4,9 +4,7 @@ ORGANIZATION_BLOCK MAIN
         channelValue: DINT;
         current_Good_x: DINT;
         current_Good_x_1: DINT;
-        edge_Block_1: DINT;
-        edge_Good_1: DINT;
-        edge_UseChannel_1: DINT;
+        edge_Good: BOOL;
         eventEnabled: BOOL;
         isProgress: BOOL;
         receiverAut: DINT;
@@ -21,15 +19,19 @@ BEGIN
     (*------------------------------------------------------
      * Model overview:
      *
+     * ----
      * Automaton "Block":
-     * - PLC edge selection variable "edge_Block".
+     *
+     * - No variables in this component.
      *
      * - No use of uncontrollable events.
      *
      * - Controllable event "noMonitor".
      * - Controllable event "noSync".
      *
+     * ----
      * Automaton "Good":
+     *
      * - Discrete variable "Good.x".
      *
      * - PLC edge selection variable "edge_Good".
@@ -39,13 +41,14 @@ BEGIN
      * - Controllable event "noMonitor".
      * - Controllable event "noSync".
      *
+     * ----
      * Automaton "UseChannel":
-     * - PLC edge selection variable "edge_UseChannel".
+     *
+     * - No variables in this component.
      *
      * - No use of uncontrollable events.
      *
      * - Controllable event "channel".
-     *
      *------------------------------------------------------ *)
 
     (* --- Initialize state. --------------------------------------------------- *)
@@ -82,7 +85,7 @@ BEGIN
          *   - 1st edge in the location
          ***********)
         IF TRUE THEN
-            edge_Good_1 := 1;
+            edge_Good := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -107,7 +110,7 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "Good". *)
-            IF edge_Good_1 = 1 THEN
+            IF edge_Good = 0 THEN
                 (* Perform assignments of the 1st edge in location "Good.G". *)
                 (* Perform update of discrete variable "Good.x". *)
                 "DB".Good_x := (current_Good_x + 1) MOD 6;
@@ -135,7 +138,7 @@ BEGIN
          *   - 2nd edge in the location
          ***********)
         IF TRUE THEN
-            edge_Good_1 := 1;
+            edge_Good := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -149,7 +152,7 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "Good". *)
-            IF edge_Good_1 = 1 THEN
+            IF edge_Good = 0 THEN
                 (* Perform assignments of the 2nd edge in location "Good.G". *)
                 (* Perform update of discrete variable "Good.x". *)
                 "DB".Good_x := (current_Good_x_1 + 5) MOD 6;

@@ -16,14 +16,20 @@ package org.eclipse.escet.cif.eventbased.apps;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
 import java.util.List;
 
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.eventbased.ControllabilityCheck;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.apps.options.ReportFileOption;
 import org.eclipse.escet.cif.eventbased.automata.EventAtLocation;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
@@ -35,6 +41,7 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
 import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
@@ -98,7 +105,6 @@ public class ControllabilityCheckApplication extends Application<IOutputComponen
 
     @Override
     protected int runInternal() {
-        String outPath;
         int exitCode;
         String rsltMsg;
 
@@ -106,25 +112,38 @@ public class ControllabilityCheckApplication extends Application<IOutputComponen
             // Load CIF specification.
             OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
             Specification spec = new CifReader().init().read();
+            String absSpecPath = Paths.resolve(InputFileOption.getPath());
             if (isTerminationRequested()) {
                 return 0;
             }
 
+            // Preprocessing.
+            new ElimComponentDefInst().transform(spec);
+
+            // Check preconditions.
+            boolean allowPlainEvents = false;
+            boolean allowNonDeterminism = false;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.AT_LEAST_ONE_PLANT_EXACTLY_ONE_SUPERVISOR;
+            EnumSet<SupKind> disallowedAutSupKinds = EnumSet.of(SupKind.NONE, SupKind.REQUIREMENT);
+            boolean requireAutHasInitLoc = false;
+            boolean requireReqSubsetPlantAlphabet = false;
+            boolean requireAutMarkedAndNonMarked = false;
+            Termination termination = () -> isTerminationRequested();
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
+                    expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc,
+                    requireReqSubsetPlantAlphabet, requireAutMarkedAndNonMarked, termination);
+            checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
+
             // Convert from CIF.
             OutputProvider.dbg("Converting to internal representation...");
             ConvertToEventBased cte = new ConvertToEventBased();
-            cte.convertSpecification(spec, false);
+            cte.convertSpecification(spec);
             if (isTerminationRequested()) {
                 return 0;
             }
 
             // Perform the controllability check.
             OutputProvider.dbg("Applying controllability check...");
-            ControllabilityCheck.controllabilityCheckPreCheck(cte.automata);
-            if (isTerminationRequested()) {
-                return 0;
-            }
-
             List<EventAtLocation> disableds;
             disableds = ControllabilityCheck.controllabilityCheck(cte.automata);
             if (isTerminationRequested()) {
@@ -132,7 +151,7 @@ public class ControllabilityCheckApplication extends Application<IOutputComponen
             }
 
             // Write result.
-            outPath = "_disableds.txt";
+            String outPath = "_disableds.txt";
             outPath = ReportFileOption.getDerivedPath(".cif", outPath);
             OutputProvider.dbg("Writing result to \"%s\"...", outPath);
             String absOutPath = Paths.resolve(outPath);
@@ -142,7 +161,7 @@ public class ControllabilityCheckApplication extends Application<IOutputComponen
             rsltMsg = fmt("Controllability check %s in file \"%s\". See \"%s\" for details.", result,
                     InputFileOption.getPath(), outPath);
 
-            AppStream stream = new FileAppStream(absOutPath);
+            AppStream stream = new FileAppStream(outPath, absOutPath);
             OutputProvider.dbg(rsltMsg);
             stream.printf("Controllability check %s in file \"%s\".\n\n", result, InputFileOption.getPath());
 

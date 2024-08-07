@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.cif.documentation.utils;
 
+import java.nio.file.Paths;
+
 import org.eclipse.escet.cif.simulator.runtime.distributions.BernoulliDistribution;
 import org.eclipse.escet.cif.simulator.runtime.distributions.BetaDistribution;
 import org.eclipse.escet.cif.simulator.runtime.distributions.BinomialDistribution;
@@ -37,6 +39,7 @@ import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.PathPair;
 
 /**
  * Generate Gnuplot files for the generation of plots for the actual sampled values and the expected/theoretical
@@ -433,8 +436,8 @@ public class GenerateDistributionPlots {
             counts[sample]++;
         }
 
-        // Write data file.
-        AppStream stream = new FileAppStream(fileName + ".dat");
+        // Write data file (not an app.framework application, only use the filename).
+        AppStream stream = new FileAppStream(makePair(fileName + ".dat"));
 
         int clen = String.valueOf(SAMPLE_COUNT).length();
         for (int i = 0; i < range; i++) {
@@ -448,8 +451,8 @@ public class GenerateDistributionPlots {
 
         stream.close();
 
-        // Write Gnuplot script file.
-        stream = new FileAppStream(fileName + ".plt");
+        // Write Gnuplot script file (not an app.framework application, only use the filename).
+        stream = new FileAppStream(makePair(fileName + ".plt"));
 
         stream.println("# Requires Gnuplot 4.4 or higher.");
         stream.println();
@@ -533,8 +536,8 @@ public class GenerateDistributionPlots {
             counts[(int)sfraction]++;
         }
 
-        // Write data file.
-        AppStream stream = new FileAppStream(fileName + ".dat");
+        // Write data file (not an app.framework application, only use the filename).
+        AppStream stream = new FileAppStream(makePair(fileName + ".dat"));
 
         for (int i = 0; i < IBARS; i++) {
             int count = counts[i];
@@ -547,8 +550,8 @@ public class GenerateDistributionPlots {
 
         stream.close();
 
-        // Write Gnuplot script file.
-        stream = new FileAppStream(fileName + ".plt");
+        // Write Gnuplot script file (not an app.framework application, only use the filename).
+        stream = new FileAppStream(makePair(fileName + ".plt"));
 
         stream.println("# Requires Gnuplot 4.4 or higher.");
         stream.println();
@@ -613,5 +616,20 @@ public class GenerateDistributionPlots {
         public String toString() {
             return distr.toString();
         }
+    }
+
+    /**
+     * Make a {@link PathPair} from the given relative or absolute local file system path.
+     *
+     * <p>
+     * Constructs an absolute path relative to the current working directory.
+     * </p>
+     *
+     * @param path Relative or absolute local file system path.
+     * @return A {@link PathPair} containing the given path and its absolute local file system path.
+     */
+    private static PathPair makePair(String path) {
+        String absPath = Paths.get(path).toAbsolutePath().toString();
+        return new PathPair(path, absPath);
     }
 }

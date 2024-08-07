@@ -37,9 +37,9 @@ public class CifBddApplyPlantInvariants {
      * @param cifBddSpec The CIF/BDD specification. Is modified in-place.
      * @param behaviorName The name of the behavior to which the invariants are applied, e.g.,
      *     {@code "uncontrolled system"}.
-     * @param sysBehTextSupplier Supplier that supplies the system behavior predicate for debug output. It uses two
-     *     spaces indentation. E.g. {@code "  State: (controlled-behavior: ...)"}. If the supplier supplies
-     *     {@code null}, the system behavior is not printed as part of the debug output.
+     * @param sysBehTextSupplier Supplier that supplies the system behavior predicate for debug output. E.g.
+     *     {@code "  State: (controlled-behavior: ...)"}. If the supplier supplies {@code null}, the system behavior is
+     *     not printed as part of the debug output.
      * @param dbgEnabled Whether debug output is enabled.
      */
     public static void applyStateEvtExclPlantsInvs(CifBddSpec cifBddSpec, String behaviorName,
@@ -55,7 +55,7 @@ public class CifBddApplyPlantInvariants {
         boolean firstDbg = true;
         boolean guardChanged = false;
         for (CifBddEdge edge: cifBddSpec.edges) {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -68,7 +68,7 @@ public class CifBddApplyPlantInvariants {
 
             // Enforce the additional condition by restricting the guard.
             BDD newGuard = edge.guard.and(plant);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -81,7 +81,8 @@ public class CifBddApplyPlantInvariants {
                         cifBddSpec.settings.getDebugOutput().line();
                     }
                     cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s [plant: %s].",
-                            edge.toString(0, ""), bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec),
+                            edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
+                            bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec),
                             bddToStr(plant, cifBddSpec));
                 }
                 edge.guard.free();
@@ -90,7 +91,7 @@ public class CifBddApplyPlantInvariants {
             }
         }
 
-        if (cifBddSpec.settings.getShouldTerminate().get()) {
+        if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
         if (dbgEnabled && guardChanged) {
@@ -99,10 +100,14 @@ public class CifBddApplyPlantInvariants {
                 cifBddSpec.settings.getDebugOutput().line();
                 cifBddSpec.settings.getDebugOutput().line("%s:", Strings.makeInitialUppercase(behaviorName));
                 if (sysBehText != null) {
+                    sysBehText = Strings.duplicate(" ", cifBddSpec.settings.getIndentAmount()) + sysBehText;
                     cifBddSpec.settings.getDebugOutput().line(sysBehText);
                 }
                 if (!cifBddSpec.edges.isEmpty()) {
-                    cifBddSpec.settings.getDebugOutput().line(cifBddSpec.getEdgesText(2));
+                    int indentLevel = (sysBehText == null) ? 1 : 2;
+                    for (String line: cifBddSpec.getEdgesText(indentLevel)) {
+                        cifBddSpec.settings.getDebugOutput().line(line);
+                    }
                 }
             }
         }
@@ -125,7 +130,7 @@ public class CifBddApplyPlantInvariants {
 
         boolean guardUpdated = false;
         for (CifBddEdge edge: cifBddSpec.edges) {
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -137,7 +142,7 @@ public class CifBddApplyPlantInvariants {
                     CifBddEdgeApplyDirection.BACKWARD, // backward
                     null); // restriction
 
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -154,13 +159,13 @@ public class CifBddApplyPlantInvariants {
                 updPred = cifBddSpec.factory.one();
             }
 
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
             // Store.
             BDD newGuard = edge.guard.id().andWith(updPred);
-            if (cifBddSpec.settings.getShouldTerminate().get()) {
+            if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
             }
 
@@ -171,7 +176,8 @@ public class CifBddApplyPlantInvariants {
                     if (!guardUpdated) {
                         cifBddSpec.settings.getDebugOutput().line();
                     }
-                    cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s.", edge.toString(0, ""),
+                    cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s.",
+                            edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
                             bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec));
                 }
                 edge.guard.free();

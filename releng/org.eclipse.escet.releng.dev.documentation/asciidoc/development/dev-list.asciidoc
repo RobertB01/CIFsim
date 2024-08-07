@@ -20,6 +20,8 @@ You can contact the Eclipse ESCET developers via the project's 'dev' list.
 
 * link:https://accounts.eclipse.org/mailing-list/escet-dev[Eclipse ESCET 'dev' list]
 
+Note that you need to be subscribed to this list, before you can post to it.
+
 For other means to interact with the Eclipse ESCET community and its developers, see:
 
 * link:https://eclipse.dev/escet/{escet-deploy-folder-name}/contact-and-support.html[Eclipse ESCET contact information]

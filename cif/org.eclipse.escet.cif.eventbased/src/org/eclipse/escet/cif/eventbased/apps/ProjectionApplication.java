@@ -16,13 +16,18 @@ package org.eclipse.escet.cif.eventbased.apps;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
+import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.eventbased.NfaToDfa;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ApplicationHelper;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertFromEventBased;
 import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBased;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker;
+import org.eclipse.escet.cif.eventbased.apps.conversion.ConvertToEventBasedPreChecker.ExpectedNumberOfAutomata;
 import org.eclipse.escet.cif.eventbased.apps.options.AddStateAnnosOption;
 import org.eclipse.escet.cif.eventbased.apps.options.PreservedEventsOption;
 import org.eclipse.escet.cif.eventbased.apps.options.ResultNameOption;
@@ -32,6 +37,7 @@ import org.eclipse.escet.cif.eventbased.automata.Event;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.io.CifWriter;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -43,8 +49,8 @@ import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.ApplicationException;
-import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 
 /** Application wrapper class for computing the projection of an automaton for a set of preserved events. */
 public class ProjectionApplication extends Application<IOutputComponent> {
@@ -114,23 +120,34 @@ public class ProjectionApplication extends Application<IOutputComponent> {
             OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
             CifReader cifReader = new CifReader().init();
             Specification spec = cifReader.read();
+            String absSpecPath = Paths.resolve(InputFileOption.getPath());
             if (isTerminationRequested()) {
                 return 0;
             }
+
+            // Preprocessing.
+            new ElimComponentDefInst().transform(spec);
+
+            // Check preconditions.
+            boolean allowPlainEvents = true;
+            boolean allowNonDeterminism = true;
+            ExpectedNumberOfAutomata expectedNumberOfAutomata = ExpectedNumberOfAutomata.EXACTLY_ONE_AUTOMATON;
+            EnumSet<SupKind> disallowedAutSupKinds = EnumSet.noneOf(SupKind.class);
+            boolean requireAutHasInitLoc = false;
+            boolean requireReqSubsetPlantAlphabet = false;
+            boolean requireAutMarkedAndNonMarked = false;
+            Termination termination = () -> isTerminationRequested();
+            CifPreconditionChecker checker = new ConvertToEventBasedPreChecker(allowPlainEvents, allowNonDeterminism,
+                    expectedNumberOfAutomata, disallowedAutSupKinds, requireAutHasInitLoc,
+                    requireReqSubsetPlantAlphabet, requireAutMarkedAndNonMarked, termination);
+            checker.reportPreconditionViolations(spec, absSpecPath, getAppName());
 
             // Convert from CIF.
             OutputProvider.dbg("Converting to internal representation...");
             ConvertToEventBased cte = new ConvertToEventBased();
-            cte.convertSpecification(spec, true);
+            cte.convertSpecification(spec);
             if (isTerminationRequested()) {
                 return 0;
-            }
-
-            if (cte.automata.size() != 1) {
-                String msg = fmt(
-                        "CIF input file contains %d automata, while projection requires exactly one automaton.",
-                        cte.automata.size());
-                throw new InvalidInputException(msg);
             }
 
             // Convert the preserved events to the event-based representation.

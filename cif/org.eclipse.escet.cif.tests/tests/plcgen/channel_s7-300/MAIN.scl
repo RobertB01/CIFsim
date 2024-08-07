@@ -6,12 +6,12 @@ ORGANIZATION_BLOCK MAIN
         current_R1_vr1: DINT;
         current_R2_vr2: DINT;
         current_S2_vs2: DINT;
-        edge_R1_1: DINT;
-        edge_R2_1: DINT;
-        edge_S1_1: DINT;
-        edge_S2_1: DINT;
-        edge_Y1_1: DINT;
-        edge_Y2_1: DINT;
+        edge_R1: BOOL;
+        edge_R2: BOOL;
+        edge_S1: BOOL;
+        edge_S2: BOOL;
+        edge_Y1: BOOL;
+        edge_Y2: BOOL;
         eventEnabled: BOOL;
         isProgress: BOOL;
         receiverAut: DINT;
@@ -26,14 +26,18 @@ BEGIN
     (*------------------------------------------------------
      * Model overview:
      *
+     * ----
      * Automaton "M1":
+     *
      * - Discrete variable "M1.vm1".
      *
      * - No use of uncontrollable events.
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "M2":
+     *
      * - Current location of automaton "M2".
      * - Discrete variable "M2.vm2".
      *
@@ -41,7 +45,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "R1":
+     *
      * - Discrete variable "R1.vr1".
      *
      * - PLC edge selection variable "edge_R1".
@@ -50,7 +56,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "R2":
+     *
      * - Current location of automaton "R2".
      * - Discrete variable "R2.vr2".
      *
@@ -60,7 +68,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "S1":
+     *
      * - Discrete variable "S1.vs1".
      *
      * - PLC edge selection variable "edge_S1".
@@ -69,7 +79,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "S2":
+     *
      * - Current location of automaton "S2".
      * - Discrete variable "S2.vs2".
      *
@@ -79,7 +91,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "Y1":
+     *
      * - Discrete variable "Y1.vy1".
      *
      * - PLC edge selection variable "edge_Y1".
@@ -88,7 +102,9 @@ BEGIN
      *
      * - Controllable event "c".
      *
+     * ----
      * Automaton "Y2":
+     *
      * - Current location of automaton "Y2".
      * - Discrete variable "Y2.vy2".
      *
@@ -97,7 +113,6 @@ BEGIN
      * - No use of uncontrollable events.
      *
      * - Controllable event "c".
-     *
      *------------------------------------------------------ *)
 
     (* --- Initialize state. --------------------------------------------------- *)
@@ -170,7 +185,7 @@ BEGIN
              ***********)
             IF "DB".S1_vs1 = 1 THEN
                 senderAut := 1;
-                edge_S1_1 := 1;
+                edge_S1 := 0;
             END_IF;
         END_IF;
         IF senderAut = 0 THEN
@@ -186,10 +201,10 @@ BEGIN
              ***********)
             IF "DB".S2 = S2_A AND "DB".S2_vs2 = 2 THEN
                 senderAut := 2;
-                edge_S2_1 := 1;
+                edge_S2 := 0;
             ELSIF "DB".S2 = S2_B AND "DB".S2_vs2 = 3 THEN
                 senderAut := 2;
-                edge_S2_1 := 2;
+                edge_S2 := 1;
             END_IF;
         END_IF;
         IF senderAut = 0 THEN
@@ -212,7 +227,7 @@ BEGIN
                  ***********)
                 IF TRUE THEN
                     receiverAut := 1;
-                    edge_R1_1 := 1;
+                    edge_R1 := 0;
                 END_IF;
             END_IF;
             IF receiverAut = 0 THEN
@@ -228,10 +243,10 @@ BEGIN
                  ***********)
                 IF "DB".R2 = R2_A THEN
                     receiverAut := 2;
-                    edge_R2_1 := 1;
+                    edge_R2 := 0;
                 ELSIF "DB".R2 = R2_B THEN
                     receiverAut := 2;
-                    edge_R2_1 := 2;
+                    edge_R2 := 1;
                 END_IF;
             END_IF;
             IF receiverAut = 0 THEN
@@ -252,7 +267,7 @@ BEGIN
              *   - 1st edge in the location
              ***********)
             IF "DB".Y1_vy1 = 1 THEN
-                edge_Y1_1 := 1;
+                edge_Y1 := 0;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
                 eventEnabled := FALSE;
@@ -270,9 +285,9 @@ BEGIN
              *   - 1st edge in the location
              ***********)
             IF "DB".Y2 = Y2_A AND "DB".Y2_vy2 = 2 THEN
-                edge_Y2_1 := 1;
+                edge_Y2 := 0;
             ELSIF "DB".Y2 = Y2_B AND "DB".Y2_vy2 = 3 THEN
-                edge_Y2_1 := 2;
+                edge_Y2 := 1;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
                 eventEnabled := FALSE;
@@ -291,19 +306,19 @@ BEGIN
              *******************************)
             IF senderAut = 1 THEN
                 (* Automaton "S1" was selected. *)
-                IF edge_S1_1 = 1 THEN
+                IF edge_S1 = 0 THEN
                     (* Compute sent channel value. *)
                     channelValue := 1;
                 END_IF;
             ELSIF senderAut = 2 THEN
                 (* Automaton "S2" was selected. *)
-                IF edge_S2_1 = 1 THEN
+                IF edge_S2 = 0 THEN
                     (* Compute sent channel value. *)
                     channelValue := 2;
                     (* Perform assignments of the 1st edge in location "S2.A". *)
                     (* Perform update of discrete variable "S2.vs2". *)
                     "DB".S2_vs2 := 2;
-                ELSIF edge_S2_1 = 2 THEN
+                ELSIF edge_S2 = 1 THEN
                     (* Compute sent channel value. *)
                     channelValue := 3;
                 END_IF;
@@ -313,18 +328,18 @@ BEGIN
              *******************************)
             IF receiverAut = 1 THEN
                 (* Automaton "R1" was selected. *)
-                IF edge_R1_1 = 1 THEN
+                IF edge_R1 = 0 THEN
                     (* Perform assignments of the 1st edge of automaton "R1". *)
                     (* Perform update of discrete variable "R1.vr1". *)
                     "DB".R1_vr1 := channelValue;
                 END_IF;
             ELSIF receiverAut = 2 THEN
                 (* Automaton "R2" was selected. *)
-                IF edge_R2_1 = 1 THEN
+                IF edge_R2 = 0 THEN
                     (* Perform assignments of the 1st edge in location "R2.A". *)
                     (* Perform update of discrete variable "R2.vr2". *)
                     "DB".R2_vr2 := channelValue;
-                ELSIF edge_R2_1 = 2 THEN
+                ELSIF edge_R2 = 1 THEN
                     (* Perform assignments of the 1st edge in location "R2.B". *)
                     (* Perform update of discrete variable "R2.vr2". *)
                     "DB".R2_vr2 := channelValue;
@@ -341,7 +356,11 @@ BEGIN
              *******************************)
             (* Perform assignments of automaton "M1". *)
             IF current_M1_vm1 = 1 THEN
-                (* Perform assignments of the 1st edge in location "M1.A". *)
+                (***********
+                 * Location "A":
+                 *
+                 * Perform assignments of the 1st edge in location "M1.A".
+                 ***********)
                 (* Perform update of discrete variable "M1.vm1". *)
                 "DB".M1_vm1 := 1;
             END_IF;

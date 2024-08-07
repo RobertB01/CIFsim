@@ -95,13 +95,13 @@ import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.java.CifConstructors;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -416,13 +416,16 @@ public abstract class CodeGen {
      * @param absSpecPath The absolute local file system path to the CIF file.
      * @param outputPath The absolute or relative local file system path to the output directory to which the code files
      *     will be written.
+     * @param termination Cooperative termination query function.
      */
-    public void generate(Specification spec, String cifSpecFileDir, String absSpecPath, String outputPath) {
+    public void generate(Specification spec, String cifSpecFileDir, String absSpecPath, String outputPath,
+            Termination termination)
+    {
         // Initialization.
         init();
 
         // Prepare for code generation.
-        prepare(spec, absSpecPath);
+        prepare(spec, absSpecPath, termination);
 
         // Create code context.
         CodeContext ctxt = new CodeContext(this);
@@ -722,8 +725,9 @@ public abstract class CodeGen {
      *
      * @param spec The CIF specification to preprocess.
      * @param absSpecPath The absolute local file system path to the CIF file.
+     * @param termination Cooperative termination query function.
      */
-    private void prepare(Specification spec, String absSpecPath) {
+    private void prepare(Specification spec, String absSpecPath, Termination termination) {
         // Remove position information, for performance.
         new RemovePositionInfo().transform(spec);
 
@@ -767,7 +771,7 @@ public abstract class CodeGen {
         // after elimination of component definition/instantiation, to make it
         // easier to check. Do this after some simplification, to support more
         // specifications.
-        CifPreconditionChecker checker = new CodeGenPreChecker(language, () -> AppEnv.isTerminationRequested());
+        CifPreconditionChecker checker = new CodeGenPreChecker(language, termination);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF code generator");
 
         // Linearize, to get rid of parallelism.

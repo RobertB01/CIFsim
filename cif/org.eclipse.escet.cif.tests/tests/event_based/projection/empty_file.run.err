@@ -1,2 +1,6 @@
 ERROR: Failed to compute projection for CIF file "event_based/projection/empty_file.cif".
-CAUSE: CIF input file contains 0 automata, while projection requires exactly one automaton.
+CAUSE: CIF automaton projection tool failed due to unsatisfied preconditions:
+
+  ---------------------------------------------------------------------------
+  (1/1) Specification does not have exactly 1 automaton (no automaton found).
+  ---------------------------------------------------------------------------

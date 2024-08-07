@@ -47,13 +47,12 @@ public class NonConflictingCheck {
     }
 
     /**
-     * Check the pre-conditions for applying the non-conflicting check.
+     * Check additional preconditions for applying the non-conflicting check.
      *
-     * @param automs Automata for which to check the pre-conditions.
+     * @param automs Automata for which to check the preconditions.
      */
     public static void nonconflictingPreCheck(List<Automaton> automs) {
         for (Automaton aut: automs) {
-            AutomatonHelper.reportNonDeterministic(aut);
             if (!AutomatonHelper.trimCheck(aut)) {
                 String msg = fmt("Unsupported automaton \"%s\": the automaton is not trim.", aut.name);
                 throw new InvalidInputException(msg);

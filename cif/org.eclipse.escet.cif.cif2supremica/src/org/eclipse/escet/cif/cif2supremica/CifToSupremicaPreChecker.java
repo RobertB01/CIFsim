@@ -13,11 +13,10 @@
 
 package org.eclipse.escet.cif.cif2supremica;
 
-import java.util.function.BooleanSupplier;
-
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.CompOnlyVarValueMarkerPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
@@ -44,16 +43,17 @@ import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
+import org.eclipse.escet.common.java.Termination;
 
 /** CIF to Supremica transformation precondition checker. */
 public class CifToSupremicaPreChecker extends CifPreconditionChecker {
     /**
      * Constructor for the {@link CifToSupremicaPreChecker} class.
      *
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      */
-    public CifToSupremicaPreChecker(BooleanSupplier shouldTerminate) {
-        super(shouldTerminate,
+    public CifToSupremicaPreChecker(Termination termination) {
+        super(termination,
 
                 // Kindless automata are not supported.
                 new AutOnlySpecificSupKindsCheck(SupKind.PLANT, SupKind.REQUIREMENT, SupKind.SUPERVISOR),
@@ -76,7 +76,7 @@ public class CifToSupremicaPreChecker extends CifPreconditionChecker {
                 // Automata that do not have exactly one initial location are not supported. We allow only exactly one
                 // initial location to ensure that the elimination of location references in expressions does not
                 // introduce additional initialization predicates.
-                new AutOnlyWithOneInitLocCheck(),
+                new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE),
 
                 new InvNoSpecificInvsCheck() //
                         // Kindless state/event exclusion invariants are not supported. They must have a supervisory

@@ -56,7 +56,7 @@ The following terminals are defined:
 
 `Identifier`::
 An identifier.
-Defined by the regular expression: `[\-A-Za-z0-9_]+`.
+Defined by the regular expression: `+[\-A-Za-z0-9_]pass:[+]+`.
 They thus consist of dashes (`-`), letters, digits and underscores (`+_+`).
 +
 Examples:

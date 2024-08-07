@@ -15,12 +15,8 @@ package org.eclipse.escet.cif.typechecker.annotations.builtin;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.eclipse.escet.cif.common.CifAnnotationUtils;
+import org.eclipse.escet.cif.common.CifDocAnnotationUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
-import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
@@ -98,7 +94,7 @@ public class DocAnnotationProvider extends AnnotationProvider {
             // 2c) Check for evaluation errors.
             if (doEvaluationCheck) {
                 try {
-                    getDoc(annotation);
+                    CifDocAnnotationUtils.getDoc(annotation);
                 } catch (InvalidModelException e) {
                     CifEvalException evalErr = (CifEvalException)e.getCause();
                     String evalErrMsg = evalErr.toString();
@@ -118,50 +114,5 @@ public class DocAnnotationProvider extends AnnotationProvider {
     @Override
     public final void checkGlobal(Specification spec, AnnotationProblemReporter reporter) {
         // Do nothing.
-    }
-
-    /**
-     * Returns the documentation texts of an annotated object.
-     *
-     * @param obj The annotated object. Must be a named object.
-     * @return The documentation texts.
-     * @throws InvalidModelException If a documentation text can not be evaluated.
-     */
-    public static List<String> getDocs(AnnotatedObject obj) {
-        return CifAnnotationUtils.getAnnotations(obj, "doc").map(a -> getDoc(a)).toList();
-    }
-
-    /**
-     * Returns the documentation text of a documentation annotation.
-     *
-     * @param docAnno The documentation annotation.
-     * @return The documentation text.
-     * @throws InvalidModelException If the documentation text can not be evaluated.
-     */
-    public static String getDoc(Annotation docAnno) {
-        return docAnno.getArguments().stream().map(arg -> getDoc(arg)).collect(Collectors.joining("\n"));
-    }
-
-    /**
-     * Returns the documentation text of a documentation annotation argument.
-     *
-     * @param docAnnoArg The documentation annotation argument.
-     * @return The documentation text.
-     * @throws InvalidModelException If the documentation text can not be evaluated.
-     */
-    private static String getDoc(AnnotationArgument docAnnoArg) {
-        try {
-            Object value = CifEvalUtils.eval(docAnnoArg.getValue(), false);
-            return (String)value;
-        } catch (CifEvalException e) {
-            AnnotatedObject annotatedObj = (AnnotatedObject)docAnnoArg.eContainer().eContainer();
-            if (CifTextUtils.hasName(annotatedObj)) {
-                String msg = fmt("Failed to evaluate an argument of the \"doc\" annotation of \"%s\".",
-                        CifTextUtils.getAbsName(annotatedObj));
-                throw new InvalidModelException(msg, e);
-            } else {
-                throw new InvalidModelException("Failed to evaluate an argument of a \"doc\" annotation.", e);
-            }
-        }
     }
 }

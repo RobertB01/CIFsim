@@ -16,9 +16,6 @@ include::../_part_attributes.asciidoc[]
 [[lang-ref-extensions-annotations-state]]
 == State annotations
 
-WARNING: Annotations are currently an experimental work-in-progress language feature.
-Their design may change in a backward incompatible manner.
-
 A state <<lang-ref-extensions-annotations,annotation>> adds <<lang-tut-basics-chapter-synchronizing-events-statespace,state>> information to a location in an automaton.
 For basic information on state annotations, see the <<lang-tut-extensions-chapter-annotations-state,language tutorial>>.
 Here we discuss further details.

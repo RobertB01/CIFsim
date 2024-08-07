@@ -17,15 +17,14 @@ automaton A:
 
   location AS0:
     initial;
-    edge a do x:=0 goto AS1;
+    edge a do x := 0 goto AS1;
 
   location AS1:
-    edge b when x < 5 do x:= x + 1  goto AS1;
-    edge c when x = 5 do x:= 0      goto AS0;
+    edge b when x < 5 do x := x + 1 goto AS1;
+    edge c when x = 5 do x := 0     goto AS0;
 end
 
 automaton B:
-
   location BS0:
     initial;
     edge A.c when A.x = 5;

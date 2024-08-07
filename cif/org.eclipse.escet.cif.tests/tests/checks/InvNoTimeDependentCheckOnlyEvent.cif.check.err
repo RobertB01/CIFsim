@@ -1,0 +1,55 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  -------------------------------------------------------------------------
+  (1/2) A continuous variable is used in a state/event exclusion invariant.
+  -------------------------------------------------------------------------
+   * In group "direct":
+     - invariant e needs c > 0;
+                         ^
+     - invariant c > 0 disables e;
+                 ^
+   * In algebraic variable "via_alg_direct.a3":
+     - alg real a3 = c;
+                     ^
+   * In location "via_alg_per_loc.loc2":
+     - equation a2 = c;
+                     ^
+   * In group "via_alg_single":
+     - equation a3 = c;
+                     ^
+   * In continuous variable "via_deriv_direct.c2":
+     - cont c2 der time + c;
+                          ^
+   * In location "via_deriv_per_loc.loc2":
+     - equation c2' = c;
+                      ^
+   * In group "via_deriv_single":
+     - equation c2' = time + c;
+                             ^
+
+  -------------------------------------------------------------------
+  (2/2) Variable "time" is used in a state/event exclusion invariant.
+  -------------------------------------------------------------------
+   * In group "direct":
+     - invariant e needs time > 0;
+                         ^
+     - invariant time > 0 disables e;
+                 ^
+   * In algebraic variable "via_alg_direct.a2":
+     - alg real a2 = time;
+                     ^
+   * In location "via_alg_per_loc.loc1":
+     - equation a2 = time;
+                     ^
+   * In group "via_alg_single":
+     - equation a2 = time;
+                     ^
+   * In continuous variable "via_deriv_direct.c2":
+     - cont c2 der time + c;
+                   ^
+   * In location "via_deriv_per_loc.loc1":
+     - equation c2' = time;
+                      ^
+   * In group "via_deriv_single":
+     - equation c2' = time + c;
+                      ^

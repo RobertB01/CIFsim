@@ -18,3 +18,9 @@ plant p:
     initial;
     edge e;
 end
+
+supervisor s:
+  location:
+    initial;
+    edge e;
+end

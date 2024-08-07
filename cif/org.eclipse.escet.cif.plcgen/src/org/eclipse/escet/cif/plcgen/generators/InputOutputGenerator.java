@@ -400,15 +400,15 @@ public class InputOutputGenerator {
             boolean isInput = (entry.ioDirection == IoDirection.IO_READ);
             List<PlcStatement> stats = isInput ? inputStats : outputStats;
 
-            // Construct the name of the variable with the I/O address.
+            // Construct the name of the variable with the I/O address..
             String ioVarName;
             if (entry.ioName != null) {
                 ioVarName = entry.ioName; // Pick the custom name if available.
             } else {
                 // Else, derive a name for the variable with the I/O address from the attached CIF state variable.
-                String varPrefix = isInput ? "in_" : "out_";
-                ioVarName = varPrefix + getAbsName(entry.cifObject, false);
-                ioVarName = nameGenerator.generateGlobalName(ioVarName, false);
+               String varPrefix = isInput ? "in_" : "out_";
+               ioVarName = getAbsName(entry.cifObject, false);
+               ioVarName = varPrefix + nameGenerator.generateGlobalNames(Set.of(varPrefix), ioVarName, false);
             }
 
             // Construct the variable with the I/O address, and store it.

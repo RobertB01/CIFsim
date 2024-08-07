@@ -4,12 +4,13 @@ ORGANIZATION_BLOCK MAIN
         loopCount: DINT;
         curValue: TIME;
         current_p_t: REAL;
-        edge_p_1: DINT;
+        edge_p: BOOL;
         eventEnabled: BOOL;
         isProgress: BOOL;
         timeOut: BOOL;
         dummyVar1: DINT;
         dummyVar2: DINT;
+        dummyVar3: DINT;
     END_VAR
 
 BEGIN
@@ -20,7 +21,9 @@ BEGIN
     (*------------------------------------------------------
      * Model overview:
      *
+     * ----
      * Automaton "p":
+     *
      * - Continuous variable "p.t".
      * - Discrete variable "p.x".
      *
@@ -29,7 +32,6 @@ BEGIN
      * - Uncontrollable event "e".
      *
      * - No use of controllable events.
-     *
      *------------------------------------------------------ *)
 
     (* --- Initialize state or update continuous variables. -------------------- *)
@@ -79,7 +81,7 @@ BEGIN
          *   - 1st edge in the location
          ***********)
         IF "DB".p_t <= 1.0 AND "DB".p_x = 5 THEN
-            edge_p_1 := 1;
+            edge_p := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
             eventEnabled := FALSE;
@@ -93,7 +95,7 @@ BEGIN
              * Perform the assignments of each synchronizing automaton.
              *******************************)
             (* Perform assignments of automaton "p". *)
-            IF edge_p_1 = 1 THEN
+            IF edge_p = 0 THEN
                 (* Perform assignments of the 1st edge of automaton "p". *)
                 (* Perform update of continuous variable "p.t". *)
                 "DB".p_t := 7.0;

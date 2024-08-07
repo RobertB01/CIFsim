@@ -16,6 +16,7 @@ package org.eclipse.escet.tooldef.runtime.builtins;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
@@ -92,7 +93,13 @@ public class BuiltInPathTools {
     public static void chdir(String path) {
         // Get new working directory.
         String absPath = abspath(path, curdir());
-        Path workdir = java.nio.file.Paths.get(absPath);
+        Path workdir;
+        try {
+            workdir = java.nio.file.Paths.get(absPath);
+        } catch (InvalidPathException ex) {
+            String msg = fmt("Failed to change current working directory: path \"%s\" is invalid.", path);
+            throw new ToolDefException(msg, ex);
+        }
 
         // Check new working directory.
         if (!Files.exists(workdir)) {

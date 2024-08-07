@@ -39,7 +39,6 @@ import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.BooleanSupplier;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -49,7 +48,8 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealMatrixFormat;
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlySpecificSupKindsCheck;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.CompNoMarkerPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
@@ -94,7 +94,6 @@ import org.eclipse.escet.cif.multilevel.clustering.TreeNode;
 import org.eclipse.escet.cif.multilevel.options.DmmOutputFileOption;
 import org.eclipse.escet.cif.multilevel.options.PartialSpecsOutputDirectoryOption;
 import org.eclipse.escet.cif.multilevel.partialspecs.PartialSpecsBuilder;
-import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -110,6 +109,7 @@ import org.eclipse.escet.common.dsm.Dsm;
 import org.eclipse.escet.common.dsm.DsmClustering;
 import org.eclipse.escet.common.java.BitSetIterator;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -193,7 +193,7 @@ public class MultilevelApp extends Application<IOutputComponent> {
         }
 
         // Verify pre-conditions.
-        checkSpec(spec, absSpecPath, () -> AppEnv.isTerminationRequested());
+        checkSpec(spec, absSpecPath, () -> isTerminationRequested());
         if (isTerminationRequested()) {
             return 0;
         }
@@ -394,10 +394,10 @@ public class MultilevelApp extends Application<IOutputComponent> {
      *
      * @param spec Specification to check.
      * @param absSpecPath The absolute local file system path to the CIF file to check.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      */
-    public static void checkSpec(Specification spec, String absSpecPath, BooleanSupplier shouldTerminate) {
-        CifPreconditionChecker checker = new MultiLevelPreChecker(shouldTerminate);
+    public static void checkSpec(Specification spec, String absSpecPath, Termination termination) {
+        CifPreconditionChecker checker = new MultiLevelPreChecker(termination);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF multi-level synthesis");
     }
 
@@ -406,15 +406,15 @@ public class MultilevelApp extends Application<IOutputComponent> {
         /**
          * Constructor of the {@link MultiLevelPreChecker} class.
          *
-         * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+         * @param termination Cooperative termination query function.
          */
-        public MultiLevelPreChecker(BooleanSupplier shouldTerminate) {
-            super(shouldTerminate,
+        public MultiLevelPreChecker(Termination termination) {
+            super(termination,
 
                     // Constraints from CIF to DMM:
 
                     // Ensure there are no relations between elements hidden in initialization expressions.
-                    new AutOnlyWithOneInitLocCheck(), //
+                    new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE), //
                     new VarNoDiscWithMultiInitValuesCheck(), //
                     new VarDiscOnlyStaticEvalInitCheck(),
 

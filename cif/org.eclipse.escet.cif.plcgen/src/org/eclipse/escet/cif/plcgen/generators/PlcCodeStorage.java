@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.escet.cif.common.CifDocAnnotationFormatter;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
@@ -181,7 +182,7 @@ public class PlcCodeStorage {
         }
 
         // Compute the maximum feasible limit that can be checked.
-        PlcElementaryType loopCountType = target.getIntegerType();
+        PlcElementaryType loopCountType = target.getStdIntegerType();
         int feasibleLimit = switch (loopCountType.bitSize) {
             case 64, 32 -> specifiedLimit; // Java int size is 32 bit, all values of the limit fit.
             case 16 -> Math.min(specifiedLimit, 0x7FFF);
@@ -422,7 +423,7 @@ public class PlcCodeStorage {
 
             // Construct a "loopCount" variable, finite upper bounds on the loop have already been limited to fit in the
             // standard integer PLC type.
-            PlcElementaryType loopCountType = target.getIntegerType();
+            PlcElementaryType loopCountType = target.getStdIntegerType();
             loopCount = exprGen.makeLocalVariable("loopCount", loopCountType);
             addTempVariable(loopCount);
         }
@@ -438,7 +439,7 @@ public class PlcCodeStorage {
         CodeBox box = mainProgram.body;
         addProgramHeader(box);
         box.add();
-        addComponentDocumentation(box);
+        box.add(generateComponentDocumentation());
 
         // Add input code if it exists.
         //
@@ -677,19 +678,27 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Generate documentation in the generated PLC code about the CIF complex components.
+     * Generate documentation for the generated PLC code about the CIF complex components.
      *
-     * @param box Storage of generated text.
+     * @return The created lines of text.
      */
-    private void addComponentDocumentation(CodeBox box) {
+    private List<String> generateComponentDocumentation() {
+        // Construct @doc annotation formatters, one for automata and one for the information inside automata.
+        CifDocAnnotationFormatter autDocFormatter = new CifDocAnnotationFormatter(null, null, " * ", List.of(" *"),
+                null);
+        CifDocAnnotationFormatter subDocFormatter = new CifDocAnnotationFormatter(null, null, " *   ", List.of(" *"),
+                null);
+
+        TextTopics topics = new TextTopics(" *");
+
         // Order the components by name.
         List<ComponentDocData> compDatas = listc(componentDatas.size());
         compDatas.addAll(componentDatas.values());
         Collections.sort(compDatas, Comparator.comparing(cd -> cd.getComponentName()));
 
         // Open the comment, and add a header.
-        box.add("(*------------------------------------------------------");
-        box.add(" * Model overview:");
+        topics.add("(*------------------------------------------------------");
+        topics.add(" * Model overview:");
 
         // Add the documentation text of each component.
         boolean allComponentsEmpty = true;
@@ -703,25 +712,23 @@ public class PlcCodeStorage {
             compData.sortData();
 
             // Print a line describing the component.
-            box.add(" *"); // As empty components are skipped, the last stored line is always non-empty.
-            box.add(" * %s:", makeInitialUppercase(DocumentingSupport.getDescription(compData.component)));
-            boolean needEmpty = false; // Add the first entry directly to the header.
+            topics.ensureEmptyAtEnd();
+            topics.add(" * ----");
+            topics.add(" * %s:", makeInitialUppercase(DocumentingSupport.getDescription(compData.component)));
+            topics.addAll(autDocFormatter.formatDocs(compData.component));
 
             // List the variables.
+            topics.ensureEmptyAtEnd();
             if (compData.isEmptyVariables()) {
-                needEmpty = insertEmpty(needEmpty, box);
-                box.add(" * - No variables in this component.");
-                needEmpty = true;
+                topics.add(" * - No variables in this component.");
             } else {
-                needEmpty = insertEmpty(needEmpty, !compData.variables.isEmpty(), box);
                 for (Declaration var: compData.variables) {
-                    box.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(var)));
-                    needEmpty = true;
+                    topics.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(var)));
+                    topics.addAll(subDocFormatter.formatDocs(var));
                 }
                 if (compData.edgeVariableName != null) {
-                    needEmpty = insertEmpty(needEmpty, box);
-                    box.add(" * - PLC edge selection variable \"%s\".", compData.edgeVariableName);
-                    needEmpty = true;
+                    topics.ensureEmptyAtEnd();
+                    topics.add(" * - PLC edge selection variable \"%s\".", compData.edgeVariableName);
                 }
             }
 
@@ -731,66 +738,36 @@ public class PlcCodeStorage {
             }
 
             // List the uncontrollable events of the component.
-            needEmpty = insertEmpty(needEmpty, box);
+            topics.ensureEmptyAtEnd();
             if (compData.uncontrollableEvents.isEmpty()) {
-                box.add(" * - No use of uncontrollable events.");
-                needEmpty = true;
+                topics.add(" * - No use of uncontrollable events.");
             } else {
                 for (Event evt: compData.uncontrollableEvents) {
-                    box.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
-                    needEmpty = true;
+                    topics.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
+                    topics.addAll(subDocFormatter.formatDocs(evt));
                 }
             }
 
             // List the controllable events of the component.
-            needEmpty = insertEmpty(needEmpty, box);
+            topics.ensureEmptyAtEnd();
             if (compData.controllableEvents.isEmpty()) {
-                box.add(" * - No use of controllable events.");
-                needEmpty = true;
+                topics.add(" * - No use of controllable events.");
             } else {
                 for (Event evt: compData.controllableEvents) {
-                    box.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
-                    needEmpty = true;
+                    topics.add(" * - %s.", makeInitialUppercase(DocumentingSupport.getDescription(evt)));
+                    topics.addAll(subDocFormatter.formatDocs(evt));
                 }
             }
         }
         if (allComponentsEmpty) {
             // Completely empty model information.
-            box.add(" *");
-            box.add(" * No groups or automata to report.");
+            topics.ensureEmptyAtEnd();
+            topics.add(" * No groups or automata to report.");
         }
-        box.add(" *");
-        box.add(" *------------------------------------------------------ *)");
-    }
+        topics.dropEmptyAtEnd();
+        topics.add(" *------------------------------------------------------ *)");
 
-    /**
-     * Insert an empty comment line before the next non-empty comment line if it is needed, under the assumption that
-     * the next code will add at least one non-empty comment line.
-     *
-     * @param needEmpty Whether the output needs an empty line.
-     * @param box Storage of the output.
-     * @return Whether the output needs an empty comment line (always {@code false}).
-     */
-    private boolean insertEmpty(boolean needEmpty, CodeBox box) {
-        return insertEmpty(needEmpty, true, box);
-    }
-
-    /**
-     * Insert an empty comment line before the next non-empty comment line if it is needed.
-     *
-     * @param needEmpty Whether the output needs an empty line.
-     * @param willAddText Whether the next code will add at least one text line to the output.
-     * @param box Storage of the output.
-     * @return Whether the output needs an empty comment line.
-     */
-    private boolean insertEmpty(boolean needEmpty, boolean willAddText, CodeBox box) {
-        if (!willAddText) {
-            return needEmpty;
-        }
-        if (needEmpty) {
-            box.add(" *");
-        }
-        return false;
+        return topics.getLines();
     }
 
     /**

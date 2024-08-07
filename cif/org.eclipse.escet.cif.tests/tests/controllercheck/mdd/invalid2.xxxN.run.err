@@ -1,15 +1,165 @@
 WARNING: The alphabet of the specification contains no controllable events.
 ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
- - Unsupported assignment: unsupported part "p.sb sub p.sb" of assignment "p.b := p.sb sub p.sb": binary operator "sub" is not supported.
- - Unsupported assignment: unsupported part "true in p.sb" of assignment "p.b := true in p.sb": binary operator "in" is not supported.
- - Unsupported update: multi-assignments are not supported.
- - Unsupported update: partial variable assignments are not supported.
- - Unsupported variable "p.db": variables of type "dist bool" are not supported.
- - Unsupported variable "p.dbb": variables of type "dict(bool:bool)" are not supported.
- - Unsupported variable "p.fbb": variables of type "func bool(bool)" are not supported.
- - Unsupported variable "p.i": variables with rangeless integer types are not supported.
- - Unsupported variable "p.lb": variables of type "list bool" are not supported.
- - Unsupported variable "p.r": variables of type "real" are not supported.
- - Unsupported variable "p.sb": variables of type "set bool" are not supported.
- - Unsupported variable "p.str": variables of type "string" are not supported.
- - Unsupported variable "p.tbb": variables of type "tuple(bool a; bool b)" are not supported.
+
+  -------------------------------------------------
+  (1/15) A value of type "dict(bool:bool)" is used.
+  -------------------------------------------------
+   * In discrete variable "p.dbb":
+     - disc dict(bool:bool) dbb = {true: false};
+                                  ^
+   * In location "p.l":
+     - edge u do dbb := {true: true};
+                        ^
+
+  -------------------------------------------
+  (2/15) A value of type "dist bool" is used.
+  -------------------------------------------
+   * In discrete variable "p.db":
+     - disc dist bool db = constant(true);
+                                   ^
+
+  -------------------------------------------------
+  (3/15) A value of type "func bool(bool)" is used.
+  -------------------------------------------------
+   * In discrete variable "p.fbb":
+     - disc func bool(bool) fbb = f;
+                                  ^
+   * In location "p.l":
+     - edge u do fbb := f;
+                        ^
+
+  -------------------------------------------
+  (4/15) A value of type "list bool" is used.
+  -------------------------------------------
+   * In location "p.l":
+     - edge u do lb := lb[:];
+                         ^
+
+  ----------------------------------------------
+  (5/15) A value of type "list[1] bool" is used.
+  ----------------------------------------------
+   * In discrete variable "p.lb":
+     - disc list bool lb = [true];
+                           ^
+
+  --------------------------------------
+  (6/15) A value of type "real" is used.
+  --------------------------------------
+   * In location "p.l":
+     - edge u do r := <real>1;
+                      ^
+     - edge u do r := <real>1.0;
+                      ^
+     - edge u do r := time;
+                      ^
+     - edge u do r := r + r;
+                        ^
+     - edge u do r := r - r;
+                        ^
+     - edge u do r := r * r;
+                        ^
+     - edge u do r := r / r;
+                        ^
+   * In discrete variable "p.r":
+     - disc real r = 1.2;
+                     ^
+
+  ------------------------------------------
+  (7/15) A value of type "set bool" is used.
+  ------------------------------------------
+   * In location "p.l":
+     - edge u do sb := {true} or {false};
+                              ^
+     - edge u do sb := {true} and {false};
+                              ^
+   * In discrete variable "p.sb":
+     - disc set bool sb = {true};
+                          ^
+
+  ----------------------------------------
+  (8/15) A value of type "string" is used.
+  ----------------------------------------
+   * In location "p.l":
+     - edge u do str := "a";
+                        ^
+   * In discrete variable "p.str":
+     - disc string str = "a";
+                         ^
+
+  ---------------------------------------------------
+  (9/15) A value of type "tuple(bool; bool)" is used.
+  ---------------------------------------------------
+   * In discrete variable "p.tbb":
+     - disc tuple(bool a; bool b) tbb = (true, false);
+                                        ^
+
+  ---------------------------------------------------------
+  (10/15) A value of type "tuple(bool; dist bool)" is used.
+  ---------------------------------------------------------
+   * In location "p.l":
+     - edge u do (b, db) := sample db;
+                            ^
+
+  -------------------------------------------------------------------------------
+  (11/15) Discrete variable does not have a boolean, integer or enumeration type.
+  -------------------------------------------------------------------------------
+   * In discrete variable "p.db":
+     - disc dist bool db = constant(true);
+            ^
+   * In discrete variable "p.dbb":
+     - disc dict(bool:bool) dbb = {true: false};
+            ^
+   * In discrete variable "p.fbb":
+     - disc func bool(bool) fbb = f;
+            ^
+   * In discrete variable "p.lb":
+     - disc list bool lb = [true];
+            ^
+   * In discrete variable "p.r":
+     - disc real r = 1.2;
+            ^
+   * In discrete variable "p.sb":
+     - disc set bool sb = {true};
+            ^
+   * In discrete variable "p.str":
+     - disc string str = "a";
+            ^
+   * In discrete variable "p.tbb":
+     - disc tuple(bool a; bool b) tbb = (true, false);
+            ^
+
+  -------------------------------------------------------
+  (12/15) Discrete variable has a rangeless integer type.
+  -------------------------------------------------------
+   * In discrete variable "p.i":
+     - disc int i;
+            ^
+
+  ------------------------------------
+  (13/15) Edge has a multi-assignment.
+  ------------------------------------
+   * In location "p.l":
+     - edge u do (b, db) := sample db;
+                         ^
+
+  -----------------------------------------------
+  (14/15) Edge has a partial variable assignment.
+  -----------------------------------------------
+   * In location "p.l":
+     - edge u do tbb[a] := true;
+                    ^
+
+  --------------------------------------------------------------------------------------------------
+  (15/15) Value is too complex to be statically evaluated, or evaluation results in a runtime error.
+  --------------------------------------------------------------------------------------------------
+   * In location "p.l":
+     - edge u do i := i div i;
+                            ^
+     - edge u do i := i mod i;
+                            ^
+     - edge u do b := true in sb;
+                              ^
+     - edge u do b := sb sub sb;
+                      ^
+     - edge u do i := -i;
+                       ^

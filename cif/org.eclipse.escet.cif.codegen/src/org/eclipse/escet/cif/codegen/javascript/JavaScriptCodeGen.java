@@ -45,6 +45,7 @@ import org.eclipse.escet.cif.codegen.updates.tree.LhsListProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.LhsTupleProjection;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
+import org.eclipse.escet.cif.common.CifDocAnnotationUtils;
 import org.eclipse.escet.cif.common.CifIntFuncUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -66,7 +67,6 @@ import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
-import org.eclipse.escet.cif.typechecker.annotations.builtin.DocAnnotationProvider;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
@@ -240,7 +240,7 @@ public class JavaScriptCodeGen extends CodeGen {
             String origName = origDeclNames.get(constant);
             Assert.notNull(origName);
 
-            List<String> docs = DocAnnotationProvider.getDocs(constant);
+            List<String> docs = CifDocAnnotationUtils.getDocs(constant);
 
             declCode.add();
             if (docs.isEmpty()) {
@@ -299,7 +299,7 @@ public class JavaScriptCodeGen extends CodeGen {
             }
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
-            List<String> docs = DocAnnotationProvider.getDocs(var);
+            List<String> docs = CifDocAnnotationUtils.getDocs(var);
 
             code.add();
             if (docs.isEmpty()) {
@@ -413,7 +413,7 @@ public class JavaScriptCodeGen extends CodeGen {
             String name = getTargetVariableName(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
-            List<String> docs = DocAnnotationProvider.getDocs(var);
+            List<String> docs = CifDocAnnotationUtils.getDocs(var);
             code.add();
             code.add("/**");
             code.add(" * Evaluates algebraic variable \"%s\".", origName);
@@ -449,7 +449,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
         for (InputVariable var: inputVars) {
             String name = getTargetVariableName(var);
-            List<String> docs = DocAnnotationProvider.getDocs(var);
+            List<String> docs = CifDocAnnotationUtils.getDocs(var);
             String origName = origDeclNames.get(var);
             Assert.notNull(origName);
 
@@ -497,7 +497,7 @@ public class JavaScriptCodeGen extends CodeGen {
             }
 
             EnumLiteral lit = lits.get(i);
-            List<String> docs = DocAnnotationProvider.getDocs(lit);
+            List<String> docs = CifDocAnnotationUtils.getDocs(lit);
             String name = lit.getName();
 
             if (docs.isEmpty()) {
@@ -719,7 +719,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeCalls.add("if (this.execEvent%d()) continue;", i);
 
             // Add method code, starting with the header.
-            List<String> docs = (event == null) ? Collections.emptyList() : DocAnnotationProvider.getDocs(event);
+            List<String> docs = (event == null) ? Collections.emptyList() : CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
@@ -999,7 +999,7 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addSpec(CodeContext ctxt) {
-        List<String> docs = DocAnnotationProvider.getDocs(spec);
+        List<String> docs = CifDocAnnotationUtils.getDocs(spec);
         CodeBox classJavaDoc = makeCodeBox(0);
         if (docs.isEmpty()) {
             classJavaDoc.add("/** ${prefix} code generated from a CIF specification. */");

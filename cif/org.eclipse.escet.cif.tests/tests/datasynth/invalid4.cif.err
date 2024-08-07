@@ -1,2 +1,15 @@
 ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
- - Unsupported variable "p.v2": unsupported part "5 div p.v1" of initial value "5 div p.v1": "5 div p.v1" always results in division by zero.
+
+  ---------------------------------
+  (1/2) Division by zero for "div".
+  ---------------------------------
+   * In discrete variable "p.v2":
+     - disc int[0..5] v2 = 5 div v1;
+                                 ^
+
+  ------------------------------------------------
+  (2/2) Failed to statically evaluate a predicate.
+  ------------------------------------------------
+   * In discrete variable "p.v3":
+     - disc bool v3 = [true][c];
+                            ^

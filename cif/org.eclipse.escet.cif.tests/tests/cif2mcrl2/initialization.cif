@@ -1,0 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+automaton a:
+  disc int w = z + 2;   // 5
+  disc int x;           // 0
+  disc int y = 3;       // 3
+  disc int z = x + y;   // 3
+  location:
+    initial;
+    edge e when w + x + y + z < 0;
+end

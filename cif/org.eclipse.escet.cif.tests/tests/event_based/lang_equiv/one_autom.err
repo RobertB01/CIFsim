@@ -1,2 +1,6 @@
 ERROR: Failed to apply language equivalence check for CIF file "event_based/lang_equiv/one_autom.cif".
-CAUSE: Expected two automata, found 1 automaton.
+CAUSE: CIF language equivalence check tool failed due to unsatisfied preconditions:
+
+  -------------------------------------------------------------------------
+  (1/1) Specification does not have exactly 2 automata (1 automaton found).
+  -------------------------------------------------------------------------

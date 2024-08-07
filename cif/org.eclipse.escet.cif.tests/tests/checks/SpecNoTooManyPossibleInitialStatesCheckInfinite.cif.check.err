@@ -1,0 +1,5 @@
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  --------------------------------------------------------------------------------
+  (1/1) The specification has practically infinitely many possible initial states.
+  --------------------------------------------------------------------------------

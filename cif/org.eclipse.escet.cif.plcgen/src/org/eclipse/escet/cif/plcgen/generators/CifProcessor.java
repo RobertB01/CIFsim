@@ -24,10 +24,10 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BooleanSupplier;
 
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
@@ -99,6 +99,7 @@ import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.Sets;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -116,8 +117,8 @@ public class CifProcessor {
     /** Callback to send warnings to the user. */
     private final WarnOutput warnOutput;
 
-    /** Callback that indicates whether execution should be terminated on user request. */
-    private final BooleanSupplier shouldTerminate;
+    /** Cooperative termination query function. */
+    private final Termination termination;
 
     /** CIF specification being processed, is {@code null} until the specification has been checked and normalized. */
     private Specification spec = null;
@@ -133,7 +134,7 @@ public class CifProcessor {
         inputPaths = settings.inputPaths;
         simplifyValues = settings.simplifyValues;
         warnOutput = settings.warnOutput;
-        shouldTerminate = settings.shouldTerminate;
+        termination = settings.termination;
     }
 
     /** Process the input CIF specification, extracting the relevant information for PLC code generation. */
@@ -141,7 +142,7 @@ public class CifProcessor {
         // Read CIF specification.
         Specification spec = new CifReader().init(inputPaths.userPath, inputPaths.systemPath, false).read();
         widenSpec(spec);
-        preCheckSpec(spec, inputPaths.systemPath, shouldTerminate);
+        preCheckSpec(spec, inputPaths.systemPath, termination);
         normalizeSpec(spec);
         this.spec = spec; // Store the specification for querying.
 
@@ -266,17 +267,17 @@ public class CifProcessor {
                     AutomatonRoleInfo autRoleInfo = getAutRoleInfo(autRoleInfoPerEvent, eve.getEvent());
 
                     if (ee instanceof EdgeSend es) {
-                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, es.getValue(), edge.getGuards(),
-                                edge.getUpdates());
+                        TransitionEdge te = new TransitionEdge(edge, edgeNum, loc, destLoc, es.getValue(),
+                                edge.getGuards(), edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.SENDER);
                     } else if (ee instanceof EdgeReceive) {
-                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, null, edge.getGuards(),
-                                edge.getUpdates());
+                        TransitionEdge te = new TransitionEdge(edge, edgeNum, loc, destLoc, null,
+                                edge.getGuards(), edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.RECEIVER);
                     } else {
                         // Automaton synchronizes on the event. Whether it is a monitor is decided below.
-                        TransitionEdge te = new TransitionEdge(edgeNum, loc, destLoc, null, edge.getGuards(),
-                                edge.getUpdates());
+                        TransitionEdge te = new TransitionEdge(edge, edgeNum, loc, destLoc, null,
+                                edge.getGuards(), edge.getUpdates());
                         autRoleInfo.addEdge(te, AutomatonRole.SYNCER_OR_MONITOR);
                     }
                 }
@@ -571,10 +572,10 @@ public class CifProcessor {
      *
      * @param spec Specification to check.
      * @param absSpecPath The absolute local file system path to the CIF file to check.
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      */
-    private void preCheckSpec(Specification spec, String absSpecPath, BooleanSupplier shouldTerminate) {
-        PlcGenPreChecker checker = new PlcGenPreChecker(target.supportsArrays(), shouldTerminate);
+    private void preCheckSpec(Specification spec, String absSpecPath, Termination termination) {
+        PlcGenPreChecker checker = new PlcGenPreChecker(target.supportsArrays(), termination);
         checker.reportPreconditionViolations(spec, absSpecPath, "CIF PLC code generator");
     }
 
@@ -584,10 +585,10 @@ public class CifProcessor {
          * Constructor of the {@link PlcGenPreChecker} class.
          *
          * @param supportArrays Whether the target supports arrays.
-         * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+         * @param termination Cooperative termination query function.
          */
-        public PlcGenPreChecker(boolean supportArrays, BooleanSupplier shouldTerminate) {
-            super(shouldTerminate,
+        public PlcGenPreChecker(boolean supportArrays, Termination termination) {
+            super(termination,
 
                     // At least one automaton.
                     new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
@@ -600,7 +601,7 @@ public class CifProcessor {
                     new VarNoDiscWithMultiInitValuesCheck(),
 
                     // Automata must have a single initial location.
-                    new AutOnlyWithOneInitLocCheck(),
+                    new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE),
 
                     // Disallow state invariants, except ones that never block behavior.
                     new InvNoSpecificInvsCheck()
@@ -720,6 +721,7 @@ public class CifProcessor {
 
                     // Limit use of continuous variables.
                     new VarContOnlyTimers()
+
             );
         }
     }

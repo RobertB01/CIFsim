@@ -26,7 +26,7 @@
           </enum>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct">
+      <dataType name="TupleStruct2">
         <baseType>
           <struct>
             <variable name="field1">
@@ -87,9 +87,9 @@
                 <LREAL/>
               </type>
             </variable>
-            <variable name="edge_aut_1">
+            <variable name="edge_aut">
               <type>
-                <DINT/>
+                <BOOL/>
               </type>
             </variable>
             <variable name="eventEnabled">
@@ -104,12 +104,12 @@
             </variable>
             <variable name="litStruct">
               <type>
-                <derived name="TupleStruct"/>
+                <derived name="TupleStruct2"/>
               </type>
             </variable>
             <variable name="litStruct_1">
               <type>
-                <derived name="TupleStruct"/>
+                <derived name="TupleStruct2"/>
               </type>
             </variable>
           </tempVars>
@@ -123,12 +123,16 @@
 (*------------------------------------------------------
  * Model overview:
  *
+ * ----
  * Specification (top-level group):
+ *
  * - Input variable "bol".
  * - Input variable "col".
  * - Input variable "i".
  *
+ * ----
  * Automaton "aut":
+ *
  * - Discrete variable "aut.y".
  *
  * - PLC edge selection variable "edge_aut".
@@ -138,7 +142,6 @@
  * - Controllable event "aut.e".
  * - Controllable event "aut.f".
  * - Controllable event "aut.g".
- *
  *------------------------------------------------------ *)
 
 (* --- Initialize state. --------------------------------------------------- *)
@@ -174,7 +177,7 @@ WHILE isProgress DO
      *   - 1st edge in the location
      ***********)
     IF DINT_TO_LREAL(i) + c &gt; DINT_TO_LREAL(3) THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -188,7 +191,7 @@ WHILE isProgress DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "aut". *)
-        IF edge_aut_1 = 1 THEN
+        IF edge_aut = 0 THEN
             (* Perform assignments of the 1st edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
             aut_y := (DINT_TO_LREAL(xx) + p) - pp;
@@ -215,7 +218,7 @@ WHILE isProgress DO
     litStruct_1.field1 := 0;
     litStruct_1.field2 := 0;
     IF bol = holds OR i = litStruct_1.field1 THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;
@@ -229,7 +232,7 @@ WHILE isProgress DO
          * Perform the assignments of each synchronizing automaton.
          *******************************)
         (* Perform assignments of automaton "aut". *)
-        IF edge_aut_1 = 1 THEN
+        IF edge_aut = 0 THEN
             (* Perform assignments of the 2nd edge of automaton "aut". *)
             (* Perform update of discrete variable "aut.y". *)
             aut_y := 0.0 + DINT_TO_LREAL(x) + DINT_TO_LREAL(z);
@@ -254,7 +257,7 @@ WHILE isProgress DO
      *   - 3rd edge in the location
      ***********)
     IF col &lt;&gt; danger THEN
-        edge_aut_1 := 1;
+        edge_aut := 0;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
         eventEnabled := FALSE;

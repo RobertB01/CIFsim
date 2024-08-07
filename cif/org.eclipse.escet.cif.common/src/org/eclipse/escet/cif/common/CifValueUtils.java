@@ -286,23 +286,55 @@ public class CifValueUtils {
      * @return {@code true} if the expression always evaluates to the same value; {@code false} if the expression may
      *     evaluate to different values at run-time or if it can not be statically determined whether the expression
      *     will always evaluate to the same value at run-time.
+     * @see #findNonSingleValueSubExpr
      */
     public static boolean hasSingleValue(Expression expr, boolean initial, boolean checkRefs) {
+        return findNonSingleValueSubExpr(expr, initial, checkRefs) == null;
+    }
+
+    /**
+     * Finds, in a given expression, a (sub-)expression that does not have a single value, since it may evaluate to
+     * different values depending on the run-time state of the system.
+     *
+     * <p>
+     * Note that this method is more liberal than the {@code CifExprsTypeChecker.checkStaticEvaluable} method, as the
+     * type checker does not allow static evaluation of algebraic variables, while this method allows it if the
+     * algebraic variable has a single value.
+     * </p>
+     *
+     * <p>
+     * Standard library function expressions are not supported, as standard library functions can't be used as values.
+     * Similarly, tau expressions and field expressions are not supported by this method.
+     * </p>
+     *
+     * @param expr The expression to check.
+     * @param initial Whether the check should only take into account the initial state ({@code true}) or any state
+     *     ({@code false}, includes the initial state).
+     * @param checkRefs Whether references should be followed and checked recursively. If {@code false}, references to
+     *     constants, variables, functions, etc are considered not to have a single value. If {@code true}, the
+     *     references may or may not have a single value, depending on the declarations to which they refer. See also
+     *     {@link #hasSingleValue}.
+     * @return {@code null} if the given expression always evaluates to the same value; otherwise a (sub-)expression
+     *     that may evaluate to different values at run-time, or for which it can not be statically determined whether
+     *     it will always evaluate to the same value at run-time.
+     * @see #hasSingleValue
+     */
+    public static Expression findNonSingleValueSubExpr(Expression expr, boolean initial, boolean checkRefs) {
         if (expr instanceof BoolExpression) {
-            return true;
+            return null;
         }
         if (expr instanceof IntExpression) {
-            return true;
+            return null;
         }
         if (expr instanceof RealExpression) {
-            return true;
+            return null;
         }
         if (expr instanceof StringExpression) {
-            return true;
+            return null;
         }
 
         if (expr instanceof TimeExpression) {
-            return initial;
+            return initial ? null : expr;
         }
 
         if (expr instanceof CastExpression) {
@@ -313,7 +345,7 @@ public class CifValueUtils {
                 // we use an explicit automaton reference or an implicit
                 // automaton 'self' reference.
                 if (!checkRefs) {
-                    return false;
+                    return expr;
                 }
 
                 // Get automaton.
@@ -339,12 +371,12 @@ public class CifValueUtils {
                 // false. It does so using this method. As such, that would
                 // lead to an infinite recursion for initialization predicates
                 // of locations, causing a stack overflow.
-                return aut.getLocations().size() == 1;
+                return (aut.getLocations().size() == 1) ? null : expr;
             }
 
             // Normal case: depends on the child.
             CastExpression cexpr = (CastExpression)expr;
-            return hasSingleValue(cexpr.getChild(), initial, checkRefs);
+            return findNonSingleValueSubExpr(cexpr.getChild(), initial, checkRefs);
         }
 
         if (expr instanceof UnaryExpression) {
@@ -352,16 +384,19 @@ public class CifValueUtils {
             // even though it theoretically has no side effects.
             UnaryExpression uexpr = (UnaryExpression)expr;
             if (uexpr.getOperator() == UnaryOperator.SAMPLE) {
-                return false;
+                return expr;
             }
-            return hasSingleValue(uexpr.getChild(), initial, checkRefs);
+            return findNonSingleValueSubExpr(uexpr.getChild(), initial, checkRefs);
         }
 
         if (expr instanceof BinaryExpression) {
             // Depends on the children.
             BinaryExpression bexpr = (BinaryExpression)expr;
-            return hasSingleValue(bexpr.getLeft(), initial, checkRefs)
-                    && hasSingleValue(bexpr.getRight(), initial, checkRefs);
+            Expression result = findNonSingleValueSubExpr(bexpr.getLeft(), initial, checkRefs);
+            if (result != null) {
+                return result;
+            }
+            return findNonSingleValueSubExpr(bexpr.getRight(), initial, checkRefs);
         }
 
         if (expr instanceof IfExpression) {
@@ -371,8 +406,9 @@ public class CifValueUtils {
             // if/then.
             boolean guardsValue = true;
             for (Expression guard: ifExpr.getGuards()) {
-                if (!hasSingleValue(guard, initial, checkRefs)) {
-                    return false;
+                Expression result = findNonSingleValueSubExpr(guard, initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
 
                 // Guard has single value.
@@ -380,23 +416,22 @@ public class CifValueUtils {
                 try {
                     guardValue = (Boolean)CifEvalUtils.eval(guard, initial);
                 } catch (CifEvalException e) {
-                    // Failed to evaluate: we don't relay the failure, but
-                    // instead indicate that we can't get the single value.
-                    return false;
+                    return (e.expr != null) ? e.expr : guard;
                 }
                 guardsValue = guardsValue && guardValue;
             }
             if (guardsValue) {
                 // Single value, all true.
-                return hasSingleValue(ifExpr.getThen(), initial, checkRefs);
-            } // else: single value, all false: ignore 'then'.
+                return findNonSingleValueSubExpr(ifExpr.getThen(), initial, checkRefs);
+            } // else: single value, at least one false: ignore 'then'.
 
             // elif/then.
             for (ElifExpression elif: ifExpr.getElifs()) {
                 guardsValue = true;
                 for (Expression guard: elif.getGuards()) {
-                    if (!hasSingleValue(guard, initial, checkRefs)) {
-                        return false;
+                    Expression result = findNonSingleValueSubExpr(guard, initial, checkRefs);
+                    if (result != null) {
+                        return result;
                     }
 
                     // Guard has single value.
@@ -404,20 +439,18 @@ public class CifValueUtils {
                     try {
                         guardValue = (Boolean)CifEvalUtils.eval(guard, initial);
                     } catch (CifEvalException e) {
-                        // Failed to evaluate: we don't relay the failure, but
-                        // instead indicate that we can't get the single value.
-                        return false;
+                        return (e.expr != null) ? e.expr : guard;
                     }
                     guardsValue = guardsValue && guardValue;
                 }
                 if (guardsValue) {
                     // Single value, all true.
-                    return hasSingleValue(elif.getThen(), initial, checkRefs);
-                } // else: single value, all false: ignore 'then'.
+                    return findNonSingleValueSubExpr(elif.getThen(), initial, checkRefs);
+                } // else: single value, at least one false: ignore 'then'.
             }
 
-            // else
-            return hasSingleValue(ifExpr.getElse(), initial, checkRefs);
+            // else.
+            return findNonSingleValueSubExpr(ifExpr.getElse(), initial, checkRefs);
         }
 
         if (expr instanceof SwitchExpression) {
@@ -433,7 +466,7 @@ public class CifValueUtils {
                 // we use an explicit automaton reference or an implicit
                 // automaton 'self' reference.
                 if (!checkRefs) {
-                    return false;
+                    return value;
                 }
 
                 // Get automaton.
@@ -460,27 +493,31 @@ public class CifValueUtils {
                 // lead to an infinite recursion for initialization predicates
                 // of locations, causing a stack overflow.
                 if (aut.getLocations().size() != 1) {
-                    return false;
+                    return value;
                 }
             } else {
                 // Normal case: just a value expression.
-                if (!hasSingleValue(value, initial, checkRefs)) {
-                    return false;
+                Expression result = findNonSingleValueSubExpr(value, initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
             }
 
             // Cases.
             for (SwitchCase cse: switchExpr.getCases()) {
+                Expression result;
                 if (cse.getKey() != null) {
-                    if (!hasSingleValue(cse.getKey(), initial, checkRefs)) {
-                        return false;
+                    result = findNonSingleValueSubExpr(cse.getKey(), initial, checkRefs);
+                    if (result != null) {
+                        return result;
                     }
                 }
-                if (!hasSingleValue(cse.getValue(), initial, checkRefs)) {
-                    return false;
+                result = findNonSingleValueSubExpr(cse.getValue(), initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
             }
-            return true;
+            return null;
         }
 
         if (expr instanceof ProjectionExpression) {
@@ -488,13 +525,14 @@ public class CifValueUtils {
             // that is taken out, but we can't decide that statically, so we
             // require a single value for the entire child expression.
             ProjectionExpression pexpr = (ProjectionExpression)expr;
-            if (!hasSingleValue(pexpr.getChild(), initial, checkRefs)) {
-                return false;
+            Expression result = findNonSingleValueSubExpr(pexpr.getChild(), initial, checkRefs);
+            if (result != null) {
+                return result;
             }
             if (pexpr.getIndex() instanceof FieldExpression) {
-                return true;
+                return null;
             }
-            return hasSingleValue(pexpr.getIndex(), initial, checkRefs);
+            return findNonSingleValueSubExpr(pexpr.getIndex(), initial, checkRefs);
         }
 
         if (expr instanceof SliceExpression) {
@@ -502,20 +540,23 @@ public class CifValueUtils {
             // that are taken out, but we can't decide that statically, so we
             // require a single value for the entire child expression.
             SliceExpression sexpr = (SliceExpression)expr;
-            if (!hasSingleValue(sexpr.getChild(), initial, checkRefs)) {
-                return false;
+            Expression result = findNonSingleValueSubExpr(sexpr.getChild(), initial, checkRefs);
+            if (result != null) {
+                return result;
             }
             if (sexpr.getBegin() != null) {
-                if (!hasSingleValue(sexpr.getBegin(), initial, checkRefs)) {
-                    return false;
+                result = findNonSingleValueSubExpr(sexpr.getBegin(), initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
             }
             if (sexpr.getEnd() != null) {
-                if (!hasSingleValue(sexpr.getEnd(), initial, checkRefs)) {
-                    return false;
+                result = findNonSingleValueSubExpr(sexpr.getEnd(), initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
             }
-            return true;
+            return null;
         }
 
         if (expr instanceof FunctionCallExpression) {
@@ -528,31 +569,33 @@ public class CifValueUtils {
                     // Special case: distribution functions result in
                     // distributions with random seeds and thus do not produce
                     // unique values. They are explicitly excluded.
-                    return false;
+                    return stdlib;
                 }
             } else {
                 // We can't statically evaluate user-defined functions,
                 // as we don't know whether they will ever terminate.
-                return false;
+                return fcexpr.getFunction();
             }
 
             for (Expression arg: fcexpr.getArguments()) {
-                if (!hasSingleValue(arg, initial, checkRefs)) {
-                    return false;
+                Expression result = findNonSingleValueSubExpr(arg, initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
             }
 
-            return true;
+            return null;
         }
 
         if (expr instanceof ListExpression) {
             ListExpression lexpr = (ListExpression)expr;
             for (Expression elem: lexpr.getElements()) {
-                if (!hasSingleValue(elem, initial, checkRefs)) {
-                    return false;
+                Expression result = findNonSingleValueSubExpr(elem, initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
             }
-            return true;
+            return null;
         }
 
         if (expr instanceof SetExpression) {
@@ -564,21 +607,23 @@ public class CifValueUtils {
             // for this set.
             SetExpression sexpr = (SetExpression)expr;
             for (Expression elem: sexpr.getElements()) {
-                if (!hasSingleValue(elem, initial, checkRefs)) {
-                    return false;
+                Expression result = findNonSingleValueSubExpr(elem, initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
             }
-            return true;
+            return null;
         }
 
         if (expr instanceof TupleExpression) {
             TupleExpression texpr = (TupleExpression)expr;
             for (Expression elem: texpr.getFields()) {
-                if (!hasSingleValue(elem, initial, checkRefs)) {
-                    return false;
+                Expression result = findNonSingleValueSubExpr(elem, initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
             }
-            return true;
+            return null;
         }
 
         if (expr instanceof DictExpression) {
@@ -591,33 +636,35 @@ public class CifValueUtils {
             // 'false' is returned for this dictionary.
             DictExpression dexpr = (DictExpression)expr;
             for (DictPair pair: dexpr.getPairs()) {
-                if (!hasSingleValue(pair.getKey(), initial, checkRefs)) {
-                    return false;
+                Expression result = findNonSingleValueSubExpr(pair.getKey(), initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
-                if (!hasSingleValue(pair.getValue(), initial, checkRefs)) {
-                    return false;
+                result = findNonSingleValueSubExpr(pair.getValue(), initial, checkRefs);
+                if (result != null) {
+                    return result;
                 }
             }
-            return true;
+            return null;
         }
 
         if (expr instanceof ConstantExpression) {
             // We know for sure it has a single value (as all constants do),
             // but not if references are not to be checked/considered.
             if (!checkRefs) {
-                return false;
+                return expr;
             }
 
             // Depends on the value of the constant.
             Constant constant = ((ConstantExpression)expr).getConstant();
-            return hasSingleValue(constant.getValue(), initial, checkRefs);
+            return findNonSingleValueSubExpr(constant.getValue(), initial, checkRefs);
         }
 
         if (expr instanceof DiscVariableExpression) {
             // If we are not allowed to check the referred declaration, we
             // can't be sure.
             if (!checkRefs) {
-                return false;
+                return expr;
             }
 
             // This is either a discrete variable of an automaton, or a
@@ -630,17 +677,17 @@ public class CifValueUtils {
             // multiple function calls. If however the type of the variable
             // allows only a single value, then we know for sure.
             if (hasSingleValue(var.getType())) {
-                return true;
+                return null;
             }
 
             // If parameter, then we don't know.
             if (var.eContainer() instanceof FunctionParameter) {
-                return false;
+                return expr;
             }
 
             // In the initial state, we can check the initial values.
             if (!initial) {
-                return false;
+                return expr;
             }
 
             // If default value, then single value, derived from the type.
@@ -649,34 +696,34 @@ public class CifValueUtils {
                 // results in the side effect of creating a new function for
                 // the function type, with which we don't want to have to deal.
                 if (CifTypeUtils.hasFunctionType(var.getType())) {
-                    return false;
+                    return expr;
                 }
 
                 // For distributions, the single value is a 'constant' standard
                 // library function call, which we explicitly exclude. See also
                 // the case for the function call.
                 if (CifTypeUtils.hasDistType(var.getType())) {
-                    return false;
+                    return expr;
                 }
 
-                return true;
+                return null;
             }
 
             // If not exactly one possible initial value, then we don't know.
             if (var.getValue().getValues().size() != 1) {
-                return false;
+                return expr;
             }
 
             // Check the single value.
             Expression value = first(var.getValue().getValues());
-            return hasSingleValue(value, initial, checkRefs);
+            return findNonSingleValueSubExpr(value, initial, checkRefs);
         }
 
         if (expr instanceof AlgVariableExpression) {
             // If we are not allowed to check the referred declaration, we
             // can't be sure.
             if (!checkRefs) {
-                return false;
+                return expr;
             }
 
             // Get variable.
@@ -685,25 +732,25 @@ public class CifValueUtils {
             // Try value first.
             Expression value = var.getValue();
             if (value != null) {
-                return hasSingleValue(value, initial, checkRefs);
+                return findNonSingleValueSubExpr(value, initial, checkRefs);
             }
 
             // Algebraic variable parameter or value specified in equation.
             if (var.eContainer() instanceof Parameter) {
                 // For algebraic parameters, it depends on the type.
-                return hasSingleValue(var.getType());
+                return hasSingleValue(var.getType()) ? null : expr;
             } else {
                 // Find equation.
                 ComplexComponent comp = (ComplexComponent)var.eContainer();
                 for (Equation eq: comp.getEquations()) {
                     if (eq.getVariable() == var) {
-                        return hasSingleValue(eq.getValue(), initial, checkRefs);
+                        return findNonSingleValueSubExpr(eq.getValue(), initial, checkRefs);
                     }
                 }
 
                 // Equations in the locations. This is not a single value, as
                 // locations can change value.
-                return false;
+                return expr;
             }
         }
 
@@ -711,7 +758,7 @@ public class CifValueUtils {
             // If we are not allowed to check the referred declaration, we
             // can't be sure.
             if (!checkRefs) {
-                return false;
+                return expr;
             }
 
             // Get variable and check whether this is a derivative reference.
@@ -726,7 +773,7 @@ public class CifValueUtils {
                 // Try derivative with declaration first.
                 Expression der = var.getDerivative();
                 if (der != null) {
-                    return hasSingleValue(der, initial, checkRefs);
+                    return findNonSingleValueSubExpr(der, initial, checkRefs);
                 }
 
                 // Derivative specified in one or more equations. Find
@@ -734,29 +781,29 @@ public class CifValueUtils {
                 ComplexComponent comp = (ComplexComponent)var.eContainer();
                 for (Equation eq: comp.getEquations()) {
                     if (eq.getVariable() == var) {
-                        return hasSingleValue(eq.getValue(), initial, checkRefs);
+                        return findNonSingleValueSubExpr(eq.getValue(), initial, checkRefs);
                     }
                 }
 
                 // Equations in the locations. This is not a single value, as
                 // locations can change value.
-                return false;
+                return expr;
             } else {
                 // Reference to a continuous variable. This situation is
                 // similar to the discrete variable case. The type however is
                 // always 'real', which has infinitely many values. Only in
                 // the initial state, can we check the initial value.
                 if (!initial) {
-                    return false;
+                    return expr;
                 }
 
                 // If default value, then 0.0, which is a single value.
                 if (var.getValue() == null) {
-                    return true;
+                    return null;
                 }
 
                 // Check the single value.
-                return hasSingleValue(var.getValue(), initial, checkRefs);
+                return findNonSingleValueSubExpr(var.getValue(), initial, checkRefs);
             }
         }
 
@@ -769,7 +816,7 @@ public class CifValueUtils {
             // If we are not allowed to check the referred declaration, we
             // can't be sure.
             if (!checkRefs) {
-                return false;
+                return expr;
             }
 
             // Locations are part of the run-time state. If however the
@@ -781,15 +828,15 @@ public class CifValueUtils {
             Location loc = ((LocationExpression)expr).getLocation();
             EObject parent = loc.eContainer();
             if (parent instanceof Parameter) {
-                return false;
+                return expr;
             }
 
             Automaton aut = (Automaton)parent;
-            return aut.getLocations().size() == 1;
+            return (aut.getLocations().size() == 1) ? null : expr;
         }
 
         if (expr instanceof EnumLiteralExpression) {
-            return true;
+            return null;
         }
 
         if (expr instanceof EventExpression) {
@@ -818,23 +865,23 @@ public class CifValueUtils {
             // If we are not allowed to check the referred declaration, we
             // are obligated to return false.
             if (!checkRefs) {
-                return false;
+                return expr;
             }
 
             // Function reference expressions reference exactly one function.
-            return true;
+            return null;
         }
 
         if (expr instanceof InputVariableExpression) {
             // If we are not allowed to check the referred declaration, we
             // can't be sure.
             if (!checkRefs) {
-                return false;
+                return expr;
             }
 
             // Depends on the type.
             InputVariable var = ((InputVariableExpression)expr).getVariable();
-            return hasSingleValue(var.getType());
+            return hasSingleValue(var.getType()) ? null : expr;
         }
 
         if (expr instanceof ComponentExpression) {
@@ -844,7 +891,7 @@ public class CifValueUtils {
             // be handled by other expressions. Here, we handle the reference
             // itself, for instance for component parameters, not those special
             // cases.
-            return false;
+            return expr;
         }
 
         if (expr instanceof CompParamExpression) {
@@ -853,7 +900,7 @@ public class CifValueUtils {
             // as values. However, special cases such as casting to string
             // may be handled by other expressions. Here, we handle the reference
             // itself, similar to how we handle ComponentExpression.
-            return false;
+            return expr;
         }
 
         if (expr instanceof CompInstWrapExpression) {
@@ -862,7 +909,7 @@ public class CifValueUtils {
             // reach a value doesn't influence whether or not it has a single
             // value.
             Expression rexpr = ((CompInstWrapExpression)expr).getReference();
-            return hasSingleValue(rexpr, initial, checkRefs);
+            return findNonSingleValueSubExpr(rexpr, initial, checkRefs);
         }
 
         if (expr instanceof CompParamWrapExpression) {
@@ -871,18 +918,18 @@ public class CifValueUtils {
             // reach a value doesn't influence whether or not it has a single
             // value.
             Expression rexpr = ((CompParamWrapExpression)expr).getReference();
-            return hasSingleValue(rexpr, initial, checkRefs);
+            return findNonSingleValueSubExpr(rexpr, initial, checkRefs);
         }
 
         if (expr instanceof ReceivedExpression) {
             // Even though we refer to an implicitly declared variable, we
             // honor the 'check reference' option.
             if (!checkRefs) {
-                return false;
+                return expr;
             }
 
             // Depends on the type.
-            return hasSingleValue(expr.getType());
+            return hasSingleValue(expr.getType()) ? null : expr;
         }
 
         if (expr instanceof SelfExpression) {
@@ -891,7 +938,7 @@ public class CifValueUtils {
             // However, special cases such as casting to string may be handled
             // by other expressions. Here, we handle the reference itself,
             // similar to how we handle ComponentExpression.
-            return false;
+            return expr;
         }
 
         throw new RuntimeException("Unknown expr: " + expr);
@@ -2557,6 +2604,91 @@ public class CifValueUtils {
     }
 
     /**
+     * Returns the number of possible initial values of the given discrete variable.
+     *
+     * <p>
+     * Note that if multiple explicit initial value expressions are given, these are all counted as separate possible
+     * initial values, even though they could evaluate to the same value. For such variables, the result may be an
+     * over-approximation.
+     * </p>
+     *
+     * <p>
+     * Only the variable itself is considered, not any initialization predicates of the CIF specification.
+     * </p>
+     *
+     * @param var The discrete variable.
+     * @return The counted number of possible initial values.
+     */
+    public static Count getPossibleInitialValuesCount(DiscVariable var) {
+        VariableValue varValue = var.getValue();
+        if (varValue == null) {
+            // Implicit default initial value. Exactly one initial value.
+            return new Count(1, true);
+        } else if (varValue.getValues().size() >= 1) {
+            // Explicit initial values. Some expressions may evaluate to the same value.
+            return new Count(varValue.getValues().size(), false);
+        } else {
+            // Exactly as many values as represented by the variables type.
+            return new Count(CifValueUtils.getPossibleValueCount(var.getType()), true);
+        }
+    }
+
+    /**
+     * Returns the number of possible initial values of the given input variable.
+     *
+     * <p>
+     * Only the variable itself is considered, not any initialization predicates of the CIF specification.
+     * </p>
+     *
+     * @param var The input variable.
+     * @return The counted number of possible initial values.
+     */
+    public static double getPossibleInitialValuesCount(InputVariable var) {
+        return CifValueUtils.getPossibleValueCount(var.getType());
+    }
+
+    /**
+     * Returns the number of possible initial locations of the given automaton.
+     *
+     * <p>
+     * Note that if initialization predicates of the locations can not be statically determined to be be {@code true} or
+     * {@code false}, then the result of this method may be an over-approximation.
+     * </p>
+     *
+     * <p>
+     * Only the initialization predicates of the locations of the automata are considered, not any other initialization
+     * predicates of the CIF specification.
+     * </p>
+     *
+     * @param aut The automaton.
+     * @return The counted number of possible initial locations.
+     */
+    public static Count getPossibleInitialLocationsCount(Automaton aut) {
+        int nrOfLocs = 0;
+        boolean isPrecise = true;
+        for (Location loc: aut.getLocations()) {
+            // Check if for sure not an initial location.
+            if (loc.getInitials().isEmpty()) {
+                continue;
+            }
+            if (CifValueUtils.isTriviallyFalse(loc.getInitials(), true, true)) {
+                continue;
+            }
+
+            // Check if for sure an initial location.
+            if (CifValueUtils.isTriviallyTrue(loc.getInitials(), true, true)) {
+                nrOfLocs++;
+                continue;
+            }
+
+            // Potentially an initial location.
+            nrOfLocs++;
+            isPrecise = false;
+        }
+        return new Count(nrOfLocs, isPrecise);
+    }
+
+    /**
      * Returns the possible number of unique values for the given type.
      *
      * <p>
@@ -3028,5 +3160,15 @@ public class CifValueUtils {
         // Other expressions. This might include some other literal values that
         // we could potentially handle, but we don't.
         return false;
+    }
+
+    /**
+     * A count that may be approximate or precise.
+     *
+     * @param value The count value.
+     * @param isPrecise Whether the {@link #value} is precise ({@code true}) or approximate ({@code false}).
+     */
+    public static record Count(double value, boolean isPrecise) {
+        // Storage only, no other code.
     }
 }

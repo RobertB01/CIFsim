@@ -1,3 +1,9 @@
-WARNING: Automaton "p" has no marked location, supervisor will be empty.
 ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/plant_sup.cif".
-CAUSE: Unsupported automaton "s": automaton is neither a plant nor a requirement.
+CAUSE: CIF supervisor synthesis tool failed due to unsatisfied preconditions:
+
+  ---------------------------------------------------------------------------------------
+  (1/1) Automaton is a supervisor automaton rather than a plant or requirement automaton.
+  ---------------------------------------------------------------------------------------
+   * In the top-level scope of the specification:
+     - supervisor automaton s:
+                            ^

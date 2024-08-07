@@ -57,8 +57,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
-import java.util.function.BooleanSupplier;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -90,6 +89,7 @@ import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
+import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
@@ -113,6 +113,7 @@ import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.BlackHoleOutputProvider;
 import org.eclipse.escet.common.java.output.WarnOutput;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -209,14 +210,14 @@ public class ExprGeneratorTest {
             PlcNumberBits realSize = PlcNumberBits.BITS_64;
             boolean simplifyValues = false;
             ConvertEnums enumConversion = ConvertEnums.KEEP;
-            BooleanSupplier shouldTerminate = () -> false;
+            Termination termination = Termination.NEVER;
             boolean warnOnRename = false;
             WarnOutput warnOutput = new BlackHoleOutputProvider().getWarnOutput();
 
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
                     taskCyceTime, priority, null, null, new PathPair(inputPath, "/" + inputPath),
                     new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath),
-                    programHeader, intSize, realSize, simplifyValues, enumConversion, shouldTerminate, warnOnRename,
+                    programHeader, intSize, realSize, simplifyValues, enumConversion, termination, warnOnRename,
                     warnOutput);
             setup(settings);
         }
@@ -266,13 +267,18 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public int getMaxIntegerTypeSize() {
-            return 32;
+        public List<PlcElementaryType> getSupportedIntegerTypes() {
+            return PlcElementaryType.INTEGER_TYPES_32;
         }
 
         @Override
-        public int getMaxRealTypeSize() {
-            return 64;
+        public List<PlcElementaryType> getSupportedRealTypes() {
+            return PlcElementaryType.REAL_TYPES_64;
+        }
+
+        @Override
+        public List<PlcElementaryType> getSupportedBitStringTypes() {
+            return PlcElementaryType.BIT_STRING_TYPES_64;
         }
 
         @Override
@@ -366,9 +372,24 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public String generateLocalName(String initialName, Map<String, Integer> localSuffixes) {
+        public String generateLocalName(String initialName, NameScope nameScope) {
             nextNameSuffix++;
             return initialName + String.valueOf(nextNameSuffix);
+        }
+
+        @Override
+        public String generateGlobalNames(Set<String> prefixes, PositionObject posObject) {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public String generateGlobalNames(Set<String> prefixes, String initialName, boolean initialIsCifName) {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public String generateLocalNames(Set<String> prefixes, String initialName, NameScope localScope) {
+            throw new UnsupportedOperationException("Not needed for the test.");
         }
     }
 

@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
@@ -175,6 +176,13 @@ public abstract class PlcTarget {
     public abstract EnumSet<PlcFuncNotation> getSupportedFuncNotations(PlcFuncOperation funcOper, int numArgs);
 
     /**
+     * Retrieve the supported integer types of the target, ordered by increasing size.
+     *
+     * @return The supported integer types of the target, ordered by increasing size.
+     */
+    public abstract List<PlcElementaryType> getSupportedIntegerTypes();
+
+    /**
      * Get the size of the largest supported integer type.
      *
      * @return Number of bits used for storing the largest supported integer type.
@@ -190,7 +198,7 @@ public abstract class PlcTarget {
      *
      * @return The type of a standard integer value in the PLC.
      */
-    public abstract PlcElementaryType getIntegerType();
+    public abstract PlcElementaryType getStdIntegerType();
 
     /**
      * Construct a new standard integer literal with the given value.
@@ -199,8 +207,15 @@ public abstract class PlcTarget {
      * @return The created literal.
      */
     public PlcIntLiteral makeStdInteger(int value) {
-        return new PlcIntLiteral(value, getIntegerType());
+        return new PlcIntLiteral(value, getStdIntegerType());
     }
+
+    /**
+     * Retrieve the supported real types of the target, ordered by increasing size.
+     *
+     * @return The supported real types of the target, ordered by increasing size.
+     */
+    public abstract List<PlcElementaryType> getSupportedRealTypes();
 
     /**
      * Get the size of the largest supported real type.
@@ -218,7 +233,7 @@ public abstract class PlcTarget {
      *
      * @return The type of a standard real value in the PLC.
      */
-    public abstract PlcElementaryType getRealType();
+    public abstract PlcElementaryType getStdRealType();
 
     /**
      * Construct a new standard real literal with the given value.
@@ -227,8 +242,15 @@ public abstract class PlcTarget {
      * @return The created literal.
      */
     public PlcRealLiteral makeStdReal(String value) {
-        return new PlcRealLiteral(value, getRealType());
+        return new PlcRealLiteral(value, getStdRealType());
     }
+
+    /**
+     * Retrieve the supported bit string types of the target, ordered by increasing size.
+     *
+     * @return The supported bit string types of the target, ordered by increasing size.
+     */
+    public abstract List<PlcElementaryType> getSupportedBitStringTypes();
 
     /**
      * Parse a PLC I/O address.

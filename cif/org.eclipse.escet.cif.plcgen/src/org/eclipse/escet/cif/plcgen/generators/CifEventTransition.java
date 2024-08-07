@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
@@ -156,6 +157,24 @@ public class CifEventTransition {
                 collectAddrVars(transEdge.updates, assignedVariables);
             }
         }
+
+        /**
+         * Return whether the automaton has guards.
+         *
+         * @return Whether the automaton has guards.
+         */
+        public boolean hasGuards() {
+            return transitionEdges.stream().anyMatch(te -> te.hasGuards());
+        }
+
+        /**
+         * Return whether the automaton has updates.
+         *
+         * @return Whether the automaton has updates.
+         */
+        public boolean hasUpdates() {
+            return transitionEdges.stream().anyMatch(te -> te.hasUpdates());
+        }
     }
 
     /** Reason for having the transition automaton. */
@@ -187,6 +206,9 @@ public class CifEventTransition {
 
     /** An edge of an automaton that may be executed with the event. */
     public static class TransitionEdge {
+        /** The edge represented by the object. */
+        public final Edge edge;
+
         /** One-based index number to identify an edge within a location. */
         public final int edgeNumber;
 
@@ -208,6 +230,7 @@ public class CifEventTransition {
         /**
          * Constructor of the {@link TransitionEdge} class.
          *
+         * @param edge The edge represented by the object.
          * @param edgeNumber One-based index number to identify an edge within a location.
          * @param sourceLoc Source location of the edge.
          * @param targetLoc Target location of the edge.
@@ -215,15 +238,34 @@ public class CifEventTransition {
          * @param guards Guards of the edge.
          * @param updates Updates of the edge.
          */
-        public TransitionEdge(int edgeNumber, Location sourceLoc, Location targetLoc, Expression sendValue,
+        public TransitionEdge(Edge edge, int edgeNumber, Location sourceLoc, Location targetLoc, Expression sendValue,
                 List<Expression> guards, List<Update> updates)
         {
+            this.edge = edge;
             this.edgeNumber = edgeNumber;
             this.sourceLoc = sourceLoc;
             this.targetLoc = targetLoc;
             this.sendValue = sendValue;
             this.guards = guards;
             this.updates = updates;
+        }
+
+        /**
+         * Return whether the edge has guards.
+         *
+         * @return Whether the edge has guards.
+         */
+        public boolean hasGuards() {
+            return !guards.isEmpty();
+        }
+
+        /**
+         * Return whether the edge has updates.
+         *
+         * @return Whether the edge has updates.
+         */
+        public boolean hasUpdates() {
+            return !updates.isEmpty();
         }
     }
 }

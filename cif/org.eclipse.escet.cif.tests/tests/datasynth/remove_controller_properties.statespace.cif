@@ -1,0 +1,11 @@
+controllable c;
+uncontrollable u;
+automaton statespace:
+  alphabet c, u;
+  @state(p: "*", r: "*", sup: "*")
+  location loc1:
+    initial;
+    marked;
+    edge c;
+    edge u;
+end

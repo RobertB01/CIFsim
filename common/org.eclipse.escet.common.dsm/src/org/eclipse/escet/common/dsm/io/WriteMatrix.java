@@ -18,6 +18,8 @@ import static org.eclipse.escet.common.java.Strings.spaces;
 import static org.eclipse.escet.common.java.Strings.trimRight;
 
 import java.util.Arrays;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 import org.apache.commons.math3.linear.RealMatrix;
 import org.eclipse.escet.common.app.framework.io.AppStream;
@@ -33,6 +35,9 @@ import org.eclipse.escet.common.dsm.Label;
  * </p>
  */
 public class WriteMatrix {
+    /** Function for checking whether double quotes are needed. */
+    private static final Predicate<String> NEEDS_DOUBLE_QUOTES = Pattern.compile("[,\"\r\n ]").asPredicate();
+
     /** Constructor of the {@link WriteMatrix} class. */
     private WriteMatrix() {
         // Static class.
@@ -55,7 +60,11 @@ public class WriteMatrix {
 
         String[] texts = new String[size];
         for (int i = 0; i < size; i++) {
-            texts[i] = "\"" + labels[i].toString() + "\"";
+            String text = labels[i].toString();
+            if (NEEDS_DOUBLE_QUOTES.test(text)) {
+                text = "\"" + text.replace("\"", "\"\"") + "\""; // RFC-4180 " -> "" escaping.
+            }
+            texts[i] = text;
         }
         appendLeftAlignedColumn(texts, lines);
 

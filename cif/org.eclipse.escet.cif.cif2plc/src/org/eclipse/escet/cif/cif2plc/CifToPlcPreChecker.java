@@ -13,10 +13,9 @@
 
 package org.eclipse.escet.cif.cif2plc;
 
-import java.util.function.BooleanSupplier;
-
 import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
-import org.eclipse.escet.cif.checkers.checks.AutOnlyWithOneInitLocCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
+import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
@@ -41,16 +40,17 @@ import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantPlaceKind;
 import org.eclipse.escet.cif.checkers.checks.invcheck.NoInvariantSupKind;
 import org.eclipse.escet.cif.cif2plc.options.PlcOutputTypeOption;
+import org.eclipse.escet.common.java.Termination;
 
 /** CIF PLC code generator precondition checker. Does not support component definition/instantiation. */
 public class CifToPlcPreChecker extends CifPreconditionChecker {
     /**
      * Constructor of the {@link CifToPlcPreChecker} class.
      *
-     * @param shouldTerminate Callback that indicates whether execution should be terminated on user request.
+     * @param termination Cooperative termination query function.
      */
-    public CifToPlcPreChecker(BooleanSupplier shouldTerminate) {
-        super(shouldTerminate,
+    public CifToPlcPreChecker(Termination termination) {
+        super(termination,
 
                 // At least one automaton.
                 new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
@@ -62,7 +62,7 @@ public class CifToPlcPreChecker extends CifPreconditionChecker {
                 new VarNoDiscWithMultiInitValuesCheck(),
 
                 // Automata must have a single initial location.
-                new AutOnlyWithOneInitLocCheck(),
+                new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE),
 
                 // Disallow state invariants, except ones that never block behavior.
                 new InvNoSpecificInvsCheck() //

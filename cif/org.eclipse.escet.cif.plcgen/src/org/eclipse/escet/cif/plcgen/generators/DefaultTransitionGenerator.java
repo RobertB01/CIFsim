@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.common.java.Lists.cast;
+import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
@@ -27,9 +28,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.common.CifDocAnnotationFormatter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
@@ -60,6 +63,7 @@ import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression.PlcStructProjection;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
@@ -70,9 +74,8 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSe
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
+import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
-import org.eclipse.escet.common.box.CodeBox;
-import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 
 /** Generator for creating PLC code to perform CIF event transitions in the PLC. */
@@ -93,7 +96,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private List<CifEventTransition> eventTransitions = null;
 
     /**
-     * For each automaton, the variable that tracks the selected edge to perform for its automaton.
+     * For each automaton with at least one edge outside monitor context, the variable that tracks the selected edge to
+     * perform for its automaton.
      *
      * <p>
      * Use the {@link #getAutomatonEdgeVariable} method to query this map.
@@ -101,14 +105,11 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private final Map<Automaton, PlcBasicVariable> edgeSelectionVariables = map();
 
-    /** Generator for obtaining clash-free names in the generated code. */
-    private NameGenerator nameGen;
-
     /** Expression generator for the main program. */
     private ExprGenerator mainExprGen;
 
     /** Generation of standard PLC functions. */
-    private PlcFunctionAppls funcAppls;
+    private final PlcFunctionAppls funcAppls;
 
     /**
      * Constructor of the {@link DefaultTransitionGenerator} class.
@@ -117,6 +118,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     public DefaultTransitionGenerator(PlcTarget target) {
         this.target = target;
+        funcAppls = new PlcFunctionAppls(target);
     }
 
     @Override
@@ -140,6 +142,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
         }
 
+        // Construct edge variables.
+        setupEdgeVariables();
+
         // Variable that tracks whether at least one event was performed in the current event loop cycle.
         PlcBasicVariable isProgressVar = target.getCodeStorage().getIsProgressVariable();
 
@@ -149,6 +154,58 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // And give the result to code storage.
         target.getCodeStorage().addEventTransitions(uncontrollableStatements, controllableStatements);
+
+        // Release the (temporary) edge variables.
+        mainExprGen.releaseTempVariables(edgeSelectionVariables.values());
+        edgeSelectionVariables.clear();
+    }
+
+    /** Construct edge variables for the automata. */
+    void setupEdgeVariables() {
+        mainExprGen = target.getCodeStorage().getExprGenerator();
+
+        // For all automata, find the maximum number of edges to examine for an event.
+        //
+        // Skip cases without edges, monitors don't need edge variables. This leads to not having edge variables when
+        // there are no edges that need them.
+        Map<Automaton, Integer> maxEventEdges = map(); // Max number of edges for an event for all automata.
+        for (CifEventTransition evtTrans: eventTransitions) {
+            for (TransitionAutomaton transAut: evtTrans.senders) {
+                if (!transAut.transitionEdges.isEmpty()) {
+                    maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+                }
+            }
+            for (TransitionAutomaton transAut: evtTrans.receivers) {
+                if (!transAut.transitionEdges.isEmpty()) {
+                    maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+                }
+            }
+            for (TransitionAutomaton transAut: evtTrans.syncers) {
+                if (!transAut.transitionEdges.isEmpty()) {
+                    maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
+                }
+            }
+            // Monitors do not need edge tracking since the first enabled edge is immediately taken.
+        }
+
+        // Construct edge variables.
+        edgeSelectionVariables.clear();
+        for (Entry<Automaton, Integer> entry: maxEventEdges.entrySet()) {
+            Automaton aut = entry.getKey();
+            int numEdges = entry.getValue(); // Maximum number of different edge indices for the automaton.
+            Assert.check(numEdges > 0);
+
+            // Derive a variable type for the edge variable.
+            int numBits = 32 - Integer.numberOfLeadingZeros(numEdges - 1); // Largest used value decides bit-length.
+            PlcType varType = PlcElementaryType.getTypeByRequiredSize(
+                    Math.max(1, numBits), target.getSupportedBitStringTypes());
+
+            // Construct the edge variable itself, and store it for future use.
+            String edgeVariableName = "edge_" + getAbsName(aut, false);
+            PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, varType);
+            target.getCodeStorage().setAutomatonEdgeVariableName(aut, autVar.varName);
+            edgeSelectionVariables.put(aut, autVar);
+        }
     }
 
     /**
@@ -185,24 +242,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // TODO Currently code generation is straight forward, it generates correct code for the general case. There are
         // heaps of improvements possible if you recognize specific cases like 1 automaton, 1 edge, 0 senders, better
         // names for variables, etc.
-        nameGen = target.getNameGenerator();
-        mainExprGen = target.getCodeStorage().getExprGenerator();
-        funcAppls = new PlcFunctionAppls(target);
-
-        // Set up selected edge tracking variables for the automata.
-        edgeSelectionVariables.clear();
-        for (CifEventTransition evtTrans: eventTransitions) {
-            for (TransitionAutomaton transAut: evtTrans.senders) {
-                ensureEdgeVariable(transAut.aut);
-            }
-            for (TransitionAutomaton transAut: evtTrans.receivers) {
-                ensureEdgeVariable(transAut.aut);
-            }
-            for (TransitionAutomaton transAut: evtTrans.syncers) {
-                ensureEdgeVariable(transAut.aut);
-            }
-            // Monitors do not need edge tracking since the first enabled edge is immediately taken.
-        }
 
         // As all transition code is generated in main program context, only one generated statements list exists and
         // various variables that store decisions in the process can be re-used between different events.
@@ -213,30 +252,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             addEmptyLineBefore = true;
         }
 
-        // Release temporary variables, and return the generated event transition code.
-        mainExprGen.releaseTempVariables(edgeSelectionVariables.values());
-        edgeSelectionVariables.clear();
+        // Return the generated event transition code.
         return statements;
-    }
-
-    /**
-     * Ensure that a variable for tracking the selected edge for the 'aut' automaton exists in
-     * {@link #edgeSelectionVariables} after the call.
-     *
-     * @param aut Automaton that must have or get a variable for tracking the selected edge of the automaton.
-     */
-    private void ensureEdgeVariable(Automaton aut) {
-        if (edgeSelectionVariables.containsKey(aut)) {
-            return;
-        }
-
-        // Automaton does not have an edge variable yet, add it.
-        String edgeVariableName = nameGen.generateGlobalName("edge_" + aut.getName(), false);
-        target.getCodeStorage().setAutomatonEdgeVariableName(aut, edgeVariableName);
-
-        // TODO: Use a smaller integer for edge indexing.
-        PlcBasicVariable autVar = mainExprGen.getTempVariable(edgeVariableName, PlcElementaryType.DINT_TYPE);
-        edgeSelectionVariables.put(aut, autVar);
     }
 
     /**
@@ -439,61 +456,68 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return Comment block stating the event, and listing what is needed for the event to occur.
      */
     private PlcCommentBlock genAnnounceEventBeingTried(CifEventTransition eventTrans) {
-        CodeBox box = new MemoryCodeBox();
-        box.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
+        CifDocAnnotationFormatter eventDocFormatter, sendRecvAutDocFormatter, syncMonAutDocFormatter;
+        eventDocFormatter = new CifDocAnnotationFormatter(null, null, null, List.of(""), null);
+        sendRecvAutDocFormatter = new CifDocAnnotationFormatter(null, null, "     ", List.of(""), null);
+        syncMonAutDocFormatter = new CifDocAnnotationFormatter(null, null, "  ", List.of(""), null);
+
+        TextTopics topics = new TextTopics();
+        topics.add("Try to perform %s.", DocumentingSupport.getDescription(eventTrans.event));
+        topics.addAll(eventDocFormatter.formatDocs(eventTrans.event));
 
         CifType eventType = eventTrans.event.getType();
         if (eventType != null) {
             boolean transferValue = !(eventType instanceof VoidType);
 
             // List senders.
-            box.add();
+            topics.ensureEmptyAtEnd();
             if (eventTrans.senders.isEmpty()) {
-                box.add("- An automaton that must send a value is missing, so the event cannot occur.");
+                topics.add("- An automaton that must send a value is missing, so the event cannot occur.");
             } else {
                 if (transferValue) {
-                    box.add("- One automaton must send a value.");
+                    topics.add("- One automaton must send a value.");
                 } else {
-                    box.add("- One automaton must send a value (although no data is actually transferred).");
+                    topics.add("- One automaton must send a value (although no data is actually transferred).");
                 }
                 for (TransitionAutomaton transAut: eventTrans.senders) {
-                    box.add("   - Automaton \"%s\" may send a value.", getAbsName(transAut.aut, false));
+                    topics.add("   - Automaton \"%s\" may send a value.", getAbsName(transAut.aut, false));
+                    topics.addAll(sendRecvAutDocFormatter.formatDocs(transAut.aut));
                 }
             }
 
             // List receivers.
-            box.add();
+            topics.ensureEmptyAtEnd();
             if (eventTrans.receivers.isEmpty()) {
-                box.add("- An automaton that must receive a value is missing, so the event cannot occur.");
+                topics.add("- An automaton that must receive a value is missing, so the event cannot occur.");
             } else {
                 if (transferValue) {
-                    box.add("- One automaton must receive a value.");
+                    topics.add("- One automaton must receive a value.");
                 } else {
-                    box.add("- One automaton must receive a value (although no data is actually transferred).");
+                    topics.add("- One automaton must receive a value (although no data is actually transferred).");
                 }
                 for (TransitionAutomaton transAut: eventTrans.receivers) {
-                    box.add("   - Automaton \"%s\" may receive a value.", getAbsName(transAut.aut, false));
+                    topics.add("   - Automaton \"%s\" may receive a value.", getAbsName(transAut.aut, false));
+                    topics.addAll(sendRecvAutDocFormatter.formatDocs(transAut.aut));
                 }
             }
         }
 
         // List syncers.
-        if (!eventTrans.syncers.isEmpty()) {
-            box.add();
-            for (TransitionAutomaton transAut: eventTrans.syncers) {
-                box.add("- Automaton \"%s\" must always synchronize.", getAbsName(transAut.aut, false));
-            }
+        topics.ensureEmptyAtEnd();
+        for (TransitionAutomaton transAut: eventTrans.syncers) {
+            topics.add("- Automaton \"%s\" must always synchronize.", getAbsName(transAut.aut, false));
+            topics.addAll(syncMonAutDocFormatter.formatDocs(transAut.aut));
         }
 
         // List monitors.
-        if (!eventTrans.monitors.isEmpty()) {
-            box.add();
-            for (TransitionAutomaton transAut: eventTrans.monitors) {
-                box.add("- Automaton \"%s\" may synchronize.", getAbsName(transAut.aut, false));
-            }
+        topics.ensureEmptyAtEnd();
+        for (TransitionAutomaton transAut: eventTrans.monitors) {
+            topics.add("- Automaton \"%s\" may synchronize.", getAbsName(transAut.aut, false));
+            topics.addAll(syncMonAutDocFormatter.formatDocs(transAut.aut));
         }
 
-        return new PlcCommentBlock(EVENT_COMMENT_STARCOUNT, box.getLines());
+        topics.dropEmptyAtEnd();
+        return new PlcCommentBlock(EVENT_COMMENT_STARCOUNT, topics.getLines());
     }
 
     /**
@@ -540,7 +564,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                         cifDataProvider.getValueForDiscVar(dv)));
             } else if (assignedVar instanceof ContVariable cv) {
                 PlcBasicVariable currentVar = mainExprGen.getTempVariable("current_" + getAbsName(cv, false),
-                        target.getRealType());
+                        target.getStdRealType());
                 createdTempVariables.add(currentVar);
                 redirectedDecls.put(cv, new PlcVarExpression(currentVar));
                 codeStorage.add(new PlcAssignmentStatement(new PlcVarExpression(currentVar),
@@ -688,7 +712,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         List<PlcStatement> autTestCode = list(); // Intermediate storage for test code.
 
-        // TODO: Use a smaller integer for automaton indexing.
         PlcBasicVariable autVar = mainExprGen.getTempVariable(varPrefix + "Aut", PlcElementaryType.DINT_TYPE);
         createdTempVariables.add(autVar);
         autTestCode.add(generatePlcIntAssignment(autVar, 0));
@@ -701,7 +724,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Generate code that tests and performs sending or receiving a value to the channel.
         int autIndex = 1; // Index 0 is used to denote no automaton has been selected.
         for (TransitionAutomaton transAut: autTransitions) {
-            // Get the variable that stores the selected edge index for the automaton.
+            // Get the variable that stores the selected edge index for the automaton. Is 'null' if there is no edge
+            // variable.
             PlcBasicVariable edgeVar = getAutomatonEdgeVariable(transAut.aut);
 
             // Generate edge testing code.
@@ -791,7 +815,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Generate code that tests and performs synchronizing on the event.
         for (TransitionAutomaton transAut: autTransitions) {
-            // Get the variable that stores the selected edge index for the automaton.
+            // Get the variable that stores the selected edge index for the automaton. Is 'null' if there is no edge
+            // variable.
             PlcBasicVariable autEdgeVar = getAutomatonEdgeVariable(transAut.aut);
 
             // Initialize intermediate storage for test code of the automaton.
@@ -854,44 +879,131 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private void generateMonitorCode(List<TransitionAutomaton> autTransitions, CifDataProvider performProvider,
             List<PlcStatement> testAndPerformCode, List<PlcBasicVariable> createdTempVariables)
     {
-        // TODO: Do not allow only monitors for an event, as it may completely disable progress of time.
-
+        // Check if anything must be done at all.
+        boolean updatesFound = false;
         List<PlcStatement> collectedNoUpdates = list(); // Comments about automata without updates.
-        List<PlcStatement> collectedUpdates = list(); // Update-code of automata with updates.
+        for (TransitionAutomaton transAut: autTransitions) {
+            // If there is nothing to update for this automaton, create a comment saying that.
+            if (!transAut.hasUpdates()) {
+                collectedNoUpdates.add(new PlcCommentLine(
+                        fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
+            } else {
+                updatesFound = true;
+            }
+        }
+        if (!updatesFound) {
+            testAndPerformCode
+                    .add(new PlcCommentLine("There are no assignments to perform for automata that may synchronize."));
+            testAndPerformCode.addAll(collectedNoUpdates);
+            return;
+        }
 
+        // Regular case, updates must be done.
         mainExprGen.setCurrentCifDataProvider(performProvider); // Switch to using stored variables state.
         for (TransitionAutomaton transAut: autTransitions) {
+            if (!transAut.hasUpdates()) { // Skip the automata that have nothing to update.
+                continue;
+            }
+
+            // Updates for this automaton must be done.
             List<PlcStatement> updates = list();
             PlcSelectionStatement selStat = null;
 
             boolean addedAutomatonHeaderText = false;
-            for (TransitionEdge edge: transAut.transitionEdges) {
-                if (!edge.updates.isEmpty()) {
-                    if (!addedAutomatonHeaderText) {
-                        updates.add(new PlcCommentLine(
-                                fmt("Perform assignments of automaton \"%s\".", getAbsName(transAut.aut, false))));
-                        addedAutomatonHeaderText = true;
-                    }
-                    Supplier<List<PlcStatement>> thenStats = () -> { return generateEdgeUpdates(transAut.aut, edge); };
+            if (transAut.hasGuards()) {
+                // Edge selection is needed. Add the automaton information above the edge selection code.
+                List<String> autHeaderLines = generateAutomatonHeaderForUpdates(transAut.aut);
+                if (autHeaderLines.size() == 1) {
+                    updates.add(new PlcCommentLine(first(autHeaderLines)));
+                } else {
+                    updates.add(new PlcCommentBlock(autHeaderLines));
+                }
+                addedAutomatonHeaderText = true; // Don't add the automaton header again.
+            }
+            // else, automaton header is added as part of the comments of the first edge with updates.
+
+            Location lastLoc = null;
+            for (TransitionEdge transEdge: transAut.transitionEdges) {
+                if (transEdge.hasUpdates()) {
+                    // Generate the 'then' statements for the edge.
+                    final boolean doAutPrint = !addedAutomatonHeaderText;
+                    final boolean doLocPrint = transEdge.sourceLoc != lastLoc;
+                    Supplier<List<PlcStatement>> thenStats = () -> {
+                        return genMonitorUpdateEdge(transAut, transEdge, doAutPrint, doLocPrint);
+                    };
+
+                    // Update variables that control generation of the documentation.
+                    addedAutomatonHeaderText = true;
+                    lastLoc = transEdge.sourceLoc;
+
                     // Add an "IF <guards> THEN <perform-updates>" branch.
-                    selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, updates);
+                    selStat = mainExprGen.addBranch(transEdge.guards, thenStats, selStat, updates);
                 }
             }
 
-            collectedUpdates.addAll(updates);
-            if (updates.isEmpty()) {
-                collectedNoUpdates.add(new PlcCommentLine(
-                        fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
-            }
+            testAndPerformCode.addAll(updates);
         }
         mainExprGen.setCurrentCifDataProvider(null); // And switch back to normal variable access.
 
-        if (collectedUpdates.isEmpty()) {
-            testAndPerformCode
-                    .add(new PlcCommentLine("There are no assignments to perform for automata that may synchronize."));
-        }
-        testAndPerformCode.addAll(collectedUpdates);
         testAndPerformCode.addAll(collectedNoUpdates);
+    }
+
+    /**
+     * Function to generate a test and possibly update branch for an edge in a monitor automaton.
+     *
+     * @param transAut Automaton information.
+     * @param transEdge Edge to perform.
+     * @param doAutDocPrint Whether to add documentation about the automaton above the edge updates in the PLC code.
+     * @param doLocDocPrint Whether to add documentation about the location above the edge updates in the PLC code.
+     * @return The generated PLC statements.
+     */
+    private List<PlcStatement> genMonitorUpdateEdge(TransitionAutomaton transAut, TransitionEdge transEdge,
+            boolean doAutDocPrint, boolean doLocDocPrint)
+    {
+        List<PlcStatement> stats = list();
+
+        TextTopics topics;
+        // If requested, output documentation about the automaton.
+        if (doAutDocPrint || doLocDocPrint) {
+            CifDocAnnotationFormatter docFormatter = new CifDocAnnotationFormatter(null, null, null, List.of(""), null);
+            topics = new TextTopics();
+
+            if (doAutDocPrint) {
+                topics.addAll(generateAutomatonHeaderForUpdates(transAut.aut));
+                topics.ensureEmptyAtEnd();
+            }
+            if (doLocDocPrint) {
+                Location loc = transEdge.sourceLoc;
+                if (loc.getName() == null) {
+                    topics.add("Location:");
+                    topics.addAll(docFormatter.formatDocs(loc));
+                } else {
+                    topics.add("Location \"%s\":", loc.getName());
+                    topics.addAll(docFormatter.formatDocs(loc));
+                }
+            }
+        } else {
+            topics = null;
+        }
+
+        // Generate the edge updates and return the generated code.
+        stats.addAll(generateEdgeUpdates(transAut.aut, transEdge, topics));
+        return stats;
+    }
+
+    /**
+     * Generate the text to describe the automaton being updated.
+     *
+     * @param aut Automaton to describe.
+     * @return The produced text.
+     */
+    private List<String> generateAutomatonHeaderForUpdates(Automaton aut) {
+        CifDocAnnotationFormatter docFormatter = new CifDocAnnotationFormatter(null, null, null, List.of(""), null);
+        TextTopics topics = new TextTopics();
+        topics.add(fmt("Perform assignments of automaton \"%s\".", getAbsName(aut, false)));
+        topics.addAll(docFormatter.formatDocs(aut));
+        topics.dropEmptyAtEnd();
+        return topics.getLines();
     }
 
     /**
@@ -911,7 +1023,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *
      * <p>
      * If an enabled edge is found at PLC runtime, the code sets {@code autVar} to {@code autIndex} if {@code autVar} is
-     * not {@code null}, and sets {@code edgeVar} to the 1-based index of the edge that is found to be enabled.
+     * not {@code null}, and sets {@code edgeVar} to the index of the edge that is found to be enabled.
      * </p>
      *
      * @param event Event being tried.
@@ -921,7 +1033,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      *     there is no need to store an automaton index.
      * @param edgeVar For senders, receivers and syncers the PLC variable stores the edge in the automaton indicated by
      *     {@code autVar}. For syncers, it indicates the edge in a syncer automaton, as the edge variable implicitly
-     *     also indicates the automaton. Is 1-based to be consistent in how numbers are assigned.
+     *     also indicates the automaton. Is {@code null} if there is no edge variable.
      * @param eventEnabledVar PLC variable expressing if the event is enabled.
      * @return The generated code.
      */
@@ -934,9 +1046,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Explain the goal of testing the edges.
         testCode.add(genEdgeTestsDocumentation(event, transAut));
 
+        // Shouldn't have edges to select without edge variable.
+        Assert.implies(edgeVar == null, transAut.transitionEdges.isEmpty());
+
         // Generate the checks and assign their findings to edge and/or automaton variables.
-        int edgeIndex = 1;
-        for (TransitionEdge edge: transAut.transitionEdges) {
+        int edgeIndex = 0;
+        for (TransitionEdge transEdge: transAut.transitionEdges) {
             final int finalEdgeIndex = edgeIndex; // Java wants a copy.
             Supplier<List<PlcStatement>> thenStats = () -> {
                 if (autVar != null) {
@@ -949,7 +1064,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 }
             };
             // Add "IF <guards> THEN <then-stats>" branch.
-            selStat = mainExprGen.addBranch(edge.guards, thenStats, selStat, testCode);
+            selStat = mainExprGen.addBranch(transEdge.guards, thenStats, selStat, testCode);
             edgeIndex++;
         }
 
@@ -977,11 +1092,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * Get the variable that tracks the selected edge of the provided automaton.
      *
      * @param aut Automaton to use for finding the edge variable.
-     * @return The edge variable.
+     * @return The edge variable. Returns {@code null} if an edge variable if there is no edge variable.
      */
     private PlcBasicVariable getAutomatonEdgeVariable(Automaton aut) {
         PlcBasicVariable edgeVariable = edgeSelectionVariables.get(aut);
-        Assert.notNull(edgeVariable);
         return edgeVariable;
     }
 
@@ -993,9 +1107,13 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated comment block.
      */
     private PlcCommentBlock genEdgeTestsDocumentation(Event event, TransitionAutomaton transAut) {
-        CodeBox box = new MemoryCodeBox();
+        TextTopics topics = new TextTopics();
+        CifDocAnnotationFormatter locDocFormatter = new CifDocAnnotationFormatter(null, null, "  ", List.of(""), null);
+        CifDocAnnotationFormatter edgeDocFormatter = new CifDocAnnotationFormatter(null, null, "    ", List.of(""),
+                null);
+
         String edgePluralText = (transAut.transitionEdges.size() != 1) ? "s" : "";
-        box.add("Test edge%s of automaton \"%s\" to %s for event \"%s\".", edgePluralText,
+        topics.add("Test edge%s of automaton \"%s\" to %s for event \"%s\".", edgePluralText,
                 getAbsName(transAut.aut, false), transAut.purpose.purposeText, getAbsName(event, false));
 
         switch (transAut.purpose) {
@@ -1004,39 +1122,43 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             case RECEIVER:
             case SENDER: {
                 String kindText = (transAut.purpose == TransAutPurpose.SENDER) ? "sending" : "receiving";
-                box.add("At least one %s automaton must have an edge with a true guard to allow the event.", kindText);
+                topics.add("At least one %s automaton must have an edge with a true guard to allow the event.",
+                        kindText);
                 break;
             }
             case SYNCER:
-                box.add("This automaton must have an edge with a true guard to allow the event.");
+                topics.add("This automaton must have an edge with a true guard to allow the event.");
                 break;
             default:
                 throw new AssertionError("Unknown purpose \"" + transAut.purpose + "\" encountered.");
         }
-        box.add();
-        box.add("Edge%s being tested:", edgePluralText);
+        topics.ensureEmptyAtEnd();
+        topics.add("Edge%s being tested:", edgePluralText);
         Location lastLoc = null;
         for (TransitionEdge transEdge: transAut.transitionEdges) {
             if (transEdge.sourceLoc != lastLoc) {
                 lastLoc = transEdge.sourceLoc;
                 if (lastLoc.getName() == null) {
-                    box.add("- Location:");
+                    topics.add("- Location:");
+                    topics.addAll(locDocFormatter.formatDocs(lastLoc));
                 } else {
-                    box.add("- Location \"%s\":", lastLoc.getName());
+                    topics.add("- Location \"%s\":", lastLoc.getName());
+                    topics.addAll(locDocFormatter.formatDocs(lastLoc));
                 }
             }
-            box.add("  - %s edge in the location", toOrdinal(transEdge.edgeNumber));
+            topics.add("  - %s edge in the location", toOrdinal(transEdge.edgeNumber));
+            topics.addAll(edgeDocFormatter.formatDocs(transEdge.edge));
         }
         if (lastLoc == null) {
             switch (transAut.purpose) {
                 case RECEIVER:
-                    box.add("  - No edges found. Value cannot be accepted by this automaton.");
+                    topics.add("  - No edges found. Value cannot be accepted by this automaton.");
                     break;
                 case SENDER:
-                    box.add("  - No edges found. Value cannot be provided by this automaton.");
+                    topics.add("  - No edges found. Value cannot be provided by this automaton.");
                     break;
                 case SYNCER:
-                    box.add("  - No edges found. Event \"%s\" will never occur!", getAbsName(event, false));
+                    topics.add("  - No edges found. Event \"%s\" will never occur!", getAbsName(event, false));
                     break;
 
                 case MONITOR: // Never happens, as code above throws an exception already.
@@ -1044,7 +1166,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     throw new AssertionError("Unknown purpose \"" + transAut.purpose + "\" encountered.");
             }
         }
-        return new PlcCommentBlock(box.getLines());
+        topics.dropEmptyAtEnd();
+        return new PlcCommentBlock(topics.getLines());
     }
 
     /**
@@ -1052,7 +1175,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * sent value and store it into {@code channelValueVar}. Finally, perform the updates if they exist.
      *
      * @param transAut Automaton to generate perform code for.
-     * @param edgeVar Variable containing the 1-based index of the selected edge to perform.
+     * @param edgeVar Variable containing the index of the selected edge to perform. Is {@code null} if there is no edge
+     *     variable.
      * @param channelValueVar Variable that must be assigned the sent value of the channel by the selected edge. Use
      *     {@code null} if not in channel value context.
      * @param autCommentUpdateText Text of a header comment line above the edge perform code that states the automaton
@@ -1064,18 +1188,25 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private List<PlcStatement> generateSelectedEdgePerformCode(TransitionAutomaton transAut, PlcBasicVariable edgeVar,
             PlcBasicVariable channelValueVar, String autCommentUpdateText, List<PlcStatement> collectedNoUpdates)
     {
+        // If nothing needs to be computed, tell the reviewer about it.
         List<PlcStatement> performCode = list();
-        PlcSelectionStatement selStat = null;
-        boolean mustCompute = false; // Collect whether any computation must be done to perform the edges.
+        if (!transAut.hasUpdates() && channelValueVar == null) {
+            collectedNoUpdates.add(new PlcCommentLine(
+                    fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
+
+            return performCode;
+        }
+
+        // Shouldn't have edges to select without edge variable.
+        Assert.implies(edgeVar == null, transAut.transitionEdges.isEmpty());
 
         // Perform the selected edge, if not empty.
-        int edgeIndex = 1;
-        for (TransitionEdge edge: transAut.transitionEdges) {
+        PlcSelectionStatement selStat = null;
+        int edgeIndex = 0;
+        for (TransitionEdge transEdge: transAut.transitionEdges) {
             // Generate code that performs the edge if something needs to be done.
-            if (channelValueVar != null || !edge.updates.isEmpty()) {
-                mustCompute = true;
-
-                // State that automaton being updated or selected.
+            if (channelValueVar != null || transEdge.hasUpdates()) {
+                // State the automaton being updated or selected.
                 if (autCommentUpdateText != null) {
                     performCode.add(new PlcCommentLine(autCommentUpdateText));
                     autCommentUpdateText = null;
@@ -1089,12 +1220,12 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     // Compute and assign the sent value if it exists.
                     if (channelValueVar != null) {
                         thenStatements.add(new PlcCommentLine("Compute sent channel value."));
-                        genAssignExpr(new PlcVarExpression(channelValueVar), edge.sendValue, thenStatements);
+                        genAssignExpr(new PlcVarExpression(channelValueVar), transEdge.sendValue, thenStatements);
                     }
 
                     // Perform the updates if they exist.
-                    if (!edge.updates.isEmpty()) {
-                        thenStatements.addAll(generateEdgeUpdates(transAut.aut, edge));
+                    if (transEdge.hasUpdates()) {
+                        thenStatements.addAll(generateEdgeUpdates(transAut.aut, transEdge));
                     }
                     return thenStatements;
                 };
@@ -1105,13 +1236,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                         selStat, performCode);
             }
             edgeIndex++;
-        }
-
-        // If none of the edges has an update, the entire automaton has nothing to compute. Tell the reviewer not to
-        // expect assignments.
-        if (!mustCompute) {
-            collectedNoUpdates.add(new PlcCommentLine(
-                    fmt("Automaton \"%s\" has no assignments to perform.", getAbsName(transAut.aut, false))));
         }
 
         return performCode;
@@ -1125,9 +1249,24 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated statements.
      */
     private List<PlcStatement> generateEdgeUpdates(Automaton aut, TransitionEdge transEdge) {
-        Assert.check(!transEdge.updates.isEmpty());
+        return generateEdgeUpdates(aut, transEdge, null);
+    }
 
-        // Construct a comment line that indicates what edge is being performed.
+    /**
+     * Generate PLC code that performs the provided updates.
+     *
+     * @param aut Automaton owning the given edge.
+     * @param transEdge Edge with the updates to convert. Edge must have updates.
+     * @param topics If not {@code null}, already created documentation that should be inserted in a comment above the
+     *     code.
+     * @return The generated statements.
+     */
+    private List<PlcStatement> generateEdgeUpdates(Automaton aut, TransitionEdge transEdge, TextTopics topics) {
+        Assert.check(transEdge.hasUpdates());
+
+        topics = (topics == null) ? new TextTopics() : topics;
+
+        // Construct a comment text that indicates what edge is being performed.
         String text;
         if (transEdge.sourceLoc.getName() == null) {
             text = fmt("Perform assignments of the %s edge of automaton \"%s\".", toOrdinal(transEdge.edgeNumber),
@@ -1137,9 +1276,23 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                     getAbsName(transEdge.sourceLoc, false));
         }
 
-        // Construct the PLC code and return it.
+        // Create the documentation.
+        CifDocAnnotationFormatter edgeUpdateDocFormatter = new CifDocAnnotationFormatter(null, null, null, List.of(""),
+                null);
+        topics.ensureEmptyAtEnd();
+        topics.add(text);
+        topics.addAll(edgeUpdateDocFormatter.formatDocs(transEdge.edge));
+        topics.dropEmptyAtEnd();
+
+        // Store the documentation.
         List<PlcStatement> stats = list();
-        stats.add(new PlcCommentLine(text));
+        if (topics.size() == 1) {
+            stats.add(new PlcCommentLine(first(topics.getLines())));
+        } else {
+            stats.add(new PlcCommentBlock(topics.getLines()));
+        }
+
+        // Add the generated code and return everything.
         stats.addAll(generateUpdates(transEdge.updates));
         return stats;
     }
@@ -1344,7 +1497,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      */
     private PlcExpression generateCompareVarWithVal(PlcBasicVariable variable, int value) {
         PlcExpression varExpr = new PlcVarExpression(variable);
-        PlcExpression valExpr = target.makeStdInteger(value);
+        PlcExpression valExpr = new PlcIntLiteral(value, variable.type);
         return funcAppls.equalFuncAppl(varExpr, valExpr);
     }
 
@@ -1356,7 +1509,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * @return The generated statement.
      */
     private PlcAssignmentStatement generatePlcIntAssignment(PlcBasicVariable variable, int value) {
-        return new PlcAssignmentStatement(variable, target.makeStdInteger(value));
+        return new PlcAssignmentStatement(variable, new PlcIntLiteral(value, variable.type));
     }
 
     /**

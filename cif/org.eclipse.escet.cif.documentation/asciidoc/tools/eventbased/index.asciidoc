@@ -41,7 +41,7 @@ indexterm:[event-based synthesis toolset,supported specifications]
 The application supports a subset of CIF specifications.
 The following restrictions apply:
 
-* Channels (events with data types), if used (present on an edge of at least one automaton), are not supported.
+* Channels (events with data types) are not supported.
 
 * Any use of the `tau` event is not supported.
 Note that both explicit use (keyword `tau`) and implicit use (no events on an edge) are unsupported.
@@ -54,27 +54,15 @@ Note that both explicit use (keyword `tau`) and implicit use (no events on an ed
 
 * Initialization predicates in components are not supported.
 
-* Invariants in components are not supported.
+* Initialization predicates in locations that are not trivially true or false are not supported.
 
 * Marker predicates in components are not supported.
 
-* Initialization predicates in locations that are not trivially true or false are not supported.
-
-* State invariants in locations that are not trivially true are not supported.
-
 * Marker predicates in locations that are not trivially true or false are not supported.
 
-* State/event exclusion invariants are not supported.
+* Invariants are not supported, unless they don't impose any restrictions.
 
 * Guards of edges that are not trivially true or false are not supported.
-
-* Multiple initialization predicates in a single location are not supported.
-
-* Multiple state invariant predicates in a single location are not supported.
-
-* Multiple marker predicates in a single location are not supported.
-
-* Multiple guards on a single edge are not supported.
 
 To allow state/event exclusion invariants to be used in the input, manually eliminate them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to CIF transformation.
 

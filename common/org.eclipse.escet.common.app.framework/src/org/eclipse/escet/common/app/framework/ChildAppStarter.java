@@ -193,7 +193,7 @@ public class ChildAppStarter {
         } else if (stdoutPath.equals("-")) {
             outStream = parentStreams.out;
         } else {
-            outStream = new FileAppStream(stdoutPath, appendOut);
+            outStream = new FileAppStream(stdoutPath, Paths.resolve(stdoutPath), appendOut);
         }
 
         if (errToOut) {
@@ -206,7 +206,7 @@ public class ChildAppStarter {
             errStream = parentStreams.err;
             warnStream = parentStreams.warn;
         } else {
-            errStream = new FileAppStream(stderrPath, appendErr);
+            errStream = new FileAppStream(stderrPath, Paths.resolve(stderrPath), appendErr);
             warnStream = errStream;
         }
 

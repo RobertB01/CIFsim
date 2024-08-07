@@ -56,6 +56,7 @@ import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
+import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.w3c.dom.Element;
 
@@ -65,7 +66,7 @@ public class CifToYedModelDiagram extends CifToYedDiagram {
     private Set<ModelFilter> filters;
 
     @Override
-    protected void addSpec(Specification spec, Element root) {
+    protected void addSpec(Specification spec, String absSpecPath, Element root, Termination termination) {
         // Initialize options.
         filters = ModelFiltersOption.getFilters();
 
