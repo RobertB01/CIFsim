@@ -5,7 +5,7 @@ DATA_BLOCK "DB"
         p_b: BOOL;
         p_x: DINT;
         p_y: LREAL;
-        p_ve: DINT;
+        p_ve: BOOL;
         p_v1: DINT;
         p_v2: g_trr;
         p_v3: g_ttrrr;
@@ -14,7 +14,7 @@ DATA_BLOCK "DB"
         p_r: LREAL;
         p_t: LREAL;
         preset_p_t: TIME;
-        p: DINT;
+        p: BYTE;
         firstRun: BOOL;
     END_VAR
 BEGIN

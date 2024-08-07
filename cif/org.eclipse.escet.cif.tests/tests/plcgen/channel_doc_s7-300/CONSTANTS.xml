@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Tagtable name='CONSTANTS'>
-    <Constant type='DINT' remark='' value='0'>Y1_A</Constant>
-    <Constant type='DINT' remark='' value='1'>Y1_B</Constant>
-    <Constant type='DINT' remark='' value='0'>M1_A</Constant>
-    <Constant type='DINT' remark='' value='1'>M1_B</Constant>
+    <Constant type='BOOL' remark='' value='0'>Y1_A</Constant>
+    <Constant type='BOOL' remark='' value='1'>Y1_B</Constant>
+    <Constant type='BOOL' remark='' value='0'>M1_A</Constant>
+    <Constant type='BOOL' remark='' value='1'>M1_B</Constant>
 </Tagtable>

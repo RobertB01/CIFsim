@@ -3,13 +3,13 @@ ORGANIZATION_BLOCK MAIN
     VAR_TEMP
         channelValue: DINT;
         curValue: TIME;
-        current_M1: DINT;
+        current_M1: BOOL;
         current_M1_vm1: DINT;
         current_M2_vm2: DINT;
         current_R1_t: REAL;
         current_R1_vr1: DINT;
-        current_Y1: DINT;
-        current_Y1_1: DINT;
+        current_Y1: BOOL;
+        current_Y1_1: BOOL;
         edge_R1: BOOL;
         edge_S1: BOOL;
         edge_Y1: BOOL;

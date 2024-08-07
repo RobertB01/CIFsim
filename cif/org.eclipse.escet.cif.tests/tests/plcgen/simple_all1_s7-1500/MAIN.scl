@@ -2,13 +2,13 @@ ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'true' }
     VAR_TEMP
         curValue: TIME;
-        current_p: DINT;
+        current_p: BYTE;
         current_p_b: BOOL;
         current_p_j: DINT;
         current_p_r: LREAL;
         current_p_tv: TupleStruct2;
         current_p_v3: g_ttrrr;
-        current_p_ve: DINT;
+        current_p_ve: BOOL;
         current_p_x: DINT;
         edge_p: BYTE;
         eventEnabled: BOOL;

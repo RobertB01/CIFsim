@@ -35,8 +35,6 @@ import java.util.function.Supplier;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
-import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
-import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
@@ -74,6 +72,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.ListType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
+import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
@@ -88,7 +87,6 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcAssignmentStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcSelectionStatement.PlcSelectChoice;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
-import org.eclipse.escet.cif.plcgen.model.types.PlcEnumType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
@@ -406,10 +404,8 @@ public class ExprGenerator {
         } else if (expr instanceof LocationExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof EnumLiteralExpression eLitExpr) {
-            EnumLiteral eLit = eLitExpr.getLiteral();
-            EnumDecl enumDecl = (EnumDecl)eLit.eContainer();
-            PlcEnumType plcEnumType = target.getTypeGenerator().convertEnumDecl(enumDecl);
-            return new ExprValueResult(this).setValue(plcEnumType.getLiteral(enumDecl.getLiterals().indexOf(eLit)));
+            TypeGenerator typeGenerator = target.getTypeGenerator();
+            return new ExprValueResult(this).setValue(typeGenerator.convertEnumLiteral(eLitExpr.getLiteral()));
         } else if (expr instanceof FunctionExpression) {
             throw new RuntimeException("Precondition violation.");
         } else if (expr instanceof InputVariableExpression ie) {

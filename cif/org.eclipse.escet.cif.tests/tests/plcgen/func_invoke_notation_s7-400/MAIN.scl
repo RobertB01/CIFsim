@@ -2,7 +2,7 @@ ORGANIZATION_BLOCK MAIN
 { S7_Optimized_Access := 'false' }
     VAR_TEMP
         curValue: TIME;
-        current_aut: DINT;
+        current_aut: BOOL;
         current_aut_b: BOOL;
         current_aut_i: DINT;
         current_aut_r: REAL;

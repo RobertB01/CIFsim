@@ -25,6 +25,36 @@
           </enum>
         </baseType>
       </dataType>
+      <dataType name="R2_location">
+        <baseType>
+          <enum>
+            <values>
+              <value name="R2_A"/>
+              <value name="R2_B"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
+      <dataType name="Y2_location">
+        <baseType>
+          <enum>
+            <values>
+              <value name="Y2_A"/>
+              <value name="Y2_B"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
+      <dataType name="M2_location">
+        <baseType>
+          <enum>
+            <values>
+              <value name="M2_A"/>
+              <value name="M2_B"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
     </dataTypes>
     <pous>
       <pou name="MAIN" pouType="program">
@@ -57,7 +87,7 @@
             </variable>
             <variable name="R2">
               <type>
-                <derived name="S2_location"/>
+                <derived name="R2_location"/>
               </type>
             </variable>
             <variable name="Y1_vy1">
@@ -72,7 +102,7 @@
             </variable>
             <variable name="Y2">
               <type>
-                <derived name="S2_location"/>
+                <derived name="Y2_location"/>
               </type>
             </variable>
             <variable name="M1_vm1">
@@ -87,7 +117,7 @@
             </variable>
             <variable name="M2">
               <type>
-                <derived name="S2_location"/>
+                <derived name="M2_location"/>
               </type>
             </variable>
             <variable name="firstRun">
@@ -291,19 +321,19 @@ IF firstRun THEN
     (* Initialize discrete variable "R2.vr2". *)
     R2_vr2 := 0;
     (* Initialize current location of automaton "R2". *)
-    R2 := S2_A;
+    R2 := R2_A;
     (* Initialize discrete variable "Y1.vy1". *)
     Y1_vy1 := 0;
     (* Initialize discrete variable "Y2.vy2". *)
     Y2_vy2 := 0;
     (* Initialize current location of automaton "Y2". *)
-    Y2 := S2_A;
+    Y2 := Y2_A;
     (* Initialize discrete variable "M1.vm1". *)
     M1_vm1 := 0;
     (* Initialize discrete variable "M2.vm2". *)
     M2_vm2 := 0;
     (* Initialize current location of automaton "M2". *)
-    M2 := S2_A;
+    M2 := M2_A;
 END_IF;
 
 (* --- Process controllable events. ---------------------------------------- *)
@@ -401,10 +431,10 @@ WHILE isProgress DO
              * - Location "B":
              *   - 1st edge in the location
              ***********)
-            IF R2 = S2_A THEN
+            IF R2 = R2_A THEN
                 receiverAut := 2;
                 edge_R2 := 0;
-            ELSIF R2 = S2_B THEN
+            ELSIF R2 = R2_B THEN
                 receiverAut := 2;
                 edge_R2 := 1;
             END_IF;
@@ -444,9 +474,9 @@ WHILE isProgress DO
          * - Location "B":
          *   - 1st edge in the location
          ***********)
-        IF Y2 = S2_A AND Y2_vy2 = 2 THEN
+        IF Y2 = Y2_A AND Y2_vy2 = 2 THEN
             edge_Y2 := 0;
-        ELSIF Y2 = S2_B AND Y2_vy2 = 3 THEN
+        ELSIF Y2 = Y2_B AND Y2_vy2 = 3 THEN
             edge_Y2 := 1;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)

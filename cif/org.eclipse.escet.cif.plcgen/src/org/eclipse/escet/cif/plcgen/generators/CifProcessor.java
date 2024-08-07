@@ -60,8 +60,6 @@ import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
 import org.eclipse.escet.cif.cif2cif.ElimLocRefExprs;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
-import org.eclipse.escet.cif.cif2cif.EnumsToConsts;
-import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
@@ -152,11 +150,11 @@ public class CifProcessor {
 
         // Collect or convert the declarations of the specification.
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
-            // Store the found variable in the data of its complex component.
+            // Store the found declaration in the data of its complex component.
             ComponentDocData compData = componentDatas.computeIfAbsent((ComplexComponent)decl.eContainer(),
                     comp -> new ComponentDocData(comp));
 
-            // Tell other generators about the variable.
+            // Tell other generators about the declaration.
             if (decl instanceof DiscVariable discVar) {
                 compData.variables.add(decl);
                 target.getVarStorage().addStateVariable(decl, discVar.getType());
@@ -759,26 +757,6 @@ public class CifProcessor {
         if (simplifyValues) {
             new SimplifyValues().transform(spec);
             new ElimConsts().transform(spec);
-        }
-
-        // If requested, convert enumerations.
-        switch (target.getActualEnumerationsConversion()) {
-            case CONSTS:
-                // This transformation introduces new constants that are intentionally not removed if simplify values is
-                // enabled.
-                new EnumsToConsts().transform(spec);
-                break;
-            case INTS:
-                new EnumsToInts().transform(spec);
-                break;
-            case KEEP:
-                // Nothing to do.
-                break;
-
-            case AUTO: // The target should not respond with AUTO.
-            default:
-                throw new AssertionError("Unexpected enumeration conversion request \""
-                        + target.getActualEnumerationsConversion() + "\".");
         }
     }
 
