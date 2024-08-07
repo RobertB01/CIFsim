@@ -210,14 +210,12 @@ public class DefaultTypeGenerator implements TypeGenerator {
     private EnumDeclData convertToPlcEnumType(EnumDecl origEnumDecl) {
         NameGenerator nameGenerator = target.getNameGenerator();
 
-        // Create names for literals.
-        String initialTypeName = CifTextUtils.getAbsName(origEnumDecl, false);
-        String typeName = nameGenerator.generateGlobalName(initialTypeName, true);
+        // Create name for enum.
+        String typeName = nameGenerator.generateGlobalName(origEnumDecl);
 
         // Construct the names of the literals.
         List<String> literalNames = origEnumDecl.getLiterals().stream()
-                .map(lit -> CifTextUtils.getAbsName(lit, true))
-                .map(name -> nameGenerator.generateGlobalName(name, true)).toList();
+                .map(lit -> nameGenerator.generateGlobalName(lit)).toList();
         PlcEnumType plcEnumType = new PlcEnumType(typeName, literalNames);
         PlcExpression[] litValues = plcEnumType.literals.toArray(PlcExpression[]::new);
 
@@ -243,8 +241,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
         // Construct constants.
         PlcExpression[] litValues = new PlcExpression[numLiterals];
         for (int idx = 0; idx < numLiterals; idx++) {
-            String name = CifTextUtils.getAbsName(origEnumDecl.getLiterals().get(idx), true);
-            name = nameGenerator.generateGlobalName(name, true);
+            String name = nameGenerator.generateGlobalName(origEnumDecl.getLiterals().get(idx));
 
             PlcDataVariable constVar = new PlcDataVariable(name, valueType, null, new PlcIntLiteral(idx, valueType));
             codeStorage.addConstant(constVar);
