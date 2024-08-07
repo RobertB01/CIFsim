@@ -60,6 +60,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -417,8 +418,14 @@ public class CifToMcrl2Transformer {
         Assert.areEqual(edge.getEvents().size(), 1);
         EdgeEvent edgeEvent = first(edge.getEvents());
         Expression eventRef = edgeEvent.getEvent();
-        Assert.check(eventRef instanceof EventExpression);
-        Event event = ((EventExpression)eventRef).getEvent();
+        String event;
+        if (eventRef instanceof EventExpression eventExpr) {
+            event = getName(eventExpr.getEvent());
+        } else if (eventRef instanceof TauExpression) {
+            event = "tau";
+        } else {
+            throw new RuntimeException("Unexpected event reference: " + eventRef);
+        }
 
         // Get updates.
         String updates = assignments.entrySet().stream().map(
@@ -426,7 +433,7 @@ public class CifToMcrl2Transformer {
                 .collect(Collectors.joining(", "));
 
         // Generate process expression.
-        code.add("(%s) -> %s . P(%s)", guard, getName(event), updates);
+        code.add("(%s) -> %s . P(%s)", guard, event, updates);
     }
 
     /**

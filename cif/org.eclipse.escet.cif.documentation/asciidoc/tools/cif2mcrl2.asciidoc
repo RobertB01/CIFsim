@@ -76,7 +76,6 @@ The latter may have a range.
 
 * Regarding events:
 ** Channels are not supported.
-** The `tau` event is not supported.
 
 * Regarding automata:
 ** There must be at least one automaton.
