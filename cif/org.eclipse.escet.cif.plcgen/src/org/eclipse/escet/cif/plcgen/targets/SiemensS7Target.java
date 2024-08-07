@@ -87,6 +87,9 @@ public class SiemensS7Target extends PlcBaseTarget {
                 PlcTargetType.S7_300, BIT_STRING_TYPES_32, PlcTargetType.S7_400, BIT_STRING_TYPES_32,
                 PlcTargetType.S7_1200, BIT_STRING_TYPES_32, PlcTargetType.S7_1500, BIT_STRING_TYPES_64);
 
+        // Source: https://cache.industry.siemens.com/dl/files/857/109477857/att_865202/v1/109477857_Bezeichner_Anfuehrungszeichen_en.pdf
+        // Consulted: Jul 10, 2024. Valid for TIA portal 10 and higher.
+        //
         // ASCII characters neither in NORMAL_CHARS nor in SPECIAL_CHARS are 0..31, 127, '"', '+' and '~'.
         SPECIAL_CHARS = new BitSet(128);
         char[] specials = new char[] {' ', '!', '#', '$', '%', '&', '\'', '(', ')', '*', ',', '-', '.', '/', ':', ';',
@@ -95,6 +98,9 @@ public class SiemensS7Target extends PlcBaseTarget {
             SPECIAL_CHARS.set(c);
         }
 
+        // Source: https://cache.industry.siemens.com/dl/files/857/109477857/att_865202/v1/109477857_Bezeichner_Anfuehrungszeichen_en.pdf
+        // Consulted: Jul 10, 2024. Valid for TIA portal 10 and higher.
+        //
         // ASCII characters in regular identifiers (letters, digits, and '_').
         NORMAL_CHARS = new BitSet(128);
         NORMAL_CHARS.set('_');
@@ -242,7 +248,7 @@ public class SiemensS7Target extends PlcBaseTarget {
         // Names starting with a decimal digit must be double-quoted. Obviously this includes names consisting of only
         // digits.
         char first = name.charAt(0);
-        mustBeQuoted |= (first <= '0' && first <= '9'); // This leaves [A-Za-z_] as normal first characters.
+        mustBeQuoted |= (first >= '0' && first <= '9'); // This leaves [A-Za-z_] as normal first characters.
 
         // Names with "__" or ending with an underscore must be quoted.
         mustBeQuoted |= (name.endsWith("_") || name.contains("__"));
