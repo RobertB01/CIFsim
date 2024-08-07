@@ -146,7 +146,7 @@ BEGIN
          ***********)
         "DB".Y1_vy1 := 0;
         (* Initialize current location of automaton "Y1". *)
-        "DB".Y1 := A_Y1_location;
+        "DB".Y1 := Y1_A;
         (***********
          * Initialize discrete variable "M1.vm1".
          *
@@ -154,7 +154,7 @@ BEGIN
          ***********)
         "DB".M1_vm1 := 0;
         (* Initialize current location of automaton "M1". *)
-        "DB".M1 := A_Y1_location;
+        "DB".M1 := M1_A;
         (***********
          * Initialize discrete variable "M2.vm2".
          *
@@ -195,7 +195,7 @@ BEGIN
          *   - 1st edge in the location
          *     doc-sync-edge-uncontr
          ***********)
-        IF "DB".Y1 = B_Y1_location AND "DB".Y1_vy1 = 1 THEN
+        IF "DB".Y1 = Y1_B AND "DB".Y1_vy1 = 1 THEN
             edge_Y1 := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -216,7 +216,7 @@ BEGIN
                  * doc-sync-edge-uncontr
                  ***********)
                 (* Perform update of current location of automaton "Y1". *)
-                "DB".Y1 := A_Y1_location;
+                "DB".Y1 := Y1_A;
             END_IF;
         END_IF;
     END_WHILE;
@@ -318,7 +318,7 @@ BEGIN
              *   - 1st edge in the location
              *     doc-sync-edge-contr
              ***********)
-            IF "DB".Y1 = A_Y1_location AND "DB".Y1_vy1 = 1 THEN
+            IF "DB".Y1 = Y1_A AND "DB".Y1_vy1 = 1 THEN
                 edge_Y1 := 0;
             ELSE
                 (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -375,7 +375,7 @@ BEGIN
                  * doc-sync-edge-contr
                  ***********)
                 (* Perform update of current location of automaton "Y1". *)
-                "DB".Y1 := B_Y1_location;
+                "DB".Y1 := Y1_B;
             END_IF;
             (*******************************
              * Perform the assignments of each optionally synchronizing automaton.
@@ -384,7 +384,7 @@ BEGIN
              * Perform assignments of automaton "M1".
              * doc-mon: Not participating monitor
              ***********)
-            IF current_M1 = A_Y1_location AND current_M1_vm1 = 1 THEN
+            IF current_M1 = M1_A AND current_M1_vm1 = 1 THEN
                 (***********
                  * Location "A":
                  * doc-mon-locA
@@ -395,8 +395,8 @@ BEGIN
                 (* Perform update of discrete variable "M1.vm1". *)
                 "DB".M1_vm1 := 1;
                 (* Perform update of current location of automaton "M1". *)
-                "DB".M1 := B_Y1_location;
-            ELSIF current_M1 = B_Y1_location AND current_M1_vm1 = 1 THEN
+                "DB".M1 := M1_B;
+            ELSIF current_M1 = M1_B AND current_M1_vm1 = 1 THEN
                 (***********
                  * Location "B":
                  * doc-mon-locB
@@ -406,7 +406,7 @@ BEGIN
                  ***********)
                 (* Perform update of discrete variable "M1.vm1". *)
                 "DB".M1_vm1 := 2;
-            ELSIF current_M1 = B_Y1_location AND current_M1_vm1 = 2 THEN
+            ELSIF current_M1 = M1_B AND current_M1_vm1 = 2 THEN
                 (***********
                  * Perform assignments of the 2nd edge in location "M1.B".
                  * doc-mon-edgeB-2
@@ -414,7 +414,7 @@ BEGIN
                 (* Perform update of discrete variable "M1.vm1". *)
                 "DB".M1_vm1 := 1;
                 (* Perform update of current location of automaton "M1". *)
-                "DB".M1 := A_Y1_location;
+                "DB".M1 := M1_A;
             END_IF;
             IF TRUE THEN
                 (***********

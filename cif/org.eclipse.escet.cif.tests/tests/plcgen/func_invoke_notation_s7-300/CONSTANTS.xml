@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Tagtable name='CONSTANTS'>
-    <Constant type='BOOL' remark='' value='0'>l1_aut_location</Constant>
-    <Constant type='BOOL' remark='' value='1'>l2_aut_location</Constant>
+    <Constant type='BOOL' remark='' value='0'>aut_l1</Constant>
+    <Constant type='BOOL' remark='' value='1'>aut_l2</Constant>
 </Tagtable>

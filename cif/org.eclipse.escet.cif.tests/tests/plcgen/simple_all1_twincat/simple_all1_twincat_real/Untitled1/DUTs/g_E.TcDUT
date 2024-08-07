@@ -2,7 +2,7 @@
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <DUT Name="g_E">
     <Declaration><![CDATA[TYPE g_E:
-    (LIT1_g_E, LIT2_g_E);
+    (g_LIT1, g_LIT2);
 END_TYPE]]></Declaration>
     <ObjectProperties/>
   </DUT>

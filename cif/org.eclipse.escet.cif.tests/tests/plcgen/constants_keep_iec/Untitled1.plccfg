@@ -5,7 +5,7 @@ CONFIGURATION Untitled1
         c: LREAL := 3.0;
         d: DINT := 1;
         holds: BOOL := TRUE;
-        danger: Color := red_Color;
+        danger: Color := red;
         x: DINT := -1234;
         z: DINT := 4321;
         xx: DINT := -2147483648;

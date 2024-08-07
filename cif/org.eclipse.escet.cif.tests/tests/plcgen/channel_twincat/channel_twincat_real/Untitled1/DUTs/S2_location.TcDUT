@@ -2,7 +2,7 @@
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <DUT Name="S2_location">
     <Declaration><![CDATA[TYPE S2_location:
-    (A_S2_location, B_S2_location);
+    (S2_A, S2_B);
 END_TYPE]]></Declaration>
     <ObjectProperties/>
   </DUT>

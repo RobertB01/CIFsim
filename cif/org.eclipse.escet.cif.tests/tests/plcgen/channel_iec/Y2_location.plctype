@@ -1,0 +1,3 @@
+TYPE Y2_location:
+    (Y2_A, Y2_B);
+END_TYPE

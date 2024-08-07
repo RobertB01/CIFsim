@@ -19,9 +19,9 @@
         <baseType>
           <enum>
             <values>
-              <value name="red_Color"/>
-              <value name="yellow_Color"/>
-              <value name="blue_Color"/>
+              <value name="red"/>
+              <value name="yellow"/>
+              <value name="blue"/>
             </values>
           </enum>
         </baseType>
@@ -334,7 +334,7 @@ END_WHILE;</xhtml>
                 <derived name="Color"/>
               </type>
               <initialValue>
-                <simpleValue value="red_Color"/>
+                <simpleValue value="red"/>
               </initialValue>
             </variable>
             <variable name="x">

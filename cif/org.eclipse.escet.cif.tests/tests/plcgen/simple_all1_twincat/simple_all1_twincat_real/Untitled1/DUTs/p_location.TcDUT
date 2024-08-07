@@ -2,7 +2,7 @@
 <TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
   <DUT Name="p_location">
     <Declaration><![CDATA[TYPE p_location:
-    (l1_p_location, l6_p_location, l7_p_location, l8_p_location, l9_p_location, l10_p_location, l11_p_location, l12_p_location, l13_p_location, l14_p_location, l15_p_location, l16_p_location, l17_p_location);
+    (p_l1, p_l6, p_l7, p_l8, p_l9, p_l10, p_l11, p_l12, p_l13, p_l14, p_l15, p_l16, p_l17);
 END_TYPE]]></Declaration>
     <ObjectProperties/>
   </DUT>

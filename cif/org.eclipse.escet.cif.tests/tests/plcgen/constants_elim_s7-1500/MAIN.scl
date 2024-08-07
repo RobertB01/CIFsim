@@ -148,7 +148,7 @@ BEGIN
          * - Location:
          *   - 3rd edge in the location
          ***********)
-        IF "DB".col <> red_Color THEN
+        IF "DB".col <> red THEN
             edge_aut := 0;
         ELSE
             (* The automaton has no edge with a true guard. Skip to the next event. *)

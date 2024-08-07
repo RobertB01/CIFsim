@@ -5,10 +5,10 @@
     <Constant type='REAL' remark='' value='3.0'>c</Constant>
     <Constant type='DINT' remark='' value='1'>d</Constant>
     <Constant type='BOOL' remark='' value='TRUE'>holds</Constant>
-    <Constant type='BYTE' remark='' value='0'>red_Color</Constant>
-    <Constant type='BYTE' remark='' value='1'>yellow_Color</Constant>
-    <Constant type='BYTE' remark='' value='2'>blue_Color</Constant>
-    <Constant type='BYTE' remark='' value='red_Color'>danger</Constant>
+    <Constant type='BYTE' remark='' value='0'>red</Constant>
+    <Constant type='BYTE' remark='' value='1'>yellow</Constant>
+    <Constant type='BYTE' remark='' value='2'>blue</Constant>
+    <Constant type='BYTE' remark='' value='red'>danger</Constant>
     <Constant type='DINT' remark='' value='-1234'>x</Constant>
     <Constant type='DINT' remark='' value='4321'>z</Constant>
     <Constant type='DINT' remark='' value='-2147483648'>xx</Constant>

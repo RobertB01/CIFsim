@@ -86,7 +86,7 @@ IF firstRun THEN
     (* Initialize discrete variable "p.y". *)
     p_y := 1.23;
     (* Initialize discrete variable "p.ve". *)
-    p_ve := LIT1_g_E;
+    p_ve := g_LIT1;
     (* Initialize discrete variable "p.v1". *)
     p_v1 := 0;
     (* Initialize discrete variable "p.v2". *)
@@ -114,7 +114,7 @@ IF firstRun THEN
     ton_p_t(IN := FALSE, PT := preset_p_t);
     ton_p_t(IN := TRUE, PT := preset_p_t);
     (* Initialize current location of automaton "p". *)
-    p := l1_p_location;
+    p := p_l1;
 ELSE
     (* Update remaining time of continuous variable "p.t". *)
     ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);
@@ -166,29 +166,29 @@ WHILE isProgress DO
      * - Location "l16":
      *   - 1st edge in the location
      ***********)
-    IF p = l1_p_location THEN
+    IF p = p_l1 THEN
         edge_p := 0;
-    ELSIF p = l6_p_location THEN
+    ELSIF p = p_l6 THEN
         edge_p := 1;
-    ELSIF p = l7_p_location THEN
+    ELSIF p = p_l7 THEN
         edge_p := 2;
-    ELSIF p = l8_p_location THEN
+    ELSIF p = p_l8 THEN
         edge_p := 3;
-    ELSIF p = l9_p_location THEN
+    ELSIF p = p_l9 THEN
         edge_p := 4;
-    ELSIF p = l10_p_location THEN
+    ELSIF p = p_l10 THEN
         edge_p := 5;
-    ELSIF p = l11_p_location THEN
+    ELSIF p = p_l11 THEN
         edge_p := 6;
-    ELSIF p = l12_p_location THEN
+    ELSIF p = p_l12 THEN
         edge_p := 7;
-    ELSIF p = l13_p_location THEN
+    ELSIF p = p_l13 THEN
         edge_p := 8;
-    ELSIF p = l14_p_location THEN
+    ELSIF p = p_l14 THEN
         edge_p := 9;
-    ELSIF p = l15_p_location THEN
+    ELSIF p = p_l15 THEN
         edge_p := 10;
-    ELSIF p = l16_p_location THEN
+    ELSIF p = p_l16 THEN
         edge_p := 11;
     ELSE
         (* The automaton has no edge with a true guard. Skip to the next event. *)
@@ -217,7 +217,7 @@ WHILE isProgress DO
             litStruct_2.field2 := 2;
             p_tv := litStruct_2;
             (* Perform update of current location of automaton "p". *)
-            p := l6_p_location;
+            p := p_l6;
         ELSIF edge_p = 1 THEN
             (* Perform assignments of the 1st edge in location "p.l6". *)
             (* Perform update of discrete variable "p.x". *)
@@ -225,7 +225,7 @@ WHILE isProgress DO
             (* Perform update of discrete variable "p.j". *)
             p_j := 4;
             (* Perform update of current location of automaton "p". *)
-            p := l7_p_location;
+            p := p_l7;
         ELSIF edge_p = 2 THEN
             (* Perform assignments of the 1st edge in location "p.l7". *)
             rightValue := current_p_tv;
@@ -234,13 +234,13 @@ WHILE isProgress DO
             (* Perform update of discrete variable "p.j". *)
             p_j := rightValue.field2;
             (* Perform update of current location of automaton "p". *)
-            p := l8_p_location;
+            p := p_l8;
         ELSIF edge_p = 3 THEN
             (* Perform assignments of the 1st edge in location "p.l8". *)
             (* Perform update of discrete variable "p.tv". *)
             p_tv.field1 := 5;
             (* Perform update of current location of automaton "p". *)
-            p := l9_p_location;
+            p := p_l9;
         ELSIF edge_p = 4 THEN
             (* Perform assignments of the 1st edge in location "p.l9". *)
             (* Perform update of discrete variable "p.tv". *)
@@ -248,13 +248,13 @@ WHILE isProgress DO
             (* Perform update of discrete variable "p.j". *)
             p_j := 7;
             (* Perform update of current location of automaton "p". *)
-            p := l10_p_location;
+            p := p_l10;
         ELSIF edge_p = 5 THEN
             (* Perform assignments of the 1st edge in location "p.l10". *)
             (* Perform update of discrete variable "p.v3". *)
             p_v3.field1.field2 := 7.8;
             (* Perform update of current location of automaton "p". *)
-            p := l11_p_location;
+            p := p_l11;
         ELSIF edge_p = 6 THEN
             (* Perform assignments of the 1st edge in location "p.l11". *)
             (* Perform update of discrete variable "p.v3". *)
@@ -264,39 +264,39 @@ WHILE isProgress DO
             litStruct_1.field2 := 5.6;
             p_v3 := litStruct_1;
             (* Perform update of current location of automaton "p". *)
-            p := l12_p_location;
+            p := p_l12;
         ELSIF edge_p = 7 THEN
             (* Perform assignments of the 1st edge in location "p.l12". *)
             (* Perform update of discrete variable "p.j". *)
             p_j := current_p_j + 1;
             (* Perform update of current location of automaton "p". *)
-            p := l13_p_location;
+            p := p_l13;
         ELSIF edge_p = 8 THEN
             (* Perform assignments of the 1st edge in location "p.l13". *)
             (* Perform update of discrete variable "p.b". *)
             p_b := FALSE;
             (* Perform update of current location of automaton "p". *)
-            p := l14_p_location;
+            p := p_l14;
         ELSIF edge_p = 9 THEN
             (* Perform assignments of the 1st edge in location "p.l14". *)
             IF (NOT current_p_b) THEN
                 (* Perform update of discrete variable "p.ve". *)
-                p_ve := LIT2_g_E;
+                p_ve := g_LIT2;
             END_IF;
             (* Perform update of current location of automaton "p". *)
-            p := l15_p_location;
+            p := p_l15;
         ELSIF edge_p = 10 THEN
             (* Perform assignments of the 1st edge in location "p.l15". *)
             (* Perform update of discrete variable "p.r". *)
             p_r := DINT_TO_LREAL(g_inp) + 10.0;
             (* Perform update of current location of automaton "p". *)
-            p := l16_p_location;
+            p := p_l16;
         ELSIF edge_p = 11 THEN
             (* Perform assignments of the 1st edge in location "p.l16". *)
             (* Perform update of discrete variable "p.x". *)
             p_x := (-(-current_p_x));
             (* Perform update of current location of automaton "p". *)
-            p := l17_p_location;
+            p := p_l17;
         END_IF;
     END_IF;
 END_WHILE;]]></ST>
