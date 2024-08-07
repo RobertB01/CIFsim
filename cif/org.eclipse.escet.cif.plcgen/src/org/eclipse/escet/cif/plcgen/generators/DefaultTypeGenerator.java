@@ -15,14 +15,11 @@ package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Sets.setc;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.IntStream;
 
-import org.eclipse.escet.cif.common.CifEnumUtils.EnumDeclEqHashWrap;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.TypeEqHashWrap;
@@ -52,8 +49,6 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Lists;
-import org.eclipse.escet.common.java.Sets;
 
 /** Class for handling types. */
 public class DefaultTypeGenerator implements TypeGenerator {
@@ -84,7 +79,7 @@ public class DefaultTypeGenerator implements TypeGenerator {
      * Recommend access is through {@link #getOrCreateConvertedEnumDecl}.
      * </p>
      */
-    private final Map<EnumDeclEqHashWrap, EnumDeclData> enumTypes = map();
+    private final Map<EnumDecl, EnumDeclData> enumTypes = map();
 
     /**
      * Constructor of the {@link DefaultTypeGenerator} class.
@@ -196,17 +191,15 @@ public class DefaultTypeGenerator implements TypeGenerator {
      * @return The declaration data associated with the supplied enumeration declaration.
      */
     private EnumDeclData getOrCreateConvertedEnumDecl(EnumDecl enumDecl) {
-        EnumDeclEqHashWrap wrappedEnumDecl = new EnumDeclEqHashWrap(enumDecl);
-        return enumTypes.computeIfAbsent(wrappedEnumDecl,
-                key -> switch(selectedEnumConversion) {
-                    case CONSTS -> convertToPlcConstants(enumDecl);
-                    case INTS -> convertToPlcIntegers(enumDecl);
-                    case KEEP -> convertToPlcEnumType(enumDecl);
+        return enumTypes.computeIfAbsent(enumDecl, key -> switch (selectedEnumConversion) {
+            case CONSTS -> convertToPlcConstants(enumDecl);
+            case INTS -> convertToPlcIntegers(enumDecl);
+            case KEEP -> convertToPlcEnumType(enumDecl);
 
-                    // AUTO also should never happen.
-                    default -> throw new AssertionError("Unexpected enumeration conversion \""
-                            + selectedEnumConversion + "\" found.");
-                });
+            // AUTO also should never happen.
+            default -> throw new AssertionError("Unexpected enumeration conversion \""
+                    + selectedEnumConversion + "\" found.");
+        });
     }
 
     /**
@@ -218,16 +211,14 @@ public class DefaultTypeGenerator implements TypeGenerator {
     private EnumDeclData convertToPlcEnumType(EnumDecl origEnumDecl) {
         NameGenerator nameGenerator = target.getNameGenerator();
 
-        // Create names for literals (literal name + enum_decl_name).
+        // Create names for literals.
         String initialTypeName = CifTextUtils.getAbsName(origEnumDecl, false);
-        List<String> litPrefixes = origEnumDecl.getLiterals().stream().map(lit -> lit.getName() + "_").toList();
-        Set<String> prefixes = setc(litPrefixes.size() + 1);
-        prefixes.add(""); // Prefix for the enum type itself.
-        prefixes.addAll(litPrefixes);
-        final String typeName = nameGenerator.generateGlobalNames(prefixes, initialTypeName, true);
+        String typeName = nameGenerator.generateGlobalName(initialTypeName, true);
 
-        // Construct the names of the literals, the enumeration type, and the expressions of the literals.
-        List<String> literalNames = litPrefixes.stream().map(prefix -> prefix + typeName).collect(Lists.toList());
+        // Construct the names of the literals.
+        List<String> literalNames = origEnumDecl.getLiterals().stream()
+                .map(lit -> CifTextUtils.getAbsName(lit, true))
+                .map(name -> nameGenerator.generateGlobalName(name, true)).toList();
         PlcEnumType plcEnumType = new PlcEnumType(typeName, literalNames);
         PlcExpression[] litValues = plcEnumType.literals.toArray(PlcExpression[]::new);
 
@@ -250,16 +241,13 @@ public class DefaultTypeGenerator implements TypeGenerator {
         int numLiterals = origEnumDecl.getLiterals().size();
         PlcType valueType = PlcElementaryType.getTypeByRequiredCount(numLiterals, target.getSupportedBitStringTypes());
 
-        // Create names for literals (literal_name + abs_enum_decl_name).
-        String literalsBase = CifTextUtils.getAbsName(origEnumDecl, false);
-        List<String> litPrefixes = origEnumDecl.getLiterals().stream().map(lit -> lit.getName() + "_").toList();
-        literalsBase = nameGenerator.generateGlobalNames(Sets.list2set(litPrefixes), literalsBase, true);
-
-        // Construct constants and enum literal expressions. Also give the constants to code storage.
+        // Construct constants.
         PlcExpression[] litValues = new PlcExpression[numLiterals];
         for (int idx = 0; idx < numLiterals; idx++) {
-            String varName = litPrefixes.get(idx) + literalsBase;
-            PlcDataVariable constVar = new PlcDataVariable(varName, valueType, null, new PlcIntLiteral(idx, valueType));
+            String name = CifTextUtils.getAbsName(origEnumDecl.getLiterals().get(idx), true);
+            name = nameGenerator.generateGlobalName(name, true);
+
+            PlcDataVariable constVar = new PlcDataVariable(name, valueType, null, new PlcIntLiteral(idx, valueType));
             codeStorage.addConstant(constVar);
             litValues[idx] = new PlcVarExpression(constVar);
         }
