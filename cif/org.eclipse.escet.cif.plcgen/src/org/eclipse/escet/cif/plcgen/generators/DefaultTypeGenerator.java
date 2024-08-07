@@ -204,17 +204,17 @@ public class DefaultTypeGenerator implements TypeGenerator {
     /**
      * Convert a CIF enumeration to a PLC enum type.
      *
-     * @param origEnumDecl Enumeration declaration to convert.
+     * @param enumDecl Enumeration declaration to convert.
      * @return Data of the converted enumeration.
      */
-    private EnumDeclData convertToPlcEnumType(EnumDecl origEnumDecl) {
+    private EnumDeclData convertToPlcEnumType(EnumDecl enumDecl) {
         NameGenerator nameGenerator = target.getNameGenerator();
 
         // Create name for enum.
-        String typeName = nameGenerator.generateGlobalName(origEnumDecl);
+        String typeName = nameGenerator.generateGlobalName(enumDecl);
 
         // Construct the names of the literals.
-        List<String> literalNames = origEnumDecl.getLiterals().stream()
+        List<String> literalNames = enumDecl.getLiterals().stream()
                 .map(lit -> nameGenerator.generateGlobalName(lit)).toList();
         PlcEnumType plcEnumType = new PlcEnumType(typeName, literalNames);
         PlcExpression[] litValues = plcEnumType.literals.toArray(PlcExpression[]::new);
@@ -227,21 +227,21 @@ public class DefaultTypeGenerator implements TypeGenerator {
     /**
      * Convert a CIF enumeration to a set of constants.
      *
-     * @param origEnumDecl Enumeration declaration to convert.
+     * @param enumDecl Enumeration declaration to convert.
      * @return Data of the converted enumeration.
      */
-    private EnumDeclData convertToPlcConstants(EnumDecl origEnumDecl) {
+    private EnumDeclData convertToPlcConstants(EnumDecl enumDecl) {
         NameGenerator nameGenerator = target.getNameGenerator();
         PlcCodeStorage codeStorage = target.getCodeStorage();
 
         // Create the type of the converted enumeration literal values.
-        int numLiterals = origEnumDecl.getLiterals().size();
+        int numLiterals = enumDecl.getLiterals().size();
         PlcType valueType = PlcElementaryType.getTypeByRequiredCount(numLiterals, target.getSupportedBitStringTypes());
 
         // Construct constants.
         PlcExpression[] litValues = new PlcExpression[numLiterals];
         for (int idx = 0; idx < numLiterals; idx++) {
-            String name = nameGenerator.generateGlobalName(origEnumDecl.getLiterals().get(idx));
+            String name = nameGenerator.generateGlobalName(enumDecl.getLiterals().get(idx));
 
             PlcDataVariable constVar = new PlcDataVariable(name, valueType, null, new PlcIntLiteral(idx, valueType));
             codeStorage.addConstant(constVar);
@@ -255,12 +255,12 @@ public class DefaultTypeGenerator implements TypeGenerator {
     /**
      * Convert a CIF enumeration to a set of integers.
      *
-     * @param origEnumDecl Enumeration declaration to convert.
+     * @param enumDecl Enumeration declaration to convert.
      * @return Data of the converted enumeration.
      */
-    private EnumDeclData convertToPlcIntegers(EnumDecl origEnumDecl) {
+    private EnumDeclData convertToPlcIntegers(EnumDecl enumDecl) {
         // Create the type of the converted enumeration literal values.
-        int numLiterals = origEnumDecl.getLiterals().size();
+        int numLiterals = enumDecl.getLiterals().size();
         PlcType valueType = PlcElementaryType.getTypeByRequiredCount(numLiterals, target.getSupportedBitStringTypes());
 
         // Construct the literal values.
