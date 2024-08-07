@@ -143,7 +143,6 @@ public class DefaultTypeGenerator implements TypeGenerator {
         List<PlcStructField> structFields = listc(tupleFields.size());
         int fieldNumber = 1;
         for (Field field: tupleFields) {
-            // TODO Improve the relation from the PLC code back to the CIF specification by using supplied field names.
             String fieldName = "field" + String.valueOf(fieldNumber);
             PlcType ftype = convertType(field.getType());
             structFields.add(new PlcStructField(fieldName, ftype));
