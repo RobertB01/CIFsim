@@ -13,12 +13,13 @@
 
 package org.eclipse.escet.cif.plcgen.generators;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.escet.cif.plcgen.generators.names.NameScope;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
-/** Code generator interface for a {@link DefaultNameGenerator}. */
+/** Interface for a name generator. */
 public interface NameGenerator {
     /**
      * Convert the given object to a valid name in the global scope that does not clash with the PLC language or with
@@ -99,4 +100,26 @@ public interface NameGenerator {
      * @see #generateLocalName(String, NameScope)
      */
     public abstract String generateLocalNames(Set<String> prefixes, String initialName, NameScope localScope);
+
+    /**
+     * Declare the names in the provided array as unavailable in the PLC code.
+     *
+     * <p>
+     * Names must be added before the first name is generated.
+     * </p>
+     *
+     * @param names Names to declare as unavailable in the PLC code.
+     */
+    public void addDisallowedNames(String[] names);
+
+    /**
+     * Declare the names in the provided collection as unavailable in the PLC code.
+     *
+     * <p>
+     * Names must be added before the first name is generated.
+     * </p>
+     *
+     * @param names Names to declare as unavailable in the PLC code.
+     */
+    public void addDisallowedNames(Collection<String> names);
 }

@@ -55,6 +55,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -389,6 +390,16 @@ public class ExprGeneratorTest {
 
         @Override
         public String generateLocalNames(Set<String> prefixes, String initialName, NameScope localScope) {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public void addDisallowedNames(String[] names) {
+            throw new UnsupportedOperationException("Not needed for the test.");
+        }
+
+        @Override
+        public void addDisallowedNames(Collection<String> names) {
             throw new UnsupportedOperationException("Not needed for the test.");
         }
     }

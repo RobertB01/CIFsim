@@ -65,23 +65,15 @@ public class DefaultNameGenerator implements NameGenerator {
         disallowReservedPlcNames();
     }
 
-    /**
-     * Declare the names in the provided collection as unavailable in the PLC code.
-     *
-     * @param names Names to declare as unavailable in the PLC code.
-     */
-    private void addDisallowedNames(Collection<String> names) {
+    @Override
+    public void addDisallowedNames(Collection<String> names) {
         for (String name: names) {
             globalScope.addName(name);
         }
     }
 
-    /**
-     * Declare the names in the provided array as unavailable in the PLC code.
-     *
-     * @param names Names to declare as unavailable in the PLC code.
-     */
-    private void addDisallowedNames(String[] names) {
+    @Override
+    public void addDisallowedNames(String[] names) {
         for (String name: names) {
             globalScope.addName(name);
         }
