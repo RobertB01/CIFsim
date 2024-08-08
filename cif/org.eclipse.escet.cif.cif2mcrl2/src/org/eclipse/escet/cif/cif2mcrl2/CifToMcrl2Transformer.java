@@ -30,6 +30,7 @@ import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
+import org.eclipse.escet.cif.cif2cif.ElimIfUpdates;
 import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
 import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
@@ -210,6 +211,9 @@ public class CifToMcrl2Transformer {
 
         // Convert 'switch' expressions to 'if' expressions.
         new SwitchesToIfs().transform(spec);
+
+        // Convert 'if' updates to 'if' expressions.
+        new ElimIfUpdates().transform(spec);
 
         // Return location pointer information.
         return linearize.getLpVarToAbsAutNameMap();

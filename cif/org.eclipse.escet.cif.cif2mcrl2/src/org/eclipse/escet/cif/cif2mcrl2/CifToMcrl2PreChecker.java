@@ -17,8 +17,8 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeNoMultiAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
-import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
@@ -79,8 +79,8 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 // Exactly one initial location per automaton.
                 new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE),
 
-                // No conditional updates and multi-assignments.
-                new EdgeOnlySimpleAssignmentsCheck(),
+                // No multi-assignments.
+                new EdgeNoMultiAssignCheck(),
 
                 // Only certain expression:
                 // - For expressions that produce a boolean value, only boolean literals, constants (eliminated

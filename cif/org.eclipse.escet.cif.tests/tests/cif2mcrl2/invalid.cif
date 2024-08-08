@@ -46,7 +46,6 @@ group g:
     location:
       initial true;
       urgent;                       // Urgent location.
-      edge e1 do if true: x1 := 2 end; // 'if' update.
       edge e2 do lb := lb + [false];   // List type/expr.
       edge e1 do (x1, x2) := (1, 1);   // Multi-assignment.
       edge e1 now;                  // Urgent edge.

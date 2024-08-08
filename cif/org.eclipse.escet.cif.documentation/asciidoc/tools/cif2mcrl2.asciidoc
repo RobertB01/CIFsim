@@ -78,8 +78,6 @@ The latter may have a range.
 ** The supervisory kind of automata is ignored.
 ** The initialization predicates in locations must be statically evaluable to `true` or `false`.
 ** There must be exactly one initial location in each automaton, and it must be possible to determine this statically.
-** `if` updates are not supported.
-Only assignments are supported.
 ** Multi-assignments are not supported.
 Multiple assignments on an edge is supported.
 ** Urgent locations and edges are not supported.
@@ -157,6 +155,8 @@ The following transformations are additionally applied as preprocesing (in the g
 * <<tools-cif2cif-chapter-linearize-product>>
 
 * <<tools-cif2cif-chapter-switches-to-ifs>>
+
+* <<tools-cif2cif-chapter-elim-if-updates>>
 
 indexterm:[CIF to mCRL2 transformer,result of the transformation]
 
