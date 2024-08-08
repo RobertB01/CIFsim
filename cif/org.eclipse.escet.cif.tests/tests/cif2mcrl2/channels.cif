@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event int chan;
+
+automaton def Send(alg int v):
+  location:
+    initial;
+    edge chan!v;
+end
+
+automaton def Receive():
+  disc int v;
+  location:
+    initial;
+    edge chan? do v := ?;
+end
+
+send1: Send(1);
+send2: Send(2);
+recv1: Receive();
+recv2: Receive();

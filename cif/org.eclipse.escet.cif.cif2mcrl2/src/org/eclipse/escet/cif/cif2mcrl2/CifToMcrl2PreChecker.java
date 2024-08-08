@@ -20,7 +20,6 @@ import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
 import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
-import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
@@ -78,9 +77,6 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 // Equations are not supported.
                 new EqnNotAllowedCheck(),
 
-                // Channels are not supported.
-                new EventNoChannelsCheck(),
-
                 // There must be at least one automaton.
                 new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
 
@@ -92,15 +88,17 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
 
                 // Only certain expression:
                 // - For expressions that produce a boolean value, only boolean literals, constants (eliminated
-                //   already), discrete variables, algebraic variables (eliminated already), binary operators 'and',
-                //   'or', '=>', '<=>', '=', '!=', '<', '<=', '>' and '>=', unary operator 'not', location references
-                //   (already eliminated), and casts that do not change the type are supported.
+                //   already), discrete variables, algebraic variables (eliminated already), received values (already
+                //   eliminated), binary operators 'and', 'or', '=>', '<=>', '=', '!=', '<', '<=', '>' and '>=', unary
+                //   operator 'not', location references (already eliminated), and casts that do not change the type are
+                //   supported.
                 // - For expressions that produce an enumeration value, only enumeration literals, constants (eliminated
-                //   already), discrete variables, algebraic variables (eliminated already), and casts that do not
-                //   change the type are supported.
+                //   already), discrete variables, algebraic variables (eliminated already), received values (already
+                //   eliminated), and casts that do not change the type are supported.
                 // - For expressions that produce an integer value, only integer literals, constants (eliminated
-                //   already), discrete variables, algebraic variables (eliminated already), binary operators '+', '*'
-                //   and '-', unary operators '-' and '+', and casts that do not change the type are supported.
+                //   already), discrete variables, algebraic variables (eliminated already), received values (already
+                //   eliminated), operators '+', '*' and '-', unary operators '-' and '+', and casts that do not change
+                //   the type are supported.
                 // - Unary and binary expressions are only supported with boolean, integer and enumeration operands.
                 new ExprNoSpecificExprsCheck(
                         NoSpecificExpr.FUNC_REFS,
@@ -115,7 +113,6 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                         NoSpecificExpr.LIST_LITS,
                         NoSpecificExpr.PROJECTION_EXPRS,
                         NoSpecificExpr.REAL_LITS,
-                        NoSpecificExpr.RECEIVE_EXPRS,
                         NoSpecificExpr.SET_LITS,
                         NoSpecificExpr.SLICE_EXPRS,
                         NoSpecificExpr.STRING_LITS,

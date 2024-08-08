@@ -74,9 +74,6 @@ The latter may have a range.
 ** Input variables are not supported.
 ** Equations are not supported.
 
-* Regarding events:
-** Channels are not supported.
-
 * Regarding automata:
 ** There must be at least one automaton.
 ** The supervisory kind of automata is ignored.
@@ -96,6 +93,7 @@ The latter may have a range.
 *** Boolean-typed constants are supported.
 *** Boolean-typed discrete variables are supported.
 *** Boolean-typed algebraic variables are supported.
+*** Boolean-typed received values.
 *** Binary operators `and`, `or`, `+=>+` and `+<=>+` on boolean-typed arguments are supported.
 *** Binary operators `=` and `!=` on boolean, enum and integer-typed arguments are supported.
 *** Binary operators `<`, `+<=+`, `>` and `>=` on integer-typed arguments are supported.
@@ -107,12 +105,14 @@ The latter may have a range.
 *** Enumeration-typed constants are supported.
 *** Enumeration-typed discrete variables are supported.
 *** Enumeration-typed algebraic variables are supported.
+*** Enumeration-typed received values.
 *** Cast expressions on enumeration-typed arguments that don't change the type are supported.
 ** Regarding integer-typed expressions (resulting in an integer as value):
 *** Integer literals are supported.
 *** Integer-typed constants are supported.
 *** Integer-typed discrete variables are supported.
 *** Integer-typed algebraic variables are supported.
+*** Integer-typed received values.
 *** Binary operators `pass:c[+]`, `+*+` and `-` on integer-typed arguments are supported.
 *** Unary operators `-` and `pass:c[+]` on integer-typed arguments are supported.
 *** Cast expressions on integer-typed arguments that don't change the type are supported.
