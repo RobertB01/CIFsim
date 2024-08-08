@@ -50,6 +50,8 @@ act b'e41';
 act b'e42';
 act b'e43';
 act b'e44';
+act b'e45';
+act b'e46';
 
 % Actions for CIF variables having certain values.
 act aut''varvalue: aut'LPE';
@@ -164,6 +166,10 @@ proc P(
     ((b've1' == L1')) -> b'e43' . P()
     +
     ((b've1' == L2')) -> b'e44' . P()
+    +
+    ((aut' == aut'f')) -> b'e45' . P()
+    +
+    ((aut' == aut't')) -> b'e46' . P()
     +
     % CIF variable value actions.
     aut''varvalue(aut') . P()

@@ -100,8 +100,8 @@ The latter may have a range.
 *** Binary operators `=` and `!=` on boolean, enum and integer-typed arguments are supported.
 *** Binary operators `<`, `+<=+`, `>` and `>=` on integer-typed arguments are supported.
 *** Unary operator `not` on boolean-typed arguments is supported.
+*** Location references are supported.
 *** Cast expressions on boolean-typed arguments that don't change the type are supported.
-*** Location references are not supported.
 ** Regarding enumeration-typed expressions (resulting in an enumeration literal as value):
 *** Enumeration literals are supported.
 *** Enumeration-typed constants are supported.
