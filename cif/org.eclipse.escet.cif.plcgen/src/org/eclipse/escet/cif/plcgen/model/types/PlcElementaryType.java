@@ -118,25 +118,39 @@ public class PlcElementaryType extends PlcType {
     }
 
     /**
-     * Retrieve the smallest numeric type large enough to store the given number of bits as value of an elementary type.
+     * Retrieve the smallest numeric type large enough to store the given value range [0, neededCount) as value of an
+     * elementary type.
      *
-     * @param neededSize Needed number of bits storage for a value.
+     * @param neededCount Number of different values that must be stored. Value range always starts at {@code 0}.
      * @param availableTypes Types to choose from.
-     * @return The smallest large enough type that has sufficient storage size.
+     * @return The smallest large enough type that has sufficient storage.
      * @throws AssertionError If the request cannot be met.
      */
-    public static PlcElementaryType getTypeByRequiredSize(int neededSize, List<PlcElementaryType> availableTypes) {
+    public static PlcElementaryType getTypeByRequiredCount(int neededCount, List<PlcElementaryType> availableTypes) {
+        int neededBits = 32 - Integer.numberOfLeadingZeros(neededCount - 1); // Largest used value decides bit-length.
+        return getTypeByRequiredBits(Math.max(1, neededBits), availableTypes);
+    }
+
+    /**
+     * Retrieve the smallest numeric type large enough to store the given number of bits as value of an elementary type.
+     *
+     * @param neededBits Needed number of bits storage for a value.
+     * @param availableTypes Types to choose from.
+     * @return The smallest large enough type that has sufficient storage.
+     * @throws AssertionError If the request cannot be met.
+     */
+    public static PlcElementaryType getTypeByRequiredBits(int neededBits, List<PlcElementaryType> availableTypes) {
         int bestType = availableTypes.size() - 1;
-        while (bestType > 0 && availableTypes.get(bestType - 1).bitSize >= neededSize) {
+        while (bestType > 0 && availableTypes.get(bestType - 1).bitSize >= neededBits) {
             bestType--;
         }
         PlcElementaryType result = availableTypes.get(bestType);
 
-        if (result.bitSize < neededSize) {
+        if (result.bitSize < neededBits) {
             // The request was not feasible.
             String typesText = availableTypes.stream().map(t -> t.name).collect(Collectors.joining(", "));
             String msg = fmt("Requested size of %d bits cannot be resolved with the available %s types.",
-                    neededSize, typesText);
+                    neededBits, typesText);
             throw new AssertionError(msg);
         }
         return result;

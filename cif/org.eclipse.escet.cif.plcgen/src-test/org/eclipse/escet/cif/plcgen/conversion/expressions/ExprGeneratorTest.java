@@ -434,9 +434,16 @@ public class ExprGeneratorTest {
         }
 
         @Override
-        public PlcEnumType convertEnumDecl(EnumDecl enumDecl) {
+        public void convertEnumDecl(EnumDecl enumDecl) {
+            // No need to implement.
+        }
+
+        @Override
+        public PlcExpression convertEnumLiteral(EnumLiteral enumLit) {
+            EnumDecl enumDecl = (EnumDecl)enumLit.eContainer();
             List<String> values = enumDecl.getLiterals().stream().map(lit -> lit.getName()).collect(Lists.toList());
-            return new PlcEnumType(enumDecl.getName(), values);
+            PlcEnumType enumType = new PlcEnumType(enumDecl.getName(), values);
+            return enumType.getLiteral(enumDecl.getLiterals().indexOf(enumLit));
         }
     }
 

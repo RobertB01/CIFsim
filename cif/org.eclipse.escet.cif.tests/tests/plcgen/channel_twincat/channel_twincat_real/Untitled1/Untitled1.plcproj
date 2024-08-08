@@ -7,6 +7,15 @@
     <Compile Include="DUTs\S2_location.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\R2_location.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Y2_location.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\M2_location.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Folder Include="DUTs"/>
     <Folder Include="GVLs"/>
     <Folder Include="POUs"/>

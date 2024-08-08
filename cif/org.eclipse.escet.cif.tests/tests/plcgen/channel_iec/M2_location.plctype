@@ -1,0 +1,3 @@
+TYPE M2_location:
+    (M2_A, M2_B);
+END_TYPE

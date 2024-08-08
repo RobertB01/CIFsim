@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Tagtable name='CONSTANTS'>
-    <Constant type='DINT' remark='' value='0'>S2_A</Constant>
-    <Constant type='DINT' remark='' value='1'>S2_B</Constant>
-    <Constant type='DINT' remark='' value='0'>R2_A</Constant>
-    <Constant type='DINT' remark='' value='1'>R2_B</Constant>
-    <Constant type='DINT' remark='' value='0'>Y2_A</Constant>
-    <Constant type='DINT' remark='' value='1'>Y2_B</Constant>
-    <Constant type='DINT' remark='' value='0'>M2_A</Constant>
-    <Constant type='DINT' remark='' value='1'>M2_B</Constant>
+    <Constant type='BOOL' remark='' value='0'>S2_A</Constant>
+    <Constant type='BOOL' remark='' value='1'>S2_B</Constant>
+    <Constant type='BOOL' remark='' value='0'>R2_A</Constant>
+    <Constant type='BOOL' remark='' value='1'>R2_B</Constant>
+    <Constant type='BOOL' remark='' value='0'>Y2_A</Constant>
+    <Constant type='BOOL' remark='' value='1'>Y2_B</Constant>
+    <Constant type='BOOL' remark='' value='0'>M2_A</Constant>
+    <Constant type='BOOL' remark='' value='1'>M2_B</Constant>
 </Tagtable>

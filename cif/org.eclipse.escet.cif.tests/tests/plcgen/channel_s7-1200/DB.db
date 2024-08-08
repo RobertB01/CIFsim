@@ -3,16 +3,16 @@ DATA_BLOCK "DB"
     VAR
         S1_vs1: DINT;
         S2_vs2: DINT;
-        S2: DINT;
+        S2: BOOL;
         R1_vr1: DINT;
         R2_vr2: DINT;
-        R2: DINT;
+        R2: BOOL;
         Y1_vy1: DINT;
         Y2_vy2: DINT;
-        Y2: DINT;
+        Y2: BOOL;
         M1_vm1: DINT;
         M2_vm2: DINT;
-        M2: DINT;
+        M2: BOOL;
         firstRun: BOOL;
     END_VAR
 BEGIN

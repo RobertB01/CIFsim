@@ -4,7 +4,7 @@ VAR
     p_b: BOOL;
     p_x: DINT;
     p_y: REAL;
-    p_ve: DINT;
+    p_ve: BOOL;
     p_v1: DINT;
     p_v2: g_trr;
     p_v3: g_ttrrr;
@@ -13,18 +13,18 @@ VAR
     p_r: REAL;
     p_t: REAL;
     preset_p_t: TIME;
-    p: DINT;
+    p: BYTE;
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP
     curValue: TIME;
-    current_p: DINT;
+    current_p: BYTE;
     current_p_b: BOOL;
     current_p_j: DINT;
     current_p_r: REAL;
     current_p_tv: TupleStruct2;
     current_p_v3: g_ttrrr;
-    current_p_ve: DINT;
+    current_p_ve: BOOL;
     current_p_x: DINT;
     edge_p: BYTE;
     eventEnabled: BOOL;
