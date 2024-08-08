@@ -118,7 +118,7 @@ The latter may have a range.
 *** Cast expressions on integer-typed arguments that don't change the type are supported.
 
 * Regarding other concepts:
-** Initialization predicates in components are not supported.
+** Initialization predicates in components are not supported, unless they are statically evaluable to `true`.
 ** Invariants are not supported.
 ** Marker predicates are ignored.
 ** I/O declarations are ignored.

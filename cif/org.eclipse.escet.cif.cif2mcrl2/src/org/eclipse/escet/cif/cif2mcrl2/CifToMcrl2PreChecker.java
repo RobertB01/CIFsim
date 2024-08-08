@@ -157,8 +157,8 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                         NoSpecificUnaryOp.PLUS_REALS,
                         NoSpecificUnaryOp.SAMPLE),
 
-                // No initialization predicates in components.
-                new CompNoInitPredsCheck(),
+                // No initialization predicates in components, unless they are trivially 'true'.
+                new CompNoInitPredsCheck(true),
 
                 // No invariants.
                 new InvNoSpecificInvsCheck().disallow(

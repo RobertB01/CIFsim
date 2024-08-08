@@ -18,7 +18,12 @@ automaton a:
   disc int x;           // 0
   disc int y = 3;       // 3
   disc int z = x + y;   // 3
+
+  initial w = 5, x = 0, y = 3, z = 3;
+
   location:
     initial;
     edge e when w + x + y + z < 0;
 end
+
+initial a.y + a.z = 6;
