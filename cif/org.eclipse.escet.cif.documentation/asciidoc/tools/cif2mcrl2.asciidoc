@@ -72,7 +72,6 @@ The latter may have a range.
 ** Continuous variables are not supported.
 ** Algebraic variables are supported, if their types and values are supported.
 ** Input variables are not supported.
-** Equations are not supported.
 
 * Regarding automata:
 ** There must be at least one automaton.

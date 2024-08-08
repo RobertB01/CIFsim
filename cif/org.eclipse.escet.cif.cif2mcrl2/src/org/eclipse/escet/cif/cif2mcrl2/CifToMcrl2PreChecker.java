@@ -19,7 +19,6 @@ import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsC
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
-import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
@@ -73,9 +72,6 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
 
                 // Input variables are not supported.
                 new VarNoInputCheck(),
-
-                // Equations are not supported.
-                new EqnNotAllowedCheck(),
 
                 // There must be at least one automaton.
                 new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),

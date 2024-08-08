@@ -1,0 +1,51 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+automaton aut:
+  location loc1:
+    initial;
+    edge e goto loc2;
+
+  location loc2:
+    edge e goto loc1;
+end
+
+alg bool a1 = aut.loc1;
+
+alg bool a2;
+equation a2 = aut.loc2;
+
+automaton aut2:
+  alg int a3;
+
+  location loc1:
+    initial;
+    equation a3 = 1;
+    edge e goto loc2;
+
+  location loc2:
+    equation a3 = 2;
+    edge e goto loc1;
+end
+
+automaton aut3:
+  event e1, e2, e3;
+
+  location:
+    initial;
+    edge e1 when a1;
+    edge e2 when a2;
+    edge e3 when aut2.a3 = 1;
+end

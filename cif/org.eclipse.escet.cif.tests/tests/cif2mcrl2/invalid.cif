@@ -56,8 +56,6 @@ group g:
   end
 
   cont x der 1;                     // Continuous variable.
-  cont y;                           // Continuous variable.
-  equation y' = 2;                  // Equation.
 
   input bool i;                     // Input variable.
 end
