@@ -61,6 +61,18 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Generator that creates input and output PLC code. */
 public class InputOutputGenerator {
+    /** CSV-reader column number of the PLC I/O address text. */
+    private static final int PLC_IO_ADDRESS_COLUMN = 0;
+
+    /** CSV-reader column number of the PLC type of the I/O data. */
+    private static final int PLC_TYPE_COLUMN = 1;
+
+    /** CSV-reader column number of the absolute name of the CIF object related to the I/O address. */
+    private static final int ABS_CIF_NAME_COLUMN = 2;
+
+    /** Name of the I/O variable at the I/O address. */
+    private static final int IO_NAME_COLUMN = 3;
+
     /**
      * PLC types that may be used for I/O.
      *
@@ -81,6 +93,12 @@ public class InputOutputGenerator {
     private final WarnOutput warnOutput;
 
     /**
+     * If {@code null}, CSV file loading has not been attempted yet. Otherwise, the parsed CSV file lines (empty list if
+     * the file does not exist or is empty).
+     */
+    private List<List<String>> csvLines = null;
+
+    /**
      * Constructor of the {@link InputOutputGenerator} class.
      *
      * @param target PLC target to generate code for.
@@ -92,6 +110,29 @@ public class InputOutputGenerator {
         warnOutput = settings.warnOutput;
     }
 
+    /**
+     * Retrieve the I/O names that may conflict with other names.
+     *
+     * @return The custom I/O names that may conflict with other names.
+     */
+    public Set<String> getCustomIoNames() {
+        Set<String> result = set();
+        for (List<String> line: getCsvLines()) {
+            if (line.size() > IO_NAME_COLUMN) {
+                String ioName = line.get(IO_NAME_COLUMN);
+                if (!target.checkIoVariableName(ioName)) {
+                    continue; // This name will never be used.
+                }
+
+                // Add the name in various forms.
+                result.add(ioName);
+                result.add(target.getUsageVariableText(PlcVariablePurpose.INPUT_VAR, ioName));
+                result.add(target.getUsageVariableText(PlcVariablePurpose.OUTPUT_VAR, ioName));
+            }
+        }
+        return result;
+    }
+
     /** Generate input/output code for communicating with the world outside the PLC. */
     public void process() {
         List<IoEntry> entries = convertIoTableEntries();
@@ -99,127 +140,149 @@ public class InputOutputGenerator {
     }
 
     /**
-     * Load the I/O table from the table file, process each line and collect the found entries.
+     * Get the CSV file lines.
+     *
+     * @return Lines of the CSV file, or the empty list if the file is not available.
+     */
+    private List<List<String>> getCsvLines() {
+        if (csvLines != null) {
+            return csvLines; // Already attempted to load the CSV file.
+        }
+
+        // Read the I/O table file.
+        csvLines = list();
+        try (BufferedReader ioTableText = new BufferedReader(new FileReader(ioTablePaths.systemPath))) {
+            CsvParser parser = new CsvParser(ioTableText);
+            while (true) {
+                List<String> line = parser.getLine();
+                if (line == null) {
+                    break;
+                }
+                csvLines.add(line);
+            }
+        } catch (FileNotFoundException ex) {
+            // File does not exist, don't generate I/O handling.
+            warnOutput.line(
+                    "I/O table file \"%s\" not found. The PLC code will not perform any I/O with the environment.",
+                    ioTablePaths.userPath);
+        } catch (IOException ex) {
+            throw new InputOutputException("Failed to read I/O table file \"" + ioTablePaths.userPath + "\".", ex);
+        }
+        return csvLines;
+    }
+
+    /**
+     * Get the CSV table file and process each line to construct the I/O table..
      *
      * <p>
      * Table format: Each line is an input or an output that connects a CIF variable to an input or output port.
      *
      * <ul>
      * <li>First field contains the PLC I/O address. Address syntax may vary between PLCs.</li>
-     * <li>Second field contains the PLC type. If empty, the CIF type of the variable is used instead.</li>
+     * <li>Second field may contain the PLC type. If empty, the CIF type of the variable is used instead.</li>
      * <li>Third field contains the absolute name of the CIF variable to connect to the input or output in non-escaped
      * notation.</li>
+     * <li>Fourth field may contain the name of the I/O variable. If empty, a name is derived from the attached CIF
+     * variable.</li>
      * </ul>
      * </p>
      *
-     * @return The collected entries of the I/O table, list is empty if no table file was found.
+     * @return The created entries of the I/O table, list is empty if no table file was found.
      */
     private List<IoEntry> convertIoTableEntries() {
-        try (BufferedReader ioTableText = new BufferedReader(new FileReader(ioTablePaths.systemPath))) {
-            Set<PositionObject> connectedInputCifObjects = set(); // Used CIF objects for input.
-            Set<IoAddress> connectedPlcAddresses = set(); // Used PLC addresses for output.
+        Set<PositionObject> connectedInputCifObjects = set(); // Used CIF objects for input.
+        Set<IoAddress> connectedPlcAddresses = set(); // Used PLC addresses for output.
 
-            // Read the I/O table file, process each line, and store the entries.
-            List<IoEntry> entries = list();
+        // Construct the I/O entries.
+        List<IoEntry> entries = list();
+        int lineNumber = 0;
+        for (List<String> line: getCsvLines()) {
+            lineNumber++;
 
-            CsvParser parser = new CsvParser(ioTableText);
-            int lineNumber = 0;
-            while (true) {
-                lineNumber++;
-
-                List<String> line = parser.getLine();
-                if (line == null) {
-                    break;
-                }
-
-                // Text stating the CSV line being processed, for reporting any error.
-                String tableLinePositionText = fmt("at line %d of I/O table file \"%s\"", lineNumber,
-                        ioTablePaths.userPath);
-
-                // Check the line length of the CSV parser.
-                if (line.size() != 3) {
-                    String message = fmt("Incorrect number of fields (expected 3 fields, found %d) %s.", line.size(),
-                            tableLinePositionText);
-                    throw new InvalidInputException(message);
-                }
-
-                // Second field, the PLC type, may be empty. If empty the CIF type is used instead.
-                String plcTableTypeText = line.get(1).trim();
-                PlcType plcTableType = checkIoType(plcTableTypeText, tableLinePositionText);
-
-                // Third field, the absolute name of the CIF object to connect to the I/O address.
-                String absCifName = line.get(2).trim();
-                PositionObject cifObj;
-                try {
-                    cifObj = target.getCifProcessor().findCifObjectByAbsName(absCifName);
-                } catch (IllegalArgumentException ex) {
-                    String message = fmt(
-                            "The 'CIF name' field containing \"%s\" does not refer to an object in the CIF "
-                                    + "specification (third field %s).",
-                            absCifName, tableLinePositionText);
-                    throw new InvalidInputException(message, ex);
-                }
-
-                // Verify the returned CIF object.
-                PlcType plcTypeFromCif = decideTypeFromCif(absCifName, cifObj, tableLinePositionText);
-                IoDirection directionFromCif = decideIoDirectionFromCif(cifObj);
-
-                // Don't allow 2 uses for input with the same CIF object.
-                if (directionFromCif == IoDirection.IO_READ) {
-                    if (connectedInputCifObjects.contains(cifObj)) {
-                        String message = fmt(
-                                "The CIF variable for entry %s is already in use for receiving a value from an input, "
-                                        + "as specified by an earlier I/O table entry.",
-                                tableLinePositionText);
-                        throw new InvalidInputException(message);
-                    }
-                    connectedInputCifObjects.add(cifObj);
-                }
-
-                // Check that the type from CIF does not conflict with the PLC table type and settle on the final type.
-                plcTableType = decidePlcType(plcTableType, absCifName, plcTypeFromCif, tableLinePositionText);
-
-                // First field, the I/O address. Convert to the parsed form.
-                String plcAddressText = line.get(0).trim();
-                if (plcAddressText.isEmpty()) {
-                    String message = fmt("The 'address' field is empty (first field %s).", tableLinePositionText);
-                    throw new InvalidInputException(message);
-                }
-                IoAddress plcAddress = target.parseIoAddress(plcAddressText);
-                if (plcAddress == null) {
-                    String message = fmt("The 'address' field does not have a correct form (first field %s).",
-                            tableLinePositionText);
-                    throw new InvalidInputException(message);
-                }
-
-                // Check for output conflicts (multiple uses of a PLC output).
-                if (directionFromCif == IoDirection.IO_WRITE) {
-                    if (connectedPlcAddresses.contains(plcAddress)) {
-                        String message = fmt(
-                                "The PLC address for the entry %s is already in use for outputting a value, as "
-                                        + "specified by an earlier I/O table entry.",
-                                tableLinePositionText);
-                        throw new InvalidInputException(message);
-                    }
-                    connectedPlcAddresses.add(plcAddress);
-                }
-
-                // Verify with the target whether the configured I/O table data makes sense.
-                target.verifyIoTableEntry(plcAddress, plcTableType, directionFromCif, tableLinePositionText);
-
-                IoEntry entry = new IoEntry(plcAddress, plcTableType, cifObj, directionFromCif);
-                entries.add(entry);
-            }
-            return entries;
-        } catch (FileNotFoundException ex) {
-            // File does not exist, don't generate I/O handling.
-            warnOutput.line(
-                    "I/O table file \"%s\" not found. The PLC code will not perform any I/O with the environment.",
+            // Text stating the CSV line being processed, for reporting any error.
+            String tableLinePositionText = fmt("at line %d of I/O table file \"%s\"", lineNumber,
                     ioTablePaths.userPath);
-            return List.of();
-        } catch (IOException ex) {
-            throw new InputOutputException("Failed to read I/O table file \"" + ioTablePaths.userPath + "\".", ex);
+
+            // Check the number of columns returned by the CSV parser.
+            int numColumns = line.size();
+            if (numColumns < 3 || numColumns > 4) {
+                String message = fmt("Incorrect number of fields (expected 3 or 4 fields, found %d) %s.",
+                        numColumns, tableLinePositionText);
+                throw new InvalidInputException(message);
+            }
+
+            // Second field, the PLC type, may be empty. If empty the CIF type is used instead.
+            String plcTableTypeText = line.get(PLC_TYPE_COLUMN).trim();
+            PlcType plcTableType = checkIoType(plcTableTypeText, tableLinePositionText);
+
+            // Third field, the absolute name of the CIF object to connect to the I/O address.
+            String absCifName = line.get(ABS_CIF_NAME_COLUMN).trim();
+            PositionObject cifObj;
+            try {
+                cifObj = target.getCifProcessor().findCifObjectByAbsName(absCifName);
+            } catch (IllegalArgumentException ex) {
+                String message = fmt(
+                        "The 'CIF name' field containing \"%s\" does not refer to an object in the CIF "
+                                + "specification (third field %s).",
+                        absCifName, tableLinePositionText);
+                throw new InvalidInputException(message, ex);
+            }
+
+            // Verify the returned CIF object.
+            PlcType plcTypeFromCif = decideTypeFromCif(absCifName, cifObj, tableLinePositionText);
+            IoDirection directionFromCif = decideIoDirectionFromCif(cifObj);
+
+            // Don't allow 2 uses for input with the same CIF object.
+            if (directionFromCif == IoDirection.IO_READ) {
+                if (connectedInputCifObjects.contains(cifObj)) {
+                    String message = fmt(
+                            "The CIF variable for entry %s is already in use for receiving a value from an input, "
+                                    + "as specified by an earlier I/O table entry.",
+                            tableLinePositionText);
+                    throw new InvalidInputException(message);
+                }
+                connectedInputCifObjects.add(cifObj);
+            }
+
+            // Check that the type from CIF does not conflict with the PLC table type and settle on the final type.
+            plcTableType = decidePlcType(plcTableType, absCifName, plcTypeFromCif, tableLinePositionText);
+
+            // First field, the I/O address. Convert to the parsed form.
+            String plcAddressText = line.get(PLC_IO_ADDRESS_COLUMN).trim();
+            if (plcAddressText.isEmpty()) {
+                String message = fmt("The 'address' field is empty (first field %s).", tableLinePositionText);
+                throw new InvalidInputException(message);
+            }
+            IoAddress plcAddress = target.parseIoAddress(plcAddressText);
+            if (plcAddress == null) {
+                String message = fmt("The 'address' field does not have a correct form (first field %s).",
+                        tableLinePositionText);
+                throw new InvalidInputException(message);
+            }
+
+            // Check for output conflicts (multiple uses of a PLC output).
+            if (directionFromCif == IoDirection.IO_WRITE) {
+                if (connectedPlcAddresses.contains(plcAddress)) {
+                    String message = fmt(
+                            "The PLC address for the entry %s is already in use for outputting a value, as "
+                                    + "specified by an earlier I/O table entry.",
+                            tableLinePositionText);
+                    throw new InvalidInputException(message);
+                }
+                connectedPlcAddresses.add(plcAddress);
+            }
+
+            // Fourth field, optional name of the I/O variable.
+            String ioName = (numColumns > IO_NAME_COLUMN) ? line.get(IO_NAME_COLUMN) : null;
+            ioName = (ioName == null || ioName.isBlank()) ? null : ioName;
+
+            // Verify with the target whether the configured I/O table data makes sense and add it to the collection
+            // of entries.
+            target.verifyIoTableEntry(plcAddress, plcTableType, directionFromCif, ioName, tableLinePositionText);
+            IoEntry entry = new IoEntry(plcAddress, plcTableType, cifObj, directionFromCif, ioName);
+            entries.add(entry);
         }
+        return entries;
     }
 
     /**
@@ -382,14 +445,26 @@ public class InputOutputGenerator {
             boolean isInput = (entry.ioDirection == IoDirection.IO_READ);
             List<PlcStatement> stats = isInput ? inputStats : outputStats;
 
-            // Construct a variable with the I/O address.
-            String varPrefix = isInput ? "in_" : "out_";
-            String ioVarName = getAbsName(entry.cifObject, false);
-            ioVarName = varPrefix + nameGenerator.generateGlobalNames(Set.of(varPrefix), ioVarName, false);
-            PlcDataVariable ioVar = new PlcDataVariable(ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
+            // Construct the name of the variable with the I/O address.
+            String ioVarName;
+            if (entry.ioName != null) {
+                ioVarName = entry.ioName; // Pick the custom name if available.
+            } else {
+                // Else, derive a name for the variable with the I/O address from the attached CIF state variable.
+               String varPrefix = isInput ? "in_" : "out_";
+               ioVarName = getAbsName(entry.cifObject, false);
+               ioVarName = varPrefix + nameGenerator.generateGlobalNames(Set.of(varPrefix), ioVarName, false);
+            }
+
+            // Construct the variable with the I/O address, and store it.
+            PlcDataVariable ioVar;
             if (isInput) {
+                String targetText = target.getUsageVariableText(PlcVariablePurpose.INPUT_VAR, ioVarName);
+                ioVar = new PlcDataVariable(targetText, ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
                 codeStorage.addInputVariable(ioVar);
             } else {
+                String targetText = target.getUsageVariableText(PlcVariablePurpose.OUTPUT_VAR, ioVarName);
+                ioVar = new PlcDataVariable(targetText, ioVarName, entry.varType, entry.plcAddress.getAddress(), null);
                 codeStorage.addOutputVariable(ioVar);
             }
 

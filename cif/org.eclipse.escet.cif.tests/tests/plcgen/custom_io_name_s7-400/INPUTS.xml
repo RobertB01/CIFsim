@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='INPUTS'>
+    <Tag type='BOOL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%I1.0'>flag/input</Tag>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%I2'>many_bits</Tag>
+    <Tag type='REAL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%I8'>in_measurement</Tag>
+</Tagtable>

@@ -14,8 +14,11 @@
 package org.eclipse.escet.cif.plcgen.targets;
 
 import static org.eclipse.escet.common.java.Lists.last;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -36,6 +39,7 @@ import org.eclipse.escet.cif.plcgen.generators.DefaultVariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.InputOutputGenerator;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
+import org.eclipse.escet.cif.plcgen.generators.PlcVariablePurpose;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
@@ -52,6 +56,7 @@ import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PathPair;
+import org.eclipse.escet.common.java.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.output.WarnOutput;
 
 /** Base class for generating a {@link PlcProject}. */
@@ -64,9 +69,6 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
     /** PLC target type for code generation. */
     public final PlcTargetType targetType;
-
-    /** The prefix string for state variables. */
-    protected final String stateVariablePrefix;
 
     /** Name to use to call the {@code TON} function within the instance variable of the block function. */
     protected final String tonFuncBlockCallName;
@@ -117,14 +119,14 @@ public abstract class PlcBaseTarget extends PlcTarget {
     protected NameGenerator nameGenerator;
 
     /**
-     * Constructor of the {@link PlcBaseTarget} class, with empty prefix string for state variables.
+     * Constructor of the {@link PlcBaseTarget} class.
      *
      * @param targetType PLC target type for code generation.
      * @param autoEnumConversion How to convert enumerations when the user selects {@link ConvertEnums#AUTO}. This
      *     should not be {@link ConvertEnums#AUTO}.
      */
     public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion) {
-        this(targetType, autoEnumConversion, "", "");
+        this(targetType, autoEnumConversion, "");
     }
 
     /**
@@ -133,16 +135,12 @@ public abstract class PlcBaseTarget extends PlcTarget {
      * @param targetType PLC target type for code generation.
      * @param autoEnumConversion How to convert enumerations when the user selects {@link ConvertEnums#AUTO}. This
      *     should not be {@link ConvertEnums#AUTO}.
-     * @param stateVariablePrefix The prefix string for state variables.
      * @param tonFuncBlockCallName Name to use to call the {@code TON} function within the instance variable of the
      *     block function.
      */
-    public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion, String stateVariablePrefix,
-            String tonFuncBlockCallName)
-    {
+    public PlcBaseTarget(PlcTargetType targetType, ConvertEnums autoEnumConversion, String tonFuncBlockCallName) {
         this.targetType = targetType;
         this.autoEnumConversion = autoEnumConversion;
-        this.stateVariablePrefix = stateVariablePrefix;
         this.tonFuncBlockCallName = tonFuncBlockCallName;
 
         // Selecting "auto" by the user should result in a concrete preference of the target.
@@ -199,6 +197,13 @@ public abstract class PlcBaseTarget extends PlcTarget {
         ioGenerator = new InputOutputGenerator(this, settings);
         continuousVariablesGenerator = new DefaultContinuousVariablesGenerator(this);
 
+        // Preparation.
+        //
+        // Extend the set of reserved names in the name generator, to avoid conflicts.
+        nameGenerator.addDisallowedNames(ioGenerator.getCustomIoNames());
+
+        // Processing and code generation.
+        //
         // Check and normalize the CIF specification, and extract relevant information from it.
         cifProcessor.process();
         if (settings.termination.isRequested()) {
@@ -253,41 +258,49 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
     @Override
     public ModelTextGenerator getModelTextGenerator() {
+        Assert.notNull(modelTextGenerator);
         return modelTextGenerator;
     }
 
     @Override
     public CifProcessor getCifProcessor() {
+        Assert.notNull(cifProcessor);
         return cifProcessor;
     }
 
     @Override
     public TransitionGenerator getTransitionGenerator() {
+        Assert.notNull(transitionGenerator);
         return transitionGenerator;
     }
 
     @Override
     public ContinuousVariablesGenerator getContinuousVariablesGenerator() {
+        Assert.notNull(continuousVariablesGenerator);
         return continuousVariablesGenerator;
     }
 
     @Override
     public VariableStorage getVarStorage() {
+        Assert.notNull(varStorage);
         return varStorage;
     }
 
     @Override
     public TypeGenerator getTypeGenerator() {
+        Assert.notNull(typeGenerator);
         return typeGenerator;
     }
 
     @Override
     public PlcCodeStorage getCodeStorage() {
+        Assert.notNull(codeStorage);
         return codeStorage;
     }
 
     @Override
     public NameGenerator getNameGenerator() {
+        Assert.notNull(nameGenerator);
         return nameGenerator;
     }
 
@@ -297,8 +310,8 @@ public abstract class PlcBaseTarget extends PlcTarget {
     }
 
     @Override
-    public String getStateVariablePrefix() {
-        return stateVariablePrefix;
+    public String getUsageVariableText(PlcVariablePurpose purpose, String varName) {
+        return varName;
     }
 
     @Override
@@ -353,7 +366,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
     @Override
     public void verifyIoTableEntry(IoAddress parsedAddress, PlcType plcTableType, IoDirection directionFromCif,
-            String tableLinePositionText)
+            String ioName, String tableLinePositionText)
     {
         // Get the maximum supported width for the type.
         int maxAvailableBits;
@@ -378,6 +391,29 @@ public abstract class PlcBaseTarget extends PlcTarget {
                             + "(of %d bits).",
                     parsedAddress.getAddress(), parsedAddress.size(), typeText, maxAvailableBits);
         }
+
+        // Check a supplied I/O variable name for being acceptable to the target.
+        if (ioName != null && !checkIoVariableName(ioName)) {
+            String msg = fmt("I/O variable name \"%s\" %s is not a valid name for the selected target.",
+                    ioName, tableLinePositionText);
+            throw new InvalidInputException(msg);
+        }
+    }
+
+    @Override
+    public boolean checkIoVariableName(String name) {
+        // The generic implementation checks the name for being a regular ASCII identifier with a few limitations on
+        // underscore character usage (not at start or end, and no consecutive underscore characters).
+        Assert.notNull(name);
+
+        Pattern p = Pattern.compile("[A-Za-z][A-Za-z0-9_]*");
+        Matcher m = p.matcher(name);
+        if (!m.matches()) {
+            return false;
+        }
+
+        // Limit underscore characters to single underscores within the name.
+        return !name.startsWith("_") && !name.endsWith("_") && !name.contains("__");
     }
 
     @Override

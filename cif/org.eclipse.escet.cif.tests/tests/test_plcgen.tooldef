@@ -50,6 +50,7 @@ map(string:list string) test_targets = {
     "plcgen/channel_doc.cif":                      ["s7-300"],
     "plcgen/check_invalid_io_type.cif":            ["iec"],
     "plcgen/check_missing_io.cif":                 ["iec"],
+    "plcgen/custom_io_name.cif":                   s7_a,
     "plcgen/option_max_iter_2_inf.cif":            ["iec"],
     "plcgen/option_max_iter_5_minus10.cif":        ["iec"],
     "plcgen/option_max_iter_7_6.cif":              ["iec"],

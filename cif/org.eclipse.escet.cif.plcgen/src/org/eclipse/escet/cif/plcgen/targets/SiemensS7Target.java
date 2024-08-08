@@ -35,11 +35,13 @@ import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INTEGER
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.REAL_TYPES_32;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.REAL_TYPES_64;
 
+import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
+import org.eclipse.escet.cif.plcgen.generators.PlcVariablePurpose;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
@@ -62,6 +64,12 @@ public class SiemensS7Target extends PlcBaseTarget {
     /** Supported bit string types for each target, ordered in increasing size. */
     private static final Map<PlcTargetType, List<PlcElementaryType>> BIT_STRING_TYPES;
 
+    /** Special characters in an identifier. */
+    private static final BitSet SPECIAL_CHARS;
+
+    /** Normal characters in an identifier. */
+    private static final BitSet NORMAL_CHARS;
+
     static {
         OUT_SUFFIX_REPLACEMENTS = Map.of(
                 PlcTargetType.S7_300, "_s7_300", PlcTargetType.S7_400, "_s7_400",
@@ -78,6 +86,31 @@ public class SiemensS7Target extends PlcBaseTarget {
         BIT_STRING_TYPES = Map.of(
                 PlcTargetType.S7_300, BIT_STRING_TYPES_32, PlcTargetType.S7_400, BIT_STRING_TYPES_32,
                 PlcTargetType.S7_1200, BIT_STRING_TYPES_32, PlcTargetType.S7_1500, BIT_STRING_TYPES_64);
+
+        // Source: https://cache.industry.siemens.com/dl/files/857/109477857/att_865202/v1/109477857_Bezeichner_Anfuehrungszeichen_en.pdf
+        // Consulted: Jul 10, 2024. Valid for TIA portal 10 and higher.
+        //
+        // ASCII characters neither in NORMAL_CHARS nor in SPECIAL_CHARS are 0..31, 127, '"', '+' and '~'.
+        SPECIAL_CHARS = new BitSet(128);
+        char[] specials = new char[] {' ', '!', '#', '$', '%', '&', '\'', '(', ')', '*', ',', '-', '.', '/', ':', ';',
+                '<', '=', '>', '?', '@', '[', '\\', ']', '^', '`', '{', '|', '}'};
+        for (char c: specials) {
+            SPECIAL_CHARS.set(c);
+        }
+
+        // Source: https://cache.industry.siemens.com/dl/files/857/109477857/att_865202/v1/109477857_Bezeichner_Anfuehrungszeichen_en.pdf
+        // Consulted: Jul 10, 2024. Valid for TIA portal 10 and higher.
+        //
+        // ASCII characters in regular identifiers (letters, digits, and '_').
+        NORMAL_CHARS = new BitSet(128);
+        NORMAL_CHARS.set('_');
+        for (int i = 0; i < 26; i++) {
+            NORMAL_CHARS.set('A' + i);
+            NORMAL_CHARS.set('a' + i);
+        }
+        for (int i = 0; i < 10; i++) {
+            NORMAL_CHARS.set('0' + i);
+        }
     }
 
     /**
@@ -86,7 +119,7 @@ public class SiemensS7Target extends PlcBaseTarget {
      * @param targetType A Siemens S7 target type.
      */
     public SiemensS7Target(PlcTargetType targetType) {
-        super(targetType, ConvertEnums.CONSTS, "\"DB\".", "TON");
+        super(targetType, ConvertEnums.CONSTS, "TON");
         // TODO Verify settings of the Siemens target.
 
         Assert.check(OUT_SUFFIX_REPLACEMENTS.containsKey(targetType)); // Java can't check existence before super().
@@ -155,7 +188,77 @@ public class SiemensS7Target extends PlcBaseTarget {
     }
 
     @Override
+    public String getUsageVariableText(PlcVariablePurpose purpose, String varName) {
+        if (purpose == PlcVariablePurpose.STATE_VAR) {
+            return "\"DB\"." + varName;
+        } else if (purpose == PlcVariablePurpose.INPUT_VAR || purpose == PlcVariablePurpose.OUTPUT_VAR) {
+            String encodedName = encodeTagName(varName, false);
+            Assert.notNull(encodedName);
+            return encodedName;
+        }
+        return super.getUsageVariableText(purpose, varName);
+    }
+
+    @Override
     public String getPathSuffixReplacement() {
         return OUT_SUFFIX_REPLACEMENTS.get(targetType);
+    }
+
+    @Override
+    public boolean checkIoVariableName(String name) {
+        return encodeTagName(name, false) != null;
+    }
+
+    /**
+     * Test whether a tag name is acceptable to an S7 system, and if so, how to write it.
+     *
+     * @param name The name to test.
+     * @param isLocal Whether the name is defined locally (as in, not in a global table).
+     * @return If {@code null}, the name is not acceptable. Otherwise, the name is converted and returned in the form
+     *     needed for using it.
+     */
+    public static String encodeTagName(String name, boolean isLocal) {
+        // Source: https://cache.industry.siemens.com/dl/files/857/109477857/att_865202/v1/109477857_Bezeichner_Anfuehrungszeichen_en.pdf
+        // Consulted: Jul 10, 2024. Valid for TIA portal 10 and higher.
+
+        // Decide whether to add double quotes around the name or to reject it.
+
+        // Name cannot be empty.
+        if (name.isEmpty()) {
+            return null;
+        }
+
+        boolean mustBeQuoted = false;
+        for (int i = 0; i < name.length(); i++) {
+            // S7 allows more than just ASCII, but that gives problems in CIF and CSV files.
+            char c = name.charAt(i);
+            if (c < 32 || c >= 127) {
+                return null; // Control character or not ASCII.
+            }
+            if (NORMAL_CHARS.get(c)) {
+                continue;
+            }
+            if (SPECIAL_CHARS.get(c)) {
+                mustBeQuoted = true;
+                continue;
+            }
+            return null; // Neither a control character, nor a normal or special character.
+        }
+
+        // Names starting with a decimal digit must be double-quoted. Obviously this includes names consisting of only
+        // digits.
+        char first = name.charAt(0);
+        mustBeQuoted |= (first >= '0' && first <= '9'); // This leaves [A-Za-z_] as normal first characters.
+
+        // Names with "__" or ending with an underscore must be quoted.
+        mustBeQuoted |= (name.endsWith("_") || name.contains("__"));
+
+        if (!mustBeQuoted) {
+            return name;
+        } else if (isLocal) {
+            return "#\"" + name + "\"";
+        } else {
+            return "\"" + name + "\"";
+        }
     }
 }

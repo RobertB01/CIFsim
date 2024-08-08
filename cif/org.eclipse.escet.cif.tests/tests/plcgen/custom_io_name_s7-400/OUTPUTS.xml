@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='OUTPUTS'>
+    <Tag type='BOOL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%Q1.0'>out_S_a_wire</Tag>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%Q2'>out_S_an_output</Tag>
+    <Tag type='REAL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%Q8'>storage@8</Tag>
+</Tagtable>

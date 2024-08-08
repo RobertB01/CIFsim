@@ -242,8 +242,9 @@ public class DefaultTypeGenerator implements TypeGenerator {
         PlcExpression[] litValues = new PlcExpression[numLiterals];
         for (int idx = 0; idx < numLiterals; idx++) {
             String name = nameGenerator.generateGlobalName(enumDecl.getLiterals().get(idx));
-
-            PlcDataVariable constVar = new PlcDataVariable(name, valueType, null, new PlcIntLiteral(idx, valueType));
+            String targetText = target.getUsageVariableText(PlcVariablePurpose.CONSTANT, name);
+            PlcDataVariable constVar = new PlcDataVariable(targetText, name, valueType, null,
+                    new PlcIntLiteral(idx, valueType));
             codeStorage.addConstant(constVar);
             litValues[idx] = new PlcVarExpression(constVar);
         }

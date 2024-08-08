@@ -17,8 +17,8 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 
 /** Abstract variable, typed storage for values. */
 public abstract class PlcBasicVariable {
-    /** Text to use for using the variable. */
-    public final String varRefText;
+    /** Name of the variable in the target code, to use when accessing the variable. */
+    public final String targetText;
 
     /** The name of the variable. */
     public final String varName;
@@ -29,12 +29,12 @@ public abstract class PlcBasicVariable {
     /**
      * Constructor for the {@link PlcBasicVariable} class.
      *
-     * @param stateVariablePrefix Name prefix of the variable, to use when accessing the variable.
+     * @param targetText Name of the variable in the target code, to use when accessing the variable.
      * @param varName The name of the variable.
      * @param type The type of the variable.
      */
-    public PlcBasicVariable(String stateVariablePrefix, String varName, PlcType type) {
-        this.varRefText = stateVariablePrefix + varName;
+    public PlcBasicVariable(String targetText, String varName, PlcType type) {
+        this.targetText = targetText;
         this.varName = varName;
         this.type = type;
     }

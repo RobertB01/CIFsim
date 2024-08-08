@@ -25,39 +25,26 @@ public class PlcDataVariable extends PlcBasicVariable {
     public final PlcExpression value;
 
     /**
-     * Constructor for the {@link PlcDataVariable} class, without address and initial value, and with an empty name
-     * prefix.
+     * Constructor for the {@link PlcDataVariable} class, without address and initial value.
      *
      * @param varName The name of the variable.
      * @param type The type of the variable.
      */
     public PlcDataVariable(String varName, PlcType type) {
-        this(varName, type, null, null);
-    }
-
-    /**
-     * Constructor for the {@link PlcDataVariable} class, with an empty name prefix.
-     *
-     * @param varName The name of the variable.
-     * @param type The type of the variable.
-     * @param address The address of the variable, or {@code null} if not specified.
-     * @param value The initial value of the variable, or {@code null} if not specified.
-     */
-    public PlcDataVariable(String varName, PlcType type, String address, PlcExpression value) {
-        this("", varName, type, address, value);
+        this(varName, varName, type, null, null);
     }
 
     /**
      * Constructor for the {@link PlcDataVariable} class.
      *
-     * @param storagePrefix Name prefix of the variable, to use when accessing the variable.
+     * @param targetText Name of the variable in the target code, to use when accessing the variable.
      * @param varName The name of the variable.
      * @param type The type of the variable.
      * @param address The address of the variable, or {@code null} if not specified.
      * @param value The initial value of the variable, or {@code null} if not specified.
      */
-    public PlcDataVariable(String storagePrefix, String varName, PlcType type, String address, PlcExpression value) {
-        super(storagePrefix, varName, type);
+    public PlcDataVariable(String targetText, String varName, PlcType type, String address, PlcExpression value) {
+        super(targetText, varName, type);
         this.address = address;
         this.value = value;
     }

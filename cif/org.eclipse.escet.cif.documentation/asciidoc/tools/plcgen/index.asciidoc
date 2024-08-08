@@ -396,6 +396,15 @@ group G:
 end
 ----
 
+* The fourth column optionally contains the name of the variable with the input or output address.
++
+If supplied, this name is used for the I/O variable declaration (in the PLC input/output variable table).
+Otherwise, the PLC code generator will generate a name from the CIF variable connected to the I/O address.
++
+Names must use the ASCII character set, and must be valid variable names for the used PLC target.
+The PLC code generator will automatically convert the name to the required form in the PLC code.
+For example, it may surround certain names with double quote characters.
+
 Depending on the PLC target type, additional restrictions may apply on addresses.
 Consult the manual of the target PLC system for details.
 

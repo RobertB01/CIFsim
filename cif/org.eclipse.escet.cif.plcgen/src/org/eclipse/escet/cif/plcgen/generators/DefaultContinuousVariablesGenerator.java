@@ -172,10 +172,13 @@ public class DefaultContinuousVariablesGenerator implements ContinuousVariablesG
             NameGenerator nameGen = target.getNameGenerator();
             PlcCodeStorage codeStorage = target.getCodeStorage();
 
+            // Construct preset and ton variables.
             String baseName = nameGen.generateGlobalNames(Set.of("ton_", "preset_"), contVar);
-            tonVar = new PlcDataVariable("", "ton_" + baseName, plcFuncAppls.getTonFuncBlockType(), null, null);
-            codeStorage.addTimerVariable(tonVar);
             presetVar = codeStorage.addStateVariable("preset_" + baseName, PlcElementaryType.TIME_TYPE);
+            String tonVarName = "ton_" + baseName;
+            tonVar = new PlcDataVariable(target.getUsageVariableText(PlcVariablePurpose.TIMER_VAR, tonVarName),
+                    tonVarName, plcFuncAppls.getTonFuncBlockType(), null, null);
+            codeStorage.addTimerVariable(tonVar);
         }
 
         @Override

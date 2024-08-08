@@ -22,6 +22,7 @@ import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
 import org.eclipse.escet.cif.plcgen.generators.NameGenerator;
 import org.eclipse.escet.cif.plcgen.generators.PlcCodeStorage;
+import org.eclipse.escet.cif.plcgen.generators.PlcVariablePurpose;
 import org.eclipse.escet.cif.plcgen.generators.TransitionGenerator;
 import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
@@ -106,11 +107,13 @@ public abstract class PlcTarget {
     public abstract NameGenerator getNameGenerator();
 
     /**
-     * Get the prefix string for state variables.
+     * Get the text to use in the code for accessing a variable with the given name and purpose.
      *
-     * @return The prefix string for state variables.
+     * @param purpose Purpose of the variable.
+     * @param varName Name of the variable.
+     * @return The text to use for reading or writing the variable in the PLC code.
      */
-    public abstract String getStateVariablePrefix();
+    public abstract String getUsageVariableText(PlcVariablePurpose purpose, String varName);
 
     /**
      * Get the name to use to call the {@code TON} function within the instance variable of the block function.
@@ -269,12 +272,21 @@ public abstract class PlcTarget {
      * @param address The I/O address to verify.
      * @param plcTableType Type of the I/O data being transferred.
      * @param directionFromCif Direction of the I/O table entry.
+     * @param ioName User-provided name of the I/O variable, may be {@code null}.
      * @param tableLinePositionText Text describing the table line for this entry, to use for reporting an error. The
      *     text is {@code "at line ... of I/O table file \"...\""}.
      * @throws InputOutputException If the provided entry is not acceptable to the target.
      */
     public abstract void verifyIoTableEntry(IoAddress address, PlcType plcTableType, IoDirection directionFromCif,
-            String tableLinePositionText);
+            String ioName, String tableLinePositionText);
+
+    /**
+     * Check whether a user-supplied I/O variable name is acceptable to the target.
+     *
+     * @param name Name of the I/O variable to check.
+     * @return Whether the given name is acceptable to the target as a name for an I/O variable.
+     */
+    public abstract boolean checkIoVariableName(String name);
 
     /**
      * Get replacement string for the CIF input file extension including dot, used to derive an output path.

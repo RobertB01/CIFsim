@@ -1,0 +1,6 @@
+%I1.0,bool,flag,flag/input
+%I2,dint,avalue,many_bits
+%I8,real,measurement,
+%Q1.0,bool,S.a_wire,
+%Q2,,S.an_output,
+%Q8,,S.data,storage@8
