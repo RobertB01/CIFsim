@@ -32,7 +32,8 @@ automaton b:
   event e01, e02, e03, e04, e05, e06, e07, e08, e09, e10;
   event e11, e12, e13, e14, e15, e16, e17, e18, e19, e20;
   event e21, e22, e23, e24, e25, e26, e27, e28, e29, e30;
-  event e31, e32, e33, e34, e35, e36, e37, e38;
+  event e31, e32, e33, e34, e35, e36, e37, e38, e39, e40;
+  event e41, e42, e43, e44;
 
   disc bool vt = true, vf = false;
   disc int v1 = 1, v2 = 2, v3 = 3;
@@ -99,4 +100,15 @@ automaton b:
     // Unary expressions.
     edge e37 when not aut.v;
     edge e38 when not not aut.v;
+
+    // Cast expressions.
+    edge e39 when vt   =    <bool>vt;
+    edge e40 when vt   =    <bool><bool>vf;
+
+    edge e41 when v1   =    <int>v1;
+    edge e42 when v1   =    <int><int>v2;
+
+    edge e43 when ve1  =    <E>L1;
+    edge e44 when ve1  =    <E><E>L2;
+
 end

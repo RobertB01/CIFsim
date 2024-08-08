@@ -93,16 +93,18 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 // Only certain expression:
                 // - For expressions that produce a boolean value, only boolean literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), binary operators 'and',
-                //   'or', '=>', '<=>', '=', '!=', '<', '<=', '>' and '>=', and unary operator 'not' are supported.
+                //   'or', '=>', '<=>', '=', '!=', '<', '<=', '>' and '>=', unary operator 'not', and casts that do
+                //   not change the type are supported.
                 // - For expressions that produce an enumeration value, only enumeration literals, constants (eliminated
-                //   already), discrete variables, and algebraic variables (eliminated already) are supported.
+                //   already), discrete variables, algebraic variables (eliminated already), and casts that do not
+                //   change the type are supported.
                 // - For expressions that produce an integer value, only integer literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), binary operators '+', '*'
-                //   and '-', and unary operators '-' and '+' are supported.
+                //   and '-', unary operators '-' and '+', and casts that do not change the type are supported.
                 // - Unary and binary expressions are only supported with boolean, integer and enumeration operands.
                 new ExprNoSpecificExprsCheck(
                         NoSpecificExpr.FUNC_REFS,
-                        NoSpecificExpr.CAST_EXPRS,
+                        NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE,
                         NoSpecificExpr.COMP_REFS,
                         NoSpecificExpr.CONT_VAR_REFS,
                         NoSpecificExpr.DICT_LITS,

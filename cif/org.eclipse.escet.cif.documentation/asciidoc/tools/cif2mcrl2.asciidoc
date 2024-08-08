@@ -100,12 +100,14 @@ The latter may have a range.
 *** Binary operators `=` and `!=` on boolean, enum and integer-typed arguments are supported.
 *** Binary operators `<`, `+<=+`, `>` and `>=` on integer-typed arguments are supported.
 *** Unary operator `not` on boolean-typed arguments is supported.
+*** Cast expressions on boolean-typed arguments that don't change the type are supported.
 *** Location references are not supported.
 ** Regarding enumeration-typed expressions (resulting in an enumeration literal as value):
 *** Enumeration literals are supported.
 *** Enumeration-typed constants are supported.
 *** Enumeration-typed discrete variables are supported.
 *** Enumeration-typed algebraic variables are supported.
+*** Cast expressions on enumeration-typed arguments that don't change the type are supported.
 ** Regarding integer-typed expressions (resulting in an integer as value):
 *** Integer literals are supported.
 *** Integer-typed constants are supported.
@@ -113,6 +115,7 @@ The latter may have a range.
 *** Integer-typed algebraic variables are supported.
 *** Binary operators `pass:c[+]`, `+*+` and `-` on integer-typed arguments are supported.
 *** Unary operators `-` and `pass:c[+]` on integer-typed arguments are supported.
+*** Cast expressions on integer-typed arguments that don't change the type are supported.
 
 * Regarding other concepts:
 ** Initialization predicates in components are not supported.

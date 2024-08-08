@@ -55,6 +55,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
@@ -520,6 +521,8 @@ public class CifToMcrl2Transformer {
             EnumDecl representativeEnumDecl = enums.get(refEnumDecl);
             EnumLiteral representativeEnumLit = representativeEnumDecl.getLiterals().get(litIdx);
             return getName(representativeEnumLit);
+        } else if (expr instanceof CastExpression castExpr) {
+            return generateExpr(castExpr.getChild());
         }
         throw new RuntimeException("Unexpected expression: " + expr);
     }
