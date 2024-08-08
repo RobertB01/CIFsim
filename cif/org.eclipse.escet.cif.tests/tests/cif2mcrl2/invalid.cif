@@ -51,7 +51,7 @@ group g:
       edge e1 do (x1, x2) := (1, 1);   // Multi-assignment.
       edge e1 now;                  // Urgent edge.
 
-      plant invariant 1+1 = 2;      // Invariant.
+      plant invariant 1 + 1 = 2;    // Invariant.
       plant invariant 1 = 3;        // Invariant.
   end
 

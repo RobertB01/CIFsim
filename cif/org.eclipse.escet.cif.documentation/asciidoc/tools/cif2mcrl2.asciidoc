@@ -119,7 +119,7 @@ The latter may have a range.
 
 * Regarding other concepts:
 ** Initialization predicates in components are not supported, unless they are statically evaluable to `true`.
-** Invariants are not supported.
+** Invariants are not supported, unless they do not pose any restriction.
 ** Marker predicates are ignored.
 ** I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.

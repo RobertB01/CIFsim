@@ -160,9 +160,12 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 // No initialization predicates in components, unless they are trivially 'true'.
                 new CompNoInitPredsCheck(true),
 
-                // No invariants.
-                new InvNoSpecificInvsCheck().disallow(
-                        NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, NoInvariantPlaceKind.ALL_PLACES),
+                // Only non-restrictive invariants.
+                new InvNoSpecificInvsCheck()
+                        .disallow(
+                                NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS,
+                                NoInvariantPlaceKind.ALL_PLACES)
+                        .ignoreNeverBlockingInvariants(),
 
                 // No urgency.
                 new LocNoUrgentCheck(),
