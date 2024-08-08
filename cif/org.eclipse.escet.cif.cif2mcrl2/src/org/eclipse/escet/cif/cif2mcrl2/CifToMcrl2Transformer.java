@@ -35,6 +35,7 @@ import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
 import org.eclipse.escet.cif.cif2cif.RemoveAnnotations;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
+import org.eclipse.escet.cif.cif2cif.SwitchesToIfs;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEnumUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
@@ -206,6 +207,11 @@ public class CifToMcrl2Transformer {
         // Linearize the specification.
         LinearizeProduct linearize = new LinearizeProduct(true);
         linearize.transform(spec);
+
+        // Convert 'switch' expressions to 'if' expressions.
+        new SwitchesToIfs().transform(spec);
+
+        // Return location pointer information.
         return linearize.getLpVarToAbsAutNameMap();
     }
 

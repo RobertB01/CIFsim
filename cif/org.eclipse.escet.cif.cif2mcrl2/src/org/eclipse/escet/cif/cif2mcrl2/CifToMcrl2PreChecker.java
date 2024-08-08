@@ -90,15 +90,16 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 // - For expressions that produce a boolean value, only boolean literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), received values (already
                 //   eliminated), binary operators 'and', 'or', '=>', '<=>', '=', '!=', '<', '<=', '>' and '>=', unary
-                //   operator 'not', location references (already eliminated), 'if' expressions, and casts that do not
-                //   change the type are supported.
+                //   operator 'not', location references (already eliminated), 'if' expressions, 'switch' expressions,
+                //   and casts that do not change the type are supported.
                 // - For expressions that produce an enumeration value, only enumeration literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), received values (already
-                //   eliminated), 'if' expressions, and casts that do not change the type are supported.
+                //   eliminated), 'if' expressions, 'switch' expressions, and casts that do not change the type are
+                //   supported.
                 // - For expressions that produce an integer value, only integer literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), received values (already
-                //   eliminated), operators '+', '*' and '-', unary operators '-' and '+', 'if' expressions, and casts
-                //   that do not change the type are supported.
+                //   eliminated), operators '+', '*' and '-', unary operators '-' and '+', 'if' expressions, 'switch'
+                //   expressions, and casts that do not change the type are supported.
                 // - Unary and binary expressions are only supported with boolean, integer and enumeration operands.
                 new ExprNoSpecificExprsCheck(
                         NoSpecificExpr.FUNC_REFS,
@@ -115,7 +116,6 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                         NoSpecificExpr.SET_LITS,
                         NoSpecificExpr.SLICE_EXPRS,
                         NoSpecificExpr.STRING_LITS,
-                        NoSpecificExpr.SWITCH_EXPRS,
                         NoSpecificExpr.TIME_VAR_REFS,
                         NoSpecificExpr.TUPLE_LITS),
                 new ExprNoSpecificBinaryExprsCheck(

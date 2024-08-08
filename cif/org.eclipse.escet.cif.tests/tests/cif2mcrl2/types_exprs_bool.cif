@@ -34,11 +34,11 @@ automaton b:
   event e21, e22, e23, e24, e25, e26, e27, e28, e29, e30;
   event e31, e32, e33, e34, e35, e36, e37, e38, e39, e40;
   event e41, e42, e43, e44, e45, e46, e47, e48, e49, e50;
-  event e51, e52, e53, e54;
+  event e51, e52, e53, e54, e55, e56, e57;
 
   disc bool vt = true, vf = false;
   disc int v1 = 1, v2 = 2, v3 = 3;
-  disc E ve1 = L1;
+  disc E ve1 = L1, ve3 = L3;
 
   location:
     initial;
@@ -126,4 +126,9 @@ automaton b:
     edge e52 when if vt, vf: vt elif vt, vt: vt else vf end;
     edge e53 when if vt, vf: vt elif vt, vf: vt else vt end;
     edge e54 when if vt, vf: vt elif vt, vf: vt else vf end;
+
+    // 'switch' expressions.
+    edge e55 when switch vt: case vt: true case vf: false else false end;
+    edge e56 when switch v2: case v1: false case v2: true else false end;
+    edge e57 when switch ve3: case L1: false case L2: true case L3: false end;
 end

@@ -100,6 +100,7 @@ The latter may have a range.
 *** Unary operator `not` on boolean-typed arguments is supported.
 *** Location references are supported.
 *** `if` expressions with a boolean-typed result are supported.
+*** `switch` expressions with a boolean-typed result, and supported `switch` and key values, are supported.
 *** Cast expressions on boolean-typed arguments that don't change the type are supported.
 ** Regarding enumeration-typed expressions (resulting in an enumeration literal as value):
 *** Enumeration literals are supported.
@@ -108,6 +109,7 @@ The latter may have a range.
 *** Enumeration-typed algebraic variables are supported.
 *** Enumeration-typed received values.
 *** `if` expressions with an enumeration-typed result are supported.
+*** `switch` expressions with an enumeration-typed result, and supported `switch` and key values, are supported.
 *** Cast expressions on enumeration-typed arguments that don't change the type are supported.
 ** Regarding integer-typed expressions (resulting in an integer as value):
 *** Integer literals are supported.
@@ -118,6 +120,7 @@ The latter may have a range.
 *** Binary operators `pass:c[+]`, `+*+` and `-` on integer-typed arguments are supported.
 *** Unary operators `-` and `pass:c[+]` on integer-typed arguments are supported.
 *** `if` expressions with an integer-typed result are supported.
+*** `switch` expressions with an integer-typed result, and supported `switch` and key values, are supported.
 *** Cast expressions on integer-typed arguments that don't change the type are supported.
 
 * Regarding other concepts:
@@ -153,6 +156,8 @@ The following transformations are additionally applied as preprocesing (in the g
 * <<tools-cif2cif-chapter-add-default-init-values>>
 
 * <<tools-cif2cif-chapter-linearize-product>>
+
+* <<tools-cif2cif-chapter-switches-to-ifs>>
 
 indexterm:[CIF to mCRL2 transformer,result of the transformation]
 

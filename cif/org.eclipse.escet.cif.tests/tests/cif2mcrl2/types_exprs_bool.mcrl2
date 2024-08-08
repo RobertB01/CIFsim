@@ -60,6 +60,9 @@ act b'e51';
 act b'e52';
 act b'e53';
 act b'e54';
+act b'e55';
+act b'e56';
+act b'e57';
 
 % Actions for CIF variables having certain values.
 act aut''varvalue: aut'LPE';
@@ -68,6 +71,7 @@ act b'v1''varvalue: Int;
 act b'v2''varvalue: Int;
 act b'v3''varvalue: Int;
 act b've1''varvalue: E';
+act b've3''varvalue: E';
 act b'vf''varvalue: Bool;
 act b'vt''varvalue: Bool;
 
@@ -80,7 +84,8 @@ proc P(
     b'v1': Int,
     b'v2': Int,
     b'v3': Int,
-    b've1': E'
+    b've1': E',
+    b've3': E'
 ) =
     % CIF linearized edges.
     ((aut' == aut'f')) -> aut'e' . P(aut'v' = true, aut' = aut't')
@@ -195,6 +200,12 @@ proc P(
     +
     (if((b'vt' && b'vf'), b'vt', if((b'vt' && b'vf'), b'vt', b'vf'))) -> b'e54' . P()
     +
+    (if((b'vt' == b'vt'), true, if((b'vt' == b'vf'), false, false))) -> b'e55' . P()
+    +
+    (if((b'v2' == b'v1'), false, if((b'v2' == b'v2'), true, false))) -> b'e56' . P()
+    +
+    (if((b've3' == L1'), false, if((b've3' == L2'), true, false))) -> b'e57' . P()
+    +
     % CIF variable value actions.
     aut''varvalue(aut') . P()
     +
@@ -208,10 +219,12 @@ proc P(
     +
     b've1''varvalue(b've1') . P()
     +
+    b've3''varvalue(b've3') . P()
+    +
     b'vf''varvalue(b'vf') . P()
     +
     b'vt''varvalue(b'vt') . P()
 ;
 
 % Initialization.
-init P(false, aut'f', true, false, 1, 2, 3, L1');
+init P(false, aut'f', true, false, 1, 2, 3, L1', L3');
