@@ -99,6 +99,7 @@ The latter may have a range.
 *** Binary operators `<`, `+<=+`, `>` and `>=` on integer-typed arguments are supported.
 *** Unary operator `not` on boolean-typed arguments is supported.
 *** Location references are supported.
+*** `if` expressions with a boolean-typed result are supported.
 *** Cast expressions on boolean-typed arguments that don't change the type are supported.
 ** Regarding enumeration-typed expressions (resulting in an enumeration literal as value):
 *** Enumeration literals are supported.
@@ -106,6 +107,7 @@ The latter may have a range.
 *** Enumeration-typed discrete variables are supported.
 *** Enumeration-typed algebraic variables are supported.
 *** Enumeration-typed received values.
+*** `if` expressions with an enumeration-typed result are supported.
 *** Cast expressions on enumeration-typed arguments that don't change the type are supported.
 ** Regarding integer-typed expressions (resulting in an integer as value):
 *** Integer literals are supported.
@@ -115,6 +117,7 @@ The latter may have a range.
 *** Integer-typed received values.
 *** Binary operators `pass:c[+]`, `+*+` and `-` on integer-typed arguments are supported.
 *** Unary operators `-` and `pass:c[+]` on integer-typed arguments are supported.
+*** `if` expressions with an integer-typed result are supported.
 *** Cast expressions on integer-typed arguments that don't change the type are supported.
 
 * Regarding other concepts:

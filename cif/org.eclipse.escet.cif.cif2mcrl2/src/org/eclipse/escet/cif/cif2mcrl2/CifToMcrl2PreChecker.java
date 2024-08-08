@@ -90,15 +90,15 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 // - For expressions that produce a boolean value, only boolean literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), received values (already
                 //   eliminated), binary operators 'and', 'or', '=>', '<=>', '=', '!=', '<', '<=', '>' and '>=', unary
-                //   operator 'not', location references (already eliminated), and casts that do not change the type are
-                //   supported.
+                //   operator 'not', location references (already eliminated), 'if' expressions, and casts that do not
+                //   change the type are supported.
                 // - For expressions that produce an enumeration value, only enumeration literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), received values (already
-                //   eliminated), and casts that do not change the type are supported.
+                //   eliminated), 'if' expressions, and casts that do not change the type are supported.
                 // - For expressions that produce an integer value, only integer literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), received values (already
-                //   eliminated), operators '+', '*' and '-', unary operators '-' and '+', and casts that do not change
-                //   the type are supported.
+                //   eliminated), operators '+', '*' and '-', unary operators '-' and '+', 'if' expressions, and casts
+                //   that do not change the type are supported.
                 // - Unary and binary expressions are only supported with boolean, integer and enumeration operands.
                 new ExprNoSpecificExprsCheck(
                         NoSpecificExpr.FUNC_REFS,
@@ -108,7 +108,6 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                         NoSpecificExpr.DICT_LITS,
                         NoSpecificExpr.TUPLE_FIELD_REFS,
                         NoSpecificExpr.FUNC_CALLS,
-                        NoSpecificExpr.IF_EXPRS,
                         NoSpecificExpr.INPUT_VAR_REFS,
                         NoSpecificExpr.LIST_LITS,
                         NoSpecificExpr.PROJECTION_EXPRS,

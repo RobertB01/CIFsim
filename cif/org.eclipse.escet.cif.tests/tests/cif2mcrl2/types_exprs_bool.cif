@@ -33,7 +33,8 @@ automaton b:
   event e11, e12, e13, e14, e15, e16, e17, e18, e19, e20;
   event e21, e22, e23, e24, e25, e26, e27, e28, e29, e30;
   event e31, e32, e33, e34, e35, e36, e37, e38, e39, e40;
-  event e41, e42, e43, e44, e45, e46;
+  event e41, e42, e43, e44, e45, e46, e47, e48, e49, e50;
+  event e51, e52, e53, e54;
 
   disc bool vt = true, vf = false;
   disc int v1 = 1, v2 = 2, v3 = 3;
@@ -114,4 +115,15 @@ automaton b:
     // Location references.
     edge e45 when aut.f;
     edge e46 when aut.t;
+
+    // 'if' expressions.
+    edge e47 when if vt: true else false end;
+    edge e48 when if vf: true else false end;
+    edge e49 when if vt: false else true end;
+    edge e50 when if vf: false else true end;
+
+    edge e51 when if vt, vt: vt else vf end;
+    edge e52 when if vt, vf: vt elif vt, vt: vt else vf end;
+    edge e53 when if vt, vf: vt elif vt, vf: vt else vt end;
+    edge e54 when if vt, vf: vt elif vt, vf: vt else vf end;
 end

@@ -19,15 +19,29 @@ alg E a = t;
 automaton aut:
   disc E v = L1;
 
-  event e1, e2, e3;
+  disc bool vt = true, vf = false;
+
+  event e01, e02, e03, e04, e05, e06, e07, e08, e09, e10;
+  event e11;
 
   location:
     initial;
 
     // Discrete variable and literals.
-    edge e1 when v = L3;
+    edge e01 when v = L3;
 
     // Constant and algebraic variable.
-    edge e2 when v = t;
-    edge e3 when v = a;
+    edge e02 when v = t;
+    edge e03 when v = a;
+
+    // 'if' expressions.
+    edge e04 when v = if vt: L1 else L2 end;
+    edge e05 when v = if vf: L1 else L2 end;
+    edge e06 when v = if vt: L2 else L1 end;
+    edge e07 when v = if vf: L2 else L1 end;
+
+    edge e08 when v = if vt, vt: L1 else L2 end;
+    edge e09 when v = if vt, vf: L1 elif vt, vt: L1 else L2 end;
+    edge e10 when v = if vt, vf: L1 elif vt, vf: L1 else L1 end;
+    edge e11 when v = if vt, vf: L1 elif vt, vf: L1 else L2 end;
 end

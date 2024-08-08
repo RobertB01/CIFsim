@@ -57,9 +57,11 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
@@ -70,6 +72,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.box.MemoryCodeBox;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.WarnOutput;
@@ -473,6 +476,22 @@ public class CifToMcrl2Transformer {
     }
 
     /**
+     * Generate an mCRL2 data expression for conjunction of some CIF predicates.
+     *
+     * @param preds The CIF predicates.
+     * @return The mCRL2 data expression.
+     */
+    private String generatePreds(List<Expression> preds) {
+        if (preds.isEmpty()) {
+            return "true";
+        } else if (preds.size() == 1) {
+            return (generateExpr(first(preds)));
+        } else {
+            return preds.stream().map(p -> generateExpr(p)).collect(Collectors.joining(" && ", "(", ")"));
+        }
+    }
+
+    /**
      * Generate an mCRL2 data expression for a CIF expression.
      *
      * @param expr The CIF expression.
@@ -521,6 +540,17 @@ public class CifToMcrl2Transformer {
             EnumDecl representativeEnumDecl = enums.get(refEnumDecl);
             EnumLiteral representativeEnumLit = representativeEnumDecl.getLiterals().get(litIdx);
             return getName(representativeEnumLit);
+        } else if (expr instanceof IfExpression ifExpr) {
+            String result = generateExpr(ifExpr.getElse());
+            for (ElifExpression elifExpr: Lists.reverse(ifExpr.getElifs())) {
+                String elifGuard = generatePreds(elifExpr.getGuards());
+                String elifThen = generateExpr(elifExpr.getThen());
+                result = fmt("if(%s, %s, %s)", elifGuard, elifThen, result);
+            }
+            String ifGuard = generatePreds(ifExpr.getGuards());
+            String ifThen = generateExpr(ifExpr.getThen());
+            result = fmt("if(%s, %s, %s)", ifGuard, ifThen, result);
+            return result;
         } else if (expr instanceof CastExpression castExpr) {
             return generateExpr(castExpr.getChild());
         }

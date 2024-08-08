@@ -4,27 +4,59 @@
 sort E' = struct L1' | L2' | L3';
 
 % Actions for CIF events.
-act aut'e1';
-act aut'e2';
-act aut'e3';
+act aut'e01';
+act aut'e02';
+act aut'e03';
+act aut'e04';
+act aut'e05';
+act aut'e06';
+act aut'e07';
+act aut'e08';
+act aut'e09';
+act aut'e10';
+act aut'e11';
 
 % Actions for CIF variables having certain values.
 act aut'v''varvalue: E';
+act aut'vf''varvalue: Bool;
+act aut'vt''varvalue: Bool;
 
 % Process for behavior of the CIF specification.
 proc P(
-    aut'v': E'
+    aut'v': E',
+    aut'vt': Bool,
+    aut'vf': Bool
 ) =
     % CIF linearized edges.
-    ((aut'v' == L3')) -> aut'e1' . P()
+    ((aut'v' == L3')) -> aut'e01' . P()
     +
-    ((aut'v' == L1')) -> aut'e2' . P()
+    ((aut'v' == L1')) -> aut'e02' . P()
     +
-    ((aut'v' == L1')) -> aut'e3' . P()
+    ((aut'v' == L1')) -> aut'e03' . P()
+    +
+    ((aut'v' == if(aut'vt', L1', L2'))) -> aut'e04' . P()
+    +
+    ((aut'v' == if(aut'vf', L1', L2'))) -> aut'e05' . P()
+    +
+    ((aut'v' == if(aut'vt', L2', L1'))) -> aut'e06' . P()
+    +
+    ((aut'v' == if(aut'vf', L2', L1'))) -> aut'e07' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vt'), L1', L2'))) -> aut'e08' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vf'), L1', if((aut'vt' && aut'vt'), L1', L2')))) -> aut'e09' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vf'), L1', if((aut'vt' && aut'vf'), L1', L1')))) -> aut'e10' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vf'), L1', if((aut'vt' && aut'vf'), L1', L2')))) -> aut'e11' . P()
     +
     % CIF variable value actions.
     aut'v''varvalue(aut'v') . P()
+    +
+    aut'vf''varvalue(aut'vf') . P()
+    +
+    aut'vt''varvalue(aut'vt') . P()
 ;
 
 % Initialization.
-init P(L1');
+init P(L1', true, false);

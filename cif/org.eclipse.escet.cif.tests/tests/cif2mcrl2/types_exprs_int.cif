@@ -18,27 +18,41 @@ automaton aut:
   event e;
   disc int v = 0;
 
-  event e1, e2, e3, e4, e5, e6, e7, e8, e9;
-  disc int v3 = 3;
+  event e01, e02, e03, e04, e05, e06, e07, e08, e09, e10;
+  event e11, e12, e13, e14, e15, e16, e17;
+
+  disc bool vt = true, vf = false;
+  disc int v0 = 0, v3 = 3;
 
   location:
     initial;
     edge e when v < 10 do v := v + 1;
 
     // Discrete variable and literals.
-    edge e1 when v = 0;
-    edge e2 when v = 1;
+    edge e01 when v = 0;
+    edge e02 when v = 1;
 
     // Constant and algebraic variable.
-    edge e3 when v = t;
-    edge e4 when v = a;
+    edge e03 when v = t;
+    edge e04 when v = a;
 
     // Binary expressions.
-    edge e5 when v + v3 = 5;
-    edge e6 when v - v3 = 5;
+    edge e05 when v + v3 = 5;
+    edge e06 when v - v3 = 5;
 
     // Unary expressions.
-    edge e7 when +v = 5;
-    edge e8 when -v = -5;
-    edge e9 when --v = --5;
+    edge e07 when +v = 5;
+    edge e08 when -v = -5;
+    edge e09 when --v = --5;
+
+    // 'if' expressions.
+    edge e10 when v = if vt: v0 else v3 end;
+    edge e11 when v = if vf: v0 else v3 end;
+    edge e12 when v = if vt: v3 else v0 end;
+    edge e13 when v = if vf: v3 else v0 end;
+
+    edge e14 when v = if vt, vt: v0 else v3 end;
+    edge e15 when v = if vt, vf: v0 elif vt, vt: v0 else v3 end;
+    edge e16 when v = if vt, vf: v0 elif vt, vf: v0 else v0 end;
+    edge e17 when v = if vt, vf: v0 elif vt, vf: v0 else v3 end;
 end

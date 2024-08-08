@@ -2,51 +2,87 @@
 
 % Actions for CIF events.
 act aut'e';
-act aut'e1';
-act aut'e2';
-act aut'e3';
-act aut'e4';
-act aut'e5';
-act aut'e6';
-act aut'e7';
-act aut'e8';
-act aut'e9';
+act aut'e01';
+act aut'e02';
+act aut'e03';
+act aut'e04';
+act aut'e05';
+act aut'e06';
+act aut'e07';
+act aut'e08';
+act aut'e09';
+act aut'e10';
+act aut'e11';
+act aut'e12';
+act aut'e13';
+act aut'e14';
+act aut'e15';
+act aut'e16';
+act aut'e17';
 
 % Actions for CIF variables having certain values.
 act aut'v''varvalue: Int;
+act aut'v0''varvalue: Int;
 act aut'v3''varvalue: Int;
+act aut'vf''varvalue: Bool;
+act aut'vt''varvalue: Bool;
 
 % Process for behavior of the CIF specification.
 proc P(
     aut'v': Int,
+    aut'vt': Bool,
+    aut'vf': Bool,
+    aut'v0': Int,
     aut'v3': Int
 ) =
     % CIF linearized edges.
     ((aut'v' < 10) && -2147483648 <= (aut'v' + 1) && (aut'v' + 1) <= 2147483647) -> aut'e' . P(aut'v' = (aut'v' + 1))
     +
-    ((aut'v' == 0)) -> aut'e1' . P()
+    ((aut'v' == 0)) -> aut'e01' . P()
     +
-    ((aut'v' == 1)) -> aut'e2' . P()
+    ((aut'v' == 1)) -> aut'e02' . P()
     +
-    ((aut'v' == 3)) -> aut'e3' . P()
+    ((aut'v' == 3)) -> aut'e03' . P()
     +
-    ((aut'v' == 4)) -> aut'e4' . P()
+    ((aut'v' == 4)) -> aut'e04' . P()
     +
-    (((aut'v' + aut'v3') == 5)) -> aut'e5' . P()
+    (((aut'v' + aut'v3') == 5)) -> aut'e05' . P()
     +
-    (((aut'v' - aut'v3') == 5)) -> aut'e6' . P()
+    (((aut'v' - aut'v3') == 5)) -> aut'e06' . P()
     +
-    ((aut'v' == 5)) -> aut'e7' . P()
+    ((aut'v' == 5)) -> aut'e07' . P()
     +
-    ((-aut'v' == -5)) -> aut'e8' . P()
+    ((-aut'v' == -5)) -> aut'e08' . P()
     +
-    ((--aut'v' == 5)) -> aut'e9' . P()
+    ((--aut'v' == 5)) -> aut'e09' . P()
+    +
+    ((aut'v' == if(aut'vt', aut'v0', aut'v3'))) -> aut'e10' . P()
+    +
+    ((aut'v' == if(aut'vf', aut'v0', aut'v3'))) -> aut'e11' . P()
+    +
+    ((aut'v' == if(aut'vt', aut'v3', aut'v0'))) -> aut'e12' . P()
+    +
+    ((aut'v' == if(aut'vf', aut'v3', aut'v0'))) -> aut'e13' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vt'), aut'v0', aut'v3'))) -> aut'e14' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vf'), aut'v0', if((aut'vt' && aut'vt'), aut'v0', aut'v3')))) -> aut'e15' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vf'), aut'v0', if((aut'vt' && aut'vf'), aut'v0', aut'v0')))) -> aut'e16' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vf'), aut'v0', if((aut'vt' && aut'vf'), aut'v0', aut'v3')))) -> aut'e17' . P()
     +
     % CIF variable value actions.
     aut'v''varvalue(aut'v') . P()
     +
+    aut'v0''varvalue(aut'v0') . P()
+    +
     aut'v3''varvalue(aut'v3') . P()
+    +
+    aut'vf''varvalue(aut'vf') . P()
+    +
+    aut'vt''varvalue(aut'vt') . P()
 ;
 
 % Initialization.
-init P(0, 3);
+init P(0, true, false, 0, 3);
