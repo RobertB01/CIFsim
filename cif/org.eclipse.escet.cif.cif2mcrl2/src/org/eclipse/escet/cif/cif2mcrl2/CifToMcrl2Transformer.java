@@ -485,6 +485,7 @@ public class CifToMcrl2Transformer {
             String right = generateExpr(binExpr.getRight());
             String op = switch (binExpr.getOperator()) {
                 case ADDITION -> "+";
+                case BI_CONDITIONAL -> "==";
                 case CONJUNCTION -> "&&";
                 case DISJUNCTION -> "||";
                 case EQUAL -> "==";

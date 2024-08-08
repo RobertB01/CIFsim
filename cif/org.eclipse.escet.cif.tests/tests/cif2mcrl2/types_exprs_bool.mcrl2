@@ -42,6 +42,8 @@ act b'e33';
 act b'e34';
 act b'e35';
 act b'e36';
+act b'e37';
+act b'e38';
 
 % Actions for CIF variables having certain values.
 act aut''varvalue: aut'LPE';
@@ -89,57 +91,61 @@ proc P(
     +
     ((aut'v' => b'vf')) -> b'e10' . P()
     +
-    ((b'v1' < b'v3')) -> b'e11' . P()
+    ((aut'v' == b'vt')) -> b'e11' . P()
     +
-    ((b'v3' < b'v3')) -> b'e12' . P()
+    ((aut'v' == b'vf')) -> b'e12' . P()
     +
-    ((b'v3' < b'v2')) -> b'e13' . P()
+    ((b'v1' < b'v3')) -> b'e13' . P()
     +
-    ((b'v1' > b'v3')) -> b'e14' . P()
+    ((b'v3' < b'v3')) -> b'e14' . P()
     +
-    ((b'v3' > b'v3')) -> b'e15' . P()
+    ((b'v3' < b'v2')) -> b'e15' . P()
     +
-    ((b'v3' > b'v2')) -> b'e16' . P()
+    ((b'v1' > b'v3')) -> b'e16' . P()
     +
-    ((b'v1' <= b'v3')) -> b'e17' . P()
+    ((b'v3' > b'v3')) -> b'e17' . P()
     +
-    ((b'v3' <= b'v3')) -> b'e18' . P()
+    ((b'v3' > b'v2')) -> b'e18' . P()
     +
-    ((b'v3' <= b'v2')) -> b'e19' . P()
+    ((b'v1' <= b'v3')) -> b'e19' . P()
     +
-    ((b'v1' >= b'v3')) -> b'e20' . P()
+    ((b'v3' <= b'v3')) -> b'e20' . P()
     +
-    ((b'v3' >= b'v3')) -> b'e21' . P()
+    ((b'v3' <= b'v2')) -> b'e21' . P()
     +
-    ((b'v3' >= b'v2')) -> b'e22' . P()
+    ((b'v1' >= b'v3')) -> b'e22' . P()
     +
-    ((b'v1' == b'v3')) -> b'e23' . P()
+    ((b'v3' >= b'v3')) -> b'e23' . P()
     +
-    ((b'v3' == b'v3')) -> b'e24' . P()
+    ((b'v3' >= b'v2')) -> b'e24' . P()
     +
-    ((b'v1' != b'v3')) -> b'e25' . P()
+    ((b'v1' == b'v3')) -> b'e25' . P()
     +
-    ((b'v3' != b'v3')) -> b'e26' . P()
+    ((b'v3' == b'v3')) -> b'e26' . P()
     +
-    ((b'vt' == b'vt')) -> b'e27' . P()
+    ((b'v1' != b'v3')) -> b'e27' . P()
     +
-    ((b'vt' == b'vf')) -> b'e28' . P()
+    ((b'v3' != b'v3')) -> b'e28' . P()
     +
-    ((b'vt' != b'vt')) -> b'e29' . P()
+    ((b'vt' == b'vt')) -> b'e29' . P()
     +
-    ((b'vt' != b'vf')) -> b'e30' . P()
+    ((b'vt' == b'vf')) -> b'e30' . P()
     +
-    ((b've1' == L1')) -> b'e31' . P()
+    ((b'vt' != b'vt')) -> b'e31' . P()
     +
-    ((b've1' == L2')) -> b'e32' . P()
+    ((b'vt' != b'vf')) -> b'e32' . P()
     +
-    ((b've1' != L1')) -> b'e33' . P()
+    ((b've1' == L1')) -> b'e33' . P()
     +
-    ((b've1' != L2')) -> b'e34' . P()
+    ((b've1' == L2')) -> b'e34' . P()
     +
-    (!aut'v') -> b'e35' . P()
+    ((b've1' != L1')) -> b'e35' . P()
     +
-    (aut'v') -> b'e36' . P()
+    ((b've1' != L2')) -> b'e36' . P()
+    +
+    (!aut'v') -> b'e37' . P()
+    +
+    (aut'v') -> b'e38' . P()
     +
     % CIF variable value actions.
     aut''varvalue(aut') . P()
