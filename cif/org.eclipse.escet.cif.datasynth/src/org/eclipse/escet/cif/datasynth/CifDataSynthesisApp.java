@@ -145,7 +145,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         settings.setEdgeOrderBackward(EdgeOrderBackwardOption.getOrder());
         settings.setEdgeOrderForward(EdgeOrderForwardOption.getOrder());
         settings.setEdgeOrderAllowDuplicateEvents(EdgeOrderDuplicateEventsOption.getAllowance());
-        settings.setDoUseEdgeWorksetAlgo(EdgeWorksetAlgoOption.isEnabled());
         settings.setCifBddStatistics(SynthesisStatistics.toCifBdd(SynthesisStatisticsOption.getStatistics()));
 
         settings.setDoNeverEnabledEventsWarn(EventWarnOption.isEnabled());
@@ -391,7 +390,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(EdgeOrderBackwardOption.class));
         synthOpts.add(Options.getInstance(EdgeOrderForwardOption.class));
         synthOpts.add(Options.getInstance(EdgeOrderDuplicateEventsOption.class));
-        synthOpts.add(Options.getInstance(EdgeWorksetAlgoOption.class));
+        synthOpts.add(Options.getInstance(EdgeWorksetAlgoOption.class)); // No longer supported.
         synthOpts.add(Options.getInstance(StateReqInvEnforceOption.class));
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
         synthOpts.add(Options.getInstance(ContinuousPerformanceStatisticsFileOption.class));
