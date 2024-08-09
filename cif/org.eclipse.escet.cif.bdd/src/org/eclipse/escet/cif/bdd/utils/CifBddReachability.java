@@ -18,10 +18,14 @@ import static org.eclipse.escet.common.java.BitSets.copy;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.eclipse.escet.cif.bdd.settings.ExplorationStrategy;
@@ -41,6 +45,7 @@ import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
+import com.github.javabdd.BDDVarSet;
 
 /** CIF/BDD reachability computations. */
 public class CifBddReachability {
@@ -81,6 +86,9 @@ public class CifBddReachability {
     /** Whether debug output is enabled. */
     private final boolean dbgEnabled;
 
+    /** The instance number to use for saturation. */
+    private Integer saturationInstance;
+
     /**
      * Constructor for the {@link CifBddReachability} class.
      *
@@ -110,6 +118,17 @@ public class CifBddReachability {
         this.direction = direction;
         this.edgeKinds = edgeKinds;
         this.dbgEnabled = dbgEnabled;
+        this.saturationInstance = null;
+    }
+
+    /**
+     * The instance number to use for saturation. This number must be unique for the list of edges with which saturation
+     * is performed, and will be used internally for caching purposes.
+     *
+     * @param instance The instance number.
+     */
+    public void setSaturationInstance(int instance) {
+        this.saturationInstance = instance;
     }
 
     /**
@@ -171,7 +190,7 @@ public class CifBddReachability {
                         .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet());
                 yield performReachabilityWorkset(pred, orderedEdges, edgesToApplyMask);
             }
-            case SATURATION -> throw new RuntimeException("Net yet implemented");
+            case SATURATION -> performReachabilitySaturation(pred, edgesToApply);
             default -> throw new RuntimeException("Unknown exploration strategy: " + strategy);
         };
 
@@ -358,5 +377,68 @@ public class CifBddReachability {
             }
         }
         return pair(pred, changed);
+    }
+
+    /**
+     * Computes the set of reachable states from the given predicate by using the saturation strategy. The use of
+     * saturation requires that a saturation instance has been configured using {@link #setSaturationInstance(int)}.
+     *
+     * @param pred The predicate to which to apply the reachability. This predicate should not be used after this
+     *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
+     *     returned by this method as part of the return value.
+     * @param edges The CIF/BDD edges to apply.
+     * @return The fixed point result of the reachability computation, together with an indication of whether the
+     *     predicate was changed as a result of the reachability computation. Instead of a pair, {@code null} is
+     *     returned if termination was requested.
+     */
+    private Pair<BDD, Boolean> performReachabilitySaturation(BDD pred, List<CifBddEdge> edges) {
+        Assert.notNull(saturationInstance, "Expected a saturation instance number to have been configured.");
+
+        // Sort the list of (distinct) edges as required by the saturation algorithm.
+        Map<CifBddEdge, BDD> edgeSupport = edges.stream().distinct()
+                .collect(Collectors.toMap(edge -> edge, edge -> edge.updateGuardSupport.toBDD()));
+
+        List<CifBddEdge> sortedEdges = edges.stream()
+                .sorted(Comparator.comparing(edge -> edgeSupport.get(edge).level()))
+                .toList();
+
+        edgeSupport.values().forEach(BDD::free);
+
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return null;
+        }
+
+        // Obtain the BDDs of the transition relations and their variable support sets.
+        List<BDD> sortedRelations = sortedEdges.stream().map(edge -> edge.updateGuard)
+                .collect(Collectors.toCollection(ArrayList::new));
+        List<BDDVarSet> sortedVars = sortedEdges.stream().map(edge -> edge.updateGuardSupport)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return null;
+        }
+
+        // Compute all reachable states using saturation.
+        BDD result;
+
+        if (direction == CifBddEdgeApplyDirection.FORWARD) {
+            if (restriction == null) {
+                result = pred.saturationForward(sortedRelations, sortedVars, saturationInstance);
+            } else {
+                result = pred.boundedSaturationForward(restriction, sortedRelations, sortedVars, saturationInstance);
+            }
+        } else {
+            if (restriction == null) {
+                result = pred.saturationBackward(sortedRelations, sortedVars, saturationInstance);
+            } else {
+                result = pred.boundedSaturationBackward(restriction, sortedRelations, sortedVars, saturationInstance);
+            }
+        }
+
+        // Determine whether any additional reachable states have been found.
+        boolean changed = !pred.equals(result);
+        pred.free();
+
+        return Pair.pair(result, changed);
     }
 }

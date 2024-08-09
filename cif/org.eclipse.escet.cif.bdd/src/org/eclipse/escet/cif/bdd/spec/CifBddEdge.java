@@ -81,7 +81,7 @@ public class CifBddEdge {
     public BDD updateGuard;
 
     /** Precomputed BDD variable support for {@link #updateGuard}. Is {@code null} if not available. */
-    private BDDVarSet updateGuardSupport;
+    public BDDVarSet updateGuardSupport;
 
     /**
      * The runtime error predicate. Indicates the states prior to taking the edge will result in a runtime error when
@@ -152,7 +152,8 @@ public class CifBddEdge {
      * @return The BDD variable support for the given relation.
      */
     private BDDVarSet getSupportFor(BDD relation) {
-        return assignedVariables.stream().map(v -> v.domainNew.set()).reduce(relation.support(), BDDVarSet::unionWith);
+        return assignedVariables.stream().map(v -> v.domain.set().union(v.domainNew.set())).reduce(relation.support(),
+                BDDVarSet::unionWith);
     }
 
     /**
