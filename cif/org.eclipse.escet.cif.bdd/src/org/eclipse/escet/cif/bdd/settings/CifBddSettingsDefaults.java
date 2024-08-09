@@ -74,6 +74,9 @@ public class CifBddSettingsDefaults {
     /** The default value of the {@link CifBddSettings#getDoUseEdgeWorksetAlgo} setting. */
     public static final boolean DO_USE_WORKSET_ALGO_DEFAULT = false;
 
+    /** The default value of the {@link CifBddSettings#getExplorationStrategy()} setting. */
+    public static final ExplorationStrategy EXPLORATION_STRATEGY_DEFAULT = ExplorationStrategy.SATURATION;
+
     /**
      * The default value of the {@link CifBddSettings#getCifBddStatistics} setting. Do not modify this set, but
      * {@link EnumSet#clone} it first.

@@ -134,6 +134,9 @@ public class CifBddSettings {
      */
     private boolean doUseEdgeWorksetAlgo = CifBddSettingsDefaults.DO_USE_WORKSET_ALGO_DEFAULT;
 
+    /** The exploration strategy to use for symbolic reachability computations. */
+    private ExplorationStrategy explorationStrategy = CifBddSettingsDefaults.EXPLORATION_STRATEGY_DEFAULT;
+
     /** The kinds of statistics to print. */
     private EnumSet<CifBddStatistics> cifBddStatistics = CifBddSettingsDefaults.CIF_BDD_STATISTICS_DEFAULT.clone();
 
@@ -763,6 +766,28 @@ public class CifBddSettings {
         Assert.check(modificationAllowed, "Modification is not allowed.");
         this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
         checkSettings();
+    }
+
+    /**
+     * Get the exploration strategy to use for symbolic reachability computations.
+     *
+     * <p>
+     * {@link CifBddSettingsDefaults#EXPLORATION_STRATEGY_DEFAULT} is the default value.
+     * </p>
+     *
+     * @return The exploration strategy to use for symbolic reachability computations.
+     */
+    public ExplorationStrategy getExplorationStrategy() {
+        return explorationStrategy;
+    }
+
+    /**
+     * Set the exploration strategy to use for symbolic reachability computations.
+     *
+     * @param explorationStrategy The exploration strategy to use for symbolic reachability computations.
+     */
+    public void setExplorationStrategy(ExplorationStrategy explorationStrategy) {
+        this.explorationStrategy = explorationStrategy;
     }
 
     /**
