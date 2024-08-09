@@ -71,9 +71,6 @@ public class CifBddSettingsDefaults {
     /** The default value of the {@link CifBddSettings#getEdgeOrderAllowDuplicateEvents} setting. */
     public static final EdgeOrderDuplicateEventAllowance EDGE_ORDER_ALLOW_DUPLICATES_EVENTS_DEFAULT = EdgeOrderDuplicateEventAllowance.DISALLOWED;
 
-    /** The default value of the {@link CifBddSettings#getDoUseEdgeWorksetAlgo} setting. */
-    public static final boolean DO_USE_WORKSET_ALGO_DEFAULT = false;
-
     /** The default value of the {@link CifBddSettings#getExplorationStrategy()} setting. */
     public static final ExplorationStrategy EXPLORATION_STRATEGY_DEFAULT = ExplorationStrategy.SATURATION;
 

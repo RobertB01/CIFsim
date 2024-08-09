@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.eclipse.escet.cif.bdd.settings.ExplorationStrategy;
 import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
@@ -193,7 +194,7 @@ public class CifDataSynthesis {
             }
 
             // Prepare workset algorithm, if enabled.
-            if (cifBddSpec.settings.getDoUseEdgeWorksetAlgo()) {
+            if (cifBddSpec.settings.getExplorationStrategy() == ExplorationStrategy.CHAINING_WORKSET) {
                 if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }

@@ -128,12 +128,6 @@ public class CifBddSettings {
     /** Whether duplicate events are allowed for custom edge orders. */
     private EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents = CifBddSettingsDefaults.EDGE_ORDER_ALLOW_DUPLICATES_EVENTS_DEFAULT;
 
-    /**
-     * Whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
-     * computations ({@code true}), or not ({@code false}).
-     */
-    private boolean doUseEdgeWorksetAlgo = CifBddSettingsDefaults.DO_USE_WORKSET_ALGO_DEFAULT;
-
     /** The exploration strategy to use for symbolic reachability computations. */
     private ExplorationStrategy explorationStrategy = CifBddSettingsDefaults.EXPLORATION_STRATEGY_DEFAULT;
 
@@ -739,32 +733,6 @@ public class CifBddSettings {
     public void setEdgeOrderAllowDuplicateEvents(EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents) {
         Assert.check(modificationAllowed, "Modification is not allowed.");
         this.edgeOrderAllowDuplicateEvents = edgeOrderAllowDuplicateEvents;
-        checkSettings();
-    }
-
-    /**
-     * Get whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
-     * computations.
-     *
-     * <p>
-     * {@link CifBddSettingsDefaults#DO_USE_WORKSET_ALGO_DEFAULT} is the default value.
-     * </p>
-     *
-     * @return {@code true} to use the edge workset algorithm, {@code false} to not use it.
-     */
-    public boolean getDoUseEdgeWorksetAlgo() {
-        return doUseEdgeWorksetAlgo;
-    }
-
-    /**
-     * Set whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
-     * computations.
-     *
-     * @param doUseEdgeWorksetAlgo {@code true} to use the edge workset algorithm, {@code false} to not use it.
-     */
-    public void setDoUseEdgeWorksetAlgo(boolean doUseEdgeWorksetAlgo) {
-        Assert.check(modificationAllowed, "Modification is not allowed.");
-        this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
         checkSettings();
     }
 

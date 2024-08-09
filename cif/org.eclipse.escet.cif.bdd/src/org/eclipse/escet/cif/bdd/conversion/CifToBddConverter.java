@@ -61,6 +61,7 @@ import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
 import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
 import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.bdd.settings.ExplorationStrategy;
 import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddInputVariable;
@@ -2178,7 +2179,7 @@ public class CifToBddConverter {
      */
     private void checkEdgeWorksetAlgorithmSettings(CifBddSettings settings) {
         // Skip if workset algorithm is disabled.
-        if (!settings.getDoUseEdgeWorksetAlgo()) {
+        if (settings.getExplorationStrategy() != ExplorationStrategy.CHAINING_WORKSET) {
             return;
         }
 

@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
+import org.eclipse.escet.cif.bdd.settings.ExplorationStrategy;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
@@ -151,25 +152,29 @@ public class CifBddReachability {
         }
 
         // Determine the edges to be applied.
-        boolean useWorkSetAlgo = cifBddSpec.settings.getDoUseEdgeWorksetAlgo();
         List<CifBddEdge> orderedEdges = (direction == CifBddEdgeApplyDirection.FORWARD) ? cifBddSpec.orderedEdgesForward
                 : cifBddSpec.orderedEdgesBackward;
         Predicate<CifBddEdge> edgeShouldBeApplied = e -> edgeKinds.contains(e.getEdgeKind());
         List<CifBddEdge> edgesToApply = orderedEdges.stream().filter(edgeShouldBeApplied).toList();
-        BitSet edgesToApplyMask = useWorkSetAlgo ? IntStream.range(0, orderedEdges.size())
-                .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet()) : null;
 
         // Apply edges until we get a fixed point.
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return null;
         }
 
-        Pair<BDD, Boolean> reachabilityResult;
-        if (useWorkSetAlgo) {
-            reachabilityResult = performReachabilityWorkset(pred, orderedEdges, edgesToApplyMask);
-        } else {
-            reachabilityResult = performReachabilityFixedOrder(pred, edgesToApply);
-        }
+        ExplorationStrategy strategy = cifBddSpec.settings.getExplorationStrategy();
+
+        Pair<BDD, Boolean> reachabilityResult = switch (strategy) {
+            case CHAINING_FIXED -> performReachabilityFixedOrder(pred, edgesToApply);
+            case CHAINING_WORKSET -> {
+                BitSet edgesToApplyMask = IntStream.range(0, orderedEdges.size())
+                        .filter(i -> edgeShouldBeApplied.test(orderedEdges.get(i))).boxed().collect(BitSets.toBitSet());
+                yield performReachabilityWorkset(pred, orderedEdges, edgesToApplyMask);
+            }
+            case SATURATION -> throw new RuntimeException("Net yet implemented");
+            default -> throw new RuntimeException("Unknown exploration strategy: " + strategy);
+        };
+
         if (reachabilityResult == null || cifBddSpec.settings.getTermination().isRequested()) {
             return null;
         }

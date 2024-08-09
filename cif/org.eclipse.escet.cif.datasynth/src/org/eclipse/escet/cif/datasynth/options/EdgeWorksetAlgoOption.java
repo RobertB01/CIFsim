@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 
 /** Edge workset algorithm option. */
@@ -42,7 +41,7 @@ public class EdgeWorksetAlgoOption extends BooleanOption {
                 "BOOL",
 
                 // defaultValue
-                CifBddSettingsDefaults.DO_USE_WORKSET_ALGO_DEFAULT,
+                false,
 
                 // showInDialog
                 false,
