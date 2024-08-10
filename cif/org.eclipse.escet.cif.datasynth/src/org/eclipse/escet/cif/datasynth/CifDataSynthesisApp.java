@@ -125,7 +125,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         settings.setDebugOutput(OutputProvider.getDebugOutputStream());
         settings.setNormalOutput(OutputProvider.getNormalOutputStream());
         settings.setWarnOutput(OutputProvider.getWarningOutputStream());
-        settings.setIndentAmount(2);
+        settings.setIndentAmount(4);
         settings.setDoPlantsRefReqsWarn(PlantsRefReqsWarnOption.isEnabled());
         settings.setAllowNonDeterminism(AllowNonDeterminism.UNCONTROLLABLE);
         settings.setBddInitNodeTableSize(BddInitNodeTableSizeOption.getInitialSize());
