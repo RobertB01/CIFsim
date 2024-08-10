@@ -1,63 +1,43 @@
 Reading CIF file "datasynth/event_warnings.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
-    1      location pointer   n/a         p      0      2 * 2     3 * 2       4 * 2       75%
-    2      discrete variable  int[0..10]  p.v3   1      4 * 2     11 * 2      16 * 2      ~69%
-    3      discrete variable  int[0..10]  p.v4   2      4 * 2     11 * 2      16 * 2      ~69%
-    4      discrete variable  int[0..10]  p.v5   3      4 * 2     11 * 2      16 * 2      ~69%
-    5      discrete variable  int[0..10]  p.v6   4      4 * 2     11 * 2      16 * 2      ~69%
-    6      discrete variable  int[0..10]  p.v7   5      4 * 2     11 * 2      16 * 2      ~69%
-    7      discrete variable  int[0..10]  p.v8   6      4 * 2     11 * 2      16 * 2      ~69%
-    8      discrete variable  int[0..10]  p.v9   7      4 * 2     11 * 2      16 * 2      ~69%
-    9      discrete variable  int[0..10]  p.v10  8      4 * 2     11 * 2      16 * 2      ~69%
-    10     discrete variable  int[0..10]  p.v11  9      4 * 2     11 * 2      16 * 2      ~69%
-    11     discrete variable  int[0..10]  p.v13  10     4 * 2     11 * 2      16 * 2      ~69%
-    12     location pointer   n/a         q      11     1 * 2     2 * 2       2 * 2       100%
-    13     discrete variable  int[0..10]  q.v4   12     4 * 2     11 * 2      16 * 2      ~69%
-    14     discrete variable  int[0..10]  q.v7   13     4 * 2     11 * 2      16 * 2      ~69%
-    15     discrete variable  int[0..10]  q.v8   14     4 * 2     11 * 2      16 * 2      ~69%
-    16     discrete variable  int[0..10]  q.v9   15     4 * 2     11 * 2      16 * 2      ~69%
-    17     discrete variable  int[0..10]  q.v11  16     4 * 2     11 * 2      16 * 2      ~69%
-    18     discrete variable  int[0..10]  q.v13  17     4 * 2     11 * 2      16 * 2      ~69%
-    19     location pointer   n/a         a      18     1 * 2     2 * 2       2 * 2       100%
-    20     location pointer   n/a         b      19     1 * 2     2 * 2       2 * 2       100%
-    -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
-    Total                                        20     138       370         532         ~70%
+    CIF variables and location pointers:
+        Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a         p      0      2 * 2     3 * 2       4 * 2       75%
+        2      discrete variable  int[0..10]  p.v3   1      4 * 2     11 * 2      16 * 2      ~69%
+        3      discrete variable  int[0..10]  p.v4   2      4 * 2     11 * 2      16 * 2      ~69%
+        4      discrete variable  int[0..10]  p.v5   3      4 * 2     11 * 2      16 * 2      ~69%
+        5      discrete variable  int[0..10]  p.v6   4      4 * 2     11 * 2      16 * 2      ~69%
+        6      discrete variable  int[0..10]  p.v7   5      4 * 2     11 * 2      16 * 2      ~69%
+        7      discrete variable  int[0..10]  p.v8   6      4 * 2     11 * 2      16 * 2      ~69%
+        8      discrete variable  int[0..10]  p.v9   7      4 * 2     11 * 2      16 * 2      ~69%
+        9      discrete variable  int[0..10]  p.v10  8      4 * 2     11 * 2      16 * 2      ~69%
+        10     discrete variable  int[0..10]  p.v11  9      4 * 2     11 * 2      16 * 2      ~69%
+        11     discrete variable  int[0..10]  p.v13  10     4 * 2     11 * 2      16 * 2      ~69%
+        12     location pointer   n/a         q      11     1 * 2     2 * 2       2 * 2       100%
+        13     discrete variable  int[0..10]  q.v4   12     4 * 2     11 * 2      16 * 2      ~69%
+        14     discrete variable  int[0..10]  q.v7   13     4 * 2     11 * 2      16 * 2      ~69%
+        15     discrete variable  int[0..10]  q.v8   14     4 * 2     11 * 2      16 * 2      ~69%
+        16     discrete variable  int[0..10]  q.v9   15     4 * 2     11 * 2      16 * 2      ~69%
+        17     discrete variable  int[0..10]  q.v11  16     4 * 2     11 * 2      16 * 2      ~69%
+        18     discrete variable  int[0..10]  q.v13  17     4 * 2     11 * 2      16 * 2      ~69%
+        19     location pointer   n/a         a      18     1 * 2     2 * 2       2 * 2       100%
+        20     location pointer   n/a         b      19     1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+        Total                                        20     138       370         532         ~70%
 
-Applying variable ordering:
-    Applying 4 orderers, sequentially:
-        Applying model variable order:
-            Effect: both
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-        Applying DCSH algorithm:
-            Metric: wes
-            Relations: legacy
-            Effect: var-order
-            Number of hyper-edges: 71
-
-            Applying Weighted Cuthill-McKee algorithm:
-                Node finder: george-liu
+            Applying DCSH algorithm:
+                Metric: wes
                 Relations: legacy
                 Effect: var-order
-                Number of graph edges: 16
+                Number of hyper-edges: 71
 
-                Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
-                Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [after]
-
-            Found new best variable order.
-
-            Applying Sloan algorithm:
-                Relations: legacy
-                Effect: var-order
-                Number of graph edges: 16
-
-                Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
-                Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [after]
-
-            Applying 2 orderers, sequentially:
                 Applying Weighted Cuthill-McKee algorithm:
                     Node finder: george-liu
                     Relations: legacy
@@ -67,15 +47,8 @@ Applying variable ordering:
                     Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
                     Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [after]
 
-                Reversing the variable order:
-                    Relations: legacy
-                    Effect: var-order
-                    Number of hyper-edges: 71
+                Found new best variable order.
 
-                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [before]
-                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [reversed]
-
-            Applying 2 orderers, sequentially:
                 Applying Sloan algorithm:
                     Relations: legacy
                     Effect: var-order
@@ -84,66 +57,93 @@ Applying variable ordering:
                     Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
                     Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [after]
 
-                Reversing the variable order:
-                    Relations: legacy
-                    Effect: var-order
-                    Number of hyper-edges: 71
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 16
 
-                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [before]
-                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [reversed]
+                        Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
+                        Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [after]
 
-        Applying FORCE algorithm:
-            Metric: total-span
-            Relations: linearized
-            Effect: var-order
-            Number of hyper-edges: 35
-            Maximum number of iterations: 30
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 71
 
-            Total span:   74 (total)   2.11 (avg/edge) / WES:   0.164714 (total)   0.004706 (avg/edge) [before]
-            Total span:   50 (total)   1.43 (avg/edge) / WES:   0.117000 (total)   0.003343 (avg/edge) [iteration 1]
-            Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [iteration 2]
-            Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [iteration 3]
-            Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [after]
+                        Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [before]
+                        Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [reversed]
 
-        Applying sliding window algorithm:
-            Size: 4
-            Metric: total-span
-            Relations: linearized
-            Effect: var-order
-            Number of hyper-edges: 35
-            Window length: 4
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 16
 
-            Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [before]
-            Total span:   46 (total)   1.31 (avg/edge) / WES:   0.113714 (total)   0.003249 (avg/edge) [window 11..14]
-            Total span:   46 (total)   1.31 (avg/edge) / WES:   0.113714 (total)   0.003249 (avg/edge) [after]
+                        Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
+                        Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [after]
 
-Variable order changed.
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 71
 
-CIF variables and location pointers:
-    Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..10]  p.v3   0      4 * 2     11 * 2      16 * 2      ~69%
-    2      discrete variable  int[0..10]  p.v4   1      4 * 2     11 * 2      16 * 2      ~69%
-    3      discrete variable  int[0..10]  p.v6   2      4 * 2     11 * 2      16 * 2      ~69%
-    4      discrete variable  int[0..10]  p.v7   3      4 * 2     11 * 2      16 * 2      ~69%
-    5      location pointer   n/a         p      4      2 * 2     3 * 2       4 * 2       75%
-    6      discrete variable  int[0..10]  p.v8   5      4 * 2     11 * 2      16 * 2      ~69%
-    7      discrete variable  int[0..10]  p.v9   6      4 * 2     11 * 2      16 * 2      ~69%
-    8      discrete variable  int[0..10]  p.v10  7      4 * 2     11 * 2      16 * 2      ~69%
-    9      discrete variable  int[0..10]  p.v11  8      4 * 2     11 * 2      16 * 2      ~69%
-    10     discrete variable  int[0..10]  p.v13  9      4 * 2     11 * 2      16 * 2      ~69%
-    11     discrete variable  int[0..10]  p.v5   10     4 * 2     11 * 2      16 * 2      ~69%
-    12     discrete variable  int[0..10]  q.v4   11     4 * 2     11 * 2      16 * 2      ~69%
-    13     discrete variable  int[0..10]  q.v8   12     4 * 2     11 * 2      16 * 2      ~69%
-    14     discrete variable  int[0..10]  q.v7   13     4 * 2     11 * 2      16 * 2      ~69%
-    15     location pointer   n/a         q      14     1 * 2     2 * 2       2 * 2       100%
-    16     discrete variable  int[0..10]  q.v9   15     4 * 2     11 * 2      16 * 2      ~69%
-    17     discrete variable  int[0..10]  q.v11  16     4 * 2     11 * 2      16 * 2      ~69%
-    18     discrete variable  int[0..10]  q.v13  17     4 * 2     11 * 2      16 * 2      ~69%
-    19     location pointer   n/a         a      18     1 * 2     2 * 2       2 * 2       100%
-    20     location pointer   n/a         b      19     1 * 2     2 * 2       2 * 2       100%
-    -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
-    Total                                        20     138       370         532         ~70%
+                        Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [before]
+                        Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [reversed]
+
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 35
+                Maximum number of iterations: 30
+
+                Total span:   74 (total)   2.11 (avg/edge) / WES:   0.164714 (total)   0.004706 (avg/edge) [before]
+                Total span:   50 (total)   1.43 (avg/edge) / WES:   0.117000 (total)   0.003343 (avg/edge) [iteration 1]
+                Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [iteration 2]
+                Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [iteration 3]
+                Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [after]
+
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 35
+                Window length: 4
+
+                Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [before]
+                Total span:   46 (total)   1.31 (avg/edge) / WES:   0.113714 (total)   0.003249 (avg/edge) [window 11..14]
+                Total span:   46 (total)   1.31 (avg/edge) / WES:   0.113714 (total)   0.003249 (avg/edge) [after]
+
+    Variable order changed.
+
+    CIF variables and location pointers:
+        Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..10]  p.v3   0      4 * 2     11 * 2      16 * 2      ~69%
+        2      discrete variable  int[0..10]  p.v4   1      4 * 2     11 * 2      16 * 2      ~69%
+        3      discrete variable  int[0..10]  p.v6   2      4 * 2     11 * 2      16 * 2      ~69%
+        4      discrete variable  int[0..10]  p.v7   3      4 * 2     11 * 2      16 * 2      ~69%
+        5      location pointer   n/a         p      4      2 * 2     3 * 2       4 * 2       75%
+        6      discrete variable  int[0..10]  p.v8   5      4 * 2     11 * 2      16 * 2      ~69%
+        7      discrete variable  int[0..10]  p.v9   6      4 * 2     11 * 2      16 * 2      ~69%
+        8      discrete variable  int[0..10]  p.v10  7      4 * 2     11 * 2      16 * 2      ~69%
+        9      discrete variable  int[0..10]  p.v11  8      4 * 2     11 * 2      16 * 2      ~69%
+        10     discrete variable  int[0..10]  p.v13  9      4 * 2     11 * 2      16 * 2      ~69%
+        11     discrete variable  int[0..10]  p.v5   10     4 * 2     11 * 2      16 * 2      ~69%
+        12     discrete variable  int[0..10]  q.v4   11     4 * 2     11 * 2      16 * 2      ~69%
+        13     discrete variable  int[0..10]  q.v8   12     4 * 2     11 * 2      16 * 2      ~69%
+        14     discrete variable  int[0..10]  q.v7   13     4 * 2     11 * 2      16 * 2      ~69%
+        15     location pointer   n/a         q      14     1 * 2     2 * 2       2 * 2       100%
+        16     discrete variable  int[0..10]  q.v9   15     4 * 2     11 * 2      16 * 2      ~69%
+        17     discrete variable  int[0..10]  q.v11  16     4 * 2     11 * 2      16 * 2      ~69%
+        18     discrete variable  int[0..10]  q.v13  17     4 * 2     11 * 2      16 * 2      ~69%
+        19     location pointer   n/a         a      18     1 * 2     2 * 2       2 * 2       100%
+        20     location pointer   n/a         b      19     1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+        Total                                        20     138       370         532         ~70%
 
 Starting data-based synthesis.
 

@@ -1,14 +1,14 @@
 Reading CIF file "datasynth/multi_preds.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..10]  p.x   0      4 * 2     11 * 2      16 * 2      ~69%
-    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-    Total                                       1      8         22          32          ~69%
+    CIF variables and location pointers:
+        Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..10]  p.x   0      4 * 2     11 * 2      16 * 2      ~69%
+        -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+        Total                                       1      8         22          32          ~69%
 
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 

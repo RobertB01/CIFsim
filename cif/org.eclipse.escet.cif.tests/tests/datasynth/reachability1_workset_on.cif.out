@@ -1,14 +1,14 @@
 Reading CIF file "datasynth/reachability1_workset_on.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..14]  p.v   0      4 * 2     15 * 2      16 * 2      ~94%
-    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-    Total                                       1      8         30          32          ~94%
+    CIF variables and location pointers:
+        Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..14]  p.v   0      4 * 2     15 * 2      16 * 2      ~94%
+        -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+        Total                                       1      8         30          32          ~94%
 
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 

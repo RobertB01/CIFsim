@@ -1,14 +1,14 @@
 Reading CIF file "datasynth/simplify_initial_plant_inv_off.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..9]  p.x   0      4 * 2     10 * 2      16 * 2      ~63%
-    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-    Total                                      1      8         20          32          ~63%
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..9]  p.x   0      4 * 2     10 * 2      16 * 2      ~63%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      1      8         20          32          ~63%
 
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 

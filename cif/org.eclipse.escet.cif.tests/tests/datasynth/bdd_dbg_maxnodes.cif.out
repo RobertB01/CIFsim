@@ -1,14 +1,14 @@
 Reading CIF file "datasynth/bdd_dbg_maxnodes.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type         Name  Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  -----------  ----  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..100]  p.x   0      7 * 2     101 * 2     128 * 2     ~79%
-    -----  -----------------  -----------  ----  -----  --------  ----------  ----------  -----------
-    Total                                        1      14        202         256         ~79%
+    CIF variables and location pointers:
+        Nr     Kind               Type         Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  -----------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..100]  p.x   0      7 * 2     101 * 2     128 * 2     ~79%
+        -----  -----------------  -----------  ----  -----  --------  ----------  ----------  -----------
+        Total                                        1      14        202         256         ~79%
 
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 

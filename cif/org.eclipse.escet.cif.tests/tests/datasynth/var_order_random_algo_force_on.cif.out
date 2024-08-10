@@ -1,49 +1,49 @@
 Reading CIF file "datasynth/var_order_random_algo_force_on.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-    1      location pointer   n/a        buffer1        0      1 * 2     2 * 2       2 * 2       100%
-    2      discrete variable  int[0..3]  buffer1.count  1      2 * 2     4 * 2       4 * 2       100%
-    3      location pointer   n/a        buffer3        2      1 * 2     2 * 2       2 * 2       100%
-    4      discrete variable  int[0..3]  buffer3.count  3      2 * 2     4 * 2       4 * 2       100%
-    5      location pointer   n/a        buffer2        4      1 * 2     2 * 2       2 * 2       100%
-    6      discrete variable  int[0..3]  buffer2.count  5      2 * 2     4 * 2       4 * 2       100%
-    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-    Total                                               6      18        36          36          100%
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a        buffer1        0      1 * 2     2 * 2       2 * 2       100%
+        2      discrete variable  int[0..3]  buffer1.count  1      2 * 2     4 * 2       4 * 2       100%
+        3      location pointer   n/a        buffer3        2      1 * 2     2 * 2       2 * 2       100%
+        4      discrete variable  int[0..3]  buffer3.count  3      2 * 2     4 * 2       4 * 2       100%
+        5      location pointer   n/a        buffer2        4      1 * 2     2 * 2       2 * 2       100%
+        6      discrete variable  int[0..3]  buffer2.count  5      2 * 2     4 * 2       4 * 2       100%
+        -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+        Total                                               6      18        36          36          100%
 
-Applying variable ordering:
-    Applying 2 orderers, sequentially:
-        Applying a random variable order:
-            Seed: 88
-            Effect: both
+    Applying variable ordering:
+        Applying 2 orderers, sequentially:
+            Applying a random variable order:
+                Seed: 88
+                Effect: both
 
-        Applying FORCE algorithm:
-            Metric: total-span
-            Relations: linearized
-            Effect: var-order
-            Number of hyper-edges: 12
-            Maximum number of iterations: 20
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 12
+                Maximum number of iterations: 20
 
-            Total span:   36 (total)   3.00 (avg/edge) / WES:   0.907407 (total)   0.075617 (avg/edge) [before]
-            Total span:   20 (total)   1.67 (avg/edge) / WES:   0.555556 (total)   0.046296 (avg/edge) [iteration 1]
-            Total span:   20 (total)   1.67 (avg/edge) / WES:   0.555556 (total)   0.046296 (avg/edge) [iteration 2]
-            Total span:   20 (total)   1.67 (avg/edge) / WES:   0.555556 (total)   0.046296 (avg/edge) [after]
+                Total span:   36 (total)   3.00 (avg/edge) / WES:   0.907407 (total)   0.075617 (avg/edge) [before]
+                Total span:   20 (total)   1.67 (avg/edge) / WES:   0.555556 (total)   0.046296 (avg/edge) [iteration 1]
+                Total span:   20 (total)   1.67 (avg/edge) / WES:   0.555556 (total)   0.046296 (avg/edge) [iteration 2]
+                Total span:   20 (total)   1.67 (avg/edge) / WES:   0.555556 (total)   0.046296 (avg/edge) [after]
 
-Variable order changed.
+    Variable order changed.
 
-CIF variables and location pointers:
-    Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..3]  buffer3.count  0      2 * 2     4 * 2       4 * 2       100%
-    2      location pointer   n/a        buffer3        1      1 * 2     2 * 2       2 * 2       100%
-    3      discrete variable  int[0..3]  buffer1.count  2      2 * 2     4 * 2       4 * 2       100%
-    4      location pointer   n/a        buffer2        3      1 * 2     2 * 2       2 * 2       100%
-    5      discrete variable  int[0..3]  buffer2.count  4      2 * 2     4 * 2       4 * 2       100%
-    6      location pointer   n/a        buffer1        5      1 * 2     2 * 2       2 * 2       100%
-    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-    Total                                               6      18        36          36          100%
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..3]  buffer3.count  0      2 * 2     4 * 2       4 * 2       100%
+        2      location pointer   n/a        buffer3        1      1 * 2     2 * 2       2 * 2       100%
+        3      discrete variable  int[0..3]  buffer1.count  2      2 * 2     4 * 2       4 * 2       100%
+        4      location pointer   n/a        buffer2        3      1 * 2     2 * 2       2 * 2       100%
+        5      discrete variable  int[0..3]  buffer2.count  4      2 * 2     4 * 2       4 * 2       100%
+        6      location pointer   n/a        buffer1        5      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+        Total                                               6      18        36          36          100%
 
 Starting data-based synthesis.
 

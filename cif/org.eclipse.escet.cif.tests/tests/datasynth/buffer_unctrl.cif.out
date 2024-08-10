@@ -1,48 +1,30 @@
 Reading CIF file "datasynth/buffer_unctrl.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..3]  buffer.a  0      2 * 2     4 * 2       4 * 2       100%
-    2      discrete variable  int[1..3]  buffer.b  1      2 * 2     3 * 2       4 * 2       75%
-    3      discrete variable  int[0..2]  buffer.c  2      2 * 2     3 * 2       4 * 2       75%
-    4      discrete variable  int[1..2]  buffer.d  3      2 * 2     2 * 2       4 * 2       50%
-    5      discrete variable  int[0..3]  buffer.e  4      2 * 2     4 * 2       4 * 2       100%
-    6      discrete variable  int[1..3]  buffer.f  5      2 * 2     3 * 2       4 * 2       75%
-    7      discrete variable  int[0..2]  buffer.g  6      2 * 2     3 * 2       4 * 2       75%
-    -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-    Total                                          7      28        44          56          ~79%
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..3]  buffer.a  0      2 * 2     4 * 2       4 * 2       100%
+        2      discrete variable  int[1..3]  buffer.b  1      2 * 2     3 * 2       4 * 2       75%
+        3      discrete variable  int[0..2]  buffer.c  2      2 * 2     3 * 2       4 * 2       75%
+        4      discrete variable  int[1..2]  buffer.d  3      2 * 2     2 * 2       4 * 2       50%
+        5      discrete variable  int[0..3]  buffer.e  4      2 * 2     4 * 2       4 * 2       100%
+        6      discrete variable  int[1..3]  buffer.f  5      2 * 2     3 * 2       4 * 2       75%
+        7      discrete variable  int[0..2]  buffer.g  6      2 * 2     3 * 2       4 * 2       75%
+        -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+        Total                                          7      28        44          56          ~79%
 
-Applying variable ordering:
-    Applying 4 orderers, sequentially:
-        Applying model variable order:
-            Effect: both
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-        Applying DCSH algorithm:
-            Metric: wes
-            Relations: legacy
-            Effect: var-order
-            Number of hyper-edges: 28
-
-            Applying Weighted Cuthill-McKee algorithm:
-                Node finder: george-liu
+            Applying DCSH algorithm:
+                Metric: wes
                 Relations: legacy
                 Effect: var-order
-                Number of graph edges: 0
+                Number of hyper-edges: 28
 
-                Skipping algorithm: no graph edges.
-
-            Found new best variable order.
-
-            Applying Sloan algorithm:
-                Relations: legacy
-                Effect: var-order
-                Number of graph edges: 0
-
-                Skipping algorithm: no graph edges.
-
-            Applying 2 orderers, sequentially:
                 Applying Weighted Cuthill-McKee algorithm:
                     Node finder: george-liu
                     Relations: legacy
@@ -51,17 +33,8 @@ Applying variable ordering:
 
                     Skipping algorithm: no graph edges.
 
-                Reversing the variable order:
-                    Relations: legacy
-                    Effect: var-order
-                    Number of hyper-edges: 28
+                Found new best variable order.
 
-                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [before]
-                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [reversed]
-
-            Found new best variable order.
-
-            Applying 2 orderers, sequentially:
                 Applying Sloan algorithm:
                     Relations: legacy
                     Effect: var-order
@@ -69,50 +42,77 @@ Applying variable ordering:
 
                     Skipping algorithm: no graph edges.
 
-                Reversing the variable order:
-                    Relations: legacy
-                    Effect: var-order
-                    Number of hyper-edges: 28
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [before]
-                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [reversed]
+                        Skipping algorithm: no graph edges.
 
-        Applying FORCE algorithm:
-            Metric: total-span
-            Relations: linearized
-            Effect: var-order
-            Number of hyper-edges: 14
-            Maximum number of iterations: 20
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 28
 
-            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [before]
-            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [iteration 1]
-            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [after]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [reversed]
 
-        Applying sliding window algorithm:
-            Size: 4
-            Metric: total-span
-            Relations: linearized
-            Effect: var-order
-            Number of hyper-edges: 14
-            Window length: 4
+                Found new best variable order.
 
-            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [before]
-            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-Variable order changed.
+                        Skipping algorithm: no graph edges.
 
-CIF variables and location pointers:
-    Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..2]  buffer.g  0      2 * 2     3 * 2       4 * 2       75%
-    2      discrete variable  int[1..3]  buffer.f  1      2 * 2     3 * 2       4 * 2       75%
-    3      discrete variable  int[0..3]  buffer.e  2      2 * 2     4 * 2       4 * 2       100%
-    4      discrete variable  int[1..2]  buffer.d  3      2 * 2     2 * 2       4 * 2       50%
-    5      discrete variable  int[0..2]  buffer.c  4      2 * 2     3 * 2       4 * 2       75%
-    6      discrete variable  int[1..3]  buffer.b  5      2 * 2     3 * 2       4 * 2       75%
-    7      discrete variable  int[0..3]  buffer.a  6      2 * 2     4 * 2       4 * 2       100%
-    -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-    Total                                          7      28        44          56          ~79%
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 28
+
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [reversed]
+
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 14
+                Maximum number of iterations: 20
+
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [iteration 1]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [after]
+
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 14
+                Window length: 4
+
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [after]
+
+    Variable order changed.
+
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..2]  buffer.g  0      2 * 2     3 * 2       4 * 2       75%
+        2      discrete variable  int[1..3]  buffer.f  1      2 * 2     3 * 2       4 * 2       75%
+        3      discrete variable  int[0..3]  buffer.e  2      2 * 2     4 * 2       4 * 2       100%
+        4      discrete variable  int[1..2]  buffer.d  3      2 * 2     2 * 2       4 * 2       50%
+        5      discrete variable  int[0..2]  buffer.c  4      2 * 2     3 * 2       4 * 2       75%
+        6      discrete variable  int[1..3]  buffer.b  5      2 * 2     3 * 2       4 * 2       75%
+        7      discrete variable  int[0..3]  buffer.a  6      2 * 2     4 * 2       4 * 2       100%
+        -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+        Total                                          7      28        44          56          ~79%
 
 Starting data-based synthesis.
 

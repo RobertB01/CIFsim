@@ -1,23 +1,23 @@
 Reading CIF file "datasynth/var_order_model_algos_off.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-    1      location pointer   n/a        buffer1        0      1 * 2     2 * 2       2 * 2       100%
-    2      discrete variable  int[0..3]  buffer1.count  1      2 * 2     4 * 2       4 * 2       100%
-    3      location pointer   n/a        buffer3        2      1 * 2     2 * 2       2 * 2       100%
-    4      discrete variable  int[0..3]  buffer3.count  3      2 * 2     4 * 2       4 * 2       100%
-    5      location pointer   n/a        buffer2        4      1 * 2     2 * 2       2 * 2       100%
-    6      discrete variable  int[0..3]  buffer2.count  5      2 * 2     4 * 2       4 * 2       100%
-    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-    Total                                               6      18        36          36          100%
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a        buffer1        0      1 * 2     2 * 2       2 * 2       100%
+        2      discrete variable  int[0..3]  buffer1.count  1      2 * 2     4 * 2       4 * 2       100%
+        3      location pointer   n/a        buffer3        2      1 * 2     2 * 2       2 * 2       100%
+        4      discrete variable  int[0..3]  buffer3.count  3      2 * 2     4 * 2       4 * 2       100%
+        5      location pointer   n/a        buffer2        4      1 * 2     2 * 2       2 * 2       100%
+        6      discrete variable  int[0..3]  buffer2.count  5      2 * 2     4 * 2       4 * 2       100%
+        -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+        Total                                               6      18        36          36          100%
 
-Applying variable ordering:
-    Applying model variable order:
-        Effect: both
+    Applying variable ordering:
+        Applying model variable order:
+            Effect: both
 
-Variable order unchanged.
+    Variable order unchanged.
 
 Starting data-based synthesis.
 

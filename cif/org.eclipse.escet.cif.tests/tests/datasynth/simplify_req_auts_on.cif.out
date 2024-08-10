@@ -1,14 +1,14 @@
 Reading CIF file "datasynth/simplify_req_auts_on.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
-    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-    Total                                      1      6         12          16          75%
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      1      6         12          16          75%
 
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 

@@ -1,14 +1,14 @@
 Reading CIF file "datasynth/state_evt_excl_plant_not_alphabet.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-    1      discrete variable  int[0..3]  p.x   0      2 * 2     4 * 2       4 * 2       100%
-    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-    Total                                      1      4         8           8           100%
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..3]  p.x   0      2 * 2     4 * 2       4 * 2       100%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      1      4         8           8           100%
 
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 

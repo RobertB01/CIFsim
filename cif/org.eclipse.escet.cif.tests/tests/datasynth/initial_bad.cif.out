@@ -1,43 +1,25 @@
 Reading CIF file "datasynth/initial_bad.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-    1      location pointer   n/a         p     0      2 * 2     3 * 2       4 * 2       75%
-    2      discrete variable  int[0..20]  p.x   1      5 * 2     21 * 2      32 * 2      ~66%
-    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-    Total                                       2      14        48          72          ~67%
+    CIF variables and location pointers:
+        Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a         p     0      2 * 2     3 * 2       4 * 2       75%
+        2      discrete variable  int[0..20]  p.x   1      5 * 2     21 * 2      32 * 2      ~66%
+        -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+        Total                                       2      14        48          72          ~67%
 
-Applying variable ordering:
-    Applying 4 orderers, sequentially:
-        Applying model variable order:
-            Effect: both
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-        Applying DCSH algorithm:
-            Metric: wes
-            Relations: legacy
-            Effect: var-order
-            Number of hyper-edges: 4
-
-            Applying Weighted Cuthill-McKee algorithm:
-                Node finder: george-liu
+            Applying DCSH algorithm:
+                Metric: wes
                 Relations: legacy
                 Effect: var-order
-                Number of graph edges: 0
+                Number of hyper-edges: 4
 
-                Skipping algorithm: no graph edges.
-
-            Found new best variable order.
-
-            Applying Sloan algorithm:
-                Relations: legacy
-                Effect: var-order
-                Number of graph edges: 0
-
-                Skipping algorithm: no graph edges.
-
-            Applying 2 orderers, sequentially:
                 Applying Weighted Cuthill-McKee algorithm:
                     Node finder: george-liu
                     Relations: legacy
@@ -46,15 +28,8 @@ Applying variable ordering:
 
                     Skipping algorithm: no graph edges.
 
-                Reversing the variable order:
-                    Relations: legacy
-                    Effect: var-order
-                    Number of hyper-edges: 4
+                Found new best variable order.
 
-                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [before]
-                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [reversed]
-
-            Applying 2 orderers, sequentially:
                 Applying Sloan algorithm:
                     Relations: legacy
                     Effect: var-order
@@ -62,37 +37,62 @@ Applying variable ordering:
 
                     Skipping algorithm: no graph edges.
 
-                Reversing the variable order:
-                    Relations: legacy
-                    Effect: var-order
-                    Number of hyper-edges: 4
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [before]
-                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [reversed]
+                        Skipping algorithm: no graph edges.
 
-        Applying FORCE algorithm:
-            Metric: total-span
-            Relations: linearized
-            Effect: var-order
-            Number of hyper-edges: 2
-            Maximum number of iterations: 10
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 4
 
-            Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
-            Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [iteration 1]
-            Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [reversed]
 
-        Applying sliding window algorithm:
-            Size: 4
-            Metric: total-span
-            Relations: linearized
-            Effect: var-order
-            Number of hyper-edges: 2
-            Window length: 2
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-            Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
-            Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+                        Skipping algorithm: no graph edges.
 
-Variable order unchanged.
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 4
+
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.250000 (total)   0.062500 (avg/edge) [reversed]
+
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 2
+                Maximum number of iterations: 10
+
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [iteration 1]
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 2
+                Window length: 2
+
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [before]
+                Total span:   2 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.500000 (avg/edge) [after]
+
+    Variable order unchanged.
 
 Starting data-based synthesis.
 

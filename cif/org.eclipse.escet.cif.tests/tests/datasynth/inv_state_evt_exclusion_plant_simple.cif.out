@@ -1,14 +1,14 @@
 Reading CIF file "datasynth/inv_state_evt_exclusion_plant_simple.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-    -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-    1      location pointer  n/a   a     0      1 * 2     2 * 2       2 * 2       100%
-    -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-    Total                                1      2         4           4           100%
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   a     0      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                1      2         4           4           100%
 
-Skipping variable ordering: only one variable present.
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 

@@ -1,49 +1,49 @@
 Reading CIF file "datasynth/edge_order_default.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs).
-CIF variables and location pointers:
-    Nr     Kind            Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-    -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
-    1      input variable  bool  D     0      1 * 2     2 * 2       2 * 2       100%
-    2      input variable  bool  C     1      1 * 2     2 * 2       2 * 2       100%
-    3      input variable  bool  p.Y   2      1 * 2     2 * 2       2 * 2       100%
-    4      input variable  bool  p.X   3      1 * 2     2 * 2       2 * 2       100%
-    -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
-    Total                              4      8         16          16          100%
+    CIF variables and location pointers:
+        Nr     Kind            Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      input variable  bool  D     0      1 * 2     2 * 2       2 * 2       100%
+        2      input variable  bool  C     1      1 * 2     2 * 2       2 * 2       100%
+        3      input variable  bool  p.Y   2      1 * 2     2 * 2       2 * 2       100%
+        4      input variable  bool  p.X   3      1 * 2     2 * 2       2 * 2       100%
+        -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                              4      8         16          16          100%
 
-Applying variable ordering:
-    Applying 4 orderers, sequentially:
-        Applying model variable order:
-            Effect: both
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-        Applying DCSH algorithm:
-            Metric: wes
-            Relations: legacy
-            Effect: var-order
-            Number of hyper-edges: 0
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 0
 
-            Skipping orderer: no hyper-edges.
+                Skipping orderer: no hyper-edges.
 
-        Applying FORCE algorithm:
-            Metric: total-span
-            Relations: linearized
-            Effect: var-order
-            Number of hyper-edges: 0
-            Maximum number of iterations: 20
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 0
+                Maximum number of iterations: 20
 
-            Skipping algorithm: no hyper-edges.
+                Skipping algorithm: no hyper-edges.
 
-        Applying sliding window algorithm:
-            Size: 4
-            Metric: total-span
-            Relations: linearized
-            Effect: var-order
-            Number of hyper-edges: 0
-            Window length: 4
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 0
+                Window length: 4
 
-            Skipping algorithm: no hyper-edges.
+                Skipping algorithm: no hyper-edges.
 
-Variable order unchanged.
+    Variable order unchanged.
 
 Starting data-based synthesis.
 
