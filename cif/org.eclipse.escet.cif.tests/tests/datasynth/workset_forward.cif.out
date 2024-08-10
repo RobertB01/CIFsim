@@ -170,13 +170,14 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Edge workset algorithm forward dependencies:
- - 1: p1.next .1
- - 2: p2.e    1.
+Preparing workset algorithm:
+    Edge workset algorithm forward dependencies:
+    - 1: p1.next .1
+    - 2: p2.e    1.
 
-Edge workset algorithm backward dependencies:
- - 1: p1.next .1
- - 2: p2.e    1.
+    Edge workset algorithm backward dependencies:
+    - 1: p1.next .1
+    - 2: p2.e    1.
 
 Round 1: started.
 
