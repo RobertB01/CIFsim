@@ -167,6 +167,8 @@ Restricting edge guards to prevent runtime errors:
 Restricting uncontrolled system behavior using state/event exclusion plant invariants:
     No guards changed.
 
+Initializing edges for being applied.
+
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
@@ -186,6 +188,8 @@ Restricting behavior using state/event exclusion requirements.
 
 Restricting behavior using implicit runtime error requirements.
 Controlled behavior: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)) -> (count_max3.cnt != 0 or not adder.l3) and (count_max3.cnt != 8 and count_max3.cnt != 4) and (count_max3.cnt != 10 and count_max3.cnt != 6 and (count_max3.cnt != 9 and not(count_max3.cnt = 5 or count_max3.cnt = 7))) [runtime error requirement (event: u_remove): count_max3.cnt != 0 or not adder.l3].
+
+Re-initializing edges for being applied.
 
 Round 1: started.
 

@@ -321,6 +321,8 @@ Restricting uncontrolled system behavior using state/event exclusion plant invar
             Edge: (event: c_synch) (guard: a.l1 and b.l2)
             Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
+Initializing edges for being applied.
+
 Restricting uncontrolled system behavior using state plant invariants:
     Edge (event: p.c11) (guard: p.l1 and p.v11 = 4) (assignments: p.v11 := p.v11 + 1): guard: p.l1 and p.v11 = 4 -> false.
     Edge (event: q.u11) (guard: q.l1 and q.v11 = 4) (assignments: q.v11 := q.v11 + 1): guard: q.l1 and q.v11 = 4 -> false.
@@ -434,6 +436,8 @@ Restricted behavior using state/event exclusion requirements:
         Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
 Restricting behavior using implicit runtime error requirements.
+
+Re-initializing edges for being applied.
 
 Round 1: started.
 

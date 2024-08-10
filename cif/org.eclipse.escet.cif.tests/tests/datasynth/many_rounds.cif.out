@@ -188,6 +188,8 @@ Restricting edge guards to prevent runtime errors:
 Restricting uncontrolled system behavior using state/event exclusion plant invariants:
     No guards changed.
 
+Initializing edges for being applied.
+
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
@@ -211,6 +213,8 @@ Controlled behavior: (p.x != 15 or not p.l2) and (p.x != 15 or not p.l1) -> (p.x
 Controlled behavior: (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) -> (p.x != 15 or not p.l4) and (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) [runtime error requirement (event: u): p.x != 15 or not p.l4].
 Controlled behavior: (p.x != 15 or not p.l4) and (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) -> (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))) [runtime error requirement (event: u): p.x != 15 or not p.l5].
 Controlled behavior: (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))) -> (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2 and not p.l6) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))) [runtime error requirement (event: u): p.x != 15 or not p.l6].
+
+Re-initializing edges for being applied.
 
 Round 1: started.
 

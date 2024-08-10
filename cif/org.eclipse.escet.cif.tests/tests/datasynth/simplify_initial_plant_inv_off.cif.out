@@ -55,6 +55,8 @@ Restricting edge guards to prevent runtime errors:
 Restricting uncontrolled system behavior using state/event exclusion plant invariants:
     No guards changed.
 
+Initializing edges for being applied.
+
 Restricting uncontrolled system behavior using state plant invariants:
     No guards changed.
 
@@ -77,6 +79,8 @@ Restricted behavior using state/event exclusion requirements:
     State: (controlled-behavior: p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3)))
 
 Restricting behavior using implicit runtime error requirements.
+
+Re-initializing edges for being applied.
 
 Round 1: started.
 

@@ -163,6 +163,8 @@ Restricting edge guards to prevent runtime errors:
 Restricting uncontrolled system behavior using state/event exclusion plant invariants:
     No guards changed.
 
+Initializing edges for being applied.
+
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
@@ -185,6 +187,8 @@ Restricted behavior using state/event exclusion requirements:
         Edge: (event: u) (guard: g.p.l1 -> g.p.x = 8 and g.p.l1 or g.p.x = 4 and g.p.l1 or ((g.p.x = 2 or (g.p.x = 6 or g.p.x = 10)) and g.p.l1 or (g.p.x = 1 or g.p.x = 3 or (g.p.x = 5 or (g.p.x = 7 or g.p.x = 9))) and g.p.l1)) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
 
 Restricting behavior using implicit runtime error requirements.
+
+Re-initializing edges for being applied.
 
 Round 1: started.
 

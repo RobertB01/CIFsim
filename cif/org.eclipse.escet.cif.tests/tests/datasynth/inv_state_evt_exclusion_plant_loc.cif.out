@@ -217,6 +217,8 @@ Restricting uncontrolled system behavior using state/event exclusion plant invar
             Edge: (event: l) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
             Edge: (event: c) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
+Initializing edges for being applied.
+
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
@@ -234,6 +236,8 @@ Extended controlled-behavior predicate using variable ranges: true.
 Restricting behavior using state/event exclusion requirements.
 
 Restricting behavior using implicit runtime error requirements.
+
+Re-initializing edges for being applied.
 
 Round 1: started.
 
