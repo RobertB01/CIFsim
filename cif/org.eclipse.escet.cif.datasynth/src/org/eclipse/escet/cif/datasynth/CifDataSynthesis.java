@@ -1408,10 +1408,12 @@ public class CifDataSynthesis {
 
             if (dbgEnabled) {
                 cifBddSpec.settings.getDebugOutput().line();
-                cifBddSpec.settings.getDebugOutput().line("Round %d: started.", round);
+                cifBddSpec.settings.getDebugOutput().line("Synthesis round %d:", round);
+                cifBddSpec.settings.getDebugOutput().inc();
             }
 
             // Perform the fixed-point reachability computations of the round.
+            boolean firstComputationInRound = true;
             for (FixedPointComputation fixedPointComputation: computationsInOrder) {
                 // Get predicate from which to start the fixed-point reachability computation.
                 BDD startPred = switch (fixedPointComputation) {
@@ -1420,6 +1422,9 @@ public class CifDataSynthesis {
                     case REACH -> synthResult.initialCtrl.id();
                 };
                 if (fixedPointComputation == CTRL && cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -1471,8 +1476,13 @@ public class CifDataSynthesis {
 
                 // Debug output.
                 if (dbgEnabled) {
-                    cifBddSpec.settings.getDebugOutput().line();
-                    cifBddSpec.settings.getDebugOutput().line("Round %d: computing %s predicate.", round, predName);
+                    if (firstComputationInRound) {
+                        firstComputationInRound = false;
+                    } else {
+                        cifBddSpec.settings.getDebugOutput().line();
+                    }
+                    cifBddSpec.settings.getDebugOutput().line("Computing %s predicate:", predName);
+                    cifBddSpec.settings.getDebugOutput().inc();
                 }
 
                 // Perform the fixed-point reachability computation.
@@ -1494,6 +1504,10 @@ public class CifDataSynthesis {
                 }
 
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -1508,6 +1522,10 @@ public class CifDataSynthesis {
                         newCtrlBeh = reachabilityResult.not();
                         reachabilityResult.free();
                         if (cifBddSpec.settings.getTermination().isRequested()) {
+                            if (dbgEnabled) {
+                                cifBddSpec.settings.getDebugOutput().dec();
+                                cifBddSpec.settings.getDebugOutput().dec();
+                            }
                             return;
                         }
                         break;
@@ -1521,14 +1539,22 @@ public class CifDataSynthesis {
                 if (unchanged) {
                     newCtrlBeh.free();
                     stableCount++;
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().line();
+                        cifBddSpec.settings.getDebugOutput().line("Controlled behavior not changed.");
+                    }
                 } else {
                     if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().line();
                         cifBddSpec.settings.getDebugOutput().line("Controlled behavior: %s -> %s.",
                                 bddToStr(synthResult.ctrlBeh, cifBddSpec), bddToStr(newCtrlBeh, cifBddSpec));
                     }
                     synthResult.ctrlBeh.free();
                     synthResult.ctrlBeh = newCtrlBeh;
                     stableCount = 1;
+                }
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
                 }
 
                 // Detect a fixed point for all fixed-point computations (as far as they are not disabled by settings):
@@ -1540,11 +1566,15 @@ public class CifDataSynthesis {
                 if (noCtrlStates) {
                     if (dbgEnabled) {
                         cifBddSpec.settings.getDebugOutput().line();
-                        cifBddSpec.settings.getDebugOutput().line("Round %d: finished, all states are bad.", round);
+                        cifBddSpec.settings.getDebugOutput().line("Finished: all states are bad.");
+                        cifBddSpec.settings.getDebugOutput().dec();
                     }
                     break FIXED_POINT_LOOP;
                 }
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -1552,8 +1582,8 @@ public class CifDataSynthesis {
                 if (stableCount == numberOfComputations) {
                     if (dbgEnabled) {
                         cifBddSpec.settings.getDebugOutput().line();
-                        cifBddSpec.settings.getDebugOutput().line("Round %d: finished, controlled behavior is stable.",
-                                round);
+                        cifBddSpec.settings.getDebugOutput().line("Finished: controlled behavior is stable.");
+                        cifBddSpec.settings.getDebugOutput().dec();
                     }
                     break FIXED_POINT_LOOP;
                 }
@@ -1568,12 +1598,15 @@ public class CifDataSynthesis {
                     if (noInit) {
                         if (dbgEnabled) {
                             cifBddSpec.settings.getDebugOutput().line();
-                            cifBddSpec.settings.getDebugOutput().line("Round %d: finished, no initialization possible.",
-                                    round);
+                            cifBddSpec.settings.getDebugOutput().line("Finished: no initialization possible.");
+                            cifBddSpec.settings.getDebugOutput().dec();
                         }
                         break FIXED_POINT_LOOP;
                     }
                     if (cifBddSpec.settings.getTermination().isRequested()) {
+                        if (dbgEnabled) {
+                            cifBddSpec.settings.getDebugOutput().dec();
+                        }
                         return;
                     }
                 }
@@ -1582,7 +1615,8 @@ public class CifDataSynthesis {
             // Finished round.
             if (dbgEnabled) {
                 cifBddSpec.settings.getDebugOutput().line();
-                cifBddSpec.settings.getDebugOutput().line("Round %d: finished, need another round.", round);
+                cifBddSpec.settings.getDebugOutput().line("Need another round.", round);
+                cifBddSpec.settings.getDebugOutput().dec();
             }
         }
     }
