@@ -112,15 +112,7 @@ public class CifDataSynthesis {
                 return null;
             }
             if (dbgEnabled) {
-                List<CifBddEdge> restrictedEdges = cifBddSpec.edges.stream().filter(e -> !e.origGuard.equals(e.guard))
-                        .toList();
-
-                if (!restrictedEdges.isEmpty()) {
-                    cifBddSpec.settings.getDebugOutput().line();
-                    cifBddSpec.settings.getDebugOutput().line("Restricting edge guards to prevent runtime errors:");
-                    restrictedEdges.forEach(e -> cifBddSpec.settings.getDebugOutput()
-                            .line(e.toString(1, cifBddSpec.settings.getIndentAmount(), "Edge: ")));
-                }
+                printDebugRuntimeErrorPrevention(cifBddSpec, synthResult);
             }
 
             // Apply state/event exclusion plant invariants.
@@ -697,6 +689,41 @@ public class CifDataSynthesis {
         boolean freeReqsInvsCompsAndLocs = synthResult.settings
                 .getStateReqInvEnforceMode() == StateReqInvEnforceMode.ALL_CTRL_BEH;
         cifBddSpec.freeIntermediateBDDs(freeReqsInvsCompsAndLocs);
+    }
+
+    /**
+     * Print debug output for having restricted edge guards to prevent runtime errors, during the conversion from CIF to
+     * BDD. This method should only be invoked if debug output is enabled.
+     *
+     * @param cifBddSpec The CIF/BDD specification.
+     * @param synthResult The synthesis result.
+     */
+    private static void printDebugRuntimeErrorPrevention(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult) {
+        List<CifBddEdge> restrictedEdges = cifBddSpec.edges.stream().filter(e -> !e.origGuard.equals(e.guard))
+                .toList();
+
+        cifBddSpec.settings.getDebugOutput().line();
+        cifBddSpec.settings.getDebugOutput().line("Restricting edge guards to prevent runtime errors:");
+        cifBddSpec.settings.getDebugOutput().inc();
+        if (restrictedEdges.isEmpty()) {
+            cifBddSpec.settings.getDebugOutput().line("No guards changed.");
+        } else {
+            for (CifBddEdge restrictedEdge: restrictedEdges) {
+                cifBddSpec.settings.getDebugOutput().line(restrictedEdge.toString(0, 0, "Edge: "));
+            }
+
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Uncontrolled system:");
+            cifBddSpec.settings.getDebugOutput().inc();
+            cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(0, 0));
+            cifBddSpec.settings.getDebugOutput().inc();
+            for (String line: cifBddSpec.getEdgesText(0)) {
+                cifBddSpec.settings.getDebugOutput().line(line);
+            }
+            cifBddSpec.settings.getDebugOutput().dec();
+            cifBddSpec.settings.getDebugOutput().dec();
+        }
+        cifBddSpec.settings.getDebugOutput().dec();
     }
 
     /**
