@@ -12,52 +12,53 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             p.v = 0
-Initial   (discrete variables):              p.v = 0
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             p.v = 0
-Initial   (system, combined init/plant inv): p.v = 0
-Initial   (system, combined init/state inv): p.v = 0
+    Initial   (discrete variable 0):             p.v = 0
+    Initial   (discrete variables):              p.v = 0
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             p.v = 0
+    Initial   (system, combined init/plant inv): p.v = 0
+    Initial   (system, combined init/state inv): p.v = 0
 
-Marked    (component marker predicate):      p.v = 14
-Marked    (components marker predicate):     p.v = 14
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             p.v = 14
-Marked    (system, combined mark/plant inv): p.v = 14
-Marked    (system, combined mark/state inv): p.v = 14
+    Marked    (component marker predicate):      p.v = 14
+    Marked    (components marker predicate):     p.v = 14
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             p.v = 14
+    Marked    (system, combined mark/plant inv): p.v = 14
+    Marked    (system, combined mark/state inv): p.v = 14
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14)
-        Edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5)
-        Edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7)
-        Edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6)
-        Edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1)
-        Edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9)
-        Edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3)
-        Edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2)
-        Edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13)
-        Edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10)
-        Edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11)
-        Edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12)
-        Edge: (event: p.l) (guard: p.v = 12) (assignments: p.v := 13)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14)
+            Edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5)
+            Edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7)
+            Edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6)
+            Edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1)
+            Edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9)
+            Edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3)
+            Edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2)
+            Edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13)
+            Edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10)
+            Edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11)
+            Edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12)
+            Edge: (event: p.l) (guard: p.v = 12) (assignments: p.v := 13)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

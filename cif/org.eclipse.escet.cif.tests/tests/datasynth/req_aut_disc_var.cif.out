@@ -12,43 +12,44 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             r.x = 5
-Initial   (discrete variables):              r.x = 5
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             r.x = 5
-Initial   (system, combined init/plant inv): r.x = 5
-Initial   (system, combined init/state inv): r.x = 5
+    Initial   (discrete variable 0):             r.x = 5
+    Initial   (discrete variables):              r.x = 5
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             r.x = 5
+    Initial   (system, combined init/plant inv): r.x = 5
+    Initial   (system, combined init/state inv): r.x = 5
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  Event "c" needs:
-    r.x = 5
+    State/event exclusion requirements:
+      Event "c" needs:
+        r.x = 5
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: c) (guard: r.x = 5)
-        Edge: (event: c) (guard: r.x != 5)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: c) (guard: r.x = 5)
+            Edge: (event: c) (guard: r.x != 5)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

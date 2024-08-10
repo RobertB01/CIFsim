@@ -101,44 +101,45 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         (io.sensor or p_sensor.off) and (not io.sensor or p_sensor.on)
-Initial   (aut/locs init predicate):         p_act.off
-Initial   (auts/locs init predicate):        not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
-Initial   (uncontrolled system):             not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
-Initial   (system, combined init/plant inv): not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
-Initial   (system, combined init/state inv): not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         (io.sensor or p_sensor.off) and (not io.sensor or p_sensor.on)
+    Initial   (aut/locs init predicate):         p_act.off
+    Initial   (auts/locs init predicate):        not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+    Initial   (uncontrolled system):             not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+    Initial   (system, combined init/plant inv): not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+    Initial   (system, combined init/state inv): not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p_sensor.off
-Marked    (aut/locs marker predicate):       p_act.off
-Marked    (auts/locs marker predicate):      p_sensor.off and p_act.off
-Marked    (uncontrolled system):             p_sensor.off and p_act.off
-Marked    (system, combined mark/plant inv): p_sensor.off and p_act.off
-Marked    (system, combined mark/state inv): p_sensor.off and p_act.off
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p_sensor.off
+    Marked    (aut/locs marker predicate):       p_act.off
+    Marked    (auts/locs marker predicate):      p_sensor.off and p_act.off
+    Marked    (uncontrolled system):             p_sensor.off and p_act.off
+    Marked    (system, combined mark/plant inv): p_sensor.off and p_act.off
+    Marked    (system, combined mark/state inv): p_sensor.off and p_act.off
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: u_on) (guard: io.sensor and p_sensor.off) (assignments: p_sensor := p_sensor.on)
-        Edge: (event: u_off) (guard: not io.sensor and p_sensor.on) (assignments: p_sensor := p_sensor.off)
-        Edge: (event: c_on) (guard: p_act.off) (assignments: p_act := p_act.on)
-        Edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off)
-        Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: u_on) (guard: io.sensor and p_sensor.off) (assignments: p_sensor := p_sensor.on)
+            Edge: (event: u_off) (guard: not io.sensor and p_sensor.on) (assignments: p_sensor := p_sensor.off)
+            Edge: (event: c_on) (guard: p_act.off) (assignments: p_act := p_act.on)
+            Edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off)
+            Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

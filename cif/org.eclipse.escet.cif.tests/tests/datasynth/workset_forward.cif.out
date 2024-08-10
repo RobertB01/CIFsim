@@ -100,43 +100,44 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             p1.c = 0
-Initial   (discrete variable 1):             not p2.b
-Initial   (discrete variables):              p1.c = 0 and not p2.b
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             p1.c = 0 and not p2.b
-Initial   (system, combined init/plant inv): p1.c = 0 and not p2.b
-Initial   (system, combined init/state inv): p1.c = 0 and not p2.b
+    Initial   (discrete variable 0):             p1.c = 0
+    Initial   (discrete variable 1):             not p2.b
+    Initial   (discrete variables):              p1.c = 0 and not p2.b
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             p1.c = 0 and not p2.b
+    Initial   (system, combined init/plant inv): p1.c = 0 and not p2.b
+    Initial   (system, combined init/state inv): p1.c = 0 and not p2.b
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1)
-        Edge: (event: p2.e) (guard: p1.c = 1 and not p2.b) (assignments: p2.b := true)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1)
+            Edge: (event: p2.e) (guard: p1.c = 1 and not p2.b) (assignments: p2.b := true)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

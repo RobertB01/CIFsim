@@ -12,39 +12,40 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         a.l1
-Initial   (auts/locs init predicate):        a.l1
-Initial   (uncontrolled system):             a.l1
-Initial   (system, combined init/plant inv): a.l1
-Initial   (system, combined init/state inv): a.l1
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         a.l1
+    Initial   (auts/locs init predicate):        a.l1
+    Initial   (uncontrolled system):             a.l1
+    Initial   (system, combined init/plant inv): a.l1
+    Initial   (system, combined init/state inv): a.l1
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       a.l1
-Marked    (auts/locs marker predicate):      a.l1
-Marked    (uncontrolled system):             a.l1
-Marked    (system, combined mark/plant inv): a.l1
-Marked    (system, combined mark/state inv): a.l1
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       a.l1
+    Marked    (auts/locs marker predicate):      a.l1
+    Marked    (uncontrolled system):             a.l1
+    Marked    (system, combined mark/plant inv): a.l1
+    Marked    (system, combined mark/state inv): a.l1
 
-State/event exclusion plants:
-  Event "u" needs:
-    false
+    State/event exclusion plants:
+      Event "u" needs:
+        false
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system (state/event exclusion plants not applied yet):
-    State: (controlled-behavior: ?)
-        Edge: (event: u) (guard: a.l1) (assignments: a := a.l2)
+    Uncontrolled system (state/event exclusion plants not applied yet):
+        State: (controlled-behavior: ?)
+            Edge: (event: u) (guard: a.l1) (assignments: a := a.l2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

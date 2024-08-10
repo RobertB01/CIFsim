@@ -100,44 +100,45 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   LightA.Red or LightB.Red
-Invariant (components state req invariant):  LightA.Red or LightB.Red
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      LightA.Red or LightB.Red
+    Invariant (component state req invariant):   LightA.Red or LightB.Red
+    Invariant (components state req invariant):  LightA.Red or LightB.Red
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      LightA.Red or LightB.Red
 
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         LightA.Red
-Initial   (aut/locs init predicate):         LightB.Red
-Initial   (auts/locs init predicate):        LightA.Red and LightB.Red
-Initial   (uncontrolled system):             LightA.Red and LightB.Red
-Initial   (system, combined init/plant inv): LightA.Red and LightB.Red
-Initial   (system, combined init/state inv): LightA.Red and LightB.Red
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         LightA.Red
+    Initial   (aut/locs init predicate):         LightB.Red
+    Initial   (auts/locs init predicate):        LightA.Red and LightB.Red
+    Initial   (uncontrolled system):             LightA.Red and LightB.Red
+    Initial   (system, combined init/plant inv): LightA.Red and LightB.Red
+    Initial   (system, combined init/state inv): LightA.Red and LightB.Red
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       LightA.Red
-Marked    (aut/locs marker predicate):       LightB.Red
-Marked    (auts/locs marker predicate):      LightA.Red and LightB.Red
-Marked    (uncontrolled system):             LightA.Red and LightB.Red
-Marked    (system, combined mark/plant inv): LightA.Red and LightB.Red
-Marked    (system, combined mark/state inv): LightA.Red and LightB.Red
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       LightA.Red
+    Marked    (aut/locs marker predicate):       LightB.Red
+    Marked    (auts/locs marker predicate):      LightA.Red and LightB.Red
+    Marked    (uncontrolled system):             LightA.Red and LightB.Red
+    Marked    (system, combined mark/plant inv): LightA.Red and LightB.Red
+    Marked    (system, combined mark/state inv): LightA.Red and LightB.Red
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: green_A) (guard: LightA.Red) (assignments: LightA := LightA.Green)
-        Edge: (event: red_A) (guard: LightA.Green) (assignments: LightA := LightA.Red)
-        Edge: (event: green_B) (guard: LightB.Red) (assignments: LightB := LightB.Green)
-        Edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: green_A) (guard: LightA.Red) (assignments: LightA := LightA.Green)
+            Edge: (event: red_A) (guard: LightA.Green) (assignments: LightA := LightA.Red)
+            Edge: (event: green_B) (guard: LightB.Red) (assignments: LightB := LightB.Green)
+            Edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

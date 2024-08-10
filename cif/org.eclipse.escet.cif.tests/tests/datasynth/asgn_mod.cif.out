@@ -117,47 +117,48 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             true
-Initial   (discrete variable 1):             true
-Initial   (discrete variable 3):             true
-Initial   (discrete variable 4):             true
-Initial   (discrete variable 5):             true
-Initial   (discrete variables):              <bdd 15n 243p>
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.loc1
-Initial   (auts/locs init predicate):        p.loc1
-Initial   (uncontrolled system):             <bdd 16n 243p>
-Initial   (system, combined init/plant inv): <bdd 16n 243p>
-Initial   (system, combined init/state inv): <bdd 16n 243p>
+    Initial   (discrete variable 0):             true
+    Initial   (discrete variable 1):             true
+    Initial   (discrete variable 3):             true
+    Initial   (discrete variable 4):             true
+    Initial   (discrete variable 5):             true
+    Initial   (discrete variables):              <bdd 15n 243p>
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.loc1
+    Initial   (auts/locs init predicate):        p.loc1
+    Initial   (uncontrolled system):             <bdd 16n 243p>
+    Initial   (system, combined init/plant inv): <bdd 16n 243p>
+    Initial   (system, combined init/state inv): <bdd 16n 243p>
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
-Marked    (auts/locs marker predicate):      p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
-Marked    (uncontrolled system):             p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
-Marked    (system, combined mark/plant inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
-Marked    (system, combined mark/state inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+    Marked    (auts/locs marker predicate):      p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+    Marked    (uncontrolled system):             p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+    Marked    (system, combined mark/plant inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+    Marked    (system, combined mark/state inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: p.em1) (guard: p.loc1) (assignments: p.m1 := p.m1 mod 1, p := p.loc2)
-        Edge: (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2)
-        Edge: (event: p.em3) (guard: p.loc1) (assignments: p.m3 := p.m3 mod 3, p := p.loc2)
-        Edge: (event: p.em4) (guard: p.loc1) (assignments: p.m4 := p.m4 mod 4, p := p.loc2)
-        Edge: (event: p.em5) (guard: p.loc1) (assignments: p.m5 := p.m5 mod 5, p := p.loc2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.em1) (guard: p.loc1) (assignments: p.m1 := p.m1 mod 1, p := p.loc2)
+            Edge: (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2)
+            Edge: (event: p.em3) (guard: p.loc1) (assignments: p.m3 := p.m3 mod 3, p := p.loc2)
+            Edge: (event: p.em4) (guard: p.loc1) (assignments: p.m4 := p.m4 mod 4, p := p.loc2)
+            Edge: (event: p.em5) (guard: p.loc1) (assignments: p.m5 := p.m5 mod 5, p := p.loc2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

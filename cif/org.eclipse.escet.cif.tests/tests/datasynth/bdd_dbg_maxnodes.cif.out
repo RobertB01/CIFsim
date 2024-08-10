@@ -12,40 +12,41 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   <bdd 6n 1p>
-Invariant (component state req invariant):   <bdd 6n 1p>
-Invariant (components state req invariant):  false
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      false
+    Invariant (component state req invariant):   <bdd 6n 1p>
+    Invariant (component state req invariant):   <bdd 6n 1p>
+    Invariant (components state req invariant):  false
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      false
 
-Initial   (discrete variable 0):             <bdd 7n 1p>
-Initial   (discrete variables):              <bdd 7n 1p>
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             <bdd 7n 1p>
-Initial   (system, combined init/plant inv): <bdd 7n 1p>
-Initial   (system, combined init/state inv): false
+    Initial   (discrete variable 0):             <bdd 7n 1p>
+    Initial   (discrete variables):              <bdd 7n 1p>
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             <bdd 7n 1p>
+    Initial   (system, combined init/plant inv): <bdd 7n 1p>
+    Initial   (system, combined init/state inv): false
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): false
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): false
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

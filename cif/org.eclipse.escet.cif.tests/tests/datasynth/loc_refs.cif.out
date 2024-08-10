@@ -97,54 +97,55 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):             q1.x = 0
-Initial   (discrete variable 2):             q1.y = 1
-Initial   (discrete variables):              q1.x = 0 and q1.y = 1
-Initial   (component init predicate):        true
-Initial   (component init predicate):        q1.x = 0
-Initial   (component init predicate):        q1.y = 1
-Initial   (components init predicate):       q1.x = 0 and q1.y = 1
-Initial   (aut/locs init predicate):         pe.a
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        pe.a
-Initial   (uncontrolled system):             pe.a and (q1.x = 0 and q1.y = 1)
-Initial   (system, combined init/plant inv): pe.a and (q1.x = 0 and q1.y = 1)
-Initial   (system, combined init/state inv): pe.a and (q1.x = 0 and q1.y = 1)
+    Initial   (discrete variable 1):             q1.x = 0
+    Initial   (discrete variable 2):             q1.y = 1
+    Initial   (discrete variables):              q1.x = 0 and q1.y = 1
+    Initial   (component init predicate):        true
+    Initial   (component init predicate):        q1.x = 0
+    Initial   (component init predicate):        q1.y = 1
+    Initial   (components init predicate):       q1.x = 0 and q1.y = 1
+    Initial   (aut/locs init predicate):         pe.a
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        pe.a
+    Initial   (uncontrolled system):             pe.a and (q1.x = 0 and q1.y = 1)
+    Initial   (system, combined init/plant inv): pe.a and (q1.x = 0 and q1.y = 1)
+    Initial   (system, combined init/state inv): pe.a and (q1.x = 0 and q1.y = 1)
 
-Marked    (component marker predicate):      pe.a
-Marked    (components marker predicate):     pe.a
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             pe.a
-Marked    (system, combined mark/plant inv): pe.a
-Marked    (system, combined mark/state inv): pe.a
+    Marked    (component marker predicate):      pe.a
+    Marked    (components marker predicate):     pe.a
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             pe.a
+    Marked    (system, combined mark/plant inv): pe.a
+    Marked    (system, combined mark/state inv): pe.a
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b)
-        Edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a)
-        Edge: (event: e2) (guard: pe.a) (assignments: pe := pe.c)
-        Edge: (event: e3) (guard: pe.a)
-        Edge: (event: e4) (guard: pe.a)
-        Edge: (event: f1) (guard: true)
-        Edge: (event: f2) (guard: true)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b)
+            Edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a)
+            Edge: (event: e2) (guard: pe.a) (assignments: pe := pe.c)
+            Edge: (event: e3) (guard: pe.a)
+            Edge: (event: e4) (guard: pe.a)
+            Edge: (event: f1) (guard: true)
+            Edge: (event: f2) (guard: true)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

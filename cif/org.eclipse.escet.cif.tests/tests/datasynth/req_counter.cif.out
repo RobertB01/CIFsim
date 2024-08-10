@@ -110,47 +110,48 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   0 <= count_max3.cnt and count_max3.cnt <= 3
-Invariant (components state req invariant):  0 <= count_max3.cnt and count_max3.cnt <= 3
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      0 <= count_max3.cnt and count_max3.cnt <= 3
+    Invariant (component state req invariant):   0 <= count_max3.cnt and count_max3.cnt <= 3
+    Invariant (components state req invariant):  0 <= count_max3.cnt and count_max3.cnt <= 3
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      0 <= count_max3.cnt and count_max3.cnt <= 3
 
-Initial   (discrete variable 0):             count_max3.cnt = 0
-Initial   (discrete variables):              count_max3.cnt = 0
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         adder.l1
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        adder.l1
-Initial   (uncontrolled system):             count_max3.cnt = 0 and adder.l1
-Initial   (system, combined init/plant inv): count_max3.cnt = 0 and adder.l1
-Initial   (system, combined init/state inv): count_max3.cnt = 0 and adder.l1
+    Initial   (discrete variable 0):             count_max3.cnt = 0
+    Initial   (discrete variables):              count_max3.cnt = 0
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         adder.l1
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        adder.l1
+    Initial   (uncontrolled system):             count_max3.cnt = 0 and adder.l1
+    Initial   (system, combined init/plant inv): count_max3.cnt = 0 and adder.l1
+    Initial   (system, combined init/state inv): count_max3.cnt = 0 and adder.l1
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       adder.l1
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      adder.l1
-Marked    (uncontrolled system):             adder.l1
-Marked    (system, combined mark/plant inv): adder.l1
-Marked    (system, combined mark/state inv): 0 <= count_max3.cnt and (count_max3.cnt <= 3 and adder.l1)
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       adder.l1
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      adder.l1
+    Marked    (uncontrolled system):             adder.l1
+    Marked    (system, combined mark/plant inv): adder.l1
+    Marked    (system, combined mark/state inv): 0 <= count_max3.cnt and (count_max3.cnt <= 3 and adder.l1)
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  Event "adder.c_add" needs:
-    true
-  Event "adder.u_remove" needs:
-    true
+    State/event exclusion requirements:
+      Event "adder.c_add" needs:
+        true
+      Event "adder.u_remove" needs:
+        true
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1)
-        Edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1)
-        Edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1)
+            Edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1)
+            Edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1)
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: adder.c_add) (guard: adder.l1 -> (count_max3.cnt = 0 or (count_max3.cnt = 2 or count_max3.cnt = 4) or (count_max3.cnt = 6 or (count_max3.cnt = 8 or count_max3.cnt = 10))) and adder.l1 or (count_max3.cnt = 1 or (count_max3.cnt = 5 or count_max3.cnt = 9)) and adder.l1 or (count_max3.cnt = 3 and adder.l1 or count_max3.cnt = 7 and adder.l1)) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1)

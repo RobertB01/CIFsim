@@ -110,42 +110,43 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             p.x = 0
-Initial   (discrete variable 2):             p.y = 0
-Initial   (discrete variables):              p.x = 0 and p.y = 0
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.a
-Initial   (auts/locs init predicate):        p.a
-Initial   (uncontrolled system):             p.x = 0 and (p.a and p.y = 0)
-Initial   (system, combined init/plant inv): p.x = 0 and (p.a and p.y = 0)
-Initial   (system, combined init/state inv): p.x = 0 and (p.a and p.y = 0)
+    Initial   (discrete variable 0):             p.x = 0
+    Initial   (discrete variable 2):             p.y = 0
+    Initial   (discrete variables):              p.x = 0 and p.y = 0
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.a
+    Initial   (auts/locs init predicate):        p.a
+    Initial   (uncontrolled system):             p.x = 0 and (p.a and p.y = 0)
+    Initial   (system, combined init/plant inv): p.x = 0 and (p.a and p.y = 0)
+    Initial   (system, combined init/state inv): p.x = 0 and (p.a and p.y = 0)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
-Marked    (auts/locs marker predicate):      p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
-Marked    (uncontrolled system):             p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
-Marked    (system, combined mark/plant inv): p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
-Marked    (system, combined mark/state inv): p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
+    Marked    (auts/locs marker predicate):      p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
+    Marked    (uncontrolled system):             p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
+    Marked    (system, combined mark/plant inv): p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
+    Marked    (system, combined mark/state inv): p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: inc_x) (guard: p.a) (assignments: p.x := p.x + 1)
-        Edge: (event: inc_y) (guard: p.a) (assignments: p.y := p.y + 1)
-        Edge: (event: done) (guard: p.a) (assignments: p := p.b)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: inc_x) (guard: p.a) (assignments: p.x := p.x + 1)
+            Edge: (event: inc_y) (guard: p.a) (assignments: p.y := p.y + 1)
+            Edge: (event: done) (guard: p.a) (assignments: p := p.b)
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: inc_x) (guard: p.a -> (p.x = 0 or p.x = 2) and p.a or p.x = 1 and p.a) (assignments: p.x := p.x + 1)

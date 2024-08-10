@@ -100,46 +100,47 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   not machine1.Producing or not machine2.Producing
-Invariant (components state req invariant):  not machine1.Producing or not machine2.Producing
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      not machine1.Producing or not machine2.Producing
+    Invariant (component state req invariant):   not machine1.Producing or not machine2.Producing
+    Invariant (components state req invariant):  not machine1.Producing or not machine2.Producing
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      not machine1.Producing or not machine2.Producing
 
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         machine1.Idle
-Initial   (aut/locs init predicate):         machine2.Idle
-Initial   (auts/locs init predicate):        machine1.Idle and machine2.Idle
-Initial   (uncontrolled system):             machine1.Idle and machine2.Idle
-Initial   (system, combined init/plant inv): machine1.Idle and machine2.Idle
-Initial   (system, combined init/state inv): machine1.Idle and machine2.Idle
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         machine1.Idle
+    Initial   (aut/locs init predicate):         machine2.Idle
+    Initial   (auts/locs init predicate):        machine1.Idle and machine2.Idle
+    Initial   (uncontrolled system):             machine1.Idle and machine2.Idle
+    Initial   (system, combined init/plant inv): machine1.Idle and machine2.Idle
+    Initial   (system, combined init/state inv): machine1.Idle and machine2.Idle
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       machine1.Idle
-Marked    (aut/locs marker predicate):       machine2.Idle
-Marked    (auts/locs marker predicate):      machine1.Idle and machine2.Idle
-Marked    (uncontrolled system):             machine1.Idle and machine2.Idle
-Marked    (system, combined mark/plant inv): machine1.Idle and machine2.Idle
-Marked    (system, combined mark/state inv): machine1.Idle and machine2.Idle
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       machine1.Idle
+    Marked    (aut/locs marker predicate):       machine2.Idle
+    Marked    (auts/locs marker predicate):      machine1.Idle and machine2.Idle
+    Marked    (uncontrolled system):             machine1.Idle and machine2.Idle
+    Marked    (system, combined mark/plant inv): machine1.Idle and machine2.Idle
+    Marked    (system, combined mark/state inv): machine1.Idle and machine2.Idle
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1 := machine1.Producing)
-        Edge: (event: machine1.u_waiting) (guard: machine1.Producing) (assignments: machine1 := machine1.CoolDown)
-        Edge: (event: machine1.u_finished) (guard: machine1.CoolDown) (assignments: machine1 := machine1.Idle)
-        Edge: (event: machine2.c_start) (guard: machine2.Idle) (assignments: machine2 := machine2.Producing)
-        Edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown)
-        Edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1 := machine1.Producing)
+            Edge: (event: machine1.u_waiting) (guard: machine1.Producing) (assignments: machine1 := machine1.CoolDown)
+            Edge: (event: machine1.u_finished) (guard: machine1.CoolDown) (assignments: machine1 := machine1.Idle)
+            Edge: (event: machine2.c_start) (guard: machine2.Idle) (assignments: machine2 := machine2.Producing)
+            Edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown)
+            Edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

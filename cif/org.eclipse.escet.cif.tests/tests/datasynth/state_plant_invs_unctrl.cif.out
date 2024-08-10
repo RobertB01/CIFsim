@@ -97,46 +97,47 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (component state plant invariant): A.Vu2 != 3
-Invariant (component state plant invariant): A.Vu3 != 4
-Invariant (components state plant inv):      (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
+Showing input and checking for potential problems:
+    Invariant (component state plant invariant): A.Vu2 != 3
+    Invariant (component state plant invariant): A.Vu3 != 4
+    Invariant (components state plant inv):      (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             A.Vu1 = 0
-Initial   (discrete variable 1):             A.Vu2 = 0
-Initial   (discrete variable 2):             A.Vu3 = 0
-Initial   (discrete variables):              A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0)
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0)
-Initial   (system, combined init/plant inv): A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0)
-Initial   (system, combined init/state inv): A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0)
+    Initial   (discrete variable 0):             A.Vu1 = 0
+    Initial   (discrete variable 1):             A.Vu2 = 0
+    Initial   (discrete variable 2):             A.Vu3 = 0
+    Initial   (discrete variables):              A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0)
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0)
+    Initial   (system, combined init/plant inv): A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0)
+    Initial   (system, combined init/state inv): A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
-Marked    (system, combined mark/state inv): (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
+    Marked    (system, combined mark/state inv): (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: u0) (guard: true)
-        Edge: (event: u1) (guard: A.Vu1 != 4) (assignments: A.Vu1 := A.Vu1 + 1)
-        Edge: (event: u2) (guard: true) (assignments: A.Vu2 := A.Vu2 + 1)
-        Edge: (event: u3) (guard: true) (assignments: A.Vu3 := A.Vu3 + 1)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: u0) (guard: true)
+            Edge: (event: u1) (guard: A.Vu1 != 4) (assignments: A.Vu1 := A.Vu1 + 1)
+            Edge: (event: u2) (guard: true) (assignments: A.Vu2 := A.Vu2 + 1)
+            Edge: (event: u3) (guard: true) (assignments: A.Vu3 := A.Vu3 + 1)
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: u1) (guard: A.Vu1 != 4 -> A.Vu1 != 4) (assignments: A.Vu1 := A.Vu1 + 1)

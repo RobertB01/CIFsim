@@ -110,52 +110,53 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             true
-Initial   (discrete variable 2):             true
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         g.r.loc1
-Initial   (auts/locs init predicate):        g.r.loc1
-Initial   (uncontrolled system):             g.r.loc1
-Initial   (system, combined init/plant inv): g.r.loc1
-Initial   (system, combined init/state inv): g.r.loc1
+    Initial   (discrete variable 0):             true
+    Initial   (discrete variable 2):             true
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         g.r.loc1
+    Initial   (auts/locs init predicate):        g.r.loc1
+    Initial   (uncontrolled system):             g.r.loc1
+    Initial   (system, combined init/plant inv): g.r.loc1
+    Initial   (system, combined init/state inv): g.r.loc1
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       g.r.loc1
-Marked    (auts/locs marker predicate):      g.r.loc1
-Marked    (uncontrolled system):             g.r.loc1
-Marked    (system, combined mark/plant inv): g.r.loc1
-Marked    (system, combined mark/state inv): g.r.loc1
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       g.r.loc1
+    Marked    (auts/locs marker predicate):      g.r.loc1
+    Marked    (uncontrolled system):             g.r.loc1
+    Marked    (system, combined mark/plant inv): g.r.loc1
+    Marked    (system, combined mark/state inv): g.r.loc1
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  Event "c" needs:
-    (g.r.x = 1 or g.r.x = 3) and g.r.loc1
-  Event "p.u" needs:
-    g.r.loc1
-  Event "p.c2" needs:
-    g.r.loc1 and g.r.y = 0
+    State/event exclusion requirements:
+      Event "c" needs:
+        (g.r.x = 1 or g.r.x = 3) and g.r.loc1
+      Event "p.u" needs:
+        g.r.loc1
+      Event "p.c2" needs:
+        g.r.loc1 and g.r.y = 0
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: c) (guard: (g.r.x = 1 or g.r.x = 3) and g.r.loc1)
-        Edge: (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2))
-        Edge: (event: p.u) (guard: g.r.loc1) (assignments: g.r.x := (g.r.x + 1) mod 4)
-        Edge: (event: p.u) (guard: g.r.loc2)
-        Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2)
-        Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: c) (guard: (g.r.x = 1 or g.r.x = 3) and g.r.loc1)
+            Edge: (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2))
+            Edge: (event: p.u) (guard: g.r.loc1) (assignments: g.r.x := (g.r.x + 1) mod 4)
+            Edge: (event: p.u) (guard: g.r.loc2)
+            Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2)
+            Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

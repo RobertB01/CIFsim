@@ -111,46 +111,47 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   not p.l1
-Invariant (components state req invariant):  not p.l1
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      not p.l1
+    Invariant (component state req invariant):   not p.l1
+    Invariant (components state req invariant):  not p.l1
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      not p.l1
 
-Initial   (discrete variable 0):             not p.x1
-Initial   (discrete variable 2):             not p.x2
-Initial   (discrete variables):              not p.x1 and not p.x2
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.l0
-Initial   (auts/locs init predicate):        p.l0
-Initial   (uncontrolled system):             not p.x1 and (p.l0 and not p.x2)
-Initial   (system, combined init/plant inv): not p.x1 and (p.l0 and not p.x2)
-Initial   (system, combined init/state inv): not p.x1 and (p.l0 and not p.x2)
+    Initial   (discrete variable 0):             not p.x1
+    Initial   (discrete variable 2):             not p.x2
+    Initial   (discrete variables):              not p.x1 and not p.x2
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.l0
+    Initial   (auts/locs init predicate):        p.l0
+    Initial   (uncontrolled system):             not p.x1 and (p.l0 and not p.x2)
+    Initial   (system, combined init/plant inv): not p.x1 and (p.l0 and not p.x2)
+    Initial   (system, combined init/state inv): not p.x1 and (p.l0 and not p.x2)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.l0
-Marked    (auts/locs marker predicate):      p.l0
-Marked    (uncontrolled system):             p.l0
-Marked    (system, combined mark/plant inv): p.l0
-Marked    (system, combined mark/state inv): p.l0
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.l0
+    Marked    (auts/locs marker predicate):      p.l0
+    Marked    (uncontrolled system):             p.l0
+    Marked    (system, combined mark/plant inv): p.l0
+    Marked    (system, combined mark/state inv): p.l0
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: p.c1) (guard: p.l0) (assignments: p.x1 := true)
-        Edge: (event: p.c2) (guard: p.l0) (assignments: p.x2 := true)
-        Edge: (event: p.u) (guard: p.x1 and p.l0) (assignments: p := p.l1)
-        Edge: (event: p.u) (guard: p.l0 and p.x2) (assignments: p := p.l2)
-        Edge: (event: p.u) (guard: p.l1) (assignments: p := p.l0)
-        Edge: (event: p.u) (guard: p.l2) (assignments: p := p.l0)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.c1) (guard: p.l0) (assignments: p.x1 := true)
+            Edge: (event: p.c2) (guard: p.l0) (assignments: p.x2 := true)
+            Edge: (event: p.u) (guard: p.x1 and p.l0) (assignments: p := p.l1)
+            Edge: (event: p.u) (guard: p.l0 and p.x2) (assignments: p := p.l2)
+            Edge: (event: p.u) (guard: p.l1) (assignments: p := p.l0)
+            Edge: (event: p.u) (guard: p.l2) (assignments: p := p.l0)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

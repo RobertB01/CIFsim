@@ -110,56 +110,57 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         LightA.Red
-Initial   (aut/locs init predicate):         LightB.Red
-Initial   (aut/locs init predicate):         R.RR
-Initial   (auts/locs init predicate):        LightA.Red and (R.RR and LightB.Red)
-Initial   (uncontrolled system):             LightA.Red and (R.RR and LightB.Red)
-Initial   (system, combined init/plant inv): LightA.Red and (R.RR and LightB.Red)
-Initial   (system, combined init/state inv): LightA.Red and (R.RR and LightB.Red)
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         LightA.Red
+    Initial   (aut/locs init predicate):         LightB.Red
+    Initial   (aut/locs init predicate):         R.RR
+    Initial   (auts/locs init predicate):        LightA.Red and (R.RR and LightB.Red)
+    Initial   (uncontrolled system):             LightA.Red and (R.RR and LightB.Red)
+    Initial   (system, combined init/plant inv): LightA.Red and (R.RR and LightB.Red)
+    Initial   (system, combined init/state inv): LightA.Red and (R.RR and LightB.Red)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       LightA.Red
-Marked    (aut/locs marker predicate):       LightB.Red
-Marked    (aut/locs marker predicate):       R.RR
-Marked    (auts/locs marker predicate):      LightA.Red and (R.RR and LightB.Red)
-Marked    (uncontrolled system):             LightA.Red and (R.RR and LightB.Red)
-Marked    (system, combined mark/plant inv): LightA.Red and (R.RR and LightB.Red)
-Marked    (system, combined mark/state inv): LightA.Red and (R.RR and LightB.Red)
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       LightA.Red
+    Marked    (aut/locs marker predicate):       LightB.Red
+    Marked    (aut/locs marker predicate):       R.RR
+    Marked    (auts/locs marker predicate):      LightA.Red and (R.RR and LightB.Red)
+    Marked    (uncontrolled system):             LightA.Red and (R.RR and LightB.Red)
+    Marked    (system, combined mark/plant inv): LightA.Red and (R.RR and LightB.Red)
+    Marked    (system, combined mark/state inv): LightA.Red and (R.RR and LightB.Red)
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  Event "green_A" needs:
-    R.RR
-  Event "red_A" needs:
-    R.GR
-  Event "green_B" needs:
-    R.RR
-  Event "red_B" needs:
-    R.RG
+    State/event exclusion requirements:
+      Event "green_A" needs:
+        R.RR
+      Event "red_A" needs:
+        R.GR
+      Event "green_B" needs:
+        R.RR
+      Event "red_B" needs:
+        R.RG
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR)
-        Edge: (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red) (assignments: LightA := LightA.Green)
-        Edge: (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR)
-        Edge: (event: red_A) (guard: LightA.Green and not R.GR) (assignments: LightA := LightA.Red)
-        Edge: (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG)
-        Edge: (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red) (assignments: LightB := LightB.Green)
-        Edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR)
-        Edge: (event: red_B) (guard: not R.RG and LightB.Green) (assignments: LightB := LightB.Red)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR)
+            Edge: (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red) (assignments: LightA := LightA.Green)
+            Edge: (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR)
+            Edge: (event: red_A) (guard: LightA.Green and not R.GR) (assignments: LightA := LightA.Red)
+            Edge: (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG)
+            Edge: (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red) (assignments: LightB := LightB.Green)
+            Edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR)
+            Edge: (event: red_B) (guard: not R.RG and LightB.Green) (assignments: LightB := LightB.Red)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

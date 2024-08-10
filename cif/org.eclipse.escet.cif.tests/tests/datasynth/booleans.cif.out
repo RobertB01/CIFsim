@@ -114,50 +114,51 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             not g.p.b0
-Initial   (discrete variable 1):             not g.p.b2
-Initial   (discrete variable 2):             g.p.b1
-Initial   (discrete variable 3):             true
-Initial   (discrete variable 4):             true
-Initial   (discrete variables):              not g.p.b0 and (not g.p.b2 and g.p.b1)
-Initial   (component init predicate):        g.p.b1
-Initial   (component init predicate):        g.p.b3
-Initial   (component init predicate):        g.p.b4
-Initial   (components init predicate):       g.p.b1 and (g.p.b3 and g.p.b4)
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4))
-Initial   (system, combined init/plant inv): not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4))
-Initial   (system, combined init/state inv): not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4))
+    Initial   (discrete variable 0):             not g.p.b0
+    Initial   (discrete variable 1):             not g.p.b2
+    Initial   (discrete variable 2):             g.p.b1
+    Initial   (discrete variable 3):             true
+    Initial   (discrete variable 4):             true
+    Initial   (discrete variables):              not g.p.b0 and (not g.p.b2 and g.p.b1)
+    Initial   (component init predicate):        g.p.b1
+    Initial   (component init predicate):        g.p.b3
+    Initial   (component init predicate):        g.p.b4
+    Initial   (components init predicate):       g.p.b1 and (g.p.b3 and g.p.b4)
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4))
+    Initial   (system, combined init/plant inv): not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4))
+    Initial   (system, combined init/state inv): not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4))
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       g.p.b0
-Marked    (auts/locs marker predicate):      g.p.b0
-Marked    (uncontrolled system):             g.p.b0
-Marked    (system, combined mark/plant inv): g.p.b0
-Marked    (system, combined mark/state inv): g.p.b0
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       g.p.b0
+    Marked    (auts/locs marker predicate):      g.p.b0
+    Marked    (uncontrolled system):             g.p.b0
+    Marked    (system, combined mark/plant inv): g.p.b0
+    Marked    (system, combined mark/state inv): g.p.b0
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0)
-        Edge: (event: g.e2) (guard: not g.p.b2) (assignments: g.p.b0 := 1 = 1)
-        Edge: (event: g.e3) (guard: g.p.b4)
-        Edge: (event: g.e4) (guard: g.p.b3)
-        Edge: (event: g.e4) (guard: not g.p.b3)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0)
+            Edge: (event: g.e2) (guard: not g.p.b2) (assignments: g.p.b0 := 1 = 1)
+            Edge: (event: g.e3) (guard: g.p.b4)
+            Edge: (event: g.e4) (guard: g.p.b3)
+            Edge: (event: g.e4) (guard: not g.p.b3)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

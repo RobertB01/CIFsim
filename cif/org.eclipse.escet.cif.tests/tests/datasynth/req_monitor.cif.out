@@ -116,57 +116,58 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             r1.x = 0
-Initial   (discrete variable 1):             r2.x = 0
-Initial   (discrete variables):              r1.x = 0 and r2.x = 0
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         r1.l1
-Initial   (aut/locs init predicate):         r2.l1
-Initial   (auts/locs init predicate):        r2.l1 and r1.l1
-Initial   (uncontrolled system):             r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1)
-Initial   (system, combined init/plant inv): r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1)
-Initial   (system, combined init/state inv): r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1)
+    Initial   (discrete variable 0):             r1.x = 0
+    Initial   (discrete variable 1):             r2.x = 0
+    Initial   (discrete variables):              r1.x = 0 and r2.x = 0
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         r1.l1
+    Initial   (aut/locs init predicate):         r2.l1
+    Initial   (auts/locs init predicate):        r2.l1 and r1.l1
+    Initial   (uncontrolled system):             r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1)
+    Initial   (system, combined init/plant inv): r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1)
+    Initial   (system, combined init/state inv): r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       r1.l2
-Marked    (aut/locs marker predicate):       r2.l2
-Marked    (auts/locs marker predicate):      r2.l2 and r1.l2
-Marked    (uncontrolled system):             r2.l2 and r1.l2
-Marked    (system, combined mark/plant inv): r2.l2 and r1.l2
-Marked    (system, combined mark/state inv): r2.l2 and r1.l2
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       r1.l2
+    Marked    (aut/locs marker predicate):       r2.l2
+    Marked    (auts/locs marker predicate):      r2.l2 and r1.l2
+    Marked    (uncontrolled system):             r2.l2 and r1.l2
+    Marked    (system, combined mark/plant inv): r2.l2 and r1.l2
+    Marked    (system, combined mark/state inv): r2.l2 and r1.l2
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  Event "p.e2" needs:
-    (r1.x = 0 or r1.x = 2) and r1.l1 or r1.x = 1 and r1.l1
+    State/event exclusion requirements:
+      Event "p.e2" needs:
+        (r1.x = 0 or r1.x = 2) and r1.l1 or r1.x = 1 and r1.l1
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: p.e1) (guard: r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1))
-        Edge: (event: p.e1) (guard: r1.x = 0 and r2.x = 4 and (r2.l1 and r1.l1) or (r1.x = 0 and r2.x = 5 and (r2.l1 and r1.l1) or r1.x = 0 and r2.x = 3 and (r2.l1 and r1.l1)))
-        Edge: (event: p.e1) (guard: r1.x = 0 and (r2.x = 0 or r2.x = 4) and (r2.l2 and r1.l1) or r1.x = 0 and (r2.x = 2 and r1.l1) or (r1.x = 0 and (r2.x = 1 and r1.l1) or (r1.x = 0 and r2.x = 5 and (r2.l2 and r1.l1) or r1.x = 0 and r2.x = 3 and (r2.l2 and r1.l1))))
-        Edge: (event: p.e1) (guard: r1.x = 4 and r2.x = 0 and (r2.l1 and r1.l1) or (r1.x = 5 and r2.x = 0 and (r2.l1 and r1.l1) or r1.x = 3 and r2.x = 0 and (r2.l1 and r1.l1)))
-        Edge: (event: p.e1) (guard: r1.x = 4 and r2.x = 4 and (r2.l1 and r1.l1) or r1.x = 4 and r2.x = 5 and (r2.l1 and r1.l1) or (r1.x = 4 and r2.x = 3 and (r2.l1 and r1.l1) or r1.x = 5 and r2.x = 4 and (r2.l1 and r1.l1)) or (r1.x = 5 and r2.x = 5 and (r2.l1 and r1.l1) or r1.x = 5 and r2.x = 3 and (r2.l1 and r1.l1) or (r1.x = 3 and r2.x = 4 and (r2.l1 and r1.l1) or (r1.x = 3 and r2.x = 5 and (r2.l1 and r1.l1) or r1.x = 3 and r2.x = 3 and (r2.l1 and r1.l1)))))
-        Edge: (event: p.e1) (guard: r1.x = 4 and (r2.x = 0 or r2.x = 4) and (r2.l2 and r1.l1) or (r1.x = 4 and (r2.x = 2 and r1.l1) or r1.x = 4 and (r2.x = 1 and r1.l1)) or (r1.x = 4 and r2.x = 5 and (r2.l2 and r1.l1) or r1.x = 4 and r2.x = 3 and (r2.l2 and r1.l1) or (r1.x = 5 and (r2.x = 0 or r2.x = 4) and (r2.l2 and r1.l1) or r1.x = 5 and (r2.x = 2 and r1.l1))) or (r1.x = 5 and (r2.x = 1 and r1.l1) or r1.x = 5 and r2.x = 5 and (r2.l2 and r1.l1) or (r1.x = 5 and r2.x = 3 and (r2.l2 and r1.l1) or r1.x = 3 and (r2.x = 0 or r2.x = 4) and (r2.l2 and r1.l1)) or (r1.x = 3 and (r2.x = 2 and r1.l1) or r1.x = 3 and (r2.x = 1 and r1.l1) or (r1.x = 3 and r2.x = 5 and (r2.l2 and r1.l1) or r1.x = 3 and r2.x = 3 and (r2.l2 and r1.l1)))))
-        Edge: (event: p.e1) (guard: (r1.x = 0 or r1.x = 4) and r2.x = 0 and (r2.l1 and r1.l2) or r1.x = 2 and (r2.x = 0 and r2.l1) or (r1.x = 1 and (r2.x = 0 and r2.l1) or (r1.x = 5 and r2.x = 0 and (r2.l1 and r1.l2) or r1.x = 3 and r2.x = 0 and (r2.l1 and r1.l2))))
-        Edge: (event: p.e1) (guard: (r1.x = 0 or r1.x = 4) and r2.x = 4 and (r2.l1 and r1.l2) or ((r1.x = 0 or r1.x = 4) and r2.x = 5 and (r2.l1 and r1.l2) or (r1.x = 0 or r1.x = 4) and r2.x = 3 and (r2.l1 and r1.l2)) or (r1.x = 2 and (r2.x = 4 and r2.l1) or r1.x = 2 and (r2.x = 5 and r2.l1) or (r1.x = 2 and (r2.x = 3 and r2.l1) or r1.x = 1 and (r2.x = 4 and r2.l1))) or (r1.x = 1 and (r2.x = 5 and r2.l1) or r1.x = 1 and (r2.x = 3 and r2.l1) or (r1.x = 5 and r2.x = 4 and (r2.l1 and r1.l2) or r1.x = 5 and r2.x = 5 and (r2.l1 and r1.l2)) or (r1.x = 5 and r2.x = 3 and (r2.l1 and r1.l2) or r1.x = 3 and r2.x = 4 and (r2.l1 and r1.l2) or (r1.x = 3 and r2.x = 5 and (r2.l1 and r1.l2) or r1.x = 3 and r2.x = 3 and (r2.l1 and r1.l2)))))
-        Edge: (event: p.e1) (guard: <bdd 15n 36p>)
-        Edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or (r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l1 and r1.l1) or (r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or r1.x = 1 and r2.x = 1 and (r2.l1 and r1.l1))) (assignments: r1 := r1.l2, r2 := r2.l2)
-        Edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l2 and r1.l1) or (r1.x = 0 or r1.x = 2) and (r2.x = 4 and r1.l1) or ((r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l2 and r1.l1) or ((r1.x = 0 or r1.x = 2) and (r2.x = 5 and r1.l1) or (r1.x = 0 or r1.x = 2) and (r2.x = 3 and r1.l1))) or (r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l2 and r1.l1) or r1.x = 1 and (r2.x = 4 and r1.l1) or (r1.x = 1 and r2.x = 1 and (r2.l2 and r1.l1) or (r1.x = 1 and (r2.x = 5 and r1.l1) or r1.x = 1 and (r2.x = 3 and r1.l1))))) (assignments: r1 := r1.l2)
-        Edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l2) or (r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l1 and r1.l2) or (r1.x = 4 and ((r2.x = 0 or r2.x = 2) and r2.l1) or (r1.x = 4 and (r2.x = 1 and r2.l1) or r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l2))) or (r1.x = 1 and r2.x = 1 and (r2.l1 and r1.l2) or r1.x = 5 and ((r2.x = 0 or r2.x = 2) and r2.l1) or (r1.x = 5 and (r2.x = 1 and r2.l1) or (r1.x = 3 and ((r2.x = 0 or r2.x = 2) and r2.l1) or r1.x = 3 and (r2.x = 1 and r2.l1))))) (assignments: r2 := r2.l2)
-        Edge: (event: p.e2) (guard: <bdd 12n 25p>)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.e1) (guard: r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1))
+            Edge: (event: p.e1) (guard: r1.x = 0 and r2.x = 4 and (r2.l1 and r1.l1) or (r1.x = 0 and r2.x = 5 and (r2.l1 and r1.l1) or r1.x = 0 and r2.x = 3 and (r2.l1 and r1.l1)))
+            Edge: (event: p.e1) (guard: r1.x = 0 and (r2.x = 0 or r2.x = 4) and (r2.l2 and r1.l1) or r1.x = 0 and (r2.x = 2 and r1.l1) or (r1.x = 0 and (r2.x = 1 and r1.l1) or (r1.x = 0 and r2.x = 5 and (r2.l2 and r1.l1) or r1.x = 0 and r2.x = 3 and (r2.l2 and r1.l1))))
+            Edge: (event: p.e1) (guard: r1.x = 4 and r2.x = 0 and (r2.l1 and r1.l1) or (r1.x = 5 and r2.x = 0 and (r2.l1 and r1.l1) or r1.x = 3 and r2.x = 0 and (r2.l1 and r1.l1)))
+            Edge: (event: p.e1) (guard: r1.x = 4 and r2.x = 4 and (r2.l1 and r1.l1) or r1.x = 4 and r2.x = 5 and (r2.l1 and r1.l1) or (r1.x = 4 and r2.x = 3 and (r2.l1 and r1.l1) or r1.x = 5 and r2.x = 4 and (r2.l1 and r1.l1)) or (r1.x = 5 and r2.x = 5 and (r2.l1 and r1.l1) or r1.x = 5 and r2.x = 3 and (r2.l1 and r1.l1) or (r1.x = 3 and r2.x = 4 and (r2.l1 and r1.l1) or (r1.x = 3 and r2.x = 5 and (r2.l1 and r1.l1) or r1.x = 3 and r2.x = 3 and (r2.l1 and r1.l1)))))
+            Edge: (event: p.e1) (guard: r1.x = 4 and (r2.x = 0 or r2.x = 4) and (r2.l2 and r1.l1) or (r1.x = 4 and (r2.x = 2 and r1.l1) or r1.x = 4 and (r2.x = 1 and r1.l1)) or (r1.x = 4 and r2.x = 5 and (r2.l2 and r1.l1) or r1.x = 4 and r2.x = 3 and (r2.l2 and r1.l1) or (r1.x = 5 and (r2.x = 0 or r2.x = 4) and (r2.l2 and r1.l1) or r1.x = 5 and (r2.x = 2 and r1.l1))) or (r1.x = 5 and (r2.x = 1 and r1.l1) or r1.x = 5 and r2.x = 5 and (r2.l2 and r1.l1) or (r1.x = 5 and r2.x = 3 and (r2.l2 and r1.l1) or r1.x = 3 and (r2.x = 0 or r2.x = 4) and (r2.l2 and r1.l1)) or (r1.x = 3 and (r2.x = 2 and r1.l1) or r1.x = 3 and (r2.x = 1 and r1.l1) or (r1.x = 3 and r2.x = 5 and (r2.l2 and r1.l1) or r1.x = 3 and r2.x = 3 and (r2.l2 and r1.l1)))))
+            Edge: (event: p.e1) (guard: (r1.x = 0 or r1.x = 4) and r2.x = 0 and (r2.l1 and r1.l2) or r1.x = 2 and (r2.x = 0 and r2.l1) or (r1.x = 1 and (r2.x = 0 and r2.l1) or (r1.x = 5 and r2.x = 0 and (r2.l1 and r1.l2) or r1.x = 3 and r2.x = 0 and (r2.l1 and r1.l2))))
+            Edge: (event: p.e1) (guard: (r1.x = 0 or r1.x = 4) and r2.x = 4 and (r2.l1 and r1.l2) or ((r1.x = 0 or r1.x = 4) and r2.x = 5 and (r2.l1 and r1.l2) or (r1.x = 0 or r1.x = 4) and r2.x = 3 and (r2.l1 and r1.l2)) or (r1.x = 2 and (r2.x = 4 and r2.l1) or r1.x = 2 and (r2.x = 5 and r2.l1) or (r1.x = 2 and (r2.x = 3 and r2.l1) or r1.x = 1 and (r2.x = 4 and r2.l1))) or (r1.x = 1 and (r2.x = 5 and r2.l1) or r1.x = 1 and (r2.x = 3 and r2.l1) or (r1.x = 5 and r2.x = 4 and (r2.l1 and r1.l2) or r1.x = 5 and r2.x = 5 and (r2.l1 and r1.l2)) or (r1.x = 5 and r2.x = 3 and (r2.l1 and r1.l2) or r1.x = 3 and r2.x = 4 and (r2.l1 and r1.l2) or (r1.x = 3 and r2.x = 5 and (r2.l1 and r1.l2) or r1.x = 3 and r2.x = 3 and (r2.l1 and r1.l2)))))
+            Edge: (event: p.e1) (guard: <bdd 15n 36p>)
+            Edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or (r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l1 and r1.l1) or (r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or r1.x = 1 and r2.x = 1 and (r2.l1 and r1.l1))) (assignments: r1 := r1.l2, r2 := r2.l2)
+            Edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l2 and r1.l1) or (r1.x = 0 or r1.x = 2) and (r2.x = 4 and r1.l1) or ((r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l2 and r1.l1) or ((r1.x = 0 or r1.x = 2) and (r2.x = 5 and r1.l1) or (r1.x = 0 or r1.x = 2) and (r2.x = 3 and r1.l1))) or (r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l2 and r1.l1) or r1.x = 1 and (r2.x = 4 and r1.l1) or (r1.x = 1 and r2.x = 1 and (r2.l2 and r1.l1) or (r1.x = 1 and (r2.x = 5 and r1.l1) or r1.x = 1 and (r2.x = 3 and r1.l1))))) (assignments: r1 := r1.l2)
+            Edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l2) or (r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l1 and r1.l2) or (r1.x = 4 and ((r2.x = 0 or r2.x = 2) and r2.l1) or (r1.x = 4 and (r2.x = 1 and r2.l1) or r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l2))) or (r1.x = 1 and r2.x = 1 and (r2.l1 and r1.l2) or r1.x = 5 and ((r2.x = 0 or r2.x = 2) and r2.l1) or (r1.x = 5 and (r2.x = 1 and r2.l1) or (r1.x = 3 and ((r2.x = 0 or r2.x = 2) and r2.l1) or r1.x = 3 and (r2.x = 1 and r2.l1))))) (assignments: r2 := r2.l2)
+            Edge: (event: p.e2) (guard: <bdd 12n 25p>)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

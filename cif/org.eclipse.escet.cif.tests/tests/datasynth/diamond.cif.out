@@ -110,56 +110,57 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         motor1.Off
-Initial   (aut/locs init predicate):         motor2.On
-Initial   (aut/locs init predicate):         order.l1
-Initial   (auts/locs init predicate):        motor1.Off and (order.l1 and motor2.On)
-Initial   (uncontrolled system):             motor1.Off and (order.l1 and motor2.On)
-Initial   (system, combined init/plant inv): motor1.Off and (order.l1 and motor2.On)
-Initial   (system, combined init/state inv): motor1.Off and (order.l1 and motor2.On)
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         motor1.Off
+    Initial   (aut/locs init predicate):         motor2.On
+    Initial   (aut/locs init predicate):         order.l1
+    Initial   (auts/locs init predicate):        motor1.Off and (order.l1 and motor2.On)
+    Initial   (uncontrolled system):             motor1.Off and (order.l1 and motor2.On)
+    Initial   (system, combined init/plant inv): motor1.Off and (order.l1 and motor2.On)
+    Initial   (system, combined init/state inv): motor1.Off and (order.l1 and motor2.On)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       motor1.Off
-Marked    (aut/locs marker predicate):       motor2.On
-Marked    (aut/locs marker predicate):       order.l1
-Marked    (auts/locs marker predicate):      motor1.Off and (order.l1 and motor2.On)
-Marked    (uncontrolled system):             motor1.Off and (order.l1 and motor2.On)
-Marked    (system, combined mark/plant inv): motor1.Off and (order.l1 and motor2.On)
-Marked    (system, combined mark/state inv): motor1.Off and (order.l1 and motor2.On)
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       motor1.Off
+    Marked    (aut/locs marker predicate):       motor2.On
+    Marked    (aut/locs marker predicate):       order.l1
+    Marked    (auts/locs marker predicate):      motor1.Off and (order.l1 and motor2.On)
+    Marked    (uncontrolled system):             motor1.Off and (order.l1 and motor2.On)
+    Marked    (system, combined mark/plant inv): motor1.Off and (order.l1 and motor2.On)
+    Marked    (system, combined mark/state inv): motor1.Off and (order.l1 and motor2.On)
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  Event "motor1.c_on" needs:
-    order.l1
-  Event "motor1.c_off" needs:
-    order.l4
-  Event "motor2.c_on" needs:
-    order.l3
-  Event "motor2.c_off" needs:
-    order.l2
+    State/event exclusion requirements:
+      Event "motor1.c_on" needs:
+        order.l1
+      Event "motor1.c_off" needs:
+        order.l4
+      Event "motor2.c_on" needs:
+        order.l3
+      Event "motor2.c_off" needs:
+        order.l2
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2)
-        Edge: (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off) (assignments: motor1 := motor1.On)
-        Edge: (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1)
-        Edge: (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4)) (assignments: motor1 := motor1.Off)
-        Edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4)
-        Edge: (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off) (assignments: motor2 := motor2.On)
-        Edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3)
-        Edge: (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On) (assignments: motor2 := motor2.Off)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2)
+            Edge: (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off) (assignments: motor1 := motor1.On)
+            Edge: (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1)
+            Edge: (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4)) (assignments: motor1 := motor1.Off)
+            Edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4)
+            Edge: (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off) (assignments: motor2 := motor2.On)
+            Edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3)
+            Edge: (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On) (assignments: motor2 := motor2.Off)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

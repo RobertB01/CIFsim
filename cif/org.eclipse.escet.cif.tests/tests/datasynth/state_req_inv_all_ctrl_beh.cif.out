@@ -102,46 +102,47 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   (0 <= p.x and p.x <= 7 or p.x = 9) and (p.x != 9 and p.x != 7)
-Invariant (component state req invariant):   (0 <= p.y and p.y <= 7 or p.y = 9) and (p.y != 9 and p.y != 7)
-Invariant (component state req invariant):   (0 <= p.z and p.z <= 7 or p.z = 9) and (p.z != 9 and p.z != 7)
-Invariant (components state req invariant):  <bdd 12n 27p>
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      <bdd 12n 27p>
+    Invariant (component state req invariant):   (0 <= p.x and p.x <= 7 or p.x = 9) and (p.x != 9 and p.x != 7)
+    Invariant (component state req invariant):   (0 <= p.y and p.y <= 7 or p.y = 9) and (p.y != 9 and p.y != 7)
+    Invariant (component state req invariant):   (0 <= p.z and p.z <= 7 or p.z = 9) and (p.z != 9 and p.z != 7)
+    Invariant (components state req invariant):  <bdd 12n 27p>
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      <bdd 12n 27p>
 
-Initial   (discrete variable 0):             not p.b
-Initial   (discrete variable 1):             true
-Initial   (discrete variable 2):             true
-Initial   (discrete variable 3):             true
-Initial   (discrete variables):              <bdd 13n 125p>
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             <bdd 13n 125p>
-Initial   (system, combined init/plant inv): <bdd 13n 125p>
-Initial   (system, combined init/state inv): <bdd 13n 27p>
+    Initial   (discrete variable 0):             not p.b
+    Initial   (discrete variable 1):             true
+    Initial   (discrete variable 2):             true
+    Initial   (discrete variable 3):             true
+    Initial   (discrete variables):              <bdd 13n 125p>
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             <bdd 13n 125p>
+    Initial   (system, combined init/plant inv): <bdd 13n 125p>
+    Initial   (system, combined init/state inv): <bdd 13n 27p>
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): <bdd 12n 27p>
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): <bdd 12n 27p>
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)
-        Edge: (event: c_e) (guard: true) (assignments: p.y := p.y + 2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: u_e) (guard: not p.b) (assignments: p.x := p.x + 2, p.b := true)
+            Edge: (event: c_e) (guard: true) (assignments: p.y := p.y + 2)
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: u_e) (guard: not p.b -> not p.b) (assignments: p.x := p.x + 2, p.b := true)

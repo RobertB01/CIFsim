@@ -147,128 +147,129 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (component state plant invariant): p.v8 = 0
-Invariant (component state plant invariant): p.v9 != 1
-Invariant (component state plant invariant): 0 <= p.v10 and p.v10 <= 3
-Invariant (component state plant invariant): p.v11 != 5
-Invariant (component state plant invariant): q.v8 = 0
-Invariant (component state plant invariant): q.v9 != 1
-Invariant (component state plant invariant): q.v11 != 5
-Invariant (components state plant inv):      <bdd 26n 256p>
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    <bdd 26n 256p>
+Showing input and checking for potential problems:
+    Invariant (component state plant invariant): p.v8 = 0
+    Invariant (component state plant invariant): p.v9 != 1
+    Invariant (component state plant invariant): 0 <= p.v10 and p.v10 <= 3
+    Invariant (component state plant invariant): p.v11 != 5
+    Invariant (component state plant invariant): q.v8 = 0
+    Invariant (component state plant invariant): q.v9 != 1
+    Invariant (component state plant invariant): q.v11 != 5
+    Invariant (components state plant inv):      <bdd 26n 256p>
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    <bdd 26n 256p>
 
-Invariant (component state req invariant):   p.v7 = 0
-Invariant (component state req invariant):   p.v9 = 0 or p.v9 = 1
-Invariant (component state req invariant):   p.v10 != 3
-Invariant (component state req invariant):   q.v7 = 0
-Invariant (component state req invariant):   q.v9 = 0 or q.v9 = 1
-Invariant (components state req invariant):  p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))))
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))))
+    Invariant (component state req invariant):   p.v7 = 0
+    Invariant (component state req invariant):   p.v9 = 0 or p.v9 = 1
+    Invariant (component state req invariant):   p.v10 != 3
+    Invariant (component state req invariant):   q.v7 = 0
+    Invariant (component state req invariant):   q.v9 = 0 or q.v9 = 1
+    Invariant (components state req invariant):  p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))))
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))))
 
-Initial   (discrete variable 0):             p.v3 = 0
-Initial   (discrete variable 1):             p.v4 = 0
-Initial   (discrete variable 2):             p.v6 = 0
-Initial   (discrete variable 3):             p.v7 = 0
-Initial   (discrete variable 5):             p.v8 = 0
-Initial   (discrete variable 6):             p.v9 = 0
-Initial   (discrete variable 7):             p.v10 = 0
-Initial   (discrete variable 8):             p.v11 = 0
-Initial   (discrete variable 9):             p.v13 = 0
-Initial   (discrete variable 10):            p.v5 = 0
-Initial   (discrete variable 11):            q.v4 = 0
-Initial   (discrete variable 12):            q.v8 = 0
-Initial   (discrete variable 13):            q.v7 = 0
-Initial   (discrete variable 15):            q.v9 = 0
-Initial   (discrete variable 16):            q.v11 = 0
-Initial   (discrete variable 17):            q.v13 = 0
-Initial   (discrete variables):              <bdd 64n 1p>
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.l1
-Initial   (aut/locs init predicate):         q.l1
-Initial   (aut/locs init predicate):         a.l1
-Initial   (aut/locs init predicate):         b.l1
-Initial   (auts/locs init predicate):        p.l1 and q.l1 and (a.l1 and b.l1)
-Initial   (uncontrolled system):             <bdd 69n 1p>
-Initial   (system, combined init/plant inv): <bdd 69n 1p>
-Initial   (system, combined init/state inv): <bdd 69n 1p>
+    Initial   (discrete variable 0):             p.v3 = 0
+    Initial   (discrete variable 1):             p.v4 = 0
+    Initial   (discrete variable 2):             p.v6 = 0
+    Initial   (discrete variable 3):             p.v7 = 0
+    Initial   (discrete variable 5):             p.v8 = 0
+    Initial   (discrete variable 6):             p.v9 = 0
+    Initial   (discrete variable 7):             p.v10 = 0
+    Initial   (discrete variable 8):             p.v11 = 0
+    Initial   (discrete variable 9):             p.v13 = 0
+    Initial   (discrete variable 10):            p.v5 = 0
+    Initial   (discrete variable 11):            q.v4 = 0
+    Initial   (discrete variable 12):            q.v8 = 0
+    Initial   (discrete variable 13):            q.v7 = 0
+    Initial   (discrete variable 15):            q.v9 = 0
+    Initial   (discrete variable 16):            q.v11 = 0
+    Initial   (discrete variable 17):            q.v13 = 0
+    Initial   (discrete variables):              <bdd 64n 1p>
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.l1
+    Initial   (aut/locs init predicate):         q.l1
+    Initial   (aut/locs init predicate):         a.l1
+    Initial   (aut/locs init predicate):         b.l1
+    Initial   (auts/locs init predicate):        p.l1 and q.l1 and (a.l1 and b.l1)
+    Initial   (uncontrolled system):             <bdd 69n 1p>
+    Initial   (system, combined init/plant inv): <bdd 69n 1p>
+    Initial   (system, combined init/state inv): <bdd 69n 1p>
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.l1
-Marked    (aut/locs marker predicate):       q.l1
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      p.l1 and q.l1
-Marked    (uncontrolled system):             p.l1 and q.l1
-Marked    (system, combined mark/plant inv): <bdd 29n 256p>
-Marked    (system, combined mark/state inv): <bdd 39n 32p>
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.l1
+    Marked    (aut/locs marker predicate):       q.l1
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      p.l1 and q.l1
+    Marked    (uncontrolled system):             p.l1 and q.l1
+    Marked    (system, combined mark/plant inv): <bdd 29n 256p>
+    Marked    (system, combined mark/state inv): <bdd 39n 32p>
 
-State/event exclusion plants:
-  Event "p.c2" needs:
-    false
-  Event "p.c4" needs:
-    p.v4 = 0
-  Event "p.c5" needs:
-    p.v5 = 0
-  Event "p.c6" needs:
-    p.v6 != 1
-  Event "p.c10" needs:
-    p.v10 != 2
-  Event "q.u2" needs:
-    false
-  Event "q.u4" needs:
-    q.v4 = 0
+    State/event exclusion plants:
+      Event "p.c2" needs:
+        false
+      Event "p.c4" needs:
+        p.v4 = 0
+      Event "p.c5" needs:
+        p.v5 = 0
+      Event "p.c6" needs:
+        p.v6 != 1
+      Event "p.c10" needs:
+        p.v10 != 2
+      Event "q.u2" needs:
+        false
+      Event "q.u4" needs:
+        q.v4 = 0
 
-State/event exclusion requirements:
-  Event "p.c1" needs:
-    false
-  Event "p.c3" needs:
-    p.v3 = 0
-  Event "p.c5" needs:
-    p.v5 != 0
-  Event "p.c6" needs:
-    p.v6 = 0 or p.v6 = 1
-  Event "p.c10" needs:
-    p.v10 != 1
+    State/event exclusion requirements:
+      Event "p.c1" needs:
+        false
+      Event "p.c3" needs:
+        p.v3 = 0
+      Event "p.c5" needs:
+        p.v5 != 0
+      Event "p.c6" needs:
+        p.v6 = 0 or p.v6 = 1
+      Event "p.c10" needs:
+        p.v10 != 1
 
-Uncontrolled system (state/event exclusion plants not applied yet):
-    State: (controlled-behavior: ?)
-        Edge: (event: p.c0) (guard: false)
-        Edge: (event: p.c1) (guard: p.l1)
-        Edge: (event: p.c2) (guard: p.l1)
-        Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1))
-        Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1))
-        Edge: (event: p.c5) (guard: p.l1)
-        Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1))
-        Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1))
-        Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2))
-        Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2))
-        Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2))
-        Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4) (assignments: p.v11 := p.v11 + 1)
-        Edge: (event: p.c12) (guard: p.l1) (assignments: p := p.l2)
-        Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1)
-        Edge: (event: p.c14) (guard: false)
-        Edge: (event: p.c14) (guard: false)
-        Edge: (event: p.c15) (guard: p.l1)
-        Edge: (event: p.c15) (guard: false)
-        Edge: (event: p.c16) (guard: p.l3)
-        Edge: (event: q.u0) (guard: false)
-        Edge: (event: q.u2) (guard: q.l1)
-        Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1))
-        Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
-        Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
-        Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
-        Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4) (assignments: q.v11 := q.v11 + 1)
-        Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
-        Edge: (event: q.u14) (guard: false)
-        Edge: (event: q.u14) (guard: false)
-        Edge: (event: q.u15) (guard: q.l1)
-        Edge: (event: q.u15) (guard: false)
-        Edge: (event: q.u16) (guard: q.l3)
-        Edge: (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2)
-        Edge: (event: c_synch) (guard: a.l1 and b.l2)
-        Edge: (event: u_synch) (guard: a.l1 and b.l2)
+    Uncontrolled system (state/event exclusion plants not applied yet):
+        State: (controlled-behavior: ?)
+            Edge: (event: p.c0) (guard: false)
+            Edge: (event: p.c1) (guard: p.l1)
+            Edge: (event: p.c2) (guard: p.l1)
+            Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1))
+            Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1))
+            Edge: (event: p.c5) (guard: p.l1)
+            Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1))
+            Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1))
+            Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2))
+            Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2))
+            Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2))
+            Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4) (assignments: p.v11 := p.v11 + 1)
+            Edge: (event: p.c12) (guard: p.l1) (assignments: p := p.l2)
+            Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1)
+            Edge: (event: p.c14) (guard: false)
+            Edge: (event: p.c14) (guard: false)
+            Edge: (event: p.c15) (guard: p.l1)
+            Edge: (event: p.c15) (guard: false)
+            Edge: (event: p.c16) (guard: p.l3)
+            Edge: (event: q.u0) (guard: false)
+            Edge: (event: q.u2) (guard: q.l1)
+            Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1))
+            Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
+            Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
+            Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
+            Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4) (assignments: q.v11 := q.v11 + 1)
+            Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
+            Edge: (event: q.u14) (guard: false)
+            Edge: (event: q.u14) (guard: false)
+            Edge: (event: q.u15) (guard: q.l1)
+            Edge: (event: q.u15) (guard: false)
+            Edge: (event: q.u16) (guard: q.l3)
+            Edge: (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2)
+            Edge: (event: c_synch) (guard: a.l1 and b.l2)
+            Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

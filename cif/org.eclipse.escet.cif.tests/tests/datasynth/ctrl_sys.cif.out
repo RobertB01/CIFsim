@@ -110,45 +110,46 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   (g.p.x = 1 or 3 <= g.p.x and g.p.x <= 10) and g.p.x != 1
-Invariant (component state req invariant):   0 <= g.p.x and g.p.x <= 7
-Invariant (components state req invariant):  g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))
+    Invariant (component state req invariant):   (g.p.x = 1 or 3 <= g.p.x and g.p.x <= 10) and g.p.x != 1
+    Invariant (component state req invariant):   0 <= g.p.x and g.p.x <= 7
+    Invariant (components state req invariant):  g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))
 
-Initial   (discrete variable 0):             true
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         g.p.l0
-Initial   (auts/locs init predicate):        g.p.l0
-Initial   (uncontrolled system):             (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0))
-Initial   (system, combined init/plant inv): (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0))
-Initial   (system, combined init/state inv): (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)
+    Initial   (discrete variable 0):             true
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         g.p.l0
+    Initial   (auts/locs init predicate):        g.p.l0
+    Initial   (uncontrolled system):             (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0))
+    Initial   (system, combined init/plant inv): (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0))
+    Initial   (system, combined init/state inv): (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       g.p.l0
-Marked    (auts/locs marker predicate):      g.p.l0
-Marked    (uncontrolled system):             g.p.l0
-Marked    (system, combined mark/plant inv): g.p.l0
-Marked    (system, combined mark/state inv): (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       g.p.l0
+    Marked    (auts/locs marker predicate):      g.p.l0
+    Marked    (uncontrolled system):             g.p.l0
+    Marked    (system, combined mark/plant inv): g.p.l0
+    Marked    (system, combined mark/state inv): (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  Event "c" needs:
-    g.p.x = 0 or g.p.x = 4 or (g.p.x = 2 or (g.p.x = 1 or g.p.x = 3))
-  Event "u" needs:
-    4 <= g.p.x and g.p.x <= 10
+    State/event exclusion requirements:
+      Event "c" needs:
+        g.p.x = 0 or g.p.x = 4 or (g.p.x = 2 or (g.p.x = 1 or g.p.x = 3))
+      Event "u" needs:
+        4 <= g.p.x and g.p.x <= 10
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: c) (guard: g.p.l0) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
-        Edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: c) (guard: g.p.l0) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
+            Edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: c) (guard: g.p.l0 -> (g.p.x = 1 or (g.p.x = 3 or g.p.x = 5) or (g.p.x = 7 or (g.p.x = 9 or g.p.l0))) and (not(g.p.x = 1 or (g.p.x = 5 or g.p.x = 9)) or g.p.l0) and ((g.p.x != 3 or g.p.l0) and (g.p.x != 7 or g.p.l0))) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)

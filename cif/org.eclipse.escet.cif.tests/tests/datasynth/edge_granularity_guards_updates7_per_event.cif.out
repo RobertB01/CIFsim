@@ -114,40 +114,41 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             true
-Initial   (discrete variable 1):             true
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.l1
-Initial   (auts/locs init predicate):        p.l1
-Initial   (uncontrolled system):             p.l1
-Initial   (system, combined init/plant inv): p.l1
-Initial   (system, combined init/state inv): p.l1
+    Initial   (discrete variable 0):             true
+    Initial   (discrete variable 1):             true
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.l1
+    Initial   (auts/locs init predicate):        p.l1
+    Initial   (uncontrolled system):             p.l1
+    Initial   (system, combined init/plant inv): p.l1
+    Initial   (system, combined init/state inv): p.l1
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
-Marked    (auts/locs marker predicate):      p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
-Marked    (uncontrolled system):             p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
-Marked    (system, combined mark/plant inv): p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
-Marked    (system, combined mark/state inv): p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
+    Marked    (auts/locs marker predicate):      p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
+    Marked    (uncontrolled system):             p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
+    Marked    (system, combined mark/plant inv): p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
+    Marked    (system, combined mark/state inv): p.y = 0 and p.y0 or p.y = 2 and p.y2 or (p.y = 1 and p.y1 or p.y = 3 and p.y3)
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 0, p := p.y0 / p.y := 1, p := p.y1 / p.y := 0, p := p.y0 / p.y := 2, p := p.y2 / p.y := 1, p := p.y1 / p.y := 3, p := p.y3)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 0, p := p.y0 / p.y := 1, p := p.y1 / p.y := 0, p := p.y0 / p.y := 2, p := p.y2 / p.y := 1, p := p.y1 / p.y := 3, p := p.y3)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

@@ -101,54 +101,55 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             cnt.c = 0
-Initial   (discrete variable 1):             rcv1.x = 0
-Initial   (discrete variable 2):             rcv2.x = 0
-Initial   (discrete variables):              cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
-Initial   (system, combined init/plant inv): cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
-Initial   (system, combined init/state inv): cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
+    Initial   (discrete variable 0):             cnt.c = 0
+    Initial   (discrete variable 1):             rcv1.x = 0
+    Initial   (discrete variable 2):             rcv2.x = 0
+    Initial   (discrete variables):              cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
+    Initial   (system, combined init/plant inv): cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
+    Initial   (system, combined init/state inv): cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  Event "e" needs:
-    rcv1.x = 0 or (rcv1.x = 2 and rcv2.x = 1 or (rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)
+    State/event exclusion requirements:
+      Event "e" needs:
+        rcv1.x = 0 or (rcv1.x = 2 and rcv2.x = 1 or (rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1)
-        Edge: (event: e) (guard: cnt.c = 1) (assignments: rcv1.x := 1)
-        Edge: (event: e) (guard: false) (assignments: rcv2.x := 1)
-        Edge: (event: e) (guard: false) (assignments: rcv1.x := 2)
-        Edge: (event: e) (guard: cnt.c = 2) (assignments: rcv2.x := 2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1)
+            Edge: (event: e) (guard: cnt.c = 1) (assignments: rcv1.x := 1)
+            Edge: (event: e) (guard: false) (assignments: rcv2.x := 1)
+            Edge: (event: e) (guard: false) (assignments: rcv1.x := 2)
+            Edge: (event: e) (guard: cnt.c = 2) (assignments: rcv2.x := 2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

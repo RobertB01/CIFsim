@@ -99,52 +99,53 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             aut.v01 = 0
-Initial   (discrete variable 1):             aut.v02 = 0
-Initial   (discrete variable 2):             aut.v03 = 0
-Initial   (discrete variable 3):             aut.v13 = 1
-Initial   (discrete variable 4):             aut.v23 = 2
-Initial   (discrete variables):              aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial   (system, combined init/plant inv): aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial   (system, combined init/state inv): aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial   (discrete variable 0):             aut.v01 = 0
+    Initial   (discrete variable 1):             aut.v02 = 0
+    Initial   (discrete variable 2):             aut.v03 = 0
+    Initial   (discrete variable 3):             aut.v13 = 1
+    Initial   (discrete variable 4):             aut.v23 = 2
+    Initial   (discrete variables):              aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial   (system, combined init/plant inv): aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial   (system, combined init/state inv): aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: v01_inc) (guard: true) (assignments: aut.v01 := aut.v01 + 1)
-        Edge: (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1)
-        Edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1)
-        Edge: (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1)
-        Edge: (event: v23_inc) (guard: true) (assignments: aut.v23 := aut.v23 + 1)
-        Edge: (event: v01_dec) (guard: true) (assignments: aut.v01 := aut.v01 - 1)
-        Edge: (event: v02_dec) (guard: true) (assignments: aut.v02 := aut.v02 - 1)
-        Edge: (event: v03_dec) (guard: true) (assignments: aut.v03 := aut.v03 - 1)
-        Edge: (event: v13_dec) (guard: true) (assignments: aut.v13 := aut.v13 - 1)
-        Edge: (event: v23_dec) (guard: true) (assignments: aut.v23 := aut.v23 - 1)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: v01_inc) (guard: true) (assignments: aut.v01 := aut.v01 + 1)
+            Edge: (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1)
+            Edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1)
+            Edge: (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1)
+            Edge: (event: v23_inc) (guard: true) (assignments: aut.v23 := aut.v23 + 1)
+            Edge: (event: v01_dec) (guard: true) (assignments: aut.v01 := aut.v01 - 1)
+            Edge: (event: v02_dec) (guard: true) (assignments: aut.v02 := aut.v02 - 1)
+            Edge: (event: v03_dec) (guard: true) (assignments: aut.v03 := aut.v03 - 1)
+            Edge: (event: v13_dec) (guard: true) (assignments: aut.v13 := aut.v13 - 1)
+            Edge: (event: v23_dec) (guard: true) (assignments: aut.v23 := aut.v23 - 1)
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)

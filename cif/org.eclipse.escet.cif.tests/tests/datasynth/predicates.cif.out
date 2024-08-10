@@ -125,92 +125,93 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             p.bt
-Initial   (discrete variable 1):             not p.bf
-Initial   (discrete variable 2):             p.x2 = 10
-Initial   (discrete variable 3):             p.x4 = 3
-Initial   (discrete variable 4):             p.x3 = 2
-Initial   (discrete variable 6):             p.x1 = 10
-Initial   (discrete variable 7):             p.v1 = X
-Initial   (discrete variable 8):             p.v2 = Y
-Initial   (discrete variables):              <bdd 21n 1p>
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.l0
-Initial   (auts/locs init predicate):        p.l0
-Initial   (uncontrolled system):             <bdd 22n 1p>
-Initial   (system, combined init/plant inv): <bdd 22n 1p>
-Initial   (system, combined init/state inv): <bdd 22n 1p>
+    Initial   (discrete variable 0):             p.bt
+    Initial   (discrete variable 1):             not p.bf
+    Initial   (discrete variable 2):             p.x2 = 10
+    Initial   (discrete variable 3):             p.x4 = 3
+    Initial   (discrete variable 4):             p.x3 = 2
+    Initial   (discrete variable 6):             p.x1 = 10
+    Initial   (discrete variable 7):             p.v1 = X
+    Initial   (discrete variable 8):             p.v2 = Y
+    Initial   (discrete variables):              <bdd 21n 1p>
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.l0
+    Initial   (auts/locs init predicate):        p.l0
+    Initial   (uncontrolled system):             <bdd 22n 1p>
+    Initial   (system, combined init/plant inv): <bdd 22n 1p>
+    Initial   (system, combined init/state inv): <bdd 22n 1p>
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.l0
-Marked    (auts/locs marker predicate):      p.l0
-Marked    (uncontrolled system):             p.l0
-Marked    (system, combined mark/plant inv): p.l0
-Marked    (system, combined mark/state inv): p.l0
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.l0
+    Marked    (auts/locs marker predicate):      p.l0
+    Marked    (uncontrolled system):             p.l0
+    Marked    (system, combined mark/plant inv): p.l0
+    Marked    (system, combined mark/state inv): p.l0
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: e01) (guard: p.l0)
-        Edge: (event: e02) (guard: false) (assignments: p := p.l1)
-        Edge: (event: e03) (guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15))))
-        Edge: (event: e04) (guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15)))
-        Edge: (event: e05) (guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7))
-        Edge: (event: e06) (guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7))))
-        Edge: (event: e07) (guard: p.l0 and p.x1 = 11)
-        Edge: (event: e08) (guard: (p.l1 or p.x1 != 11) and p.l0)
-        Edge: (event: e09) (guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15))))
-        Edge: (event: e10) (guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15)))
-        Edge: (event: e11) (guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7))
-        Edge: (event: e12) (guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7))))
-        Edge: (event: e13) (guard: p.l0 and p.x1 = 11)
-        Edge: (event: e14) (guard: (p.l1 or p.x1 != 11) and p.l0)
-        Edge: (event: e15) (guard: p.l0 and p.x1 = 17)
-        Edge: (event: e16) (guard: p.l0 and p.x1 = 16)
-        Edge: (event: e17) (guard: p.l0 and p.x1 = 11)
-        Edge: (event: e18) (guard: p.l0)
-        Edge: (event: e19) (guard: p.l0)
-        Edge: (event: e20) (guard: false)
-        Edge: (event: e21) (guard: false)
-        Edge: (event: e22) (guard: p.l0 and (p.x1 = 12 or p.x1 = 13) or p.l0 and (p.x1 = 10 or p.x1 = 11))
-        Edge: (event: e23) (guard: (p.l1 or not(p.x1 = 8 or p.x1 = 12)) and ((p.l1 or p.x1 != 10) and (p.l1 or not(p.x1 = 6 or p.x1 = 14))) and ((p.l1 or not(p.x1 = 9 or p.x1 = 13)) and (p.l1 or p.x1 != 11) and ((p.l1 or p.x1 != 7) and p.l0)))
-        Edge: (event: e24) (guard: (p.l1 or not(p.x1 = 16 or p.x1 = 17)) and p.l0)
-        Edge: (event: e25) (guard: p.l0 and (p.x1 = 8 or p.x1 = 12) or (p.l0 and p.x1 = 10 or p.l0 and p.x1 = 17) or (p.l0 and p.x1 = 9 or p.l0 and p.x1 = 13 or (p.l0 and (p.x1 = 3 or p.x1 = 11) or p.l0 and p.x1 = 7)))
-        Edge: (event: e26) (guard: <bdd 11n 32p>)
-        Edge: (event: e27) (guard: <bdd 12n 44p>)
-        Edge: (event: e28) (guard: <bdd 17n 47p>)
-        Edge: (event: e29) (guard: not p.bt and (not p.bf and p.l0) or p.bt and (p.bf and p.l0))
-        Edge: (event: e30) (guard: not p.bt and (p.bf and p.l0) or p.bt and (not p.bf and p.l0))
-        Edge: (event: e31) (guard: not p.bt and p.l0 or p.bt and (not p.bf and p.l0))
-        Edge: (event: e32) (guard: p.l0 and (p.v1 = X and p.v2 = X) or p.l0 and (p.v1 = Y and p.v2 = Y))
-        Edge: (event: e33) (guard: p.l0 and (p.v1 = X and p.v2 = Y) or p.l0 and (p.v1 = Y and p.v2 = X))
-        Edge: (event: e34) (guard: p.l0 and p.v1 = X)
-        Edge: (event: e35) (guard: p.l0 and p.v2 = X)
-        Edge: (event: e36) (guard: <bdd 30n 8p>)
-        Edge: (event: e37) (guard: <bdd 30n 8p>)
-        Edge: (event: e38) (guard: <bdd 30n 8p>)
-        Edge: (event: e39) (guard: <bdd 30n 32p>)
-        Edge: (event: e40) (guard: false)
-        Edge: (event: e41) (guard: <bdd 25n 6p>)
-        Edge: (event: e42) (guard: (p.x3 = 2 or p.x3 = 3) and p.l0)
-        Edge: (event: e43) (guard: (p.x3 = 1 or p.x3 = 3) and p.l0)
-        Edge: (event: e44) (guard: p.x3 = 2 and p.l0 or p.x3 = 1 and p.l0)
-        Edge: (event: e45) (guard: (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) and p.l0)
-        Edge: (event: e46) (guard: p.l0)
-        Edge: (event: e47) (guard: false)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: e01) (guard: p.l0)
+            Edge: (event: e02) (guard: false) (assignments: p := p.l1)
+            Edge: (event: e03) (guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15))))
+            Edge: (event: e04) (guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15)))
+            Edge: (event: e05) (guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7))
+            Edge: (event: e06) (guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7))))
+            Edge: (event: e07) (guard: p.l0 and p.x1 = 11)
+            Edge: (event: e08) (guard: (p.l1 or p.x1 != 11) and p.l0)
+            Edge: (event: e09) (guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15))))
+            Edge: (event: e10) (guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15)))
+            Edge: (event: e11) (guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7))
+            Edge: (event: e12) (guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7))))
+            Edge: (event: e13) (guard: p.l0 and p.x1 = 11)
+            Edge: (event: e14) (guard: (p.l1 or p.x1 != 11) and p.l0)
+            Edge: (event: e15) (guard: p.l0 and p.x1 = 17)
+            Edge: (event: e16) (guard: p.l0 and p.x1 = 16)
+            Edge: (event: e17) (guard: p.l0 and p.x1 = 11)
+            Edge: (event: e18) (guard: p.l0)
+            Edge: (event: e19) (guard: p.l0)
+            Edge: (event: e20) (guard: false)
+            Edge: (event: e21) (guard: false)
+            Edge: (event: e22) (guard: p.l0 and (p.x1 = 12 or p.x1 = 13) or p.l0 and (p.x1 = 10 or p.x1 = 11))
+            Edge: (event: e23) (guard: (p.l1 or not(p.x1 = 8 or p.x1 = 12)) and ((p.l1 or p.x1 != 10) and (p.l1 or not(p.x1 = 6 or p.x1 = 14))) and ((p.l1 or not(p.x1 = 9 or p.x1 = 13)) and (p.l1 or p.x1 != 11) and ((p.l1 or p.x1 != 7) and p.l0)))
+            Edge: (event: e24) (guard: (p.l1 or not(p.x1 = 16 or p.x1 = 17)) and p.l0)
+            Edge: (event: e25) (guard: p.l0 and (p.x1 = 8 or p.x1 = 12) or (p.l0 and p.x1 = 10 or p.l0 and p.x1 = 17) or (p.l0 and p.x1 = 9 or p.l0 and p.x1 = 13 or (p.l0 and (p.x1 = 3 or p.x1 = 11) or p.l0 and p.x1 = 7)))
+            Edge: (event: e26) (guard: <bdd 11n 32p>)
+            Edge: (event: e27) (guard: <bdd 12n 44p>)
+            Edge: (event: e28) (guard: <bdd 17n 47p>)
+            Edge: (event: e29) (guard: not p.bt and (not p.bf and p.l0) or p.bt and (p.bf and p.l0))
+            Edge: (event: e30) (guard: not p.bt and (p.bf and p.l0) or p.bt and (not p.bf and p.l0))
+            Edge: (event: e31) (guard: not p.bt and p.l0 or p.bt and (not p.bf and p.l0))
+            Edge: (event: e32) (guard: p.l0 and (p.v1 = X and p.v2 = X) or p.l0 and (p.v1 = Y and p.v2 = Y))
+            Edge: (event: e33) (guard: p.l0 and (p.v1 = X and p.v2 = Y) or p.l0 and (p.v1 = Y and p.v2 = X))
+            Edge: (event: e34) (guard: p.l0 and p.v1 = X)
+            Edge: (event: e35) (guard: p.l0 and p.v2 = X)
+            Edge: (event: e36) (guard: <bdd 30n 8p>)
+            Edge: (event: e37) (guard: <bdd 30n 8p>)
+            Edge: (event: e38) (guard: <bdd 30n 8p>)
+            Edge: (event: e39) (guard: <bdd 30n 32p>)
+            Edge: (event: e40) (guard: false)
+            Edge: (event: e41) (guard: <bdd 25n 6p>)
+            Edge: (event: e42) (guard: (p.x3 = 2 or p.x3 = 3) and p.l0)
+            Edge: (event: e43) (guard: (p.x3 = 1 or p.x3 = 3) and p.l0)
+            Edge: (event: e44) (guard: p.x3 = 2 and p.l0 or p.x3 = 1 and p.l0)
+            Edge: (event: e45) (guard: (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) and p.l0)
+            Edge: (event: e46) (guard: p.l0)
+            Edge: (event: e47) (guard: false)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

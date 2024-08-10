@@ -116,42 +116,43 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             p.sum = 3
-Initial   (discrete variable 1):             true
-Initial   (discrete variable 2):             true
-Initial   (discrete variable 3):             true
-Initial   (discrete variables):              p.sum = 3 and p.y = 2 or p.sum = 3 and p.y = 1
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.l1
-Initial   (auts/locs init predicate):        p.l1
-Initial   (uncontrolled system):             p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
-Initial   (system, combined init/plant inv): p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
-Initial   (system, combined init/state inv): p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
+    Initial   (discrete variable 0):             p.sum = 3
+    Initial   (discrete variable 1):             true
+    Initial   (discrete variable 2):             true
+    Initial   (discrete variable 3):             true
+    Initial   (discrete variables):              p.sum = 3 and p.y = 2 or p.sum = 3 and p.y = 1
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.l1
+    Initial   (auts/locs init predicate):        p.l1
+    Initial   (uncontrolled system):             p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
+    Initial   (system, combined init/plant inv): p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
+    Initial   (system, combined init/state inv): p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.sum = 7 and p.l2
-Marked    (auts/locs marker predicate):      p.sum = 7 and p.l2
-Marked    (uncontrolled system):             p.sum = 7 and p.l2
-Marked    (system, combined mark/plant inv): p.sum = 7 and p.l2
-Marked    (system, combined mark/state inv): p.sum = 7 and p.l2
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.sum = 7 and p.l2
+    Marked    (auts/locs marker predicate):      p.sum = 7 and p.l2
+    Marked    (uncontrolled system):             p.sum = 7 and p.l2
+    Marked    (system, combined mark/plant inv): p.sum = 7 and p.l2
+    Marked    (system, combined mark/state inv): p.sum = 7 and p.l2
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

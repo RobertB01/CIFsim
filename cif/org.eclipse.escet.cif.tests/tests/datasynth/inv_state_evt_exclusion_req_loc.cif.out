@@ -110,55 +110,56 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             a.x = 1
-Initial   (discrete variables):              a.x = 1
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         a.l1
-Initial   (auts/locs init predicate):        a.l1
-Initial   (uncontrolled system):             a.x = 1 and a.l1
-Initial   (system, combined init/plant inv): a.x = 1 and a.l1
-Initial   (system, combined init/state inv): a.x = 1 and a.l1
+    Initial   (discrete variable 0):             a.x = 1
+    Initial   (discrete variables):              a.x = 1
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         a.l1
+    Initial   (auts/locs init predicate):        a.l1
+    Initial   (uncontrolled system):             a.x = 1 and a.l1
+    Initial   (system, combined init/plant inv): a.x = 1 and a.l1
+    Initial   (system, combined init/state inv): a.x = 1 and a.l1
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       a.l2
-Marked    (auts/locs marker predicate):      a.l2
-Marked    (uncontrolled system):             a.l2
-Marked    (system, combined mark/plant inv): a.l2
-Marked    (system, combined mark/state inv): a.l2
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       a.l2
+    Marked    (auts/locs marker predicate):      a.l2
+    Marked    (uncontrolled system):             a.l2
+    Marked    (system, combined mark/plant inv): a.l2
+    Marked    (system, combined mark/state inv): a.l2
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  Event "f" needs:
-    (2 <= a.x and a.x <= 7 or 10 <= a.x and a.x <= 25) and (not(a.x = 4 or a.x = 5) and not(a.x = 2 or a.x = 3 or (a.x = 6 or a.x = 7)))
-    0 <= a.x and a.x <= 15
-  Event "g" needs:
-    not(a.x = 0 or a.x = 2 or (a.x = 8 or a.x = 10)) and not(a.x = 4 or a.x = 6) and (not(a.x = 1 or a.x = 9) and (a.x != 5 and not(a.x = 3 or a.x = 7)))
-    not(a.x = 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))) and not(a.x = 17 or (a.x = 21 or a.x = 25)) and (a.x != 19 and (a.x != 23 and a.x != 15))
-  Event "h" needs:
-    (0 <= a.x and a.x <= 15 or a.x = 18 or (a.x = 19 or (a.x = 22 or a.x = 23))) and not(a.x = 18 or a.x = 19) and (not(a.x = 22 or a.x = 23) and not(a.x = 14 or a.x = 15))
-    (4 <= a.x and a.x <= 7 or (12 <= a.x and a.x <= 25 or a.l1)) and (not(4 <= a.x and a.x <= 7) or a.l1)
+    State/event exclusion requirements:
+      Event "f" needs:
+        (2 <= a.x and a.x <= 7 or 10 <= a.x and a.x <= 25) and (not(a.x = 4 or a.x = 5) and not(a.x = 2 or a.x = 3 or (a.x = 6 or a.x = 7)))
+        0 <= a.x and a.x <= 15
+      Event "g" needs:
+        not(a.x = 0 or a.x = 2 or (a.x = 8 or a.x = 10)) and not(a.x = 4 or a.x = 6) and (not(a.x = 1 or a.x = 9) and (a.x != 5 and not(a.x = 3 or a.x = 7)))
+        not(a.x = 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))) and not(a.x = 17 or (a.x = 21 or a.x = 25)) and (a.x != 19 and (a.x != 23 and a.x != 15))
+      Event "h" needs:
+        (0 <= a.x and a.x <= 15 or a.x = 18 or (a.x = 19 or (a.x = 22 or a.x = 23))) and not(a.x = 18 or a.x = 19) and (not(a.x = 22 or a.x = 23) and not(a.x = 14 or a.x = 15))
+        (4 <= a.x and a.x <= 7 or (12 <= a.x and a.x <= 25 or a.l1)) and (not(4 <= a.x and a.x <= 7) or a.l1)
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1)) (assignments: a.x := a.x + 1)
-        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
-        Edge: (event: f) (guard: a.l1)
-        Edge: (event: f) (guard: a.l2)
-        Edge: (event: g) (guard: a.l1)
-        Edge: (event: g) (guard: a.l2)
-        Edge: (event: h) (guard: a.l1)
-        Edge: (event: h) (guard: a.l2)
-        Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1)) (assignments: a.x := a.x + 1)
+            Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
+            Edge: (event: f) (guard: a.l1)
+            Edge: (event: f) (guard: a.l2)
+            Edge: (event: g) (guard: a.l1)
+            Edge: (event: g) (guard: a.l2)
+            Edge: (event: h) (guard: a.l1)
+            Edge: (event: h) (guard: a.l2)
+            Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

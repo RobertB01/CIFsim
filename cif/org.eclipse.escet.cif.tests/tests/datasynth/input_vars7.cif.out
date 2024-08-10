@@ -110,40 +110,41 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):             (p.b or not io.sensor) and (not p.b or io.sensor)
-Initial   (discrete variables):              (p.b or not io.sensor) and (not p.b or io.sensor)
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.test
-Initial   (auts/locs init predicate):        p.test
-Initial   (uncontrolled system):             p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
-Initial   (system, combined init/plant inv): p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
-Initial   (system, combined init/state inv): p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
+    Initial   (discrete variable 1):             (p.b or not io.sensor) and (not p.b or io.sensor)
+    Initial   (discrete variables):              (p.b or not io.sensor) and (not p.b or io.sensor)
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.test
+    Initial   (auts/locs init predicate):        p.test
+    Initial   (uncontrolled system):             p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
+    Initial   (system, combined init/plant inv): p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
+    Initial   (system, combined init/state inv): p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.done
-Marked    (auts/locs marker predicate):      p.done
-Marked    (uncontrolled system):             p.done
-Marked    (system, combined mark/plant inv): p.done
-Marked    (system, combined mark/state inv): p.done
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.done
+    Marked    (auts/locs marker predicate):      p.done
+    Marked    (uncontrolled system):             p.done
+    Marked    (system, combined mark/plant inv): p.done
+    Marked    (system, combined mark/state inv): p.done
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done)
-        Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done)
+            Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

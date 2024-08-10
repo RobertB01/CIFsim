@@ -101,50 +101,51 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):             true
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.loc1
-Initial   (aut/locs init predicate):         q.loc1
-Initial   (auts/locs init predicate):        p.loc1 and q.loc1
-Initial   (uncontrolled system):             p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1)
-Initial   (system, combined init/plant inv): p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1)
-Initial   (system, combined init/state inv): p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1)
+    Initial   (discrete variable 1):             true
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.loc1
+    Initial   (aut/locs init predicate):         q.loc1
+    Initial   (auts/locs init predicate):        p.loc1 and q.loc1
+    Initial   (uncontrolled system):             p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1)
+    Initial   (system, combined init/plant inv): p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1)
+    Initial   (system, combined init/state inv): p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       not p.loc3
-Marked    (aut/locs marker predicate):       q.loc1
-Marked    (auts/locs marker predicate):      not p.loc3 and q.loc1
-Marked    (uncontrolled system):             not p.loc3 and q.loc1
-Marked    (system, combined mark/plant inv): not p.loc3 and q.loc1
-Marked    (system, combined mark/state inv): not p.loc3 and q.loc1
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       not p.loc3
+    Marked    (aut/locs marker predicate):       q.loc1
+    Marked    (auts/locs marker predicate):      not p.loc3 and q.loc1
+    Marked    (uncontrolled system):             not p.loc3 and q.loc1
+    Marked    (system, combined mark/plant inv): not p.loc3 and q.loc1
+    Marked    (system, combined mark/state inv): not p.loc3 and q.loc1
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: p_a) (guard: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3)) (assignments: p := p.loc2)
-        Edge: (event: p_b) (guard: p.loc2) (assignments: p := p.loc3)
-        Edge: (event: q_a) (guard: q.loc1) (assignments: q := q.loc2)
-        Edge: (event: q_a) (guard: q.loc2) (assignments: q := q.loc3)
-        Edge: (event: q_a) (guard: q.loc4) (assignments: q := q.loc1)
-        Edge: (event: q_a) (guard: q.loc5) (assignments: q := q.loc6)
-        Edge: (event: q_b) (guard: q.loc1) (assignments: q := q.loc2)
-        Edge: (event: q_b) (guard: q.loc3) (assignments: q := q.loc4)
-        Edge: (event: q_b) (guard: q.loc4) (assignments: q := q.loc5)
-        Edge: (event: q_b) (guard: q.loc6) (assignments: q := q.loc7)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p_a) (guard: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3)) (assignments: p := p.loc2)
+            Edge: (event: p_b) (guard: p.loc2) (assignments: p := p.loc3)
+            Edge: (event: q_a) (guard: q.loc1) (assignments: q := q.loc2)
+            Edge: (event: q_a) (guard: q.loc2) (assignments: q := q.loc3)
+            Edge: (event: q_a) (guard: q.loc4) (assignments: q := q.loc1)
+            Edge: (event: q_a) (guard: q.loc5) (assignments: q := q.loc6)
+            Edge: (event: q_b) (guard: q.loc1) (assignments: q := q.loc2)
+            Edge: (event: q_b) (guard: q.loc3) (assignments: q := q.loc4)
+            Edge: (event: q_b) (guard: q.loc4) (assignments: q := q.loc5)
+            Edge: (event: q_b) (guard: q.loc6) (assignments: q := q.loc7)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 

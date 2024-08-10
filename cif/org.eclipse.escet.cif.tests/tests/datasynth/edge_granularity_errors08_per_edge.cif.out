@@ -110,40 +110,41 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             true
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.l1
-Initial   (auts/locs init predicate):        p.l1
-Initial   (uncontrolled system):             p.l1
-Initial   (system, combined init/plant inv): p.l1
-Initial   (system, combined init/state inv): p.l1
+    Initial   (discrete variable 0):             true
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.l1
+    Initial   (auts/locs init predicate):        p.l1
+    Initial   (uncontrolled system):             p.l1
+    Initial   (system, combined init/plant inv): p.l1
+    Initial   (system, combined init/state inv): p.l1
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.l2
-Marked    (auts/locs marker predicate):      p.l2
-Marked    (uncontrolled system):             p.l2
-Marked    (system, combined mark/plant inv): p.l2
-Marked    (system, combined mark/state inv): p.l2
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.l2
+    Marked    (auts/locs marker predicate):      p.l2
+    Marked    (uncontrolled system):             p.l2
+    Marked    (system, combined mark/plant inv): p.l2
+    Marked    (system, combined mark/state inv): p.l2
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: e) (guard: p.x = 6 and p.l1 or p.x = 5 and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
-        Edge: (event: e) (guard: (p.x = 6 or p.x = 7) and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: e) (guard: p.x = 6 and p.l1 or p.x = 5 and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
+            Edge: (event: e) (guard: (p.x = 6 or p.x = 7) and p.l1) (assignments: p.x := p.x + 3, p := p.l2)
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: e) (guard: p.x = 6 and p.l1 or p.x = 5 and p.l1 -> false) (assignments: p.x := p.x + 3, p := p.l2)

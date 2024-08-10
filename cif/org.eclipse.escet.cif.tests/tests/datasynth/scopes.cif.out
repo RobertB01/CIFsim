@@ -100,44 +100,45 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             g.p.x = 2
-Initial   (discrete variable 1):             p.x = 1
-Initial   (discrete variables):              g.p.x = 2 and p.x = 1
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             g.p.x = 2 and p.x = 1
-Initial   (system, combined init/plant inv): g.p.x = 2 and p.x = 1
-Initial   (system, combined init/state inv): g.p.x = 2 and p.x = 1
+    Initial   (discrete variable 0):             g.p.x = 2
+    Initial   (discrete variable 1):             p.x = 1
+    Initial   (discrete variables):              g.p.x = 2 and p.x = 1
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             g.p.x = 2 and p.x = 1
+    Initial   (system, combined init/plant inv): g.p.x = 2 and p.x = 1
+    Initial   (system, combined init/state inv): g.p.x = 2 and p.x = 1
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: c1) (guard: true) (assignments: g.p.x := g.p.x + 1, p.x := 1)
-        Edge: (event: g.c2) (guard: true) (assignments: g.p.x := g.p.x + 1, p.x := 1)
-        Edge: (event: g.p.c3) (guard: true) (assignments: g.p.x := g.p.x + 1)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: c1) (guard: true) (assignments: g.p.x := g.p.x + 1, p.x := 1)
+            Edge: (event: g.c2) (guard: true) (assignments: g.p.x := g.p.x + 1, p.x := 1)
+            Edge: (event: g.p.c3) (guard: true) (assignments: g.p.x := g.p.x + 1)
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: c1) (guard: true -> true) (assignments: g.p.x := g.p.x + 1, p.x := 1)

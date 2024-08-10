@@ -47,45 +47,46 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Showing input and checking for potential problems:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             true
-Initial   (system, combined init/plant inv): true
-Initial   (system, combined init/state inv): true
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             true
+    Initial   (system, combined init/plant inv): true
+    Initial   (system, combined init/state inv): true
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+      None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+      None
 
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: p.c) (guard: true)
-        Edge: (event: p.a) (guard: true)
-        Edge: (event: p.z) (guard: true)
-        Edge: (event: p.$event) (guard: true)
-        Edge: (event: D) (guard: true) (assignments: D+ != D)
-        Edge: (event: C) (guard: true) (assignments: C+ != C)
-        Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
-        Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.c) (guard: true)
+            Edge: (event: p.a) (guard: true)
+            Edge: (event: p.z) (guard: true)
+            Edge: (event: p.$event) (guard: true)
+            Edge: (event: D) (guard: true) (assignments: D+ != D)
+            Edge: (event: C) (guard: true) (assignments: C+ != C)
+            Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
+            Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
