@@ -1010,7 +1010,8 @@ public class CifDataSynthesis {
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput()
-                    .line("Restricting behavior using implicit runtime error requirements.");
+                    .line("Restricting behavior using implicit runtime error requirements:");
+            cifBddSpec.settings.getDebugOutput().inc();
         }
 
         // For every edge with an uncontrollable event, restrict the controlled-behavior predicate by disallowing states
@@ -1018,8 +1019,12 @@ public class CifDataSynthesis {
         // for controllable events this doesn't hold, since we are not allowed to prevent the source states of such
         // edges, but instead must prevent runtime errors by preventing the transitions. And this is prevented in both
         // forward and backward searches since the edge guards disallow the edge to be taken from runtime error states.
+        boolean changed = false;
         for (CifBddEdge edge: cifBddSpec.edges) {
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
 
@@ -1030,16 +1035,37 @@ public class CifDataSynthesis {
                 BDD newCtrlBeh = synthResult.ctrlBeh.and(guardErrorNot);
 
                 if (!newCtrlBeh.equals(synthResult.ctrlBeh)) {
-                    cifBddSpec.settings.getDebugOutput().line(
-                            "Controlled behavior: %s -> %s [runtime error requirement (event: %s): %s].",
-                            bddToStr(synthResult.ctrlBeh, cifBddSpec), bddToStr(newCtrlBeh, cifBddSpec),
-                            edge.event.getName(), bddToStr(guardErrorNot, cifBddSpec));
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().line(
+                                "Controlled behavior: %s -> %s [runtime error requirement (event: %s): %s].",
+                                bddToStr(synthResult.ctrlBeh, cifBddSpec), bddToStr(newCtrlBeh, cifBddSpec),
+                                edge.event.getName(), bddToStr(guardErrorNot, cifBddSpec));
+                    }
+                    changed = true;
                 }
 
                 guardErrorNot.free();
                 synthResult.ctrlBeh.free();
                 synthResult.ctrlBeh = newCtrlBeh;
             }
+        }
+
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
+            return;
+        }
+        if (dbgEnabled) {
+            if (changed) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line(
+                        "Restricted behavior using implicit runtime error requirements: %s.",
+                        bddToStr(synthResult.ctrlBeh, cifBddSpec));
+            } else {
+                cifBddSpec.settings.getDebugOutput().line("Controlled behavior not changed.");
+            }
+            cifBddSpec.settings.getDebugOutput().dec();
         }
     }
 
