@@ -181,6 +181,7 @@ public class CifBddReachability {
             return null;
         }
         if (dbgEnabled && changed) {
+            cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput().line("%s: %s [fixed point].", Strings.makeInitialUppercase(predName),
                     bddToStr(pred, cifBddSpec));
         }
@@ -239,6 +240,9 @@ public class CifBddReachability {
 
                 // The predicate changed: at least one new state was reached. Inform the user.
                 if (dbgEnabled) {
+                    if (!changed) {
+                        cifBddSpec.settings.getDebugOutput().line();
+                    }
                     String restrTxt;
                     if (restriction == null) {
                         restrTxt = "";
@@ -299,22 +303,31 @@ public class CifBddReachability {
             // Print iteration, for debugging.
             iter++;
             if (dbgEnabled) {
-                cifBddSpec.settings.getDebugOutput().line("%s reachability: iteration %d.",
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("%s reachability iteration %d:",
                         Strings.makeInitialUppercase(direction.description), iter);
+                cifBddSpec.settings.getDebugOutput().inc();
             }
 
             // Push through all edges.
+            boolean iterChanged = false;
             for (CifBddEdge edge: edges) {
                 // Apply edge.
                 BDD updPred = pred.id();
                 updPred = edge.apply(updPred, direction, restriction);
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return null;
                 }
 
                 // Extend reachable states.
                 BDD newPred = pred.id().orWith(updPred);
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return null;
                 }
 
@@ -348,8 +361,17 @@ public class CifBddReachability {
                     pred.free();
                     pred = newPred;
                     changed = true;
+                    iterChanged = true;
                     remainingEdges = edges.size(); // Change found, reset the counter.
                 }
+            }
+
+            // Iteration completed.
+            if (dbgEnabled) {
+                if (!iterChanged) {
+                    cifBddSpec.settings.getDebugOutput().line("No change this iteration.");
+                }
+                cifBddSpec.settings.getDebugOutput().dec();
             }
         }
         return pair(pred, changed);
