@@ -97,7 +97,15 @@ public class CifDataSynthesis {
             if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("Showing input and checking for potential problems:");
+                cifBddSpec.settings.getDebugOutput().inc();
+            }
             checkSystem(cifBddSpec, synthResult, dbgEnabled);
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
 
             // Print debug information on edge guard restrictions for preventing runtime errors.
             if (cifBddSpec.settings.getTermination().isRequested()) {
@@ -346,7 +354,6 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line();
             for (BDD pred: cifBddSpec.plantInvsComps) {
                 cifBddSpec.settings.getDebugOutput().line("Invariant (component state plant invariant): %s",
                         bddToStr(pred, cifBddSpec));
