@@ -751,7 +751,8 @@ public class CifDataSynthesis {
         // Apply the state requirement invariants.
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line("Restricting behavior using state requirements.");
+            cifBddSpec.settings.getDebugOutput().line("Restricting behavior using state requirements:");
+            cifBddSpec.settings.getDebugOutput().inc();
         }
 
         switch (synthResult.settings.getStateReqInvEnforceMode()) {
@@ -760,11 +761,17 @@ public class CifDataSynthesis {
                 // controlled system if the state requirement invariants hold.
                 BDD newCtrlBeh = synthResult.ctrlBeh.and(cifBddSpec.reqInv);
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
                 if (synthResult.ctrlBeh.equals(newCtrlBeh)) {
                     newCtrlBeh.free();
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().line("Controlled behavior not changed.");
+                    }
                 } else {
                     if (dbgEnabled) {
                         cifBddSpec.settings.getDebugOutput().line(
@@ -822,11 +829,17 @@ public class CifDataSynthesis {
                 // the state requirement invariants.
                 BDD newInitialCtrl = synthResult.initialCtrl.and(cifBddSpec.reqInv);
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
                 if (synthResult.initialCtrl.equals(newInitialCtrl)) {
                     newInitialCtrl.free();
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().line("Controlled-initialization not changed.");
+                    }
                 } else {
                     if (dbgEnabled) {
                         cifBddSpec.settings.getDebugOutput().line(
@@ -852,6 +865,10 @@ public class CifDataSynthesis {
             }
             default:
                 throw new RuntimeException("Unknown mode: " + synthResult.settings.getStateReqInvEnforceMode());
+        }
+
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().dec();
         }
     }
 
@@ -943,7 +960,8 @@ public class CifDataSynthesis {
         // exclusion requirement invariants, are blocked.
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line("Restricting behavior using state/event exclusion requirements.");
+            cifBddSpec.settings.getDebugOutput().line("Restricting behavior using state/event exclusion requirements:");
+            cifBddSpec.settings.getDebugOutput().inc();
         }
 
         // Apply state/event exclusion requirement invariants, per edge.
@@ -952,6 +970,9 @@ public class CifDataSynthesis {
             return (req == null) ? Stream.empty() : Stream.of(req);
         };
         applyReqsPerEdge(cifBddSpec, synthResult, reqsPerEdge, false, dbgEnabled, "state/event exclusion");
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().dec();
+        }
 
         // Free no longer needed predicates.
         for (BDD bdd: cifBddSpec.stateEvtExclReqs.values()) {
@@ -1022,7 +1043,6 @@ public class CifDataSynthesis {
     private static void applyReqsPerEdge(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
             Function<CifBddEdge, Stream<BDD>> reqsPerEdge, boolean freeReqs, boolean dbgEnabled, String dbgDescription)
     {
-        boolean firstDbg = true;
         boolean changed = false;
         boolean guardChanged = false;
         for (CifBddEdge edge: cifBddSpec.edges) {
@@ -1056,10 +1076,6 @@ public class CifDataSynthesis {
                         newGuard.free();
                     } else {
                         if (dbgEnabled) {
-                            if (firstDbg) {
-                                firstDbg = false;
-                                cifBddSpec.settings.getDebugOutput().line();
-                            }
                             cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s [%s requirement: %s].",
                                     edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
                                     bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec), dbgDescription,
@@ -1093,10 +1109,6 @@ public class CifDataSynthesis {
                         newCtrlBeh.free();
                     } else {
                         if (dbgEnabled) {
-                            if (firstDbg) {
-                                firstDbg = false;
-                                cifBddSpec.settings.getDebugOutput().line();
-                            }
                             cifBddSpec.settings.getDebugOutput().line(
                                     "Controlled behavior: %s -> %s [%s requirement: %s, edge: %s].",
                                     bddToStr(synthResult.ctrlBeh, cifBddSpec), bddToStr(newCtrlBeh, cifBddSpec),
@@ -1119,15 +1131,23 @@ public class CifDataSynthesis {
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
-        if (dbgEnabled && changed) {
-            cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line("Restricted behavior using %s requirements:", dbgDescription);
-            cifBddSpec.settings.getDebugOutput()
-                    .line(synthResult.getCtrlBehText(1, cifBddSpec.settings.getIndentAmount()));
-            if (guardChanged && !cifBddSpec.edges.isEmpty()) {
-                for (String line: cifBddSpec.getEdgesText(2)) {
-                    cifBddSpec.settings.getDebugOutput().line(line);
+        if (dbgEnabled) {
+            if (changed) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("Restricted behavior using %s requirements:", dbgDescription);
+                cifBddSpec.settings.getDebugOutput().inc();
+                cifBddSpec.settings.getDebugOutput()
+                        .line(synthResult.getCtrlBehText(0, cifBddSpec.settings.getIndentAmount()));
+                if (guardChanged && !cifBddSpec.edges.isEmpty()) {
+                    cifBddSpec.settings.getDebugOutput().inc();
+                    for (String line: cifBddSpec.getEdgesText(0)) {
+                        cifBddSpec.settings.getDebugOutput().line(line);
+                    }
+                    cifBddSpec.settings.getDebugOutput().dec();
                 }
+                cifBddSpec.settings.getDebugOutput().dec();
+            } else {
+                cifBddSpec.settings.getDebugOutput().line("Guards and controlled behavior not changed.");
             }
         }
     }
