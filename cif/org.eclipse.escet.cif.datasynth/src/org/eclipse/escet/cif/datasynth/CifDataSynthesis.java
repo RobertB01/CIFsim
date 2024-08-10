@@ -892,25 +892,34 @@ public class CifDataSynthesis {
     private static void applyVarRanges(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult, boolean dbgEnabled) {
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line("Extending controlled-behavior predicate using variable ranges.");
+            cifBddSpec.settings.getDebugOutput().line("Extending controlled-behavior predicate using variable ranges:");
+            cifBddSpec.settings.getDebugOutput().inc();
         }
 
-        boolean firstDbg = true;
         boolean changed = false;
         for (CifBddVariable var: cifBddSpec.variables) {
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
 
             // Compute out of range predicate.
             BDD range = BddUtils.getVarDomain(var, false, cifBddSpec.factory);
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
 
             // Update controlled-behavior predicate.
             BDD newCtrlBeh = synthResult.ctrlBeh.and(range);
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
 
@@ -919,10 +928,6 @@ public class CifDataSynthesis {
                 range.free();
             } else {
                 if (dbgEnabled) {
-                    if (firstDbg) {
-                        firstDbg = false;
-                        cifBddSpec.settings.getDebugOutput().line();
-                    }
                     cifBddSpec.settings.getDebugOutput().line(
                             "Controlled behavior: %s -> %s [range: %s, variable: %s].",
                             bddToStr(synthResult.ctrlBeh, cifBddSpec), bddToStr(newCtrlBeh, cifBddSpec),
@@ -936,13 +941,21 @@ public class CifDataSynthesis {
         }
 
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
-        if (dbgEnabled && changed) {
-            cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line(
-                    "Extended controlled-behavior predicate using variable ranges: %s.",
-                    bddToStr(synthResult.ctrlBeh, cifBddSpec));
+        if (dbgEnabled) {
+            if (changed) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line(
+                        "Extended controlled-behavior predicate using variable ranges: %s.",
+                        bddToStr(synthResult.ctrlBeh, cifBddSpec));
+            } else {
+                cifBddSpec.settings.getDebugOutput().line("Controlled behavior not changed.");
+            }
+            cifBddSpec.settings.getDebugOutput().dec();
         }
     }
 
