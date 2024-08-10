@@ -94,39 +94,46 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward reachability: iteration 1.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward reachability: iteration 1.
+        Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+        Backward reachability: iteration 1.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: A.l1 [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: A.l1 -> A.l1 or A.l2 [forward reach with edge: (event: c) (guard: A.l1) (assignments: A := A.l2), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 2.
-Forward controlled-behavior: A.l1 or A.l2 [fixed point].
-Controlled behavior: true -> A.l1 or A.l2.
+        Controlled behavior not changed.
 
-Round 1: finished, need another round.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: A.l1 [initialization predicate]
+        Forward reachability: iteration 1.
+        Forward controlled-behavior: A.l1 -> A.l1 or A.l2 [forward reach with edge: (event: c) (guard: A.l1) (assignments: A := A.l2), restricted to current/previous controlled-behavior predicate: true]
+        Forward reachability: iteration 2.
+        Forward controlled-behavior: A.l1 or A.l2 [fixed point].
 
-Round 2: started.
+        Controlled behavior: true -> A.l1 or A.l2.
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> A.l1 or A.l2 [restricted to current/previous controlled-behavior predicate: A.l1 or A.l2]
-Backward reachability: iteration 1.
-Backward controlled-behavior: A.l1 or A.l2 [fixed point].
+    Need another round.
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: not A.l1 and not A.l2 [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> A.l1 or A.l2 [restricted to current/previous controlled-behavior predicate: A.l1 or A.l2]
+        Backward reachability: iteration 1.
+        Backward controlled-behavior: A.l1 or A.l2 [fixed point].
 
-Round 2: finished, controlled behavior is stable.
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: not A.l1 and not A.l2 [current/previous controlled behavior predicate]
+        Backward reachability: iteration 1.
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 

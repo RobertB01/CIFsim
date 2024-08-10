@@ -179,38 +179,45 @@ Preparing workset algorithm:
     - 1: p1.next .1
     - 2: p2.e    1.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
+        Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p1.c = 0 and not p2.b [initialization predicate]
-Forward controlled-behavior: p1.c = 0 and not p2.b -> (p1.c = 0 or p1.c = 1) and not p2.b [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: (p1.c = 0 or p1.c = 1) and not p2.b -> (p1.c = 0 or p1.c = 2) and not p2.b or p1.c = 1 and not p2.b [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: (p1.c = 0 or p1.c = 2) and not p2.b or p1.c = 1 and not p2.b -> not p2.b [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: not p2.b -> (p1.c = 1 or (p1.c = 3 or not p2.b)) and (p1.c != 3 or not p2.b) [forward reach with edge: (event: p2.e) (guard: p1.c = 1 and not p2.b) (assignments: p2.b := true), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: (p1.c = 1 or (p1.c = 3 or not p2.b)) and (p1.c != 3 or not p2.b) -> (p1.c != 0 or not p2.b) and (p1.c != 3 or not p2.b) [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: (p1.c != 0 or not p2.b) and (p1.c != 3 or not p2.b) -> p1.c != 0 or not p2.b [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: p1.c != 0 or not p2.b [fixed point].
-Controlled behavior: true -> p1.c != 0 or not p2.b.
+        Controlled behavior not changed.
 
-Round 1: finished, need another round.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: p1.c = 0 and not p2.b [initialization predicate]
+        Forward controlled-behavior: p1.c = 0 and not p2.b -> (p1.c = 0 or p1.c = 1) and not p2.b [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
+        Forward controlled-behavior: (p1.c = 0 or p1.c = 1) and not p2.b -> (p1.c = 0 or p1.c = 2) and not p2.b or p1.c = 1 and not p2.b [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
+        Forward controlled-behavior: (p1.c = 0 or p1.c = 2) and not p2.b or p1.c = 1 and not p2.b -> not p2.b [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
+        Forward controlled-behavior: not p2.b -> (p1.c = 1 or (p1.c = 3 or not p2.b)) and (p1.c != 3 or not p2.b) [forward reach with edge: (event: p2.e) (guard: p1.c = 1 and not p2.b) (assignments: p2.b := true), restricted to current/previous controlled-behavior predicate: true]
+        Forward controlled-behavior: (p1.c = 1 or (p1.c = 3 or not p2.b)) and (p1.c != 3 or not p2.b) -> (p1.c != 0 or not p2.b) and (p1.c != 3 or not p2.b) [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
+        Forward controlled-behavior: (p1.c != 0 or not p2.b) and (p1.c != 3 or not p2.b) -> p1.c != 0 or not p2.b [forward reach with edge: (event: p1.next) (guard: p1.c != 3) (assignments: p1.c := p1.c + 1), restricted to current/previous controlled-behavior predicate: true]
+        Forward controlled-behavior: p1.c != 0 or not p2.b [fixed point].
 
-Round 2: started.
+        Controlled behavior: true -> p1.c != 0 or not p2.b.
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> p1.c != 0 or not p2.b [restricted to current/previous controlled-behavior predicate: p1.c != 0 or not p2.b]
-Backward controlled-behavior: p1.c != 0 or not p2.b [fixed point].
+    Need another round.
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: p1.c = 0 and p2.b [current/previous controlled behavior predicate]
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> p1.c != 0 or not p2.b [restricted to current/previous controlled-behavior predicate: p1.c != 0 or not p2.b]
+        Backward controlled-behavior: p1.c != 0 or not p2.b [fixed point].
 
-Round 2: finished, controlled behavior is stable.
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: p1.c = 0 and p2.b [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 

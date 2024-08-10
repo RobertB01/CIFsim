@@ -80,22 +80,26 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: a.l1 [marker predicate]
+        Backward reachability: iteration 1.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: a.l1 [marker predicate]
-Backward reachability: iteration 1.
-Controlled behavior: true -> a.l1.
+        Controlled behavior: true -> a.l1.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: a.l2 [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: a.l2 [current/previous controlled behavior predicate]
+        Backward reachability: iteration 1.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: a.l1 [initialization predicate]
-Forward reachability: iteration 1.
+        Controlled behavior not changed.
 
-Round 1: finished, controlled behavior is stable.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: a.l1 [initialization predicate]
+        Forward reachability: iteration 1.
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 

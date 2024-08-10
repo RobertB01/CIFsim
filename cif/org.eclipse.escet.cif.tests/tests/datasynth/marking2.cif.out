@@ -166,16 +166,16 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [marker predicate]
+        Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 -> p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [restricted to current/previous controlled-behavior predicate: true]
+        Backward reachability: iteration 1.
+        Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [fixed point].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [marker predicate]
-Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 -> p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 1.
-Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [fixed point].
-Controlled behavior: true -> p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3.
+        Controlled behavior: true -> p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3.
 
-Round 1: finished, no initialization possible.
+    Finished: no initialization possible.
 
 Computing controlled system guards.
 

@@ -191,43 +191,50 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward reachability: iteration 1.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward reachability: iteration 1.
+        Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) -> (cnt.c = 0 or cnt.c = 1) and (rcv1.x = 0 and rcv2.x = 0) [forward reach with edge: (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: (cnt.c = 0 or cnt.c = 1) and (rcv1.x = 0 and rcv2.x = 0) -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) [forward reach with edge: (event: e) (guard: cnt.c = 1 -> cnt.c = 1 and rcv1.x = 0 or (cnt.c = 1 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 1 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1))) (assignments: rcv1.x := 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 2.
-Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0)) [forward reach with edge: (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0)) -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0)) [forward reach with edge: (event: e) (guard: cnt.c = 2 -> cnt.c = 2 and rcv1.x = 0 or (cnt.c = 2 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 2 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1))) (assignments: rcv2.x := 2), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 3.
-Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0)) -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))) [forward reach with edge: (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 4.
-Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))) [fixed point].
-Controlled behavior: true -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))).
+        Controlled behavior not changed.
 
-Round 1: finished, need another round.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) [initialization predicate]
+        Forward reachability: iteration 1.
+        Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) -> (cnt.c = 0 or cnt.c = 1) and (rcv1.x = 0 and rcv2.x = 0) [forward reach with edge: (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1), restricted to current/previous controlled-behavior predicate: true]
+        Forward controlled-behavior: (cnt.c = 0 or cnt.c = 1) and (rcv1.x = 0 and rcv2.x = 0) -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) [forward reach with edge: (event: e) (guard: cnt.c = 1 -> cnt.c = 1 and rcv1.x = 0 or (cnt.c = 1 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 1 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1))) (assignments: rcv1.x := 1), restricted to current/previous controlled-behavior predicate: true]
+        Forward reachability: iteration 2.
+        Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0)) [forward reach with edge: (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1), restricted to current/previous controlled-behavior predicate: true]
+        Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0)) -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0)) [forward reach with edge: (event: e) (guard: cnt.c = 2 -> cnt.c = 2 and rcv1.x = 0 or (cnt.c = 2 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 2 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1))) (assignments: rcv2.x := 2), restricted to current/previous controlled-behavior predicate: true]
+        Forward reachability: iteration 3.
+        Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0)) -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))) [forward reach with edge: (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1), restricted to current/previous controlled-behavior predicate: true]
+        Forward reachability: iteration 4.
+        Forward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))) [fixed point].
 
-Round 2: started.
+        Controlled behavior: true -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))).
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))) [restricted to current/previous controlled-behavior predicate: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0)))]
-Backward reachability: iteration 1.
-Backward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))) [fixed point].
+    Need another round.
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (cnt.c != 0 or (rcv1.x != 0 or rcv2.x != 0)) and ((cnt.c != 2 or rcv1.x != 0 or (rcv2.x = 1 or rcv2.x = 3)) and (cnt.c != 2 or (rcv1.x != 1 or rcv2.x != 0))) and ((cnt.c != 1 or rcv1.x = 2 or (rcv1.x = 3 or rcv2.x != 0)) and ((cnt.c != 3 or rcv1.x != 0 or (rcv2.x = 1 or rcv2.x = 3)) and (cnt.c != 3 or (rcv1.x != 1 or rcv2.x != 0)))) [current/previous controlled behavior predicate]
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))) [restricted to current/previous controlled-behavior predicate: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0)))]
+        Backward reachability: iteration 1.
+        Backward controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))) [fixed point].
 
-Round 2: finished, controlled behavior is stable.
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: (cnt.c != 0 or (rcv1.x != 0 or rcv2.x != 0)) and ((cnt.c != 2 or rcv1.x != 0 or (rcv2.x = 1 or rcv2.x = 3)) and (cnt.c != 2 or (rcv1.x != 1 or rcv2.x != 0))) and ((cnt.c != 1 or rcv1.x = 2 or (rcv1.x = 3 or rcv2.x != 0)) and ((cnt.c != 3 or rcv1.x != 0 or (rcv2.x = 1 or rcv2.x = 3)) and (cnt.c != 3 or (rcv1.x != 1 or rcv2.x != 0)))) [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 

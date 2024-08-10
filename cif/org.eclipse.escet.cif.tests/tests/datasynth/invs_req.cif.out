@@ -172,22 +172,27 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> p.x = 0 and p.l2 or p.x = 3 and p.l1 [restricted to current/previous controlled-behavior predicate: p.x = 0 and p.l2 or p.x = 3 and p.l1]
+        Backward controlled-behavior: p.x = 0 and p.l2 or p.x = 3 and p.l1 [fixed point].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> p.x = 0 and p.l2 or p.x = 3 and p.l1 [restricted to current/previous controlled-behavior predicate: p.x = 0 and p.l2 or p.x = 3 and p.l1]
-Backward controlled-behavior: p.x = 0 and p.l2 or p.x = 3 and p.l1 [fixed point].
+        Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (p.x != 0 or p.l1) and (p.x != 3 or p.l2) [current/previous controlled behavior predicate]
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: (p.x != 0 or p.l1) and (p.x != 3 or p.l2) [current/previous controlled behavior predicate]
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: true [initialization predicate]
-Forward controlled-behavior: true -> p.x = 0 and p.l2 or p.x = 3 and p.l1 [restricted to current/previous controlled-behavior predicate: p.x = 0 and p.l2 or p.x = 3 and p.l1]
-Forward controlled-behavior: p.x = 0 and p.l2 or p.x = 3 and p.l1 [fixed point].
+        Controlled behavior not changed.
 
-Round 1: finished, controlled behavior is stable.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: true [initialization predicate]
+        Forward controlled-behavior: true -> p.x = 0 and p.l2 or p.x = 3 and p.l1 [restricted to current/previous controlled-behavior predicate: p.x = 0 and p.l2 or p.x = 3 and p.l1]
+        Forward controlled-behavior: p.x = 0 and p.l2 or p.x = 3 and p.l1 [fixed point].
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 

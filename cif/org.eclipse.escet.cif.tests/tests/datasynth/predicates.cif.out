@@ -249,37 +249,43 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p.l0 [marker predicate]
+        Backward controlled-behavior: p.l0 -> <bdd 21n 960p> [restricted to current/previous controlled-behavior predicate: <bdd 20n 960p>]
+        Backward reachability: iteration 1.
+        Backward controlled-behavior: <bdd 21n 960p> [fixed point].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l0 [marker predicate]
-Backward controlled-behavior: p.l0 -> <bdd 21n 960p> [restricted to current/previous controlled-behavior predicate: <bdd 20n 960p>]
-Backward reachability: iteration 1.
-Backward controlled-behavior: <bdd 21n 960p> [fixed point].
-Controlled behavior: <bdd 20n 960p> -> <bdd 21n 960p>.
+        Controlled behavior: <bdd 20n 960p> -> <bdd 21n 960p>.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 21n 853p> [current/previous controlled behavior predicate]
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: <bdd 21n 853p> [current/previous controlled behavior predicate]
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: <bdd 22n 1p> [initialization predicate]
-Forward reachability: iteration 1.
-Controlled behavior: <bdd 21n 960p> -> <bdd 22n 1p>.
+        Controlled behavior not changed.
 
-Round 1: finished, need another round.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: <bdd 22n 1p> [initialization predicate]
+        Forward reachability: iteration 1.
 
-Round 2: started.
+        Controlled behavior: <bdd 21n 960p> -> <bdd 22n 1p>.
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l0 [marker predicate]
-Backward controlled-behavior: p.l0 -> <bdd 22n 1p> [restricted to current/previous controlled-behavior predicate: <bdd 22n 1p>]
-Backward reachability: iteration 1.
-Backward controlled-behavior: <bdd 22n 1p> [fixed point].
+    Need another round.
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 22n 22p> [current/previous controlled behavior predicate]
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p.l0 [marker predicate]
+        Backward controlled-behavior: p.l0 -> <bdd 22n 1p> [restricted to current/previous controlled-behavior predicate: <bdd 22n 1p>]
+        Backward reachability: iteration 1.
+        Backward controlled-behavior: <bdd 22n 1p> [fixed point].
 
-Round 2: finished, controlled behavior is stable.
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: <bdd 22n 22p> [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 

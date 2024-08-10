@@ -182,14 +182,14 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p.l2 [marker predicate]
+        Backward reachability: iteration 1.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l2 [marker predicate]
-Backward reachability: iteration 1.
-Controlled behavior: 0 <= p.x and p.x <= 5 or p.l2 -> p.l2.
+        Controlled behavior: 0 <= p.x and p.x <= 5 or p.l2 -> p.l2.
 
-Round 1: finished, no initialization possible.
+    Finished: no initialization possible.
 
 Computing controlled system guards.
 

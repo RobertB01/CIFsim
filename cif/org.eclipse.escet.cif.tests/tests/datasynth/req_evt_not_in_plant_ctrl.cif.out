@@ -193,33 +193,37 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: r.loc1 [marker predicate]
+        Backward reachability: iteration 1.
+        Backward controlled-behavior: r.loc1 -> p.x = 2 or (p.x = 3 or r.loc1) [backward reach with edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1), restricted to current/previous controlled-behavior predicate: true]
+        Backward reachability: iteration 2.
+        Backward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: r.loc1 [marker predicate]
-Backward reachability: iteration 1.
-Backward controlled-behavior: r.loc1 -> p.x = 2 or (p.x = 3 or r.loc1) [backward reach with edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1), restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 2.
-Backward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
-Controlled behavior: true -> p.x = 2 or (p.x = 3 or r.loc1).
+        Controlled behavior: true -> p.x = 2 or (p.x = 3 or r.loc1).
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (p.x = 0 or p.x = 1) and r.loc2 [current/previous controlled behavior predicate]
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: (p.x = 0 or p.x = 1) and r.loc2 [current/previous controlled behavior predicate]
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.x = 0 and r.loc1 [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: p.x = 0 and r.loc1 -> (p.x = 0 or p.x = 1) and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-Forward reachability: iteration 2.
-Forward controlled-behavior: (p.x = 0 or p.x = 1) and r.loc1 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-Forward controlled-behavior: (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 -> (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-Forward reachability: iteration 3.
-Forward controlled-behavior: (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) -> (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-Forward controlled-behavior: (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) -> p.x = 2 or (p.x = 3 or r.loc1) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-Forward reachability: iteration 4.
-Forward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
+        Controlled behavior not changed.
 
-Round 1: finished, controlled behavior is stable.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: p.x = 0 and r.loc1 [initialization predicate]
+        Forward reachability: iteration 1.
+        Forward controlled-behavior: p.x = 0 and r.loc1 -> (p.x = 0 or p.x = 1) and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+        Forward reachability: iteration 2.
+        Forward controlled-behavior: (p.x = 0 or p.x = 1) and r.loc1 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+        Forward controlled-behavior: (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 -> (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+        Forward reachability: iteration 3.
+        Forward controlled-behavior: (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) -> (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+        Forward controlled-behavior: (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) -> p.x = 2 or (p.x = 3 or r.loc1) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+        Forward reachability: iteration 4.
+        Forward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 

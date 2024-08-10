@@ -119,21 +119,26 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward reachability: iteration 1.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward reachability: iteration 1.
+        Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+        Backward reachability: iteration 1.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: true [initialization predicate]
-Forward reachability: iteration 1.
+        Controlled behavior not changed.
 
-Round 1: finished, controlled behavior is stable.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: true [initialization predicate]
+        Forward reachability: iteration 1.
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 

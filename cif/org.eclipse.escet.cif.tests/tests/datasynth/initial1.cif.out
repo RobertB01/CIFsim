@@ -140,36 +140,42 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: <bdd 12n 64p> [marker predicate]
+        Backward controlled-behavior: <bdd 12n 64p> -> <bdd 31n 17,496p> [restricted to current/previous controlled-behavior predicate: <bdd 21n 2,187p>]
+        Backward controlled-behavior: <bdd 31n 17,496p> [fixed point].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: <bdd 12n 64p> [marker predicate]
-Backward controlled-behavior: <bdd 12n 64p> -> <bdd 31n 17,496p> [restricted to current/previous controlled-behavior predicate: <bdd 21n 2,187p>]
-Backward controlled-behavior: <bdd 31n 17,496p> [fixed point].
-Controlled behavior: <bdd 21n 2,187p> -> <bdd 31n 17,496p>.
+        Controlled behavior: <bdd 21n 2,187p> -> <bdd 31n 17,496p>.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 31n 17,495p> [current/previous controlled behavior predicate]
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: <bdd 31n 17,495p> [current/previous controlled behavior predicate]
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: <bdd 27n 45p> [initialization predicate]
-Forward controlled-behavior: <bdd 27n 45p> -> <bdd 32n 150p> [restricted to current/previous controlled-behavior predicate: <bdd 31n 17,496p>]
-Forward controlled-behavior: <bdd 32n 150p> [fixed point].
-Controlled behavior: <bdd 31n 17,496p> -> <bdd 32n 150p>.
+        Controlled behavior not changed.
 
-Round 1: finished, need another round.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: <bdd 27n 45p> [initialization predicate]
+        Forward controlled-behavior: <bdd 27n 45p> -> <bdd 32n 150p> [restricted to current/previous controlled-behavior predicate: <bdd 31n 17,496p>]
+        Forward controlled-behavior: <bdd 32n 150p> [fixed point].
 
-Round 2: started.
+        Controlled behavior: <bdd 31n 17,496p> -> <bdd 32n 150p>.
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: <bdd 12n 64p> [marker predicate]
-Backward controlled-behavior: <bdd 12n 64p> -> <bdd 32n 150p> [restricted to current/previous controlled-behavior predicate: <bdd 32n 150p>]
-Backward controlled-behavior: <bdd 32n 150p> [fixed point].
+    Need another round.
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 32n 404p> [current/previous controlled behavior predicate]
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: <bdd 12n 64p> [marker predicate]
+        Backward controlled-behavior: <bdd 12n 64p> -> <bdd 32n 150p> [restricted to current/previous controlled-behavior predicate: <bdd 32n 150p>]
+        Backward controlled-behavior: <bdd 32n 150p> [fixed point].
 
-Round 2: finished, controlled behavior is stable.
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: <bdd 32n 404p> [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 

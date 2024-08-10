@@ -80,13 +80,13 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p.x = 3 [marker predicate]
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.x = 3 [marker predicate]
-Controlled behavior: true -> p.x = 3.
+        Controlled behavior: true -> p.x = 3.
 
-Round 1: finished, all states are bad.
+    Finished: all states are bad.
 
 Computing controlled system guards.
 

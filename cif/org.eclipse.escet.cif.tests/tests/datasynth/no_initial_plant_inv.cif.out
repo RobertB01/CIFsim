@@ -80,21 +80,25 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
+        Backward controlled-behavior: true [fixed point].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: true [fixed point].
+        Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: false [initialization predicate]
-Controlled behavior: true -> false.
+        Controlled behavior not changed.
 
-Round 1: finished, all states are bad.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: false [initialization predicate]
+
+        Controlled behavior: true -> false.
+
+    Finished: all states are bad.
 
 Computing controlled system guards.
 

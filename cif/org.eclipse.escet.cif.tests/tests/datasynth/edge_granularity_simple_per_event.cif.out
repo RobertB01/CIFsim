@@ -193,61 +193,66 @@ Re-initializing edges for being applied.
 
 Checking pre-synthesis for events that are never enabled.
 
-Round 1: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p2.l1 and p1.l1 [marker predicate]
+        Backward reachability: iteration 1.
+        Backward controlled-behavior: p2.l1 and p1.l1 -> (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or (p2.x = 1 and p2.l1 or p2.x = 3 and (p2.l1 and p1.l1)) [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: true]
+        Backward controlled-behavior: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or (p2.x = 1 and p2.l1 or p2.x = 3 and (p2.l1 and p1.l1)) -> (p2.x = 0 or p2.x = 2) and (not p2.l3 and p1.l1) or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) [backward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: true]
+        Backward reachability: iteration 2.
+        Backward controlled-behavior: (p2.x = 0 or p2.x = 2) and (not p2.l3 and p1.l1) or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) -> p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l1) or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1))) [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: true]
+        Backward controlled-behavior: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l1) or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1))) -> p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) [backward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: true]
+        Backward reachability: iteration 3.
+        Backward controlled-behavior: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) [fixed point].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p2.l1 and p1.l1 [marker predicate]
-Backward reachability: iteration 1.
-Backward controlled-behavior: p2.l1 and p1.l1 -> (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or (p2.x = 1 and p2.l1 or p2.x = 3 and (p2.l1 and p1.l1)) [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or (p2.x = 1 and p2.l1 or p2.x = 3 and (p2.l1 and p1.l1)) -> (p2.x = 0 or p2.x = 2) and (not p2.l3 and p1.l1) or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) [backward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 2.
-Backward controlled-behavior: (p2.x = 0 or p2.x = 2) and (not p2.l3 and p1.l1) or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) -> p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l1) or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1))) [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l1) or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1))) -> p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) [backward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 3.
-Backward controlled-behavior: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) [fixed point].
-Controlled behavior: true -> p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)).
+        Controlled behavior: true -> p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)).
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (p2.x != 0 or (p2.l3 or p1.l2)) and (p2.x != 2 or p2.l3) and ((p2.x != 1 or p2.l3) and (p2.x != 3 or (p2.l3 or p1.l2))) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
-Backward uncontrolled bad-state: (p2.x != 0 or (p2.l3 or p1.l2)) and (p2.x != 2 or p2.l3) and ((p2.x != 1 or p2.l3) and (p2.x != 3 or (p2.l3 or p1.l2))) -> (p2.x != 0 or (p2.l3 or p1.l2)) and (p2.x != 2 or p2.l3) and ((p2.x != 1 or p2.l3) and (p2.x != 3 or (not p2.l2 or p1.l2))) [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3)]
-Backward reachability: iteration 2.
-Backward uncontrolled bad-state: (p2.x != 0 or (p2.l3 or p1.l2)) and (p2.x != 2 or p2.l3) and ((p2.x != 1 or p2.l3) and (p2.x != 3 or (not p2.l2 or p1.l2))) [fixed point].
-Controlled behavior: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) -> p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1)).
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: (p2.x != 0 or (p2.l3 or p1.l2)) and (p2.x != 2 or p2.l3) and ((p2.x != 1 or p2.l3) and (p2.x != 3 or (p2.l3 or p1.l2))) [current/previous controlled behavior predicate]
+        Backward reachability: iteration 1.
+        Backward uncontrolled bad-state: (p2.x != 0 or (p2.l3 or p1.l2)) and (p2.x != 2 or p2.l3) and ((p2.x != 1 or p2.l3) and (p2.x != 3 or (p2.l3 or p1.l2))) -> (p2.x != 0 or (p2.l3 or p1.l2)) and (p2.x != 2 or p2.l3) and ((p2.x != 1 or p2.l3) and (p2.x != 3 or (not p2.l2 or p1.l2))) [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3)]
+        Backward reachability: iteration 2.
+        Backward uncontrolled bad-state: (p2.x != 0 or (p2.l3 or p1.l2)) and (p2.x != 2 or p2.l3) and ((p2.x != 1 or p2.l3) and (p2.x != 3 or (not p2.l2 or p1.l2))) [fixed point].
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p2.l1 and p1.l1 [initialization predicate]
-Forward controlled-behavior: p2.l1 and p1.l1 -> (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) [restricted to current/previous controlled-behavior predicate: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1))]
-Forward reachability: iteration 1.
-Forward controlled-behavior: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and (p2.l1 and p1.l1) or (p2.x = 2 and (p2.l2 and p1.l2) or p2.x = 1 and p2.l1) [forward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1))]
-Forward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and (p2.l1 and p1.l1) or (p2.x = 2 and (p2.l2 and p1.l2) or p2.x = 1 and p2.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l2) or p2.x = 1 and p2.l1) [forward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1))]
-Forward reachability: iteration 2.
-Forward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l2) or p2.x = 1 and p2.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1) [forward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1))]
-Forward reachability: iteration 3.
-Forward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1) [fixed point].
-Controlled behavior: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1)) -> p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1).
+        Controlled behavior: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (not p2.l3 and p1.l1)) -> p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1)).
 
-Round 1: finished, need another round.
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: p2.l1 and p1.l1 [initialization predicate]
+        Forward controlled-behavior: p2.l1 and p1.l1 -> (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) [restricted to current/previous controlled-behavior predicate: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1))]
+        Forward reachability: iteration 1.
+        Forward controlled-behavior: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and (p2.l1 and p1.l1) or (p2.x = 2 and (p2.l2 and p1.l2) or p2.x = 1 and p2.l1) [forward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1))]
+        Forward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and (p2.l1 and p1.l1) or (p2.x = 2 and (p2.l2 and p1.l2) or p2.x = 1 and p2.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l2) or p2.x = 1 and p2.l1) [forward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1))]
+        Forward reachability: iteration 2.
+        Forward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l2) or p2.x = 1 and p2.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1) [forward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1))]
+        Forward reachability: iteration 3.
+        Forward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1) [fixed point].
 
-Round 2: started.
+        Controlled behavior: p2.x = 0 and (not p2.l3 and p1.l1) or p2.x = 2 and not p2.l3 or (p2.x = 1 and not p2.l3 or p2.x = 3 and (p2.l2 and p1.l1)) -> p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1).
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p2.l1 and p1.l1 [marker predicate]
-Backward controlled-behavior: p2.l1 and p1.l1 -> (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) [restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
-Backward reachability: iteration 1.
-Backward controlled-behavior: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) -> (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and p2.l1 [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
-Backward controlled-behavior: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and p2.l1 -> p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and (not p2.l3 and p1.l1) or p2.x = 1 and p2.l1) [backward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
-Backward reachability: iteration 2.
-Backward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and (not p2.l3 and p1.l1) or p2.x = 1 and p2.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l1) or p2.x = 1 and p2.l1) [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
-Backward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l1) or p2.x = 1 and p2.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1) [backward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
-Backward reachability: iteration 3.
-Backward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1) [fixed point].
+    Need another round.
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (p2.x != 0 or (not p2.l1 or p1.l2)) and ((p2.x != 2 or p2.l3) and (p2.x != 1 or not p2.l1)) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p2.l1 and p1.l1 [marker predicate]
+        Backward controlled-behavior: p2.l1 and p1.l1 -> (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) [restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
+        Backward reachability: iteration 1.
+        Backward controlled-behavior: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) -> (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and p2.l1 [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
+        Backward controlled-behavior: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and p2.l1 -> p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and (not p2.l3 and p1.l1) or p2.x = 1 and p2.l1) [backward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
+        Backward reachability: iteration 2.
+        Backward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and (not p2.l3 and p1.l1) or p2.x = 1 and p2.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l1) or p2.x = 1 and p2.l1) [backward reach with edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
+        Backward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or p2.x = 2 and p2.l1 or (p2.x = 2 and (p2.l2 and p1.l1) or p2.x = 1 and p2.l1) -> p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1) [backward reach with edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1), restricted to current/previous controlled-behavior predicate: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1)]
+        Backward reachability: iteration 3.
+        Backward controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1) [fixed point].
 
-Round 2: finished, controlled behavior is stable.
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: (p2.x != 0 or (not p2.l1 or p1.l2)) and ((p2.x != 2 or p2.l3) and (p2.x != 1 or not p2.l1)) [current/previous controlled behavior predicate]
+        Backward reachability: iteration 1.
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
 
 Computing controlled system guards.
 
