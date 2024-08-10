@@ -49,13 +49,16 @@ public class CifBddApplyPlantInvariants {
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput()
-                    .line("Restricting %s behavior using state/event exclusion plant invariants.", behaviorName);
+                    .line("Restricting %s behavior using state/event exclusion plant invariants:", behaviorName);
+            cifBddSpec.settings.getDebugOutput().inc();
         }
 
-        boolean firstDbg = true;
         boolean guardChanged = false;
         for (CifBddEdge edge: cifBddSpec.edges) {
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
 
@@ -69,6 +72,9 @@ public class CifBddApplyPlantInvariants {
             // Enforce the additional condition by restricting the guard.
             BDD newGuard = edge.guard.and(plant);
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
 
@@ -76,10 +82,6 @@ public class CifBddApplyPlantInvariants {
                 newGuard.free();
             } else {
                 if (dbgEnabled) {
-                    if (firstDbg) {
-                        firstDbg = false;
-                        cifBddSpec.settings.getDebugOutput().line();
-                    }
                     cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s [plant: %s].",
                             edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
                             bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec),
@@ -92,24 +94,32 @@ public class CifBddApplyPlantInvariants {
         }
 
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
-        if (dbgEnabled && guardChanged) {
-            String sysBehText = sysBehTextSupplier.get();
-            if (sysBehText != null || !cifBddSpec.edges.isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line();
-                cifBddSpec.settings.getDebugOutput().line("%s:", Strings.makeInitialUppercase(behaviorName));
-                if (sysBehText != null) {
-                    sysBehText = Strings.duplicate(" ", cifBddSpec.settings.getIndentAmount()) + sysBehText;
-                    cifBddSpec.settings.getDebugOutput().line(sysBehText);
-                }
-                if (!cifBddSpec.edges.isEmpty()) {
-                    int indentLevel = (sysBehText == null) ? 1 : 2;
-                    for (String line: cifBddSpec.getEdgesText(indentLevel)) {
-                        cifBddSpec.settings.getDebugOutput().line(line);
+        if (dbgEnabled) {
+            if (guardChanged) {
+                String sysBehText = sysBehTextSupplier.get();
+                if (sysBehText != null || !cifBddSpec.edges.isEmpty()) {
+                    cifBddSpec.settings.getDebugOutput().line();
+                    cifBddSpec.settings.getDebugOutput().line("%s:", Strings.makeInitialUppercase(behaviorName));
+                    if (sysBehText != null) {
+                        sysBehText = Strings.spaces(cifBddSpec.settings.getIndentAmount()) + sysBehText;
+                        cifBddSpec.settings.getDebugOutput().line(sysBehText);
+                    }
+                    if (!cifBddSpec.edges.isEmpty()) {
+                        int indentLevel = (sysBehText == null) ? 1 : 2;
+                        for (String line: cifBddSpec.getEdgesText(indentLevel)) {
+                            cifBddSpec.settings.getDebugOutput().line(line);
+                        }
                     }
                 }
+            } else {
+                cifBddSpec.settings.getDebugOutput().line("No guards changed.");
             }
+            cifBddSpec.settings.getDebugOutput().dec();
         }
     }
 
