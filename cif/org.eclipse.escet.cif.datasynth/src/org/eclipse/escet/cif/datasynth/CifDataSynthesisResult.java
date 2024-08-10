@@ -88,7 +88,7 @@ public class CifDataSynthesisResult {
      */
     public String getCtrlBehText(int indentLevel, int indentAmount, String prefix) {
         StringBuilder txt = new StringBuilder();
-        txt.append(Strings.duplicate(" ", indentLevel * indentAmount));
+        txt.append(Strings.spaces(indentLevel * indentAmount));
         txt.append(prefix);
         String cbTxt = (ctrlBeh == null) ? "?" : bddToStr(ctrlBeh, cifBddSpec);
         txt.append(fmt("(controlled-behavior: %s)", cbTxt));
