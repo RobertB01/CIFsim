@@ -210,11 +210,15 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) [marker predicate]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l4 and motor2.On) [backward reach with edge: (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1), restricted to current/previous controlled-behavior predicate: true]
-        Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l4 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l4 and motor2.On)) [backward reach with edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4), restricted to current/previous controlled-behavior predicate: true]
-        Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l4 and motor2.On)) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [backward reach with edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3), restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l4 and motor2.On) [backward reach with edge: (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1), restricted to current/previous controlled-behavior predicate: true]
+            Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l4 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l4 and motor2.On)) [backward reach with edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4), restricted to current/previous controlled-behavior predicate: true]
+            Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l4 and motor2.On)) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [backward reach with edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3), restricted to current/previous controlled-behavior predicate: true]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [fixed point].
 
         Controlled behavior: true -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)).
@@ -226,12 +230,17 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l2 and motor2.On) [forward reach with edge: (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2), restricted to current/previous controlled-behavior predicate: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))]
-        Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l2 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l2 and motor2.On)) [forward reach with edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3), restricted to current/previous controlled-behavior predicate: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))]
-        Forward reachability: iteration 2.
-        Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l2 and motor2.On)) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [forward reach with edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4), restricted to current/previous controlled-behavior predicate: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))]
-        Forward reachability: iteration 3.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l2 and motor2.On) [forward reach with edge: (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2), restricted to current/previous controlled-behavior predicate: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))]
+            Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l2 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l2 and motor2.On)) [forward reach with edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3), restricted to current/previous controlled-behavior predicate: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))]
+
+        Forward reachability iteration 2:
+            Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l2 and motor2.On)) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [forward reach with edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4), restricted to current/previous controlled-behavior predicate: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))]
+
+        Forward reachability iteration 3:
+            No change this iteration.
+
         Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [fixed point].
 
         Controlled behavior not changed.

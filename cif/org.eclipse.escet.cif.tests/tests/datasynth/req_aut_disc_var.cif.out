@@ -93,7 +93,10 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -105,7 +108,9 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: r.x = 5 [initialization predicate]
-        Forward reachability: iteration 1.
+
+        Forward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior: true -> r.x = 5.
 
@@ -115,7 +120,10 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> r.x = 5 [restricted to current/previous controlled-behavior predicate: r.x = 5]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: r.x = 5 [fixed point].
 
         Controlled behavior not changed.

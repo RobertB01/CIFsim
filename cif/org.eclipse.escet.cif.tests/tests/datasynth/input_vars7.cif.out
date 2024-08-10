@@ -180,26 +180,36 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.done [marker predicate]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: p.done -> p.done or p.b [backward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: p.done -> p.done or p.b [backward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: true]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: p.done or p.b [fixed point].
 
         Controlled behavior: true -> p.done or p.b.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: p.test and not p.b [current/previous controlled behavior predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor) [initialization predicate]
         Forward controlled-behavior: p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor) -> p.test and (p.b and io.sensor) [restricted to current/previous controlled-behavior predicate: p.done or p.b]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: p.test and (p.b and io.sensor) -> p.b and io.sensor [forward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: p.done or p.b]
-        Forward controlled-behavior: p.b and io.sensor -> p.b [forward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: p.done or p.b]
-        Forward reachability: iteration 2.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: p.test and (p.b and io.sensor) -> p.b and io.sensor [forward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: p.done or p.b]
+            Forward controlled-behavior: p.b and io.sensor -> p.b [forward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: p.done or p.b]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
         Forward controlled-behavior: p.b [fixed point].
 
         Controlled behavior: p.done or p.b -> p.b.
@@ -210,16 +220,22 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.done [marker predicate]
         Backward controlled-behavior: p.done -> p.done and p.b [restricted to current/previous controlled-behavior predicate: p.b]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: p.done and p.b -> p.b [backward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: p.b]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: p.done and p.b -> p.b [backward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: p.b]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: p.b [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: not p.b [current/previous controlled behavior predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 

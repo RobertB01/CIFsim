@@ -229,12 +229,16 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: r1.inactive and r2.inactive and (r3.inactive and q.l1) [marker predicate]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: r1.inactive and r2.inactive and (r3.inactive and q.l1) -> r1.inactive and (r2.inactive and r3.inactive) [backward reach with edge: (event: move) (guard: q.l2) (assignments: q := q.l1), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
-        Backward controlled-behavior: r1.inactive and (r2.inactive and r3.inactive) -> r2.inactive and r3.inactive [backward reach with edge: (event: r1.deactivate) (guard: r1.active) (assignments: r1 := r1.inactive), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
-        Backward controlled-behavior: r2.inactive and r3.inactive -> r3.inactive [backward reach with edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
-        Backward controlled-behavior: r3.inactive -> r1.inactive or r3.inactive [backward reach with edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: r1.inactive and r2.inactive and (r3.inactive and q.l1) -> r1.inactive and (r2.inactive and r3.inactive) [backward reach with edge: (event: move) (guard: q.l2) (assignments: q := q.l1), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+            Backward controlled-behavior: r1.inactive and (r2.inactive and r3.inactive) -> r2.inactive and r3.inactive [backward reach with edge: (event: r1.deactivate) (guard: r1.active) (assignments: r1 := r1.inactive), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+            Backward controlled-behavior: r2.inactive and r3.inactive -> r3.inactive [backward reach with edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+            Backward controlled-behavior: r3.inactive -> r1.inactive or r3.inactive [backward reach with edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: r1.inactive or r3.inactive [fixed point].
 
         Controlled behavior not changed.
@@ -246,12 +250,16 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: r1.inactive and r2.inactive and (r3.inactive and q.l1) [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: r1.inactive and r2.inactive and (r3.inactive and q.l1) -> r1.inactive and (r2.inactive and r3.inactive) [forward reach with edge: (event: move) (guard: q.l1) (assignments: q := q.l2), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
-        Forward controlled-behavior: r1.inactive and (r2.inactive and r3.inactive) -> r2.inactive and r3.inactive [forward reach with edge: (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
-        Forward controlled-behavior: r2.inactive and r3.inactive -> r3.inactive [forward reach with edge: (event: r2.activate) (guard: r2.inactive) (assignments: r2 := r2.active), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
-        Forward controlled-behavior: r3.inactive -> r1.inactive or r3.inactive [forward reach with edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
-        Forward reachability: iteration 2.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: r1.inactive and r2.inactive and (r3.inactive and q.l1) -> r1.inactive and (r2.inactive and r3.inactive) [forward reach with edge: (event: move) (guard: q.l1) (assignments: q := q.l2), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+            Forward controlled-behavior: r1.inactive and (r2.inactive and r3.inactive) -> r2.inactive and r3.inactive [forward reach with edge: (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+            Forward controlled-behavior: r2.inactive and r3.inactive -> r3.inactive [forward reach with edge: (event: r2.activate) (guard: r2.inactive) (assignments: r2 := r2.active), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+            Forward controlled-behavior: r3.inactive -> r1.inactive or r3.inactive [forward reach with edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
         Forward controlled-behavior: r1.inactive or r3.inactive [fixed point].
 
         Controlled behavior not changed.

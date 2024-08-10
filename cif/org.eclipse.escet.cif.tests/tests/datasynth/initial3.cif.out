@@ -128,6 +128,7 @@ Synthesis round 1:
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)) [initialization predicate]
         Forward controlled-behavior: p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)) -> p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [restricted to current/previous controlled-behavior predicate: p.x3 = 1 or p.x3 = 3]
+
         Forward controlled-behavior: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [fixed point].
 
         Controlled behavior: p.x3 = 1 or p.x3 = 3 -> p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3).
@@ -138,6 +139,7 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.x3 = 1 or p.x3 = 3 [marker predicate]
         Backward controlled-behavior: p.x3 = 1 or p.x3 = 3 -> p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [restricted to current/previous controlled-behavior predicate: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)]
+
         Backward controlled-behavior: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [fixed point].
 
         Controlled behavior not changed.

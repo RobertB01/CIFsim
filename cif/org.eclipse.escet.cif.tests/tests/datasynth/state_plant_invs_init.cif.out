@@ -84,6 +84,7 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
+
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -104,6 +105,7 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> A.D != 1 [restricted to current/previous controlled-behavior predicate: A.D != 1]
+
         Backward controlled-behavior: A.D != 1 [fixed point].
 
         Controlled behavior not changed.

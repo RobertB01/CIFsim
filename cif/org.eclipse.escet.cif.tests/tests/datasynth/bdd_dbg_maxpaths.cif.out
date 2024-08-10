@@ -82,6 +82,7 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) [restricted to current/previous controlled-behavior predicate: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))]
+
         Backward controlled-behavior: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) [fixed point].
 
         Controlled behavior not changed.
@@ -102,6 +103,7 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> p.x = 5 [restricted to current/previous controlled-behavior predicate: p.x = 5]
+
         Backward controlled-behavior: p.x = 5 [fixed point].
 
         Controlled behavior not changed.

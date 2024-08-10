@@ -171,7 +171,10 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) [marker predicate]
         Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) -> (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))) [restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))) [fixed point].
 
         Controlled behavior: true -> (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))).
@@ -183,9 +186,13 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.l0 and (p.x = 1 and p.y = 1) [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: p.l0 and (p.x = 1 and p.y = 1) -> p.x = 1 and p.y = 1 [forward reach with edge: (event: c) (guard: p.l0) (assignments: p := p.l1), restricted to current/previous controlled-behavior predicate: (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1)))]
-        Forward reachability: iteration 2.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: p.l0 and (p.x = 1 and p.y = 1) -> p.x = 1 and p.y = 1 [forward reach with edge: (event: c) (guard: p.l0) (assignments: p := p.l1), restricted to current/previous controlled-behavior predicate: (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1)))]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
         Forward controlled-behavior: p.x = 1 and p.y = 1 [fixed point].
 
         Controlled behavior: (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))) -> p.x = 1 and p.y = 1.
@@ -196,7 +203,10 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) [marker predicate]
         Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) -> p.x = 1 and p.y = 1 [restricted to current/previous controlled-behavior predicate: p.x = 1 and p.y = 1]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: p.x = 1 and p.y = 1 [fixed point].
 
         Controlled behavior not changed.

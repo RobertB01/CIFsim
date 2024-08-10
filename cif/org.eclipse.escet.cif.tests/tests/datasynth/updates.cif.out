@@ -221,7 +221,10 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -233,13 +236,17 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4) [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4) -> p.v = 2 or p.v = 3 [forward reach with edge: (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1), restricted to current/previous controlled-behavior predicate: true]
-        Forward controlled-behavior: p.v = 2 or p.v = 3 -> p.v != 4 and (p.v = 0 or 2 <= p.v and p.v <= 4) [forward reach with edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2), restricted to current/previous controlled-behavior predicate: true]
-        Forward controlled-behavior: p.v != 4 and (p.v = 0 or 2 <= p.v and p.v <= 4) -> 0 <= p.v and p.v <= 3 [forward reach with edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2), restricted to current/previous controlled-behavior predicate: true]
-        Forward controlled-behavior: 0 <= p.v and p.v <= 3 -> p.v != 4 [forward reach with edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5), restricted to current/previous controlled-behavior predicate: true]
-        Forward controlled-behavior: p.v != 4 -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [forward reach with edge: (event: j) (guard: p.v = 2) (assignments: p.v := p.w), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 2.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4) -> p.v = 2 or p.v = 3 [forward reach with edge: (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: p.v = 2 or p.v = 3 -> p.v != 4 and (p.v = 0 or 2 <= p.v and p.v <= 4) [forward reach with edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: p.v != 4 and (p.v = 0 or 2 <= p.v and p.v <= 4) -> 0 <= p.v and p.v <= 3 [forward reach with edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: 0 <= p.v and p.v <= 3 -> p.v != 4 [forward reach with edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: p.v != 4 -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [forward reach with edge: (event: j) (guard: p.v = 2) (assignments: p.v := p.w), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
         Forward controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [fixed point].
 
         Controlled behavior: true -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))).
@@ -250,7 +257,10 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [restricted to current/previous controlled-behavior predicate: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)))]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [fixed point].
 
         Controlled behavior not changed.

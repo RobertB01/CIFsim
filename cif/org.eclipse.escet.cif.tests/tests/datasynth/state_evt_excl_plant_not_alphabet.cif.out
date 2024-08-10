@@ -87,7 +87,9 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 
@@ -98,13 +100,19 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.x = 0 [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: p.x = 0 -> p.x = 0 or p.x = 1 [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 2.
-        Forward controlled-behavior: p.x = 0 or p.x = 1 -> p.x != 3 [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 3.
-        Forward controlled-behavior: p.x != 3 -> true [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 4.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: p.x = 0 -> p.x = 0 or p.x = 1 [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            Forward controlled-behavior: p.x = 0 or p.x = 1 -> p.x != 3 [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 3:
+            Forward controlled-behavior: p.x != 3 -> true [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 4:
+            No change this iteration.
+
         Forward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.

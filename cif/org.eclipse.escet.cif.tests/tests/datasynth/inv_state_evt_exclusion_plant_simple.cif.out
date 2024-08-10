@@ -83,19 +83,25 @@ Re-initializing edges for being applied.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: a.l1 [marker predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior: true -> a.l1.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: a.l2 [current/previous controlled behavior predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: a.l1 [initialization predicate]
-        Forward reachability: iteration 1.
+
+        Forward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 

@@ -91,7 +91,10 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -103,15 +106,21 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: buffer.x = 2 [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: buffer.x = 2 -> buffer.x = 2 or buffer.x = 3 [forward reach with edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
-        Forward controlled-behavior: buffer.x = 2 or buffer.x = 3 -> buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) [forward reach with edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 2.
-        Forward controlled-behavior: buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) -> buffer.x != 0 and buffer.x != 5 [forward reach with edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
-        Forward controlled-behavior: buffer.x != 0 and buffer.x != 5 -> buffer.x != 5 [forward reach with edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 3.
-        Forward controlled-behavior: buffer.x != 5 -> true [forward reach with edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 4.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: buffer.x = 2 -> buffer.x = 2 or buffer.x = 3 [forward reach with edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: buffer.x = 2 or buffer.x = 3 -> buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) [forward reach with edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            Forward controlled-behavior: buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) -> buffer.x != 0 and buffer.x != 5 [forward reach with edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: buffer.x != 0 and buffer.x != 5 -> buffer.x != 5 [forward reach with edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 3:
+            Forward controlled-behavior: buffer.x != 5 -> true [forward reach with edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 4:
+            No change this iteration.
+
         Forward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.

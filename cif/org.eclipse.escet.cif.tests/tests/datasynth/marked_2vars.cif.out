@@ -128,6 +128,7 @@ Synthesis round 1:
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: true [initialization predicate]
         Forward controlled-behavior: true -> p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1 [restricted to current/previous controlled-behavior predicate: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1]
+
         Forward controlled-behavior: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1 [fixed point].
 
         Controlled behavior not changed.

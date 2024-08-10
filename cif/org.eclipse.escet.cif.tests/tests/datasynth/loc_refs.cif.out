@@ -186,9 +186,13 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: pe.a [marker predicate]
         Backward controlled-behavior: pe.a -> not pe.c and not pe.b [restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: not pe.c and not pe.b -> not pe.c [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: not pe.c and not pe.b -> not pe.c [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: true]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: not pe.c [fixed point].
 
         Controlled behavior: true -> not pe.c.
@@ -200,9 +204,13 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [forward reach with edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b), restricted to current/previous controlled-behavior predicate: not pe.c]
-        Forward reachability: iteration 2.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [forward reach with edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b), restricted to current/previous controlled-behavior predicate: not pe.c]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
         Forward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
 
         Controlled behavior: not pe.c -> not pe.c and (q1.x = 0 and q1.y = 1).
@@ -213,9 +221,13 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: pe.a [marker predicate]
         Backward controlled-behavior: pe.a -> pe.a and (q1.x = 0 and q1.y = 1) [restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
 
         Controlled behavior not changed.

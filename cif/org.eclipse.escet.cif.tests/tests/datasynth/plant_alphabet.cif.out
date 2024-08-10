@@ -82,7 +82,9 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p1.l0 [marker predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior: true -> p1.l0.
 
@@ -93,7 +95,9 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p1.l0 [initialization predicate]
-        Forward reachability: iteration 1.
+
+        Forward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 

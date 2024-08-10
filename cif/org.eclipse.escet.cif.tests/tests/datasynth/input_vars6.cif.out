@@ -118,26 +118,36 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: not io.sensor2 and not io.sensor3 [marker predicate]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: not io.sensor2 and not io.sensor3 -> not io.sensor3 [backward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
-        Backward controlled-behavior: not io.sensor3 -> true [backward reach with edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3), restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: not io.sensor2 and not io.sensor3 -> not io.sensor3 [backward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
+            Backward controlled-behavior: not io.sensor3 -> true [backward reach with edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3), restricted to current/previous controlled-behavior predicate: true]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: io.sensor1 and io.sensor2 [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: io.sensor1 and io.sensor2 -> io.sensor2 [forward reach with edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1), restricted to current/previous controlled-behavior predicate: true]
-        Forward controlled-behavior: io.sensor2 -> true [forward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 2.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: io.sensor1 and io.sensor2 -> io.sensor2 [forward reach with edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: io.sensor2 -> true [forward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
         Forward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.

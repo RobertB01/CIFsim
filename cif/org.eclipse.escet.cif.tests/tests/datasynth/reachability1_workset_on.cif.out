@@ -127,6 +127,7 @@ Preparing workset algorithm:
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.v = 14 [marker predicate]
+
         Backward controlled-behavior: p.v = 14 -> p.v = 14 or p.v = 13 [backward reach with edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14), restricted to current/previous controlled-behavior predicate: true]
         Backward controlled-behavior: p.v = 14 or p.v = 13 -> p.v = 12 or (p.v = 14 or p.v = 13) [backward reach with edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13), restricted to current/previous controlled-behavior predicate: true]
         Backward controlled-behavior: p.v = 12 or (p.v = 14 or p.v = 13) -> p.v = 12 or p.v = 14 or (p.v = 13 or p.v = 11) [backward reach with edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12), restricted to current/previous controlled-behavior predicate: true]
@@ -141,6 +142,7 @@ Synthesis round 1:
         Backward controlled-behavior: (p.v = 1 or 3 <= p.v and p.v <= 14) and p.v != 1 -> p.v != 0 and p.v != 1 [backward reach with edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3), restricted to current/previous controlled-behavior predicate: true]
         Backward controlled-behavior: p.v != 0 and p.v != 1 -> p.v != 0 [backward reach with edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2), restricted to current/previous controlled-behavior predicate: true]
         Backward controlled-behavior: p.v != 0 -> true [backward reach with edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1), restricted to current/previous controlled-behavior predicate: true]
+
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -152,6 +154,7 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.v = 0 [initialization predicate]
+
         Forward controlled-behavior: p.v = 0 -> p.v = 0 or p.v = 1 [forward reach with edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1), restricted to current/previous controlled-behavior predicate: true]
         Forward controlled-behavior: p.v = 0 or p.v = 1 -> p.v = 0 or (p.v = 2 or p.v = 1) [forward reach with edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2), restricted to current/previous controlled-behavior predicate: true]
         Forward controlled-behavior: p.v = 0 or (p.v = 2 or p.v = 1) -> 0 <= p.v and p.v <= 3 [forward reach with edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3), restricted to current/previous controlled-behavior predicate: true]
@@ -166,6 +169,7 @@ Synthesis round 1:
         Forward controlled-behavior: 0 <= p.v and p.v <= 11 -> p.v != 14 and p.v != 13 [forward reach with edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12), restricted to current/previous controlled-behavior predicate: true]
         Forward controlled-behavior: p.v != 14 and p.v != 13 -> p.v != 14 [forward reach with edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13), restricted to current/previous controlled-behavior predicate: true]
         Forward controlled-behavior: p.v != 14 -> true [forward reach with edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14), restricted to current/previous controlled-behavior predicate: true]
+
         Forward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.

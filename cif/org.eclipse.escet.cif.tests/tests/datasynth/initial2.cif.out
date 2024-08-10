@@ -134,6 +134,7 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [restricted to current/previous controlled-behavior predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0]
+
         Backward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [fixed point].
 
         Controlled behavior not changed.

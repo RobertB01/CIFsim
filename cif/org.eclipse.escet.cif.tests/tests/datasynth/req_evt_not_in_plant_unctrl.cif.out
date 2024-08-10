@@ -196,18 +196,26 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: r.loc1 [marker predicate]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: r.loc1 -> p.x = 2 or (p.x = 3 or r.loc1) [backward reach with edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: r.loc1 -> p.x = 2 or (p.x = 3 or r.loc1) [backward reach with edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: (p.x = 0 or p.x = 1) and r.loc2 [current/previous controlled behavior predicate]
-        Backward reachability: iteration 1.
-        Backward uncontrolled bad-state: (p.x = 0 or p.x = 1) and r.loc2 -> p.x = 0 or p.x = 1 [backward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2)]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward uncontrolled bad-state: (p.x = 0 or p.x = 1) and r.loc2 -> p.x = 0 or p.x = 1 [backward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2)]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward uncontrolled bad-state: p.x = 0 or p.x = 1 [fixed point].
 
         Controlled behavior: p.x = 2 or (p.x = 3 or r.loc1) -> p.x = 2 or p.x = 3.

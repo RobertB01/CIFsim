@@ -108,21 +108,29 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: A.l1 [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: A.l1 -> not A.l3 [forward reach with edge: (event: A.c) (guard: A.l1) (assignments: A := A.l2), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 2.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: A.l1 -> not A.l3 [forward reach with edge: (event: A.c) (guard: A.l1) (assignments: A := A.l2), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
         Forward controlled-behavior: not A.l3 [fixed point].
 
         Controlled behavior: true -> not A.l3.
@@ -133,14 +141,19 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> not A.l3 [restricted to current/previous controlled-behavior predicate: not A.l3]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: not A.l3 [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: A.l3 [current/previous controlled behavior predicate]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior not changed.
 

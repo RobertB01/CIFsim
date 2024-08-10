@@ -200,10 +200,14 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [marker predicate]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 3 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [backward reach with edge: (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2), restricted to current/previous controlled-behavior predicate: <bdd 15n 243p>]
-        Backward controlled-behavior: p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 3 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> <bdd 21n 4p> [backward reach with edge: (event: p.em3) (guard: p.loc1) (assignments: p.m3 := p.m3 mod 3, p := p.loc2), restricted to current/previous controlled-behavior predicate: <bdd 15n 243p>]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 3 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [backward reach with edge: (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2), restricted to current/previous controlled-behavior predicate: <bdd 15n 243p>]
+            Backward controlled-behavior: p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 3 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> <bdd 21n 4p> [backward reach with edge: (event: p.em3) (guard: p.loc1) (assignments: p.m3 := p.m3 mod 3, p := p.loc2), restricted to current/previous controlled-behavior predicate: <bdd 15n 243p>]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: <bdd 21n 4p> [fixed point].
 
         Controlled behavior: <bdd 15n 243p> -> <bdd 21n 4p>.
@@ -216,9 +220,13 @@ Synthesis round 1:
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: <bdd 16n 243p> [initialization predicate]
         Forward controlled-behavior: <bdd 16n 243p> -> <bdd 21n 3p> [restricted to current/previous controlled-behavior predicate: <bdd 21n 4p>]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: <bdd 21n 3p> -> <bdd 21n 4p> [forward reach with edge: (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2), restricted to current/previous controlled-behavior predicate: <bdd 21n 4p>]
-        Forward reachability: iteration 2.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: <bdd 21n 3p> -> <bdd 21n 4p> [forward reach with edge: (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2), restricted to current/previous controlled-behavior predicate: <bdd 21n 4p>]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
         Forward controlled-behavior: <bdd 21n 4p> [fixed point].
 
         Controlled behavior not changed.

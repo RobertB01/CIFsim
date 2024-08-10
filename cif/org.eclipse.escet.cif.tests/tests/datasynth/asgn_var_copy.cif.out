@@ -203,7 +203,10 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.y != 3 [marker predicate]
         Backward controlled-behavior: p.y != 3 -> <bdd 14n 54p> [restricted to current/previous controlled-behavior predicate: <bdd 13n 54p>]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: <bdd 14n 54p> [fixed point].
 
         Controlled behavior: <bdd 13n 54p> -> <bdd 14n 54p>.
@@ -216,7 +219,10 @@ Synthesis round 1:
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: <bdd 14n 81p> [initialization predicate]
         Forward controlled-behavior: <bdd 14n 81p> -> <bdd 12n 27p> [restricted to current/previous controlled-behavior predicate: <bdd 14n 54p>]
-        Forward reachability: iteration 1.
+
+        Forward reachability iteration 1:
+            No change this iteration.
+
         Forward controlled-behavior: <bdd 12n 27p> [fixed point].
 
         Controlled behavior: <bdd 14n 54p> -> <bdd 12n 27p>.
@@ -227,7 +233,10 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.y != 3 [marker predicate]
         Backward controlled-behavior: p.y != 3 -> <bdd 12n 27p> [restricted to current/previous controlled-behavior predicate: <bdd 12n 27p>]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: <bdd 12n 27p> [fixed point].
 
         Controlled behavior not changed.

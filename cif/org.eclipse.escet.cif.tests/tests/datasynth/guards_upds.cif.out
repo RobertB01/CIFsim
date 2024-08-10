@@ -194,7 +194,10 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p1.l0 [marker predicate]
         Backward controlled-behavior: p1.l0 -> (p2.y = 2 or p2.y = 3 or (p1.x = 2 or (p1.x = 3 or p1.l0))) and (p2.y = 2 or p2.y = 3 or (not(p1.x = 2 or p1.x = 3) or p1.l0)) and ((not(p2.y = 2 or p2.y = 3) or p1.x = 2 or (p1.x = 3 or p1.l0)) and (not(p2.y = 2 or p2.y = 3) or (not(p1.x = 2 or p1.x = 3) or p1.l0))) [restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: (p2.y = 2 or p2.y = 3 or (p1.x = 2 or (p1.x = 3 or p1.l0))) and (p2.y = 2 or p2.y = 3 or (not(p1.x = 2 or p1.x = 3) or p1.l0)) and ((not(p2.y = 2 or p2.y = 3) or p1.x = 2 or (p1.x = 3 or p1.l0)) and (not(p2.y = 2 or p2.y = 3) or (not(p1.x = 2 or p1.x = 3) or p1.l0))) [fixed point].
 
         Controlled behavior: true -> (p2.y = 2 or p2.y = 3 or (p1.x = 2 or (p1.x = 3 or p1.l0))) and (p2.y = 2 or p2.y = 3 or (not(p1.x = 2 or p1.x = 3) or p1.l0)) and ((not(p2.y = 2 or p2.y = 3) or p1.x = 2 or (p1.x = 3 or p1.l0)) and (not(p2.y = 2 or p2.y = 3) or (not(p1.x = 2 or p1.x = 3) or p1.l0))).
@@ -206,7 +209,9 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p2.y = 0 and (p1.x = 0 and p1.l0) [initialization predicate]
-        Forward reachability: iteration 1.
+
+        Forward reachability iteration 1:
+            No change this iteration.
 
         Controlled behavior: (p2.y = 2 or p2.y = 3 or (p1.x = 2 or (p1.x = 3 or p1.l0))) and (p2.y = 2 or p2.y = 3 or (not(p1.x = 2 or p1.x = 3) or p1.l0)) and ((not(p2.y = 2 or p2.y = 3) or p1.x = 2 or (p1.x = 3 or p1.l0)) and (not(p2.y = 2 or p2.y = 3) or (not(p1.x = 2 or p1.x = 3) or p1.l0))) -> p2.y = 0 and (p1.x = 0 and p1.l0).
 
@@ -216,7 +221,10 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p1.l0 [marker predicate]
         Backward controlled-behavior: p1.l0 -> p2.y = 0 and (p1.x = 0 and p1.l0) [restricted to current/previous controlled-behavior predicate: p2.y = 0 and (p1.x = 0 and p1.l0)]
-        Backward reachability: iteration 1.
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
         Backward controlled-behavior: p2.y = 0 and (p1.x = 0 and p1.l0) [fixed point].
 
         Controlled behavior not changed.

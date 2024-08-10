@@ -180,10 +180,14 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: LightA.Red and LightB.Red [marker predicate]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: LightA.Red and LightB.Red -> LightB.Red [backward reach with edge: (event: red_A) (guard: LightA.Green) (assignments: LightA := LightA.Red), restricted to current/previous controlled-behavior predicate: true]
-        Backward controlled-behavior: LightB.Red -> true [backward reach with edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red), restricted to current/previous controlled-behavior predicate: true]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: LightA.Red and LightB.Red -> LightB.Red [backward reach with edge: (event: red_A) (guard: LightA.Green) (assignments: LightA := LightA.Red), restricted to current/previous controlled-behavior predicate: true]
+            Backward controlled-behavior: LightB.Red -> true [backward reach with edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red), restricted to current/previous controlled-behavior predicate: true]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -195,10 +199,14 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: LightA.Red and LightB.Red [initialization predicate]
-        Forward reachability: iteration 1.
-        Forward controlled-behavior: LightA.Red and LightB.Red -> LightB.Red [forward reach with edge: (event: green_A) (guard: LightA.Red -> LightA.Red and LightB.Red) (assignments: LightA := LightA.Green), restricted to current/previous controlled-behavior predicate: true]
-        Forward controlled-behavior: LightB.Red -> LightA.Red or LightB.Red [forward reach with edge: (event: green_B) (guard: LightB.Red -> LightA.Red and LightB.Red) (assignments: LightB := LightB.Green), restricted to current/previous controlled-behavior predicate: true]
-        Forward reachability: iteration 2.
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: LightA.Red and LightB.Red -> LightB.Red [forward reach with edge: (event: green_A) (guard: LightA.Red -> LightA.Red and LightB.Red) (assignments: LightA := LightA.Green), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: LightB.Red -> LightA.Red or LightB.Red [forward reach with edge: (event: green_B) (guard: LightB.Red -> LightA.Red and LightB.Red) (assignments: LightB := LightB.Green), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
         Forward controlled-behavior: LightA.Red or LightB.Red [fixed point].
 
         Controlled behavior: true -> LightA.Red or LightB.Red.
@@ -208,10 +216,14 @@ Synthesis round 1:
 Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: LightA.Red and LightB.Red [marker predicate]
-        Backward reachability: iteration 1.
-        Backward controlled-behavior: LightA.Red and LightB.Red -> LightB.Red [backward reach with edge: (event: red_A) (guard: LightA.Green) (assignments: LightA := LightA.Red), restricted to current/previous controlled-behavior predicate: LightA.Red or LightB.Red]
-        Backward controlled-behavior: LightB.Red -> LightA.Red or LightB.Red [backward reach with edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red), restricted to current/previous controlled-behavior predicate: LightA.Red or LightB.Red]
-        Backward reachability: iteration 2.
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: LightA.Red and LightB.Red -> LightB.Red [backward reach with edge: (event: red_A) (guard: LightA.Green) (assignments: LightA := LightA.Red), restricted to current/previous controlled-behavior predicate: LightA.Red or LightB.Red]
+            Backward controlled-behavior: LightB.Red -> LightA.Red or LightB.Red [backward reach with edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red), restricted to current/previous controlled-behavior predicate: LightA.Red or LightB.Red]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
         Backward controlled-behavior: LightA.Red or LightB.Red [fixed point].
 
         Controlled behavior not changed.
