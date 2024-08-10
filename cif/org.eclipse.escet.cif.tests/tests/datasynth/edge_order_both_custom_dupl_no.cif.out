@@ -157,8 +157,9 @@ Initializing edges for being applied.
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: Counter.zero and Actuator.Off.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: Counter.zero and Actuator.Off.
 
 Restricting behavior using state requirements.
 

@@ -153,8 +153,9 @@ Initializing edges for being applied.
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: machine1.Idle and machine2.Idle.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: machine1.Idle and machine2.Idle.
 
 Restricting behavior using state requirements.
 Controlled behavior: true -> not machine1.Producing or not machine2.Producing [state requirements: not machine1.Producing or not machine2.Producing].

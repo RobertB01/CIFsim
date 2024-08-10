@@ -365,8 +365,9 @@ Restricting uncontrolled system behavior using state plant invariants:
             Edge: (event: c_synch) (guard: a.l1 and b.l2)
             Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: <bdd 69n 1p>.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: <bdd 69n 1p>.
 
 Restricting behavior using state requirements.
 Controlled behavior: true -> p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1)))) [state requirements: p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))))].

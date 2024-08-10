@@ -58,8 +58,9 @@ Initializing edges for being applied.
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: true.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: true.
 
 Restricting behavior using state requirements.
 Controlled behavior: true -> p.x = 1 [state requirements: p.x = 1].

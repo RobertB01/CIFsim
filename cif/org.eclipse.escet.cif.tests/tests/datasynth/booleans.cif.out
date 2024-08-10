@@ -171,8 +171,9 @@ Initializing edges for being applied.
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4)).
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4)).
 
 Restricting behavior using state requirements.
 

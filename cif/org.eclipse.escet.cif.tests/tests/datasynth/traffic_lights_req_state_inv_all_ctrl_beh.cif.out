@@ -151,8 +151,9 @@ Initializing edges for being applied.
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: LightA.Red and LightB.Red.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: LightA.Red and LightB.Red.
 
 Restricting behavior using state requirements.
 Controlled behavior: true -> LightA.Red or LightB.Red [state requirements: LightA.Red or LightB.Red].

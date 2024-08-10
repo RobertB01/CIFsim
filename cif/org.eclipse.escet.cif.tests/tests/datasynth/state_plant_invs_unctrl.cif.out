@@ -167,8 +167,9 @@ Restricting uncontrolled system behavior using state plant invariants:
             Edge: (event: u2) (guard: true -> (1 <= A.Vu2 and A.Vu2 <= 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and A.Vu2 != 2 and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and (A.Vu2 != 3 or A.Vu3 != 4))) (assignments: A.Vu2 := A.Vu2 + 1)
             Edge: (event: u3) (guard: true -> (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 3)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 3)) and A.Vu2 != 3)) (assignments: A.Vu3 := A.Vu3 + 1)
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0).
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: A.Vu1 = 0 and (A.Vu2 = 0 and A.Vu3 = 0).
 
 Restricting behavior using state requirements.
 

@@ -72,8 +72,9 @@ Restricting uncontrolled system behavior using state plant invariants:
             Edge: (event: u2) (guard: A.l2 -> false) (assignments: A := A.l4)
             Edge: (event: u3) (guard: A.l2 -> false) (assignments: A := A.l5)
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: A.l1.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: A.l1.
 
 Restricting behavior using state requirements.
 
