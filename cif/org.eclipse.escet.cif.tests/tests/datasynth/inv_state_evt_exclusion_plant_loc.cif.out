@@ -3,111 +3,111 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a         a     0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..25]  a.x   1      5 * 2     26 * 2      32 * 2      ~81%
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  Total                                       2      12        56          68          ~82%
+    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    1      location pointer   n/a         a     0      1 * 2     2 * 2       2 * 2       100%
+    2      discrete variable  int[0..25]  a.x   1      5 * 2     26 * 2      32 * 2      ~81%
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    Total                                       2      12        56          68          ~82%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 32
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 32
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+            Applying Weighted Cuthill-McKee algorithm:
+                Node finder: george-liu
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 1
 
-        Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
-        Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [after]
+                Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
+                Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [after]
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+            Applying Sloan algorithm:
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 1
 
-        Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
-        Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [after]
+                Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
+                Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [after]
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+            Applying 2 orderers, sequentially:
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-          Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
-          Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [after]
+                    Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
+                    Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 32
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 32
 
-          Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
-          Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [reversed]
+                    Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
+                    Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [reversed]
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+            Applying 2 orderers, sequentially:
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-          Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
-          Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [after]
+                    Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
+                    Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 32
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 32
 
-          Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
-          Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [reversed]
+                    Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [before]
+                    Total span:   4 (total)   0.13 (avg/edge) / WES:   0.468750 (total)   0.014648 (avg/edge) [reversed]
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 18
-      Maximum number of iterations: 10
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 18
+            Maximum number of iterations: 10
 
-      Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [before]
-      Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [iteration 1]
-      Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [after]
+            Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [before]
+            Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [iteration 1]
+            Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [after]
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 18
-      Window length: 2
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 18
+            Window length: 2
 
-      Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [before]
-      Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [after]
+            Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [before]
+            Total span:   18 (total)   1.00 (avg/edge) / WES:   1.000000 (total)   0.055556 (avg/edge) [after]
 
 Variable order changed.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..25]  a.x   0      5 * 2     26 * 2      32 * 2      ~81%
-  2      location pointer   n/a         a     1      1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  Total                                       2      12        56          68          ~82%
+    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..25]  a.x   0      5 * 2     26 * 2      32 * 2      ~81%
+    2      location pointer   n/a         a     1      1 * 2     2 * 2       2 * 2       100%
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    Total                                       2      12        56          68          ~82%
 
 Starting data-based synthesis.
 
@@ -159,25 +159,25 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system (state/event exclusion plants not applied yet):
-  State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1)) (assignments: a.x := a.x + 1)
-    Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: a.l1)
-    Edge: (event: f) (guard: a.l2)
-    Edge: (event: g) (guard: a.l1)
-    Edge: (event: g) (guard: a.l2)
-    Edge: (event: h) (guard: a.l1)
-    Edge: (event: h) (guard: a.l2)
-    Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
-    Edge: (event: i) (guard: (a.x = 0 or a.x = 4) and a.l1 or (a.x = 2 and a.l1 or (a.x = 1 or a.x = 3) and a.l1)) (assignments: a.x := a.x + 1)
-    Edge: (event: i) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
-    Edge: (event: j) (guard: a.l1)
-    Edge: (event: j) (guard: a.l2)
-    Edge: (event: k) (guard: a.l1)
-    Edge: (event: k) (guard: a.l2)
-    Edge: (event: l) (guard: a.l1)
-    Edge: (event: l) (guard: a.l2)
-    Edge: (event: c) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
+    State: (controlled-behavior: ?)
+        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1)) (assignments: a.x := a.x + 1)
+        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
+        Edge: (event: f) (guard: a.l1)
+        Edge: (event: f) (guard: a.l2)
+        Edge: (event: g) (guard: a.l1)
+        Edge: (event: g) (guard: a.l2)
+        Edge: (event: h) (guard: a.l1)
+        Edge: (event: h) (guard: a.l2)
+        Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
+        Edge: (event: i) (guard: (a.x = 0 or a.x = 4) and a.l1 or (a.x = 2 and a.l1 or (a.x = 1 or a.x = 3) and a.l1)) (assignments: a.x := a.x + 1)
+        Edge: (event: i) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
+        Edge: (event: j) (guard: a.l1)
+        Edge: (event: j) (guard: a.l2)
+        Edge: (event: k) (guard: a.l1)
+        Edge: (event: k) (guard: a.l2)
+        Edge: (event: l) (guard: a.l1)
+        Edge: (event: l) (guard: a.l2)
+        Edge: (event: c) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -195,25 +195,25 @@ Edge (event: l) (guard: a.l1): guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or
 Edge (event: l) (guard: a.l2): guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 [plant: (a.x = 0 or a.x = 1 or (a.x = 8 or a.x = 9)) and a.l1 or ((a.x = 4 or a.x = 5) and a.l1 or a.x = 12) or (a.x = 13 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))].
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1)) (assignments: a.x := a.x + 1)
-    Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1)
-    Edge: (event: f) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
-    Edge: (event: g) (guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1))
-    Edge: (event: g) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
-    Edge: (event: h) (guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))
-    Edge: (event: h) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
-    Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
-    Edge: (event: i) (guard: (a.x = 0 or a.x = 4) and a.l1 or (a.x = 2 and a.l1 or (a.x = 1 or a.x = 3) and a.l1)) (assignments: a.x := a.x + 1)
-    Edge: (event: i) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
-    Edge: (event: j) (guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1)
-    Edge: (event: j) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
-    Edge: (event: k) (guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1))
-    Edge: (event: k) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
-    Edge: (event: l) (guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))
-    Edge: (event: l) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
-    Edge: (event: c) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
+    State: (controlled-behavior: ?)
+        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1)) (assignments: a.x := a.x + 1)
+        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
+        Edge: (event: f) (guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1)
+        Edge: (event: f) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
+        Edge: (event: g) (guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1))
+        Edge: (event: g) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
+        Edge: (event: h) (guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))
+        Edge: (event: h) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
+        Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
+        Edge: (event: i) (guard: (a.x = 0 or a.x = 4) and a.l1 or (a.x = 2 and a.l1 or (a.x = 1 or a.x = 3) and a.l1)) (assignments: a.x := a.x + 1)
+        Edge: (event: i) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
+        Edge: (event: j) (guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1)
+        Edge: (event: j) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
+        Edge: (event: k) (guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1))
+        Edge: (event: k) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
+        Edge: (event: l) (guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))
+        Edge: (event: l) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
+        Edge: (event: c) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: a.x = 1 and a.l1.
@@ -321,25 +321,25 @@ Edge (event: g) (guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and
 Edge (event: h) (guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1)): guard: (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1) -> a.x = 4 and a.l1 or a.x = 2 and a.l1 or ((a.x = 1 or a.x = 5) and a.l1 or a.x = 3 and a.l1).
 
 Final synthesis result:
-  State: (controlled-behavior: a.x = 16 and a.l2 or a.x = 8 and a.l2 or (a.x = 4 and a.l1 or a.x = 20 and a.l2) or (a.x = 12 and a.l2 or a.x = 2 and a.l1 or (a.x = 18 and a.l2 or (a.x = 10 and a.l2 or (a.x = 6 or a.x = 14) and a.l2))) or (a.x = 1 and a.l1 or a.x = 17 and a.l2 or (a.x = 9 and a.l2 or a.x = 5) or (a.x = 13 and a.l2 or a.x = 3 and a.l1 or (a.x = 19 and a.l2 or (a.x = 11 and a.l2 or (a.x = 7 or a.x = 15) and a.l2)))))
-    Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1) -> (a.x = 0 or a.x = 4) and a.l1 or (a.x = 2 and a.l1 or (a.x = 1 or a.x = 3) and a.l1)) (assignments: a.x := a.x + 1)
-    Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2) -> 16 <= a.x and (a.x <= 19 and a.l2) or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: a.l1 -> false)
-    Edge: (event: f) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
-    Edge: (event: g) (guard: a.l1 -> false)
-    Edge: (event: g) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
-    Edge: (event: h) (guard: a.l1 -> a.x = 4 and a.l1 or a.x = 2 and a.l1 or ((a.x = 1 or a.x = 5) and a.l1 or a.x = 3 and a.l1))
-    Edge: (event: h) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
-    Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
-    Edge: (event: i) (guard: (a.x = 0 or a.x = 4) and a.l1 or (a.x = 2 and a.l1 or (a.x = 1 or a.x = 3) and a.l1)) (assignments: a.x := a.x + 1)
-    Edge: (event: i) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
-    Edge: (event: j) (guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1)
-    Edge: (event: j) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
-    Edge: (event: k) (guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1))
-    Edge: (event: k) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
-    Edge: (event: l) (guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))
-    Edge: (event: l) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
-    Edge: (event: c) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
+    State: (controlled-behavior: a.x = 16 and a.l2 or a.x = 8 and a.l2 or (a.x = 4 and a.l1 or a.x = 20 and a.l2) or (a.x = 12 and a.l2 or a.x = 2 and a.l1 or (a.x = 18 and a.l2 or (a.x = 10 and a.l2 or (a.x = 6 or a.x = 14) and a.l2))) or (a.x = 1 and a.l1 or a.x = 17 and a.l2 or (a.x = 9 and a.l2 or a.x = 5) or (a.x = 13 and a.l2 or a.x = 3 and a.l1 or (a.x = 19 and a.l2 or (a.x = 11 and a.l2 or (a.x = 7 or a.x = 15) and a.l2)))))
+        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1) -> (a.x = 0 or a.x = 4) and a.l1 or (a.x = 2 and a.l1 or (a.x = 1 or a.x = 3) and a.l1)) (assignments: a.x := a.x + 1)
+        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2) -> 16 <= a.x and (a.x <= 19 and a.l2) or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
+        Edge: (event: f) (guard: a.l1 -> false)
+        Edge: (event: f) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
+        Edge: (event: g) (guard: a.l1 -> false)
+        Edge: (event: g) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
+        Edge: (event: h) (guard: a.l1 -> a.x = 4 and a.l1 or a.x = 2 and a.l1 or ((a.x = 1 or a.x = 5) and a.l1 or a.x = 3 and a.l1))
+        Edge: (event: h) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
+        Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
+        Edge: (event: i) (guard: (a.x = 0 or a.x = 4) and a.l1 or (a.x = 2 and a.l1 or (a.x = 1 or a.x = 3) and a.l1)) (assignments: a.x := a.x + 1)
+        Edge: (event: i) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
+        Edge: (event: j) (guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1)
+        Edge: (event: j) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
+        Edge: (event: k) (guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1))
+        Edge: (event: k) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
+        Edge: (event: l) (guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))
+        Edge: (event: l) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
+        Edge: (event: c) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
 Controlled system: exactly 21 states.
 

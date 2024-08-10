@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..14]  p.v   0      4 * 2     15 * 2      16 * 2      ~94%
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  Total                                       1      8         30          32          ~94%
+    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..14]  p.v   0      4 * 2     15 * 2      16 * 2      ~94%
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    Total                                       1      8         30          32          ~94%
 
 Skipping variable ordering: only one variable present.
 
@@ -45,20 +45,20 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14)
-    Edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5)
-    Edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7)
-    Edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6)
-    Edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1)
-    Edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9)
-    Edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3)
-    Edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2)
-    Edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13)
-    Edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10)
-    Edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11)
-    Edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12)
-    Edge: (event: p.l) (guard: p.v = 12) (assignments: p.v := 13)
+    State: (controlled-behavior: ?)
+        Edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14)
+        Edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5)
+        Edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7)
+        Edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6)
+        Edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1)
+        Edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9)
+        Edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3)
+        Edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2)
+        Edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13)
+        Edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10)
+        Edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11)
+        Edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12)
+        Edge: (event: p.l) (guard: p.v = 12) (assignments: p.v := 13)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -142,20 +142,20 @@ Round 1: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14)
-    Edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5)
-    Edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7)
-    Edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6)
-    Edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1)
-    Edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9)
-    Edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3)
-    Edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2)
-    Edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13)
-    Edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10)
-    Edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11)
-    Edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12)
-    Edge: (event: p.l) (guard: p.v = 12) (assignments: p.v := 13)
+    State: (controlled-behavior: true)
+        Edge: (event: p.m) (guard: p.v = 13) (assignments: p.v := 14)
+        Edge: (event: p.d) (guard: p.v = 4 or p.v = 3) (assignments: p.v := 4 / p.v := 5)
+        Edge: (event: p.f) (guard: p.v = 6 or p.v = 7) (assignments: p.v := 8 / p.v := 7)
+        Edge: (event: p.e) (guard: p.v = 5) (assignments: p.v := 6)
+        Edge: (event: p.a) (guard: p.v = 0) (assignments: p.v := 1)
+        Edge: (event: p.g) (guard: p.v = 8) (assignments: p.v := 9)
+        Edge: (event: p.c) (guard: p.v = 2) (assignments: p.v := 3)
+        Edge: (event: p.b) (guard: p.v = 1) (assignments: p.v := 2)
+        Edge: (event: p.k) (guard: p.v = 12) (assignments: p.v := 13)
+        Edge: (event: p.h) (guard: p.v = 9) (assignments: p.v := 10)
+        Edge: (event: p.i) (guard: p.v = 10) (assignments: p.v := 11)
+        Edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12)
+        Edge: (event: p.l) (guard: p.v = 12) (assignments: p.v := 13)
 
 Controlled system: exactly 15 states.
 

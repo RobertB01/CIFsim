@@ -3,44 +3,44 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
-  2      discrete variable  int[0..5]  p.y   1      3 * 2     6 * 2       8 * 2       75%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      2      12        24          32          75%
+    Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
+    2      discrete variable  int[0..5]  p.y   1      3 * 2     6 * 2       8 * 2       75%
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    Total                                      2      12        24          32          75%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 0
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 0
 
-      Skipping orderer: no hyper-edges.
+            Skipping orderer: no hyper-edges.
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Maximum number of iterations: 10
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 0
+            Maximum number of iterations: 10
 
-      Skipping algorithm: no hyper-edges.
+            Skipping algorithm: no hyper-edges.
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Window length: 2
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 0
+            Window length: 2
 
-      Skipping algorithm: no hyper-edges.
+            Skipping algorithm: no hyper-edges.
 
 Variable order unchanged.
 
@@ -78,7 +78,7 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
+    State: (controlled-behavior: ?)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -117,7 +117,7 @@ Round 1: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1)
+    State: (controlled-behavior: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1)
 
 Controlled system: exactly 2 states.
 

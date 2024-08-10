@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[1..10]  r.x   0      4 * 2     10 * 2      16 * 2      ~63%
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  Total                                       1      8         20          32          ~63%
+    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[1..10]  r.x   0      4 * 2     10 * 2      16 * 2      ~63%
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    Total                                       1      8         20          32          ~63%
 
 Skipping variable ordering: only one variable present.
 
@@ -47,9 +47,9 @@ State/event exclusion requirements:
     r.x = 5
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: c) (guard: r.x = 5)
-    Edge: (event: c) (guard: r.x != 5)
+    State: (controlled-behavior: ?)
+        Edge: (event: c) (guard: r.x = 5)
+        Edge: (event: c) (guard: r.x != 5)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -69,9 +69,9 @@ Restricting behavior using state/event exclusion requirements.
 Edge (event: c) (guard: r.x != 5): guard: r.x != 5 -> false [state/event exclusion requirement: r.x = 5].
 
 Restricted behavior using state/event exclusion requirements:
-  State: (controlled-behavior: true)
-    Edge: (event: c) (guard: r.x = 5)
-    Edge: (event: c) (guard: r.x != 5 -> false)
+    State: (controlled-behavior: true)
+        Edge: (event: c) (guard: r.x = 5)
+        Edge: (event: c) (guard: r.x != 5 -> false)
 
 Restricting behavior using implicit runtime error requirements.
 
@@ -109,9 +109,9 @@ Round 2: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: r.x = 5)
-    Edge: (event: c) (guard: r.x = 5)
-    Edge: (event: c) (guard: r.x != 5 -> false)
+    State: (controlled-behavior: r.x = 5)
+        Edge: (event: c) (guard: r.x = 5)
+        Edge: (event: c) (guard: r.x != 5 -> false)
 
 Controlled system: exactly 1 state.
 

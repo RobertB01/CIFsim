@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   A     0      3 * 2     5 * 2       8 * 2       ~63%
-  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                1      6         10          16          ~63%
+    Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+    1      location pointer  n/a   A     0      3 * 2     5 * 2       8 * 2       ~63%
+    -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+    Total                                1      6         10          16          ~63%
 
 Skipping variable ordering: only one variable present.
 
@@ -46,11 +46,11 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: c) (guard: A.l1) (assignments: A := A.l2)
-    Edge: (event: u1) (guard: A.l2) (assignments: A := A.l3)
-    Edge: (event: u2) (guard: A.l2) (assignments: A := A.l4)
-    Edge: (event: u3) (guard: A.l2) (assignments: A := A.l5)
+    State: (controlled-behavior: ?)
+        Edge: (event: c) (guard: A.l1) (assignments: A := A.l2)
+        Edge: (event: u1) (guard: A.l2) (assignments: A := A.l3)
+        Edge: (event: u2) (guard: A.l2) (assignments: A := A.l4)
+        Edge: (event: u3) (guard: A.l2) (assignments: A := A.l5)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -112,11 +112,11 @@ Round 2: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: A.l1 or A.l2)
-    Edge: (event: c) (guard: A.l1) (assignments: A := A.l2)
-    Edge: (event: u1) (guard: A.l2 -> false) (assignments: A := A.l3)
-    Edge: (event: u2) (guard: A.l2 -> false) (assignments: A := A.l4)
-    Edge: (event: u3) (guard: A.l2 -> false) (assignments: A := A.l5)
+    State: (controlled-behavior: A.l1 or A.l2)
+        Edge: (event: c) (guard: A.l1) (assignments: A := A.l2)
+        Edge: (event: u1) (guard: A.l2 -> false) (assignments: A := A.l3)
+        Edge: (event: u2) (guard: A.l2 -> false) (assignments: A := A.l4)
+        Edge: (event: u3) (guard: A.l2 -> false) (assignments: A := A.l5)
 
 Controlled system: exactly 2 states.
 

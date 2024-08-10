@@ -3,98 +3,98 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name     Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..1]  aut.v01  0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..2]  aut.v02  1      2 * 2     3 * 2       4 * 2       75%
-  3      discrete variable  int[0..3]  aut.v03  2      2 * 2     4 * 2       4 * 2       100%
-  4      discrete variable  int[1..3]  aut.v13  3      2 * 2     3 * 2       4 * 2       75%
-  5      discrete variable  int[2..3]  aut.v23  4      2 * 2     2 * 2       4 * 2       50%
-  -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
-  Total                                         5      18        28          36          ~78%
+    Nr     Kind               Type       Name     Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..1]  aut.v01  0      1 * 2     2 * 2       2 * 2       100%
+    2      discrete variable  int[0..2]  aut.v02  1      2 * 2     3 * 2       4 * 2       75%
+    3      discrete variable  int[0..3]  aut.v03  2      2 * 2     4 * 2       4 * 2       100%
+    4      discrete variable  int[1..3]  aut.v13  3      2 * 2     3 * 2       4 * 2       75%
+    5      discrete variable  int[2..3]  aut.v23  4      2 * 2     2 * 2       4 * 2       50%
+    -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
+    Total                                         5      18        28          36          ~78%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 20
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 20
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+            Applying Weighted Cuthill-McKee algorithm:
+                Node finder: george-liu
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 0
 
-        Skipping algorithm: no graph edges.
+                Skipping algorithm: no graph edges.
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+            Applying Sloan algorithm:
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 0
 
-        Skipping algorithm: no graph edges.
+                Skipping algorithm: no graph edges.
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+            Applying 2 orderers, sequentially:
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-          Skipping algorithm: no graph edges.
+                    Skipping algorithm: no graph edges.
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 20
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 20
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [reversed]
+                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [before]
+                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [reversed]
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+            Applying 2 orderers, sequentially:
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-          Skipping algorithm: no graph edges.
+                    Skipping algorithm: no graph edges.
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 20
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 20
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [reversed]
+                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [before]
+                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [reversed]
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 10
-      Maximum number of iterations: 20
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 10
+            Maximum number of iterations: 20
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [iteration 1]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [after]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [before]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [iteration 1]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [after]
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 10
-      Window length: 4
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 10
+            Window length: 4
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [after]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [before]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [after]
 
 Variable order unchanged.
 
@@ -135,29 +135,29 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: v01_inc) (guard: true) (assignments: aut.v01 := aut.v01 + 1)
-    Edge: (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1)
-    Edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1)
-    Edge: (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1)
-    Edge: (event: v23_inc) (guard: true) (assignments: aut.v23 := aut.v23 + 1)
-    Edge: (event: v01_dec) (guard: true) (assignments: aut.v01 := aut.v01 - 1)
-    Edge: (event: v02_dec) (guard: true) (assignments: aut.v02 := aut.v02 - 1)
-    Edge: (event: v03_dec) (guard: true) (assignments: aut.v03 := aut.v03 - 1)
-    Edge: (event: v13_dec) (guard: true) (assignments: aut.v13 := aut.v13 - 1)
-    Edge: (event: v23_dec) (guard: true) (assignments: aut.v23 := aut.v23 - 1)
+    State: (controlled-behavior: ?)
+        Edge: (event: v01_inc) (guard: true) (assignments: aut.v01 := aut.v01 + 1)
+        Edge: (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1)
+        Edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1)
+        Edge: (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1)
+        Edge: (event: v23_inc) (guard: true) (assignments: aut.v23 := aut.v23 + 1)
+        Edge: (event: v01_dec) (guard: true) (assignments: aut.v01 := aut.v01 - 1)
+        Edge: (event: v02_dec) (guard: true) (assignments: aut.v02 := aut.v02 - 1)
+        Edge: (event: v03_dec) (guard: true) (assignments: aut.v03 := aut.v03 - 1)
+        Edge: (event: v13_dec) (guard: true) (assignments: aut.v13 := aut.v13 - 1)
+        Edge: (event: v23_dec) (guard: true) (assignments: aut.v23 := aut.v23 - 1)
 
 Restricting edge guards to prevent runtime errors:
-  Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)
-  Edge: (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1)
-  Edge: (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1)
-  Edge: (event: v13_inc) (guard: true -> aut.v13 != 3) (assignments: aut.v13 := aut.v13 + 1)
-  Edge: (event: v23_inc) (guard: true -> aut.v23 = 2) (assignments: aut.v23 := aut.v23 + 1)
-  Edge: (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1)
-  Edge: (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1)
-  Edge: (event: v03_dec) (guard: true -> aut.v03 != 0) (assignments: aut.v03 := aut.v03 - 1)
-  Edge: (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1)
-  Edge: (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1)
+    Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)
+    Edge: (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1)
+    Edge: (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1)
+    Edge: (event: v13_inc) (guard: true -> aut.v13 != 3) (assignments: aut.v13 := aut.v13 + 1)
+    Edge: (event: v23_inc) (guard: true -> aut.v23 = 2) (assignments: aut.v23 := aut.v23 + 1)
+    Edge: (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1)
+    Edge: (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1)
+    Edge: (event: v03_dec) (guard: true -> aut.v03 != 0) (assignments: aut.v03 := aut.v03 - 1)
+    Edge: (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1)
+    Edge: (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -222,17 +222,17 @@ Edge (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1
 Edge (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1): guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3))).
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)
-    Edge: (event: v02_inc) (guard: true -> aut.v02 != 2) (assignments: aut.v02 := aut.v02 + 1)
-    Edge: (event: v03_inc) (guard: true -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3)) (assignments: aut.v03 := aut.v03 + 1)
-    Edge: (event: v13_inc) (guard: true -> (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3)) (assignments: aut.v13 := aut.v13 + 1)
-    Edge: (event: v23_inc) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2)))) (assignments: aut.v23 := aut.v23 + 1)
-    Edge: (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1)
-    Edge: (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1)
-    Edge: (event: v03_dec) (guard: true -> (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0)) (assignments: aut.v03 := aut.v03 - 1)
-    Edge: (event: v13_dec) (guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1)) (assignments: aut.v13 := aut.v13 - 1)
-    Edge: (event: v23_dec) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3)))) (assignments: aut.v23 := aut.v23 - 1)
+    State: (controlled-behavior: true)
+        Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)
+        Edge: (event: v02_inc) (guard: true -> aut.v02 != 2) (assignments: aut.v02 := aut.v02 + 1)
+        Edge: (event: v03_inc) (guard: true -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3)) (assignments: aut.v03 := aut.v03 + 1)
+        Edge: (event: v13_inc) (guard: true -> (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3)) (assignments: aut.v13 := aut.v13 + 1)
+        Edge: (event: v23_inc) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2)))) (assignments: aut.v23 := aut.v23 + 1)
+        Edge: (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1)
+        Edge: (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1)
+        Edge: (event: v03_dec) (guard: true -> (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0)) (assignments: aut.v03 := aut.v03 - 1)
+        Edge: (event: v13_dec) (guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1)) (assignments: aut.v13 := aut.v13 - 1)
+        Edge: (event: v23_dec) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3)))) (assignments: aut.v23 := aut.v23 - 1)
 
 Controlled system: exactly 144 states.
 

@@ -3,100 +3,100 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..13]  p.x   0      4 * 2     14 * 2      16 * 2      ~88%
-  2      location pointer   n/a         r2    1      1 * 2     2 * 2       2 * 2       100%
-  3      location pointer   n/a         r3    2      2 * 2     3 * 2       4 * 2       75%
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  Total                                       3      14        38          44          ~86%
+    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..13]  p.x   0      4 * 2     14 * 2      16 * 2      ~88%
+    2      location pointer   n/a         r2    1      1 * 2     2 * 2       2 * 2       100%
+    3      location pointer   n/a         r3    2      2 * 2     3 * 2       4 * 2       75%
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    Total                                       3      14        38          44          ~86%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 4
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 4
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 3
+            Applying Weighted Cuthill-McKee algorithm:
+                Node finder: george-liu
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 3
 
-        Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
-        Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [after]
+                Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
+                Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [after]
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 3
+            Applying Sloan algorithm:
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 3
 
-        Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
-        Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [after]
+                Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
+                Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [after]
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 3
+            Applying 2 orderers, sequentially:
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 3
 
-          Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
-          Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [after]
+                    Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
+                    Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 4
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 4
 
-          Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
-          Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [reversed]
+                    Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
+                    Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [reversed]
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 3
+            Applying 2 orderers, sequentially:
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 3
 
-          Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
-          Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [after]
+                    Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
+                    Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 4
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 4
 
-          Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
-          Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [reversed]
+                    Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [before]
+                    Total span:   3 (total)   0.75 (avg/edge) / WES:   0.555556 (total)   0.138889 (avg/edge) [reversed]
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 7
-      Maximum number of iterations: 20
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 7
+            Maximum number of iterations: 20
 
-      Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [before]
-      Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [iteration 1]
-      Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [after]
+            Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [before]
+            Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [iteration 1]
+            Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [after]
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 7
-      Window length: 3
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 7
+            Window length: 3
 
-      Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [before]
-      Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [after]
+            Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [before]
+            Total span:   13 (total)   1.86 (avg/edge) / WES:   1.269841 (total)   0.181406 (avg/edge) [after]
 
 Variable order unchanged.
 
@@ -142,17 +142,17 @@ State/event exclusion requirements:
     r3.l3
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l1) or (p.x = 6 and (r2.l1 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l1)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l2)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l2) or (p.x = 6 and (r2.l1 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l2)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l3)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l3) or (p.x = 6 and (r2.l1 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l3)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l1)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l1) or (p.x = 6 and (r2.l2 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l1)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l2)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l2) or (p.x = 6 and (r2.l2 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l2)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l3)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l3) or (p.x = 6 and (r2.l2 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l3)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l1)
-    Edge: (event: b) (guard: r2.l2 and r3.l3)
-    Edge: (event: b) (guard: r2.l2 and not r3.l3)
-    Edge: (event: b) (guard: r2.l1 and r3.l3)
-    Edge: (event: b) (guard: r2.l1 and not r3.l3)
+    State: (controlled-behavior: ?)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l1) or (p.x = 6 and (r2.l1 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l1)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l2)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l2) or (p.x = 6 and (r2.l1 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l2)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l3)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l3) or (p.x = 6 and (r2.l1 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l3)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l1)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l1) or (p.x = 6 and (r2.l2 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l1)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l2)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l2) or (p.x = 6 and (r2.l2 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l2)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l3)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l3) or (p.x = 6 and (r2.l2 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l3)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l1)
+        Edge: (event: b) (guard: r2.l2 and r3.l3)
+        Edge: (event: b) (guard: r2.l2 and not r3.l3)
+        Edge: (event: b) (guard: r2.l1 and r3.l3)
+        Edge: (event: b) (guard: r2.l1 and not r3.l3)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -175,17 +175,17 @@ Edge (event: b) (guard: r2.l1 and r3.l3): guard: r2.l1 and r3.l3 -> false [state
 Edge (event: b) (guard: r2.l1 and not r3.l3): guard: r2.l1 and not r3.l3 -> false [state/event exclusion requirement: r2.l2 and r3.l3].
 
 Restricted behavior using state/event exclusion requirements:
-  State: (controlled-behavior: true)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l1) or (p.x = 6 and (r2.l1 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l1)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l2)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l2) or (p.x = 6 and (r2.l1 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l2)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l3)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l3) or (p.x = 6 and (r2.l1 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l3)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l1)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l1) or (p.x = 6 and (r2.l2 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l1)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l2)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l2) or (p.x = 6 and (r2.l2 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l2)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l3)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l3) or (p.x = 6 and (r2.l2 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l3)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l1)
-    Edge: (event: b) (guard: r2.l2 and r3.l3)
-    Edge: (event: b) (guard: r2.l2 and not r3.l3 -> false)
-    Edge: (event: b) (guard: r2.l1 and r3.l3 -> false)
-    Edge: (event: b) (guard: r2.l1 and not r3.l3 -> false)
+    State: (controlled-behavior: true)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l1) or (p.x = 6 and (r2.l1 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l1)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l2)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l2) or (p.x = 6 and (r2.l1 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l2)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l3)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l3) or (p.x = 6 and (r2.l1 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l3)))) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l1)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l1) or (p.x = 6 and (r2.l2 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l1)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l2)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l2) or (p.x = 6 and (r2.l2 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l2)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l3)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l3) or (p.x = 6 and (r2.l2 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l3)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l1)
+        Edge: (event: b) (guard: r2.l2 and r3.l3)
+        Edge: (event: b) (guard: r2.l2 and not r3.l3 -> false)
+        Edge: (event: b) (guard: r2.l1 and r3.l3 -> false)
+        Edge: (event: b) (guard: r2.l1 and not r3.l3 -> false)
 
 Restricting behavior using implicit runtime error requirements.
 
@@ -267,17 +267,17 @@ Edge (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2
 Edge (event: b) (guard: r2.l2 and r3.l3): guard: r2.l2 and r3.l3 -> p.x = 5 and (r2.l2 and r3.l3) or p.x = 11 and (r2.l2 and r3.l3).
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 26n 13p>)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l1) or (p.x = 6 and (r2.l1 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l1))) -> p.x = 0 and (r2.l1 and r3.l1) or p.x = 6 and (r2.l1 and r3.l1)) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l2)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l2) or (p.x = 6 and (r2.l1 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l2))) -> p.x = 4 and (r2.l1 and r3.l2) or p.x = 10 and (r2.l1 and r3.l2)) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l3)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l3) or (p.x = 6 and (r2.l1 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l3))) -> p.x = 8 and (r2.l1 and r3.l3) or p.x = 2 and (r2.l1 and r3.l3)) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l1)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l1) or (p.x = 6 and (r2.l2 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l1))) -> p.x = 9 and (r2.l2 and r3.l1) or p.x = 3 and (r2.l2 and r3.l1)) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l2)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l2) or (p.x = 6 and (r2.l2 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l2))) -> p.x = 1 and (r2.l2 and r3.l2) or p.x = 7 and (r2.l2 and r3.l2)) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l3)
-    Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l3) or (p.x = 6 and (r2.l2 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l3))) -> p.x = 5 and (r2.l2 and r3.l3) or p.x = 11 and (r2.l2 and r3.l3)) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l1)
-    Edge: (event: b) (guard: r2.l2 and r3.l3 -> p.x = 5 and (r2.l2 and r3.l3) or p.x = 11 and (r2.l2 and r3.l3))
-    Edge: (event: b) (guard: r2.l2 and not r3.l3 -> false)
-    Edge: (event: b) (guard: r2.l1 and r3.l3 -> false)
-    Edge: (event: b) (guard: r2.l1 and not r3.l3 -> false)
+    State: (controlled-behavior: <bdd 26n 13p>)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l1) or (p.x = 6 and (r2.l1 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l1))) -> p.x = 0 and (r2.l1 and r3.l1) or p.x = 6 and (r2.l1 and r3.l1)) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l2)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l2) or (p.x = 6 and (r2.l1 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l2))) -> p.x = 4 and (r2.l1 and r3.l2) or p.x = 10 and (r2.l1 and r3.l2)) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l3)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l1 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l1 and r3.l3) or (p.x = 6 and (r2.l1 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l1 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l1 and r3.l3))) -> p.x = 8 and (r2.l1 and r3.l3) or p.x = 2 and (r2.l1 and r3.l3)) (assignments: p.x := p.x + 1, r2 := r2.l2, r3 := r3.l1)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l1) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l1) or (p.x = 6 and (r2.l2 and r3.l1) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l1) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l1))) -> p.x = 9 and (r2.l2 and r3.l1) or p.x = 3 and (r2.l2 and r3.l1)) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l2)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l2) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l2) or (p.x = 6 and (r2.l2 and r3.l2) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l2) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l2))) -> p.x = 1 and (r2.l2 and r3.l2) or p.x = 7 and (r2.l2 and r3.l2)) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l3)
+        Edge: (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l3) or (p.x = 6 and (r2.l2 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l3))) -> p.x = 5 and (r2.l2 and r3.l3) or p.x = 11 and (r2.l2 and r3.l3)) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l1)
+        Edge: (event: b) (guard: r2.l2 and r3.l3 -> p.x = 5 and (r2.l2 and r3.l3) or p.x = 11 and (r2.l2 and r3.l3))
+        Edge: (event: b) (guard: r2.l2 and not r3.l3 -> false)
+        Edge: (event: b) (guard: r2.l1 and r3.l3 -> false)
+        Edge: (event: b) (guard: r2.l1 and not r3.l3 -> false)
 
 Controlled system: exactly 13 states.
 

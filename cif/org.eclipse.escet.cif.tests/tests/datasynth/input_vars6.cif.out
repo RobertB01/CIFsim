@@ -3,45 +3,45 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind            Type  Name        Group  BDD vars  CIF values  BDD values  Values used
-  -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
-  1      input variable  bool  io.sensor1  0      1 * 2     2 * 2       2 * 2       100%
-  2      input variable  bool  io.sensor2  1      1 * 2     2 * 2       2 * 2       100%
-  3      input variable  bool  io.sensor3  2      1 * 2     2 * 2       2 * 2       100%
-  -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
-  Total                                    3      6         12          12          100%
+    Nr     Kind            Type  Name        Group  BDD vars  CIF values  BDD values  Values used
+    -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
+    1      input variable  bool  io.sensor1  0      1 * 2     2 * 2       2 * 2       100%
+    2      input variable  bool  io.sensor2  1      1 * 2     2 * 2       2 * 2       100%
+    3      input variable  bool  io.sensor3  2      1 * 2     2 * 2       2 * 2       100%
+    -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
+    Total                                    3      6         12          12          100%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 0
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 0
 
-      Skipping orderer: no hyper-edges.
+            Skipping orderer: no hyper-edges.
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Maximum number of iterations: 20
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 0
+            Maximum number of iterations: 20
 
-      Skipping algorithm: no hyper-edges.
+            Skipping algorithm: no hyper-edges.
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Window length: 3
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 0
+            Window length: 3
 
-      Skipping algorithm: no hyper-edges.
+            Skipping algorithm: no hyper-edges.
 
 Variable order unchanged.
 
@@ -79,10 +79,10 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
-    Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
-    Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
+    State: (controlled-behavior: ?)
+        Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
+        Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
+        Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -124,10 +124,10 @@ Round 1: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
-    Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
-    Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
+    State: (controlled-behavior: true)
+        Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
+        Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
+        Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
 
 Controlled system: exactly 8 states.
 

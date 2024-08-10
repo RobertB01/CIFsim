@@ -3,49 +3,49 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..9]  p.x1  0      4 * 2     10 * 2      16 * 2      ~63%
-  2      discrete variable  int[0..9]  p.x2  1      4 * 2     10 * 2      16 * 2      ~63%
-  3      discrete variable  int[0..9]  p.x3  2      4 * 2     10 * 2      16 * 2      ~63%
-  4      discrete variable  int[0..9]  p.x4  3      4 * 2     10 * 2      16 * 2      ~63%
-  5      discrete variable  int[0..9]  p.x5  4      4 * 2     10 * 2      16 * 2      ~63%
-  6      discrete variable  int[0..9]  p.x6  5      4 * 2     10 * 2      16 * 2      ~63%
-  7      discrete variable  int[0..9]  p.x7  6      4 * 2     10 * 2      16 * 2      ~63%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      7      56        140         224         ~63%
+    Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..9]  p.x1  0      4 * 2     10 * 2      16 * 2      ~63%
+    2      discrete variable  int[0..9]  p.x2  1      4 * 2     10 * 2      16 * 2      ~63%
+    3      discrete variable  int[0..9]  p.x3  2      4 * 2     10 * 2      16 * 2      ~63%
+    4      discrete variable  int[0..9]  p.x4  3      4 * 2     10 * 2      16 * 2      ~63%
+    5      discrete variable  int[0..9]  p.x5  4      4 * 2     10 * 2      16 * 2      ~63%
+    6      discrete variable  int[0..9]  p.x6  5      4 * 2     10 * 2      16 * 2      ~63%
+    7      discrete variable  int[0..9]  p.x7  6      4 * 2     10 * 2      16 * 2      ~63%
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    Total                                      7      56        140         224         ~63%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 0
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 0
 
-      Skipping orderer: no hyper-edges.
+            Skipping orderer: no hyper-edges.
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Maximum number of iterations: 20
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 0
+            Maximum number of iterations: 20
 
-      Skipping algorithm: no hyper-edges.
+            Skipping algorithm: no hyper-edges.
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Window length: 4
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 0
+            Window length: 4
 
-      Skipping algorithm: no hyper-edges.
+            Skipping algorithm: no hyper-edges.
 
 Variable order unchanged.
 
@@ -99,7 +99,7 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
+    State: (controlled-behavior: ?)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -158,7 +158,7 @@ Round 2: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 32n 150p>)
+    State: (controlled-behavior: <bdd 32n 150p>)
 
 Controlled system: exactly 1,680 states.
 

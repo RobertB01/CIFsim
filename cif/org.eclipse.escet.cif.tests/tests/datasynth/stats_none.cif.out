@@ -34,7 +34,7 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
+    State: (controlled-behavior: ?)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -61,7 +61,7 @@ Round 1: finished, all states are bad.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
+    State: (controlled-behavior: true)
 
 Initial (synthesis result):            true
 Initial (uncontrolled system):         true

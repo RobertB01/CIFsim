@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..4]  p.x   0      3 * 2     5 * 2       8 * 2       ~63%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      1      6         10          16          ~63%
+    Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..4]  p.x   0      3 * 2     5 * 2       8 * 2       ~63%
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    Total                                      1      6         10          16          ~63%
 
 Skipping variable ordering: only one variable present.
 
@@ -45,8 +45,8 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: next) (guard: true) (assignments: p.x := (p.x + 1) mod count)
+    State: (controlled-behavior: ?)
+        Edge: (event: next) (guard: true) (assignments: p.x := (p.x + 1) mod count)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -102,8 +102,8 @@ Computing controlled system guards.
 Edge (event: next) (guard: true) (assignments: p.x := (p.x + 1) mod count): guard: true -> p.x = 1.
 
 Final synthesis result:
-  State: (controlled-behavior: p.x = 2)
-    Edge: (event: next) (guard: true -> p.x = 1) (assignments: p.x := (p.x + 1) mod count)
+    State: (controlled-behavior: p.x = 2)
+        Edge: (event: next) (guard: true -> p.x = 1) (assignments: p.x := (p.x + 1) mod count)
 
 Controlled system: exactly 1 state.
 

@@ -38,9 +38,9 @@ State/event exclusion requirements:
     true
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: c) (guard: true)
-    Edge: (event: u) (guard: true)
+    State: (controlled-behavior: ?)
+        Edge: (event: c) (guard: true)
+        Edge: (event: u) (guard: true)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -74,9 +74,9 @@ Round 1: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: c) (guard: true)
-    Edge: (event: u) (guard: true)
+    State: (controlled-behavior: true)
+        Edge: (event: c) (guard: true)
+        Edge: (event: u) (guard: true)
 
 Controlled system: exactly 1 state.
 

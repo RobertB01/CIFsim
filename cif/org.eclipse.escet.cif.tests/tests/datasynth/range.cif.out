@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..5]  buffer.x  0      3 * 2     6 * 2       8 * 2       75%
-  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-  Total                                          1      6         12          16          75%
+    Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..5]  buffer.x  0      3 * 2     6 * 2       8 * 2       75%
+    -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+    Total                                          1      6         12          16          75%
 
 Skipping variable ordering: only one variable present.
 
@@ -44,13 +44,13 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1)
-    Edge: (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1)
+    State: (controlled-behavior: ?)
+        Edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1)
+        Edge: (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1)
 
 Restricting edge guards to prevent runtime errors:
-  Edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1)
-  Edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1)
+    Edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1)
+    Edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -101,9 +101,9 @@ Edge (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.
 Edge (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1): guard: buffer.x != 0 -> buffer.x != 0.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: buffer.add) (guard: true -> buffer.x != 5) (assignments: buffer.x := buffer.x + 1)
-    Edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1)
+    State: (controlled-behavior: true)
+        Edge: (event: buffer.add) (guard: true -> buffer.x != 5) (assignments: buffer.x := buffer.x + 1)
+        Edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1)
 
 Controlled system: exactly 6 states.
 

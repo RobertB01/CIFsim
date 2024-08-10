@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..3]  p.x   0      2 * 2     4 * 2       4 * 2       100%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      1      4         8           8           100%
+    Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..3]  p.x   0      2 * 2     4 * 2       4 * 2       100%
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    Total                                      1      4         8           8           100%
 
 Skipping variable ordering: only one variable present.
 
@@ -46,11 +46,11 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: p.inc) (guard: true) (assignments: p.x := p.x + 1)
+    State: (controlled-behavior: ?)
+        Edge: (event: p.inc) (guard: true) (assignments: p.x := p.x + 1)
 
 Restricting edge guards to prevent runtime errors:
-  Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
+    Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -90,8 +90,8 @@ Round 1: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
+    State: (controlled-behavior: true)
+        Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
 
 Controlled system: exactly 4 states.
 

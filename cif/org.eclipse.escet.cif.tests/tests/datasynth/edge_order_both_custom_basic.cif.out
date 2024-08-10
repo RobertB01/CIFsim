@@ -3,46 +3,46 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind            Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      input variable  bool  D     0      1 * 2     2 * 2       2 * 2       100%
-  2      input variable  bool  C     1      1 * 2     2 * 2       2 * 2       100%
-  3      input variable  bool  p.Y   2      1 * 2     2 * 2       2 * 2       100%
-  4      input variable  bool  p.X   3      1 * 2     2 * 2       2 * 2       100%
-  -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                              4      8         16          16          100%
+    Nr     Kind            Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
+    1      input variable  bool  D     0      1 * 2     2 * 2       2 * 2       100%
+    2      input variable  bool  C     1      1 * 2     2 * 2       2 * 2       100%
+    3      input variable  bool  p.Y   2      1 * 2     2 * 2       2 * 2       100%
+    4      input variable  bool  p.X   3      1 * 2     2 * 2       2 * 2       100%
+    -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
+    Total                              4      8         16          16          100%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 0
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 0
 
-      Skipping orderer: no hyper-edges.
+            Skipping orderer: no hyper-edges.
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Maximum number of iterations: 20
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 0
+            Maximum number of iterations: 20
 
-      Skipping algorithm: no hyper-edges.
+            Skipping algorithm: no hyper-edges.
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Window length: 4
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 0
+            Window length: 4
 
-      Skipping algorithm: no hyper-edges.
+            Skipping algorithm: no hyper-edges.
 
 Variable order unchanged.
 
@@ -78,15 +78,15 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: p.c) (guard: true)
-    Edge: (event: p.a) (guard: true)
-    Edge: (event: p.z) (guard: true)
-    Edge: (event: p.$event) (guard: true)
-    Edge: (event: D) (guard: true) (assignments: D+ != D)
-    Edge: (event: C) (guard: true) (assignments: C+ != C)
-    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
-    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
+    State: (controlled-behavior: ?)
+        Edge: (event: p.c) (guard: true)
+        Edge: (event: p.a) (guard: true)
+        Edge: (event: p.z) (guard: true)
+        Edge: (event: p.$event) (guard: true)
+        Edge: (event: D) (guard: true) (assignments: D+ != D)
+        Edge: (event: C) (guard: true) (assignments: C+ != C)
+        Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
+        Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -120,15 +120,15 @@ Round 1: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: p.c) (guard: true)
-    Edge: (event: p.a) (guard: true)
-    Edge: (event: p.z) (guard: true)
-    Edge: (event: p.$event) (guard: true)
-    Edge: (event: D) (guard: true) (assignments: D+ != D)
-    Edge: (event: C) (guard: true) (assignments: C+ != C)
-    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
-    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
+    State: (controlled-behavior: true)
+        Edge: (event: p.c) (guard: true)
+        Edge: (event: p.a) (guard: true)
+        Edge: (event: p.z) (guard: true)
+        Edge: (event: p.$event) (guard: true)
+        Edge: (event: D) (guard: true) (assignments: D+ != D)
+        Edge: (event: C) (guard: true) (assignments: C+ != C)
+        Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
+        Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
 
 Controlled system: exactly 16 states.
 

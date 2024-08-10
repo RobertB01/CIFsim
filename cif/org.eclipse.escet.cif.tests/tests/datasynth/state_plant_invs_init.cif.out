@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..2]  A.D   0      2 * 2     3 * 2       4 * 2       75%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      1      4         6           8           75%
+    Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..2]  A.D   0      2 * 2     3 * 2       4 * 2       75%
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    Total                                      1      4         6           8           75%
 
 Skipping variable ordering: only one variable present.
 
@@ -45,7 +45,7 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
+    State: (controlled-behavior: ?)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -97,7 +97,7 @@ Round 2: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: A.D != 1)
+    State: (controlled-behavior: A.D != 1)
 
 Controlled system: exactly 2 states.
 

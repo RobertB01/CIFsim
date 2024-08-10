@@ -3,148 +3,148 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a         p      0      2 * 2     3 * 2       4 * 2       75%
-  2      discrete variable  int[0..10]  p.v3   1      4 * 2     11 * 2      16 * 2      ~69%
-  3      discrete variable  int[0..10]  p.v4   2      4 * 2     11 * 2      16 * 2      ~69%
-  4      discrete variable  int[0..10]  p.v5   3      4 * 2     11 * 2      16 * 2      ~69%
-  5      discrete variable  int[0..10]  p.v6   4      4 * 2     11 * 2      16 * 2      ~69%
-  6      discrete variable  int[0..10]  p.v7   5      4 * 2     11 * 2      16 * 2      ~69%
-  7      discrete variable  int[0..10]  p.v8   6      4 * 2     11 * 2      16 * 2      ~69%
-  8      discrete variable  int[0..10]  p.v9   7      4 * 2     11 * 2      16 * 2      ~69%
-  9      discrete variable  int[0..10]  p.v10  8      4 * 2     11 * 2      16 * 2      ~69%
-  10     discrete variable  int[0..10]  p.v11  9      4 * 2     11 * 2      16 * 2      ~69%
-  11     discrete variable  int[0..10]  p.v13  10     4 * 2     11 * 2      16 * 2      ~69%
-  12     location pointer   n/a         q      11     1 * 2     2 * 2       2 * 2       100%
-  13     discrete variable  int[0..10]  q.v4   12     4 * 2     11 * 2      16 * 2      ~69%
-  14     discrete variable  int[0..10]  q.v7   13     4 * 2     11 * 2      16 * 2      ~69%
-  15     discrete variable  int[0..10]  q.v8   14     4 * 2     11 * 2      16 * 2      ~69%
-  16     discrete variable  int[0..10]  q.v9   15     4 * 2     11 * 2      16 * 2      ~69%
-  17     discrete variable  int[0..10]  q.v11  16     4 * 2     11 * 2      16 * 2      ~69%
-  18     discrete variable  int[0..10]  q.v13  17     4 * 2     11 * 2      16 * 2      ~69%
-  19     location pointer   n/a         a      18     1 * 2     2 * 2       2 * 2       100%
-  20     location pointer   n/a         b      19     1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
-  Total                                        20     138       370         532         ~70%
+    Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+    1      location pointer   n/a         p      0      2 * 2     3 * 2       4 * 2       75%
+    2      discrete variable  int[0..10]  p.v3   1      4 * 2     11 * 2      16 * 2      ~69%
+    3      discrete variable  int[0..10]  p.v4   2      4 * 2     11 * 2      16 * 2      ~69%
+    4      discrete variable  int[0..10]  p.v5   3      4 * 2     11 * 2      16 * 2      ~69%
+    5      discrete variable  int[0..10]  p.v6   4      4 * 2     11 * 2      16 * 2      ~69%
+    6      discrete variable  int[0..10]  p.v7   5      4 * 2     11 * 2      16 * 2      ~69%
+    7      discrete variable  int[0..10]  p.v8   6      4 * 2     11 * 2      16 * 2      ~69%
+    8      discrete variable  int[0..10]  p.v9   7      4 * 2     11 * 2      16 * 2      ~69%
+    9      discrete variable  int[0..10]  p.v10  8      4 * 2     11 * 2      16 * 2      ~69%
+    10     discrete variable  int[0..10]  p.v11  9      4 * 2     11 * 2      16 * 2      ~69%
+    11     discrete variable  int[0..10]  p.v13  10     4 * 2     11 * 2      16 * 2      ~69%
+    12     location pointer   n/a         q      11     1 * 2     2 * 2       2 * 2       100%
+    13     discrete variable  int[0..10]  q.v4   12     4 * 2     11 * 2      16 * 2      ~69%
+    14     discrete variable  int[0..10]  q.v7   13     4 * 2     11 * 2      16 * 2      ~69%
+    15     discrete variable  int[0..10]  q.v8   14     4 * 2     11 * 2      16 * 2      ~69%
+    16     discrete variable  int[0..10]  q.v9   15     4 * 2     11 * 2      16 * 2      ~69%
+    17     discrete variable  int[0..10]  q.v11  16     4 * 2     11 * 2      16 * 2      ~69%
+    18     discrete variable  int[0..10]  q.v13  17     4 * 2     11 * 2      16 * 2      ~69%
+    19     location pointer   n/a         a      18     1 * 2     2 * 2       2 * 2       100%
+    20     location pointer   n/a         b      19     1 * 2     2 * 2       2 * 2       100%
+    -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+    Total                                        20     138       370         532         ~70%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 71
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 71
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 16
+            Applying Weighted Cuthill-McKee algorithm:
+                Node finder: george-liu
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 16
 
-        Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
-        Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [after]
+                Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
+                Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [after]
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 16
+            Applying Sloan algorithm:
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 16
 
-        Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
-        Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [after]
+                Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
+                Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [after]
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 16
+            Applying 2 orderers, sequentially:
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 16
 
-          Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
-          Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [after]
+                    Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
+                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 71
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 71
 
-          Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [before]
-          Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [reversed]
+                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [before]
+                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.079014 (total)   0.001113 (avg/edge) [reversed]
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 16
+            Applying 2 orderers, sequentially:
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 16
 
-          Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
-          Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [after]
+                    Total span:   76 (total)   1.07 (avg/edge) / WES:   0.096127 (total)   0.001354 (avg/edge) [before]
+                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 71
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 71
 
-          Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [before]
-          Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [reversed]
+                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [before]
+                    Total span:   56 (total)   0.79 (avg/edge) / WES:   0.088803 (total)   0.001251 (avg/edge) [reversed]
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 35
-      Maximum number of iterations: 30
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 35
+            Maximum number of iterations: 30
 
-      Total span:   74 (total)   2.11 (avg/edge) / WES:   0.164714 (total)   0.004706 (avg/edge) [before]
-      Total span:   50 (total)   1.43 (avg/edge) / WES:   0.117000 (total)   0.003343 (avg/edge) [iteration 1]
-      Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [iteration 2]
-      Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [iteration 3]
-      Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [after]
+            Total span:   74 (total)   2.11 (avg/edge) / WES:   0.164714 (total)   0.004706 (avg/edge) [before]
+            Total span:   50 (total)   1.43 (avg/edge) / WES:   0.117000 (total)   0.003343 (avg/edge) [iteration 1]
+            Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [iteration 2]
+            Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [iteration 3]
+            Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [after]
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 35
-      Window length: 4
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 35
+            Window length: 4
 
-      Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [before]
-      Total span:   46 (total)   1.31 (avg/edge) / WES:   0.113714 (total)   0.003249 (avg/edge) [window 11..14]
-      Total span:   46 (total)   1.31 (avg/edge) / WES:   0.113714 (total)   0.003249 (avg/edge) [after]
+            Total span:   47 (total)   1.34 (avg/edge) / WES:   0.114857 (total)   0.003282 (avg/edge) [before]
+            Total span:   46 (total)   1.31 (avg/edge) / WES:   0.113714 (total)   0.003249 (avg/edge) [window 11..14]
+            Total span:   46 (total)   1.31 (avg/edge) / WES:   0.113714 (total)   0.003249 (avg/edge) [after]
 
 Variable order changed.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..10]  p.v3   0      4 * 2     11 * 2      16 * 2      ~69%
-  2      discrete variable  int[0..10]  p.v4   1      4 * 2     11 * 2      16 * 2      ~69%
-  3      discrete variable  int[0..10]  p.v6   2      4 * 2     11 * 2      16 * 2      ~69%
-  4      discrete variable  int[0..10]  p.v7   3      4 * 2     11 * 2      16 * 2      ~69%
-  5      location pointer   n/a         p      4      2 * 2     3 * 2       4 * 2       75%
-  6      discrete variable  int[0..10]  p.v8   5      4 * 2     11 * 2      16 * 2      ~69%
-  7      discrete variable  int[0..10]  p.v9   6      4 * 2     11 * 2      16 * 2      ~69%
-  8      discrete variable  int[0..10]  p.v10  7      4 * 2     11 * 2      16 * 2      ~69%
-  9      discrete variable  int[0..10]  p.v11  8      4 * 2     11 * 2      16 * 2      ~69%
-  10     discrete variable  int[0..10]  p.v13  9      4 * 2     11 * 2      16 * 2      ~69%
-  11     discrete variable  int[0..10]  p.v5   10     4 * 2     11 * 2      16 * 2      ~69%
-  12     discrete variable  int[0..10]  q.v4   11     4 * 2     11 * 2      16 * 2      ~69%
-  13     discrete variable  int[0..10]  q.v8   12     4 * 2     11 * 2      16 * 2      ~69%
-  14     discrete variable  int[0..10]  q.v7   13     4 * 2     11 * 2      16 * 2      ~69%
-  15     location pointer   n/a         q      14     1 * 2     2 * 2       2 * 2       100%
-  16     discrete variable  int[0..10]  q.v9   15     4 * 2     11 * 2      16 * 2      ~69%
-  17     discrete variable  int[0..10]  q.v11  16     4 * 2     11 * 2      16 * 2      ~69%
-  18     discrete variable  int[0..10]  q.v13  17     4 * 2     11 * 2      16 * 2      ~69%
-  19     location pointer   n/a         a      18     1 * 2     2 * 2       2 * 2       100%
-  20     location pointer   n/a         b      19     1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
-  Total                                        20     138       370         532         ~70%
+    Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..10]  p.v3   0      4 * 2     11 * 2      16 * 2      ~69%
+    2      discrete variable  int[0..10]  p.v4   1      4 * 2     11 * 2      16 * 2      ~69%
+    3      discrete variable  int[0..10]  p.v6   2      4 * 2     11 * 2      16 * 2      ~69%
+    4      discrete variable  int[0..10]  p.v7   3      4 * 2     11 * 2      16 * 2      ~69%
+    5      location pointer   n/a         p      4      2 * 2     3 * 2       4 * 2       75%
+    6      discrete variable  int[0..10]  p.v8   5      4 * 2     11 * 2      16 * 2      ~69%
+    7      discrete variable  int[0..10]  p.v9   6      4 * 2     11 * 2      16 * 2      ~69%
+    8      discrete variable  int[0..10]  p.v10  7      4 * 2     11 * 2      16 * 2      ~69%
+    9      discrete variable  int[0..10]  p.v11  8      4 * 2     11 * 2      16 * 2      ~69%
+    10     discrete variable  int[0..10]  p.v13  9      4 * 2     11 * 2      16 * 2      ~69%
+    11     discrete variable  int[0..10]  p.v5   10     4 * 2     11 * 2      16 * 2      ~69%
+    12     discrete variable  int[0..10]  q.v4   11     4 * 2     11 * 2      16 * 2      ~69%
+    13     discrete variable  int[0..10]  q.v8   12     4 * 2     11 * 2      16 * 2      ~69%
+    14     discrete variable  int[0..10]  q.v7   13     4 * 2     11 * 2      16 * 2      ~69%
+    15     location pointer   n/a         q      14     1 * 2     2 * 2       2 * 2       100%
+    16     discrete variable  int[0..10]  q.v9   15     4 * 2     11 * 2      16 * 2      ~69%
+    17     discrete variable  int[0..10]  q.v11  16     4 * 2     11 * 2      16 * 2      ~69%
+    18     discrete variable  int[0..10]  q.v13  17     4 * 2     11 * 2      16 * 2      ~69%
+    19     location pointer   n/a         a      18     1 * 2     2 * 2       2 * 2       100%
+    20     location pointer   n/a         b      19     1 * 2     2 * 2       2 * 2       100%
+    -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+    Total                                        20     138       370         532         ~70%
 
 Starting data-based synthesis.
 
@@ -234,42 +234,42 @@ State/event exclusion requirements:
     p.v10 != 1
 
 Uncontrolled system (state/event exclusion plants not applied yet):
-  State: (controlled-behavior: ?)
-    Edge: (event: p.c0) (guard: false)
-    Edge: (event: p.c1) (guard: p.l1)
-    Edge: (event: p.c2) (guard: p.l1)
-    Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1))
-    Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1))
-    Edge: (event: p.c5) (guard: p.l1)
-    Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1))
-    Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1))
-    Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2))
-    Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2))
-    Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2))
-    Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4) (assignments: p.v11 := p.v11 + 1)
-    Edge: (event: p.c12) (guard: p.l1) (assignments: p := p.l2)
-    Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1)
-    Edge: (event: p.c14) (guard: false)
-    Edge: (event: p.c14) (guard: false)
-    Edge: (event: p.c15) (guard: p.l1)
-    Edge: (event: p.c15) (guard: false)
-    Edge: (event: p.c16) (guard: p.l3)
-    Edge: (event: q.u0) (guard: false)
-    Edge: (event: q.u2) (guard: q.l1)
-    Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1))
-    Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
-    Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
-    Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
-    Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4) (assignments: q.v11 := q.v11 + 1)
-    Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
-    Edge: (event: q.u14) (guard: false)
-    Edge: (event: q.u14) (guard: false)
-    Edge: (event: q.u15) (guard: q.l1)
-    Edge: (event: q.u15) (guard: false)
-    Edge: (event: q.u16) (guard: q.l3)
-    Edge: (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2)
-    Edge: (event: c_synch) (guard: a.l1 and b.l2)
-    Edge: (event: u_synch) (guard: a.l1 and b.l2)
+    State: (controlled-behavior: ?)
+        Edge: (event: p.c0) (guard: false)
+        Edge: (event: p.c1) (guard: p.l1)
+        Edge: (event: p.c2) (guard: p.l1)
+        Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1))
+        Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1))
+        Edge: (event: p.c5) (guard: p.l1)
+        Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1))
+        Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1))
+        Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2))
+        Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2))
+        Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2))
+        Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4) (assignments: p.v11 := p.v11 + 1)
+        Edge: (event: p.c12) (guard: p.l1) (assignments: p := p.l2)
+        Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1)
+        Edge: (event: p.c14) (guard: false)
+        Edge: (event: p.c14) (guard: false)
+        Edge: (event: p.c15) (guard: p.l1)
+        Edge: (event: p.c15) (guard: false)
+        Edge: (event: p.c16) (guard: p.l3)
+        Edge: (event: q.u0) (guard: false)
+        Edge: (event: q.u2) (guard: q.l1)
+        Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1))
+        Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
+        Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
+        Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
+        Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4) (assignments: q.v11 := q.v11 + 1)
+        Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
+        Edge: (event: q.u14) (guard: false)
+        Edge: (event: q.u14) (guard: false)
+        Edge: (event: q.u15) (guard: q.l1)
+        Edge: (event: q.u15) (guard: false)
+        Edge: (event: q.u16) (guard: q.l3)
+        Edge: (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2)
+        Edge: (event: c_synch) (guard: a.l1 and b.l2)
+        Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -282,42 +282,42 @@ Edge (event: q.u2) (guard: q.l1): guard: q.l1 -> false [plant: false].
 Edge (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1)): guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1) -> false [plant: q.v4 = 0].
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: p.c0) (guard: false)
-    Edge: (event: p.c1) (guard: p.l1)
-    Edge: (event: p.c2) (guard: p.l1 -> false)
-    Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1))
-    Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1) -> false)
-    Edge: (event: p.c5) (guard: p.l1 -> p.l1 and p.v5 = 0)
-    Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1) -> (p.v6 = 8 or p.v6 = 9) and p.l1 or ((p.v6 = 4 or p.v6 = 5) and p.l1 or (p.v6 = 2 or p.v6 = 3 or (p.v6 = 6 or (p.v6 = 7 or p.v6 = 10))) and p.l1))
-    Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1))
-    Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2))
-    Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2))
-    Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2) -> (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l3 and not p.l2))
-    Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4) (assignments: p.v11 := p.v11 + 1)
-    Edge: (event: p.c12) (guard: p.l1) (assignments: p := p.l2)
-    Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1)
-    Edge: (event: p.c14) (guard: false)
-    Edge: (event: p.c14) (guard: false)
-    Edge: (event: p.c15) (guard: p.l1)
-    Edge: (event: p.c15) (guard: false)
-    Edge: (event: p.c16) (guard: p.l3)
-    Edge: (event: q.u0) (guard: false)
-    Edge: (event: q.u2) (guard: q.l1 -> false)
-    Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1) -> false)
-    Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
-    Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
-    Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
-    Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4) (assignments: q.v11 := q.v11 + 1)
-    Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
-    Edge: (event: q.u14) (guard: false)
-    Edge: (event: q.u14) (guard: false)
-    Edge: (event: q.u15) (guard: q.l1)
-    Edge: (event: q.u15) (guard: false)
-    Edge: (event: q.u16) (guard: q.l3)
-    Edge: (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2)
-    Edge: (event: c_synch) (guard: a.l1 and b.l2)
-    Edge: (event: u_synch) (guard: a.l1 and b.l2)
+    State: (controlled-behavior: ?)
+        Edge: (event: p.c0) (guard: false)
+        Edge: (event: p.c1) (guard: p.l1)
+        Edge: (event: p.c2) (guard: p.l1 -> false)
+        Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1))
+        Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1) -> false)
+        Edge: (event: p.c5) (guard: p.l1 -> p.l1 and p.v5 = 0)
+        Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1) -> (p.v6 = 8 or p.v6 = 9) and p.l1 or ((p.v6 = 4 or p.v6 = 5) and p.l1 or (p.v6 = 2 or p.v6 = 3 or (p.v6 = 6 or (p.v6 = 7 or p.v6 = 10))) and p.l1))
+        Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1))
+        Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2))
+        Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2))
+        Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2) -> (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l3 and not p.l2))
+        Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4) (assignments: p.v11 := p.v11 + 1)
+        Edge: (event: p.c12) (guard: p.l1) (assignments: p := p.l2)
+        Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1)
+        Edge: (event: p.c14) (guard: false)
+        Edge: (event: p.c14) (guard: false)
+        Edge: (event: p.c15) (guard: p.l1)
+        Edge: (event: p.c15) (guard: false)
+        Edge: (event: p.c16) (guard: p.l3)
+        Edge: (event: q.u0) (guard: false)
+        Edge: (event: q.u2) (guard: q.l1 -> false)
+        Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1) -> false)
+        Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
+        Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
+        Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
+        Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4) (assignments: q.v11 := q.v11 + 1)
+        Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
+        Edge: (event: q.u14) (guard: false)
+        Edge: (event: q.u14) (guard: false)
+        Edge: (event: q.u15) (guard: q.l1)
+        Edge: (event: q.u15) (guard: false)
+        Edge: (event: q.u16) (guard: q.l3)
+        Edge: (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2)
+        Edge: (event: c_synch) (guard: a.l1 and b.l2)
+        Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
 Restricting uncontrolled system behavior using state plant invariants.
 
@@ -357,42 +357,42 @@ Edge (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 
 Edge (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2) -> (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l3 and not p.l2)): guard: (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l3 and not p.l2) -> (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l1 or p.v10 != 1) and (not p.l3 and not p.l2) [state/event exclusion requirement: p.v10 != 1].
 
 Restricted behavior using state/event exclusion requirements:
-  State: (controlled-behavior: <bdd 65n 488,281,250p>)
-    Edge: (event: p.c0) (guard: false)
-    Edge: (event: p.c1) (guard: p.l1 -> false)
-    Edge: (event: p.c2) (guard: p.l1 -> false)
-    Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1) -> false)
-    Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1) -> false)
-    Edge: (event: p.c5) (guard: p.l1 -> false)
-    Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1) -> false)
-    Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1))
-    Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2))
-    Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2))
-    Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2) -> (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l1 or p.v10 != 1) and (not p.l3 and not p.l2))
-    Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4 -> false) (assignments: p.v11 := p.v11 + 1)
-    Edge: (event: p.c12) (guard: p.l1) (assignments: p := p.l2)
-    Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1)
-    Edge: (event: p.c14) (guard: false)
-    Edge: (event: p.c14) (guard: false)
-    Edge: (event: p.c15) (guard: p.l1)
-    Edge: (event: p.c15) (guard: false)
-    Edge: (event: p.c16) (guard: p.l3)
-    Edge: (event: q.u0) (guard: false)
-    Edge: (event: q.u2) (guard: q.l1 -> false)
-    Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1) -> false)
-    Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
-    Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
-    Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
-    Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4 -> false) (assignments: q.v11 := q.v11 + 1)
-    Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
-    Edge: (event: q.u14) (guard: false)
-    Edge: (event: q.u14) (guard: false)
-    Edge: (event: q.u15) (guard: q.l1)
-    Edge: (event: q.u15) (guard: false)
-    Edge: (event: q.u16) (guard: q.l3)
-    Edge: (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2)
-    Edge: (event: c_synch) (guard: a.l1 and b.l2)
-    Edge: (event: u_synch) (guard: a.l1 and b.l2)
+    State: (controlled-behavior: <bdd 65n 488,281,250p>)
+        Edge: (event: p.c0) (guard: false)
+        Edge: (event: p.c1) (guard: p.l1 -> false)
+        Edge: (event: p.c2) (guard: p.l1 -> false)
+        Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1) -> false)
+        Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1) -> false)
+        Edge: (event: p.c5) (guard: p.l1 -> false)
+        Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1) -> false)
+        Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1))
+        Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2))
+        Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2))
+        Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2) -> (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l1 or p.v10 != 1) and (not p.l3 and not p.l2))
+        Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4 -> false) (assignments: p.v11 := p.v11 + 1)
+        Edge: (event: p.c12) (guard: p.l1) (assignments: p := p.l2)
+        Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1)
+        Edge: (event: p.c14) (guard: false)
+        Edge: (event: p.c14) (guard: false)
+        Edge: (event: p.c15) (guard: p.l1)
+        Edge: (event: p.c15) (guard: false)
+        Edge: (event: p.c16) (guard: p.l3)
+        Edge: (event: q.u0) (guard: false)
+        Edge: (event: q.u2) (guard: q.l1 -> false)
+        Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1) -> false)
+        Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
+        Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
+        Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
+        Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4 -> false) (assignments: q.v11 := q.v11 + 1)
+        Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
+        Edge: (event: q.u14) (guard: false)
+        Edge: (event: q.u14) (guard: false)
+        Edge: (event: q.u15) (guard: q.l1)
+        Edge: (event: q.u15) (guard: false)
+        Edge: (event: q.u16) (guard: q.l3)
+        Edge: (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2)
+        Edge: (event: c_synch) (guard: a.l1 and b.l2)
+        Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
 Restricting behavior using implicit runtime error requirements.
 
@@ -451,42 +451,42 @@ Edge (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2): 
 Edge (event: c_synch) (guard: a.l1 and b.l2): guard: a.l1 and b.l2 -> false.
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 70n 2p>)
-    Edge: (event: p.c0) (guard: false)
-    Edge: (event: p.c1) (guard: p.l1 -> false)
-    Edge: (event: p.c2) (guard: p.l1 -> false)
-    Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1) -> false)
-    Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1) -> false)
-    Edge: (event: p.c5) (guard: p.l1 -> false)
-    Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1) -> false)
-    Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1) -> false)
-    Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2) -> false)
-    Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2) -> false)
-    Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2) -> false)
-    Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4 -> false) (assignments: p.v11 := p.v11 + 1)
-    Edge: (event: p.c12) (guard: p.l1 -> false) (assignments: p := p.l2)
-    Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10 -> false) (assignments: p.v13 := p.v13 + 1)
-    Edge: (event: p.c14) (guard: false)
-    Edge: (event: p.c14) (guard: false)
-    Edge: (event: p.c15) (guard: p.l1 -> <bdd 70n 2p>)
-    Edge: (event: p.c15) (guard: false)
-    Edge: (event: p.c16) (guard: p.l3 -> false)
-    Edge: (event: q.u0) (guard: false)
-    Edge: (event: q.u2) (guard: q.l1 -> false)
-    Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1) -> false)
-    Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
-    Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
-    Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
-    Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4 -> false) (assignments: q.v11 := q.v11 + 1)
-    Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
-    Edge: (event: q.u14) (guard: false)
-    Edge: (event: q.u14) (guard: false)
-    Edge: (event: q.u15) (guard: q.l1)
-    Edge: (event: q.u15) (guard: false)
-    Edge: (event: q.u16) (guard: q.l3)
-    Edge: (event: c_off) (guard: a.l1 and b.l1 -> <bdd 69n 1p>) (assignments: a := a.l2, b := b.l2)
-    Edge: (event: c_synch) (guard: a.l1 and b.l2 -> false)
-    Edge: (event: u_synch) (guard: a.l1 and b.l2)
+    State: (controlled-behavior: <bdd 70n 2p>)
+        Edge: (event: p.c0) (guard: false)
+        Edge: (event: p.c1) (guard: p.l1 -> false)
+        Edge: (event: p.c2) (guard: p.l1 -> false)
+        Edge: (event: p.c3) (guard: p.v3 = 8 and p.l1 or p.v3 = 4 and p.l1 or ((p.v3 = 2 or (p.v3 = 6 or p.v3 = 10)) and p.l1 or (p.v3 = 1 or p.v3 = 3 or (p.v3 = 5 or (p.v3 = 7 or p.v3 = 9))) and p.l1) -> false)
+        Edge: (event: p.c4) (guard: p.v4 = 8 and p.l1 or p.v4 = 4 and p.l1 or ((p.v4 = 2 or (p.v4 = 6 or p.v4 = 10)) and p.l1 or (p.v4 = 1 or p.v4 = 3 or (p.v4 = 5 or (p.v4 = 7 or p.v4 = 9))) and p.l1) -> false)
+        Edge: (event: p.c5) (guard: p.l1 -> false)
+        Edge: (event: p.c6) (guard: p.v6 = 8 and p.l1 or p.v6 = 4 and p.l1 or ((p.v6 = 2 or (p.v6 = 6 or p.v6 = 10)) and p.l1 or (p.v6 = 1 or p.v6 = 3 or (p.v6 = 5 or (p.v6 = 7 or p.v6 = 9))) and p.l1) -> false)
+        Edge: (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1) -> false)
+        Edge: (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2) -> false)
+        Edge: (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2) -> false)
+        Edge: (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2) -> false)
+        Edge: (event: p.c11) (guard: p.l1 and p.v11 = 4 -> false) (assignments: p.v11 := p.v11 + 1)
+        Edge: (event: p.c12) (guard: p.l1 -> false) (assignments: p := p.l2)
+        Edge: (event: p.c13) (guard: p.l1 and p.v13 = 10 -> false) (assignments: p.v13 := p.v13 + 1)
+        Edge: (event: p.c14) (guard: false)
+        Edge: (event: p.c14) (guard: false)
+        Edge: (event: p.c15) (guard: p.l1 -> <bdd 70n 2p>)
+        Edge: (event: p.c15) (guard: false)
+        Edge: (event: p.c16) (guard: p.l3 -> false)
+        Edge: (event: q.u0) (guard: false)
+        Edge: (event: q.u2) (guard: q.l1 -> false)
+        Edge: (event: q.u4) (guard: q.v4 = 8 and q.l1 or q.v4 = 4 and q.l1 or ((q.v4 = 2 or (q.v4 = 6 or q.v4 = 10)) and q.l1 or (q.v4 = 1 or q.v4 = 3 or (q.v4 = 5 or (q.v4 = 7 or q.v4 = 9))) and q.l1) -> false)
+        Edge: (event: q.u7) (guard: q.v7 = 8 and q.l1 or q.v7 = 4 and q.l1 or ((q.v7 = 2 or (q.v7 = 6 or q.v7 = 10)) and q.l1 or (q.v7 = 1 or q.v7 = 3 or (q.v7 = 5 or (q.v7 = 7 or q.v7 = 9))) and q.l1))
+        Edge: (event: q.u8) (guard: q.v8 = 8 and q.l1 or q.v8 = 4 and q.l1 or ((q.v8 = 2 or (q.v8 = 6 or q.v8 = 10)) and q.l1 or (q.v8 = 1 or q.v8 = 3 or (q.v8 = 5 or (q.v8 = 7 or q.v8 = 9))) and q.l1))
+        Edge: (event: q.u9) (guard: (q.l3 or q.v9 != 0) and q.l1)
+        Edge: (event: q.u11) (guard: q.l1 and q.v11 = 4 -> false) (assignments: q.v11 := q.v11 + 1)
+        Edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)
+        Edge: (event: q.u14) (guard: false)
+        Edge: (event: q.u14) (guard: false)
+        Edge: (event: q.u15) (guard: q.l1)
+        Edge: (event: q.u15) (guard: false)
+        Edge: (event: q.u16) (guard: q.l3)
+        Edge: (event: c_off) (guard: a.l1 and b.l1 -> <bdd 69n 1p>) (assignments: a := a.l2, b := b.l2)
+        Edge: (event: c_synch) (guard: a.l1 and b.l2 -> false)
+        Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
 Controlled system: exactly 2 states.
 

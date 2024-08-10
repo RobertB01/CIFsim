@@ -3,122 +3,122 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a        buffer1        0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..3]  buffer1.count  1      2 * 2     4 * 2       4 * 2       100%
-  3      location pointer   n/a        buffer3        2      1 * 2     2 * 2       2 * 2       100%
-  4      discrete variable  int[0..3]  buffer3.count  3      2 * 2     4 * 2       4 * 2       100%
-  5      location pointer   n/a        buffer2        4      1 * 2     2 * 2       2 * 2       100%
-  6      discrete variable  int[0..3]  buffer2.count  5      2 * 2     4 * 2       4 * 2       100%
-  -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-  Total                                               6      18        36          36          100%
+    Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+    1      location pointer   n/a        buffer1        0      1 * 2     2 * 2       2 * 2       100%
+    2      discrete variable  int[0..3]  buffer1.count  1      2 * 2     4 * 2       4 * 2       100%
+    3      location pointer   n/a        buffer3        2      1 * 2     2 * 2       2 * 2       100%
+    4      discrete variable  int[0..3]  buffer3.count  3      2 * 2     4 * 2       4 * 2       100%
+    5      location pointer   n/a        buffer2        4      1 * 2     2 * 2       2 * 2       100%
+    6      discrete variable  int[0..3]  buffer2.count  5      2 * 2     4 * 2       4 * 2       100%
+    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+    Total                                               6      18        36          36          100%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying a random variable order:
-      Seed: 88
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying a random variable order:
+            Seed: 88
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 22
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 22
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 6
+            Applying Weighted Cuthill-McKee algorithm:
+                Node finder: george-liu
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 6
 
-        Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
-        Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
+                Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
+                Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 6
+            Applying Sloan algorithm:
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 6
 
-        Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
-        Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
+                Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
+                Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 6
+            Applying 2 orderers, sequentially:
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 6
 
-          Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
-          Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
+                    Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
+                    Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 22
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 22
 
-          Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [before]
-          Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [reversed]
+                    Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [before]
+                    Total span:   17 (total)   0.77 (avg/edge) / WES:   0.303030 (total)   0.013774 (avg/edge) [reversed]
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 6
+            Applying 2 orderers, sequentially:
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 6
 
-          Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
-          Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
+                    Total span:   31 (total)   1.41 (avg/edge) / WES:   0.472222 (total)   0.021465 (avg/edge) [before]
+                    Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 22
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 22
 
-          Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [before]
-          Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [reversed]
+                    Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [before]
+                    Total span:   12 (total)   0.55 (avg/edge) / WES:   0.257576 (total)   0.011708 (avg/edge) [reversed]
 
-      Found new best variable order.
+            Found new best variable order.
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 12
-      Maximum number of iterations: 20
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 12
+            Maximum number of iterations: 20
 
-      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
-      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [iteration 1]
-      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
+            Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
+            Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [iteration 1]
+            Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 12
-      Window length: 4
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 12
+            Window length: 4
 
-      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
-      Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
+            Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [before]
+            Total span:   12 (total)   1.00 (avg/edge) / WES:   0.333333 (total)   0.027778 (avg/edge) [after]
 
 Variable order changed.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a        buffer3        0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..3]  buffer3.count  1      2 * 2     4 * 2       4 * 2       100%
-  3      discrete variable  int[0..3]  buffer1.count  2      2 * 2     4 * 2       4 * 2       100%
-  4      location pointer   n/a        buffer1        3      1 * 2     2 * 2       2 * 2       100%
-  5      discrete variable  int[0..3]  buffer2.count  4      2 * 2     4 * 2       4 * 2       100%
-  6      location pointer   n/a        buffer2        5      1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
-  Total                                               6      18        36          36          100%
+    Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+    1      location pointer   n/a        buffer3        0      1 * 2     2 * 2       2 * 2       100%
+    2      discrete variable  int[0..3]  buffer3.count  1      2 * 2     4 * 2       4 * 2       100%
+    3      discrete variable  int[0..3]  buffer1.count  2      2 * 2     4 * 2       4 * 2       100%
+    4      location pointer   n/a        buffer1        3      1 * 2     2 * 2       2 * 2       100%
+    5      discrete variable  int[0..3]  buffer2.count  4      2 * 2     4 * 2       4 * 2       100%
+    6      location pointer   n/a        buffer2        5      1 * 2     2 * 2       2 * 2       100%
+    -----  -----------------  ---------  -------------  -----  --------  ----------  ----------  -----------
+    Total                                               6      18        36          36          100%
 
 Starting data-based synthesis.
 
@@ -160,27 +160,27 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: buffer1.u_switch_loc) (guard: (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1 := buffer1.remove)
-    Edge: (event: buffer1.u_switch_loc) (guard: buffer1.count = 2 and buffer1.remove or (buffer1.count = 1 or buffer1.count = 3) and buffer1.remove) (assignments: buffer1 := buffer1.add)
-    Edge: (event: buffer1.c_add) (guard: buffer1.add) (assignments: buffer1.count := buffer1.count + 1)
-    Edge: (event: buffer1.c_remove) (guard: buffer1.remove) (assignments: buffer1.count := buffer1.count - 1)
-    Edge: (event: buffer3.u_switch_loc) (guard: (buffer3.remove or buffer3.count != 3) and buffer3.add) (assignments: buffer3 := buffer3.remove)
-    Edge: (event: buffer3.u_switch_loc) (guard: buffer3.remove and (buffer3.add or buffer3.count != 0)) (assignments: buffer3 := buffer3.add)
-    Edge: (event: buffer3.c_add) (guard: buffer3.add) (assignments: buffer3.count := buffer3.count + 1)
-    Edge: (event: buffer3.c_remove) (guard: buffer3.remove) (assignments: buffer3.count := buffer3.count - 1)
-    Edge: (event: buffer2.u_switch_loc) (guard: (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2 := buffer2.remove)
-    Edge: (event: buffer2.u_switch_loc) (guard: buffer2.count = 2 and buffer2.remove or (buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) (assignments: buffer2 := buffer2.add)
-    Edge: (event: buffer2.c_add) (guard: buffer2.add) (assignments: buffer2.count := buffer2.count + 1)
-    Edge: (event: buffer2.c_remove) (guard: buffer2.remove) (assignments: buffer2.count := buffer2.count - 1)
+    State: (controlled-behavior: ?)
+        Edge: (event: buffer1.u_switch_loc) (guard: (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1 := buffer1.remove)
+        Edge: (event: buffer1.u_switch_loc) (guard: buffer1.count = 2 and buffer1.remove or (buffer1.count = 1 or buffer1.count = 3) and buffer1.remove) (assignments: buffer1 := buffer1.add)
+        Edge: (event: buffer1.c_add) (guard: buffer1.add) (assignments: buffer1.count := buffer1.count + 1)
+        Edge: (event: buffer1.c_remove) (guard: buffer1.remove) (assignments: buffer1.count := buffer1.count - 1)
+        Edge: (event: buffer3.u_switch_loc) (guard: (buffer3.remove or buffer3.count != 3) and buffer3.add) (assignments: buffer3 := buffer3.remove)
+        Edge: (event: buffer3.u_switch_loc) (guard: buffer3.remove and (buffer3.add or buffer3.count != 0)) (assignments: buffer3 := buffer3.add)
+        Edge: (event: buffer3.c_add) (guard: buffer3.add) (assignments: buffer3.count := buffer3.count + 1)
+        Edge: (event: buffer3.c_remove) (guard: buffer3.remove) (assignments: buffer3.count := buffer3.count - 1)
+        Edge: (event: buffer2.u_switch_loc) (guard: (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2 := buffer2.remove)
+        Edge: (event: buffer2.u_switch_loc) (guard: buffer2.count = 2 and buffer2.remove or (buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) (assignments: buffer2 := buffer2.add)
+        Edge: (event: buffer2.c_add) (guard: buffer2.add) (assignments: buffer2.count := buffer2.count + 1)
+        Edge: (event: buffer2.c_remove) (guard: buffer2.remove) (assignments: buffer2.count := buffer2.count - 1)
 
 Restricting edge guards to prevent runtime errors:
-  Edge: (event: buffer1.c_add) (guard: buffer1.add -> (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1.count := buffer1.count + 1)
-  Edge: (event: buffer1.c_remove) (guard: buffer1.remove -> buffer1.count = 2 and buffer1.remove or (buffer1.count = 1 or buffer1.count = 3) and buffer1.remove) (assignments: buffer1.count := buffer1.count - 1)
-  Edge: (event: buffer3.c_add) (guard: buffer3.add -> (buffer3.remove or buffer3.count != 3) and buffer3.add) (assignments: buffer3.count := buffer3.count + 1)
-  Edge: (event: buffer3.c_remove) (guard: buffer3.remove -> buffer3.remove and (buffer3.add or buffer3.count != 0)) (assignments: buffer3.count := buffer3.count - 1)
-  Edge: (event: buffer2.c_add) (guard: buffer2.add -> (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2.count := buffer2.count + 1)
-  Edge: (event: buffer2.c_remove) (guard: buffer2.remove -> buffer2.count = 2 and buffer2.remove or (buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) (assignments: buffer2.count := buffer2.count - 1)
+    Edge: (event: buffer1.c_add) (guard: buffer1.add -> (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1.count := buffer1.count + 1)
+    Edge: (event: buffer1.c_remove) (guard: buffer1.remove -> buffer1.count = 2 and buffer1.remove or (buffer1.count = 1 or buffer1.count = 3) and buffer1.remove) (assignments: buffer1.count := buffer1.count - 1)
+    Edge: (event: buffer3.c_add) (guard: buffer3.add -> (buffer3.remove or buffer3.count != 3) and buffer3.add) (assignments: buffer3.count := buffer3.count + 1)
+    Edge: (event: buffer3.c_remove) (guard: buffer3.remove -> buffer3.remove and (buffer3.add or buffer3.count != 0)) (assignments: buffer3.count := buffer3.count - 1)
+    Edge: (event: buffer2.c_add) (guard: buffer2.add -> (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2.count := buffer2.count + 1)
+    Edge: (event: buffer2.c_remove) (guard: buffer2.remove -> buffer2.count = 2 and buffer2.remove or (buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) (assignments: buffer2.count := buffer2.count - 1)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -261,19 +261,19 @@ Edge (event: buffer2.c_add) (guard: buffer2.add -> (buffer2.count = 0 or buffer2
 Edge (event: buffer2.c_remove) (guard: buffer2.remove -> buffer2.count = 2 and buffer2.remove or (buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) (assignments: buffer2.count := buffer2.count - 1): guard: buffer2.count = 2 and buffer2.remove or (buffer2.count = 1 or buffer2.count = 3) and buffer2.remove -> buffer3.add and (buffer1.count = 0 or buffer1.count = 2) and (buffer2.count = 2 and buffer2.remove) or buffer3.add and (buffer1.count = 0 or buffer1.count = 2) and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) or (buffer3.add and buffer1.count = 1 and (buffer2.count = 2 and buffer2.remove) or buffer3.add and buffer1.count = 1 and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or (buffer3.add and buffer1.count = 3 and (buffer1.add and (buffer2.count = 2 and buffer2.remove)) or buffer3.add and buffer1.count = 3 and (buffer1.add and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or (buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and ((buffer1.count = 0 or buffer1.count = 2) and (buffer2.count = 2 and buffer2.remove)) or (buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and ((buffer1.count = 0 or buffer1.count = 2) and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and (buffer1.count = 1 and (buffer2.count = 2 and buffer2.remove))))) or (buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and (buffer1.count = 1 and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and ((buffer3.count = 0 or buffer3.count = 2) and buffer1.count = 3) and (buffer1.add and (buffer2.count = 2 and buffer2.remove)) or (buffer3.remove and ((buffer3.count = 0 or buffer3.count = 2) and buffer1.count = 3) and (buffer1.add and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and buffer3.count = 1 and ((buffer1.count = 0 or buffer1.count = 2) and (buffer2.count = 2 and buffer2.remove))) or (buffer3.remove and buffer3.count = 1 and ((buffer1.count = 0 or buffer1.count = 2) and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and buffer3.count = 1 and (buffer1.count = 1 and (buffer2.count = 2 and buffer2.remove)) or (buffer3.remove and buffer3.count = 1 and (buffer1.count = 1 and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or (buffer3.remove and (buffer3.count = 1 and buffer1.count = 3) and (buffer1.add and (buffer2.count = 2 and buffer2.remove)) or buffer3.remove and (buffer3.count = 1 and buffer1.count = 3) and (buffer1.add and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)))))).
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 16n 44p>)
-    Edge: (event: buffer1.u_switch_loc) (guard: (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1 := buffer1.remove)
-    Edge: (event: buffer1.u_switch_loc) (guard: buffer1.count = 2 and buffer1.remove or (buffer1.count = 1 or buffer1.count = 3) and buffer1.remove) (assignments: buffer1 := buffer1.add)
-    Edge: (event: buffer1.c_add) (guard: buffer1.add -> <bdd 16n 32p>) (assignments: buffer1.count := buffer1.count + 1)
-    Edge: (event: buffer1.c_remove) (guard: buffer1.remove -> (buffer3.remove or buffer1.count != 0) and (buffer3.remove or (buffer1.count != 2 or buffer1.remove)) and ((buffer3.remove or buffer1.count != 2 or (buffer1.add or (buffer2.count != 3 or buffer2.add))) and (buffer3.remove or buffer1.count = 0 or (buffer1.count = 2 or buffer1.remove))) and ((buffer3.remove or (buffer1.count = 0 or buffer1.count = 2) or (buffer1.add or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or buffer3.count = 1 or (buffer3.count = 3 or buffer1.count != 0)) and ((buffer3.add or buffer3.count = 1 or (buffer3.count = 3 or (buffer1.count != 2 or buffer1.remove))) and (buffer3.add or (buffer3.count = 1 or buffer3.count = 3) or (buffer1.count != 2 or buffer1.add or (buffer2.count != 3 or buffer2.add))))) and ((buffer3.add or (buffer3.count = 1 or buffer3.count = 3) or (buffer1.count = 0 or (buffer1.count = 2 or buffer1.remove))) and (buffer3.add or buffer3.count = 1 or (buffer3.count = 3 or buffer1.count = 0) or (buffer1.count = 2 or buffer1.add or (buffer2.count != 3 or buffer2.add))) and ((buffer3.add or (buffer3.count != 1 or buffer1.count != 0)) and (buffer3.add or buffer3.count != 1 or (buffer1.count != 2 or buffer1.remove))) and ((buffer3.add or (buffer3.count != 1 or buffer1.count != 2) or (buffer1.add or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or buffer3.count != 1 or (buffer1.count = 0 or (buffer1.count = 2 or buffer1.remove))) and ((buffer3.add or (buffer3.count != 1 or buffer1.count = 0) or (buffer1.count = 2 or buffer1.add or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or buffer3.count != 3))))) (assignments: buffer1.count := buffer1.count - 1)
-    Edge: (event: buffer3.u_switch_loc) (guard: (buffer3.remove or buffer3.count != 3) and buffer3.add) (assignments: buffer3 := buffer3.remove)
-    Edge: (event: buffer3.u_switch_loc) (guard: buffer3.remove and (buffer3.add or buffer3.count != 0)) (assignments: buffer3 := buffer3.add)
-    Edge: (event: buffer3.c_add) (guard: buffer3.add -> <bdd 15n 26p>) (assignments: buffer3.count := buffer3.count + 1)
-    Edge: (event: buffer3.c_remove) (guard: buffer3.remove -> buffer3.remove and (buffer3.add or buffer3.count != 0) and ((buffer3.add or (buffer3.count != 2 or buffer1.count = 1) or (buffer1.count = 3 or (buffer2.count != 3 or buffer2.add))) and ((buffer3.add or buffer3.count != 2 or (buffer1.count != 1 or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or (buffer3.count != 2 or buffer1.count != 3) or (buffer1.remove or (buffer2.count != 3 or buffer2.add))))) and ((buffer3.add or buffer3.count != 2 or (buffer1.count != 3 or buffer1.add)) and (buffer3.add or (buffer3.count = 0 or buffer3.count = 2) or (buffer1.count = 1 or buffer1.count = 3 or (buffer2.count != 3 or buffer2.add))) and ((buffer3.add or (buffer3.count = 0 or buffer3.count = 2) or (buffer1.count != 1 or (buffer2.count != 3 or buffer2.add))) and ((buffer3.add or (buffer3.count = 0 or buffer3.count = 2) or (buffer1.count != 3 or buffer1.remove or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or buffer3.count = 0 or (buffer3.count = 2 or (buffer1.count != 3 or buffer1.add))))))) (assignments: buffer3.count := buffer3.count - 1)
-    Edge: (event: buffer2.u_switch_loc) (guard: (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2 := buffer2.remove)
-    Edge: (event: buffer2.u_switch_loc) (guard: buffer2.count = 2 and buffer2.remove or (buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) (assignments: buffer2 := buffer2.add)
-    Edge: (event: buffer2.c_add) (guard: buffer2.add -> <bdd 14n 29p>) (assignments: buffer2.count := buffer2.count + 1)
-    Edge: (event: buffer2.c_remove) (guard: buffer2.remove -> buffer3.add and (buffer1.count = 0 or buffer1.count = 2) and (buffer2.count = 2 and buffer2.remove) or buffer3.add and (buffer1.count = 0 or buffer1.count = 2) and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) or (buffer3.add and buffer1.count = 1 and (buffer2.count = 2 and buffer2.remove) or buffer3.add and buffer1.count = 1 and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or (buffer3.add and buffer1.count = 3 and (buffer1.add and (buffer2.count = 2 and buffer2.remove)) or buffer3.add and buffer1.count = 3 and (buffer1.add and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or (buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and ((buffer1.count = 0 or buffer1.count = 2) and (buffer2.count = 2 and buffer2.remove)) or (buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and ((buffer1.count = 0 or buffer1.count = 2) and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and (buffer1.count = 1 and (buffer2.count = 2 and buffer2.remove))))) or (buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and (buffer1.count = 1 and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and ((buffer3.count = 0 or buffer3.count = 2) and buffer1.count = 3) and (buffer1.add and (buffer2.count = 2 and buffer2.remove)) or (buffer3.remove and ((buffer3.count = 0 or buffer3.count = 2) and buffer1.count = 3) and (buffer1.add and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and buffer3.count = 1 and ((buffer1.count = 0 or buffer1.count = 2) and (buffer2.count = 2 and buffer2.remove))) or (buffer3.remove and buffer3.count = 1 and ((buffer1.count = 0 or buffer1.count = 2) and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and buffer3.count = 1 and (buffer1.count = 1 and (buffer2.count = 2 and buffer2.remove)) or (buffer3.remove and buffer3.count = 1 and (buffer1.count = 1 and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or (buffer3.remove and (buffer3.count = 1 and buffer1.count = 3) and (buffer1.add and (buffer2.count = 2 and buffer2.remove)) or buffer3.remove and (buffer3.count = 1 and buffer1.count = 3) and (buffer1.add and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove))))))) (assignments: buffer2.count := buffer2.count - 1)
+    State: (controlled-behavior: <bdd 16n 44p>)
+        Edge: (event: buffer1.u_switch_loc) (guard: (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1 := buffer1.remove)
+        Edge: (event: buffer1.u_switch_loc) (guard: buffer1.count = 2 and buffer1.remove or (buffer1.count = 1 or buffer1.count = 3) and buffer1.remove) (assignments: buffer1 := buffer1.add)
+        Edge: (event: buffer1.c_add) (guard: buffer1.add -> <bdd 16n 32p>) (assignments: buffer1.count := buffer1.count + 1)
+        Edge: (event: buffer1.c_remove) (guard: buffer1.remove -> (buffer3.remove or buffer1.count != 0) and (buffer3.remove or (buffer1.count != 2 or buffer1.remove)) and ((buffer3.remove or buffer1.count != 2 or (buffer1.add or (buffer2.count != 3 or buffer2.add))) and (buffer3.remove or buffer1.count = 0 or (buffer1.count = 2 or buffer1.remove))) and ((buffer3.remove or (buffer1.count = 0 or buffer1.count = 2) or (buffer1.add or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or buffer3.count = 1 or (buffer3.count = 3 or buffer1.count != 0)) and ((buffer3.add or buffer3.count = 1 or (buffer3.count = 3 or (buffer1.count != 2 or buffer1.remove))) and (buffer3.add or (buffer3.count = 1 or buffer3.count = 3) or (buffer1.count != 2 or buffer1.add or (buffer2.count != 3 or buffer2.add))))) and ((buffer3.add or (buffer3.count = 1 or buffer3.count = 3) or (buffer1.count = 0 or (buffer1.count = 2 or buffer1.remove))) and (buffer3.add or buffer3.count = 1 or (buffer3.count = 3 or buffer1.count = 0) or (buffer1.count = 2 or buffer1.add or (buffer2.count != 3 or buffer2.add))) and ((buffer3.add or (buffer3.count != 1 or buffer1.count != 0)) and (buffer3.add or buffer3.count != 1 or (buffer1.count != 2 or buffer1.remove))) and ((buffer3.add or (buffer3.count != 1 or buffer1.count != 2) or (buffer1.add or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or buffer3.count != 1 or (buffer1.count = 0 or (buffer1.count = 2 or buffer1.remove))) and ((buffer3.add or (buffer3.count != 1 or buffer1.count = 0) or (buffer1.count = 2 or buffer1.add or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or buffer3.count != 3))))) (assignments: buffer1.count := buffer1.count - 1)
+        Edge: (event: buffer3.u_switch_loc) (guard: (buffer3.remove or buffer3.count != 3) and buffer3.add) (assignments: buffer3 := buffer3.remove)
+        Edge: (event: buffer3.u_switch_loc) (guard: buffer3.remove and (buffer3.add or buffer3.count != 0)) (assignments: buffer3 := buffer3.add)
+        Edge: (event: buffer3.c_add) (guard: buffer3.add -> <bdd 15n 26p>) (assignments: buffer3.count := buffer3.count + 1)
+        Edge: (event: buffer3.c_remove) (guard: buffer3.remove -> buffer3.remove and (buffer3.add or buffer3.count != 0) and ((buffer3.add or (buffer3.count != 2 or buffer1.count = 1) or (buffer1.count = 3 or (buffer2.count != 3 or buffer2.add))) and ((buffer3.add or buffer3.count != 2 or (buffer1.count != 1 or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or (buffer3.count != 2 or buffer1.count != 3) or (buffer1.remove or (buffer2.count != 3 or buffer2.add))))) and ((buffer3.add or buffer3.count != 2 or (buffer1.count != 3 or buffer1.add)) and (buffer3.add or (buffer3.count = 0 or buffer3.count = 2) or (buffer1.count = 1 or buffer1.count = 3 or (buffer2.count != 3 or buffer2.add))) and ((buffer3.add or (buffer3.count = 0 or buffer3.count = 2) or (buffer1.count != 1 or (buffer2.count != 3 or buffer2.add))) and ((buffer3.add or (buffer3.count = 0 or buffer3.count = 2) or (buffer1.count != 3 or buffer1.remove or (buffer2.count != 3 or buffer2.add))) and (buffer3.add or buffer3.count = 0 or (buffer3.count = 2 or (buffer1.count != 3 or buffer1.add))))))) (assignments: buffer3.count := buffer3.count - 1)
+        Edge: (event: buffer2.u_switch_loc) (guard: (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2 := buffer2.remove)
+        Edge: (event: buffer2.u_switch_loc) (guard: buffer2.count = 2 and buffer2.remove or (buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) (assignments: buffer2 := buffer2.add)
+        Edge: (event: buffer2.c_add) (guard: buffer2.add -> <bdd 14n 29p>) (assignments: buffer2.count := buffer2.count + 1)
+        Edge: (event: buffer2.c_remove) (guard: buffer2.remove -> buffer3.add and (buffer1.count = 0 or buffer1.count = 2) and (buffer2.count = 2 and buffer2.remove) or buffer3.add and (buffer1.count = 0 or buffer1.count = 2) and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove) or (buffer3.add and buffer1.count = 1 and (buffer2.count = 2 and buffer2.remove) or buffer3.add and buffer1.count = 1 and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or (buffer3.add and buffer1.count = 3 and (buffer1.add and (buffer2.count = 2 and buffer2.remove)) or buffer3.add and buffer1.count = 3 and (buffer1.add and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or (buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and ((buffer1.count = 0 or buffer1.count = 2) and (buffer2.count = 2 and buffer2.remove)) or (buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and ((buffer1.count = 0 or buffer1.count = 2) and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and (buffer1.count = 1 and (buffer2.count = 2 and buffer2.remove))))) or (buffer3.remove and (buffer3.count = 0 or buffer3.count = 2) and (buffer1.count = 1 and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and ((buffer3.count = 0 or buffer3.count = 2) and buffer1.count = 3) and (buffer1.add and (buffer2.count = 2 and buffer2.remove)) or (buffer3.remove and ((buffer3.count = 0 or buffer3.count = 2) and buffer1.count = 3) and (buffer1.add and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and buffer3.count = 1 and ((buffer1.count = 0 or buffer1.count = 2) and (buffer2.count = 2 and buffer2.remove))) or (buffer3.remove and buffer3.count = 1 and ((buffer1.count = 0 or buffer1.count = 2) and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or buffer3.remove and buffer3.count = 1 and (buffer1.count = 1 and (buffer2.count = 2 and buffer2.remove)) or (buffer3.remove and buffer3.count = 1 and (buffer1.count = 1 and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove)) or (buffer3.remove and (buffer3.count = 1 and buffer1.count = 3) and (buffer1.add and (buffer2.count = 2 and buffer2.remove)) or buffer3.remove and (buffer3.count = 1 and buffer1.count = 3) and (buffer1.add and ((buffer2.count = 1 or buffer2.count = 3) and buffer2.remove))))))) (assignments: buffer2.count := buffer2.count - 1)
 
 Controlled system: exactly 342 states.
 

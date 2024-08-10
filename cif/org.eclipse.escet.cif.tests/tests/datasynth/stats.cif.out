@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..25]  a.x   0      5 * 2     26 * 2      32 * 2      ~81%
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  Total                                       1      10        52          64          ~81%
+    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..25]  a.x   0      5 * 2     26 * 2      32 * 2      ~81%
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    Total                                       1      10        52          64          ~81%
 
 Skipping variable ordering: only one variable present.
 
@@ -46,9 +46,9 @@ State/event exclusion requirements:
     0 <= a.x and a.x <= 15
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: true)
+    State: (controlled-behavior: ?)
+        Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+        Edge: (event: f) (guard: true)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -68,9 +68,9 @@ Restricting behavior using state/event exclusion requirements.
 Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [state/event exclusion requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
 
 Restricted behavior using state/event exclusion requirements:
-  State: (controlled-behavior: true)
-    Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+    State: (controlled-behavior: true)
+        Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+        Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
 
 Restricting behavior using implicit runtime error requirements.
 
@@ -147,9 +147,9 @@ Round 2: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))))
-    Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+    State: (controlled-behavior: a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))))
+        Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+        Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
 
 Controlled system: exactly 20 states.
 
@@ -164,13 +164,13 @@ Simplification of controlled system under the assumption of the plants:
 
 Constructing output CIF specification.
 BDD cache statistics:
-  Node creation requests:       732
-  Node creation chain accesses: 2
-  Node creation cache hits:     285
-  Node creation cache misses:   313
-  Operation count:              2318
-  Operation cache hits:         419
-  Operation cache misses:       688
+    Node creation requests:       732
+    Node creation chain accesses: 2
+    Node creation cache hits:     285
+    Node creation cache misses:   313
+    Operation count:              2318
+    Operation cache hits:         419
+    Operation cache misses:       688
 Writing continuous BDD performance statistics file "datasynth/stats.cif.stats.txt.real".
 Maximum used BDD nodes: 91.
 Writing output CIF file "datasynth/stats.ctrlsys.real.cif".

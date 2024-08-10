@@ -50,13 +50,13 @@ State/event exclusion requirements:
     true
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: cen) (guard: true)
-    Edge: (event: cea) (guard: true)
-    Edge: (event: cee) (guard: true)
-    Edge: (event: uen) (guard: true)
-    Edge: (event: uea) (guard: true)
-    Edge: (event: uee) (guard: true)
+    State: (controlled-behavior: ?)
+        Edge: (event: cen) (guard: true)
+        Edge: (event: cea) (guard: true)
+        Edge: (event: cee) (guard: true)
+        Edge: (event: uen) (guard: true)
+        Edge: (event: uea) (guard: true)
+        Edge: (event: uee) (guard: true)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -73,13 +73,13 @@ Edge (event: cea) (guard: true): guard: true -> false [state/event exclusion req
 Controlled behavior: true -> false [state/event exclusion requirement: false, edge: (event: uea) (guard: true)].
 
 Restricted behavior using state/event exclusion requirements:
-  State: (controlled-behavior: false)
-    Edge: (event: cen) (guard: true)
-    Edge: (event: cea) (guard: true -> false)
-    Edge: (event: cee) (guard: true)
-    Edge: (event: uen) (guard: true)
-    Edge: (event: uea) (guard: true)
-    Edge: (event: uee) (guard: true)
+    State: (controlled-behavior: false)
+        Edge: (event: cen) (guard: true)
+        Edge: (event: cea) (guard: true -> false)
+        Edge: (event: cee) (guard: true)
+        Edge: (event: uen) (guard: true)
+        Edge: (event: uea) (guard: true)
+        Edge: (event: uee) (guard: true)
 
 Restricting behavior using implicit runtime error requirements.
 
@@ -99,13 +99,13 @@ Edge (event: cen) (guard: true): guard: true -> false.
 Edge (event: cee) (guard: true): guard: true -> false.
 
 Final synthesis result:
-  State: (controlled-behavior: false)
-    Edge: (event: cen) (guard: true -> false)
-    Edge: (event: cea) (guard: true -> false)
-    Edge: (event: cee) (guard: true -> false)
-    Edge: (event: uen) (guard: true)
-    Edge: (event: uea) (guard: true)
-    Edge: (event: uee) (guard: true)
+    State: (controlled-behavior: false)
+        Edge: (event: cen) (guard: true -> false)
+        Edge: (event: cea) (guard: true -> false)
+        Edge: (event: cee) (guard: true -> false)
+        Edge: (event: uen) (guard: true)
+        Edge: (event: uea) (guard: true)
+        Edge: (event: uee) (guard: true)
 
 Controlled system: exactly 0 states.
 

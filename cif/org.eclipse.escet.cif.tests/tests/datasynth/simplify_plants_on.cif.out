@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      1      6         12          16          75%
+    Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
+    -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+    Total                                      1      6         12          16          75%
 
 Skipping variable ordering: only one variable present.
 
@@ -49,11 +49,11 @@ State/event exclusion requirements:
     p.x = 4 or p.x = 5
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: c_a) (guard: p.x = 4 or (p.x = 5 or p.x = 3))
-    Edge: (event: c_a) (guard: false)
-    Edge: (event: c_b) (guard: p.x = 4 or p.x = 5)
-    Edge: (event: c_b) (guard: p.x = 3)
+    State: (controlled-behavior: ?)
+        Edge: (event: c_a) (guard: p.x = 4 or (p.x = 5 or p.x = 3))
+        Edge: (event: c_a) (guard: false)
+        Edge: (event: c_b) (guard: p.x = 4 or p.x = 5)
+        Edge: (event: c_b) (guard: p.x = 3)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -73,11 +73,11 @@ Restricting behavior using state/event exclusion requirements.
 Edge (event: c_b) (guard: p.x = 3): guard: p.x = 3 -> false [state/event exclusion requirement: p.x = 4 or p.x = 5].
 
 Restricted behavior using state/event exclusion requirements:
-  State: (controlled-behavior: true)
-    Edge: (event: c_a) (guard: p.x = 4 or (p.x = 5 or p.x = 3))
-    Edge: (event: c_a) (guard: false)
-    Edge: (event: c_b) (guard: p.x = 4 or p.x = 5)
-    Edge: (event: c_b) (guard: p.x = 3 -> false)
+    State: (controlled-behavior: true)
+        Edge: (event: c_a) (guard: p.x = 4 or (p.x = 5 or p.x = 3))
+        Edge: (event: c_a) (guard: false)
+        Edge: (event: c_b) (guard: p.x = 4 or p.x = 5)
+        Edge: (event: c_b) (guard: p.x = 3 -> false)
 
 Restricting behavior using implicit runtime error requirements.
 
@@ -104,11 +104,11 @@ Edge (event: c_a) (guard: p.x = 4 or (p.x = 5 or p.x = 3)): guard: p.x = 4 or (p
 Edge (event: c_b) (guard: p.x = 4 or p.x = 5): guard: p.x = 4 or p.x = 5 -> p.x = 4 or p.x = 5.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: c_a) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x != 0 and (p.x != 2 and p.x != 1))
-    Edge: (event: c_a) (guard: false)
-    Edge: (event: c_b) (guard: p.x = 4 or p.x = 5 -> p.x = 4 or p.x = 5)
-    Edge: (event: c_b) (guard: p.x = 3 -> false)
+    State: (controlled-behavior: true)
+        Edge: (event: c_a) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x != 0 and (p.x != 2 and p.x != 1))
+        Edge: (event: c_a) (guard: false)
+        Edge: (event: c_b) (guard: p.x = 4 or p.x = 5 -> p.x = 4 or p.x = 5)
+        Edge: (event: c_b) (guard: p.x = 3 -> false)
 
 Controlled system: exactly 6 states.
 

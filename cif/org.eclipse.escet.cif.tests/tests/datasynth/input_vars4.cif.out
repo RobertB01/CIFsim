@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind            Type       Name       Group  BDD vars  CIF values  BDD values  Values used
-  -----  --------------  ---------  ---------  -----  --------  ----------  ----------  -----------
-  1      input variable  int[0..3]  io.sensor  0      2 * 2     4 * 2       4 * 2       100%
-  -----  --------------  ---------  ---------  -----  --------  ----------  ----------  -----------
-  Total                                        1      4         8           8           100%
+    Nr     Kind            Type       Name       Group  BDD vars  CIF values  BDD values  Values used
+    -----  --------------  ---------  ---------  -----  --------  ----------  ----------  -----------
+    1      input variable  int[0..3]  io.sensor  0      2 * 2     4 * 2       4 * 2       100%
+    -----  --------------  ---------  ---------  -----  --------  ----------  ----------  -----------
+    Total                                        1      4         8           8           100%
 
 Skipping variable ordering: only one variable present.
 
@@ -44,8 +44,8 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+    State: (controlled-behavior: ?)
+        Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -85,8 +85,8 @@ Round 1: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+    State: (controlled-behavior: true)
+        Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
 Controlled system: exactly 4 states.
 

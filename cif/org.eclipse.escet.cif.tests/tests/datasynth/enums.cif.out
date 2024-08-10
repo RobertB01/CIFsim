@@ -3,100 +3,100 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type  Name    Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----  ------  -----  --------  ----------  ----------  -----------
-  1      discrete variable  g.E1  g.p.x0  0      3 * 2     5 * 2       8 * 2       ~63%
-  2      discrete variable  g.E1  g.p.x1  1      3 * 2     5 * 2       8 * 2       ~63%
-  3      discrete variable  g.E1  g.p.x2  2      3 * 2     5 * 2       8 * 2       ~63%
-  4      discrete variable  g.E1  g.p.x3  3      3 * 2     5 * 2       8 * 2       ~63%
-  5      discrete variable  g.E1  g.p.x4  4      3 * 2     5 * 2       8 * 2       ~63%
-  6      discrete variable  g.E1  g.p.x5  5      3 * 2     5 * 2       8 * 2       ~63%
-  7      discrete variable  g.E2  g.p.x6  6      2 * 2     3 * 2       4 * 2       75%
-  -----  -----------------  ----  ------  -----  --------  ----------  ----------  -----------
-  Total                                   7      40        66          104         ~63%
+    Nr     Kind               Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----  ------  -----  --------  ----------  ----------  -----------
+    1      discrete variable  g.E1  g.p.x0  0      3 * 2     5 * 2       8 * 2       ~63%
+    2      discrete variable  g.E1  g.p.x1  1      3 * 2     5 * 2       8 * 2       ~63%
+    3      discrete variable  g.E1  g.p.x2  2      3 * 2     5 * 2       8 * 2       ~63%
+    4      discrete variable  g.E1  g.p.x3  3      3 * 2     5 * 2       8 * 2       ~63%
+    5      discrete variable  g.E1  g.p.x4  4      3 * 2     5 * 2       8 * 2       ~63%
+    6      discrete variable  g.E1  g.p.x5  5      3 * 2     5 * 2       8 * 2       ~63%
+    7      discrete variable  g.E2  g.p.x6  6      2 * 2     3 * 2       4 * 2       75%
+    -----  -----------------  ----  ------  -----  --------  ----------  ----------  -----------
+    Total                                   7      40        66          104         ~63%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 12
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 12
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+            Applying Weighted Cuthill-McKee algorithm:
+                Node finder: george-liu
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 0
 
-        Skipping algorithm: no graph edges.
+                Skipping algorithm: no graph edges.
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+            Applying Sloan algorithm:
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 0
 
-        Skipping algorithm: no graph edges.
+                Skipping algorithm: no graph edges.
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+            Applying 2 orderers, sequentially:
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-          Skipping algorithm: no graph edges.
+                    Skipping algorithm: no graph edges.
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 12
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 12
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.061224 (total)   0.005102 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.061224 (total)   0.005102 (avg/edge) [reversed]
+                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.061224 (total)   0.005102 (avg/edge) [before]
+                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.061224 (total)   0.005102 (avg/edge) [reversed]
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+            Applying 2 orderers, sequentially:
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-          Skipping algorithm: no graph edges.
+                    Skipping algorithm: no graph edges.
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 12
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 12
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.061224 (total)   0.005102 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.061224 (total)   0.005102 (avg/edge) [reversed]
+                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.061224 (total)   0.005102 (avg/edge) [before]
+                    Total span:   0 (total)   0.00 (avg/edge) / WES:   0.061224 (total)   0.005102 (avg/edge) [reversed]
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 6
-      Maximum number of iterations: 20
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 6
+            Maximum number of iterations: 20
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.081633 (total)   0.013605 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.013605 (total)   0.002268 (avg/edge) [iteration 1]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.081633 (total)   0.013605 (avg/edge) [after]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.081633 (total)   0.013605 (avg/edge) [before]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.013605 (total)   0.002268 (avg/edge) [iteration 1]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.081633 (total)   0.013605 (avg/edge) [after]
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 6
-      Window length: 4
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 6
+            Window length: 4
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.081633 (total)   0.013605 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.081633 (total)   0.013605 (avg/edge) [after]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.081633 (total)   0.013605 (avg/edge) [before]
+            Total span:   0 (total)   0.00 (avg/edge) / WES:   0.081633 (total)   0.013605 (avg/edge) [after]
 
 Variable order unchanged.
 
@@ -146,13 +146,13 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: g.e1) (guard: g.p.x0 = g.A) (assignments: g.p.x0 := g.B)
-    Edge: (event: g.e1) (guard: g.p.x0 = g.B) (assignments: g.p.x0 := g.C)
-    Edge: (event: g.e1) (guard: g.p.x0 = g.C) (assignments: g.p.x0 := g.D)
-    Edge: (event: g.e1) (guard: g.p.x0 = g.D) (assignments: g.p.x0 := g.E)
-    Edge: (event: g.e2) (guard: g.p.x6 = g.G)
-    Edge: (event: g.e2) (guard: g.p.x6 != g.G)
+    State: (controlled-behavior: ?)
+        Edge: (event: g.e1) (guard: g.p.x0 = g.A) (assignments: g.p.x0 := g.B)
+        Edge: (event: g.e1) (guard: g.p.x0 = g.B) (assignments: g.p.x0 := g.C)
+        Edge: (event: g.e1) (guard: g.p.x0 = g.C) (assignments: g.p.x0 := g.D)
+        Edge: (event: g.e1) (guard: g.p.x0 = g.D) (assignments: g.p.x0 := g.E)
+        Edge: (event: g.e2) (guard: g.p.x6 = g.G)
+        Edge: (event: g.e2) (guard: g.p.x6 != g.G)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -242,13 +242,13 @@ Edge (event: g.e2) (guard: g.p.x6 = g.G): guard: g.p.x6 = g.G -> (g.p.x0 = g.A o
 Edge (event: g.e2) (guard: g.p.x6 != g.G): guard: g.p.x6 != g.G -> false.
 
 Final synthesis result:
-  State: (controlled-behavior: (g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or ((g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or ((g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)))))
-    Edge: (event: g.e1) (guard: g.p.x0 = g.A -> g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))) (assignments: g.p.x0 := g.B)
-    Edge: (event: g.e1) (guard: g.p.x0 = g.B -> g.p.x0 = g.B and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.B and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))) (assignments: g.p.x0 := g.C)
-    Edge: (event: g.e1) (guard: g.p.x0 = g.C -> g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))) (assignments: g.p.x0 := g.D)
-    Edge: (event: g.e1) (guard: g.p.x0 = g.D -> g.p.x0 = g.D and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.D and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))) (assignments: g.p.x0 := g.E)
-    Edge: (event: g.e2) (guard: g.p.x6 = g.G -> (g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or ((g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or ((g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)))))
-    Edge: (event: g.e2) (guard: g.p.x6 != g.G -> false)
+    State: (controlled-behavior: (g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or ((g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or ((g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)))))
+        Edge: (event: g.e1) (guard: g.p.x0 = g.A -> g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))) (assignments: g.p.x0 := g.B)
+        Edge: (event: g.e1) (guard: g.p.x0 = g.B -> g.p.x0 = g.B and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.B and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))) (assignments: g.p.x0 := g.C)
+        Edge: (event: g.e1) (guard: g.p.x0 = g.C -> g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))) (assignments: g.p.x0 := g.D)
+        Edge: (event: g.e1) (guard: g.p.x0 = g.D -> g.p.x0 = g.D and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.D and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))) (assignments: g.p.x0 := g.E)
+        Edge: (event: g.e2) (guard: g.p.x6 = g.G -> (g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or ((g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or ((g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)))))
+        Edge: (event: g.e2) (guard: g.p.x6 != g.G -> false)
 
 Controlled system: exactly 40 states.
 

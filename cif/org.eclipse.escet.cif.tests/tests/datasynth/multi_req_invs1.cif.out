@@ -3,99 +3,99 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..10]  p.x   0      4 * 2     11 * 2      16 * 2      ~69%
-  2      discrete variable  int[0..10]  p.y   1      4 * 2     11 * 2      16 * 2      ~69%
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  Total                                       2      16        44          64          ~69%
+    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..10]  p.x   0      4 * 2     11 * 2      16 * 2      ~69%
+    2      discrete variable  int[0..10]  p.y   1      4 * 2     11 * 2      16 * 2      ~69%
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    Total                                       2      16        44          64          ~69%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 10
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 10
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+            Applying Weighted Cuthill-McKee algorithm:
+                Node finder: george-liu
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 1
 
-        Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
-        Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [after]
+                Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
+                Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [after]
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+            Applying Sloan algorithm:
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 1
 
-        Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
-        Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [after]
+                Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
+                Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [after]
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+            Applying 2 orderers, sequentially:
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-          Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
-          Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [after]
+                    Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
+                    Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 10
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 10
 
-          Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
-          Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [reversed]
+                    Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
+                    Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [reversed]
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+            Applying 2 orderers, sequentially:
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-          Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
-          Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [after]
+                    Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
+                    Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 10
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 10
 
-          Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
-          Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [reversed]
+                    Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [before]
+                    Total span:   1 (total)   0.10 (avg/edge) / WES:   0.300000 (total)   0.030000 (avg/edge) [reversed]
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 3
-      Maximum number of iterations: 10
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 3
+            Maximum number of iterations: 10
 
-      Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
-      Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [iteration 1]
-      Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [after]
+            Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
+            Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [iteration 1]
+            Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [after]
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 3
-      Window length: 2
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 3
+            Window length: 2
 
-      Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
-      Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [after]
+            Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [before]
+            Total span:   1 (total)   0.33 (avg/edge) / WES:   0.500000 (total)   0.166667 (avg/edge) [after]
 
 Variable order unchanged.
 
@@ -138,15 +138,15 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: a) (guard: true) (assignments: p.x := p.x + 1)
-    Edge: (event: b) (guard: true) (assignments: p.x := p.x - 1, p.y := p.y + 1)
-    Edge: (event: c) (guard: true) (assignments: p.y := p.y - 1)
+    State: (controlled-behavior: ?)
+        Edge: (event: a) (guard: true) (assignments: p.x := p.x + 1)
+        Edge: (event: b) (guard: true) (assignments: p.x := p.x - 1, p.y := p.y + 1)
+        Edge: (event: c) (guard: true) (assignments: p.y := p.y - 1)
 
 Restricting edge guards to prevent runtime errors:
-  Edge: (event: a) (guard: true -> true) (assignments: p.x := p.x + 1)
-  Edge: (event: b) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1, p.y := p.y + 1)
-  Edge: (event: c) (guard: true -> p.y != 0) (assignments: p.y := p.y - 1)
+    Edge: (event: a) (guard: true -> true) (assignments: p.x := p.x + 1)
+    Edge: (event: b) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1, p.y := p.y + 1)
+    Edge: (event: c) (guard: true -> p.y != 0) (assignments: p.y := p.y - 1)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -229,10 +229,10 @@ Edge (event: b) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1, p.y := p
 Edge (event: c) (guard: true -> p.y != 0) (assignments: p.y := p.y - 1): guard: p.y != 0 -> p.x != 0 and (p.x != 8 or not(p.y = 0 or p.y = 8)) and ((p.x != 8 or p.y != 10) and (p.x != 8 or p.y != 9)) and ((p.x != 4 or not(p.y = 0 or p.y = 8)) and (p.x != 4 or p.y != 10) and ((p.x != 4 or p.y != 9) and ((not(p.x = 2 or p.x = 6) or not(p.y = 0 or p.y = 8)) and (not(p.x = 2 or p.x = 6) or p.y != 10)))) and ((not(p.x = 2 or p.x = 6) or p.y != 9) and p.x != 10 and (not(p.x = 1 or p.x = 9) and (p.x != 5 or not(p.y = 0 or p.y = 8))) and ((p.x != 5 or p.y != 10) and (p.x != 5 or p.y != 9) and ((not(p.x = 3 or p.x = 7) or not(p.y = 0 or p.y = 8)) and ((not(p.x = 3 or p.x = 7) or p.y != 10) and (not(p.x = 3 or p.x = 7) or p.y != 9))))).
 
 Final synthesis result:
-  State: (controlled-behavior: p.x != 0 and (p.x != 8 or (0 <= p.y and p.y <= 7 or p.y = 9)) and ((p.x != 8 or p.y != 9) and (p.x != 8 or p.y != 7)) and ((p.x != 4 or (0 <= p.y and p.y <= 7 or p.y = 9)) and (p.x != 4 or p.y != 9) and ((p.x != 4 or p.y != 7) and ((not(p.x = 2 or p.x = 6) or (0 <= p.y and p.y <= 7 or p.y = 9)) and (not(p.x = 2 or p.x = 6) or p.y != 9)))) and ((not(p.x = 2 or p.x = 6) or p.y != 7) and p.x != 10 and (not(p.x = 1 or p.x = 9) and (p.x != 5 or (0 <= p.y and p.y <= 7 or p.y = 9))) and ((p.x != 5 or p.y != 9) and (p.x != 5 or p.y != 7) and ((not(p.x = 3 or p.x = 7) or (0 <= p.y and p.y <= 7 or p.y = 9)) and ((not(p.x = 3 or p.x = 7) or p.y != 9) and (not(p.x = 3 or p.x = 7) or p.y != 7))))))
-    Edge: (event: a) (guard: true -> not(p.x = 0 or p.x = 8) and ((p.x != 4 or (0 <= p.y and p.y <= 7 or p.y = 9)) and (p.x != 4 or p.y != 9)) and ((p.x != 4 or p.y != 7) and ((not(p.x = 2 or p.x = 6) or (0 <= p.y and p.y <= 7 or p.y = 9)) and (not(p.x = 2 or p.x = 6) or p.y != 9))) and ((not(p.x = 2 or p.x = 6) or p.y != 7) and (p.x != 10 and (not(p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) or (0 <= p.y and p.y <= 7 or p.y = 9))) and ((not(p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) or p.y != 9) and ((not(p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) or p.y != 7) and p.x != 9)))) (assignments: p.x := p.x + 1)
-    Edge: (event: b) (guard: true -> p.x = 8 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 8 and (p.y = 2 or p.y = 3) or p.x = 4 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5))) or (p.x = 4 and (p.y = 2 or p.y = 3) or (p.x = 6 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or p.x = 6 and (p.y = 2 or p.y = 3))) or (p.x = 9 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 9 and (p.y = 2 or p.y = 3) or p.x = 5 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5))) or (p.x = 5 and (p.y = 2 or p.y = 3) or ((p.x = 3 or p.x = 7) and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 3 or p.x = 7) and (p.y = 2 or p.y = 3))))) (assignments: p.x := p.x - 1, p.y := p.y + 1)
-    Edge: (event: c) (guard: true -> p.x != 0 and (p.x != 8 or not(p.y = 0 or p.y = 8)) and ((p.x != 8 or p.y != 10) and (p.x != 8 or p.y != 9)) and ((p.x != 4 or not(p.y = 0 or p.y = 8)) and (p.x != 4 or p.y != 10) and ((p.x != 4 or p.y != 9) and ((not(p.x = 2 or p.x = 6) or not(p.y = 0 or p.y = 8)) and (not(p.x = 2 or p.x = 6) or p.y != 10)))) and ((not(p.x = 2 or p.x = 6) or p.y != 9) and p.x != 10 and (not(p.x = 1 or p.x = 9) and (p.x != 5 or not(p.y = 0 or p.y = 8))) and ((p.x != 5 or p.y != 10) and (p.x != 5 or p.y != 9) and ((not(p.x = 3 or p.x = 7) or not(p.y = 0 or p.y = 8)) and ((not(p.x = 3 or p.x = 7) or p.y != 10) and (not(p.x = 3 or p.x = 7) or p.y != 9)))))) (assignments: p.y := p.y - 1)
+    State: (controlled-behavior: p.x != 0 and (p.x != 8 or (0 <= p.y and p.y <= 7 or p.y = 9)) and ((p.x != 8 or p.y != 9) and (p.x != 8 or p.y != 7)) and ((p.x != 4 or (0 <= p.y and p.y <= 7 or p.y = 9)) and (p.x != 4 or p.y != 9) and ((p.x != 4 or p.y != 7) and ((not(p.x = 2 or p.x = 6) or (0 <= p.y and p.y <= 7 or p.y = 9)) and (not(p.x = 2 or p.x = 6) or p.y != 9)))) and ((not(p.x = 2 or p.x = 6) or p.y != 7) and p.x != 10 and (not(p.x = 1 or p.x = 9) and (p.x != 5 or (0 <= p.y and p.y <= 7 or p.y = 9))) and ((p.x != 5 or p.y != 9) and (p.x != 5 or p.y != 7) and ((not(p.x = 3 or p.x = 7) or (0 <= p.y and p.y <= 7 or p.y = 9)) and ((not(p.x = 3 or p.x = 7) or p.y != 9) and (not(p.x = 3 or p.x = 7) or p.y != 7))))))
+        Edge: (event: a) (guard: true -> not(p.x = 0 or p.x = 8) and ((p.x != 4 or (0 <= p.y and p.y <= 7 or p.y = 9)) and (p.x != 4 or p.y != 9)) and ((p.x != 4 or p.y != 7) and ((not(p.x = 2 or p.x = 6) or (0 <= p.y and p.y <= 7 or p.y = 9)) and (not(p.x = 2 or p.x = 6) or p.y != 9))) and ((not(p.x = 2 or p.x = 6) or p.y != 7) and (p.x != 10 and (not(p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) or (0 <= p.y and p.y <= 7 or p.y = 9))) and ((not(p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) or p.y != 9) and ((not(p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) or p.y != 7) and p.x != 9)))) (assignments: p.x := p.x + 1)
+        Edge: (event: b) (guard: true -> p.x = 8 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 8 and (p.y = 2 or p.y = 3) or p.x = 4 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5))) or (p.x = 4 and (p.y = 2 or p.y = 3) or (p.x = 6 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or p.x = 6 and (p.y = 2 or p.y = 3))) or (p.x = 9 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 9 and (p.y = 2 or p.y = 3) or p.x = 5 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5))) or (p.x = 5 and (p.y = 2 or p.y = 3) or ((p.x = 3 or p.x = 7) and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 3 or p.x = 7) and (p.y = 2 or p.y = 3))))) (assignments: p.x := p.x - 1, p.y := p.y + 1)
+        Edge: (event: c) (guard: true -> p.x != 0 and (p.x != 8 or not(p.y = 0 or p.y = 8)) and ((p.x != 8 or p.y != 10) and (p.x != 8 or p.y != 9)) and ((p.x != 4 or not(p.y = 0 or p.y = 8)) and (p.x != 4 or p.y != 10) and ((p.x != 4 or p.y != 9) and ((not(p.x = 2 or p.x = 6) or not(p.y = 0 or p.y = 8)) and (not(p.x = 2 or p.x = 6) or p.y != 10)))) and ((not(p.x = 2 or p.x = 6) or p.y != 9) and p.x != 10 and (not(p.x = 1 or p.x = 9) and (p.x != 5 or not(p.y = 0 or p.y = 8))) and ((p.x != 5 or p.y != 10) and (p.x != 5 or p.y != 9) and ((not(p.x = 3 or p.x = 7) or not(p.y = 0 or p.y = 8)) and ((not(p.x = 3 or p.x = 7) or p.y != 10) and (not(p.x = 3 or p.x = 7) or p.y != 9)))))) (assignments: p.y := p.y - 1)
 
 Controlled system: exactly 49 states.
 

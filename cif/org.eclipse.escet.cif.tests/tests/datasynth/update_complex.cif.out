@@ -3,117 +3,117 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a        p      0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..3]  p.x    1      2 * 2     4 * 2       4 * 2       100%
-  3      discrete variable  int[1..2]  p.y    2      2 * 2     2 * 2       4 * 2       50%
-  4      discrete variable  int[2..3]  p.z    3      2 * 2     2 * 2       4 * 2       50%
-  5      discrete variable  int[3..8]  p.sum  4      4 * 2     6 * 2       16 * 2      ~38%
-  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
-  Total                                       5      22        32          60          ~53%
+    Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+    1      location pointer   n/a        p      0      1 * 2     2 * 2       2 * 2       100%
+    2      discrete variable  int[0..3]  p.x    1      2 * 2     4 * 2       4 * 2       100%
+    3      discrete variable  int[1..2]  p.y    2      2 * 2     2 * 2       4 * 2       50%
+    4      discrete variable  int[2..3]  p.z    3      2 * 2     2 * 2       4 * 2       50%
+    5      discrete variable  int[3..8]  p.sum  4      4 * 2     6 * 2       16 * 2      ~38%
+    -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+    Total                                       5      22        32          60          ~53%
 
 Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+    Applying 4 orderers, sequentially:
+        Applying model variable order:
+            Effect: both
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 2
+        Applying DCSH algorithm:
+            Metric: wes
+            Relations: legacy
+            Effect: var-order
+            Number of hyper-edges: 2
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 10
+            Applying Weighted Cuthill-McKee algorithm:
+                Node finder: george-liu
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 10
 
-        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
+                Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 10
+            Applying Sloan algorithm:
+                Relations: legacy
+                Effect: var-order
+                Number of graph edges: 10
 
-        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
+                Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 10
+            Applying 2 orderers, sequentially:
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 10
 
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 2
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 2
 
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [reversed]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [reversed]
 
-      Found new best variable order.
+            Found new best variable order.
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 10
+            Applying 2 orderers, sequentially:
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 10
 
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 2
+                Reversing the variable order:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of hyper-edges: 2
 
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [reversed]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [reversed]
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 1
-      Maximum number of iterations: 20
+        Applying FORCE algorithm:
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 1
+            Maximum number of iterations: 20
 
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [before]
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [iteration 1]
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [after]
+            Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [before]
+            Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [iteration 1]
+            Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [after]
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 1
-      Window length: 4
+        Applying sliding window algorithm:
+            Size: 4
+            Metric: total-span
+            Relations: linearized
+            Effect: var-order
+            Number of hyper-edges: 1
+            Window length: 4
 
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [before]
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [after]
+            Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [before]
+            Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [after]
 
 Variable order changed.
 
 CIF variables and location pointers:
-  Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[3..8]  p.sum  0      4 * 2     6 * 2       16 * 2      ~38%
-  2      discrete variable  int[2..3]  p.z    1      2 * 2     2 * 2       4 * 2       50%
-  3      discrete variable  int[1..2]  p.y    2      2 * 2     2 * 2       4 * 2       50%
-  4      discrete variable  int[0..3]  p.x    3      2 * 2     4 * 2       4 * 2       100%
-  5      location pointer   n/a        p      4      1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
-  Total                                       5      22        32          60          ~53%
+    Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[3..8]  p.sum  0      4 * 2     6 * 2       16 * 2      ~38%
+    2      discrete variable  int[2..3]  p.z    1      2 * 2     2 * 2       4 * 2       50%
+    3      discrete variable  int[1..2]  p.y    2      2 * 2     2 * 2       4 * 2       50%
+    4      discrete variable  int[0..3]  p.x    3      2 * 2     4 * 2       4 * 2       100%
+    5      location pointer   n/a        p      4      1 * 2     2 * 2       2 * 2       100%
+    -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+    Total                                       5      22        32          60          ~53%
 
 Starting data-based synthesis.
 
@@ -151,8 +151,8 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
+    State: (controlled-behavior: ?)
+        Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -218,8 +218,8 @@ Round 2: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 29n 6p>)
-    Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
+    State: (controlled-behavior: <bdd 29n 6p>)
+        Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
 
 Controlled system: exactly 6 states.
 

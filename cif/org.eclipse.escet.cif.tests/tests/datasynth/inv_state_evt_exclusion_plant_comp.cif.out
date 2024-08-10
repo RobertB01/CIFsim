@@ -3,11 +3,11 @@ Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:
-  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..25]  a.x   0      5 * 2     26 * 2      32 * 2      ~81%
-  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
-  Total                                       1      10        52          64          ~81%
+    Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    1      discrete variable  int[0..25]  a.x   0      5 * 2     26 * 2      32 * 2      ~81%
+    -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+    Total                                       1      10        52          64          ~81%
 
 Skipping variable ordering: only one variable present.
 
@@ -61,15 +61,15 @@ State/event exclusion requirements:
   None
 
 Uncontrolled system (state/event exclusion plants not applied yet):
-  State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: true)
-    Edge: (event: g) (guard: true)
-    Edge: (event: h) (guard: true)
-    Edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: j) (guard: true)
-    Edge: (event: k) (guard: true)
-    Edge: (event: l) (guard: true)
+    State: (controlled-behavior: ?)
+        Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+        Edge: (event: f) (guard: true)
+        Edge: (event: g) (guard: true)
+        Edge: (event: h) (guard: true)
+        Edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+        Edge: (event: j) (guard: true)
+        Edge: (event: k) (guard: true)
+        Edge: (event: l) (guard: true)
 
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
@@ -81,15 +81,15 @@ Edge (event: k) (guard: true): guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 
 Edge (event: l) (guard: true): guard: true -> a.x = 12 or a.x = 13 [plant: a.x = 12 or a.x = 13].
 
 Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
-    Edge: (event: g) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
-    Edge: (event: h) (guard: true -> a.x = 12 or a.x = 13)
-    Edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: j) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
-    Edge: (event: k) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
-    Edge: (event: l) (guard: true -> a.x = 12 or a.x = 13)
+    State: (controlled-behavior: ?)
+        Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+        Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+        Edge: (event: g) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
+        Edge: (event: h) (guard: true -> a.x = 12 or a.x = 13)
+        Edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+        Edge: (event: j) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+        Edge: (event: k) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
+        Edge: (event: l) (guard: true -> a.x = 12 or a.x = 13)
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: a.x = 1.
@@ -172,15 +172,15 @@ Round 2: finished, controlled behavior is stable.
 Computing controlled system guards.
 
 Final synthesis result:
-  State: (controlled-behavior: a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))))
-    Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
-    Edge: (event: g) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
-    Edge: (event: h) (guard: true -> a.x = 12 or a.x = 13)
-    Edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: j) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
-    Edge: (event: k) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
-    Edge: (event: l) (guard: true -> a.x = 12 or a.x = 13)
+    State: (controlled-behavior: a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))))
+        Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+        Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+        Edge: (event: g) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
+        Edge: (event: h) (guard: true -> a.x = 12 or a.x = 13)
+        Edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+        Edge: (event: j) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+        Edge: (event: k) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
+        Edge: (event: l) (guard: true -> a.x = 12 or a.x = 13)
 
 Controlled system: exactly 20 states.
 
