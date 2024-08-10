@@ -65,7 +65,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: a.x = 1.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -73,14 +74,13 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "a.x
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [state/event exclusion requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
 
-Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [state/event exclusion requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: true)
-        Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-        Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: true)
+            Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+            Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
 
 Restricting behavior using implicit runtime error requirements.
 

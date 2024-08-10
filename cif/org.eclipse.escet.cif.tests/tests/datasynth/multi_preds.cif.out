@@ -63,7 +63,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: p.x = 9.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -71,13 +72,12 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "p.x
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3)): guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3 [state/event exclusion requirement: p.x = 4 or p.x = 3].
 
-Edge (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3)): guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3 [state/event exclusion requirement: p.x = 4 or p.x = 3].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: true)
-        Edge: (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: true)
+            Edge: (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3)
 
 Restricting behavior using implicit runtime error requirements.
 

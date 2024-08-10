@@ -63,12 +63,13 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: p.x = 2 or p.x = 3.
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> false [state requirements: false].
+Restricting behavior using state requirements:
+    Controlled behavior: true -> false [state requirements: false].
 
 Extending controlled-behavior predicate using variable ranges.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

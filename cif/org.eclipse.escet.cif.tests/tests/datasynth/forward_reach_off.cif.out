@@ -159,7 +159,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -168,7 +169,8 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "p.w
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

@@ -206,7 +206,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: <bdd 14n 64p>.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -216,7 +217,8 @@ Controlled behavior: <bdd 9n 40p> -> <bdd 14n 320p> [range: true, variable: disc
 
 Extended controlled-behavior predicate using variable ranges: <bdd 14n 320p>.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 Controlled behavior: <bdd 14n 320p> -> <bdd 20n 448p> [runtime error requirement (event: u): p.y != 0 or not p.t2].

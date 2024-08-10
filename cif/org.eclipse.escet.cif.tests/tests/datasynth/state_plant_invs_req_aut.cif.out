@@ -79,7 +79,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: A.l1.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -87,17 +88,16 @@ Controlled behavior: true -> true [range: true, variable: location pointer for a
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: A.c) (guard: not A.l1): guard: not A.l1 -> false [state/event exclusion requirement: A.l1].
 
-Edge (event: A.c) (guard: not A.l1): guard: not A.l1 -> false [state/event exclusion requirement: A.l1].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: true)
-        Edge: (event: A.c) (guard: A.l1) (assignments: A := A.l2)
-        Edge: (event: A.c) (guard: not A.l1 -> false)
-        Edge: (event: A.u1) (guard: A.l1)
-        Edge: (event: A.u1) (guard: A.l2 -> false) (assignments: A := A.l3)
-        Edge: (event: A.u1) (guard: A.l3)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: true)
+            Edge: (event: A.c) (guard: A.l1) (assignments: A := A.l2)
+            Edge: (event: A.c) (guard: not A.l1 -> false)
+            Edge: (event: A.u1) (guard: A.l1)
+            Edge: (event: A.u1) (guard: A.l2 -> false) (assignments: A := A.l3)
+            Edge: (event: A.u1) (guard: A.l3)
 
 Restricting behavior using implicit runtime error requirements.
 

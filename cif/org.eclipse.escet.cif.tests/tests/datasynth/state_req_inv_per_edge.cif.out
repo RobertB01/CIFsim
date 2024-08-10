@@ -165,16 +165,15 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: <bdd 13n 125p>.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior: true -> not p.b and (p.x = 0 or p.x = 4) or not p.b and p.x = 2 or (not p.b and p.x = 1 or (not p.b and p.x = 3 or p.b)) [state requirement: not p.b and (p.x = 0 or p.x = 4) or (not p.b and p.x = 2 or not p.b and (p.x = 1 or p.x = 3)), edge: (event: u_e) (guard: not p.b -> not p.b) (assignments: p.x := p.x + 2, p.b := true)].
+    Edge (event: c_e) (guard: true -> true) (assignments: p.y := p.y + 2): guard: true -> p.y = 0 or p.y = 4 or (p.y = 2 or (p.y = 1 or p.y = 3)) [state requirement: p.y = 0 or p.y = 4 or (p.y = 2 or (p.y = 1 or p.y = 3))].
 
-Controlled behavior: true -> not p.b and (p.x = 0 or p.x = 4) or not p.b and p.x = 2 or (not p.b and p.x = 1 or (not p.b and p.x = 3 or p.b)) [state requirement: not p.b and (p.x = 0 or p.x = 4) or (not p.b and p.x = 2 or not p.b and (p.x = 1 or p.x = 3)), edge: (event: u_e) (guard: not p.b -> not p.b) (assignments: p.x := p.x + 2, p.b := true)].
-Edge (event: c_e) (guard: true -> true) (assignments: p.y := p.y + 2): guard: true -> p.y = 0 or p.y = 4 or (p.y = 2 or (p.y = 1 or p.y = 3)) [state requirement: p.y = 0 or p.y = 4 or (p.y = 2 or (p.y = 1 or p.y = 3))].
-
-Restricted behavior using state requirements:
-    State: (controlled-behavior: not p.b and (p.x = 0 or p.x = 4) or not p.b and p.x = 2 or (not p.b and p.x = 1 or (not p.b and p.x = 3 or p.b)))
-        Edge: (event: u_e) (guard: not p.b -> not p.b) (assignments: p.x := p.x + 2, p.b := true)
-        Edge: (event: c_e) (guard: true -> p.y = 0 or p.y = 4 or (p.y = 2 or (p.y = 1 or p.y = 3))) (assignments: p.y := p.y + 2)
-Controlled initialization: <bdd 13n 125p> -> <bdd 13n 27p> [state requirements: <bdd 12n 27p>].
+    Restricted behavior using state requirements:
+        State: (controlled-behavior: not p.b and (p.x = 0 or p.x = 4) or not p.b and p.x = 2 or (not p.b and p.x = 1 or (not p.b and p.x = 3 or p.b)))
+            Edge: (event: u_e) (guard: not p.b -> not p.b) (assignments: p.x := p.x + 2, p.b := true)
+            Edge: (event: c_e) (guard: true -> p.y = 0 or p.y = 4 or (p.y = 2 or (p.y = 1 or p.y = 3))) (assignments: p.y := p.y + 2)
+    Controlled initialization: <bdd 13n 125p> -> <bdd 13n 27p> [state requirements: <bdd 12n 27p>].
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -184,7 +183,8 @@ Controlled behavior: <bdd 12n 40p> -> <bdd 16n 200p> [range: true, variable: dis
 
 Extended controlled-behavior predicate using variable ranges: <bdd 16n 200p>.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

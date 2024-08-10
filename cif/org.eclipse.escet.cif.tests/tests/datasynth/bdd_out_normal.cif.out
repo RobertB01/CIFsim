@@ -173,8 +173,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: (p.y = 2 or p.y = 3 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 2 or (p.y = 3 or p.L1)) and ((p.y = 4 or p.y = 5 or (p.L2 or (p.x = 2 or p.x = 3))) and (p.y = 4 or (p.y = 5 or p.L1))).
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> p.L1 and p.b or p.L2 and (p.b and p.v != p.Q) [state requirements: p.L1 and p.b or p.L2 and (p.b and p.v != p.Q)].
+Restricting behavior using state requirements:
+    Controlled behavior: true -> p.L1 and p.b or p.L2 and (p.b and p.v != p.Q) [state requirements: p.L1 and p.b or p.L2 and (p.b and p.v != p.Q)].
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -183,7 +183,8 @@ Controlled behavior: (p.y = 4 or p.y = 5) and (p.L1 and p.b) or (p.y = 4 or p.y 
 
 Extended controlled-behavior predicate using variable ranges: (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q))))).
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

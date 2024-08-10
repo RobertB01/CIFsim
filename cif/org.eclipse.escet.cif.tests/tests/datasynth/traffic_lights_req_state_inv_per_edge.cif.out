@@ -155,21 +155,22 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: LightA.Red and LightB.Red.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Edge (event: green_A) (guard: LightA.Red) (assignments: LightA := LightA.Green): guard: LightA.Red -> LightA.Red and LightB.Red [state requirement: LightA.Red and LightB.Red].
+    Edge (event: green_B) (guard: LightB.Red) (assignments: LightB := LightB.Green): guard: LightB.Red -> LightA.Red and LightB.Red [state requirement: LightA.Red and LightB.Red].
 
-Edge (event: green_A) (guard: LightA.Red) (assignments: LightA := LightA.Green): guard: LightA.Red -> LightA.Red and LightB.Red [state requirement: LightA.Red and LightB.Red].
-Edge (event: green_B) (guard: LightB.Red) (assignments: LightB := LightB.Green): guard: LightB.Red -> LightA.Red and LightB.Red [state requirement: LightA.Red and LightB.Red].
-
-Restricted behavior using state requirements:
-    State: (controlled-behavior: true)
-        Edge: (event: green_A) (guard: LightA.Red -> LightA.Red and LightB.Red) (assignments: LightA := LightA.Green)
-        Edge: (event: red_A) (guard: LightA.Green) (assignments: LightA := LightA.Red)
-        Edge: (event: green_B) (guard: LightB.Red -> LightA.Red and LightB.Red) (assignments: LightB := LightB.Green)
-        Edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red)
+    Restricted behavior using state requirements:
+        State: (controlled-behavior: true)
+            Edge: (event: green_A) (guard: LightA.Red -> LightA.Red and LightB.Red) (assignments: LightA := LightA.Green)
+            Edge: (event: red_A) (guard: LightA.Green) (assignments: LightA := LightA.Red)
+            Edge: (event: green_B) (guard: LightB.Red -> LightA.Red and LightB.Red) (assignments: LightB := LightB.Green)
+            Edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red)
+    Controlled-initialization not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

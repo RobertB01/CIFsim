@@ -156,12 +156,13 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: not p.b1 and (p.b2 and not p.b3).
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> not p.b1 and (p.b2 and not p.b3) [state requirements: not p.b1 and (p.b2 and not p.b3)].
+Restricting behavior using state requirements:
+    Controlled behavior: true -> not p.b1 and (p.b2 and not p.b3) [state requirements: not p.b1 and (p.b2 and not p.b3)].
 
 Extending controlled-behavior predicate using variable ranges.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

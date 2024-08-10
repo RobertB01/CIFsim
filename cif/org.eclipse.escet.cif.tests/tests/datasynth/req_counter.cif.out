@@ -176,8 +176,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: count_max3.cnt = 0 and adder.l1.
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> 0 <= count_max3.cnt and count_max3.cnt <= 3 [state requirements: 0 <= count_max3.cnt and count_max3.cnt <= 3].
+Restricting behavior using state requirements:
+    Controlled behavior: true -> 0 <= count_max3.cnt and count_max3.cnt <= 3 [state requirements: 0 <= count_max3.cnt and count_max3.cnt <= 3].
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -185,7 +185,8 @@ Controlled behavior: 0 <= count_max3.cnt and count_max3.cnt <= 3 -> 0 <= count_m
 
 Extended controlled-behavior predicate using variable ranges: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)).
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 Controlled behavior: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)) -> (count_max3.cnt != 0 or not adder.l3) and (count_max3.cnt != 8 and count_max3.cnt != 4) and (count_max3.cnt != 10 and count_max3.cnt != 6 and (count_max3.cnt != 9 and not(count_max3.cnt = 5 or count_max3.cnt = 7))) [runtime error requirement (event: u_remove): count_max3.cnt != 0 or not adder.l3].

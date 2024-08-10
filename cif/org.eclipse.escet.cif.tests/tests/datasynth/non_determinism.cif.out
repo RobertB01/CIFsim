@@ -168,8 +168,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: not p.x1 and (p.l0 and not p.x2).
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> not p.l1 [state requirements: not p.l1].
+Restricting behavior using state requirements:
+    Controlled behavior: true -> not p.l1 [state requirements: not p.l1].
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -177,7 +177,8 @@ Controlled behavior: not p.l1 -> not p.l1 [range: true, variable: location point
 
 Extended controlled-behavior predicate using variable ranges: not p.l1.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

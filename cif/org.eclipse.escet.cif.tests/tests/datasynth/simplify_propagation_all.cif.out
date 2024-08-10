@@ -162,7 +162,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1).
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -172,7 +173,8 @@ Controlled behavior: true -> true [range: true, variable: location pointer for a
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

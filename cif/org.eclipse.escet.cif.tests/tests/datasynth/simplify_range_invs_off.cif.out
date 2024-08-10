@@ -184,7 +184,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2)).
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -194,7 +195,8 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "aut
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

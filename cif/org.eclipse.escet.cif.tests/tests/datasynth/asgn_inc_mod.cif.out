@@ -63,8 +63,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: p.x = 2.
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> p.x = 0 or (p.x = 2 or p.x = 4) [state requirements: p.x = 0 or (p.x = 2 or p.x = 4)].
+Restricting behavior using state requirements:
+    Controlled behavior: true -> p.x = 0 or (p.x = 2 or p.x = 4) [state requirements: p.x = 0 or (p.x = 2 or p.x = 4)].
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -72,7 +72,8 @@ Controlled behavior: p.x = 0 or (p.x = 2 or p.x = 4) -> p.x = 0 or (p.x = 2 or p
 
 Extended controlled-behavior predicate using variable ranges: p.x = 0 or (p.x = 2 or p.x = 4).
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

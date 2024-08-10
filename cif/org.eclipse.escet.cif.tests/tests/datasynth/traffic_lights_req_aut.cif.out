@@ -177,7 +177,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: LightA.Red and (R.RR and LightB.Red).
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -185,23 +186,22 @@ Controlled behavior: true -> true [range: true, variable: location pointer for a
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red) (assignments: LightA := LightA.Green): guard: (LightA.Green or not R.RR) and LightA.Red -> false [state/event exclusion requirement: R.RR].
+    Edge (event: red_A) (guard: LightA.Green and not R.GR) (assignments: LightA := LightA.Red): guard: LightA.Green and not R.GR -> false [state/event exclusion requirement: R.GR].
+    Edge (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red) (assignments: LightB := LightB.Green): guard: R.RG and LightB.Red or R.GR and LightB.Red -> false [state/event exclusion requirement: R.RR].
+    Edge (event: red_B) (guard: not R.RG and LightB.Green) (assignments: LightB := LightB.Red): guard: not R.RG and LightB.Green -> false [state/event exclusion requirement: R.RG].
 
-Edge (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red) (assignments: LightA := LightA.Green): guard: (LightA.Green or not R.RR) and LightA.Red -> false [state/event exclusion requirement: R.RR].
-Edge (event: red_A) (guard: LightA.Green and not R.GR) (assignments: LightA := LightA.Red): guard: LightA.Green and not R.GR -> false [state/event exclusion requirement: R.GR].
-Edge (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red) (assignments: LightB := LightB.Green): guard: R.RG and LightB.Red or R.GR and LightB.Red -> false [state/event exclusion requirement: R.RR].
-Edge (event: red_B) (guard: not R.RG and LightB.Green) (assignments: LightB := LightB.Red): guard: not R.RG and LightB.Green -> false [state/event exclusion requirement: R.RG].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: true)
-        Edge: (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR)
-        Edge: (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red -> false) (assignments: LightA := LightA.Green)
-        Edge: (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR)
-        Edge: (event: red_A) (guard: LightA.Green and not R.GR -> false) (assignments: LightA := LightA.Red)
-        Edge: (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG)
-        Edge: (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red -> false) (assignments: LightB := LightB.Green)
-        Edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR)
-        Edge: (event: red_B) (guard: not R.RG and LightB.Green -> false) (assignments: LightB := LightB.Red)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: true)
+            Edge: (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR)
+            Edge: (event: green_A) (guard: (LightA.Green or not R.RR) and LightA.Red -> false) (assignments: LightA := LightA.Green)
+            Edge: (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR)
+            Edge: (event: red_A) (guard: LightA.Green and not R.GR -> false) (assignments: LightA := LightA.Red)
+            Edge: (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG)
+            Edge: (event: green_B) (guard: R.RG and LightB.Red or R.GR and LightB.Red -> false) (assignments: LightB := LightB.Green)
+            Edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR)
+            Edge: (event: red_B) (guard: not R.RG and LightB.Green -> false) (assignments: LightB := LightB.Red)
 
 Restricting behavior using implicit runtime error requirements.
 

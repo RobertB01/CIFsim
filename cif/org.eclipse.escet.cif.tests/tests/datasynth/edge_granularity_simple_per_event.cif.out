@@ -169,7 +169,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: p2.l1 and p1.l1.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -177,15 +178,14 @@ Controlled behavior: true -> true [range: true, variable: location pointer for a
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: b) (guard: p2.l3) (assignments: p2 := p2.l1): guard: p2.l3 -> false [state/event exclusion requirement: false].
 
-Edge (event: b) (guard: p2.l3) (assignments: p2 := p2.l1): guard: p2.l3 -> false [state/event exclusion requirement: false].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: true)
-        Edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3)
-        Edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1)
-        Edge: (event: b) (guard: p2.l3 -> false) (assignments: p2 := p2.l1)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: true)
+            Edge: (event: e) (guard: p2.x = 2 and p2.l1 or (p2.x = 1 or p2.x = 3) and p2.l1) (assignments: p1 := p1.l2 / p1 := p1.l2, p2 := p2.l2 / p1 := p1.l2, p2 := p2.l3 / p1 := p1.l1 / p1 := p1.l1, p2 := p2.l2 / p1 := p1.l1, p2 := p2.l3)
+            Edge: (event: a) (guard: p2.l2) (assignments: p2 := p2.l1)
+            Edge: (event: b) (guard: p2.l3 -> false) (assignments: p2 := p2.l1)
 
 Restricting behavior using implicit runtime error requirements.
 

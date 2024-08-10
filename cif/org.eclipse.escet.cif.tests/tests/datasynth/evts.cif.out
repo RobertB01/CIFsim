@@ -76,23 +76,23 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: true.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: cea) (guard: true): guard: true -> false [state/event exclusion requirement: false].
+    Controlled behavior: true -> false [state/event exclusion requirement: false, edge: (event: uea) (guard: true)].
 
-Edge (event: cea) (guard: true): guard: true -> false [state/event exclusion requirement: false].
-Controlled behavior: true -> false [state/event exclusion requirement: false, edge: (event: uea) (guard: true)].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: false)
-        Edge: (event: cen) (guard: true)
-        Edge: (event: cea) (guard: true -> false)
-        Edge: (event: cee) (guard: true)
-        Edge: (event: uen) (guard: true)
-        Edge: (event: uea) (guard: true)
-        Edge: (event: uee) (guard: true)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: false)
+            Edge: (event: cen) (guard: true)
+            Edge: (event: cea) (guard: true -> false)
+            Edge: (event: cee) (guard: true)
+            Edge: (event: uen) (guard: true)
+            Edge: (event: uea) (guard: true)
+            Edge: (event: uee) (guard: true)
 
 Restricting behavior using implicit runtime error requirements.
 

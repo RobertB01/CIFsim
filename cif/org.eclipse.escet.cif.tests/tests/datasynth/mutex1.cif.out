@@ -171,8 +171,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: machine1.Idle and machine1.producing = 0 and (machine2.producing = 0 and machine2.Idle).
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> machine1.producing = 0 or machine2.producing = 0 [state requirements: machine1.producing = 0 or machine2.producing = 0].
+Restricting behavior using state requirements:
+    Controlled behavior: true -> machine1.producing = 0 or machine2.producing = 0 [state requirements: machine1.producing = 0 or machine2.producing = 0].
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -181,7 +181,8 @@ Controlled behavior: (machine1.Producing or (machine1.producing = 0 or machine2.
 
 Extended controlled-behavior predicate using variable ranges: (machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) and (not machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)).
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

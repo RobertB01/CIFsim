@@ -164,7 +164,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: p.x = 2 and p.L0.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -172,15 +173,14 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "p.x
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: e1) (guard: 0 <= p.x and (p.x <= 7 and p.L0)) (assignments: p.x := p.x + 2, p := p.L1): guard: 0 <= p.x and (p.x <= 7 and p.L0) -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.L0 or ((p.x = 1 or p.x = 5) and p.L0 or p.x = 3 and p.L0) [state/event exclusion requirement: p.x != 8 and (p.x != 9 and p.x != 7)].
+    Controlled behavior: true -> (p.x != 8 or p.L0) and ((p.x != 6 or p.L0) and (p.x != 7 or p.L0)) [state/event exclusion requirement: 0 <= p.x and (p.x <= 7 and not(p.x = 6 or p.x = 7)), edge: (event: e2) (guard: (p.x = 0 or p.x = 8) and p.L1 or p.x = 4 and p.L1 or ((p.x = 2 or p.x = 6) and p.L1 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.L1)) (assignments: p.x := p.x + 1, p := p.L0)].
 
-Edge (event: e1) (guard: 0 <= p.x and (p.x <= 7 and p.L0)) (assignments: p.x := p.x + 2, p := p.L1): guard: 0 <= p.x and (p.x <= 7 and p.L0) -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.L0 or ((p.x = 1 or p.x = 5) and p.L0 or p.x = 3 and p.L0) [state/event exclusion requirement: p.x != 8 and (p.x != 9 and p.x != 7)].
-Controlled behavior: true -> (p.x != 8 or p.L0) and ((p.x != 6 or p.L0) and (p.x != 7 or p.L0)) [state/event exclusion requirement: 0 <= p.x and (p.x <= 7 and not(p.x = 6 or p.x = 7)), edge: (event: e2) (guard: (p.x = 0 or p.x = 8) and p.L1 or p.x = 4 and p.L1 or ((p.x = 2 or p.x = 6) and p.L1 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.L1)) (assignments: p.x := p.x + 1, p := p.L0)].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: (p.x != 8 or p.L0) and ((p.x != 6 or p.L0) and (p.x != 7 or p.L0)))
-        Edge: (event: e1) (guard: 0 <= p.x and (p.x <= 7 and p.L0) -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.L0 or ((p.x = 1 or p.x = 5) and p.L0 or p.x = 3 and p.L0)) (assignments: p.x := p.x + 2, p := p.L1)
-        Edge: (event: e2) (guard: (p.x = 0 or p.x = 8) and p.L1 or p.x = 4 and p.L1 or ((p.x = 2 or p.x = 6) and p.L1 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.L1)) (assignments: p.x := p.x + 1, p := p.L0)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: (p.x != 8 or p.L0) and ((p.x != 6 or p.L0) and (p.x != 7 or p.L0)))
+            Edge: (event: e1) (guard: 0 <= p.x and (p.x <= 7 and p.L0) -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.L0 or ((p.x = 1 or p.x = 5) and p.L0 or p.x = 3 and p.L0)) (assignments: p.x := p.x + 2, p := p.L1)
+            Edge: (event: e2) (guard: (p.x = 0 or p.x = 8) and p.L1 or p.x = 4 and p.L1 or ((p.x = 2 or p.x = 6) and p.L1 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.L1)) (assignments: p.x := p.x + 1, p := p.L0)
 
 Restricting behavior using implicit runtime error requirements.
 

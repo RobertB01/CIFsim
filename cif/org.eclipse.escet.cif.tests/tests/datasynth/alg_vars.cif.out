@@ -197,27 +197,26 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: r1.inactive and r2.inactive and (r3.inactive and q.l1).
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> r1.inactive or r3.inactive [state requirements: r1.inactive or r3.inactive].
+Restricting behavior using state requirements:
+    Controlled behavior: true -> r1.inactive or r3.inactive [state requirements: r1.inactive or r3.inactive].
 
 Extending controlled-behavior predicate using variable ranges.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: add) (guard: true -> p.c != 3) (assignments: p.c := p.c + x): guard: p.c != 3 -> (p.c = 0 or p.c = 2) and q.l1 or p.c = 1 and q.l1 [state/event exclusion requirement: q.l1].
 
-Edge (event: add) (guard: true -> p.c != 3) (assignments: p.c := p.c + x): guard: p.c != 3 -> (p.c = 0 or p.c = 2) and q.l1 or p.c = 1 and q.l1 [state/event exclusion requirement: q.l1].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: r1.inactive or r3.inactive)
-        Edge: (event: add) (guard: true -> (p.c = 0 or p.c = 2) and q.l1 or p.c = 1 and q.l1) (assignments: p.c := p.c + x)
-        Edge: (event: remove) (guard: true -> p.c != 0) (assignments: p.c := p.c - p.y)
-        Edge: (event: move) (guard: q.l1) (assignments: q := q.l2)
-        Edge: (event: move) (guard: q.l2) (assignments: q := q.l1)
-        Edge: (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active)
-        Edge: (event: r1.deactivate) (guard: r1.active) (assignments: r1 := r1.inactive)
-        Edge: (event: r2.activate) (guard: r2.inactive) (assignments: r2 := r2.active)
-        Edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive)
-        Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
-        Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: r1.inactive or r3.inactive)
+            Edge: (event: add) (guard: true -> (p.c = 0 or p.c = 2) and q.l1 or p.c = 1 and q.l1) (assignments: p.c := p.c + x)
+            Edge: (event: remove) (guard: true -> p.c != 0) (assignments: p.c := p.c - p.y)
+            Edge: (event: move) (guard: q.l1) (assignments: q := q.l2)
+            Edge: (event: move) (guard: q.l2) (assignments: q := q.l1)
+            Edge: (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active)
+            Edge: (event: r1.deactivate) (guard: r1.active) (assignments: r1 := r1.inactive)
+            Edge: (event: r2.activate) (guard: r2.inactive) (assignments: r2 := r2.active)
+            Edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive)
+            Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
+            Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
 
 Restricting behavior using implicit runtime error requirements.
 

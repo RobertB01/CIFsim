@@ -176,7 +176,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: a.x = 1 and a.l1.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -184,26 +185,25 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "a.x
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: f) (guard: a.l1): guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1 [state/event exclusion requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
+    Edge (event: f) (guard: a.l2): guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2 [state/event exclusion requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
+    Edge (event: g) (guard: a.l1): guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1) [state/event exclusion requirement: a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11)].
+    Edge (event: g) (guard: a.l2): guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2) [state/event exclusion requirement: a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11)].
+    Edge (event: h) (guard: a.l1): guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1) [state/event exclusion requirement: (a.x = 0 or a.x = 1 or (a.x = 8 or a.x = 9)) and a.l1 or ((a.x = 4 or a.x = 5) and a.l1 or a.x = 12) or (a.x = 13 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))].
+    Edge (event: h) (guard: a.l2): guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 [state/event exclusion requirement: (a.x = 0 or a.x = 1 or (a.x = 8 or a.x = 9)) and a.l1 or ((a.x = 4 or a.x = 5) and a.l1 or a.x = 12) or (a.x = 13 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))].
 
-Edge (event: f) (guard: a.l1): guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1 [state/event exclusion requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
-Edge (event: f) (guard: a.l2): guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2 [state/event exclusion requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
-Edge (event: g) (guard: a.l1): guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1) [state/event exclusion requirement: a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11)].
-Edge (event: g) (guard: a.l2): guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2) [state/event exclusion requirement: a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11)].
-Edge (event: h) (guard: a.l1): guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1) [state/event exclusion requirement: (a.x = 0 or a.x = 1 or (a.x = 8 or a.x = 9)) and a.l1 or ((a.x = 4 or a.x = 5) and a.l1 or a.x = 12) or (a.x = 13 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))].
-Edge (event: h) (guard: a.l2): guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 [state/event exclusion requirement: (a.x = 0 or a.x = 1 or (a.x = 8 or a.x = 9)) and a.l1 or ((a.x = 4 or a.x = 5) and a.l1 or a.x = 12) or (a.x = 13 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: true)
-        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1)) (assignments: a.x := a.x + 1)
-        Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
-        Edge: (event: f) (guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1)
-        Edge: (event: f) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
-        Edge: (event: g) (guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1))
-        Edge: (event: g) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
-        Edge: (event: h) (guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))
-        Edge: (event: h) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
-        Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: true)
+            Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l1 or (8 <= a.x and (a.x <= 11 and a.l1) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l1)) (assignments: a.x := a.x + 1)
+            Edge: (event: e) (guard: (0 <= a.x and a.x <= 3 or 16 <= a.x and a.x <= 19) and a.l2 or (8 <= a.x and (a.x <= 11 and a.l2) or (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 15) and a.l2)) (assignments: a.x := a.x + 1)
+            Edge: (event: f) (guard: a.l1 -> (a.x = 12 or a.x = 13) and a.l1 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l1)
+            Edge: (event: f) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2 or (a.x = 10 or a.x = 11 or (a.x = 14 or a.x = 15)) and a.l2)
+            Edge: (event: g) (guard: a.l1 -> (a.x = 12 or a.x = 14) and a.l1 or (a.x = 13 and a.l1 or a.x = 11 and a.l1))
+            Edge: (event: g) (guard: a.l2 -> (a.x = 12 or a.x = 14) and a.l2 or (a.x = 13 and a.l2 or a.x = 11 and a.l2))
+            Edge: (event: h) (guard: a.l1 -> (a.x = 0 or a.x = 1 or (a.x = 4 or a.x = 5) or (a.x = 8 or a.x = 9 or (a.x = 12 or a.x = 13))) and a.l1 or ((a.x = 2 or a.x = 3 or (a.x = 10 or a.x = 11)) and a.l1 or (a.x = 6 or a.x = 7) and a.l1))
+            Edge: (event: h) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
+            Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
 Restricting behavior using implicit runtime error requirements.
 

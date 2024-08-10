@@ -161,7 +161,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: Counter.zero and Actuator.Off.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -169,25 +170,24 @@ Controlled behavior: true -> true [range: true, variable: location pointer for a
 
 Extended controlled-behavior predicate using variable ranges: true.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: Actuator.on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On): guard: Actuator.Off -> Counter.zero and Actuator.Off [state/event exclusion requirement: Counter.zero].
+    Edge (event: Actuator.off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> Counter.five and Actuator.On [state/event exclusion requirement: Counter.five].
 
-Edge (event: Actuator.on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On): guard: Actuator.Off -> Counter.zero and Actuator.Off [state/event exclusion requirement: Counter.zero].
-Edge (event: Actuator.off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> Counter.five and Actuator.On [state/event exclusion requirement: Counter.five].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: true)
-        Edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one)
-        Edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two)
-        Edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three)
-        Edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four)
-        Edge: (event: Counter.inc) (guard: Counter.four) (assignments: Counter := Counter.five)
-        Edge: (event: Counter.dec) (guard: Counter.one) (assignments: Counter := Counter.zero)
-        Edge: (event: Counter.dec) (guard: Counter.two) (assignments: Counter := Counter.one)
-        Edge: (event: Counter.dec) (guard: Counter.three) (assignments: Counter := Counter.two)
-        Edge: (event: Counter.dec) (guard: Counter.four) (assignments: Counter := Counter.three)
-        Edge: (event: Counter.dec) (guard: Counter.five) (assignments: Counter := Counter.four)
-        Edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On)
-        Edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: true)
+            Edge: (event: Counter.inc) (guard: Counter.zero) (assignments: Counter := Counter.one)
+            Edge: (event: Counter.inc) (guard: Counter.one) (assignments: Counter := Counter.two)
+            Edge: (event: Counter.inc) (guard: Counter.two) (assignments: Counter := Counter.three)
+            Edge: (event: Counter.inc) (guard: Counter.three) (assignments: Counter := Counter.four)
+            Edge: (event: Counter.inc) (guard: Counter.four) (assignments: Counter := Counter.five)
+            Edge: (event: Counter.dec) (guard: Counter.one) (assignments: Counter := Counter.zero)
+            Edge: (event: Counter.dec) (guard: Counter.two) (assignments: Counter := Counter.one)
+            Edge: (event: Counter.dec) (guard: Counter.three) (assignments: Counter := Counter.two)
+            Edge: (event: Counter.dec) (guard: Counter.four) (assignments: Counter := Counter.three)
+            Edge: (event: Counter.dec) (guard: Counter.five) (assignments: Counter := Counter.four)
+            Edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On)
+            Edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off)
 
 Restricting behavior using implicit runtime error requirements.
 

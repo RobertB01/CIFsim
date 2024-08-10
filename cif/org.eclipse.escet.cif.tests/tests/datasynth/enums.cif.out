@@ -169,7 +169,8 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.A or g.p.x4 = g.E) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.A or g.p.x4 = g.E) and (g.p.x5 = g.C and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.A or g.p.x4 = g.E) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and g.p.x4 = g.C and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and g.p.x4 = g.C and (g.p.x5 = g.C and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and g.p.x4 = g.C and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.B or g.p.x4 = g.D) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.B or g.p.x4 = g.D) and (g.p.x5 = g.C and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.B or g.p.x4 = g.D) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))))) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.A or g.p.x4 = g.E) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.A or g.p.x4 = g.E) and (g.p.x5 = g.C and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.A or g.p.x4 = g.E) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and g.p.x4 = g.C and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and g.p.x4 = g.C and (g.p.x5 = g.C and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and g.p.x4 = g.C and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.B or g.p.x4 = g.D) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.B or g.p.x4 = g.D) and (g.p.x5 = g.C and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.B or g.p.x4 = g.D) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)))))).
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
@@ -183,7 +184,8 @@ Controlled behavior: <bdd 18n 729p> -> <bdd 20n 1,458p> [range: true, variable: 
 
 Extended controlled-behavior predicate using variable ranges: <bdd 20n 1,458p>.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
 Restricting behavior using implicit runtime error requirements.
 

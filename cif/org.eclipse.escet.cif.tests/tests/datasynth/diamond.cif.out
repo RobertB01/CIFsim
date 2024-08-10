@@ -177,27 +177,27 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: motor1.Off and (order.l1 and motor2.On).
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off) (assignments: motor1 := motor1.On): guard: (motor1.On or not order.l1) and motor1.Off -> false [state/event exclusion requirement: order.l1].
+    Edge (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4)) (assignments: motor1 := motor1.Off): guard: motor1.On and (motor1.Off or not order.l4) -> false [state/event exclusion requirement: order.l4].
+    Edge (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off) (assignments: motor2 := motor2.On): guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off -> false [state/event exclusion requirement: order.l3].
+    Edge (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On) (assignments: motor2 := motor2.Off): guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On -> false [state/event exclusion requirement: order.l2].
 
-Edge (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off) (assignments: motor1 := motor1.On): guard: (motor1.On or not order.l1) and motor1.Off -> false [state/event exclusion requirement: order.l1].
-Edge (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4)) (assignments: motor1 := motor1.Off): guard: motor1.On and (motor1.Off or not order.l4) -> false [state/event exclusion requirement: order.l4].
-Edge (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off) (assignments: motor2 := motor2.On): guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off -> false [state/event exclusion requirement: order.l3].
-Edge (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On) (assignments: motor2 := motor2.Off): guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On -> false [state/event exclusion requirement: order.l2].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: true)
-        Edge: (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2)
-        Edge: (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off -> false) (assignments: motor1 := motor1.On)
-        Edge: (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1)
-        Edge: (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4) -> false) (assignments: motor1 := motor1.Off)
-        Edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4)
-        Edge: (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off -> false) (assignments: motor2 := motor2.On)
-        Edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3)
-        Edge: (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On -> false) (assignments: motor2 := motor2.Off)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: true)
+            Edge: (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2)
+            Edge: (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off -> false) (assignments: motor1 := motor1.On)
+            Edge: (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1)
+            Edge: (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4) -> false) (assignments: motor1 := motor1.Off)
+            Edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4)
+            Edge: (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off -> false) (assignments: motor2 := motor2.On)
+            Edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3)
+            Edge: (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On -> false) (assignments: motor2 := motor2.Off)
 
 Restricting behavior using implicit runtime error requirements.
 

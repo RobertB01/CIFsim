@@ -173,24 +173,24 @@ Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: g.r.loc1.
 
-Restricting behavior using state requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
 Extending controlled-behavior predicate using variable ranges.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state/event exclusion requirements:
+    Edge (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2)): guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2) -> false [state/event exclusion requirement: (g.r.x = 1 or g.r.x = 3) and g.r.loc1].
+    Controlled behavior: true -> g.r.loc1 [state/event exclusion requirement: g.r.loc1, edge: (event: p.u) (guard: g.r.loc2)].
+    Edge (event: p.c2) (guard: g.r.loc2 or g.r.y != 0): guard: g.r.loc2 or g.r.y != 0 -> false [state/event exclusion requirement: g.r.loc1 and g.r.y = 0].
 
-Edge (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2)): guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2) -> false [state/event exclusion requirement: (g.r.x = 1 or g.r.x = 3) and g.r.loc1].
-Controlled behavior: true -> g.r.loc1 [state/event exclusion requirement: g.r.loc1, edge: (event: p.u) (guard: g.r.loc2)].
-Edge (event: p.c2) (guard: g.r.loc2 or g.r.y != 0): guard: g.r.loc2 or g.r.y != 0 -> false [state/event exclusion requirement: g.r.loc1 and g.r.y = 0].
-
-Restricted behavior using state/event exclusion requirements:
-    State: (controlled-behavior: g.r.loc1)
-        Edge: (event: c) (guard: (g.r.x = 1 or g.r.x = 3) and g.r.loc1)
-        Edge: (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2) -> false)
-        Edge: (event: p.u) (guard: g.r.loc1) (assignments: g.r.x := (g.r.x + 1) mod 4)
-        Edge: (event: p.u) (guard: g.r.loc2)
-        Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2)
-        Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0 -> false)
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: g.r.loc1)
+            Edge: (event: c) (guard: (g.r.x = 1 or g.r.x = 3) and g.r.loc1)
+            Edge: (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2) -> false)
+            Edge: (event: p.u) (guard: g.r.loc1) (assignments: g.r.x := (g.r.x + 1) mod 4)
+            Edge: (event: p.u) (guard: g.r.loc2)
+            Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2)
+            Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0 -> false)
 
 Restricting behavior using implicit runtime error requirements.
 
