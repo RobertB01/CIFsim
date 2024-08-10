@@ -175,6 +175,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -234,6 +236,8 @@ Initial (added by supervisor):         p.done or (p.b or io.sensor)
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
     Initial: p.test and (p.b and io.sensor) -> p.b [assume p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)].
+
+Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/input_vars7.ctrlsys.real.cif".

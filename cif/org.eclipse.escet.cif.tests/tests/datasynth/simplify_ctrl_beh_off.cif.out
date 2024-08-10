@@ -184,6 +184,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -253,6 +255,8 @@ Initial (uncontrolled system):         p2.x = 0 and p2.a and (p1.x = 0 and p1.a)
 Initial (controlled system):           p2.x = 0 and p2.a and (p1.x = 0 and p1.a)
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
+
+Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/simplify_ctrl_beh_off.ctrlsys.real.cif".

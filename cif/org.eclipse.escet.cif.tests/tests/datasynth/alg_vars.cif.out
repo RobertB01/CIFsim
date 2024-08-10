@@ -224,6 +224,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -282,6 +284,8 @@ Initial (uncontrolled system):         r1.inactive and r2.inactive and (r3.inact
 Initial (controlled system):           r1.inactive and r2.inactive and (r3.inactive and q.l1)
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
+
+Checking post-synthesis for events that are never enabled.
 
 Simplification of controlled system under the assumption of the plants:
     Event r1.activate: guard: r1.inactive and r3.inactive -> r3.inactive [assume r1.inactive].

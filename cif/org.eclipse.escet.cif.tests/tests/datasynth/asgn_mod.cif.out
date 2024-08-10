@@ -195,6 +195,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -245,6 +247,8 @@ Initial (added by supervisor):         <bdd 35n 401p>
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
     Initial: <bdd 21n 3p> -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or (p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 3 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) [assume <bdd 16n 243p>].
+
+Checking post-synthesis for events that are never enabled.
 
 Simplification of controlled system under the assumption of the plants:
     Event p.em2: guard: p.m1 = 1 and ((p.m2 = 1 or p.m2 = 3) and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and (p.m2 = 1 or p.m2 = 3) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].

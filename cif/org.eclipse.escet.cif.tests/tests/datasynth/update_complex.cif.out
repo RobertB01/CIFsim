@@ -187,6 +187,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -245,6 +247,8 @@ Initial (added by supervisor):         (p.sum != 3 or (p.z = 3 or p.y = 1) or (p
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
     Initial: p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) -> p.z = 2 and (p.y = 2 and p.x = 3) or (p.z = 3 and (p.y = 2 and p.x = 2) or p.z = 3 and (p.y = 1 and p.x = 3)) [assume p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)].
+
+Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/update_complex.ctrlsys.real.cif".

@@ -180,6 +180,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -260,6 +262,8 @@ Initial (uncontrolled system):         p.loc1 and (not(p.x = 2 or p.x = 3) and q
 Initial (controlled system):           p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1)
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
+
+Checking post-synthesis for events that are never enabled.
 
 Simplification of controlled system under the assumption of the plants, requirement automata, state/event exclusion requirement invariants, state requirement invariants, and controlled behavior:
     Event q_a: guard: p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc2 or q.loc4)) or (p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc2 or q.loc4))) -> true [assume p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc2 or q.loc4)) or (p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc2 or q.loc4)))].

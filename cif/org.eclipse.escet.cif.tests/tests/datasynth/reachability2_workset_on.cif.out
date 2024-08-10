@@ -178,6 +178,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Edge workset algorithm forward dependencies:
  - 1: p.u_inc    .1.
  - 2: p.u_switch 1.1
@@ -236,6 +238,8 @@ Initial (uncontrolled system):         p.x = 0 and p.increase
 Initial (controlled system):           p.x = 0 and p.increase
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
+
+Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/reachability2_workset_on.ctrlsys.real.cif".

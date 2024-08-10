@@ -189,6 +189,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -248,6 +250,8 @@ Initial (uncontrolled system):         cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
 Initial (controlled system):           cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0)
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
+
+Checking post-synthesis for events that are never enabled.
 
 Simplification of controlled system under the assumption of the plants:
     Event cnt.next: guard: cnt.c = 0 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or (cnt.c = 1 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 1 and (rcv1.x = 1 and rcv2.x = 0))) -> cnt.c = 0 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or ((cnt.c = 1 or cnt.c = 3) and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 1 or cnt.c = 3) and (rcv1.x = 1 and rcv2.x = 0))) [assume cnt.c != 3].

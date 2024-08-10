@@ -205,6 +205,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -256,6 +258,8 @@ Initial (uncontrolled system):         Button1.Released and (LampOnWhileButtonPu
 Initial (controlled system):           Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
+
+Checking post-synthesis for events that are never enabled.
 
 Simplification of controlled system under the assumption of the plants:
     Event Lamp1.c_on: guard: Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Pushed and LampOnWhileButtonPushed.Pushed [assume Lamp1.Off].

@@ -188,6 +188,8 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
+Checking pre-synthesis for events that are never enabled.
+
 Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
@@ -248,6 +250,8 @@ Initial (added by supervisor):         (not(p.x = 4 or p.x = 5) or p.l2) and (p.
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
     Initial: (p.x = 0 or p.x = 1) and p.l1 -> p.x = 0 or p.x = 1 [assume p.l1].
+
+Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/edge_granularity_errors13_per_edge.ctrlsys.real.cif".
