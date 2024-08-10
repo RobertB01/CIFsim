@@ -33,7 +33,7 @@ public class CifDataSynthesisTiming {
     /** Input model read, timing measurement. */
     public Stopwatch inputRead = new Stopwatch();
 
-    /** Input model preprocessing, timing measurement. */
+    /** Input model preprocessing (including precondition checks), timing measurement. */
     public Stopwatch inputPreProcess = new Stopwatch();
 
     /** CIF to internal format input conversion, timing measurement. */
@@ -82,7 +82,7 @@ public class CifDataSynthesisTiming {
             stopwatches.add(inputRead);
         }
         if (inputPreProcess.hasMeasured()) {
-            prefixes.add("  Preprocess input model");
+            prefixes.add("  Preprocess and check input model");
             stopwatches.add(inputPreProcess);
         }
         if (inputConvert.hasMeasured()) {

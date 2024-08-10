@@ -220,9 +220,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             return;
         }
 
-        // Perform preprocessing.
+        // Check for supported specification and perform preprocessing.
         if (dbgEnabled) {
-            dbg("Preprocessing CIF specification.");
+            dbg("Preprocessing CIF specification (includes checking that the specification is supported).");
         }
 
         if (doTiming) {
@@ -250,8 +250,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         // Perform synthesis.
         Specification rslt;
         try {
-            // Convert CIF specification to a CIF/BDD representation, checking for precondition violations along the
-            // way.
+            // Convert CIF specification to a CIF/BDD representation.
             if (dbgEnabled) {
                 dbg("Converting CIF specification to internal format.");
             }
