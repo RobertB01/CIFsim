@@ -1,5 +1,5 @@
 Reading CIF file "datasynth/edge_granularity_errors05_per_event.cif".
-Preprocessing CIF specification.
+Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:

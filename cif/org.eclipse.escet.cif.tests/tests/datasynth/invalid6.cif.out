@@ -1,2 +1,2 @@
 Reading CIF file "datasynth/invalid6.cif".
-Preprocessing CIF specification.
+Preprocessing CIF specification (includes checking that the specification is supported).

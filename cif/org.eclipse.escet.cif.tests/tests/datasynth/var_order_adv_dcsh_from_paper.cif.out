@@ -1,5 +1,5 @@
 Reading CIF file "datasynth/var_order_adv_dcsh_from_paper.cif".
-Preprocessing CIF specification.
+Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:

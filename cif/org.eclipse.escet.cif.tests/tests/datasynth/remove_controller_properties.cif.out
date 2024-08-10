@@ -1,5 +1,5 @@
 Reading CIF file "datasynth/remove_controller_properties.cif".
-Preprocessing CIF specification.
+Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format.
 Starting data-based synthesis.
 

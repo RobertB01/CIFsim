@@ -1,5 +1,5 @@
 Reading CIF file "datasynth/simplify_se_excl_req_invs_on.cif".
-Preprocessing CIF specification.
+Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:

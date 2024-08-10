@@ -1,5 +1,5 @@
 Reading CIF file "datasynth/simplify_plants_off.cif".
-Preprocessing CIF specification.
+Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format.
 
 CIF variables and location pointers:

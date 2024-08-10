@@ -1,2 +1,2 @@
 Reading CIF file "datasynth/req_loc_no_name.cif".
-Preprocessing CIF specification.
+Preprocessing CIF specification (includes checking that the specification is supported).
