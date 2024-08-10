@@ -145,16 +145,21 @@ public class CifDataSynthesis {
             if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("Initializing controlled behavior:");
+                cifBddSpec.settings.getDebugOutput().inc();
+            }
 
             synthResult.ctrlBeh = cifBddSpec.factory.one();
             synthResult.initialCtrl = cifBddSpec.initialPlantInv.id();
 
             if (dbgEnabled) {
-                cifBddSpec.settings.getDebugOutput().line();
-                cifBddSpec.settings.getDebugOutput().line("Initialized controlled-behavior predicate: %s.",
+                cifBddSpec.settings.getDebugOutput().line("Controlled-behavior predicate: %s.",
                         bddToStr(synthResult.ctrlBeh, cifBddSpec));
-                cifBddSpec.settings.getDebugOutput().line("Initialized controlled-initialization predicate: %s.",
+                cifBddSpec.settings.getDebugOutput().line("Controlled-initialization predicate: %s.",
                         bddToStr(synthResult.initialCtrl, cifBddSpec));
+                cifBddSpec.settings.getDebugOutput().dec();
             }
 
             // Apply requirements.
