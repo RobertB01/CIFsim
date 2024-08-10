@@ -627,19 +627,23 @@ public class CifDataSynthesis {
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput().line("State/event exclusion plants:");
+            cifBddSpec.settings.getDebugOutput().inc();
             if (cifBddSpec.stateEvtExclPlantLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line("  None");
+                cifBddSpec.settings.getDebugOutput().line("None");
             }
             for (Entry<Event, List<BDD>> entry: cifBddSpec.stateEvtExclPlantLists.entrySet()) {
                 if (entry.getValue().isEmpty()) {
                     continue;
                 }
-                cifBddSpec.settings.getDebugOutput().line("  Event \"%s\" needs:",
+                cifBddSpec.settings.getDebugOutput().line("Event \"%s\" needs:",
                         CifTextUtils.getAbsName(entry.getKey()));
+                cifBddSpec.settings.getDebugOutput().inc();
                 for (BDD pred: entry.getValue()) {
-                    cifBddSpec.settings.getDebugOutput().line("    %s", bddToStr(pred, cifBddSpec));
+                    cifBddSpec.settings.getDebugOutput().line(bddToStr(pred, cifBddSpec));
                 }
+                cifBddSpec.settings.getDebugOutput().dec();
             }
+            cifBddSpec.settings.getDebugOutput().dec();
         }
 
         // Debug state/event exclusion requirements.
@@ -649,19 +653,23 @@ public class CifDataSynthesis {
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
             cifBddSpec.settings.getDebugOutput().line("State/event exclusion requirements:");
+            cifBddSpec.settings.getDebugOutput().inc();
             if (cifBddSpec.stateEvtExclReqLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line("  None");
+                cifBddSpec.settings.getDebugOutput().line("None");
             }
             for (Entry<Event, List<BDD>> entry: cifBddSpec.stateEvtExclReqLists.entrySet()) {
                 if (entry.getValue().isEmpty()) {
                     continue;
                 }
-                cifBddSpec.settings.getDebugOutput().line("  Event \"%s\" needs:",
+                cifBddSpec.settings.getDebugOutput().line("Event \"%s\" needs:",
                         CifTextUtils.getAbsName(entry.getKey()));
+                cifBddSpec.settings.getDebugOutput().inc();
                 for (BDD pred: entry.getValue()) {
-                    cifBddSpec.settings.getDebugOutput().line("    %s", bddToStr(pred, cifBddSpec));
+                    cifBddSpec.settings.getDebugOutput().line(bddToStr(pred, cifBddSpec));
                 }
+                cifBddSpec.settings.getDebugOutput().dec();
             }
+            cifBddSpec.settings.getDebugOutput().dec();
         }
 
         // Debug uncontrolled system.
@@ -1687,9 +1695,11 @@ public class CifDataSynthesis {
                     cifBddSpec.settings.getDebugOutput().line();
                     cifBddSpec.settings.getDebugOutput().line("Simplification of controlled system initialization "
                             + "predicate under the assumption of the %s:", assumptionsTxt);
-                    cifBddSpec.settings.getDebugOutput().line("  Initial: %s -> %s [assume %s].",
+                    cifBddSpec.settings.getDebugOutput().inc();
+                    cifBddSpec.settings.getDebugOutput().line("Initial: %s -> %s [assume %s].",
                             bddToStr(synthResult.initialOutput, cifBddSpec), bddToStr(newInitial, cifBddSpec),
                             bddToStr(assumption, cifBddSpec));
+                    cifBddSpec.settings.getDebugOutput().dec();
                 }
                 synthResult.initialOutput.free();
                 synthResult.initialOutput = newInitial;
@@ -2120,9 +2130,11 @@ public class CifDataSynthesis {
                     cifBddSpec.settings.getDebugOutput().line(
                             "Simplification of controlled system under the assumption of the %s:", assumptionsTxt);
                 }
-                cifBddSpec.settings.getDebugOutput().line("  Event %s: guard: %s -> %s [assume %s].",
+                cifBddSpec.settings.getDebugOutput().inc();
+                cifBddSpec.settings.getDebugOutput().line("Event %s: guard: %s -> %s [assume %s].",
                         CifTextUtils.getAbsName(controllable), bddToStr(guard, cifBddSpec),
                         bddToStr(newGuard, cifBddSpec), bddToStr(assumption, cifBddSpec));
+                cifBddSpec.settings.getDebugOutput().dec();
             }
 
             // Free no longer needed predicates.
