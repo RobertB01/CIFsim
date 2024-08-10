@@ -372,23 +372,22 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1)))) [state requirements: p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))))].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1)))) -> <bdd 22n 20p> [range: true, variable: discrete variable "p.v3" of type "int[0..10]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 22n 20p> -> <bdd 26n 100p> [range: true, variable: discrete variable "p.v4" of type "int[0..10]" (group: 1, domain: 2+3, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 26n 100p> -> <bdd 30n 500p> [range: true, variable: discrete variable "p.v6" of type "int[0..10]" (group: 2, domain: 4+5, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 30n 500p> -> <bdd 32n 1,000p> [range: true, variable: location pointer for automaton "p" (group: 4, domain: 8+9, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: <bdd 32n 1,000p> -> <bdd 36n 5,000p> [range: true, variable: discrete variable "p.v8" of type "int[0..10]" (group: 5, domain: 10+11, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 36n 5,000p> -> <bdd 37n 6,250p> [range: true, variable: discrete variable "p.v10" of type "int[0..10]" (group: 7, domain: 14+15, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 37n 6,250p> -> <bdd 41n 31,250p> [range: true, variable: discrete variable "p.v11" of type "int[0..10]" (group: 8, domain: 16+17, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 41n 31,250p> -> <bdd 45n 156,250p> [range: true, variable: discrete variable "p.v13" of type "int[0..10]" (group: 9, domain: 18+19, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 45n 156,250p> -> <bdd 49n 781,250p> [range: true, variable: discrete variable "p.v5" of type "int[0..10]" (group: 10, domain: 20+21, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 49n 781,250p> -> <bdd 53n 3,906,250p> [range: true, variable: discrete variable "q.v4" of type "int[0..10]" (group: 11, domain: 22+23, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 53n 3,906,250p> -> <bdd 57n 19,531,250p> [range: true, variable: discrete variable "q.v8" of type "int[0..10]" (group: 12, domain: 24+25, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 57n 19,531,250p> -> <bdd 61n 97,656,250p> [range: true, variable: discrete variable "q.v11" of type "int[0..10]" (group: 16, domain: 32+33, BDD variables: 4, CIF/BDD values: 11/16)].
+    Controlled behavior: <bdd 61n 97,656,250p> -> <bdd 65n 488,281,250p> [range: true, variable: discrete variable "q.v13" of type "int[0..10]" (group: 17, domain: 34+35, BDD variables: 4, CIF/BDD values: 11/16)].
 
-Controlled behavior: p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 0 or (p.v10 = 2 or p.v10 = 4) or (p.v10 = 6 or (p.v10 = 8 or p.v10 = 10))) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or (p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and ((p.v10 = 1 or (p.v10 = 5 or p.v10 = 9)) and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1))) or p.v7 = 0 and (p.v9 = 0 or p.v9 = 1) and (p.v10 = 7 and (q.v7 = 0 and (q.v9 = 0 or q.v9 = 1)))) -> <bdd 22n 20p> [range: true, variable: discrete variable "p.v3" of type "int[0..10]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 22n 20p> -> <bdd 26n 100p> [range: true, variable: discrete variable "p.v4" of type "int[0..10]" (group: 1, domain: 2+3, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 26n 100p> -> <bdd 30n 500p> [range: true, variable: discrete variable "p.v6" of type "int[0..10]" (group: 2, domain: 4+5, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 30n 500p> -> <bdd 32n 1,000p> [range: true, variable: location pointer for automaton "p" (group: 4, domain: 8+9, BDD variables: 2, CIF/BDD values: 3/4)].
-Controlled behavior: <bdd 32n 1,000p> -> <bdd 36n 5,000p> [range: true, variable: discrete variable "p.v8" of type "int[0..10]" (group: 5, domain: 10+11, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 36n 5,000p> -> <bdd 37n 6,250p> [range: true, variable: discrete variable "p.v10" of type "int[0..10]" (group: 7, domain: 14+15, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 37n 6,250p> -> <bdd 41n 31,250p> [range: true, variable: discrete variable "p.v11" of type "int[0..10]" (group: 8, domain: 16+17, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 41n 31,250p> -> <bdd 45n 156,250p> [range: true, variable: discrete variable "p.v13" of type "int[0..10]" (group: 9, domain: 18+19, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 45n 156,250p> -> <bdd 49n 781,250p> [range: true, variable: discrete variable "p.v5" of type "int[0..10]" (group: 10, domain: 20+21, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 49n 781,250p> -> <bdd 53n 3,906,250p> [range: true, variable: discrete variable "q.v4" of type "int[0..10]" (group: 11, domain: 22+23, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 53n 3,906,250p> -> <bdd 57n 19,531,250p> [range: true, variable: discrete variable "q.v8" of type "int[0..10]" (group: 12, domain: 24+25, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 57n 19,531,250p> -> <bdd 61n 97,656,250p> [range: true, variable: discrete variable "q.v11" of type "int[0..10]" (group: 16, domain: 32+33, BDD variables: 4, CIF/BDD values: 11/16)].
-Controlled behavior: <bdd 61n 97,656,250p> -> <bdd 65n 488,281,250p> [range: true, variable: discrete variable "q.v13" of type "int[0..10]" (group: 17, domain: 34+35, BDD variables: 4, CIF/BDD values: 11/16)].
-
-Extended controlled-behavior predicate using variable ranges: <bdd 65n 488,281,250p>.
+    Extended controlled-behavior predicate using variable ranges: <bdd 65n 488,281,250p>.
 
 Restricting behavior using state/event exclusion requirements:
     Edge (event: p.c1) (guard: p.l1): guard: p.l1 -> false [state/event exclusion requirement: false].

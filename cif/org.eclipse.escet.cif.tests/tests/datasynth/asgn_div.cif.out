@@ -178,15 +178,14 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.d1" of type "int[0..4]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.d2" of type "int[0..4]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: true -> <bdd 9n 27p> [range: true, variable: discrete variable "p.d3" of type "int[0..4]" (group: 3, domain: 6+7, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: <bdd 9n 27p> -> <bdd 12n 81p> [range: true, variable: discrete variable "p.d4" of type "int[0..4]" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: <bdd 12n 81p> -> <bdd 15n 243p> [range: true, variable: discrete variable "p.d5" of type "int[0..4]" (group: 5, domain: 10+11, BDD variables: 3, CIF/BDD values: 5/8)].
 
-Controlled behavior: true -> true [range: true, variable: discrete variable "p.d1" of type "int[0..4]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "p.d2" of type "int[0..4]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: true -> <bdd 9n 27p> [range: true, variable: discrete variable "p.d3" of type "int[0..4]" (group: 3, domain: 6+7, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: <bdd 9n 27p> -> <bdd 12n 81p> [range: true, variable: discrete variable "p.d4" of type "int[0..4]" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: <bdd 12n 81p> -> <bdd 15n 243p> [range: true, variable: discrete variable "p.d5" of type "int[0..4]" (group: 5, domain: 10+11, BDD variables: 3, CIF/BDD values: 5/8)].
-
-Extended controlled-behavior predicate using variable ranges: <bdd 15n 243p>.
+    Extended controlled-behavior predicate using variable ranges: <bdd 15n 243p>.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

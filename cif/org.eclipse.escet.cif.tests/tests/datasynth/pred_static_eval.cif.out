@@ -159,7 +159,8 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> not p.b1 and (p.b2 and not p.b3) [state requirements: not p.b1 and (p.b2 and not p.b3)].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

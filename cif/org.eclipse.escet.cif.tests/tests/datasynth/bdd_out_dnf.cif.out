@@ -176,12 +176,11 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> p.L1 and p.b or p.L2 and (p.b and p.v != p.Q) [state requirements: p.L1 and p.b or p.L2 and (p.b and p.v != p.Q)].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: p.L1 and p.b or p.L2 and (p.b and p.v != p.Q) -> (p.y = 4 or p.y = 5) and (p.L1 and p.b) or (p.y = 4 or p.y = 5) and p.L2 and (p.b and p.v != p.Q) or ((p.y = 2 or p.y = 3) and (p.L1 and p.b) or (p.y = 2 or p.y = 3) and p.L2 and (p.b and p.v != p.Q)) [range: true, variable: discrete variable "p.y" of type "int[2..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 4/8)].
+    Controlled behavior: (p.y = 4 or p.y = 5) and (p.L1 and p.b) or (p.y = 4 or p.y = 5) and p.L2 and (p.b and p.v != p.Q) or ((p.y = 2 or p.y = 3) and (p.L1 and p.b) or (p.y = 2 or p.y = 3) and p.L2 and (p.b and p.v != p.Q)) -> (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q))))) [range: true, variable: discrete variable "p.v" of type "p.E" (group: 5, domain: 10+11, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Controlled behavior: p.L1 and p.b or p.L2 and (p.b and p.v != p.Q) -> (p.y = 4 or p.y = 5) and (p.L1 and p.b) or (p.y = 4 or p.y = 5) and p.L2 and (p.b and p.v != p.Q) or ((p.y = 2 or p.y = 3) and (p.L1 and p.b) or (p.y = 2 or p.y = 3) and p.L2 and (p.b and p.v != p.Q)) [range: true, variable: discrete variable "p.y" of type "int[2..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 4/8)].
-Controlled behavior: (p.y = 4 or p.y = 5) and (p.L1 and p.b) or (p.y = 4 or p.y = 5) and p.L2 and (p.b and p.v != p.Q) or ((p.y = 2 or p.y = 3) and (p.L1 and p.b) or (p.y = 2 or p.y = 3) and p.L2 and (p.b and p.v != p.Q)) -> (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q))))) [range: true, variable: discrete variable "p.v" of type "p.E" (group: 5, domain: 10+11, BDD variables: 2, CIF/BDD values: 3/4)].
-
-Extended controlled-behavior predicate using variable ranges: (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q))))).
+    Extended controlled-behavior predicate using variable ranges: (p.y = 2 or p.y = 3 or (p.L2 or p.b)) and ((p.y = 2 or p.y = 3 or (p.L1 or p.b)) and (p.y = 2 or p.y = 3 or (p.L1 or (not p.b or p.v != p.Q)))) and ((p.y = 4 or p.y = 5 or (p.L2 or p.b)) and ((p.y = 4 or p.y = 5 or (p.L1 or p.b)) and (p.y = 4 or p.y = 5 or (p.L1 or (not p.b or p.v != p.Q))))).
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

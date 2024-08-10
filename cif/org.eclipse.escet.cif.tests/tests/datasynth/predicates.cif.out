@@ -231,14 +231,13 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.x2" of type "int[0..20]" (group: 2, domain: 4+5, BDD variables: 5, CIF/BDD values: 21/32)].
+    Controlled behavior: true -> <bdd 12n 40p> [range: true, variable: discrete variable "p.x4" of type "int[2..8]" (group: 3, domain: 6+7, BDD variables: 4, CIF/BDD values: 7/16)].
+    Controlled behavior: <bdd 12n 40p> -> <bdd 15n 120p> [range: true, variable: discrete variable "p.x3" of type "int[0..4]" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: <bdd 15n 120p> -> <bdd 20n 960p> [range: true, variable: discrete variable "p.x1" of type "int[0..20]" (group: 6, domain: 12+13, BDD variables: 5, CIF/BDD values: 21/32)].
 
-Controlled behavior: true -> true [range: true, variable: discrete variable "p.x2" of type "int[0..20]" (group: 2, domain: 4+5, BDD variables: 5, CIF/BDD values: 21/32)].
-Controlled behavior: true -> <bdd 12n 40p> [range: true, variable: discrete variable "p.x4" of type "int[2..8]" (group: 3, domain: 6+7, BDD variables: 4, CIF/BDD values: 7/16)].
-Controlled behavior: <bdd 12n 40p> -> <bdd 15n 120p> [range: true, variable: discrete variable "p.x3" of type "int[0..4]" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: <bdd 15n 120p> -> <bdd 20n 960p> [range: true, variable: discrete variable "p.x1" of type "int[0..20]" (group: 6, domain: 12+13, BDD variables: 5, CIF/BDD values: 21/32)].
-
-Extended controlled-behavior predicate using variable ranges: <bdd 20n 960p>.
+    Extended controlled-behavior predicate using variable ranges: <bdd 20n 960p>.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

@@ -158,7 +158,8 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> LightA.Red or LightB.Red [state requirements: LightA.Red or LightB.Red].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

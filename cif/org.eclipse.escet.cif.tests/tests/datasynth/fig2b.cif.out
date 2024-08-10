@@ -168,11 +168,10 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> p.x != 4 [state requirements: p.x != 4].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: p.x != 4 -> p.x != 4 [range: true, variable: discrete variable "p.x" of type "int[0..9]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 10/16)].
 
-Controlled behavior: p.x != 4 -> p.x != 4 [range: true, variable: discrete variable "p.x" of type "int[0..9]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 10/16)].
-
-Extended controlled-behavior predicate using variable ranges: p.x != 4.
+    Extended controlled-behavior predicate using variable ranges: p.x != 4.
 
 Restricting behavior using state/event exclusion requirements:
     Edge (event: e1) (guard: 0 <= p.x and (p.x <= 7 and p.L0)) (assignments: p.x := p.x + 2, p := p.L1): guard: 0 <= p.x and (p.x <= 7 and p.L0) -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.L0 or ((p.x = 1 or p.x = 5) and p.L0 or p.x = 3 and p.L0) [state/event exclusion requirement: p.x != 8 and (p.x != 9 and p.x != 7)].

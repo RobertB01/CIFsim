@@ -165,13 +165,12 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: location pointer for automaton "p" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
+    Controlled behavior: true -> true [range: true, variable: location pointer for automaton "q" (group: 2, domain: 4+5, BDD variables: 3, CIF/BDD values: 7/8)].
 
-Controlled behavior: true -> true [range: true, variable: location pointer for automaton "p" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "p.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
-Controlled behavior: true -> true [range: true, variable: location pointer for automaton "q" (group: 2, domain: 4+5, BDD variables: 3, CIF/BDD values: 7/8)].
-
-Extended controlled-behavior predicate using variable ranges: true.
+    Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

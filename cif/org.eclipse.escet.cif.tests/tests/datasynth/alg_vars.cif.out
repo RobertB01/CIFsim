@@ -200,7 +200,8 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> r1.inactive or r3.inactive [state requirements: r1.inactive or r3.inactive].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
 Restricting behavior using state/event exclusion requirements:
     Edge (event: add) (guard: true -> p.c != 3) (assignments: p.c := p.c + x): guard: p.c != 3 -> (p.c = 0 or p.c = 2) and q.l1 or p.c = 1 and q.l1 [state/event exclusion requirement: q.l1].

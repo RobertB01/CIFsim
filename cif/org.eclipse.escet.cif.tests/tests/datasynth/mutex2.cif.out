@@ -160,12 +160,11 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> not machine1.Producing or not machine2.Producing [state requirements: not machine1.Producing or not machine2.Producing].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: not machine1.Producing or not machine2.Producing -> not machine1.Producing or not machine2.Producing [range: true, variable: location pointer for automaton "machine1" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: not machine1.Producing or not machine2.Producing -> not machine1.Producing or not machine2.Producing [range: true, variable: location pointer for automaton "machine2" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Controlled behavior: not machine1.Producing or not machine2.Producing -> not machine1.Producing or not machine2.Producing [range: true, variable: location pointer for automaton "machine1" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
-Controlled behavior: not machine1.Producing or not machine2.Producing -> not machine1.Producing or not machine2.Producing [range: true, variable: location pointer for automaton "machine2" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
-
-Extended controlled-behavior predicate using variable ranges: not machine1.Producing or not machine2.Producing.
+    Extended controlled-behavior predicate using variable ranges: not machine1.Producing or not machine2.Producing.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

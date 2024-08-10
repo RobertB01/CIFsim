@@ -69,11 +69,10 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: discrete variable "r.x" of type "int[1..10]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 10/16)].
 
-Controlled behavior: true -> true [range: true, variable: discrete variable "r.x" of type "int[1..10]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 10/16)].
-
-Extended controlled-behavior predicate using variable ranges: true.
+    Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements:
     Edge (event: c) (guard: r.x != 5): guard: r.x != 5 -> false [state/event exclusion requirement: r.x = 5].

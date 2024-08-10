@@ -211,7 +211,8 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> buffer2.count != 3 or (buffer3.count != 3 or buffer1.count != 3) [state requirements: buffer2.count != 3 or (buffer3.count != 3 or buffer1.count != 3)].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

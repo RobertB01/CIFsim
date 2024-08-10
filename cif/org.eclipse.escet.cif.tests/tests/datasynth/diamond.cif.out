@@ -180,7 +180,8 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
 Restricting behavior using state/event exclusion requirements:
     Edge (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off) (assignments: motor1 := motor1.On): guard: (motor1.On or not order.l1) and motor1.Off -> false [state/event exclusion requirement: order.l1].

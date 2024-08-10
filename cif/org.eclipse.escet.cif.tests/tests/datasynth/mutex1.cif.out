@@ -174,12 +174,11 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> machine1.producing = 0 or machine2.producing = 0 [state requirements: machine1.producing = 0 or machine2.producing = 0].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: machine1.producing = 0 or machine2.producing = 0 -> (machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) and (not machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) [range: true, variable: location pointer for automaton "machine1" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: (machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) and (not machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) -> (machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) and (not machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) [range: true, variable: location pointer for automaton "machine2" (group: 3, domain: 6+7, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Controlled behavior: machine1.producing = 0 or machine2.producing = 0 -> (machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) and (not machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) [range: true, variable: location pointer for automaton "machine1" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
-Controlled behavior: (machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) and (not machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) -> (machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) and (not machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) [range: true, variable: location pointer for automaton "machine2" (group: 3, domain: 6+7, BDD variables: 2, CIF/BDD values: 3/4)].
-
-Extended controlled-behavior predicate using variable ranges: (machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) and (not machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)).
+    Extended controlled-behavior predicate using variable ranges: (machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)) and (not machine1.Producing or (machine1.producing = 0 or machine2.producing = 0)).
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

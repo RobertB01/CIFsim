@@ -66,11 +66,10 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> p.x = 0 or (p.x = 2 or p.x = 4) [state requirements: p.x = 0 or (p.x = 2 or p.x = 4)].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: p.x = 0 or (p.x = 2 or p.x = 4) -> p.x = 0 or (p.x = 2 or p.x = 4) [range: true, variable: discrete variable "p.x" of type "int[0..4]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 5/8)].
 
-Controlled behavior: p.x = 0 or (p.x = 2 or p.x = 4) -> p.x = 0 or (p.x = 2 or p.x = 4) [range: true, variable: discrete variable "p.x" of type "int[0..4]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 5/8)].
-
-Extended controlled-behavior predicate using variable ranges: p.x = 0 or (p.x = 2 or p.x = 4).
+    Extended controlled-behavior predicate using variable ranges: p.x = 0 or (p.x = 2 or p.x = 4).
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

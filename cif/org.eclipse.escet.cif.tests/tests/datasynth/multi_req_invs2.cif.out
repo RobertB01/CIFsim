@@ -180,7 +180,8 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
 Restricting behavior using state/event exclusion requirements:
     Edge (event: a) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> 2 <= p.x and p.x <= 7 and ((not(p.x = 4 or p.x = 5) or p.y != 0) and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5))) [state/event exclusion requirement: p.x = 4 or p.x = 5].

@@ -180,7 +180,8 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
 Restricting behavior using state/event exclusion requirements:
     Controlled behavior: true -> Button1.Pushed or LampOnWhileButtonPushed.Released [state/event exclusion requirement: LampOnWhileButtonPushed.Released, edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)].

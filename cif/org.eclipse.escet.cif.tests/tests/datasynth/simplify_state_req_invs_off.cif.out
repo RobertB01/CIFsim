@@ -156,11 +156,10 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [state requirements: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [range: true, variable: discrete variable "p.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
 
-Controlled behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [range: true, variable: discrete variable "p.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
-
-Extended controlled-behavior predicate using variable ranges: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)).
+    Extended controlled-behavior predicate using variable ranges: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)).
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

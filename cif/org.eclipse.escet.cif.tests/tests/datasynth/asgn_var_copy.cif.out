@@ -181,14 +181,13 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> p.y != 2 [state requirements: p.y != 2].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: p.y != 2 -> (p.b != 4 or p.y != 2) and ((not(p.b = 2 or p.b = 6) or p.y != 2) and (p.b = 2 or p.b = 4 or (p.b = 6 or p.y != 2))) [range: true, variable: discrete variable "p.b" of type "int[1..7]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 7/8)].
+    Controlled behavior: (p.b != 4 or p.y != 2) and ((not(p.b = 2 or p.b = 6) or p.y != 2) and (p.b = 2 or p.b = 4 or (p.b = 6 or p.y != 2))) -> <bdd 10n 27p> [range: true, variable: discrete variable "p.c" of type "int[3..6]" (group: 2, domain: 4+5, BDD variables: 3, CIF/BDD values: 4/8)].
+    Controlled behavior: <bdd 10n 27p> -> <bdd 13n 81p> [range: true, variable: discrete variable "p.x" of type "int[0..4]" (group: 3, domain: 6+7, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: <bdd 13n 81p> -> <bdd 13n 54p> [range: true, variable: discrete variable "p.y" of type "int[0..4]" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 5/8)].
 
-Controlled behavior: p.y != 2 -> (p.b != 4 or p.y != 2) and ((not(p.b = 2 or p.b = 6) or p.y != 2) and (p.b = 2 or p.b = 4 or (p.b = 6 or p.y != 2))) [range: true, variable: discrete variable "p.b" of type "int[1..7]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 7/8)].
-Controlled behavior: (p.b != 4 or p.y != 2) and ((not(p.b = 2 or p.b = 6) or p.y != 2) and (p.b = 2 or p.b = 4 or (p.b = 6 or p.y != 2))) -> <bdd 10n 27p> [range: true, variable: discrete variable "p.c" of type "int[3..6]" (group: 2, domain: 4+5, BDD variables: 3, CIF/BDD values: 4/8)].
-Controlled behavior: <bdd 10n 27p> -> <bdd 13n 81p> [range: true, variable: discrete variable "p.x" of type "int[0..4]" (group: 3, domain: 6+7, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: <bdd 13n 81p> -> <bdd 13n 54p> [range: true, variable: discrete variable "p.y" of type "int[0..4]" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 5/8)].
-
-Extended controlled-behavior predicate using variable ranges: <bdd 13n 54p>.
+    Extended controlled-behavior predicate using variable ranges: <bdd 13n 54p>.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

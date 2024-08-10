@@ -172,17 +172,16 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: discrete variable "g.p.x0" of type "g.E1" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "g.p.x1" of type "g.E1" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: true -> <bdd 9n 27p> [range: true, variable: discrete variable "g.p.x2" of type "g.E1" (group: 2, domain: 4+5, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: <bdd 9n 27p> -> <bdd 12n 81p> [range: true, variable: discrete variable "g.p.x3" of type "g.E1" (group: 3, domain: 6+7, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: <bdd 12n 81p> -> <bdd 15n 243p> [range: true, variable: discrete variable "g.p.x4" of type "g.E1" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: <bdd 15n 243p> -> <bdd 18n 729p> [range: true, variable: discrete variable "g.p.x5" of type "g.E1" (group: 5, domain: 10+11, BDD variables: 3, CIF/BDD values: 5/8)].
+    Controlled behavior: <bdd 18n 729p> -> <bdd 20n 1,458p> [range: true, variable: discrete variable "g.p.x6" of type "g.E2" (group: 6, domain: 12+13, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Controlled behavior: true -> true [range: true, variable: discrete variable "g.p.x0" of type "g.E1" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "g.p.x1" of type "g.E1" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: true -> <bdd 9n 27p> [range: true, variable: discrete variable "g.p.x2" of type "g.E1" (group: 2, domain: 4+5, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: <bdd 9n 27p> -> <bdd 12n 81p> [range: true, variable: discrete variable "g.p.x3" of type "g.E1" (group: 3, domain: 6+7, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: <bdd 12n 81p> -> <bdd 15n 243p> [range: true, variable: discrete variable "g.p.x4" of type "g.E1" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: <bdd 15n 243p> -> <bdd 18n 729p> [range: true, variable: discrete variable "g.p.x5" of type "g.E1" (group: 5, domain: 10+11, BDD variables: 3, CIF/BDD values: 5/8)].
-Controlled behavior: <bdd 18n 729p> -> <bdd 20n 1,458p> [range: true, variable: discrete variable "g.p.x6" of type "g.E2" (group: 6, domain: 12+13, BDD variables: 2, CIF/BDD values: 3/4)].
-
-Extended controlled-behavior predicate using variable ranges: <bdd 20n 1,458p>.
+    Extended controlled-behavior predicate using variable ranges: <bdd 20n 1,458p>.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

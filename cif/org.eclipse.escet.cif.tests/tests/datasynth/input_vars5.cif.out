@@ -65,11 +65,10 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: input variable "io.sensor" of type "int[0..2]" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Controlled behavior: true -> true [range: true, variable: input variable "io.sensor" of type "int[0..2]" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
-
-Extended controlled-behavior predicate using variable ranges: true.
+    Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

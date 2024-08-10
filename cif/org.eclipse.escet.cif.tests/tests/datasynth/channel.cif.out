@@ -169,7 +169,8 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
 Restricting behavior using state/event exclusion requirements:
     Edge (event: e) (guard: cnt.c = 1) (assignments: rcv1.x := 1): guard: cnt.c = 1 -> cnt.c = 1 and rcv1.x = 0 or (cnt.c = 1 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 1 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)) [state/event exclusion requirement: rcv1.x = 0 or (rcv1.x = 2 and rcv2.x = 1 or (rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)].

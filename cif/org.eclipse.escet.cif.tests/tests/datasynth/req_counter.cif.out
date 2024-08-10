@@ -179,11 +179,10 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> 0 <= count_max3.cnt and count_max3.cnt <= 3 [state requirements: 0 <= count_max3.cnt and count_max3.cnt <= 3].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: 0 <= count_max3.cnt and count_max3.cnt <= 3 -> 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)) [range: true, variable: location pointer for automaton "adder" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Controlled behavior: 0 <= count_max3.cnt and count_max3.cnt <= 3 -> 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)) [range: true, variable: location pointer for automaton "adder" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
-
-Extended controlled-behavior predicate using variable ranges: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)).
+    Extended controlled-behavior predicate using variable ranges: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)).
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

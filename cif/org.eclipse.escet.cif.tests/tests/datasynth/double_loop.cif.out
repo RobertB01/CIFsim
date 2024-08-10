@@ -209,13 +209,12 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.y" of type "int[0..20]" (group: 0, domain: 0+1, BDD variables: 5, CIF/BDD values: 21/32)].
+    Controlled behavior: true -> <bdd 9n 40p> [range: true, variable: location pointer for automaton "p" (group: 1, domain: 2+3, BDD variables: 4, CIF/BDD values: 13/16)].
+    Controlled behavior: <bdd 9n 40p> -> <bdd 14n 320p> [range: true, variable: discrete variable "p.x" of type "int[0..20]" (group: 2, domain: 4+5, BDD variables: 5, CIF/BDD values: 21/32)].
 
-Controlled behavior: true -> true [range: true, variable: discrete variable "p.y" of type "int[0..20]" (group: 0, domain: 0+1, BDD variables: 5, CIF/BDD values: 21/32)].
-Controlled behavior: true -> <bdd 9n 40p> [range: true, variable: location pointer for automaton "p" (group: 1, domain: 2+3, BDD variables: 4, CIF/BDD values: 13/16)].
-Controlled behavior: <bdd 9n 40p> -> <bdd 14n 320p> [range: true, variable: discrete variable "p.x" of type "int[0..20]" (group: 2, domain: 4+5, BDD variables: 5, CIF/BDD values: 21/32)].
-
-Extended controlled-behavior predicate using variable ranges: <bdd 14n 320p>.
+    Extended controlled-behavior predicate using variable ranges: <bdd 14n 320p>.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.

@@ -159,7 +159,8 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior: true -> p.x = 0 and p.l2 or p.x = 3 and p.l1 [state requirements: p.x = 0 and p.l2 or p.x = 3 and p.l1].
 
-Extending controlled-behavior predicate using variable ranges.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
