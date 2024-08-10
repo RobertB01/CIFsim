@@ -131,12 +131,11 @@ public class CifDataSynthesis {
             }
 
             // Apply state plant invariants if there are any.
-            if (!cifBddSpec.plantInv.isOne()) {
-                if (cifBddSpec.settings.getTermination().isRequested()) {
-                    return null;
-                }
-                CifBddApplyPlantInvariants.applyStatePlantInvs(cifBddSpec, "uncontrolled system", dbgEnabled);
+            if (cifBddSpec.settings.getTermination().isRequested()) {
+                return null;
             }
+            CifBddApplyPlantInvariants.applyStatePlantInvs(cifBddSpec, "uncontrolled system",
+                    () -> synthResult.getCtrlBehText(0, cifBddSpec.settings.getIndentAmount()), dbgEnabled);
 
             // Initialize controlled behavior.
             if (cifBddSpec.settings.getTermination().isRequested()) {
