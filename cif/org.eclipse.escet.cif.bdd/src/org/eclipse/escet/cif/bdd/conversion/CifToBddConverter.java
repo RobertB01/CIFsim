@@ -163,7 +163,6 @@ import com.github.javabdd.JFactory;
  * <ul>
  * <li>{@link #preprocess}</li>
  * <li>{@link #createFactory}</li>
- * <li>Optionally, {@link #setNeedEmptyDebugLine}</li>
  * <li>{@link #convert}</li>
  * </ul>
  * Check their JavaDocs for further details.
@@ -180,9 +179,6 @@ public class CifToBddConverter {
      * available.
      */
     private Map<Automaton, Monitors> originalMonitors;
-
-    /** Whether an empty line of debug output is needed before the next debug output line. */
-    private boolean needEmptyDebugLine = false;
 
     /**
      * Constructor for the {@link CifToBddConverter} class.
@@ -297,11 +293,6 @@ public class CifToBddConverter {
 
         // Return BDD factory.
         return factory;
-    }
-
-    /** Sets that an empty line of debug output is needed before the next debug output line. */
-    public void setNeedEmptyDebugLine() {
-        needEmptyDebugLine = true;
     }
 
     /**
@@ -714,10 +705,6 @@ public class CifToBddConverter {
         // Print variable debugging information, before ordering.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled();
         if (dbgEnabled) {
-            if (needEmptyDebugLine) {
-                needEmptyDebugLine = false;
-                cifBddSpec.settings.getDebugOutput().line();
-            }
             debugCifVars(cifBddSpec);
         }
 
