@@ -1,6 +1,8 @@
 Reading CIF file "datasynth/remove_controller_properties.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs):
+    The specification has no BDD variables.
+
 Starting data-based synthesis.
 
 Invariant (components state plant inv):      true

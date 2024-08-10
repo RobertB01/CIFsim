@@ -1,6 +1,8 @@
 Reading CIF file "datasynth/svg_input_decl_removed.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
 Converting CIF specification to internal format (BDDs):
+    The specification has no BDD variables.
+
 Starting data-based synthesis.
 
 Invariant (components state plant inv):      true
