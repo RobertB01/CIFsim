@@ -52,6 +52,9 @@ Showing input and checking for potential problems:
             Edge: (event: u2) (guard: A.l2) (assignments: A := A.l4)
             Edge: (event: u3) (guard: A.l2) (assignments: A := A.l5)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Restricting uncontrolled system behavior using state plant invariants.

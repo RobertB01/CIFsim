@@ -146,6 +146,9 @@ Showing input and checking for potential problems:
             Edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done)
             Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

@@ -55,6 +55,9 @@ Showing input and checking for potential problems:
             Edge: (event: c_b) (guard: p.x = 4 or p.x = 5)
             Edge: (event: c_b) (guard: p.x = 3)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

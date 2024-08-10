@@ -61,6 +61,9 @@ Showing input and checking for potential problems:
             Edge: (event: uea) (guard: true)
             Edge: (event: uee) (guard: true)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

@@ -172,6 +172,19 @@ Restricting edge guards to prevent runtime errors:
     Edge: (event: add) (guard: true -> p.c != 3) (assignments: p.c := p.c + x)
     Edge: (event: remove) (guard: true -> p.c != 0) (assignments: p.c := p.c - p.y)
 
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: add) (guard: true -> p.c != 3) (assignments: p.c := p.c + x)
+            Edge: (event: remove) (guard: true -> p.c != 0) (assignments: p.c := p.c - p.y)
+            Edge: (event: move) (guard: q.l1) (assignments: q := q.l2)
+            Edge: (event: move) (guard: q.l2) (assignments: q := q.l1)
+            Edge: (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active)
+            Edge: (event: r1.deactivate) (guard: r1.active) (assignments: r1 := r1.inactive)
+            Edge: (event: r2.activate) (guard: r2.inactive) (assignments: r2 := r2.active)
+            Edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive)
+            Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
+            Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

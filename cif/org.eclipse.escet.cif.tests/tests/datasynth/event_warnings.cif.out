@@ -271,6 +271,9 @@ Showing input and checking for potential problems:
             Edge: (event: c_synch) (guard: a.l1 and b.l2)
             Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Edge (event: p.c2) (guard: p.l1): guard: p.l1 -> false [plant: false].

@@ -135,6 +135,9 @@ Showing input and checking for potential problems:
             Edge: (event: io.i) (guard: true) (assignments: io.i+ != io.i)
             Edge: (event: io.e) (guard: true) (assignments: io.e+ != io.e)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

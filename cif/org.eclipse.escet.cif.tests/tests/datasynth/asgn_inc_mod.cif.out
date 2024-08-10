@@ -48,6 +48,9 @@ Showing input and checking for potential problems:
         State: (controlled-behavior: ?)
             Edge: (event: next) (guard: true) (assignments: p.x := (p.x + 1) mod count)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

@@ -141,6 +141,9 @@ Showing input and checking for potential problems:
             Edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off)
             Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

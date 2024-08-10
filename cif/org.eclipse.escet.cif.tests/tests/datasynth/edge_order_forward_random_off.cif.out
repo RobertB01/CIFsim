@@ -146,6 +146,9 @@ Showing input and checking for potential problems:
             Edge: (event: Actuator.on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On)
             Edge: (event: Actuator.off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

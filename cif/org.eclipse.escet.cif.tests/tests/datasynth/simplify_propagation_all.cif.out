@@ -147,6 +147,9 @@ Showing input and checking for potential problems:
             Edge: (event: q_b) (guard: q.loc4) (assignments: q := q.loc5)
             Edge: (event: q_b) (guard: q.loc6) (assignments: q := q.loc7)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

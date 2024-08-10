@@ -162,6 +162,9 @@ Showing input and checking for potential problems:
             Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
             Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

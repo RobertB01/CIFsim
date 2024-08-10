@@ -161,6 +161,9 @@ Showing input and checking for potential problems:
             Edge: (event: h) (guard: a.l2)
             Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

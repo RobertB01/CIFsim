@@ -101,6 +101,9 @@ Showing input and checking for potential problems:
     Uncontrolled system:
         State: (controlled-behavior: ?)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

@@ -154,6 +154,9 @@ Showing input and checking for potential problems:
         State: (controlled-behavior: ?)
             Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

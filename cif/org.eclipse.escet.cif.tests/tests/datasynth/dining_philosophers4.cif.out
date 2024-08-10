@@ -187,6 +187,9 @@ Showing input and checking for potential problems:
             Edge: (event: p3.take_right) (guard: p3.neither and f4.available) (assignments: f4 := f4.taken, p3 := p3.right)
             Edge: (event: p3.take_right) (guard: p3.left and f4.available) (assignments: f4 := f4.taken, p3 := p3.both)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

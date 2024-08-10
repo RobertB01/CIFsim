@@ -169,6 +169,9 @@ Showing input and checking for potential problems:
             Edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l2) or (r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l1 and r1.l2) or (r1.x = 4 and ((r2.x = 0 or r2.x = 2) and r2.l1) or (r1.x = 4 and (r2.x = 1 and r2.l1) or r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l2))) or (r1.x = 1 and r2.x = 1 and (r2.l1 and r1.l2) or r1.x = 5 and ((r2.x = 0 or r2.x = 2) and r2.l1) or (r1.x = 5 and (r2.x = 1 and r2.l1) or (r1.x = 3 and ((r2.x = 0 or r2.x = 2) and r2.l1) or r1.x = 3 and (r2.x = 1 and r2.l1))))) (assignments: r2 := r2.l2)
             Edge: (event: p.e2) (guard: <bdd 12n 25p>)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

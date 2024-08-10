@@ -160,6 +160,9 @@ Showing input and checking for potential problems:
             Edge: (event: p.ed4) (guard: p.loc1) (assignments: p.d4 := p.d4 div 4, p := p.loc2)
             Edge: (event: p.ed5) (guard: p.loc1) (assignments: p.d5 := p.d5 div 5, p := p.loc2)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.

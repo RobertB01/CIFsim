@@ -71,6 +71,9 @@ Showing input and checking for potential problems:
             Edge: (event: k) (guard: true)
             Edge: (event: l) (guard: true)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [plant: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].

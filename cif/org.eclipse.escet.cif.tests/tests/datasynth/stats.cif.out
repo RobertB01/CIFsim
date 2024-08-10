@@ -50,6 +50,9 @@ Showing input and checking for potential problems:
             Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
             Edge: (event: f) (guard: true)
 
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
+
 Restricting uncontrolled system behavior using state/event exclusion plant invariants.
 
 Initialized controlled-behavior predicate: true.
