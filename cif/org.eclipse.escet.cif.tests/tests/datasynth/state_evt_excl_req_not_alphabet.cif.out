@@ -56,7 +56,8 @@ Restricting edge guards to prevent runtime errors:
         State: (controlled-behavior: ?)
             Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: p.x = 0.

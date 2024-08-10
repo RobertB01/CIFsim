@@ -57,7 +57,8 @@ Restricting edge guards to prevent runtime errors:
             Edge: (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1)
             Edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: buffer.x = 2.

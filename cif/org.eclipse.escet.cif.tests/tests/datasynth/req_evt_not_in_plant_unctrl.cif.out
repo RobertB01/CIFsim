@@ -156,7 +156,8 @@ Restricting edge guards to prevent runtime errors:
             Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
             Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: p.x = 0 and r.loc1.

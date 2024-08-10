@@ -165,7 +165,8 @@ Restricting edge guards to prevent runtime errors:
             Edge: (event: d) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1)
             Edge: (event: e) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: p.x = 3 and p.y = 6.

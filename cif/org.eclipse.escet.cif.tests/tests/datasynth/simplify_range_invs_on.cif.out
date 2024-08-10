@@ -172,7 +172,8 @@ Restricting edge guards to prevent runtime errors:
             Edge: (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1)
             Edge: (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2)).

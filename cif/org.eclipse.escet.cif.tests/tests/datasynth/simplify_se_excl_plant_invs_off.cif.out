@@ -65,16 +65,15 @@ Restricting edge guards to prevent runtime errors:
             Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5)
             Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3))
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3)): guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5 [plant: p.x = 4 or p.x = 5].
 
-Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3)): guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5 [plant: p.x = 4 or p.x = 5].
-
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: c_a) (guard: true -> true) (assignments: p.x := p.x + 1)
-        Edge: (event: c_b) (guard: p.x = 5 or p.x = 3)
-        Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5)
-        Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: c_a) (guard: true -> true) (assignments: p.x := p.x + 1)
+            Edge: (event: c_b) (guard: p.x = 5 or p.x = 3)
+            Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5)
+            Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5)
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: true.

@@ -50,13 +50,12 @@ Showing input and checking for potential problems:
 Restricting edge guards to prevent runtime errors:
     No guards changed.
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    Edge (event: u) (guard: a.l1) (assignments: a := a.l2): guard: a.l1 -> false [plant: false].
 
-Edge (event: u) (guard: a.l1) (assignments: a := a.l2): guard: a.l1 -> false [plant: false].
-
-Uncontrolled system:
-    State: (controlled-behavior: ?)
-        Edge: (event: u) (guard: a.l1 -> false) (assignments: a := a.l2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: u) (guard: a.l1 -> false) (assignments: a := a.l2)
 
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: a.l1.
