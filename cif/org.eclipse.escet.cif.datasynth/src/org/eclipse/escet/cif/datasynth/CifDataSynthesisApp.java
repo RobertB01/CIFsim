@@ -254,7 +254,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         try {
             // Convert CIF specification to a CIF/BDD representation.
             if (dbgEnabled) {
-                dbg("Converting CIF specification to internal format (BDDs).");
+                dbg("Converting CIF specification to internal format (BDDs):");
             }
 
             CifBddSpec cifBddSpec;
