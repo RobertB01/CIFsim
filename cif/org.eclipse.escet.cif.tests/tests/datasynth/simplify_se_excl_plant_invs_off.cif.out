@@ -75,6 +75,9 @@ Restricting uncontrolled system behavior using state/event exclusion plant invar
             Edge: (event: c_c) (guard: 2 <= p.x and p.x <= 5)
             Edge: (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5)
 
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
+
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: true.
 

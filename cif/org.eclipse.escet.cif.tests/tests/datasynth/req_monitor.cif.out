@@ -175,6 +175,9 @@ Restricting edge guards to prevent runtime errors:
 Restricting uncontrolled system behavior using state/event exclusion plant invariants:
     No guards changed.
 
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
+
 Initialized controlled-behavior predicate: true.
 Initialized controlled-initialization predicate: r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1).
 
