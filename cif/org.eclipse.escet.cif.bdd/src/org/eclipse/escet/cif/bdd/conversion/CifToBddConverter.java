@@ -694,6 +694,7 @@ public class CifToBddConverter {
         // Skip ordering, including debug output printing, if no variables are present.
         int varCnt = cifBddSpec.variables.length;
         if (varCnt == 0) {
+            cifBddSpec.settings.getDebugOutput().line("The specification has no BDD variables.");
             return;
         }
 

@@ -265,9 +265,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 idbg();
                 cifBddSpec = converter1.convert(spec, settings, factory);
                 ddbg();
-                if (cifBddSpec.variables.length > 0) {
-                    dbg();
-                }
+                dbg();
             } finally {
                 if (doTiming) {
                     timing.inputConvert.stop();
