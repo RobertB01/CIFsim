@@ -713,7 +713,6 @@ public class CifToBddConverter {
             if (dbgEnabled) {
                 cifBddSpec.settings.getDebugOutput().line();
                 cifBddSpec.settings.getDebugOutput().line("Skipping variable ordering: only one variable present.");
-                cifBddSpec.settings.getDebugOutput().line();
             }
             return;
         }
@@ -765,7 +764,6 @@ public class CifToBddConverter {
                 cifBddSpec.settings.getDebugOutput().line();
                 debugCifVars(cifBddSpec);
             }
-            cifBddSpec.settings.getDebugOutput().line();
         }
     }
 
