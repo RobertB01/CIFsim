@@ -78,7 +78,8 @@ Restricting behavior using state/event exclusion requirements:
         State: (controlled-behavior: true)
             Edge: (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

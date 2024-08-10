@@ -188,7 +188,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: Actuator.on) (guard: Actuator.Off -> Counter.zero and Actuator.Off) (assignments: Actuator := Actuator.On)
             Edge: (event: Actuator.off) (guard: Actuator.On -> Counter.five and Actuator.On) (assignments: Actuator := Actuator.Off)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

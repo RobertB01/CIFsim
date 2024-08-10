@@ -219,14 +219,16 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
-Controlled behavior: <bdd 14n 320p> -> <bdd 20n 448p> [runtime error requirement (event: u): p.y != 0 or not p.t2].
-Controlled behavior: <bdd 20n 448p> -> <bdd 21n 440p> [runtime error requirement (event: u): <bdd 18n 49p>].
-Controlled behavior: <bdd 21n 440p> -> <bdd 28n 604p> [runtime error requirement (event: u): <bdd 18n 49p>].
-Controlled behavior: <bdd 28n 604p> -> <bdd 29n 612p> [runtime error requirement (event: u): p.y != 0 or not p.t5].
-Controlled behavior: <bdd 29n 612p> -> <bdd 31n 620p> [runtime error requirement (event: u): <bdd 18n 49p>].
-Controlled behavior: <bdd 31n 620p> -> <bdd 30n 612p> [runtime error requirement (event: u): p.y != 0 or not p.b3].
-Controlled behavior: <bdd 30n 612p> -> <bdd 35n 802p> [runtime error requirement (event: u): <bdd 16n 57p>].
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior: <bdd 14n 320p> -> <bdd 20n 448p> [runtime error requirement (event: u): p.y != 0 or not p.t2].
+    Controlled behavior: <bdd 20n 448p> -> <bdd 21n 440p> [runtime error requirement (event: u): <bdd 18n 49p>].
+    Controlled behavior: <bdd 21n 440p> -> <bdd 28n 604p> [runtime error requirement (event: u): <bdd 18n 49p>].
+    Controlled behavior: <bdd 28n 604p> -> <bdd 29n 612p> [runtime error requirement (event: u): p.y != 0 or not p.t5].
+    Controlled behavior: <bdd 29n 612p> -> <bdd 31n 620p> [runtime error requirement (event: u): <bdd 18n 49p>].
+    Controlled behavior: <bdd 31n 620p> -> <bdd 30n 612p> [runtime error requirement (event: u): p.y != 0 or not p.b3].
+    Controlled behavior: <bdd 30n 612p> -> <bdd 35n 802p> [runtime error requirement (event: u): <bdd 16n 57p>].
+
+    Restricted behavior using implicit runtime error requirements: <bdd 35n 802p>.
 
 Re-initializing edges for being applied.
 

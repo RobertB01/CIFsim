@@ -434,7 +434,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: c_synch) (guard: a.l1 and b.l2)
             Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

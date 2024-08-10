@@ -179,10 +179,12 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
-Controlled behavior: true -> 0 <= p.x and p.x <= 3 or p.l2 [runtime error requirement (event: e): 0 <= p.x and p.x <= 3 or p.l2].
-Controlled behavior: 0 <= p.x and p.x <= 3 or p.l2 -> (not(p.x = 4 or p.x = 6) or p.l2) and ((p.x != 5 or p.l2) and (not(p.x = 3 or p.x = 7) or p.l2)) [runtime error requirement (event: e): (not(p.x = 4 or p.x = 6) or p.l2) and ((p.x != 5 or p.l2) and (not(p.x = 3 or p.x = 7) or p.l2))].
-Controlled behavior: (not(p.x = 4 or p.x = 6) or p.l2) and ((p.x != 5 or p.l2) and (not(p.x = 3 or p.x = 7) or p.l2)) -> (not(p.x = 4 or p.x = 5) or p.l2) and (p.x = 0 or p.x = 1 or (p.x = 4 or (p.x = 5 or p.l2))) [runtime error requirement (event: e): (not(p.x = 4 or p.x = 5) or p.l2) and (p.x = 0 or p.x = 1 or (p.x = 4 or (p.x = 5 or p.l2)))].
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior: true -> 0 <= p.x and p.x <= 3 or p.l2 [runtime error requirement (event: e): 0 <= p.x and p.x <= 3 or p.l2].
+    Controlled behavior: 0 <= p.x and p.x <= 3 or p.l2 -> (not(p.x = 4 or p.x = 6) or p.l2) and ((p.x != 5 or p.l2) and (not(p.x = 3 or p.x = 7) or p.l2)) [runtime error requirement (event: e): (not(p.x = 4 or p.x = 6) or p.l2) and ((p.x != 5 or p.l2) and (not(p.x = 3 or p.x = 7) or p.l2))].
+    Controlled behavior: (not(p.x = 4 or p.x = 6) or p.l2) and ((p.x != 5 or p.l2) and (not(p.x = 3 or p.x = 7) or p.l2)) -> (not(p.x = 4 or p.x = 5) or p.l2) and (p.x = 0 or p.x = 1 or (p.x = 4 or (p.x = 5 or p.l2))) [runtime error requirement (event: e): (not(p.x = 4 or p.x = 5) or p.l2) and (p.x = 0 or p.x = 1 or (p.x = 4 or (p.x = 5 or p.l2)))].
+
+    Restricted behavior using implicit runtime error requirements: (not(p.x = 4 or p.x = 5) or p.l2) and (p.x = 0 or p.x = 1 or (p.x = 4 or (p.x = 5 or p.l2))).
 
 Re-initializing edges for being applied.
 

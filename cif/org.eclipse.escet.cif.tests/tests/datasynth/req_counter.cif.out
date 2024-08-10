@@ -187,8 +187,10 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
-Controlled behavior: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)) -> (count_max3.cnt != 0 or not adder.l3) and (count_max3.cnt != 8 and count_max3.cnt != 4) and (count_max3.cnt != 10 and count_max3.cnt != 6 and (count_max3.cnt != 9 and not(count_max3.cnt = 5 or count_max3.cnt = 7))) [runtime error requirement (event: u_remove): count_max3.cnt != 0 or not adder.l3].
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior: 0 <= count_max3.cnt and (count_max3.cnt <= 7 and not(4 <= count_max3.cnt and count_max3.cnt <= 7)) -> (count_max3.cnt != 0 or not adder.l3) and (count_max3.cnt != 8 and count_max3.cnt != 4) and (count_max3.cnt != 10 and count_max3.cnt != 6 and (count_max3.cnt != 9 and not(count_max3.cnt = 5 or count_max3.cnt = 7))) [runtime error requirement (event: u_remove): count_max3.cnt != 0 or not adder.l3].
+
+    Restricted behavior using implicit runtime error requirements: (count_max3.cnt != 0 or not adder.l3) and (count_max3.cnt != 8 and count_max3.cnt != 4) and (count_max3.cnt != 10 and count_max3.cnt != 6 and (count_max3.cnt != 9 and not(count_max3.cnt = 5 or count_max3.cnt = 7))).
 
 Re-initializing edges for being applied.
 

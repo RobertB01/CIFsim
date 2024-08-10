@@ -173,8 +173,10 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
-Controlled behavior: true -> (not(p.x = 4 or p.x = 5) or p.l2) and (not(p.x = 2 or p.x = 3) or p.l2) [runtime error requirement (event: e): (not(p.x = 4 or p.x = 5) or p.l2) and (not(p.x = 2 or p.x = 3) or p.l2)].
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior: true -> (not(p.x = 4 or p.x = 5) or p.l2) and (not(p.x = 2 or p.x = 3) or p.l2) [runtime error requirement (event: e): (not(p.x = 4 or p.x = 5) or p.l2) and (not(p.x = 2 or p.x = 3) or p.l2)].
+
+    Restricted behavior using implicit runtime error requirements: (not(p.x = 4 or p.x = 5) or p.l2) and (not(p.x = 2 or p.x = 3) or p.l2).
 
 Re-initializing edges for being applied.
 

@@ -219,7 +219,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
             Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

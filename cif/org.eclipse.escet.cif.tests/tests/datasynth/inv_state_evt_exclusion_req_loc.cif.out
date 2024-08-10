@@ -204,7 +204,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: h) (guard: a.l2 -> (a.x = 12 or a.x = 13) and a.l2)
             Edge: (event: b) (guard: a.x = 5 and a.l1) (assignments: a := a.l2)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

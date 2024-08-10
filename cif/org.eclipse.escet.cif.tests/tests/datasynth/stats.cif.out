@@ -81,7 +81,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
             Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

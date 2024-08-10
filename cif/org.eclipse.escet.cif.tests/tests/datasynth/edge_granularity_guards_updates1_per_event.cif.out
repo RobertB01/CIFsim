@@ -172,7 +172,8 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

@@ -166,7 +166,8 @@ Restricting behavior using state/event exclusion requirements:
     Restricted behavior using state/event exclusion requirements:
         State: (controlled-behavior: <bdd 17n 27p>)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

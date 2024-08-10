@@ -200,7 +200,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
             Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false) (assignments: Lamp1 := Lamp1.Off)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

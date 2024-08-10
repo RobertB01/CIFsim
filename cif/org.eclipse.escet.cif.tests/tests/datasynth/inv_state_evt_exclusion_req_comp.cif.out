@@ -93,7 +93,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: g) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
             Edge: (event: h) (guard: true -> a.x = 12 or a.x = 13)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

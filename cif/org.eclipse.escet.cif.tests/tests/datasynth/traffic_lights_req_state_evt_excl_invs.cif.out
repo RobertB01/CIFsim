@@ -170,7 +170,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: green_B) (guard: LightB.Red -> LightA.Red and LightB.Red) (assignments: LightB := LightB.Green)
             Edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

@@ -78,7 +78,8 @@ Restricting behavior using state/event exclusion requirements:
     Restricted behavior using state/event exclusion requirements:
         State: (controlled-behavior: p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3)))
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

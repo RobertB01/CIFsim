@@ -176,8 +176,10 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
-Controlled behavior: true -> p.x != 7 or p.l2 [runtime error requirement (event: u): p.x != 7 or p.l2].
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior: true -> p.x != 7 or p.l2 [runtime error requirement (event: u): p.x != 7 or p.l2].
+
+    Restricted behavior using implicit runtime error requirements: p.x != 7 or p.l2.
 
 Re-initializing edges for being applied.
 

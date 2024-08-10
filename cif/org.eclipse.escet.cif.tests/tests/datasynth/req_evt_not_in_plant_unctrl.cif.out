@@ -186,7 +186,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
             Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

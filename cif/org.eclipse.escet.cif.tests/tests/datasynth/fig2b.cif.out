@@ -182,7 +182,8 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: e1) (guard: 0 <= p.x and (p.x <= 7 and p.L0) -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and p.L0 or ((p.x = 1 or p.x = 5) and p.L0 or p.x = 3 and p.L0)) (assignments: p.x := p.x + 2, p := p.L1)
             Edge: (event: e2) (guard: (p.x = 0 or p.x = 8) and p.L1 or p.x = 4 and p.L1 or ((p.x = 2 or p.x = 6) and p.L1 or (p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) and p.L1)) (assignments: p.x := p.x + 1, p := p.L0)
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
 Re-initializing edges for being applied.
 

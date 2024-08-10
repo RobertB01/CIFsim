@@ -208,13 +208,15 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
-Controlled behavior: true -> p.x != 15 or not p.l1 [runtime error requirement (event: u): p.x != 15 or not p.l1].
-Controlled behavior: p.x != 15 or not p.l1 -> (p.x != 15 or not p.l2) and (p.x != 15 or not p.l1) [runtime error requirement (event: u): p.x != 15 or not p.l2].
-Controlled behavior: (p.x != 15 or not p.l2) and (p.x != 15 or not p.l1) -> (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) [runtime error requirement (event: u): p.x != 15 or not p.l3].
-Controlled behavior: (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) -> (p.x != 15 or not p.l4) and (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) [runtime error requirement (event: u): p.x != 15 or not p.l4].
-Controlled behavior: (p.x != 15 or not p.l4) and (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) -> (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))) [runtime error requirement (event: u): p.x != 15 or not p.l5].
-Controlled behavior: (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))) -> (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2 and not p.l6) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))) [runtime error requirement (event: u): p.x != 15 or not p.l6].
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior: true -> p.x != 15 or not p.l1 [runtime error requirement (event: u): p.x != 15 or not p.l1].
+    Controlled behavior: p.x != 15 or not p.l1 -> (p.x != 15 or not p.l2) and (p.x != 15 or not p.l1) [runtime error requirement (event: u): p.x != 15 or not p.l2].
+    Controlled behavior: (p.x != 15 or not p.l2) and (p.x != 15 or not p.l1) -> (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) [runtime error requirement (event: u): p.x != 15 or not p.l3].
+    Controlled behavior: (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) -> (p.x != 15 or not p.l4) and (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) [runtime error requirement (event: u): p.x != 15 or not p.l4].
+    Controlled behavior: (p.x != 15 or not p.l4) and (p.x != 15 or not p.l2) and ((p.x != 15 or not p.l1) and (p.x != 15 or not p.l3)) -> (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))) [runtime error requirement (event: u): p.x != 15 or not p.l5].
+    Controlled behavior: (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))) -> (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2 and not p.l6) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))) [runtime error requirement (event: u): p.x != 15 or not p.l6].
+
+    Restricted behavior using implicit runtime error requirements: (p.x != 15 or not p.l4) and ((p.x != 15 or not p.l2 and not p.l6) and (p.x != 15 or not p.l1 and (not p.l3 and not p.l5))).
 
 Re-initializing edges for being applied.
 
