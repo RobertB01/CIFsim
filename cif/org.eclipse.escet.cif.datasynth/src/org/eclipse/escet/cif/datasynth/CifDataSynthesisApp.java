@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
@@ -260,7 +262,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.inputConvert.start();
             }
             try {
+                idbg();
                 cifBddSpec = converter1.convert(spec, settings, factory);
+                ddbg();
                 if (cifBddSpec.variables.length > 0) {
                     dbg();
                 }
