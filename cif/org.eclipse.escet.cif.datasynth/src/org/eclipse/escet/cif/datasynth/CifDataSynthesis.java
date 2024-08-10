@@ -201,7 +201,7 @@ public class CifDataSynthesis {
                 return null;
             }
             if (synthResult.settings.getDoNeverEnabledEventsWarn()) {
-                disabledEvents = checkInputEdges(cifBddSpec);
+                disabledEvents = checkInputEdges(cifBddSpec, dbgEnabled);
             }
 
             // Prepare workset algorithm, if enabled.
@@ -321,7 +321,7 @@ public class CifDataSynthesis {
                 if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
-                checkOutputEdges(cifBddSpec, disabledEvents, synthResult, ctrlGuards);
+                checkOutputEdges(cifBddSpec, disabledEvents, synthResult, ctrlGuards, dbgEnabled);
             }
 
             // Determine the output of synthesis (2/2).
@@ -1196,11 +1196,16 @@ public class CifDataSynthesis {
      * events.
      *
      * @param cifBddSpec The CIF/BDD specification on which to perform synthesis. Is modified in-place.
+     * @param dbgEnabled Whether debug output is enabled.
      * @return The events that are disabled before synthesis. May be incomplete if termination is requested.
      */
-    private static Set<Event> checkInputEdges(CifBddSpec cifBddSpec) {
-        Set<Event> disabledEvents = setc(cifBddSpec.alphabet.size());
+    private static Set<Event> checkInputEdges(CifBddSpec cifBddSpec, boolean dbgEnabled) {
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Checking pre-synthesis for events that are never enabled.");
+        }
 
+        Set<Event> disabledEvents = setc(cifBddSpec.alphabet.size());
         for (Event event: cifBddSpec.alphabet) {
             if (cifBddSpec.settings.getTermination().isRequested()) {
                 return disabledEvents;
@@ -1874,10 +1879,16 @@ public class CifDataSynthesis {
      * @param disabledEvents The events that are disabled before synthesis.
      * @param synthResult The synthesis result. Is modified in-place.
      * @param ctrlGuards The guards in the controlled system for the controllable events to check.
+     * @param dbgEnabled Whether debug output is enabled.
      */
     private static void checkOutputEdges(CifBddSpec cifBddSpec, Set<Event> disabledEvents,
-            CifDataSynthesisResult synthResult, Map<Event, BDD> ctrlGuards)
+            CifDataSynthesisResult synthResult, Map<Event, BDD> ctrlGuards, boolean dbgEnabled)
     {
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Checking post-synthesis for events that are never enabled.");
+        }
+
         // Determine the guards for the uncontrollable events.
         Set<Event> uncontrollables = Sets.difference(cifBddSpec.alphabet, cifBddSpec.controllables,
                 cifBddSpec.inputVarEvents);
