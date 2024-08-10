@@ -1,6 +1,6 @@
 Reading CIF file "datasynth/marked_2vars.cif".
 Preprocessing CIF specification (includes checking that the specification is supported).
-Converting CIF specification to internal format.
+Converting CIF specification to internal format (BDDs).
 
 CIF variables and location pointers:
     Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
