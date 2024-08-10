@@ -179,7 +179,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             // Print timing statistics.
             if (doTiming) {
                 timing.total.stop();
-                timing.print(settings.getDebugOutput(), settings.getNormalOutput());
+                timing.print(settings.getIndentAmount(), settings.getDebugOutput(), settings.getNormalOutput());
             }
         }
 

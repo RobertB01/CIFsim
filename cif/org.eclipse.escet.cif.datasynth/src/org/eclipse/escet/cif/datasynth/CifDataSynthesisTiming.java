@@ -66,11 +66,13 @@ public class CifDataSynthesisTiming {
     /**
      * Prints the timing statistics to the console.
      *
+     * @param indentAmount The number of spaces of indentation to use.
      * @param debugOutput Callback for debug output.
      * @param normalOutput Callback for normal output.
      */
-    public void print(DebugNormalOutput debugOutput, DebugNormalOutput normalOutput) {
+    public void print(int indentAmount, DebugNormalOutput debugOutput, DebugNormalOutput normalOutput) {
         // Get prefixes and stopwatches.
+        String indent = Strings.spaces(indentAmount);
         List<String> prefixes = list();
         List<Stopwatch> stopwatches = list();
         if (total.hasMeasured()) {
@@ -78,47 +80,47 @@ public class CifDataSynthesisTiming {
             stopwatches.add(total);
         }
         if (inputRead.hasMeasured()) {
-            prefixes.add("  Read input model");
+            prefixes.add(indent + "Read input model");
             stopwatches.add(inputRead);
         }
         if (inputPreProcess.hasMeasured()) {
-            prefixes.add("  Preprocess and check input model");
+            prefixes.add(indent + "Preprocess and check input model");
             stopwatches.add(inputPreProcess);
         }
         if (inputConvert.hasMeasured()) {
-            prefixes.add("  Convert input model");
+            prefixes.add(indent + "Convert input model");
             stopwatches.add(inputConvert);
         }
         if (preSynth.hasMeasured()) {
-            prefixes.add("  Pre synthesis");
+            prefixes.add(indent + "Pre synthesis");
             stopwatches.add(preSynth);
         }
         if (main.hasMeasured()) {
-            prefixes.add("  Main synthesis loop");
+            prefixes.add(indent + "Main synthesis loop");
             stopwatches.add(main);
         }
         if (mainBwMarked.hasMeasured()) {
-            prefixes.add("    Backward marking");
+            prefixes.add(indent + indent + "Backward marking");
             stopwatches.add(mainBwMarked);
         }
         if (mainBwBadState.hasMeasured()) {
-            prefixes.add("    Backward bad-state");
+            prefixes.add(indent + indent + "Backward bad-state");
             stopwatches.add(mainBwBadState);
         }
         if (mainFwInit.hasMeasured()) {
-            prefixes.add("    Forward initial");
+            prefixes.add(indent + indent + "Forward initial");
             stopwatches.add(mainFwInit);
         }
         if (postSynth.hasMeasured()) {
-            prefixes.add("  Post synthesis");
+            prefixes.add(indent + "Post synthesis");
             stopwatches.add(postSynth);
         }
         if (outputConvert.hasMeasured()) {
-            prefixes.add("  Convert output model");
+            prefixes.add(indent + "Convert output model");
             stopwatches.add(outputConvert);
         }
         if (outputWrite.hasMeasured()) {
-            prefixes.add("  Write output model");
+            prefixes.add(indent + "Write output model");
             stopwatches.add(outputWrite);
         }
         Assert.check(prefixes.size() == stopwatches.size());
