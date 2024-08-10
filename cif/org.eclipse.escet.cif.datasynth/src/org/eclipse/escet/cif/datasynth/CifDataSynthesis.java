@@ -123,6 +123,10 @@ public class CifDataSynthesis {
                     () -> synthResult.getCtrlBehText(0, cifBddSpec.settings.getIndentAmount()), dbgEnabled);
 
             // Initialize applying edges.
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("Initializing edges for being applied.");
+            }
             for (CifBddEdge edge: cifBddSpec.edges) {
                 if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
@@ -176,6 +180,10 @@ public class CifDataSynthesis {
 
             // Re-initialize applying edges after applying the state plant invariants, state requirement invariants
             // (depending on settings), and state/event exclusion requirement invariants.
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("Re-initializing edges for being applied.");
+            }
             for (CifBddEdge edge: cifBddSpec.edges) {
                 if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
