@@ -1296,6 +1296,12 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void prepareWorksetAlgorithm(CifBddSpec cifBddSpec, boolean forwardEnabled, boolean dbgEnabled) {
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Preparing workset algorithm:");
+            cifBddSpec.settings.getDebugOutput().inc();
+        }
+
         // Compute the dependency sets for all edges, and store them in the CIF/BDD specification.
         EdgeDependencySetCreator creator = new BddBasedEdgeDependencySetCreator();
         creator.createAndStore(cifBddSpec, forwardEnabled);
@@ -1303,14 +1309,15 @@ public class CifDataSynthesis {
         // Print dependency sets as debug output.
         if (dbgEnabled) {
             int edgeCnt = cifBddSpec.worksetDependenciesBackward.size();
-            if (edgeCnt > 0) {
+            if (edgeCnt == 0) {
+                cifBddSpec.settings.getDebugOutput().line("No edges.");
+            } else {
                 if (forwardEnabled) {
-                    cifBddSpec.settings.getDebugOutput().line();
                     cifBddSpec.settings.getDebugOutput().line("Edge workset algorithm forward dependencies:");
                     GridBox box = new GridBox(edgeCnt, 4, 0, 1);
                     for (int i = 0; i < edgeCnt; i++) {
                         BitSet bitset = cifBddSpec.worksetDependenciesForward.get(i);
-                        box.set(i, 0, " -");
+                        box.set(i, 0, "-");
                         box.set(i, 1, Integer.toString(i + 1) + ":");
                         box.set(i, 2, CifTextUtils.getAbsName(cifBddSpec.orderedEdgesForward.get(i).event));
                         box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
@@ -1325,7 +1332,7 @@ public class CifDataSynthesis {
                 GridBox box = new GridBox(edgeCnt, 4, 0, 1);
                 for (int i = 0; i < edgeCnt; i++) {
                     BitSet bitset = cifBddSpec.worksetDependenciesBackward.get(i);
-                    box.set(i, 0, " -");
+                    box.set(i, 0, "-");
                     box.set(i, 1, Integer.toString(i + 1) + ":");
                     box.set(i, 2, CifTextUtils.getAbsName(cifBddSpec.orderedEdgesBackward.get(i).event));
                     box.set(i, 3, BitSets.bitsetToStr(bitset, edgeCnt));
@@ -1334,6 +1341,7 @@ public class CifDataSynthesis {
                     cifBddSpec.settings.getDebugOutput().line(line);
                 }
             }
+            cifBddSpec.settings.getDebugOutput().dec();
         }
     }
 
