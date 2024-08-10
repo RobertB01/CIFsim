@@ -40,13 +40,13 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): not A.l3
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "A.c" needs:
-        A.l1
-      Event "A.u1" needs:
-        true
+        Event "A.c" needs:
+            A.l1
+        Event "A.u1" needs:
+            true
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

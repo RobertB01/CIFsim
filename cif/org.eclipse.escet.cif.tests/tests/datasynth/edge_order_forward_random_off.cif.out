@@ -123,13 +123,13 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): Counter.zero and Actuator.Off
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "Actuator.on" needs:
-        Counter.zero
-      Event "Actuator.off" needs:
-        Counter.five
+        Event "Actuator.on" needs:
+            Counter.zero
+        Event "Actuator.off" needs:
+            Counter.five
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -236,10 +236,10 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event Counter.inc: guard: not Counter.five -> true [assume not Counter.five].
-  Event Counter.dec: guard: not Counter.zero -> true [assume not Counter.zero].
-  Event Actuator.on: guard: Counter.zero and Actuator.Off -> Counter.zero [assume Actuator.Off].
-  Event Actuator.off: guard: Counter.five and Actuator.On -> Counter.five [assume Actuator.On].
+    Event Counter.inc: guard: not Counter.five -> true [assume not Counter.five].
+    Event Counter.dec: guard: not Counter.zero -> true [assume not Counter.zero].
+    Event Actuator.on: guard: Counter.zero and Actuator.Off -> Counter.zero [assume Actuator.Off].
+    Event Actuator.off: guard: Counter.five and Actuator.On -> Counter.five [assume Actuator.On].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/edge_order_forward_random_off.ctrlsys.real.cif".

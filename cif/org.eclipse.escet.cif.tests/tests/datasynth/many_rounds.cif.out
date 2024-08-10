@@ -136,10 +136,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p.x = 1 and p.l1 or (p.x = 9 and p.l5 or p.x = 5 and p.l3) or (p.x = 3 and p.l2 or (p.x = 11 and p.l6 or p.x = 7 and p.l4))
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

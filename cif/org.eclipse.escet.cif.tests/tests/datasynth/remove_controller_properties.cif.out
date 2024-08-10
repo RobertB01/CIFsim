@@ -32,13 +32,13 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): true
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "c" needs:
-        true
-      Event "u" needs:
-        true
+        Event "c" needs:
+            true
+        Event "u" needs:
+            true
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

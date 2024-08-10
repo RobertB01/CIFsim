@@ -123,13 +123,13 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): LightA.Red and LightB.Red
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "green_A" needs:
-        LightB.Red
-      Event "green_B" needs:
-        LightA.Red
+        Event "green_A" needs:
+            LightB.Red
+        Event "green_B" needs:
+            LightA.Red
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -218,10 +218,10 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event green_A: guard: LightA.Red and LightB.Red -> LightB.Red [assume LightA.Red].
-  Event red_A: guard: LightA.Green -> true [assume LightA.Green].
-  Event green_B: guard: LightA.Red and LightB.Red -> LightA.Red [assume LightB.Red].
-  Event red_B: guard: LightB.Green -> true [assume LightB.Green].
+    Event green_A: guard: LightA.Red and LightB.Red -> LightB.Red [assume LightA.Red].
+    Event red_A: guard: LightA.Green -> true [assume LightA.Green].
+    Event green_B: guard: LightA.Red and LightB.Red -> LightA.Red [assume LightB.Red].
+    Event red_B: guard: LightB.Green -> true [assume LightB.Green].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/traffic_lights_req_state_evt_excl_invs.ctrlsys.real.cif".

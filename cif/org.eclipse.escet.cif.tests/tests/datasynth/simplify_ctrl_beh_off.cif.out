@@ -143,10 +143,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p2.a and p1.a
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

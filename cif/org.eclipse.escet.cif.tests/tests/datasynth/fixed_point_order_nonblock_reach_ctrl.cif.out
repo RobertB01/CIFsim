@@ -137,10 +137,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p.l5 and p.y = 1
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -312,8 +312,8 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event p.c1: guard: (p.x = 0 or p.x = 2) and (p.l1 and p.y = 0) or (p.x = 1 and (p.l1 and p.y = 0) or p.x = 3 and p.l1) -> (p.x = 0 or p.x = 2) and p.y = 0 or (p.x = 1 and p.y = 0 or p.x = 3) [assume p.l1].
-  Event p.c3: guard: p.x = 2 and (p.l3 and p.y = 3) or p.x = 1 and (p.l3 and p.y = 2) or (p.x = 1 and (p.l3 and (p.y = 1 or p.y = 3)) or p.x = 3 and (p.l3 and p.y = 3)) -> (p.x = 0 or p.x = 2) and p.y = 3 or p.x = 1 and p.y = 2 or (p.x = 1 and (p.y = 1 or p.y = 3) or p.x = 3 and p.y = 3) [assume p.x = 2 and p.l3 or (p.x = 1 or p.x = 3) and p.l3].
+    Event p.c1: guard: (p.x = 0 or p.x = 2) and (p.l1 and p.y = 0) or (p.x = 1 and (p.l1 and p.y = 0) or p.x = 3 and p.l1) -> (p.x = 0 or p.x = 2) and p.y = 0 or (p.x = 1 and p.y = 0 or p.x = 3) [assume p.l1].
+    Event p.c3: guard: p.x = 2 and (p.l3 and p.y = 3) or p.x = 1 and (p.l3 and p.y = 2) or (p.x = 1 and (p.l3 and (p.y = 1 or p.y = 3)) or p.x = 3 and (p.l3 and p.y = 3)) -> (p.x = 0 or p.x = 2) and p.y = 3 or p.x = 1 and p.y = 2 or (p.x = 1 and (p.y = 1 or p.y = 3) or p.x = 3 and p.y = 3) [assume p.x = 2 and p.l3 or (p.x = 1 or p.x = 3) and p.l3].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/fixed_point_order_nonblock_reach_ctrl.ctrlsys.real.cif".

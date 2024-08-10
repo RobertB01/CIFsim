@@ -127,10 +127,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

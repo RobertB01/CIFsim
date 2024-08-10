@@ -38,12 +38,12 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): true
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "f" needs:
-        (2 <= a.x and a.x <= 7 or 10 <= a.x and a.x <= 25) and (not(a.x = 4 or a.x = 5) and not(a.x = 2 or a.x = 3 or (a.x = 6 or a.x = 7)))
-        0 <= a.x and a.x <= 15
+        Event "f" needs:
+            (2 <= a.x and a.x <= 7 or 10 <= a.x and a.x <= 25) and (not(a.x = 4 or a.x = 5) and not(a.x = 2 or a.x = 3 or (a.x = 6 or a.x = 7)))
+            0 <= a.x and a.x <= 15
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -160,7 +160,7 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
+    Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
 
 Constructing output CIF specification.
 BDD cache statistics:

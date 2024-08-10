@@ -37,11 +37,11 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): a.l1
 
     State/event exclusion plants:
-      Event "u" needs:
-        false
+        Event "u" needs:
+            false
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system (state/event exclusion plants not applied yet):
         State: (controlled-behavior: ?)

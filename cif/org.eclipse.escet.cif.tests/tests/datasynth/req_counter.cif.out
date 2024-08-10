@@ -139,13 +139,13 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): 0 <= count_max3.cnt and (count_max3.cnt <= 3 and adder.l1)
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "adder.c_add" needs:
-        true
-      Event "adder.u_remove" needs:
-        true
+        Event "adder.c_add" needs:
+            true
+        Event "adder.u_remove" needs:
+            true
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -248,7 +248,7 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event adder.c_add: guard: count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and not adder.l3) -> count_max3.cnt = 0 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1) [assume not adder.l3].
+    Event adder.c_add: guard: count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and not adder.l3) -> count_max3.cnt = 0 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1) [assume not adder.l3].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/req_counter.ctrlsys.real.cif".

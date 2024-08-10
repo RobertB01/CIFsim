@@ -139,17 +139,17 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "Button1.u_pushed" needs:
-        LampOnWhileButtonPushed.Released
-      Event "Button1.u_released" needs:
-        LampOnWhileButtonPushed.Pushed
-      Event "Lamp1.c_on" needs:
-        LampOnWhileButtonPushed.Pushed
-      Event "Lamp1.c_off" needs:
-        LampOnWhileButtonPushed.Released
+        Event "Button1.u_pushed" needs:
+            LampOnWhileButtonPushed.Released
+        Event "Button1.u_released" needs:
+            LampOnWhileButtonPushed.Pushed
+        Event "Lamp1.c_on" needs:
+            LampOnWhileButtonPushed.Pushed
+        Event "Lamp1.c_off" needs:
+            LampOnWhileButtonPushed.Released
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -244,8 +244,8 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event Lamp1.c_on: guard: Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Pushed and LampOnWhileButtonPushed.Pushed [assume Lamp1.Off].
-  Event Lamp1.c_off: guard: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On) -> Button1.Released and LampOnWhileButtonPushed.Released [assume Lamp1.On].
+    Event Lamp1.c_on: guard: Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Pushed and LampOnWhileButtonPushed.Pushed [assume Lamp1.Off].
+    Event Lamp1.c_off: guard: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On) -> Button1.Released and LampOnWhileButtonPushed.Released [assume Lamp1.On].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/example_button_lamp.ctrlsys.real.cif".

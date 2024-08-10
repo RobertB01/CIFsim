@@ -38,15 +38,15 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): true
 
     State/event exclusion plants:
-      Event "c_b" needs:
-        p.x = 4 or (p.x = 5 or p.x = 3)
-      Event "c_c" needs:
-        p.x != 1
-      Event "c_d" needs:
-        p.x = 4 or p.x = 5
+        Event "c_b" needs:
+            p.x = 4 or (p.x = 5 or p.x = 3)
+        Event "c_c" needs:
+            p.x != 1
+        Event "c_d" needs:
+            p.x = 4 or p.x = 5
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system (state/event exclusion plants not applied yet):
         State: (controlled-behavior: ?)

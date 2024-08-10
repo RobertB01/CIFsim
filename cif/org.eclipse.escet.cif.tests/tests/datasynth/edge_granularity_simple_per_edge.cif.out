@@ -142,11 +142,11 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p2.l1 and p1.l1
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "b" needs:
-        false
+        Event "b" needs:
+            false
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -270,10 +270,10 @@ Initial (removed by supervisor):       p2.x = 3 and (p2.l1 and p1.l1)
 Initial (added by supervisor):         p2.x != 3 or (not p2.l1 or p1.l2)
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-  Initial: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) -> p2.x != 3 [assume p2.l1 and p1.l1].
+    Initial: (p2.x = 0 or p2.x = 2) and (p2.l1 and p1.l1) or p2.x = 1 and (p2.l1 and p1.l1) -> p2.x != 3 [assume p2.l1 and p1.l1].
 
 Simplification of controlled system under the assumption of the plants:
-  Event a: guard: p2.x = 0 and (p2.l2 and p1.l1) or (p2.x = 2 and p2.l2 or p2.x = 1 and p2.l2) -> (p2.x != 0 or p1.l1) and p2.x != 3 [assume p2.l2].
+    Event a: guard: p2.x = 0 and (p2.l2 and p1.l1) or (p2.x = 2 and p2.l2 or p2.x = 1 and p2.l2) -> (p2.x != 0 or p1.l1) and p2.x != 3 [assume p2.l2].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/edge_granularity_simple_per_edge.ctrlsys.real.cif".

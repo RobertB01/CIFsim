@@ -73,10 +73,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): not io.sensor2 and not io.sensor3
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

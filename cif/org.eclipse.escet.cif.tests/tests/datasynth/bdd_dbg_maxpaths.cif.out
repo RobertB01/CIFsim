@@ -39,10 +39,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

@@ -147,11 +147,11 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): r2.l2 and r1.l2
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "p.e2" needs:
-        (r1.x = 0 or r1.x = 2) and r1.l1 or r1.x = 1 and r1.l1
+        Event "p.e2" needs:
+            (r1.x = 0 or r1.x = 2) and r1.l1 or r1.x = 1 and r1.l1
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

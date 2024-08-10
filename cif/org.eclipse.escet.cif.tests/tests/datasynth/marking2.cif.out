@@ -124,10 +124,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

@@ -147,10 +147,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -230,13 +230,13 @@ Initial (removed by supervisor):       <bdd 35n 387p>
 Initial (added by supervisor):         <bdd 35n 401p>
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-  Initial: <bdd 21n 3p> -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or (p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 3 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) [assume <bdd 16n 243p>].
+    Initial: <bdd 21n 3p> -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or (p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 3 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) [assume <bdd 16n 243p>].
 
 Simplification of controlled system under the assumption of the plants:
-  Event p.em2: guard: p.m1 = 1 and ((p.m2 = 1 or p.m2 = 3) and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and (p.m2 = 1 or p.m2 = 3) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
-  Event p.em3: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
-  Event p.em4: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
-  Event p.em5: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
+    Event p.em2: guard: p.m1 = 1 and ((p.m2 = 1 or p.m2 = 3) and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and (p.m2 = 1 or p.m2 = 3) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
+    Event p.em3: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
+    Event p.em4: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
+    Event p.em5: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/asgn_mod.ctrlsys.real.cif".

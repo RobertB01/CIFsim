@@ -139,17 +139,17 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): motor1.Off and (order.l1 and motor2.On)
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "motor1.c_on" needs:
-        order.l1
-      Event "motor1.c_off" needs:
-        order.l4
-      Event "motor2.c_on" needs:
-        order.l3
-      Event "motor2.c_off" needs:
-        order.l2
+        Event "motor1.c_on" needs:
+            order.l1
+        Event "motor1.c_off" needs:
+            order.l4
+        Event "motor2.c_on" needs:
+            order.l3
+        Event "motor2.c_off" needs:
+            order.l2
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -245,10 +245,10 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event motor1.c_on: guard: motor1.Off and (order.l1 and motor2.On) -> order.l1 and motor2.On [assume motor1.Off].
-  Event motor1.c_off: guard: motor1.On and (order.l4 and motor2.On) -> order.l4 and motor2.On [assume motor1.On].
-  Event motor2.c_on: guard: motor1.On and (order.l3 and motor2.Off) -> motor1.On and order.l3 [assume motor2.Off].
-  Event motor2.c_off: guard: motor1.On and (order.l2 and motor2.On) -> motor1.On and order.l2 [assume motor2.On].
+    Event motor1.c_on: guard: motor1.Off and (order.l1 and motor2.On) -> order.l1 and motor2.On [assume motor1.Off].
+    Event motor1.c_off: guard: motor1.On and (order.l4 and motor2.On) -> order.l4 and motor2.On [assume motor1.On].
+    Event motor2.c_on: guard: motor1.On and (order.l3 and motor2.Off) -> motor1.On and order.l3 [assume motor2.Off].
+    Event motor2.c_off: guard: motor1.On and (order.l2 and motor2.On) -> motor1.On and order.l2 [assume motor2.On].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/diamond.ctrlsys.real.cif".

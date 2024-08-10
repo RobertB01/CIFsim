@@ -38,11 +38,11 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p.x = 4 or (p.x = 6 or p.x = 5)
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "c" needs:
-        p.x = 4 or p.x = 3
+        Event "c" needs:
+            p.x = 4 or p.x = 3
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

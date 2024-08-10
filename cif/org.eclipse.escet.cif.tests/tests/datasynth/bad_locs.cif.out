@@ -136,11 +136,11 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): not p.l4 and (not p.l5 and not p.l6)
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "u" needs:
-        p.x != 5
+        Event "u" needs:
+            p.x != 5
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -241,7 +241,7 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event c: guard: p.l0 -> p.l0 or p.l1 [assume p.l0 or (p.l4 or p.l2)].
+    Event c: guard: p.l0 -> p.l0 or p.l1 [assume p.l0 or (p.l4 or p.l2)].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/bad_locs.ctrlsys.real.cif".

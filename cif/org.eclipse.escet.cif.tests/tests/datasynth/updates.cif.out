@@ -127,10 +127,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): true
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -274,12 +274,12 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event e: guard: p.v != 0 and (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and ((p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)) and p.v != 5)) -> (1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 0)) and ((1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 2)) and (1 <= p.v and p.v <= 3 or p.v = 5 or (p.w = 0 or (p.w = 2 or p.w = 4)))) [assume p.v != 0 and p.v != 5].
-  Event f: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
-  Event g: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and p.v != 5 -> 1 <= p.v and p.v <= 3 or p.v = 5 [assume p.v != 0 and p.v != 5].
-  Event i: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
-  Event j: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
-  Event k: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
+    Event e: guard: p.v != 0 and (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and ((p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)) and p.v != 5)) -> (1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 0)) and ((1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 2)) and (1 <= p.v and p.v <= 3 or p.v = 5 or (p.w = 0 or (p.w = 2 or p.w = 4)))) [assume p.v != 0 and p.v != 5].
+    Event f: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
+    Event g: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and p.v != 5 -> 1 <= p.v and p.v <= 3 or p.v = 5 [assume p.v != 0 and p.v != 5].
+    Event i: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
+    Event j: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
+    Event k: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/updates.ctrlsys.real.cif".

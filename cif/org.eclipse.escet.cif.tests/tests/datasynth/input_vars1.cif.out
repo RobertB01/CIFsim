@@ -124,10 +124,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): io.b and (io.i = 3 and io.e = A)
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

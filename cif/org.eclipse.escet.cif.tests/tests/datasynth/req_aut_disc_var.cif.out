@@ -40,11 +40,11 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): true
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "c" needs:
-        r.x = 5
+        Event "c" needs:
+            r.x = 5
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

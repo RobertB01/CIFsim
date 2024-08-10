@@ -128,10 +128,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3)
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -216,7 +216,7 @@ Initial (removed by supervisor):       p.loc1 and (p.x = 0 or p.x = 2) or p.loc1
 Initial (added by supervisor):         (p.loc2 or (p.x = 1 or 3 <= p.x and p.x <= 5)) and (p.loc2 or p.x != 1)
 
 Simplification of controlled system under the assumption of the state plant invariants:
-  Event e: guard: p.loc1 and (p.x = 4 or p.x = 5) or p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3) -> not(p.x = 2 or p.x = 3) [assume p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))].
+    Event e: guard: p.loc1 and (p.x = 4 or p.x = 5) or p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3) -> not(p.x = 2 or p.x = 3) [assume p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/simplify_state_plant_invs_on.ctrlsys.real.cif".

@@ -38,18 +38,18 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): true
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "f" needs:
-        (2 <= a.x and a.x <= 7 or 10 <= a.x and a.x <= 25) and (not(a.x = 4 or a.x = 5) and not(a.x = 2 or a.x = 3 or (a.x = 6 or a.x = 7)))
-        0 <= a.x and a.x <= 15
-      Event "g" needs:
-        not(a.x = 0 or a.x = 2 or (a.x = 8 or a.x = 10)) and not(a.x = 4 or a.x = 6) and (not(a.x = 1 or a.x = 9) and (a.x != 5 and not(a.x = 3 or a.x = 7)))
-        not(a.x = 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))) and not(a.x = 17 or (a.x = 21 or a.x = 25)) and (a.x != 19 and (a.x != 23 and a.x != 15))
-      Event "h" needs:
-        (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 25) and not(4 <= a.x and a.x <= 7)
-        (0 <= a.x and a.x <= 15 or a.x = 18 or (a.x = 19 or (a.x = 22 or a.x = 23))) and not(a.x = 18 or a.x = 19) and (not(a.x = 22 or a.x = 23) and not(a.x = 14 or a.x = 15))
+        Event "f" needs:
+            (2 <= a.x and a.x <= 7 or 10 <= a.x and a.x <= 25) and (not(a.x = 4 or a.x = 5) and not(a.x = 2 or a.x = 3 or (a.x = 6 or a.x = 7)))
+            0 <= a.x and a.x <= 15
+        Event "g" needs:
+            not(a.x = 0 or a.x = 2 or (a.x = 8 or a.x = 10)) and not(a.x = 4 or a.x = 6) and (not(a.x = 1 or a.x = 9) and (a.x != 5 and not(a.x = 3 or a.x = 7)))
+            not(a.x = 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))) and not(a.x = 17 or (a.x = 21 or a.x = 25)) and (a.x != 19 and (a.x != 23 and a.x != 15))
+        Event "h" needs:
+            (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 25) and not(4 <= a.x and a.x <= 7)
+            (0 <= a.x and a.x <= 15 or a.x = 18 or (a.x = 19 or (a.x = 22 or a.x = 23))) and not(a.x = 18 or a.x = 19) and (not(a.x = 22 or a.x = 23) and not(a.x = 14 or a.x = 15))
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -174,7 +174,7 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
+    Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/inv_state_evt_exclusion_req_comp.ctrlsys.real.cif".

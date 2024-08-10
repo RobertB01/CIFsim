@@ -149,11 +149,11 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): r1.inactive and r2.inactive and (r3.inactive and q.l1)
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "add" needs:
-        q.l1
+        Event "add" needs:
+            q.l1
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -261,12 +261,12 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event r1.activate: guard: r1.inactive and r3.inactive -> r3.inactive [assume r1.inactive].
-  Event r1.deactivate: guard: r1.active -> true [assume r1.active].
-  Event r2.activate: guard: r1.inactive and r2.inactive or r1.active and (r2.inactive and r3.inactive) -> r1.inactive or r3.inactive [assume r2.inactive].
-  Event r2.deactivate: guard: r1.inactive and r2.active or r1.active and (r2.active and r3.inactive) -> r1.inactive or r3.inactive [assume r2.active].
-  Event r3.activate: guard: r1.inactive and r3.inactive -> r1.inactive [assume r3.inactive].
-  Event r3.deactivate: guard: r3.active -> true [assume r3.active].
+    Event r1.activate: guard: r1.inactive and r3.inactive -> r3.inactive [assume r1.inactive].
+    Event r1.deactivate: guard: r1.active -> true [assume r1.active].
+    Event r2.activate: guard: r1.inactive and r2.inactive or r1.active and (r2.inactive and r3.inactive) -> r1.inactive or r3.inactive [assume r2.inactive].
+    Event r2.deactivate: guard: r1.inactive and r2.active or r1.active and (r2.active and r3.inactive) -> r1.inactive or r3.inactive [assume r2.active].
+    Event r3.activate: guard: r1.inactive and r3.inactive -> r1.inactive [assume r3.inactive].
+    Event r3.deactivate: guard: r3.active -> true [assume r3.active].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/alg_vars.ctrlsys.real.cif".

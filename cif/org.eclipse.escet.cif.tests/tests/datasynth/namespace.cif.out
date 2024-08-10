@@ -139,15 +139,15 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): g.r.loc1
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "c" needs:
-        (g.r.x = 1 or g.r.x = 3) and g.r.loc1
-      Event "p.u" needs:
-        g.r.loc1
-      Event "p.c2" needs:
-        g.r.loc1 and g.r.y = 0
+        Event "c" needs:
+            (g.r.x = 1 or g.r.x = 3) and g.r.loc1
+        Event "p.u" needs:
+            g.r.loc1
+        Event "p.c2" needs:
+            g.r.loc1 and g.r.y = 0
 
     Uncontrolled system:
         State: (controlled-behavior: ?)

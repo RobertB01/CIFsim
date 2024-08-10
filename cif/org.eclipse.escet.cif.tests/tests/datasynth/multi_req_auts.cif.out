@@ -131,15 +131,15 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): r2.l1 and r3.l1
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      Event "a" needs:
-        true
-        true
-      Event "b" needs:
-        r2.l2
-        r3.l3
+        Event "a" needs:
+            true
+            true
+        Event "b" needs:
+            r2.l2
+            r3.l3
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -288,7 +288,7 @@ Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
-  Event a: guard: <bdd 26n 12p> -> <bdd 23n 12p> [assume p.x != 13].
+    Event a: guard: <bdd 26n 12p> -> <bdd 23n 12p> [assume p.x != 13].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/multi_req_auts.ctrlsys.real.cif".

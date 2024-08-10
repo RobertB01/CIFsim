@@ -147,10 +147,10 @@ Showing input and checking for potential problems:
     Marked    (system, combined mark/state inv): p.d1 = 1 and (p.d2 = 1 and p.loc2) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1))
 
     State/event exclusion plants:
-      None
+        None
 
     State/event exclusion requirements:
-      None
+        None
 
     Uncontrolled system:
         State: (controlled-behavior: ?)
@@ -232,14 +232,14 @@ Initial (removed by supervisor):       <bdd 41n 405p>
 Initial (added by supervisor):         <bdd 41n 421p>
 
 Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-  Initial: <bdd 27n 6p> -> p.d1 = 1 and p.d2 = 2 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1))) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 3 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)))) [assume <bdd 16n 243p>].
+    Initial: <bdd 27n 6p> -> p.d1 = 1 and p.d2 = 2 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1))) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 3 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)))) [assume <bdd 16n 243p>].
 
 Simplification of controlled system under the assumption of the plants:
-  Event p.ed1: guard: p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) -> p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) [assume p.loc1].
-  Event p.ed2: guard: p.d1 = 1 and ((p.d2 = 2 or p.d2 = 3) and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) -> p.d1 = 1 and (p.d2 = 2 or p.d2 = 3) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) [assume p.loc1].
-  Event p.ed3: guard: p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) -> p.d1 = 1 and p.d2 = 1 and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 1 and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) [assume p.loc1].
-  Event p.ed4: guard: p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1)) -> p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1)) [assume p.loc1].
-  Event p.ed5: guard: false -> false [assume p.loc1].
+    Event p.ed1: guard: p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) -> p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) [assume p.loc1].
+    Event p.ed2: guard: p.d1 = 1 and ((p.d2 = 2 or p.d2 = 3) and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) -> p.d1 = 1 and (p.d2 = 2 or p.d2 = 3) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) [assume p.loc1].
+    Event p.ed3: guard: p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) -> p.d1 = 1 and p.d2 = 1 and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 1 and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) [assume p.loc1].
+    Event p.ed4: guard: p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1)) -> p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1)) [assume p.loc1].
+    Event p.ed5: guard: false -> false [assume p.loc1].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/asgn_div.ctrlsys.real.cif".
