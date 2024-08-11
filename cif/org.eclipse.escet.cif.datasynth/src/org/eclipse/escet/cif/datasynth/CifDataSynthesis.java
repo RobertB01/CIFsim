@@ -1638,7 +1638,8 @@ public class CifDataSynthesis {
         // controllable events, by putting extra restrictions in the controlled system guards.
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line("Computing controlled system guards.");
+            cifBddSpec.settings.getDebugOutput().line("Computing final controlled system guards:");
+            cifBddSpec.settings.getDebugOutput().inc();
         }
 
         boolean guardUpdated = false;
@@ -1647,6 +1648,9 @@ public class CifDataSynthesis {
                 continue;
             }
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
 
@@ -1654,11 +1658,17 @@ public class CifDataSynthesis {
             updPred = edge.apply(updPred, CifBddEdgeApplyDirection.BACKWARD, null);
             edge.cleanupApply();
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
 
             BDD newGuard = edge.guard.id().andWith(updPred);
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
 
@@ -1666,9 +1676,6 @@ public class CifDataSynthesis {
                 newGuard.free();
             } else {
                 if (dbgEnabled) {
-                    if (!guardUpdated) {
-                        cifBddSpec.settings.getDebugOutput().line();
-                    }
                     cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s.",
                             edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
                             bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec));
@@ -1677,6 +1684,13 @@ public class CifDataSynthesis {
                 edge.guard = newGuard;
                 guardUpdated = true;
             }
+        }
+
+        if (dbgEnabled) {
+            if (!guardUpdated) {
+                cifBddSpec.settings.getDebugOutput().line("No guards changed.");
+            }
+            cifBddSpec.settings.getDebugOutput().dec();
         }
     }
 
