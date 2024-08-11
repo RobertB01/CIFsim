@@ -145,7 +145,7 @@ public class CifMddSpec {
                 debugOutput.line();
             }
             first = false;
-            debugOutput.line("Analyzing %s...", CifTextUtils.getComponentText1(aut));
+            debugOutput.line("Analyzing %s:", CifTextUtils.getComponentText1(aut));
             Set<Event> controllableAutEvents = intersection(CifEventUtils.getAlphabet(aut), allControllableEvents);
             if (!controllableAutEvents.isEmpty()) {
                 if (!processAutomaton(aut, controllableAutEvents)) {
@@ -176,7 +176,7 @@ public class CifMddSpec {
         debugOutput.inc();
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {
-            debugOutput.line("Initializing the automaton data for event \"%s\"...", CifTextUtils.getAbsName(evt));
+            debugOutput.line("Initializing the automaton data for event \"%s\".", CifTextUtils.getAbsName(evt));
             autGuards.put(evt, Tree.ZERO);
             if (autGuardedUpdates != null) {
                 autGuardedUpdates.put(evt, Tree.ZERO);
@@ -198,7 +198,7 @@ public class CifMddSpec {
 
         // Process the locations and edges.
         for (Location loc: aut.getLocations()) {
-            debugOutput.line("Processing edges from %s...", CifTextUtils.getLocationText2(loc));
+            debugOutput.line("Processing edges from %s.", CifTextUtils.getLocationText2(loc));
             for (Edge edge: loc.getEdges()) {
                 // Filter on relevant events.
                 Set<Event> controllableEdgeEvents = intersection(CifEventUtils.getEvents(edge), controllableAutEvents);
@@ -250,7 +250,7 @@ public class CifMddSpec {
 
         // At global level, guards and updates of each event must synchronize between participating automata.
         for (Event autEvent: controllableAutEvents) {
-            debugOutput.line("Updating global guards and updates for event \"%s\"...",
+            debugOutput.line("Updating global guards and updates for event \"%s\".",
                     CifTextUtils.getAbsName(autEvent));
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));

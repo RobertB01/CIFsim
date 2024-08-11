@@ -137,7 +137,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
 
                 String evt2Name = CifTextUtils.getAbsName(event2);
                 if (DEBUG_GLOBAL) {
-                    dbg.line("Trying event pair (" + evt1Name + ", " + evt2Name + ")...");
+                    dbg.line("Trying event pair (" + evt1Name + ", " + evt2Name + ").");
                 }
 
                 Node globalGuard2 = entry2.getValue();

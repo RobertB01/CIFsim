@@ -95,7 +95,7 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
         settings.check();
 
         // Load specification.
-        OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
+        OutputProvider.dbg("Loading CIF specification \"%s\".", InputFileOption.getPath());
         CifReader cifReader = new CifReader();
         Specification spec = cifReader.init().read();
         String specAbsPath = Paths.resolve(InputFileOption.getPath());

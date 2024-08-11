@@ -67,7 +67,7 @@ public class NonBlockingUnderControlCheck
         // backwards reachability computation from 'marked and not gc', using all edges. For the edges of the
         // uncontrollable events, use 'guard and not gc' instead of the 'guard' of the edge.
         dbg.line();
-        dbg.line("Computing the controllable-complete path states...");
+        dbg.line("Computing the controllable-complete path states:");
         dbg.inc();
 
         BDD ccp = computeCcp(cifBddSpec, notGc);
@@ -83,7 +83,7 @@ public class NonBlockingUnderControlCheck
         // performing a backwards reachability computation on 'not ccp', using all edges. Unlike in step 2, the
         // original/unchanged guards of the edges are used.
         dbg.line();
-        dbg.line("Computing the bad states...");
+        dbg.line("Computing the bad states:");
         dbg.inc();
 
         BDD bad = computeBad(cifBddSpec, ccp);
@@ -100,7 +100,7 @@ public class NonBlockingUnderControlCheck
         //
         // We can use 'initial' rather than 'initialInv', since preconditions forbid state invariants.
         dbg.line();
-        dbg.line("Computing the result of the non-blocking under control check...");
+        dbg.line("Computing the result of the non-blocking under control check:");
         dbg.inc();
 
         BDD initialAndBad = cifBddSpec.initial.id().andWith(bad);

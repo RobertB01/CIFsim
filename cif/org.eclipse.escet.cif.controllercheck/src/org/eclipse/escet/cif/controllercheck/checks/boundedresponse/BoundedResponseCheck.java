@@ -59,7 +59,7 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
 
         // Compute uncontrollables bounds.
         dbg.line();
-        dbg.line("Computing bound for uncontrollable events...");
+        dbg.line("Computing bound for uncontrollable events:");
         dbg.inc();
 
         Bound uncontrollablesBound;
@@ -79,7 +79,7 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
 
         // Compute controllables bounds.
         dbg.line();
-        dbg.line("Computing bound for controllable events...");
+        dbg.line("Computing bound for controllable events:");
         dbg.inc();
 
         Bound controllablesBound;
