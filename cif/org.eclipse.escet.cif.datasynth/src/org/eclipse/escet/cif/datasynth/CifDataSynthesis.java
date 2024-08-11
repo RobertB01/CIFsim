@@ -257,6 +257,10 @@ public class CifDataSynthesis {
             if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("Cleaning up edges for being applied.");
+            }
             for (CifBddEdge edge: cifBddSpec.edges) {
                 edge.cleanupApply();
             }
