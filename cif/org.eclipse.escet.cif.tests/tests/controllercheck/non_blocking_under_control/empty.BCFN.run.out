@@ -6,6 +6,7 @@ Preparing for BDD-based checks:
         No guards changed.
 
 Preparing for MDD-based checks:
+    No controllable events.
 
 Checking for bounded response:
     Computing reachable states:
