@@ -4,6 +4,7 @@ Preparing for MDD-based checks:
         Nothing to process.
 
 Checking for finite response:
+    No controllable events. Finite response trivially holds.
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

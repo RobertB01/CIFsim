@@ -45,6 +45,7 @@ Checking for non-blocking under control:
     Non-blocking under control: yes
 
 Checking for finite response:
+    No controllable events. Finite response trivially holds.
 
 Checking for confluence:
     Confluence trivially holds.
