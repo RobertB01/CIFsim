@@ -4,7 +4,7 @@ Preparing for MDD-based checks:
         Nothing to process.
 
 Checking for confluence:
-    Confluence trivially holds.
+    No controllable events. Confluence trivially holds.
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

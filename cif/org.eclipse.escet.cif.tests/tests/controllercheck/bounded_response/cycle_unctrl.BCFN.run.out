@@ -74,7 +74,7 @@ Checking for finite response:
     No controllable events. Finite response trivially holds.
 
 Checking for confluence:
-    Confluence trivially holds.
+    No controllable events. Confluence trivially holds.
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
