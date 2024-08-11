@@ -275,11 +275,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 12 states.
 
-Initial (synthesis result):            true
-Initial (uncontrolled system):         Counter.zero and Actuator.Off
-Initial (controlled system):           Counter.zero and Actuator.Off
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            true
+    Initial (uncontrolled system):         Counter.zero and Actuator.Off
+    Initial (controlled system):           Counter.zero and Actuator.Off
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

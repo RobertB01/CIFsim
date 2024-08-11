@@ -272,11 +272,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 12 states.
 
-Initial (synthesis result):            true
-Initial (uncontrolled system):         p.x = 0 and p.increase
-Initial (controlled system):           p.x = 0 and p.increase
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            true
+    Initial (uncontrolled system):         p.x = 0 and p.increase
+    Initial (controlled system):           p.x = 0 and p.increase
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

@@ -270,11 +270,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 4 states.
 
-Initial (synthesis result):            motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))
-Initial (uncontrolled system):         motor1.Off and (order.l1 and motor2.On)
-Initial (controlled system):           motor1.Off and (order.l1 and motor2.On)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))
+    Initial (uncontrolled system):         motor1.Off and (order.l1 and motor2.On)
+    Initial (controlled system):           motor1.Off and (order.l1 and motor2.On)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

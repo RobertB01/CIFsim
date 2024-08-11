@@ -291,11 +291,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 360 states.
 
-Initial (synthesis result):            (1 <= A.Vc1 and A.Vc1 <= 3 or A.Vc1 = 5 or (A.Vc2 = 1 or (3 <= A.Vc2 and A.Vc2 <= 5 or 0 <= A.Vc3 and A.Vc3 <= 3))) and (1 <= A.Vc1 and A.Vc1 <= 3 or (A.Vc1 = 5 or A.Vc2 != 4)) and ((1 <= A.Vc1 and A.Vc1 <= 3 or A.Vc1 = 5 or (A.Vc2 != 1 or 0 <= A.Vc3 and A.Vc3 <= 3)) and (1 <= A.Vc1 and A.Vc1 <= 3 or (A.Vc1 = 5 or A.Vc2 != 5))) and ((1 <= A.Vc1 and A.Vc1 <= 3 or (A.Vc1 = 5 or A.Vc2 != 3)) and (A.Vc1 != 2 or A.Vc2 = 1 or (3 <= A.Vc2 and A.Vc2 <= 5 or 0 <= A.Vc3 and A.Vc3 <= 3)) and ((A.Vc1 != 2 or A.Vc2 != 4) and (A.Vc1 != 2 or (A.Vc2 != 1 or 0 <= A.Vc3 and A.Vc3 <= 3)))) and ((A.Vc1 != 2 or A.Vc2 != 5) and (A.Vc1 != 2 or A.Vc2 != 3) and ((not(A.Vc1 = 1 or A.Vc1 = 3) or A.Vc2 = 1 or (3 <= A.Vc2 and A.Vc2 <= 5 or 0 <= A.Vc3 and A.Vc3 <= 3)) and (not(A.Vc1 = 1 or A.Vc1 = 3) or A.Vc2 != 4)) and ((not(A.Vc1 = 1 or A.Vc1 = 3) or (A.Vc2 != 1 or 0 <= A.Vc3 and A.Vc3 <= 3)) and (not(A.Vc1 = 1 or A.Vc1 = 3) or A.Vc2 != 5) and ((not(A.Vc1 = 1 or A.Vc1 = 3) or A.Vc2 != 3) and A.Vc1 != 5)))
-Initial (uncontrolled system):         A.Vc1 = 0 and A.Vc2 = 0 and (A.Vc3 = 0 and A.Vc4 = 0)
-Initial (controlled system):           A.Vc1 = 0 and A.Vc2 = 0 and (A.Vc3 = 0 and A.Vc4 = 0)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            (1 <= A.Vc1 and A.Vc1 <= 3 or A.Vc1 = 5 or (A.Vc2 = 1 or (3 <= A.Vc2 and A.Vc2 <= 5 or 0 <= A.Vc3 and A.Vc3 <= 3))) and (1 <= A.Vc1 and A.Vc1 <= 3 or (A.Vc1 = 5 or A.Vc2 != 4)) and ((1 <= A.Vc1 and A.Vc1 <= 3 or A.Vc1 = 5 or (A.Vc2 != 1 or 0 <= A.Vc3 and A.Vc3 <= 3)) and (1 <= A.Vc1 and A.Vc1 <= 3 or (A.Vc1 = 5 or A.Vc2 != 5))) and ((1 <= A.Vc1 and A.Vc1 <= 3 or (A.Vc1 = 5 or A.Vc2 != 3)) and (A.Vc1 != 2 or A.Vc2 = 1 or (3 <= A.Vc2 and A.Vc2 <= 5 or 0 <= A.Vc3 and A.Vc3 <= 3)) and ((A.Vc1 != 2 or A.Vc2 != 4) and (A.Vc1 != 2 or (A.Vc2 != 1 or 0 <= A.Vc3 and A.Vc3 <= 3)))) and ((A.Vc1 != 2 or A.Vc2 != 5) and (A.Vc1 != 2 or A.Vc2 != 3) and ((not(A.Vc1 = 1 or A.Vc1 = 3) or A.Vc2 = 1 or (3 <= A.Vc2 and A.Vc2 <= 5 or 0 <= A.Vc3 and A.Vc3 <= 3)) and (not(A.Vc1 = 1 or A.Vc1 = 3) or A.Vc2 != 4)) and ((not(A.Vc1 = 1 or A.Vc1 = 3) or (A.Vc2 != 1 or 0 <= A.Vc3 and A.Vc3 <= 3)) and (not(A.Vc1 = 1 or A.Vc1 = 3) or A.Vc2 != 5) and ((not(A.Vc1 = 1 or A.Vc1 = 3) or A.Vc2 != 3) and A.Vc1 != 5)))
+    Initial (uncontrolled system):         A.Vc1 = 0 and A.Vc2 = 0 and (A.Vc3 = 0 and A.Vc4 = 0)
+    Initial (controlled system):           A.Vc1 = 0 and A.Vc2 = 0 and (A.Vc3 = 0 and A.Vc4 = 0)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

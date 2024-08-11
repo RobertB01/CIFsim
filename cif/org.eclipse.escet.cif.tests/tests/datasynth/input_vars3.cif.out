@@ -229,11 +229,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 8 states.
 
-Initial (synthesis result):            true
-Initial (uncontrolled system):         not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
-Initial (controlled system):           not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            true
+    Initial (uncontrolled system):         not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+    Initial (controlled system):           not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

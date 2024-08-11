@@ -260,14 +260,17 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 6 states.
 
-Initial (synthesis result):            p.y = 0 and (p.x = 0 and p.l1) or p.y = 2 and (p.x = 0 and not p.y3) or (p.y = 1 and (p.x = 0 and p.l1) or p.y = 3 and (p.x = 0 and not p.y2))
-Initial (uncontrolled system):         p.l1
-Initial (controlled system):           p.x = 0 and p.l1
-Initial (removed by supervisor):       p.x = 2 and p.l1 or (p.x = 1 or p.x = 3) and p.l1
-Initial (added by supervisor):         (p.x != 2 or not p.l1) and (p.x = 0 or (p.x = 2 or not p.l1))
+Determining initialization predicate for output model:
+    Initial (synthesis result):            p.y = 0 and (p.x = 0 and p.l1) or p.y = 2 and (p.x = 0 and not p.y3) or (p.y = 1 and (p.x = 0 and p.l1) or p.y = 3 and (p.x = 0 and not p.y2))
+    Initial (uncontrolled system):         p.l1
+    Initial (controlled system):           p.x = 0 and p.l1
+    Initial (removed by supervisor):       p.x = 2 and p.l1 or (p.x = 1 or p.x = 3) and p.l1
+    Initial (added by supervisor):         (p.x != 2 or not p.l1) and (p.x = 0 or (p.x = 2 or not p.l1))
 
-Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-    Initial: p.x = 0 and p.l1 -> p.x = 0 [assume p.l1].
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Initial: p.x = 0 and p.l1 -> p.x = 0 [assume p.l1].
+
+    Initial (output model):                p.x = 0
 
 Checking post-synthesis for events that are never enabled.
 

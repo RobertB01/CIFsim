@@ -244,11 +244,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 342 states.
 
-Initial (synthesis result):            <bdd 14n 50p>
-Initial (uncontrolled system):         buffer1.add and (buffer1.count = 0 and buffer2.add) and (buffer2.count = 0 and (buffer3.add and buffer3.count = 0))
-Initial (controlled system):           buffer1.add and (buffer1.count = 0 and buffer2.add) and (buffer2.count = 0 and (buffer3.add and buffer3.count = 0))
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            <bdd 14n 50p>
+    Initial (uncontrolled system):         buffer1.add and (buffer1.count = 0 and buffer2.add) and (buffer2.count = 0 and (buffer3.add and buffer3.count = 0))
+    Initial (controlled system):           buffer1.add and (buffer1.count = 0 and buffer2.add) and (buffer2.count = 0 and (buffer3.add and buffer3.count = 0))
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

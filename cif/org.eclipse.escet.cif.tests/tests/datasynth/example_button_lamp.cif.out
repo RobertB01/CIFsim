@@ -273,11 +273,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 4 states.
 
-Initial (synthesis result):            (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)
-Initial (uncontrolled system):         Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Initial (controlled system):           Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)
+    Initial (uncontrolled system):         Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Initial (controlled system):           Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

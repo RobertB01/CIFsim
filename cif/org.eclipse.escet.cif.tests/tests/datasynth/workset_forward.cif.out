@@ -236,11 +236,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 7 states.
 
-Initial (synthesis result):            p1.c != 0 or not p2.b
-Initial (uncontrolled system):         p1.c = 0 and not p2.b
-Initial (controlled system):           p1.c = 0 and not p2.b
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            p1.c != 0 or not p2.b
+    Initial (uncontrolled system):         p1.c = 0 and not p2.b
+    Initial (controlled system):           p1.c = 0 and not p2.b
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

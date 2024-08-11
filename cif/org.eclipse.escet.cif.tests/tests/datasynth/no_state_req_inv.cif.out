@@ -102,8 +102,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 0 states.
 
-Initial (synthesis result):            false
-Initial (uncontrolled system):         p.x = 2 or p.x = 3
-Initial (controlled system):           false
-Initial (removed by supervisor):       p.x = 2 or p.x = 3
-Initial (added by supervisor):         not(p.x = 2 or p.x = 3)
+Determining initialization predicate for output model:
+    Initial (synthesis result):            false
+    Initial (uncontrolled system):         p.x = 2 or p.x = 3
+    Initial (controlled system):           false
+    Initial (removed by supervisor):       p.x = 2 or p.x = 3
+    Initial (added by supervisor):         not(p.x = 2 or p.x = 3)
+
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Predicate not changed.
+
+    Initial (output model):                false

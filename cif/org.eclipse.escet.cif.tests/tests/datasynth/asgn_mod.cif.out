@@ -254,14 +254,17 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 4 states.
 
-Initial (synthesis result):            <bdd 21n 4p>
-Initial (uncontrolled system):         <bdd 16n 243p>
-Initial (controlled system):           <bdd 21n 3p>
-Initial (removed by supervisor):       <bdd 35n 387p>
-Initial (added by supervisor):         <bdd 35n 401p>
+Determining initialization predicate for output model:
+    Initial (synthesis result):            <bdd 21n 4p>
+    Initial (uncontrolled system):         <bdd 16n 243p>
+    Initial (controlled system):           <bdd 21n 3p>
+    Initial (removed by supervisor):       <bdd 35n 387p>
+    Initial (added by supervisor):         <bdd 35n 401p>
 
-Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-    Initial: <bdd 21n 3p> -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or (p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 3 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) [assume <bdd 16n 243p>].
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Initial: <bdd 21n 3p> -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or (p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 3 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) [assume <bdd 16n 243p>].
+
+    Initial (output model):                p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or (p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 3 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)))
 
 Checking post-synthesis for events that are never enabled.
 

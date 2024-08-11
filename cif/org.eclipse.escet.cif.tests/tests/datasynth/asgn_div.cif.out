@@ -256,14 +256,17 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 7 states.
 
-Initial (synthesis result):            <bdd 27n 7p>
-Initial (uncontrolled system):         <bdd 16n 243p>
-Initial (controlled system):           <bdd 27n 6p>
-Initial (removed by supervisor):       <bdd 41n 405p>
-Initial (added by supervisor):         <bdd 41n 421p>
+Determining initialization predicate for output model:
+    Initial (synthesis result):            <bdd 27n 7p>
+    Initial (uncontrolled system):         <bdd 16n 243p>
+    Initial (controlled system):           <bdd 27n 6p>
+    Initial (removed by supervisor):       <bdd 41n 405p>
+    Initial (added by supervisor):         <bdd 41n 421p>
 
-Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-    Initial: <bdd 27n 6p> -> p.d1 = 1 and p.d2 = 2 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1))) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 3 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)))) [assume <bdd 16n 243p>].
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Initial: <bdd 27n 6p> -> p.d1 = 1 and p.d2 = 2 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1))) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 3 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)))) [assume <bdd 16n 243p>].
+
+    Initial (output model):                p.d1 = 1 and p.d2 = 2 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1))) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 3 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1))))
 
 Checking post-synthesis for events that are never enabled.
 

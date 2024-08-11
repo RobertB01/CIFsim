@@ -303,11 +303,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 15 states.
 
-Initial (synthesis result):            <bdd 23n 11p>
-Initial (uncontrolled system):         p.l1 and p.y = 0
-Initial (controlled system):           p.l1 and p.y = 0
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            <bdd 23n 11p>
+    Initial (uncontrolled system):         p.l1 and p.y = 0
+    Initial (controlled system):           p.l1 and p.y = 0
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

@@ -295,11 +295,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 48 states.
 
-Initial (synthesis result):            r1.inactive or r3.inactive
-Initial (uncontrolled system):         r1.inactive and r2.inactive and (r3.inactive and q.l1)
-Initial (controlled system):           r1.inactive and r2.inactive and (r3.inactive and q.l1)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            r1.inactive or r3.inactive
+    Initial (uncontrolled system):         r1.inactive and r2.inactive and (r3.inactive and q.l1)
+    Initial (controlled system):           r1.inactive and r2.inactive and (r3.inactive and q.l1)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

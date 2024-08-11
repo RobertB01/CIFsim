@@ -559,11 +559,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 2 states.
 
-Initial (synthesis result):            <bdd 70n 2p>
-Initial (uncontrolled system):         <bdd 69n 1p>
-Initial (controlled system):           <bdd 69n 1p>
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            <bdd 70n 2p>
+    Initial (uncontrolled system):         <bdd 69n 1p>
+    Initial (controlled system):           <bdd 69n 1p>
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

@@ -359,11 +359,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 79 states.
 
-Initial (synthesis result):            <bdd 55n 79p>
-Initial (uncontrolled system):         p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
-Initial (controlled system):           p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            <bdd 55n 79p>
+    Initial (uncontrolled system):         p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
+    Initial (controlled system):           p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither))
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

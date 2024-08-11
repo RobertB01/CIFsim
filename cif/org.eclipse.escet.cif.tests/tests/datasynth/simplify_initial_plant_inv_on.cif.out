@@ -153,14 +153,17 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 3 states.
 
-Initial (synthesis result):            p.x = 9 or (p.x = 5 or p.x = 7)
-Initial (uncontrolled system):         true
-Initial (controlled system):           p.x = 9 or (p.x = 5 or p.x = 7)
-Initial (removed by supervisor):       p.x != 9 and not(p.x = 5 or p.x = 7)
-Initial (added by supervisor):         p.x = 9 or (p.x = 5 or p.x = 7)
+Determining initialization predicate for output model:
+    Initial (synthesis result):            p.x = 9 or (p.x = 5 or p.x = 7)
+    Initial (uncontrolled system):         true
+    Initial (controlled system):           p.x = 9 or (p.x = 5 or p.x = 7)
+    Initial (removed by supervisor):       p.x != 9 and not(p.x = 5 or p.x = 7)
+    Initial (added by supervisor):         p.x = 9 or (p.x = 5 or p.x = 7)
 
-Simplification of controlled system initialization predicate under the assumption of the state plant invariants:
-    Initial: p.x = 9 or (p.x = 5 or p.x = 7) -> 2 <= p.x and (p.x <= 9 and not(p.x = 2 or p.x = 3)) [assume p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9))].
+    Simplifying of controlled system initialization predicate under the assumption of the state plant invariants:
+        Initial: p.x = 9 or (p.x = 5 or p.x = 7) -> 2 <= p.x and (p.x <= 9 and not(p.x = 2 or p.x = 3)) [assume p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9))].
+
+    Initial (output model):                2 <= p.x and (p.x <= 9 and not(p.x = 2 or p.x = 3))
 
 Checking post-synthesis for events that are never enabled.
 

@@ -254,11 +254,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 3 states.
 
-Initial (synthesis result):            LightA.Red or LightB.Red
-Initial (uncontrolled system):         LightA.Red and LightB.Red
-Initial (controlled system):           LightA.Red and LightB.Red
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            LightA.Red or LightB.Red
+    Initial (uncontrolled system):         LightA.Red and LightB.Red
+    Initial (controlled system):           LightA.Red and LightB.Red
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

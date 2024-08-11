@@ -102,8 +102,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 0 states.
 
-Initial (synthesis result):            false
-Initial (uncontrolled system):         <bdd 7n 1p>
-Initial (controlled system):           false
-Initial (removed by supervisor):       <bdd 7n 1p>
-Initial (added by supervisor):         <bdd 7n 7p>
+Determining initialization predicate for output model:
+    Initial (synthesis result):            false
+    Initial (uncontrolled system):         <bdd 7n 1p>
+    Initial (controlled system):           false
+    Initial (removed by supervisor):       <bdd 7n 1p>
+    Initial (added by supervisor):         <bdd 7n 7p>
+
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Predicate not changed.
+
+    Initial (output model):                false

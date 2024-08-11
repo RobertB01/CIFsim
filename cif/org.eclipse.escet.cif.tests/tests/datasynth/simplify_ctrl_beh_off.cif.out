@@ -276,11 +276,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 25 states.
 
-Initial (synthesis result):            (p2.x != 0 or (p1.x != 2 or p1.a)) and (p2.x != 0 or p1.x != 3) and ((p2.x != 2 or p2.b or (p1.x != 2 or p1.a)) and (p2.x != 2 or (p2.b or p1.x != 3))) and ((p2.x != 2 or p2.a) and (p2.x != 1 or (p1.x != 2 or p1.a)) and ((p2.x != 1 or p1.x != 3) and p2.x != 3))
-Initial (uncontrolled system):         p2.x = 0 and p2.a and (p1.x = 0 and p1.a)
-Initial (controlled system):           p2.x = 0 and p2.a and (p1.x = 0 and p1.a)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            (p2.x != 0 or (p1.x != 2 or p1.a)) and (p2.x != 0 or p1.x != 3) and ((p2.x != 2 or p2.b or (p1.x != 2 or p1.a)) and (p2.x != 2 or (p2.b or p1.x != 3))) and ((p2.x != 2 or p2.a) and (p2.x != 1 or (p1.x != 2 or p1.a)) and ((p2.x != 1 or p1.x != 3) and p2.x != 3))
+    Initial (uncontrolled system):         p2.x = 0 and p2.a and (p1.x = 0 and p1.a)
+    Initial (controlled system):           p2.x = 0 and p2.a and (p1.x = 0 and p1.a)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 

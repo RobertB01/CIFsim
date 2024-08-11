@@ -380,14 +380,17 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 2,110 states.
 
-Initial (synthesis result):            <bdd 105n 1,102p>
-Initial (uncontrolled system):         <bdd 14n 64p>
-Initial (controlled system):           <bdd 18n 55p>
-Initial (removed by supervisor):       <bdd 29n 95p>
-Initial (added by supervisor):         <bdd 29n 207p>
+Determining initialization predicate for output model:
+    Initial (synthesis result):            <bdd 105n 1,102p>
+    Initial (uncontrolled system):         <bdd 14n 64p>
+    Initial (controlled system):           <bdd 18n 55p>
+    Initial (removed by supervisor):       <bdd 29n 95p>
+    Initial (added by supervisor):         <bdd 29n 207p>
 
-Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-    Initial: <bdd 18n 55p> -> <bdd 13n 55p> [assume <bdd 14n 64p>].
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Initial: <bdd 18n 55p> -> <bdd 13n 55p> [assume <bdd 14n 64p>].
+
+    Initial (output model):                <bdd 13n 55p>
 
 Checking post-synthesis for events that are never enabled.
 

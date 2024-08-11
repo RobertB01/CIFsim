@@ -255,14 +255,17 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 4 states.
 
-Initial (synthesis result):            p.b
-Initial (uncontrolled system):         p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
-Initial (controlled system):           p.test and (p.b and io.sensor)
-Initial (removed by supervisor):       p.test and (not p.b and not io.sensor)
-Initial (added by supervisor):         p.done or (p.b or io.sensor)
+Determining initialization predicate for output model:
+    Initial (synthesis result):            p.b
+    Initial (uncontrolled system):         p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
+    Initial (controlled system):           p.test and (p.b and io.sensor)
+    Initial (removed by supervisor):       p.test and (not p.b and not io.sensor)
+    Initial (added by supervisor):         p.done or (p.b or io.sensor)
 
-Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-    Initial: p.test and (p.b and io.sensor) -> p.b [assume p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)].
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Initial: p.test and (p.b and io.sensor) -> p.b [assume p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)].
+
+    Initial (output model):                p.b
 
 Checking post-synthesis for events that are never enabled.
 

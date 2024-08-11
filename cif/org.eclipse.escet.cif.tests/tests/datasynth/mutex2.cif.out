@@ -243,11 +243,14 @@ Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 8 states.
 
-Initial (synthesis result):            not machine1.Producing or not machine2.Producing
-Initial (uncontrolled system):         machine1.Idle and machine2.Idle
-Initial (controlled system):           machine1.Idle and machine2.Idle
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            not machine1.Producing or not machine2.Producing
+    Initial (uncontrolled system):         machine1.Idle and machine2.Idle
+    Initial (controlled system):           machine1.Idle and machine2.Idle
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
 
 Checking post-synthesis for events that are never enabled.
 
