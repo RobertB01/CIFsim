@@ -319,9 +319,22 @@ public class CifDataSynthesis {
             }
             if (dbgEnabled) {
                 cifBddSpec.settings.getDebugOutput().line();
-                cifBddSpec.settings.getDebugOutput().line("Determining supervisor guards for output model.");
+                cifBddSpec.settings.getDebugOutput().line("Determining supervisor guards for output model:");
+                cifBddSpec.settings.getDebugOutput().inc();
             }
+
             Map<Event, BDD> ctrlGuards = determineGuards(cifBddSpec, cifBddSpec.controllables, false);
+
+            if (dbgEnabled) {
+                if (cifBddSpec.controllables.isEmpty()) {
+                    cifBddSpec.settings.getDebugOutput().line("No controllable events.");
+                }
+                for (Entry<Event, BDD> entry: ctrlGuards.entrySet()) {
+                    cifBddSpec.settings.getDebugOutput().line("Event %s: guard: %s.",
+                            CifTextUtils.getAbsName(entry.getKey()), bddToStr(entry.getValue(), cifBddSpec));
+                }
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
 
             // Check edges.
             if (synthResult.settings.getDoNeverEnabledEventsWarn()) {
