@@ -135,32 +135,36 @@ Checking for bounded response...
     Bounded response check completed.
 
 Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: DifferentConditions.q
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: DifferentConditions.q
 
     Computing the controllable-complete path states...
-    Controllable-complete path states: DifferentConditions.q [controllable-complete path end states predicate]
+        Controllable-complete path states: DifferentConditions.q [controllable-complete path end states predicate]
 
-    Backward reachability iteration 1:
-        Controllable-complete path states: DifferentConditions.q -> DifferentConditions.q or DifferentConditions.z [backward reach with edge: (event: DifferentConditions.a) (guard: DifferentConditions.p and DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
-        Controllable-complete path states: DifferentConditions.q or DifferentConditions.z -> true [backward reach with edge: (event: DifferentConditions.b) (guard: DifferentConditions.p and not DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
+        Backward reachability iteration 1:
+            Controllable-complete path states: DifferentConditions.q -> DifferentConditions.q or DifferentConditions.z [backward reach with edge: (event: DifferentConditions.a) (guard: DifferentConditions.p and DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
+            Controllable-complete path states: DifferentConditions.q or DifferentConditions.z -> true [backward reach with edge: (event: DifferentConditions.b) (guard: DifferentConditions.p and not DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
 
-    Backward reachability iteration 2:
-        No change this iteration.
+        Backward reachability iteration 2:
+            No change this iteration.
 
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
+        Controllable-complete path states: true [fixed point].
+
+        Controllable-complete path states: true
 
     Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
+        Bad states: false [not controllable-complete path states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Bad states: false
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: false
 
     Computing the result of the non-blocking under control check...
-    Initial states: DifferentConditions.p and not DifferentConditions.z
-    Bad initial states: false
+        Initial states: DifferentConditions.p and not DifferentConditions.z
+        Bad initial states: false
+
+    Non-blocking under control: yes
 
 Checking for finite response...
     Iteration 1.

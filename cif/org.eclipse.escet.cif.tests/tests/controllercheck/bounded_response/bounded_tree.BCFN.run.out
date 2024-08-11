@@ -165,37 +165,41 @@ Checking for bounded response...
     Bounded response check completed.
 
 Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: p2.loc5 or (p2.loc6 or p2.loc4)
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: p2.loc5 or (p2.loc6 or p2.loc4)
 
     Computing the controllable-complete path states...
-    Controllable-complete path states: p2.loc5 and p1.loc5 or p2.loc5 and p1.loc3 or (p2.loc5 and p1.loc4 or p2.loc6 and p1.loc5) or (p2.loc6 and p1.loc3 or p2.loc6 and p1.loc4 or (p2.loc4 and p1.loc5 or (p2.loc4 and p1.loc3 or p2.loc4 and p1.loc4))) [controllable-complete path end states predicate]
+        Controllable-complete path states: p2.loc5 and p1.loc5 or p2.loc5 and p1.loc3 or (p2.loc5 and p1.loc4 or p2.loc6 and p1.loc5) or (p2.loc6 and p1.loc3 or p2.loc6 and p1.loc4 or (p2.loc4 and p1.loc5 or (p2.loc4 and p1.loc3 or p2.loc4 and p1.loc4))) [controllable-complete path end states predicate]
 
-    Backward reachability iteration 1:
-        Controllable-complete path states: p2.loc5 and p1.loc5 or p2.loc5 and p1.loc3 or (p2.loc5 and p1.loc4 or p2.loc6 and p1.loc5) or (p2.loc6 and p1.loc3 or p2.loc6 and p1.loc4 or (p2.loc4 and p1.loc5 or (p2.loc4 and p1.loc3 or p2.loc4 and p1.loc4))) -> not p2.loc1 and ((not p2.loc5 or not p1.loc2) and not p2.loc3) and (not p2.loc2 and ((not p2.loc6 or not p1.loc2) and (not p2.loc4 or not p1.loc2))) [backward reach with edge: (event: u_d) (guard: p1.loc1 -> p2.loc5 and p1.loc1 or (p2.loc6 and p1.loc1 or p2.loc4 and p1.loc1)) (assignments: p1 := p1.loc5)]
-        Controllable-complete path states: not p2.loc1 and ((not p2.loc5 or not p1.loc2) and not p2.loc3) and (not p2.loc2 and ((not p2.loc6 or not p1.loc2) and (not p2.loc4 or not p1.loc2))) -> not p2.loc1 and (not p2.loc3 and not p2.loc2) [backward reach with edge: (event: u_b) (guard: p1.loc2 -> p2.loc5 and p1.loc2 or (p2.loc6 and p1.loc2 or p2.loc4 and p1.loc2)) (assignments: p1 := p1.loc3)]
-        Controllable-complete path states: not p2.loc1 and (not p2.loc3 and not p2.loc2) -> not p2.loc1 and not p2.loc3 [backward reach with edge: (event: c_d) (guard: p2.loc2) (assignments: p2 := p2.loc5)]
-        Controllable-complete path states: not p2.loc1 and not p2.loc3 -> <bdd 8n 12p> [backward reach with edge: (event: c_c) (guard: p2.loc3) (assignments: p2 := p2.loc4)]
+        Backward reachability iteration 1:
+            Controllable-complete path states: p2.loc5 and p1.loc5 or p2.loc5 and p1.loc3 or (p2.loc5 and p1.loc4 or p2.loc6 and p1.loc5) or (p2.loc6 and p1.loc3 or p2.loc6 and p1.loc4 or (p2.loc4 and p1.loc5 or (p2.loc4 and p1.loc3 or p2.loc4 and p1.loc4))) -> not p2.loc1 and ((not p2.loc5 or not p1.loc2) and not p2.loc3) and (not p2.loc2 and ((not p2.loc6 or not p1.loc2) and (not p2.loc4 or not p1.loc2))) [backward reach with edge: (event: u_d) (guard: p1.loc1 -> p2.loc5 and p1.loc1 or (p2.loc6 and p1.loc1 or p2.loc4 and p1.loc1)) (assignments: p1 := p1.loc5)]
+            Controllable-complete path states: not p2.loc1 and ((not p2.loc5 or not p1.loc2) and not p2.loc3) and (not p2.loc2 and ((not p2.loc6 or not p1.loc2) and (not p2.loc4 or not p1.loc2))) -> not p2.loc1 and (not p2.loc3 and not p2.loc2) [backward reach with edge: (event: u_b) (guard: p1.loc2 -> p2.loc5 and p1.loc2 or (p2.loc6 and p1.loc2 or p2.loc4 and p1.loc2)) (assignments: p1 := p1.loc3)]
+            Controllable-complete path states: not p2.loc1 and (not p2.loc3 and not p2.loc2) -> not p2.loc1 and not p2.loc3 [backward reach with edge: (event: c_d) (guard: p2.loc2) (assignments: p2 := p2.loc5)]
+            Controllable-complete path states: not p2.loc1 and not p2.loc3 -> <bdd 8n 12p> [backward reach with edge: (event: c_c) (guard: p2.loc3) (assignments: p2 := p2.loc4)]
 
-    Backward reachability iteration 2:
-        Controllable-complete path states: <bdd 8n 12p> -> true [backward reach with edge: (event: c_a) (guard: p2.loc1) (assignments: p2 := p2.loc2)]
+        Backward reachability iteration 2:
+            Controllable-complete path states: <bdd 8n 12p> -> true [backward reach with edge: (event: c_a) (guard: p2.loc1) (assignments: p2 := p2.loc2)]
 
-    Backward reachability iteration 3:
-        No change this iteration.
+        Backward reachability iteration 3:
+            No change this iteration.
 
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
+        Controllable-complete path states: true [fixed point].
+
+        Controllable-complete path states: true
 
     Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
+        Bad states: false [not controllable-complete path states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Bad states: false
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: false
 
     Computing the result of the non-blocking under control check...
-    Initial states: p2.loc1 and p1.loc1
-    Bad initial states: false
+        Initial states: p2.loc1 and p1.loc1
+        Bad initial states: false
+
+    Non-blocking under control: yes
 
 Checking for finite response...
     Iteration 1.

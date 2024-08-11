@@ -46,26 +46,30 @@ Checking for bounded response...
     Bounded response check completed.
 
 Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: false
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: false
 
     Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
+        Controllable-complete path states: false [controllable-complete path end states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Controllable-complete path states: false
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controllable-complete path states: false
 
     Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
+        Bad states: true [not controllable-complete path states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Bad states: true
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
 
     Computing the result of the non-blocking under control check...
-    Initial states: p.Off
-    Bad initial states: p.Off
+        Initial states: p.Off
+        Bad initial states: p.Off
+
+    Non-blocking under control: no
 
 Checking for finite response...
     Iteration 1.

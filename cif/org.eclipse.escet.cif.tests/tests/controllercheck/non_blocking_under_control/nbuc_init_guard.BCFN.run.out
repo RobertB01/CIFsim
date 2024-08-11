@@ -136,36 +136,40 @@ Checking for bounded response...
     Bounded response check completed.
 
 Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: not Supervisor.Start
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: not Supervisor.Start
 
     Computing the controllable-complete path states...
-    Controllable-complete path states: Supervisor.DoneTrue [controllable-complete path end states predicate]
+        Controllable-complete path states: Supervisor.DoneTrue [controllable-complete path end states predicate]
 
-    Backward reachability iteration 1:
-        Controllable-complete path states: Supervisor.DoneTrue -> Supervisor.Start and Supervisor.i or Supervisor.DoneTrue [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
-        Controllable-complete path states: Supervisor.Start and Supervisor.i or Supervisor.DoneTrue -> Supervisor.DoneTrue or Supervisor.i [backward reach with edge: (event: Supervisor.u_back) (guard: not Supervisor.Start) (assignments: Supervisor := Supervisor.Start / Supervisor := Supervisor.Start)]
-        Controllable-complete path states: Supervisor.DoneTrue or Supervisor.i -> not Supervisor.Start or Supervisor.i [backward reach with edge: (event: Supervisor.i) (guard: true -> not Supervisor.Start) (assignments: Supervisor.i+ != Supervisor.i)]
+        Backward reachability iteration 1:
+            Controllable-complete path states: Supervisor.DoneTrue -> Supervisor.Start and Supervisor.i or Supervisor.DoneTrue [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
+            Controllable-complete path states: Supervisor.Start and Supervisor.i or Supervisor.DoneTrue -> Supervisor.DoneTrue or Supervisor.i [backward reach with edge: (event: Supervisor.u_back) (guard: not Supervisor.Start) (assignments: Supervisor := Supervisor.Start / Supervisor := Supervisor.Start)]
+            Controllable-complete path states: Supervisor.DoneTrue or Supervisor.i -> not Supervisor.Start or Supervisor.i [backward reach with edge: (event: Supervisor.i) (guard: true -> not Supervisor.Start) (assignments: Supervisor.i+ != Supervisor.i)]
 
-    Backward reachability iteration 2:
-        Controllable-complete path states: not Supervisor.Start or Supervisor.i -> true [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
+        Backward reachability iteration 2:
+            Controllable-complete path states: not Supervisor.Start or Supervisor.i -> true [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
 
-    Backward reachability iteration 3:
-        No change this iteration.
+        Backward reachability iteration 3:
+            No change this iteration.
 
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
+        Controllable-complete path states: true [fixed point].
+
+        Controllable-complete path states: true
 
     Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
+        Bad states: false [not controllable-complete path states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Bad states: false
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: false
 
     Computing the result of the non-blocking under control check...
-    Initial states: Supervisor.Start
-    Bad initial states: false
+        Initial states: Supervisor.Start
+        Bad initial states: false
+
+    Non-blocking under control: yes
 
 Checking for finite response...
     Iteration 1.

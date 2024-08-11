@@ -209,41 +209,45 @@ Checking for bounded response...
     Bounded response check completed.
 
 Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: <bdd 17n 21p>
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: <bdd 17n 21p>
 
     Computing the controllable-complete path states...
-    Controllable-complete path states: LampHW.Off and (Lamp.Off and Timer.Idle) and (Cycle.WaitForButtonPush and (ButtonHW.Released and Button.Released)) [controllable-complete path end states predicate]
+        Controllable-complete path states: LampHW.Off and (Lamp.Off and Timer.Idle) and (Cycle.WaitForButtonPush and (ButtonHW.Released and Button.Released)) [controllable-complete path end states predicate]
 
-    Backward reachability iteration 1:
-        Controllable-complete path states: LampHW.Off and (Lamp.Off and Timer.Idle) and (Cycle.WaitForButtonPush and (ButtonHW.Released and Button.Released)) -> <bdd 11n 3p> [backward reach with edge: (event: Button.u_released) (guard: not ButtonHW.bit and (ButtonHW.Pushed and Button.Pushed) -> <bdd 20n 21p>) (assignments: Button := Button.Released, ButtonHW := ButtonHW.Released)]
-        Controllable-complete path states: <bdd 11n 3p> -> <bdd 16n 6p> [backward reach with edge: (event: Lamp.c_off) (guard: LampHW.On and (Lamp.On and Cycle.TurnLampOff)) (assignments: Lamp := Lamp.Off, Cycle := Cycle.WaitForButtonPush, LampHW.bit := false, LampHW := LampHW.Off)]
-        Controllable-complete path states: <bdd 16n 6p> -> <bdd 18n 9p> [backward reach with edge: (event: Timer.u_timeout) (guard: Timer.Running and Cycle.WaitForTimeout) (assignments: Timer := Timer.Idle, Cycle := Cycle.TurnLampOff)]
-        Controllable-complete path states: <bdd 18n 9p> -> <bdd 18n 7p> [backward reach with edge: (event: ButtonHW.bit) (guard: true -> <bdd 17n 21p>) (assignments: ButtonHW.bit+ != ButtonHW.bit)]
+        Backward reachability iteration 1:
+            Controllable-complete path states: LampHW.Off and (Lamp.Off and Timer.Idle) and (Cycle.WaitForButtonPush and (ButtonHW.Released and Button.Released)) -> <bdd 11n 3p> [backward reach with edge: (event: Button.u_released) (guard: not ButtonHW.bit and (ButtonHW.Pushed and Button.Pushed) -> <bdd 20n 21p>) (assignments: Button := Button.Released, ButtonHW := ButtonHW.Released)]
+            Controllable-complete path states: <bdd 11n 3p> -> <bdd 16n 6p> [backward reach with edge: (event: Lamp.c_off) (guard: LampHW.On and (Lamp.On and Cycle.TurnLampOff)) (assignments: Lamp := Lamp.Off, Cycle := Cycle.WaitForButtonPush, LampHW.bit := false, LampHW := LampHW.Off)]
+            Controllable-complete path states: <bdd 16n 6p> -> <bdd 18n 9p> [backward reach with edge: (event: Timer.u_timeout) (guard: Timer.Running and Cycle.WaitForTimeout) (assignments: Timer := Timer.Idle, Cycle := Cycle.TurnLampOff)]
+            Controllable-complete path states: <bdd 18n 9p> -> <bdd 18n 7p> [backward reach with edge: (event: ButtonHW.bit) (guard: true -> <bdd 17n 21p>) (assignments: ButtonHW.bit+ != ButtonHW.bit)]
 
-    Backward reachability iteration 2:
-        Controllable-complete path states: <bdd 18n 7p> -> <bdd 16n 6p> [backward reach with edge: (event: Lamp.c_off) (guard: LampHW.On and (Lamp.On and Cycle.TurnLampOff)) (assignments: Lamp := Lamp.Off, Cycle := Cycle.WaitForButtonPush, LampHW.bit := false, LampHW := LampHW.Off)]
-        Controllable-complete path states: <bdd 16n 6p> -> <bdd 16n 8p> [backward reach with edge: (event: Timer.c_start) (guard: Timer.Idle and Cycle.StartTimer) (assignments: Timer := Timer.Running, Cycle := Cycle.WaitForTimeout)]
+        Backward reachability iteration 2:
+            Controllable-complete path states: <bdd 18n 7p> -> <bdd 16n 6p> [backward reach with edge: (event: Lamp.c_off) (guard: LampHW.On and (Lamp.On and Cycle.TurnLampOff)) (assignments: Lamp := Lamp.Off, Cycle := Cycle.WaitForButtonPush, LampHW.bit := false, LampHW := LampHW.Off)]
+            Controllable-complete path states: <bdd 16n 6p> -> <bdd 16n 8p> [backward reach with edge: (event: Timer.c_start) (guard: Timer.Idle and Cycle.StartTimer) (assignments: Timer := Timer.Running, Cycle := Cycle.WaitForTimeout)]
 
-    Backward reachability iteration 3:
-        Controllable-complete path states: <bdd 16n 8p> -> <bdd 15n 8p> [backward reach with edge: (event: Lamp.c_on) (guard: LampHW.Off and (Lamp.Off and Cycle.TurnLampOn)) (assignments: Lamp := Lamp.On, Cycle := Cycle.StartTimer, LampHW.bit := true, LampHW := LampHW.On)]
+        Backward reachability iteration 3:
+            Controllable-complete path states: <bdd 16n 8p> -> <bdd 15n 8p> [backward reach with edge: (event: Lamp.c_on) (guard: LampHW.Off and (Lamp.Off and Cycle.TurnLampOn)) (assignments: Lamp := Lamp.On, Cycle := Cycle.StartTimer, LampHW.bit := true, LampHW := LampHW.On)]
 
-    Backward reachability iteration 4:
-        No change this iteration.
+        Backward reachability iteration 4:
+            No change this iteration.
 
-    Controllable-complete path states: <bdd 15n 8p> [fixed point].
-    Controllable-complete path states: <bdd 15n 8p>
+        Controllable-complete path states: <bdd 15n 8p> [fixed point].
+
+        Controllable-complete path states: <bdd 15n 8p>
 
     Computing the bad states...
-    Bad states: <bdd 15n 19p> [not controllable-complete path states predicate]
+        Bad states: <bdd 15n 19p> [not controllable-complete path states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Bad states: <bdd 15n 19p>
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: <bdd 15n 19p>
 
     Computing the result of the non-blocking under control check...
-    Initial states: not LampHW.bit and (LampHW.Off and Lamp.Off) and (Timer.Idle and Cycle.WaitForButtonPush and (ButtonHW.Released and Button.Released))
-    Bad initial states: false
+        Initial states: not LampHW.bit and (LampHW.Off and Lamp.Off) and (Timer.Idle and Cycle.WaitForButtonPush and (ButtonHW.Released and Button.Released))
+        Bad initial states: false
+
+    Non-blocking under control: yes
 
 Checking for finite response...
     Iteration 1.

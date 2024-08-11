@@ -13,32 +13,36 @@ Preparing for BDD-based checks...
         No guards changed.
 
 Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: Supervisor1.BothDone
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: Supervisor1.BothDone
 
     Computing the controllable-complete path states...
-    Controllable-complete path states: Supervisor1.BothDone [controllable-complete path end states predicate]
+        Controllable-complete path states: Supervisor1.BothDone [controllable-complete path end states predicate]
 
-    Backward reachability iteration 1:
-        Controllable-complete path states: Supervisor1.BothDone -> Supervisor1.Done2 or Supervisor1.BothDone [backward reach with edge: (event: Supervisor1.c_act1) (guard: Supervisor1.Start or Supervisor1.Done2) (assignments: Supervisor1 := Supervisor1.Done1 / Supervisor1 := Supervisor1.BothDone)]
-        Controllable-complete path states: Supervisor1.Done2 or Supervisor1.BothDone -> true [backward reach with edge: (event: Supervisor1.c_act2) (guard: Supervisor1.Start or Supervisor1.Done1) (assignments: Supervisor1 := Supervisor1.Done2 / Supervisor1 := Supervisor1.BothDone)]
+        Backward reachability iteration 1:
+            Controllable-complete path states: Supervisor1.BothDone -> Supervisor1.Done2 or Supervisor1.BothDone [backward reach with edge: (event: Supervisor1.c_act1) (guard: Supervisor1.Start or Supervisor1.Done2) (assignments: Supervisor1 := Supervisor1.Done1 / Supervisor1 := Supervisor1.BothDone)]
+            Controllable-complete path states: Supervisor1.Done2 or Supervisor1.BothDone -> true [backward reach with edge: (event: Supervisor1.c_act2) (guard: Supervisor1.Start or Supervisor1.Done1) (assignments: Supervisor1 := Supervisor1.Done2 / Supervisor1 := Supervisor1.BothDone)]
 
-    Backward reachability iteration 2:
-        No change this iteration.
+        Backward reachability iteration 2:
+            No change this iteration.
 
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
+        Controllable-complete path states: true [fixed point].
+
+        Controllable-complete path states: true
 
     Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
+        Bad states: false [not controllable-complete path states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Bad states: false
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: false
 
     Computing the result of the non-blocking under control check...
-    Initial states: Supervisor1.Start
-    Bad initial states: false
+        Initial states: Supervisor1.Start
+        Bad initial states: false
+
+    Non-blocking under control: yes
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

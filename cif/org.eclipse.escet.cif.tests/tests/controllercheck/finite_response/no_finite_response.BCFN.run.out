@@ -170,26 +170,30 @@ Checking for bounded response...
     Bounded response check completed.
 
 Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: (StopButton.Pushed or (Actuator.On or StartButton.Released)) and ((StopButton.Released or (Actuator.On or StartButton.Released)) and (StopButton.Released or Actuator.Off))
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: (StopButton.Pushed or (Actuator.On or StartButton.Released)) and ((StopButton.Released or (Actuator.On or StartButton.Released)) and (StopButton.Released or Actuator.Off))
 
     Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
+        Controllable-complete path states: false [controllable-complete path end states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Controllable-complete path states: false
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controllable-complete path states: false
 
     Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
+        Bad states: true [not controllable-complete path states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Bad states: true
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
 
     Computing the result of the non-blocking under control check...
-    Initial states: StopButton.Released and (Actuator.Off and StartButton.Released)
-    Bad initial states: StopButton.Released and (Actuator.Off and StartButton.Released)
+        Initial states: StopButton.Released and (Actuator.Off and StartButton.Released)
+        Bad initial states: StopButton.Released and (Actuator.Off and StartButton.Released)
+
+    Non-blocking under control: no
 
 Checking for finite response...
     Iteration 1.

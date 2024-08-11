@@ -13,26 +13,30 @@ Preparing for BDD-based checks...
         No guards changed.
 
 Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: Supervisor.BothDone or Supervisor.Halt
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: Supervisor.BothDone or Supervisor.Halt
 
     Computing the controllable-complete path states...
-    Controllable-complete path states: Supervisor.Halt [controllable-complete path end states predicate]
+        Controllable-complete path states: Supervisor.Halt [controllable-complete path end states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Controllable-complete path states: Supervisor.Halt
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controllable-complete path states: Supervisor.Halt
 
     Computing the bad states...
-    Bad states: not Supervisor.Halt [not controllable-complete path states predicate]
+        Bad states: not Supervisor.Halt [not controllable-complete path states predicate]
 
-    Backward reachability iteration 1:
-        No change this iteration.
-    Bad states: not Supervisor.Halt
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: not Supervisor.Halt
 
     Computing the result of the non-blocking under control check...
-    Initial states: Supervisor.Start
-    Bad initial states: Supervisor.Start
+        Initial states: Supervisor.Start
+        Bad initial states: Supervisor.Start
+
+    Non-blocking under control: no
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
