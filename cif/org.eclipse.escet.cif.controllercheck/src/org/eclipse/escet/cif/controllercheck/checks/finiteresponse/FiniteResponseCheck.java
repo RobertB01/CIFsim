@@ -95,18 +95,21 @@ public class FiniteResponseCheck extends ControllerCheckerMddBasedCheck<FiniteRe
 
     @Override
     public FiniteResponseCheckConclusion performCheck(CifMddSpec cifMddSpec) {
+        DebugNormalOutput dbg = cifMddSpec.getDebugOutput();
+
         // Get information from MDD specification.
         List<Automaton> automata = cifMddSpec.getAutomata();
+        Assert.check(!automata.isEmpty());
         controllableEvents = copy(cifMddSpec.getControllableEvents());
 
-        // If no automata, or no controllable events, then finite response trivially holds.
-        if (automata.isEmpty() || controllableEvents.isEmpty()) {
+        // If no controllable events, then finite response trivially holds.
+        if (controllableEvents.isEmpty()) {
+            dbg.line("No controllable events. Finite response trivially holds.");
             return new FiniteResponseCheckConclusion(List.of(), printControlLoops);
         }
 
         // Get additional information from MDD specification.
         Termination termination = cifMddSpec.getTermination();
-        DebugNormalOutput dbg = cifMddSpec.getDebugOutput();
         controllableEventsChanged = true;
         eventVarUpdate = cifMddSpec.getUpdatedVariablesByEvent();
         nonCtrlIndependentVarsInfos = null;
