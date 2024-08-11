@@ -118,6 +118,7 @@ Preparing for BDD-based checks:
 
 Preparing for MDD-based checks:
     Analyzing automaton "Button":
+        Nothing to process.
 
     Analyzing automaton "Lamp":
         Initializing the automaton data for event "Lamp.c_on".

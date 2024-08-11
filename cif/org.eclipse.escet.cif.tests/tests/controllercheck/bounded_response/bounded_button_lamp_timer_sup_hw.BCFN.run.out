@@ -124,6 +124,7 @@ Preparing for BDD-based checks:
 
 Preparing for MDD-based checks:
     Analyzing automaton "Button":
+        Nothing to process.
 
     Analyzing automaton "Lamp":
         Initializing the automaton data for event "Lamp.c_on".
@@ -162,6 +163,7 @@ Preparing for MDD-based checks:
         Updating global guards and updates for event "Timer.c_start".
 
     Analyzing automaton "ButtonHW":
+        Nothing to process.
 
     Analyzing automaton "LampHW":
         Initializing the automaton data for event "Lamp.c_on".

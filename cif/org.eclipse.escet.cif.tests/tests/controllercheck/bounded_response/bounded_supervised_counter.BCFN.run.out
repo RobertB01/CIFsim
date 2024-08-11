@@ -35,6 +35,7 @@ Preparing for MDD-based checks:
         Updating global guards and updates for event "c_d".
 
     Analyzing automaton "s":
+        Nothing to process.
 
     Analyzing automaton "PlantStateEvtExcls":
         Initializing the automaton data for event "c_c".

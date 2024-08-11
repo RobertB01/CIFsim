@@ -128,8 +128,10 @@ Preparing for MDD-based checks:
         Updating global guards and updates for event "Actuator.c_off".
 
     Analyzing automaton "StartButton":
+        Nothing to process.
 
     Analyzing automaton "StopButton":
+        Nothing to process.
 
     Analyzing automaton "SupervisorStateEvtExcls":
         Initializing the automaton data for event "Actuator.c_on".

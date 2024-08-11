@@ -100,6 +100,7 @@ Preparing for BDD-based checks:
 
 Preparing for MDD-based checks:
     Analyzing automaton "pu":
+        Nothing to process.
 
     Analyzing automaton "pc":
         Initializing the automaton data for event "c_e1".
