@@ -2096,6 +2096,13 @@ public class CifDataSynthesis {
         EnumSet<BddSimplify> simplifications = synthResult.settings.getBddSimplifications();
         List<String> assumptionTxts = list();
 
+        // Debug output.
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Simplifying supervisor guards for output model:");
+            cifBddSpec.settings.getDebugOutput().inc();
+        }
+
         // Initialize assumptions to 'true', for all controllable events.
         Map<Event, BDD> assumptions = mapc(cifBddSpec.controllables.size());
         for (Event controllable: cifBddSpec.controllables) {
@@ -2106,6 +2113,9 @@ public class CifDataSynthesis {
         // restrictions introduced by the controller with respect to the plants (i.e. uncontrolled system), instead of
         // the full controlled system guard. Simplification is best effort.
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_PLANTS)) {
@@ -2116,12 +2126,18 @@ public class CifDataSynthesis {
 
             // Add guards to the assumptions.
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
             for (Event controllable: cifBddSpec.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = unctrlGuards.get(controllable);
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -2134,6 +2150,9 @@ public class CifDataSynthesis {
         // the requirement automata. This results in the additional restrictions introduced by the controller with
         // respect to those requirements, instead of the full controlled system guard. Simplification is best effort.
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_REQ_AUTS)) {
@@ -2143,6 +2162,9 @@ public class CifDataSynthesis {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.stateEvtExclsReqAuts.get(controllable);
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -2156,6 +2178,9 @@ public class CifDataSynthesis {
         // specification. This results in the additional restrictions introduced by the controller with respect to these
         // plants, instead of the full controlled system guard. Simplification is best effort.
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_SE_EXCL_PLANT_INVS)) {
@@ -2165,6 +2190,9 @@ public class CifDataSynthesis {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.stateEvtExclPlants.get(controllable);
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -2178,6 +2206,9 @@ public class CifDataSynthesis {
         // specification. This results in the additional restrictions introduced by the controller with respect to those
         // requirements, instead of the full controlled system guard. Simplification is best effort.
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_SE_EXCL_REQ_INVS)) {
@@ -2187,6 +2218,9 @@ public class CifDataSynthesis {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.stateEvtExclsReqInvs.get(controllable);
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -2200,6 +2234,9 @@ public class CifDataSynthesis {
         // This results in the additional restrictions introduced by the controller with respect to those plants,
         // instead of the full controlled system guard. Simplification is best effort.
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_STATE_PLANT_INVS)) {
@@ -2209,6 +2246,9 @@ public class CifDataSynthesis {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.plantInv.id();
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -2223,6 +2263,9 @@ public class CifDataSynthesis {
         // This results in the additional restrictions introduced by the controller with respect to those requirements,
         // instead of the full controlled system guard. Simplification is best effort.
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_STATE_REQ_INVS)) {
@@ -2232,6 +2275,9 @@ public class CifDataSynthesis {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = cifBddSpec.reqInv.id();
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -2247,6 +2293,9 @@ public class CifDataSynthesis {
         // the system remains in the controlled behavior. We may assume before a transition, we are in the controlled
         // behavior. We can thus simplify guards using this assumption. Simplification is best effort.
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
         if (simplifications.contains(BddSimplify.GUARDS_CTRL_BEH)) {
@@ -2256,6 +2305,9 @@ public class CifDataSynthesis {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = synthResult.ctrlBeh.id();
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
@@ -2268,21 +2320,42 @@ public class CifDataSynthesis {
 
         // Initialize output guards.
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
         synthResult.outputGuards = ctrlGuards;
 
         // If no assumptions, we are done.
         if (assumptionTxts.isEmpty()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().line("No simplifications enabled.");
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
 
         // Perform the simplification using all the collected assumptions.
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
-        String assumptionsTxt = combineAssumptionTexts(assumptionTxts);
-        simplifyOutputGuards(cifBddSpec, synthResult, dbgEnabled, assumptions, assumptionsTxt);
+
+        if (dbgEnabled) {
+            String assumptionsTxt = combineAssumptionTexts(assumptionTxts);
+            cifBddSpec.settings.getDebugOutput().line("Simplification under the assumption of the %s.", assumptionsTxt);
+            cifBddSpec.settings.getDebugOutput().line();
+        }
+
+        simplifyOutputGuards(cifBddSpec, synthResult, dbgEnabled, assumptions);
+
+        // Done.
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().dec();
+        }
     }
 
     /**
@@ -2324,12 +2397,11 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      * @param assumptions Per controllable event, the assumption to use. All assumptions are {@link BDD#free freed}
      *     after use.
-     * @param assumptionsTxt Text describing the assumptions that are used, for debugging output.
      */
     private static void simplifyOutputGuards(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
-            boolean dbgEnabled, Map<Event, BDD> assumptions, String assumptionsTxt)
+            boolean dbgEnabled, Map<Event, BDD> assumptions)
     {
-        boolean dbgPrinted = false;
+        boolean guardChanged = false;
         for (Event controllable: cifBddSpec.controllables) {
             if (cifBddSpec.settings.getTermination().isRequested()) {
                 return;
@@ -2342,7 +2414,7 @@ public class CifDataSynthesis {
             // Simplify.
             BDD newGuard;
             if (assumption.isZero() && guard.isZero()) {
-                // Special case for events that are assumed to be never enabled, the supervisor does not restrict them.
+                // Special case for events that are assumed to be never enabled. The supervisor does not restrict them.
                 newGuard = cifBddSpec.factory.one();
             } else {
                 newGuard = guard.simplify(assumption);
@@ -2353,19 +2425,12 @@ public class CifDataSynthesis {
 
             synthResult.outputGuards.put(controllable, newGuard);
 
-            // If it had an effect, print some debug info.
+            // Check whether it had an effect, and act accordingly.
             if (dbgEnabled && !guard.equals(newGuard)) {
-                if (!dbgPrinted) {
-                    dbgPrinted = true;
-                    cifBddSpec.settings.getDebugOutput().line();
-                    cifBddSpec.settings.getDebugOutput().line(
-                            "Simplification of controlled system under the assumption of the %s:", assumptionsTxt);
-                }
-                cifBddSpec.settings.getDebugOutput().inc();
                 cifBddSpec.settings.getDebugOutput().line("Event %s: guard: %s -> %s [assume %s].",
                         CifTextUtils.getAbsName(controllable), bddToStr(guard, cifBddSpec),
                         bddToStr(newGuard, cifBddSpec), bddToStr(assumption, cifBddSpec));
-                cifBddSpec.settings.getDebugOutput().dec();
+                guardChanged = true;
             }
 
             // Free no longer needed predicates.
@@ -2374,6 +2439,10 @@ public class CifDataSynthesis {
             }
             assumption.free();
             guard.free();
+        }
+
+        if (!guardChanged) {
+            cifBddSpec.settings.getDebugOutput().line("Guards not changed.");
         }
     }
 }
