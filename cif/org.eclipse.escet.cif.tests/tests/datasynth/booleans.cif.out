@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/booleans.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type  Name    Group  BDD vars  CIF values  BDD values  Values used
@@ -292,5 +294,7 @@ Simplifying supervisor guards for output model:
     Event g.e3: guard: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4) -> not g.p.b2 and (g.p.b1 and g.p.b3) [assume g.p.b4].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/booleans.ctrlsys.real.cif".

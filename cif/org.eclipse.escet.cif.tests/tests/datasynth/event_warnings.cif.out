@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/event_warnings.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
@@ -600,5 +602,7 @@ Simplifying supervisor guards for output model:
     Event c_off: guard: <bdd 69n 1p> -> <bdd 67n 1p> [assume a.l1 and b.l1].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/event_warnings.ctrlsys.real.cif".

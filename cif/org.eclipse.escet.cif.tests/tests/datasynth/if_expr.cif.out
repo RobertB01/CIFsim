@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/if_expr.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -283,5 +285,7 @@ Simplifying supervisor guards for output model:
     Event done: guard: p.x = 0 and (p.a and p.y = 1) or p.x = 2 and (p.a and p.y = 2) or (p.x = 1 and (p.a and p.y = 2) or p.x = 3 and (p.a and p.y = 3)) -> p.x = 0 and p.y = 1 or p.x = 2 and p.y = 2 or (p.x = 1 and p.y = 2 or p.x = 3 and p.y = 3) [assume p.a].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/if_expr.ctrlsys.real.cif".

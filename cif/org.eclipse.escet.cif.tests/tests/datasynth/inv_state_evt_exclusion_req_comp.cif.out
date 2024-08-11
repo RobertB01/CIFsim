@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/inv_state_evt_exclusion_req_comp.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -244,5 +246,7 @@ Simplifying supervisor guards for output model:
     Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/inv_state_evt_exclusion_req_comp.ctrlsys.real.cif".

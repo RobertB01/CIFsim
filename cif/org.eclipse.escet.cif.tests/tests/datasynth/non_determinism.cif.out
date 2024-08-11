@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/non_determinism.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -295,5 +297,7 @@ Simplifying supervisor guards for output model:
     Event p.c2: guard: not p.x1 and p.l0 -> not p.x1 [assume p.l0].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/non_determinism.ctrlsys.real.cif".

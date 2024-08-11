@@ -1,4 +1,6 @@
 Reading CIF file "datasynth/edge_order_both_dupl_match1.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     The specification has no BDD variables.

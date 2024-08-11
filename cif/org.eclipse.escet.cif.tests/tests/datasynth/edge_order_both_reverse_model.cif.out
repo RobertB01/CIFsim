@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/edge_order_both_reverse_model.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind            Type  Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -186,5 +188,7 @@ Simplifying supervisor guards for output model:
     Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/edge_order_both_reverse_model.ctrlsys.real.cif".

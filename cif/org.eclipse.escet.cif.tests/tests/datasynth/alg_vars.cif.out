@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/alg_vars.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -328,5 +330,7 @@ Simplifying supervisor guards for output model:
     Event r3.deactivate: guard: r3.active -> true [assume r3.active].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/alg_vars.ctrlsys.real.cif".

@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/simplify_req_auts_on.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -161,5 +163,7 @@ Simplifying supervisor guards for output model:
     Event c_b: guard: p.x = 4 or p.x = 5 -> not(p.x = 2 or p.x = 3) [assume p.x = 4 or p.x = 5].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/simplify_req_auts_on.ctrlsys.real.cif".

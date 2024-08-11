@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/var_order_sorted_algos_on.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name           Group  BDD vars  CIF values  BDD values  Values used
@@ -361,5 +363,7 @@ Simplifying supervisor guards for output model:
     Event buffer2.c_remove: guard: buffer2.remove and (buffer2.add or buffer2.count != 0) and ((buffer2.add or (buffer2.count != 2 or buffer3.count = 1) or (buffer3.count = 3 or (buffer1.count != 3 or buffer1.add))) and ((buffer2.add or buffer2.count != 2 or (buffer3.count != 1 or (buffer1.count != 3 or buffer1.add))) and (buffer2.add or (buffer2.count != 2 or buffer3.count != 3) or (buffer3.remove or (buffer1.count != 3 or buffer1.add))))) and ((buffer2.add or buffer2.count != 2 or (buffer3.count != 3 or buffer3.add)) and (buffer2.add or (buffer2.count = 0 or buffer2.count = 2) or (buffer3.count = 1 or buffer3.count = 3 or (buffer1.count != 3 or buffer1.add))) and ((buffer2.add or (buffer2.count = 0 or buffer2.count = 2) or (buffer3.count != 1 or (buffer1.count != 3 or buffer1.add))) and ((buffer2.add or (buffer2.count = 0 or buffer2.count = 2) or (buffer3.count != 3 or buffer3.remove or (buffer1.count != 3 or buffer1.add))) and (buffer2.add or buffer2.count = 0 or (buffer2.count = 2 or (buffer3.count != 3 or buffer3.add)))))) -> buffer2.count != 0 [assume buffer2.remove and (buffer2.add or (buffer2.count = 1 or buffer2.count = 3) or (buffer3.count = 1 or buffer3.count = 3 or (buffer1.count != 3 or buffer1.add))) and ((buffer2.add or (buffer2.count = 1 or buffer2.count = 3) or (buffer3.count != 1 or (buffer1.count != 3 or buffer1.add))) and ((buffer2.add or (buffer2.count = 1 or buffer2.count = 3) or (buffer3.count != 3 or buffer3.remove or (buffer1.count != 3 or buffer1.add))) and (buffer2.add or buffer2.count = 1 or (buffer2.count = 3 or (buffer3.count != 3 or buffer3.add))))) and ((buffer2.add or (buffer2.count != 1 or buffer3.count = 1) or (buffer3.count = 3 or (buffer1.count != 3 or buffer1.add))) and (buffer2.add or buffer2.count != 1 or (buffer3.count != 1 or (buffer1.count != 3 or buffer1.add))) and ((buffer2.add or (buffer2.count != 1 or buffer3.count != 3) or (buffer3.remove or (buffer1.count != 3 or buffer1.add))) and ((buffer2.add or buffer2.count != 1 or (buffer3.count != 3 or buffer3.add)) and (buffer2.add or buffer2.count != 3))))].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/var_order_sorted_algos_on.ctrlsys.real.cif".

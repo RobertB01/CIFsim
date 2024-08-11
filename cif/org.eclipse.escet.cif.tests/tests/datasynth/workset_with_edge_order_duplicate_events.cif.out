@@ -1,4 +1,6 @@
 Reading CIF file "datasynth/workset_with_edge_order_duplicate_events.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     The specification has no BDD variables.

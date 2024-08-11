@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/multi_plants.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -316,5 +318,7 @@ Simplifying supervisor guards for output model:
     Event c: guard: (p1.x = 0 or p1.x = 4) and (p2.l1 and p1.l1) or (p1.x = 2 and (p2.l1 and p1.l1) or (p1.x = 1 or p1.x = 3) and (p2.l1 and p1.l1)) -> (p1.x = 0 or p1.x = 4) and p1.l1 or (p1.x = 2 and p1.l1 or (p1.x = 1 or p1.x = 3) and p1.l1) [assume p2.l1].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/multi_plants.ctrlsys.real.cif".

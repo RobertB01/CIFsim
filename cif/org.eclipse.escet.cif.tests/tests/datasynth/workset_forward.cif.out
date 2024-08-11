@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/workset_forward.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -258,5 +260,7 @@ Simplifying supervisor guards for output model:
     Event p2.e: guard: p1.c = 1 and not p2.b -> true [assume p1.c = 1 and not p2.b].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/workset_forward.ctrlsys.real.cif".

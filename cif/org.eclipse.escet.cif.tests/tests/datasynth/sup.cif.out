@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/sup.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     The specification has no BDD variables.
 
@@ -127,5 +129,7 @@ Simplifying supervisor guards for output model:
     Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/sup.ctrlsys.real.cif".

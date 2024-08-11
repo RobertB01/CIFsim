@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/updates.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -356,5 +358,7 @@ Simplifying supervisor guards for output model:
     Event k: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/updates.ctrlsys.real.cif".

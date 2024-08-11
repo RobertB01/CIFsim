@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/mutex2.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
@@ -265,5 +267,7 @@ Simplifying supervisor guards for output model:
     Event machine2.c_start: guard: not machine1.Producing and machine2.Idle -> not machine1.Producing [assume machine2.Idle].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/mutex2.ctrlsys.real.cif".

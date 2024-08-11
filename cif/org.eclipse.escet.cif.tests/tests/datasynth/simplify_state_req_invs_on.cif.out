@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/simplify_state_req_invs_on.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -242,5 +244,7 @@ Simplifying supervisor guards for output model:
     Event e: guard: p.loc1 and (p.x = 4 or p.x = 5) or p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3) -> not(p.x = 2 or p.x = 3) [assume p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/simplify_state_req_invs_on.ctrlsys.real.cif".

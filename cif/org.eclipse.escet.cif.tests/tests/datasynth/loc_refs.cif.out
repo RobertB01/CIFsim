@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/loc_refs.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -291,5 +293,7 @@ Simplifying supervisor guards for output model:
     Event e4: guard: pe.a and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume pe.a].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/loc_refs.ctrlsys.real.cif".

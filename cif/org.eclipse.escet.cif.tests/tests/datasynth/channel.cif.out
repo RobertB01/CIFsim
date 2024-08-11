@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/channel.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name    Group  BDD vars  CIF values  BDD values  Values used
@@ -288,5 +290,7 @@ Simplifying supervisor guards for output model:
     Event e: guard: cnt.c = 2 and rcv1.x = 0 or cnt.c = 1 and (rcv1.x = 0 and rcv2.x = 0) -> (cnt.c = 0 or cnt.c = 2) and rcv1.x = 0 or (cnt.c = 1 or cnt.c = 3) and (rcv1.x = 0 and rcv2.x = 0) [assume cnt.c != 0 and cnt.c != 3].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/channel.ctrlsys.real.cif".

@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/fig2a.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -286,5 +288,7 @@ Simplifying supervisor guards for output model:
     Event e1: guard: p.x = 2 and p.L0 -> p.x = 2 [assume 0 <= p.x and (p.x <= 7 and p.L0)].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/fig2a.ctrlsys.real.cif".

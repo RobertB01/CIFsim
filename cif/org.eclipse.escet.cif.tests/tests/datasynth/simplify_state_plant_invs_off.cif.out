@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/simplify_state_plant_invs_off.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
@@ -266,5 +268,7 @@ Simplifying supervisor guards for output model:
     No simplifications enabled.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/simplify_state_plant_invs_off.ctrlsys.real.cif".

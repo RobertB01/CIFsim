@@ -1,5 +1,7 @@
 Reading CIF file "datasynth/traffic_lights_req_aut.cif".
+
 Preprocessing CIF specification (includes checking that the specification is supported).
+
 Converting CIF specification to internal format (BDDs):
     CIF variables and location pointers:
         Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
@@ -294,5 +296,7 @@ Simplifying supervisor guards for output model:
     Event red_B: guard: LightA.Red and (R.RG and LightB.Green) -> LightA.Red and R.RG [assume (R.GR or LightB.Green) and (not R.GR or LightB.Green)].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
 
 Writing output CIF file "datasynth/traffic_lights_req_aut.ctrlsys.real.cif".
