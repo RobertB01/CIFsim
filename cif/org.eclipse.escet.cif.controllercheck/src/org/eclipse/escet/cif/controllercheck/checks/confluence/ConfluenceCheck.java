@@ -89,6 +89,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
 
         // If no automata, or no controllable events, then confluence trivially holds.
         if (automata.isEmpty() || controllableEvents.isEmpty()) {
+            dbg.line("Confluence trivially holds.");
             return new ConfluenceCheckConclusion(List.of());
         }
 
@@ -391,6 +392,19 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
         needEmptyLine = dumpMatches(independents, "Independent event pairs", out, needEmptyLine);
         needEmptyLine = dumpMatches(skippables, "Skippable event pairs", out, needEmptyLine);
         needEmptyLine = dumpMatches(reversibles, "Reversible event pairs", out, needEmptyLine);
+
+        if (mutualExclusives.isEmpty() && updateEquivalents.isEmpty() && independents.isEmpty() && skippables.isEmpty()
+                && reversibles.isEmpty())
+        {
+            dbg.line("No proven pairs.");
+        }
+
+        dbg.line();
+        if (cannotProves.isEmpty()) {
+            dbg.line("All pairs proven. Confluence holds.");
+        } else {
+            dbg.line("Some pairs unproven. Confluence may not hold.");
+        }
 
         // Return check conclusion.
         return new ConfluenceCheckConclusion(cannotProves);
