@@ -918,7 +918,7 @@ public class CifDataSynthesis {
                     cifBddSpec.settings.getDebugOutput().line(
                             "Controlled behavior: %s -> %s [range: %s, variable: %s].",
                             bddToStr(synthResult.ctrlBeh, cifBddSpec), bddToStr(newCtrlBeh, cifBddSpec),
-                            bddToStr(range, cifBddSpec), var.toString(0, cifBddSpec.settings.getIndentAmount(), ""));
+                            bddToStr(range, cifBddSpec), var.toString(""));
                 }
                 range.free();
                 synthResult.ctrlBeh.free();
