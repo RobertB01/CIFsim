@@ -294,6 +294,9 @@ public class BddUtils {
             List<Integer> continuousUsedBddNodes, String continuousPerformanceStatisticsFilePath,
             String continuousPerformanceStatisticsFileAbsPath)
     {
+        DebugNormalOutput debugOutput = settings.getDebugOutput();
+        boolean dbgEnabled = debugOutput.isEnabled();
+
         // Check what statistics to print.
         boolean doCacheStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_PERF_CACHE);
         boolean doContinuousPerformanceStats = settings.getCifBddStatistics().contains(CifBddStatistics.BDD_PERF_CONT);
@@ -302,19 +305,34 @@ public class BddUtils {
 
         // Print the statistics.
         if (doCacheStats) {
+            if (dbgEnabled) {
+                debugOutput.line();
+            }
             BddUtils.printBddCacheStats(factory.getCacheStats(), settings.getNormalOutput(),
                     settings.getIndentAmount());
         }
+
         if (doContinuousPerformanceStats) {
-            settings.getDebugOutput().line("Writing continuous BDD performance statistics file \"%s\".",
-                    continuousPerformanceStatisticsFilePath);
+            if (dbgEnabled) {
+                debugOutput.line();
+                debugOutput.line("Writing continuous BDD performance statistics file \"%s\".",
+                        continuousPerformanceStatisticsFilePath);
+            }
             BddUtils.writeBddContinuousPerformanceStatsFile(continuousOpMisses, continuousUsedBddNodes,
                     continuousPerformanceStatisticsFilePath, continuousPerformanceStatisticsFileAbsPath);
         }
+
         if (doMaxBddNodesStats) {
+            if (dbgEnabled) {
+                debugOutput.line();
+            }
             BddUtils.printBddMaxUsedBddNodesStats(factory.getMaxUsedBddNodesStats(), settings.getNormalOutput());
         }
+
         if (doMaxMemoryStats) {
+            if (dbgEnabled) {
+                debugOutput.line();
+            }
             BddUtils.printMaxMemoryStats(factory.getMaxMemoryStats(), settings.getNormalOutput());
         }
     }
