@@ -30,6 +30,7 @@ import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -85,11 +86,12 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
         DebugNormalOutput out = cifMddSpec.getNormalOutput();
         DebugNormalOutput dbg = cifMddSpec.getDebugOutput();
         List<Automaton> automata = cifMddSpec.getAutomata();
+        Assert.check(!automata.isEmpty());
         Set<Event> controllableEvents = cifMddSpec.getControllableEvents();
 
-        // If no automata, or no controllable events, then confluence trivially holds.
-        if (automata.isEmpty() || controllableEvents.isEmpty()) {
-            dbg.line("Confluence trivially holds.");
+        // If no controllable events, then confluence trivially holds.
+        if (controllableEvents.isEmpty()) {
+            dbg.line("No controllable events. Confluence trivially holds.");
             return new ConfluenceCheckConclusion(List.of());
         }
 
