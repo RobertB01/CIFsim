@@ -14,20 +14,13 @@
 event e;
 
 automaton a:
-  disc int w = z + 2;   // 5
-  disc int x;           // 0
-  disc int y = 3;       // 3
-  disc int z = x + y;   // 3
-
-  initial w = 5, x = 0, y = 3, z = 3;
-  invariant 1 = 1;
-
+  disc int x, y;
   location:
     initial;
-    edge e when w + x + y + z < 0;
+    edge e when x < 10 do if x = 0:   x := x + 1
+                          elif x = 1: x := x + 2
+                          elif x = 3: if y = 0: x := 0, y := 1
+                                      else      x := 25
+                                      end
+                          end;
 end
-
-initial a.y + a.z = 6;
-
-const bool x = true;
-invariant x = not not x;

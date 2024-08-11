@@ -72,18 +72,12 @@ The latter may have a range.
 ** Continuous variables are not supported.
 ** Algebraic variables are supported, if their types and values are supported.
 ** Input variables are not supported.
-** Equations are not supported.
-
-* Regarding events:
-** Channels are not supported.
 
 * Regarding automata:
 ** There must be at least one automaton.
 ** The supervisory kind of automata is ignored.
 ** The initialization predicates in locations must be statically evaluable to `true` or `false`.
 ** There must be exactly one initial location in each automaton, and it must be possible to determine this statically.
-** `if` updates are not supported.
-Only assignments are supported.
 ** Multi-assignments are not supported.
 Multiple assignments on an edge is supported.
 ** Urgent locations and edges are not supported.
@@ -96,27 +90,39 @@ The latter may have a range.
 *** Boolean-typed constants are supported.
 *** Boolean-typed discrete variables are supported.
 *** Boolean-typed algebraic variables are supported.
-*** Binary operators `and`, `or` and `+=>+` on boolean-typed arguments are supported.
+*** Boolean-typed received values.
+*** Binary operators `and`, `or`, `+=>+` and `+<=>+` on boolean-typed arguments are supported.
 *** Binary operators `=` and `!=` on boolean, enum and integer-typed arguments are supported.
 *** Binary operators `<`, `+<=+`, `>` and `>=` on integer-typed arguments are supported.
 *** Unary operator `not` on boolean-typed arguments is supported.
-*** Location references are not supported.
+*** Location references are supported.
+*** `if` expressions with a boolean-typed result are supported.
+*** `switch` expressions with a boolean-typed result, and supported `switch` and key values, are supported.
+*** Cast expressions on boolean-typed arguments that don't change the type are supported.
 ** Regarding enumeration-typed expressions (resulting in an enumeration literal as value):
 *** Enumeration literals are supported.
 *** Enumeration-typed constants are supported.
 *** Enumeration-typed discrete variables are supported.
 *** Enumeration-typed algebraic variables are supported.
+*** Enumeration-typed received values.
+*** `if` expressions with an enumeration-typed result are supported.
+*** `switch` expressions with an enumeration-typed result, and supported `switch` and key values, are supported.
+*** Cast expressions on enumeration-typed arguments that don't change the type are supported.
 ** Regarding integer-typed expressions (resulting in an integer as value):
 *** Integer literals are supported.
 *** Integer-typed constants are supported.
 *** Integer-typed discrete variables are supported.
 *** Integer-typed algebraic variables are supported.
+*** Integer-typed received values.
 *** Binary operators `pass:c[+]`, `+*+` and `-` on integer-typed arguments are supported.
 *** Unary operators `-` and `pass:c[+]` on integer-typed arguments are supported.
+*** `if` expressions with an integer-typed result are supported.
+*** `switch` expressions with an integer-typed result, and supported `switch` and key values, are supported.
+*** Cast expressions on integer-typed arguments that don't change the type are supported.
 
 * Regarding other concepts:
-** Initialization predicates in components are not supported.
-** Invariants are not supported.
+** Initialization predicates in components are not supported, unless they are statically evaluable to `true`.
+** Invariants are not supported, unless they do not pose any restriction.
 ** Marker predicates are ignored.
 ** I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
@@ -147,6 +153,10 @@ The following transformations are additionally applied as preprocesing (in the g
 * <<tools-cif2cif-chapter-add-default-init-values>>
 
 * <<tools-cif2cif-chapter-linearize-product>>
+
+* <<tools-cif2cif-chapter-switches-to-ifs>>
+
+* <<tools-cif2cif-chapter-elim-if-updates>>
 
 indexterm:[CIF to mCRL2 transformer,result of the transformation]
 

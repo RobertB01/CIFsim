@@ -11,23 +11,22 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-event e;
+event int chan;
 
-automaton a:
-  disc int w = z + 2;   // 5
-  disc int x;           // 0
-  disc int y = 3;       // 3
-  disc int z = x + y;   // 3
-
-  initial w = 5, x = 0, y = 3, z = 3;
-  invariant 1 = 1;
-
+automaton def Send(alg int v):
   location:
     initial;
-    edge e when w + x + y + z < 0;
+    edge chan!v;
 end
 
-initial a.y + a.z = 6;
+automaton def Receive():
+  disc int v;
+  location:
+    initial;
+    edge chan? do v := ?;
+end
 
-const bool x = true;
-invariant x = not not x;
+send1: Send(1);
+send2: Send(2);
+recv1: Receive();
+recv2: Receive();

@@ -4,11 +4,11 @@ WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 22, column 13: A
 WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 39, column 20: Discrete variable "g.p.x3" is not used anywhere in the specification.
 WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 43, column 11: Duplicate state invariant.
 WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 44, column 11: Duplicate state invariant.
-WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 52, column 15: Edge is redundantly urgent, since its source location (the location of automaton "g.p") is also urgent.
+WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 51, column 15: Edge is redundantly urgent, since its source location (the location of automaton "g.p") is also urgent.
 ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
 
   ------------------------------
-  (1/23) A list literal is used.
+  (1/20) A list literal is used.
   ------------------------------
    * In automaton "g.p":
      - edge e2 do lb := lb + [false];
@@ -18,7 +18,7 @@ ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
                            ^
 
   ---------------------------
-  (2/23) A list type is used.
+  (2/20) A list type is used.
   ---------------------------
    * In automaton "g.p":
      - edge e2 do lb := lb + [false];
@@ -28,11 +28,8 @@ ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
             ^              ^
 
   -------------------------------------
-  (3/23) A real number literal is used.
+  (3/20) A real number literal is used.
   -------------------------------------
-   * In group "g":
-     - equation y' = 2.0;
-                     ^
    * In continuous variable "g.p.cnt":
      - cont cnt der 1.0;
                     ^
@@ -41,11 +38,8 @@ ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
                   ^
 
   ---------------------------
-  (4/23) A real type is used.
+  (4/20) A real type is used.
   ---------------------------
-   * In group "g":
-     - equation y' = 2.0;
-                     ^
    * In continuous variable "g.p.cnt":
      - cont cnt der 1.0;
                     ^
@@ -54,35 +48,28 @@ ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
                   ^
 
   -------------------------------
-  (5/23) A tuple literal is used.
+  (5/20) A tuple literal is used.
   -------------------------------
    * In automaton "g.p":
      - edge e1 do (x1, x2) := (1, 1);
                   ^           ^
 
   ----------------------------
-  (6/23) A tuple type is used.
+  (6/20) A tuple type is used.
   ----------------------------
    * In automaton "g.p":
      - edge e1 do (x1, x2) := (1, 1);
                   ^           ^
-
-  ---------------------------
-  (7/23) An equation is used.
-  ---------------------------
-   * In group "g":
-     - equation y' = 2.0;
-                   ^
 
   -------------------------------------------
-  (8/23) An input variable reference is used.
+  (7/20) An input variable reference is used.
   -------------------------------------------
    * In discrete variable "g.p.x3":
      - disc bool x3 = i;
                       ^
 
   ----------------------------
-  (9/23) An invariant is used.
+  (8/20) An invariant is used.
   ----------------------------
    * In group "g":
      - invariant false;
@@ -93,106 +80,88 @@ ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
      - plant invariant false;
              ^
 
-  -------------------------------------------------
-  (10/23) Automaton has multiple initial locations.
-  -------------------------------------------------
+  ------------------------------------------------
+  (9/20) Automaton has multiple initial locations.
+  ------------------------------------------------
    * In group "g":
      - automaton mult_initials:
                  ^
 
   ------------------------------------------
-  (11/23) Automaton has no initial location.
+  (10/20) Automaton has no initial location.
   ------------------------------------------
    * In group "g":
      - automaton no_initial:
                  ^
 
   ------------------------------------------------------------
-  (12/23) Binary operator "+" is used on a list typed operand.
+  (11/20) Binary operator "+" is used on a list typed operand.
   ------------------------------------------------------------
    * In automaton "g.p":
      - edge e2 do lb := lb + [false];
                            ^
 
   --------------------------------------------------
-  (13/23) Component has an initialization predicate.
+  (12/20) Component has an initialization predicate.
   --------------------------------------------------
    * In group "g":
      - initial false;
                ^
 
   -----------------------------------------------------------------------------------
-  (14/23) Discrete variable has an initial value that cannot be evaluated statically.
+  (13/20) Discrete variable has an initial value that cannot be evaluated statically.
   -----------------------------------------------------------------------------------
    * In discrete variable "g.p.x3":
      - disc bool x3 = i;
                       ^
 
   ----------------------------------------------------------------
-  (15/23) Discrete variable has multiple potential initial values.
+  (14/20) Discrete variable has multiple potential initial values.
   ----------------------------------------------------------------
    * In automaton "g.p":
      - disc int[1..2] x1 in {1, 2};
                       ^
 
   ------------------------------------------------------------------------------------------
-  (16/23) Discrete variable has multiple potential initial values (any value in its domain).
+  (15/20) Discrete variable has multiple potential initial values (any value in its domain).
   ------------------------------------------------------------------------------------------
    * In automaton "g.p":
      - disc int[1..2] x2 in any;
                       ^
 
   ------------------------------------
-  (17/23) Edge has a multi-assignment.
+  (16/20) Edge has a multi-assignment.
   ------------------------------------
    * In automaton "g.p":
      - edge e1 do (x1, x2) := (1, 1);
                            ^
 
-  --------------------------------
-  (18/23) Edge has an 'if' update.
-  --------------------------------
-   * In automaton "g.p":
-     - edge e1 do if true: x1 := 2 end;
-                  ^
-
   -----------------------
-  (19/23) Edge is urgent.
+  (17/20) Edge is urgent.
   -----------------------
    * In automaton "g.p":
      - edge e1 now;
        ^
 
   ---------------------------
-  (20/23) Event is a channel.
-  ---------------------------
-   * In group "g":
-     - event int[0..5] e1;
-                       ^
-     - event int[0..5] e2;
-                       ^
-
-  ---------------------------
-  (21/23) Location is urgent.
+  (18/20) Location is urgent.
   ---------------------------
    * In automaton "g.p":
      - location:
        ^
 
   ------------------------------------------
-  (22/23) Variable is a continuous variable.
+  (19/20) Variable is a continuous variable.
   ------------------------------------------
    * In group "g":
      - cont x der 1.0;
-            ^
-     - cont y;
             ^
    * In automaton "g.p":
      - cont cnt der 1.0;
             ^
 
   --------------------------------------
-  (23/23) Variable is an input variable.
+  (20/20) Variable is an input variable.
   --------------------------------------
    * In group "g":
      - input bool i;

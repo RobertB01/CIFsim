@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-group g:
-  event int[0..5] e1, e2;           // Channels.
+event e1, e2;
 
+group g:
   invariant 1 + 1 = 2;              // Invariant.
   invariant 1 = 3;                  // Invariant.
 
@@ -46,18 +46,15 @@ group g:
     location:
       initial true;
       urgent;                       // Urgent location.
-      edge e1 do if true: x1 := 2 end; // 'if' update.
       edge e2 do lb := lb + [false];   // List type/expr.
       edge e1 do (x1, x2) := (1, 1);   // Multi-assignment.
       edge e1 now;                  // Urgent edge.
 
-      plant invariant 1+1 = 2;      // Invariant.
+      plant invariant 1 + 1 = 2;    // Invariant.
       plant invariant 1 = 3;        // Invariant.
   end
 
   cont x der 1;                     // Continuous variable.
-  cont y;                           // Continuous variable.
-  equation y' = 2;                  // Equation.
 
   input bool i;                     // Input variable.
 end

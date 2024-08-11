@@ -13,21 +13,39 @@
 
 event e;
 
-automaton a:
-  disc int w = z + 2;   // 5
-  disc int x;           // 0
-  disc int y = 3;       // 3
-  disc int z = x + y;   // 3
+automaton aut:
+  location loc1:
+    initial;
+    edge e goto loc2;
 
-  initial w = 5, x = 0, y = 3, z = 3;
-  invariant 1 = 1;
+  location loc2:
+    edge e goto loc1;
+end
+
+alg bool a1 = aut.loc1;
+
+alg bool a2;
+equation a2 = aut.loc2;
+
+automaton aut2:
+  alg int a3;
+
+  location loc1:
+    initial;
+    equation a3 = 1;
+    edge e goto loc2;
+
+  location loc2:
+    equation a3 = 2;
+    edge e goto loc1;
+end
+
+automaton aut3:
+  event e1, e2, e3;
 
   location:
     initial;
-    edge e when w + x + y + z < 0;
+    edge e1 when a1;
+    edge e2 when a2;
+    edge e3 when aut2.a3 = 1;
 end
-
-initial a.y + a.z = 6;
-
-const bool x = true;
-invariant x = not not x;
