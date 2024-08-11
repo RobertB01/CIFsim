@@ -253,9 +253,7 @@ public class CifBddReachability {
                     }
                     cifBddSpec.settings.getDebugOutput().line("%s: %s -> %s [%s reach with edge: %s%s]",
                             Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
-                            bddToStr(newPred, cifBddSpec), direction.description,
-                            edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
-                            restrTxt);
+                            bddToStr(newPred, cifBddSpec), direction.description, edge.toString(""), restrTxt);
                 }
 
                 // Update the administration.
@@ -352,9 +350,7 @@ public class CifBddReachability {
                         }
                         cifBddSpec.settings.getDebugOutput().line("%s: %s -> %s [%s reach with edge: %s%s]",
                                 Strings.makeInitialUppercase(predName), bddToStr(pred, cifBddSpec),
-                                bddToStr(newPred, cifBddSpec), direction.description,
-                                edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
-                                restrTxt);
+                                bddToStr(newPred, cifBddSpec), direction.description, edge.toString(""), restrTxt);
                     }
 
                     // Update the administration.

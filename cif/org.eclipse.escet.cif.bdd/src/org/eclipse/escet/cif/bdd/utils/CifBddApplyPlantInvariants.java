@@ -83,8 +83,7 @@ public class CifBddApplyPlantInvariants {
             } else {
                 if (dbgEnabled) {
                     cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s [plant: %s].",
-                            edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
-                            bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec),
+                            edge.toString(""), bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec),
                             bddToStr(plant, cifBddSpec));
                 }
                 edge.guard.free();
@@ -106,14 +105,18 @@ public class CifBddApplyPlantInvariants {
                     cifBddSpec.settings.getDebugOutput().line();
                     cifBddSpec.settings.getDebugOutput().line("%s:", Strings.makeInitialUppercase(behaviorName));
                     if (sysBehText != null) {
-                        sysBehText = Strings.spaces(cifBddSpec.settings.getIndentAmount()) + sysBehText;
+                        cifBddSpec.settings.getDebugOutput().inc();
                         cifBddSpec.settings.getDebugOutput().line(sysBehText);
                     }
                     if (!cifBddSpec.edges.isEmpty()) {
-                        int indentLevel = (sysBehText == null) ? 1 : 2;
-                        for (String line: cifBddSpec.getEdgesText(indentLevel)) {
+                        cifBddSpec.settings.getDebugOutput().inc();
+                        for (String line: cifBddSpec.getEdgesText()) {
                             cifBddSpec.settings.getDebugOutput().line(line);
                         }
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
+                    if (sysBehText != null) {
+                        cifBddSpec.settings.getDebugOutput().dec();
                     }
                 }
             } else {
@@ -210,8 +213,7 @@ public class CifBddApplyPlantInvariants {
             } else {
                 if (dbgEnabled) {
                     cifBddSpec.settings.getDebugOutput().line("Edge %s: guard: %s -> %s.",
-                            edge.toString(0, cifBddSpec.settings.getIndentAmount(), ""),
-                            bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec));
+                            edge.toString(""), bddToStr(edge.guard, cifBddSpec), bddToStr(newGuard, cifBddSpec));
                 }
                 edge.guard.free();
                 edge.guard = newGuard;
@@ -232,14 +234,18 @@ public class CifBddApplyPlantInvariants {
                     cifBddSpec.settings.getDebugOutput().line();
                     cifBddSpec.settings.getDebugOutput().line("%s:", Strings.makeInitialUppercase(behaviorName));
                     if (sysBehText != null) {
-                        sysBehText = Strings.spaces(cifBddSpec.settings.getIndentAmount()) + sysBehText;
+                        cifBddSpec.settings.getDebugOutput().inc();
                         cifBddSpec.settings.getDebugOutput().line(sysBehText);
                     }
                     if (!cifBddSpec.edges.isEmpty()) {
-                        int indentLevel = (sysBehText == null) ? 1 : 2;
-                        for (String line: cifBddSpec.getEdgesText(indentLevel)) {
+                        cifBddSpec.settings.getDebugOutput().inc();
+                        for (String line: cifBddSpec.getEdgesText()) {
                             cifBddSpec.settings.getDebugOutput().line(line);
                         }
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
+                    if (sysBehText != null) {
+                        cifBddSpec.settings.getDebugOutput().dec();
                     }
                 }
             } else {
