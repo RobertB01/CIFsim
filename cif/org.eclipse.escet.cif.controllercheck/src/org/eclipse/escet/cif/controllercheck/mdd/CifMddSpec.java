@@ -118,9 +118,11 @@ public class CifMddSpec {
     public boolean compute(Specification spec) {
         // Collect automata and controllable events.
         automata = CifCollectUtils.collectAutomata(spec, list());
+        Assert.check(!automata.isEmpty());
         Set<Event> allControllableEvents = CifCollectUtils.collectControllableEvents(spec, set());
-        if (automata.isEmpty() || allControllableEvents.isEmpty()) {
+        if (allControllableEvents.isEmpty()) {
             // All MDD-based checks trivially hold.
+            debugOutput.line("No controllable events.");
             return true;
         }
 
