@@ -349,11 +349,6 @@ public class CifDataSynthesis {
                 return null;
             }
             determineOutputGuards(cifBddSpec, synthResult, ctrlGuards, dbgEnabled);
-
-            // Separate debug output from what is to come.
-            if (dbgEnabled) {
-                cifBddSpec.settings.getDebugOutput().line();
-            }
         } finally {
             if (doTiming) {
                 timing.postSynth.stop();

@@ -224,6 +224,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         // Check for supported specification and perform preprocessing.
         if (dbgEnabled) {
+            dbg();
             dbg("Preprocessing CIF specification (includes checking that the specification is supported).");
         }
 
@@ -254,6 +255,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         try {
             // Convert CIF specification to a CIF/BDD representation.
             if (dbgEnabled) {
+                dbg();
                 dbg("Converting CIF specification to internal format (BDDs):");
             }
 
@@ -265,7 +267,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 idbg();
                 cifBddSpec = converter1.convert(spec, settings, factory);
                 ddbg();
-                dbg();
             } finally {
                 if (doTiming) {
                     timing.inputConvert.stop();
@@ -278,6 +279,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Perform synthesis.
             if (dbgEnabled) {
+                dbg();
                 dbg("Starting data-based synthesis.");
             }
             CifDataSynthesisResult synthResult = CifDataSynthesis.synthesize(cifBddSpec, settings, timing);
@@ -287,6 +289,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Construct output CIF specification.
             if (dbgEnabled) {
+                dbg();
                 dbg("Constructing output CIF specification.");
             }
             SynthesisToCifConverter converter2 = new SynthesisToCifConverter();
@@ -320,6 +323,10 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         }
 
         // Check CIF specification to output.
+        if (dbgEnabled) {
+            dbg();
+            dbg("Checking output CIF specification.");
+        }
         CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "synthesized");
         try {
             new CifAnnotationsPostChecker(env).check(spec);
