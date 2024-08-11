@@ -283,16 +283,12 @@ public class CifDataSynthesis {
                 }
             }
 
-            // Determine controlled system initialization predicate.
+            // Determine controlled system initialization predicate and check whether an initial state is present, or
+            // the supervisor is empty.
             if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             determineCtrlSysInit(cifBddSpec, synthResult, dbgEnabled);
-
-            // Check whether an initial state is present, or the supervisor is empty.
-            if (cifBddSpec.settings.getTermination().isRequested()) {
-                return null;
-            }
             boolean emptySup = !checkInitStatePresent(synthResult);
 
             // Statistics: number of states in controlled system.
