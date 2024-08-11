@@ -146,6 +146,9 @@ group INTEGER_DIVISION:
   invariant GI: 1 div i = 0;
   invariant IG: i div 1 = 0;
   invariant II: i div i = 0;
+
+  invariant NPn1: i div -1 = 0;
+  invariant NPz:  i div  0 = 0;
 end
 
 // LESS_EQUAL.
@@ -175,6 +178,9 @@ group MODULUS:
   invariant GI: 1 mod i = 0;
   invariant IG: i mod 1 = 0;
   invariant II: i mod i = 0;
+
+  invariant NPn1: i mod -1 = 0;
+  invariant NPz:  i mod  0 = 0;
 end
 
 // MULTIPLICATION.
