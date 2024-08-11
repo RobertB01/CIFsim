@@ -181,6 +181,8 @@ Checking for confluence:
     Skippable event pairs:
         (c_e2, c_e3)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

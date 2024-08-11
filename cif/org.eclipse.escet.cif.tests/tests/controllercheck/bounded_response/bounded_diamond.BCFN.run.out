@@ -244,6 +244,8 @@ Checking for confluence:
     Independent event pairs:
         (c_e1, c_e2), (c_e1, c_e3), (c_e1, c_e4), (c_e1, c_e5), (c_e2, c_e3), (c_e2, c_e4), (c_e2, c_e5), (c_e3, c_e4), (c_e3, c_e5), (c_e4, c_e5)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 

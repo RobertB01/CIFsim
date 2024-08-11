@@ -80,6 +80,9 @@ Checking for finite response:
             (c_dec_even), which is not controllable unconnectable.
 
 Checking for confluence:
+    No proven pairs.
+
+    Some pairs unproven. Confluence may not hold.
 
 CONCLUSION:
     [OK] The specification has bounded response:

@@ -295,6 +295,8 @@ Checking for confluence:
     Independent event pairs:
         (Aut1.c_b, Aut2.c_b), (Aut1.c_b, Aut4.c_b), (Aut1.c_b, Aut5.c_b), (Aut2.c_b, Aut4.c_b), (Aut2.c_b, Aut5.c_b), (Aut4.c_b, Aut5.c_b)
 
+    Some pairs unproven. Confluence may not hold.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

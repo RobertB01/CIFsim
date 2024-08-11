@@ -173,6 +173,8 @@ Checking for confluence:
     Mutual exclusive event pairs:
         (DifferentConditions.a, DifferentConditions.b)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 

@@ -181,6 +181,8 @@ Checking for confluence:
     Independent event pairs:
         (A.a, B.a), (A.b, B.a)
 
+    Some pairs unproven. Confluence may not hold.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

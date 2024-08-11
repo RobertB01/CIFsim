@@ -187,6 +187,8 @@ Checking for confluence:
     Independent event pairs:
         (AutDifferenLocs.a, AutDifferenLocs.b)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 

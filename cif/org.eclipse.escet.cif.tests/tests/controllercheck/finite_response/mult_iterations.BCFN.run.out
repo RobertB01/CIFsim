@@ -222,6 +222,8 @@ Checking for confluence:
     Mutual exclusive event pairs:
         (Actuator1.c_off, Actuator1.c_on), (Actuator1.c_off, Actuator2.c_off), (Actuator1.c_on, Actuator2.c_on), (Actuator2.c_off, Actuator2.c_on)
 
+    Some pairs unproven. Confluence may not hold.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 

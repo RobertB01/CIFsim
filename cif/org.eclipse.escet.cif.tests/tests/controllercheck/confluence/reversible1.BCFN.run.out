@@ -207,6 +207,8 @@ Checking for confluence:
     Reversible event pairs:
         (a, b)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 

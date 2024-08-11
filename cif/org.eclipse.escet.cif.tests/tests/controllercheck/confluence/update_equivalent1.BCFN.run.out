@@ -182,6 +182,8 @@ Checking for confluence:
     Update equivalent event pairs:
         (SingleAut.a, SingleAut.b)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 

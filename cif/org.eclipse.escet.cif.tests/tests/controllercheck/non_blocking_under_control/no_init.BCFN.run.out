@@ -60,6 +60,9 @@ Checking for finite response:
             (p.e), which is not controllable unconnectable.
 
 Checking for confluence:
+    No proven pairs.
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [OK] The specification has bounded response:

@@ -175,6 +175,9 @@ Checking for finite response:
     Iteration 1.
 
 Checking for confluence:
+    No proven pairs.
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [OK] The specification has bounded response:

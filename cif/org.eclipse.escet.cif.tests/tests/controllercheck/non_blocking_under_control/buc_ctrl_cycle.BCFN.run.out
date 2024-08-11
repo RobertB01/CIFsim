@@ -84,6 +84,8 @@ Checking for confluence:
     Mutual exclusive event pairs:
         (Supervisor.c_act1, Supervisor.c_act2), (Supervisor.c_act1, Supervisor.c_act3), (Supervisor.c_act2, Supervisor.c_act3)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

@@ -146,6 +146,8 @@ Checking for confluence:
     Independent event pairs:
         (c_dec, c_inc)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

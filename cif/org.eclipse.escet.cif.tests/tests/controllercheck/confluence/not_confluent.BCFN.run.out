@@ -180,6 +180,9 @@ Checking for finite response:
     Iteration 1.
 
 Checking for confluence:
+    No proven pairs.
+
+    Some pairs unproven. Confluence may not hold.
 
 CONCLUSION:
     [OK] The specification has bounded response:

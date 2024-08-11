@@ -133,6 +133,8 @@ Checking for confluence:
     Skippable event pairs:
         (A.m, A.o), (A.n, A.o)
 
+    Some pairs unproven. Confluence may not hold.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

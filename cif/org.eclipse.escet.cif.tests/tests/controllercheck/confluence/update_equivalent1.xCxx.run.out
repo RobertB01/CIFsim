@@ -12,6 +12,8 @@ Checking for confluence:
     Update equivalent event pairs:
         (SingleAut.a, SingleAut.b)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.
     [UNKNOWN] Non-blocking under control checking was disabled, non-blocking under control property is unknown.

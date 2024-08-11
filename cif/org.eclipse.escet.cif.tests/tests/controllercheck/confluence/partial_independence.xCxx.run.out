@@ -10,6 +10,9 @@ Preparing for MDD-based checks:
         Updating global guards and updates for event "A.b".
 
 Checking for confluence:
+    No proven pairs.
+
+    Some pairs unproven. Confluence may not hold.
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

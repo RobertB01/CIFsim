@@ -222,6 +222,9 @@ Checking for finite response:
             (c), which is not controllable unconnectable.
 
 Checking for confluence:
+    No proven pairs.
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [OK] The specification has bounded response:

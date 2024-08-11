@@ -95,6 +95,8 @@ Checking for confluence:
     Update equivalent event pairs:
         (A.a, A.b), (A.c, A.d)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

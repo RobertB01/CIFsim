@@ -176,6 +176,8 @@ Checking for confluence:
     Independent event pairs:
         (a, c), (b, c)
 
+    Some pairs unproven. Confluence may not hold.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

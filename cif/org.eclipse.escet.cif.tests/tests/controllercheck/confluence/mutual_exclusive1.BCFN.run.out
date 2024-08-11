@@ -88,6 +88,8 @@ Checking for confluence:
     Mutual exclusive event pairs:
         (DifferentLocs.a, DifferentLocs.b)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 

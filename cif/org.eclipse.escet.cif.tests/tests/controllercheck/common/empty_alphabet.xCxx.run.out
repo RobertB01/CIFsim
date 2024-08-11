@@ -3,6 +3,7 @@ Preparing for MDD-based checks:
     Analyzing automaton "p":
 
 Checking for confluence:
+    Confluence trivially holds.
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

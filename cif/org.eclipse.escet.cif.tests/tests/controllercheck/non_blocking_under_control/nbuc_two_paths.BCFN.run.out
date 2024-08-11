@@ -90,6 +90,8 @@ Checking for confluence:
     Independent event pairs:
         (Supervisor1.c_act1, Supervisor1.c_act2)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 

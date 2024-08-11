@@ -62,6 +62,9 @@ Checking for finite response:
             (c_e), which is not controllable unconnectable.
 
 Checking for confluence:
+    No proven pairs.
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:

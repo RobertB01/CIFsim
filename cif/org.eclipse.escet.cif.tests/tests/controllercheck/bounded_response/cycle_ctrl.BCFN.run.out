@@ -80,6 +80,8 @@ Checking for confluence:
     Mutual exclusive event pairs:
         (c_off, c_on)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

@@ -80,6 +80,8 @@ Checking for confluence:
     Mutual exclusive event pairs:
         (p.c1, p.c2)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

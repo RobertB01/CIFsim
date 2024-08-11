@@ -117,6 +117,8 @@ Checking for confluence:
     Mutual exclusive event pairs:
         (c_c1, c_c2), (c_c1, c_e1), (c_c1, c_e2), (c_c1, c_e3), (c_c2, c_e1), (c_c2, c_e2), (c_c2, c_e3), (c_e1, c_e2), (c_e1, c_e3), (c_e2, c_e3)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:
 

@@ -258,6 +258,8 @@ Checking for confluence:
     Mutual exclusive event pairs:
         (Lamp.c_off, Lamp.c_on), (Lamp.c_off, Timer.c_start), (Lamp.c_on, Timer.c_start)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 

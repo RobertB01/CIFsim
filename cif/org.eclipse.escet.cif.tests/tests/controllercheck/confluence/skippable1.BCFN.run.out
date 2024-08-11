@@ -185,6 +185,8 @@ Checking for confluence:
     Skippable event pairs:
         (OptionalChangeBool.a, OptionalChangeBool.b)
 
+    All pairs proven. Confluence holds.
+
 CONCLUSION:
     [OK] The specification has bounded response:
 
