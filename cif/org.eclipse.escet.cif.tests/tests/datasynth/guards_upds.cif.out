@@ -114,7 +114,7 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Showing input and checking for potential problems:
+Synthesis input:
     Invariant (components state plant inv):      true
     Invariant (locations state plant invariant): true
     Invariant (system state plant invariant):    true
@@ -152,6 +152,8 @@ Showing input and checking for potential problems:
         State: (controlled-behavior: ?)
             Edge: (event: a) (guard: p2.y = 4 and p1.l0 or (p2.y = 5 and p1.l0 or p2.y = 3 and p1.l0)) (assignments: p1.x := p1.x + 1, p1 := p1.l1, p2.y := 3)
             Edge: (event: b) (guard: p1.x = 5 and p1.l0 or p1.x = 3 and p1.l0)
+
+Checking input for potential problems.
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: a) (guard: p2.y = 4 and p1.l0 or (p2.y = 5 and p1.l0 or p2.y = 3 and p1.l0) -> p2.y = 4 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or p2.y = 4 and ((p1.x = 1 or p1.x = 5) and p1.l0) or (p2.y = 4 and (p1.x = 3 and p1.l0) or p2.y = 5 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0)) or (p2.y = 5 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 5 and (p1.x = 3 and p1.l0) or (p2.y = 3 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or (p2.y = 3 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 3 and (p1.x = 3 and p1.l0))))) (assignments: p1.x := p1.x + 1, p1 := p1.l1, p2.y := 3)

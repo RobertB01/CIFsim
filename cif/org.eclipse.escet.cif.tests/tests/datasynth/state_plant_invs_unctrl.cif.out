@@ -99,7 +99,7 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Showing input and checking for potential problems:
+Synthesis input:
     Invariant (component state plant invariant): A.Vu2 != 3
     Invariant (component state plant invariant): A.Vu3 != 4
     Invariant (components state plant inv):      (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and A.Vu2 != 3)
@@ -140,6 +140,8 @@ Showing input and checking for potential problems:
             Edge: (event: u1) (guard: A.Vu1 != 4) (assignments: A.Vu1 := A.Vu1 + 1)
             Edge: (event: u2) (guard: true) (assignments: A.Vu2 := A.Vu2 + 1)
             Edge: (event: u3) (guard: true) (assignments: A.Vu3 := A.Vu3 + 1)
+
+Checking input for potential problems.
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: u1) (guard: A.Vu1 != 4 -> A.Vu1 != 4) (assignments: A.Vu1 := A.Vu1 + 1)

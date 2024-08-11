@@ -112,7 +112,7 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Showing input and checking for potential problems:
+Synthesis input:
     Invariant (components state plant inv):      true
     Invariant (locations state plant invariant): true
     Invariant (system state plant invariant):    true
@@ -154,6 +154,8 @@ Showing input and checking for potential problems:
             Edge: (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1)
             Edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1)
             Edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1)
+
+Checking input for potential problems.
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: adder.c_add) (guard: adder.l1 -> (count_max3.cnt = 0 or (count_max3.cnt = 2 or count_max3.cnt = 4) or (count_max3.cnt = 6 or (count_max3.cnt = 8 or count_max3.cnt = 10))) and adder.l1 or (count_max3.cnt = 1 or (count_max3.cnt = 5 or count_max3.cnt = 9)) and adder.l1 or (count_max3.cnt = 3 and adder.l1 or count_max3.cnt = 7 and adder.l1)) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1)

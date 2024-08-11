@@ -116,7 +116,7 @@ Converting CIF specification to internal format (BDDs):
 
 Starting data-based synthesis.
 
-Showing input and checking for potential problems:
+Synthesis input:
     Invariant (components state plant inv):      true
     Invariant (locations state plant invariant): true
     Invariant (system state plant invariant):    true
@@ -157,6 +157,8 @@ Showing input and checking for potential problems:
             Edge: (event: p.c1) (guard: true) (assignments: p.x := p.y)
             Edge: (event: p.c2) (guard: true) (assignments: p.a := p.b)
             Edge: (event: p.c3) (guard: true) (assignments: p.a := p.c)
+
+Checking input for potential problems.
 
 Restricting edge guards to prevent runtime errors:
     Edge: (event: p.c2) (guard: true -> 1 <= p.b and p.b <= 3) (assignments: p.a := p.b)
