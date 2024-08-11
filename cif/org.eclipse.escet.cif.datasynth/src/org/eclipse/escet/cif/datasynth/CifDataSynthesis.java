@@ -307,6 +307,9 @@ public class CifDataSynthesis {
 
             // Fail if supervisor is empty.
             if (emptySup) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().line();
+                }
                 throw new InvalidInputException("Empty supervisor.");
             }
 
