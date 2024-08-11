@@ -139,7 +139,12 @@ public class CifMddSpec {
         }
 
         // Compute global guards, global guarded updates, and updated variables for each event.
+        boolean first = true;
         for (Automaton aut: automata) {
+            if (!first) {
+                debugOutput.line();
+            }
+            first = false;
             debugOutput.line("Analyzing %s...", CifTextUtils.getComponentText1(aut));
             Set<Event> controllableAutEvents = intersection(CifEventUtils.getAlphabet(aut), allControllableEvents);
             if (!controllableAutEvents.isEmpty()) {
