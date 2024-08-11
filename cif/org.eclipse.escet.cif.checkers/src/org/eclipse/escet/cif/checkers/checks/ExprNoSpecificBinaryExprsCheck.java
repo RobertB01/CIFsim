@@ -334,23 +334,17 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
                 if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION)) {
                     addExprViolationOperator(binExpr, violations);
                 } else {
-                    if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS)) {
-                        if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr, "an integer typed", violations);
-                        }
-                    } else {
-                        if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGED)
-                                && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
-                                        || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
-                        {
-                            addExprViolationOperand(binExpr, "a ranged integer typed", violations);
-                        }
-                        if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS)
-                                && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                        || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
-                        {
-                            addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
-                        }
+                    if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGED)
+                            && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
+                    {
+                        addExprViolationOperand(binExpr, "a ranged integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS)
+                            && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
+                    {
+                        addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
                     }
                 }
                 break;
@@ -416,23 +410,17 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
                 if (disalloweds.contains(NoSpecificBinaryOp.MODULUS)) {
                     addExprViolationOperator(binExpr, violations);
                 } else {
-                    if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS)) {
-                        if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr, "an integer typed", violations);
-                        }
-                    } else {
-                        if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGED)
-                                && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
-                                        || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
-                        {
-                            addExprViolationOperand(binExpr, "a ranged integer typed", violations);
-                        }
-                        if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGELESS)
-                                && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                        || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
-                        {
-                            addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
-                        }
+                    if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGED)
+                            && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
+                    {
+                        addExprViolationOperand(binExpr, "a ranged integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGELESS)
+                            && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
+                    {
+                        addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
                     }
                 }
                 break;
@@ -756,9 +744,6 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
         /** Disallow {@link BinaryOperator#INTEGER_DIVISION}. */
         INTEGER_DIVISION,
 
-        /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on integers. */
-        INTEGER_DIVISION_INTS,
-
         /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on ranged integers. */
         INTEGER_DIVISION_INTS_RANGED,
 
@@ -797,9 +782,6 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
 
         /** Disallow {@link BinaryOperator#MODULUS}. */
         MODULUS,
-
-        /** Disallow {@link BinaryOperator#MODULUS} on integers. */
-        MODULUS_INTS,
 
         /** Disallow {@link BinaryOperator#MODULUS} on ranged integers. */
         MODULUS_INTS_RANGED,
