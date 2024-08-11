@@ -282,4 +282,5 @@ Simplifying supervisor guards for output model:
     Event c: guard: p.x = 0 and p.l1 -> p.x = 0 [assume p.l1].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/loop.ctrlsys.real.cif".

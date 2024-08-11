@@ -265,4 +265,5 @@ Simplifying supervisor guards for output model:
     Event machine2.c_start: guard: not machine1.Producing and machine2.Idle -> not machine1.Producing [assume machine2.Idle].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/mutex2.ctrlsys.real.cif".

@@ -137,4 +137,5 @@ Simplifying supervisor guards for output model:
     Event c2: guard: false -> true [assume false].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/plant_alphabet.ctrlsys.real.cif".

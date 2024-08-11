@@ -250,4 +250,5 @@ Simplifying supervisor guards for output model:
     Event red_B: guard: LightB.Green -> true [assume LightB.Green].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/traffic_lights_req_state_inv_all_ctrl_beh.ctrlsys.real.cif".

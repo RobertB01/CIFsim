@@ -187,4 +187,5 @@ Simplifying supervisor guards for output model:
     Event c: guard: A.l1 -> true [assume A.l1].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/state_plant_invs_simple.ctrlsys.real.cif".

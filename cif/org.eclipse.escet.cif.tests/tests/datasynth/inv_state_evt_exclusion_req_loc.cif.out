@@ -400,4 +400,5 @@ Simplifying supervisor guards for output model:
     Event b: guard: a.x = 5 and a.l1 -> true [assume a.x = 5 and a.l1].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/inv_state_evt_exclusion_req_loc.ctrlsys.real.cif".

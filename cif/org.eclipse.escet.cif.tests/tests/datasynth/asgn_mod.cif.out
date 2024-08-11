@@ -284,4 +284,5 @@ Simplifying supervisor guards for output model:
     Event p.em5: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/asgn_mod.ctrlsys.real.cif".

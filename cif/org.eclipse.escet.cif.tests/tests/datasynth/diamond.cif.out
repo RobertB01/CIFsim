@@ -296,4 +296,5 @@ Simplifying supervisor guards for output model:
     Event motor2.c_off: guard: motor1.On and (order.l2 and motor2.On) -> motor1.On and order.l2 [assume motor2.On].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/diamond.ctrlsys.real.cif".

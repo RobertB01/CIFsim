@@ -401,4 +401,5 @@ Simplifying supervisor guards for output model:
     Event p3.take_right: guard: <bdd 42n 26p> -> not p2.right or f2.available or (p1.left or (p1.both or f1.available)) [assume <bdd 39n 27p>].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/dining_philosophers4.ctrlsys.real.cif".

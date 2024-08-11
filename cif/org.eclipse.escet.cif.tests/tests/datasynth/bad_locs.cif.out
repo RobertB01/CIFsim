@@ -292,4 +292,5 @@ Simplifying supervisor guards for output model:
     Event c: guard: p.l0 -> p.l0 or p.l1 [assume p.l0 or (p.l4 or p.l2)].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/bad_locs.ctrlsys.real.cif".

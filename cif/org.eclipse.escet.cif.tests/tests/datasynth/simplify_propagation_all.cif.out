@@ -305,4 +305,5 @@ Simplifying supervisor guards for output model:
     Event q_b: guard: p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) -> not q.loc2 and (not q.loc4 and not q.loc6) [assume p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc4) or (p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc4))].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/simplify_propagation_all.ctrlsys.real.cif".

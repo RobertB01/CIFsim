@@ -325,4 +325,5 @@ Simplifying supervisor guards for output model:
     Event p.c3: guard: p.x = 2 and (p.l3 and p.y = 3) or p.x = 1 and (p.l3 and p.y = 2) or (p.x = 1 and (p.l3 and (p.y = 1 or p.y = 3)) or p.x = 3 and (p.l3 and p.y = 3)) -> (p.x = 0 or p.x = 2) and p.y = 3 or p.x = 1 and p.y = 2 or (p.x = 1 and (p.y = 1 or p.y = 3) or p.x = 3 and p.y = 3) [assume p.x = 2 and p.l3 or (p.x = 1 or p.x = 3) and p.l3].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/fixed_point_order_reach_ctrl_nonblock.ctrlsys.real.cif".

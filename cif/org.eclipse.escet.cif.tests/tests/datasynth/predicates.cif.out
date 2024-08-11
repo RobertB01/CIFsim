@@ -488,4 +488,5 @@ Simplifying supervisor guards for output model:
     Event e47: guard: false -> true [assume false].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/predicates.ctrlsys.real.cif".

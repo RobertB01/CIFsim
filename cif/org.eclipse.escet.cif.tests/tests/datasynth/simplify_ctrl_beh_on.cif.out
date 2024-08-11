@@ -298,4 +298,5 @@ Simplifying supervisor guards for output model:
     Event c2: guard: (p2.x = 0 or p2.x = 1) and (p2.a and p1.x = 0) or ((p2.x = 0 or p2.x = 1) and p2.a and (p1.x = 2 and p1.a) or (p2.x = 0 or p2.x = 1) and (p2.a and p1.x = 1)) -> (p2.x = 0 or p2.x = 1) and p2.a [assume (p2.x != 0 or (p1.x != 2 or p1.a)) and (p2.x != 0 or p1.x != 3) and ((p2.x != 2 or p2.b or (p1.x != 2 or p1.a)) and (p2.x != 2 or (p2.b or p1.x != 3))) and ((p2.x != 2 or p2.a) and (p2.x != 1 or (p1.x != 2 or p1.a)) and ((p2.x != 1 or p1.x != 3) and p2.x != 3))].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/simplify_ctrl_beh_on.ctrlsys.real.cif".

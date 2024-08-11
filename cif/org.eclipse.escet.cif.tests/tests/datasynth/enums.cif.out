@@ -319,4 +319,5 @@ Simplifying supervisor guards for output model:
     Event g.e1: guard: g.p.x0 != g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 != g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) -> g.p.x1 = g.A and (g.p.x2 = g.B and g.p.x3 = g.D) and ((g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x1 = g.A and (g.p.x2 = g.B and g.p.x3 = g.D) and ((g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) [assume g.p.x0 != g.E].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/enums.ctrlsys.real.cif".

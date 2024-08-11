@@ -241,4 +241,5 @@ BDD cache statistics:
 Writing continuous BDD performance statistics file "datasynth/stats.cif.stats.txt.real".
 
 Maximum used BDD nodes: 91.
+
 Writing output CIF file "datasynth/stats.ctrlsys.real.cif".

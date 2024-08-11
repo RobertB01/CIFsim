@@ -256,4 +256,5 @@ Simplifying supervisor guards for output model:
     Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/inv_state_evt_exclusion_plant_comp.ctrlsys.real.cif".

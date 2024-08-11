@@ -320,4 +320,5 @@ BDD cache statistics:
     Operation cache misses:       540
 
 Maximum used BDD nodes: 102.
+
 Writing output CIF file "datasynth/edge_order_both_custom_dupl_no.ctrlsys.real.cif".

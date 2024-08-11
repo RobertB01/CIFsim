@@ -292,4 +292,5 @@ Simplifying supervisor guards for output model:
     Event g.e3: guard: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4) -> not g.p.b2 and (g.p.b1 and g.p.b3) [assume g.p.b4].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/booleans.ctrlsys.real.cif".

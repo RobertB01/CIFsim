@@ -308,4 +308,5 @@ Simplifying supervisor guards for output model:
     Event adder.c_add: guard: count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and not adder.l3) -> count_max3.cnt = 0 and not adder.l2 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1) [assume not adder.l3].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/req_counter.ctrlsys.real.cif".

@@ -405,4 +405,5 @@ Simplifying supervisor guards for output model:
     Event c2: guard: <bdd 21n 77p> -> <bdd 17n 77p> [assume p.m2].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/double_loop.ctrlsys.real.cif".

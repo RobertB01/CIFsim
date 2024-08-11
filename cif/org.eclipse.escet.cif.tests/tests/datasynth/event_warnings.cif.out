@@ -600,4 +600,5 @@ Simplifying supervisor guards for output model:
     Event c_off: guard: <bdd 69n 1p> -> <bdd 67n 1p> [assume a.l1 and b.l1].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/event_warnings.ctrlsys.real.cif".

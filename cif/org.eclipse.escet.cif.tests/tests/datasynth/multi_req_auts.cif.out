@@ -346,4 +346,5 @@ Simplifying supervisor guards for output model:
     Event a: guard: <bdd 26n 12p> -> <bdd 23n 12p> [assume p.x != 13].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/multi_req_auts.ctrlsys.real.cif".

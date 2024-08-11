@@ -314,4 +314,5 @@ Simplifying supervisor guards for output model:
     Event a: guard: p2.x = 0 and (p2.l2 and p1.l1) or (p2.x = 2 and p2.l2 or p2.x = 1 and p2.l2) -> (p2.x != 0 or p1.l1) and p2.x != 3 [assume p2.l2].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/edge_granularity_simple_per_event.ctrlsys.real.cif".

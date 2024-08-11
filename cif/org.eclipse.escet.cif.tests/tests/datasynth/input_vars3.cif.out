@@ -251,4 +251,5 @@ Simplifying supervisor guards for output model:
     Event c_off: guard: p_act.on -> true [assume p_act.on].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/input_vars3.ctrlsys.real.cif".

@@ -313,4 +313,5 @@ Simplifying supervisor guards for output model:
     Event Actuator.off: guard: Counter.five and Actuator.On -> Counter.five [assume Actuator.On].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/edge_order_forward_random_on.ctrlsys.real.cif".

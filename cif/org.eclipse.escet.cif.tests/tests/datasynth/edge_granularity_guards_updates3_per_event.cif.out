@@ -278,4 +278,5 @@ Simplifying supervisor guards for output model:
     Guards not changed.
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/edge_granularity_guards_updates3_per_event.ctrlsys.real.cif".

@@ -295,4 +295,5 @@ Simplifying supervisor guards for output model:
     Event c: guard: g.p.x = 4 and g.p.l0 or g.p.x = 3 and g.p.l0 -> g.p.x = 4 or g.p.x = 3 [assume g.p.l0].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/ctrl_sys.ctrlsys.real.cif".

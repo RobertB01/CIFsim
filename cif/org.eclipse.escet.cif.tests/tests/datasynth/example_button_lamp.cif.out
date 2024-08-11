@@ -295,4 +295,5 @@ Simplifying supervisor guards for output model:
     Event Lamp1.c_off: guard: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On) -> Button1.Released and LampOnWhileButtonPushed.Released [assume Lamp1.On].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/example_button_lamp.ctrlsys.real.cif".

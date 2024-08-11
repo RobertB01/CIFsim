@@ -297,4 +297,5 @@ Simplifying supervisor guards for output model:
     Event p.e2: guard: io.i = 0 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 4 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or (io.i = 1 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 3 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q))) -> io.i = 0 and p.x = 2 and (p.b and p.v != p.Q) or io.i = 1 and p.y = 4 and (p.x = 2 and (p.b and p.v != p.Q)) or (io.i = 1 and p.y = 2 and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and p.y = 3 and (p.x = 2 and (p.b and p.v != p.Q))) [assume io.i = 0 and (p.y = 2 and p.L2) or io.i = 1 and p.L2].
 
 Constructing output CIF specification.
+
 Writing output CIF file "datasynth/bdd_out_dnf.ctrlsys.real.cif".
