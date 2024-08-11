@@ -228,6 +228,7 @@ Simplifying supervisor guards for output model:
     Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
 
 Constructing output CIF specification.
+
 BDD cache statistics:
     Node creation requests:       732
     Node creation chain accesses: 2
@@ -236,6 +237,8 @@ BDD cache statistics:
     Operation count:              2318
     Operation cache hits:         419
     Operation cache misses:       688
+
 Writing continuous BDD performance statistics file "datasynth/stats.cif.stats.txt.real".
+
 Maximum used BDD nodes: 91.
 Writing output CIF file "datasynth/stats.ctrlsys.real.cif".
