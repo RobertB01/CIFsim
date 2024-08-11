@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -346,6 +347,13 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
                     {
                         addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
                     }
+                    if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_NON_POSITIVE_DIVISOR)
+                            && (rtype instanceof IntType && CifTypeUtils.getLowerBound((IntType)rtype) < 1))
+                    {
+                        boolean alwaysNonPositive = CifTypeUtils.getUpperBound((IntType)rtype) < 1;
+                        String operandTxt = fmt("a %snon-positive divisor", alwaysNonPositive ? "" : "possibly ");
+                        addExprViolationOperand(binExpr, operandTxt, violations);
+                    }
                 }
                 break;
             case LESS_EQUAL:
@@ -421,6 +429,13 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
                                     || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
                     {
                         addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_NON_POSITIVE_DIVISOR)
+                            && (rtype instanceof IntType && CifTypeUtils.getLowerBound((IntType)rtype) < 1))
+                    {
+                        boolean alwaysNonPositive = CifTypeUtils.getUpperBound((IntType)rtype) < 1;
+                        String operandTxt = fmt("a %snon-positive divisor", alwaysNonPositive ? "" : "possibly ");
+                        addExprViolationOperand(binExpr, operandTxt, violations);
                     }
                 }
                 break;
@@ -750,6 +765,9 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
         /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on rangeless integers. */
         INTEGER_DIVISION_INTS_RANGELESS,
 
+        /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on non-positive divisors. */
+        INTEGER_DIVISION_NON_POSITIVE_DIVISOR,
+
         /** Disallow {@link BinaryOperator#LESS_EQUAL}. */
         LESS_EQUAL,
 
@@ -788,6 +806,9 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
 
         /** Disallow {@link BinaryOperator#MODULUS} on rangeless integers. */
         MODULUS_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#MODULUS} on non-positive divisors. */
+        MODULUS_NON_POSITIVE_DIVISOR,
 
         /** Disallow {@link BinaryOperator#MULTIPLICATION}. */
         MULTIPLICATION,
