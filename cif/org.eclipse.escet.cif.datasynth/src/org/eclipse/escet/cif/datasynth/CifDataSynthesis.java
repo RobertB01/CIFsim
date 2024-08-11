@@ -317,6 +317,10 @@ public class CifDataSynthesis {
             if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("Determining supervisor guards for output model.");
+            }
             Map<Event, BDD> ctrlGuards = determineGuards(cifBddSpec, cifBddSpec.controllables, false);
 
             // Check edges.
