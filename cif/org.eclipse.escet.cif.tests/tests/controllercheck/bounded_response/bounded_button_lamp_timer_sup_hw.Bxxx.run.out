@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/bounded_button_lamp_timer_sup_hw.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/bounded_button_lamp_timer_sup_hw.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type  Name          Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ----  ------------  -----  --------  ----------  ----------  -----------
@@ -122,7 +122,7 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: not LampHW.bit and (LampHW.Off and Lamp.Off) and (Timer.Idle and Cycle.WaitForButtonPush and (ButtonHW.Released and Button.Released)) [initial states predicate]
 
@@ -143,14 +143,14 @@ Checking for bounded response...
 
         Reachable states: <bdd 17n 8p> [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: <bdd 17n 8p>).
         Bounded response check round 2 (states before round: <bdd 24n 9p>).
         Bounded response check round 3 (states before round: <bdd 12n 2p>).
 
         Bound: 2.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: <bdd 17n 8p>).
         Bounded response check round 2 (states before round: <bdd 16n 6p>).
         Bounded response check round 3 (states before round: LampHW.bit and (LampHW.On and Lamp.On) and (Timer.Running and Cycle.WaitForTimeout and (ButtonHW.Released and Button.Released)) or LampHW.bit and (LampHW.On and Lamp.On) and (Timer.Running and Cycle.WaitForTimeout and (ButtonHW.Pushed and Button.Pushed))).

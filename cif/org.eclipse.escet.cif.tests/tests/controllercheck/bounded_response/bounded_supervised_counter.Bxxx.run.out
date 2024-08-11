@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/bounded_supervised_counter.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/bounded_supervised_counter.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
@@ -22,7 +22,7 @@ Preparing for BDD-based checks...
             Edge: (event: c_c) (guard: p.x = 2 -> false) (assignments: p.x := p.x - 1)
             Edge: (event: c_d) (guard: p.x = 1) (assignments: p.x := p.x - 1)
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: p.x = 0 [initial states predicate]
 
@@ -36,7 +36,7 @@ Checking for bounded response...
 
         Reachable states: 0 <= p.x and p.x <= 3 [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: 0 <= p.x and p.x <= 3).
         Bounded response check round 2 (states before round: p.x = 2 or (p.x = 1 or p.x = 3)).
         Bounded response check round 3 (states before round: p.x = 2 or p.x = 3).
@@ -44,7 +44,7 @@ Checking for bounded response...
 
         Bound: 3.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: 0 <= p.x and p.x <= 3).
         Bounded response check round 2 (states before round: p.x = 0 or p.x = 2).
 

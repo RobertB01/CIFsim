@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/confluence/skippable1.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/confluence/skippable1.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type       Name                  Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ---------  --------------------  -----  --------  ----------  ----------  -----------
@@ -110,17 +110,17 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
-    Analyzing automaton "OptionalChangeBool"...
-        Initializing the automaton data for event "OptionalChangeBool.a"...
-        Initializing the automaton data for event "OptionalChangeBool.b"...
-        Processing edges from location "p" of automaton "OptionalChangeBool"...
-        Processing edges from location "q" of automaton "OptionalChangeBool"...
-        Processing edges from location "r" of automaton "OptionalChangeBool"...
-        Updating global guards and updates for event "OptionalChangeBool.a"...
-        Updating global guards and updates for event "OptionalChangeBool.b"...
+Preparing for MDD-based checks:
+    Analyzing automaton "OptionalChangeBool":
+        Initializing the automaton data for event "OptionalChangeBool.a".
+        Initializing the automaton data for event "OptionalChangeBool.b".
+        Processing edges from location "p" of automaton "OptionalChangeBool".
+        Processing edges from location "q" of automaton "OptionalChangeBool".
+        Processing edges from location "r" of automaton "OptionalChangeBool".
+        Updating global guards and updates for event "OptionalChangeBool.a".
+        Updating global guards and updates for event "OptionalChangeBool.b".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p [initial states predicate]
 
@@ -133,12 +133,12 @@ Checking for bounded response...
 
         Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q) [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q)).
 
         Bound: 0.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q)).
         Bounded response check round 2 (states before round: OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q).
         Bounded response check round 3 (states before round: OptionalChangeBool.v = 2 and OptionalChangeBool.r).
@@ -147,11 +147,11 @@ Checking for bounded response...
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: OptionalChangeBool.r
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: OptionalChangeBool.r [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -164,7 +164,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: true
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -172,16 +172,16 @@ Checking for non-blocking under control...
 
         Bad states: false
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: OptionalChangeBool.v = 0 and OptionalChangeBool.p
         Bad initial states: false
 
     Non-blocking under control: yes
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
 
-Checking for confluence...
+Checking for confluence:
     Skippable event pairs:
         (OptionalChangeBool.a, OptionalChangeBool.b)
 

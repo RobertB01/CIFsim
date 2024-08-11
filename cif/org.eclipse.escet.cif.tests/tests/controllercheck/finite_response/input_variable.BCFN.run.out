@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/finite_response/input_variable.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/finite_response/input_variable.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
@@ -110,23 +110,23 @@ Preparing for BDD-based checks...
             Edge: (event: Actuator.c_off) (guard: Actuator.On -> Actuator.On and not Sensor) (assignments: Actuator := Actuator.Off)
             Edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)
 
-Preparing for MDD-based checks...
-    Analyzing automaton "Actuator"...
-        Initializing the automaton data for event "Actuator.c_on"...
-        Initializing the automaton data for event "Actuator.c_off"...
-        Processing edges from location "Off" of automaton "Actuator"...
-        Processing edges from location "On" of automaton "Actuator"...
-        Updating global guards and updates for event "Actuator.c_on"...
-        Updating global guards and updates for event "Actuator.c_off"...
+Preparing for MDD-based checks:
+    Analyzing automaton "Actuator":
+        Initializing the automaton data for event "Actuator.c_on".
+        Initializing the automaton data for event "Actuator.c_off".
+        Processing edges from location "Off" of automaton "Actuator".
+        Processing edges from location "On" of automaton "Actuator".
+        Updating global guards and updates for event "Actuator.c_on".
+        Updating global guards and updates for event "Actuator.c_off".
 
-    Analyzing automaton "SupervisorStateEvtExcls"...
-        Initializing the automaton data for event "Actuator.c_on"...
-        Initializing the automaton data for event "Actuator.c_off"...
-        Processing edges from the location of automaton "SupervisorStateEvtExcls"...
-        Updating global guards and updates for event "Actuator.c_on"...
-        Updating global guards and updates for event "Actuator.c_off"...
+    Analyzing automaton "SupervisorStateEvtExcls":
+        Initializing the automaton data for event "Actuator.c_on".
+        Initializing the automaton data for event "Actuator.c_off".
+        Processing edges from the location of automaton "SupervisorStateEvtExcls".
+        Updating global guards and updates for event "Actuator.c_on".
+        Updating global guards and updates for event "Actuator.c_off".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: Actuator.Off [initial states predicate]
 
@@ -139,12 +139,12 @@ Checking for bounded response...
 
         Reachable states: true [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: 0.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
         Bounded response check round 2 (states before round: (Actuator.On or not Sensor) and (Actuator.Off or Sensor)).
 
@@ -152,11 +152,11 @@ Checking for bounded response...
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: (Actuator.On or not Sensor) and (Actuator.Off or Sensor)
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -164,7 +164,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: false
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -172,18 +172,18 @@ Checking for non-blocking under control...
 
         Bad states: true
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: Actuator.Off
         Bad initial states: Actuator.Off
 
     Non-blocking under control: no
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton Actuator:
             (Actuator.c_on Actuator.c_off), which is controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (Actuator.c_off, Actuator.c_on)
 

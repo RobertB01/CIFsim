@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/confluence/reversible1.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/confluence/reversible1.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
@@ -114,22 +114,22 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
-    Analyzing automaton "A"...
-        Initializing the automaton data for event "a"...
-        Processing edges from location "p" of automaton "A"...
-        Processing edges from location "q" of automaton "A"...
-        Updating global guards and updates for event "a"...
+Preparing for MDD-based checks:
+    Analyzing automaton "A":
+        Initializing the automaton data for event "a".
+        Processing edges from location "p" of automaton "A".
+        Processing edges from location "q" of automaton "A".
+        Updating global guards and updates for event "a".
 
-    Analyzing automaton "B"...
-        Initializing the automaton data for event "b"...
-        Initializing the automaton data for event "c"...
-        Processing edges from location "p" of automaton "B"...
-        Processing edges from location "q" of automaton "B"...
-        Updating global guards and updates for event "b"...
-        Updating global guards and updates for event "c"...
+    Analyzing automaton "B":
+        Initializing the automaton data for event "b".
+        Initializing the automaton data for event "c".
+        Processing edges from location "p" of automaton "B".
+        Processing edges from location "q" of automaton "B".
+        Updating global guards and updates for event "b".
+        Updating global guards and updates for event "c".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: B.v = 0 and (B.p and A.p) [initial states predicate]
 
@@ -145,12 +145,12 @@ Checking for bounded response...
 
         Reachable states: B.v = 0 and B.p or B.v = 2 and B.q [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: B.v = 0 and B.p or B.v = 2 and B.q).
 
         Bound: 0.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: B.v = 0 and B.p or B.v = 2 and B.q).
         Bounded response check round 2 (states before round: B.v = 0 and (B.p and A.q) or B.v = 2 and B.q).
         Bounded response check round 3 (states before round: B.v = 0 and (B.p and A.q) or B.v = 2 and (B.q and A.q)).
@@ -160,11 +160,11 @@ Checking for bounded response...
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: B.v != 2 and A.q or B.v = 2 and (B.p and A.q)
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: B.p and A.q [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -181,7 +181,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: B.v = 2 or B.p
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: B.v != 2 and B.q [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -189,18 +189,18 @@ Checking for non-blocking under control...
 
         Bad states: B.v != 2 and B.q
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: B.v = 0 and (B.p and A.p)
         Bad initial states: false
 
     Non-blocking under control: yes
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton B:
             (b c), which is controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (a, c), (b, c)
 

@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/bounded_state_evt_excl_inv.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/bounded_state_evt_excl_inv.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
@@ -109,20 +109,20 @@ Preparing for BDD-based checks...
             Edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)
             Edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)
 
-Preparing for MDD-based checks...
-    Analyzing automaton "p"...
-        Initializing the automaton data for event "c"...
-        Processing edges from the location of automaton "p"...
-        Updating global guards and updates for event "c"...
+Preparing for MDD-based checks:
+    Analyzing automaton "p":
+        Initializing the automaton data for event "c".
+        Processing edges from the location of automaton "p".
+        Updating global guards and updates for event "c".
 
-    Analyzing automaton "PlantStateEvtExcls"...
+    Analyzing automaton "PlantStateEvtExcls":
 
-    Analyzing automaton "SupervisorStateEvtExcls"...
-        Initializing the automaton data for event "c"...
-        Processing edges from the location of automaton "SupervisorStateEvtExcls"...
-        Updating global guards and updates for event "c"...
+    Analyzing automaton "SupervisorStateEvtExcls":
+        Initializing the automaton data for event "c".
+        Processing edges from the location of automaton "SupervisorStateEvtExcls".
+        Updating global guards and updates for event "c".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: p.xc = 0 and p.xu = 0 [initial states predicate]
 
@@ -150,7 +150,7 @@ Checking for bounded response...
 
         Reachable states: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5)) [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
         Bounded response check round 2 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or ((p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 2 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and (p.xu = 1 or p.xu = 3)) or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or ((p.xc = 2 or p.xc = 3) and p.xu = 2 or (p.xc = 2 or p.xc = 3) and (p.xu = 1 or p.xu = 3)))).
         Bounded response check round 3 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or ((p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 2 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 3) or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or ((p.xc = 2 or p.xc = 3) and p.xu = 2 or (p.xc = 2 or p.xc = 3) and p.xu = 3))).
@@ -159,7 +159,7 @@ Checking for bounded response...
 
         Bound: 4.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
         Bounded response check round 2 (states before round: <bdd 8n 12p>).
         Bounded response check round 3 (states before round: 2 <= p.xc and p.xc <= 7 and ((not(p.xc = 4 or p.xc = 5) or p.xu != 6) and (not(p.xc = 4 or p.xc = 5) or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and ((not(p.xc = 2 or p.xc = 3) or p.xu != 6) and (not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
@@ -171,11 +171,11 @@ Checking for bounded response...
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: p.xc = 6 or (p.xc = 5 or p.xc = 7)
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: p.xc = 6 or (p.xc = 5 or p.xc = 7) [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -200,7 +200,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: true
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -208,20 +208,20 @@ Checking for non-blocking under control...
 
         Bad states: false
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: p.xc = 0 and p.xu = 0
         Bad initial states: false
 
     Non-blocking under control: yes
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton p:
             (c), which is not controllable unconnectable.
         The following events have been encountered in a controllable-event loop of automaton SupervisorStateEvtExcls:
             (c), which is not controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
 
 CONCLUSION:
     [OK] The specification has bounded response:

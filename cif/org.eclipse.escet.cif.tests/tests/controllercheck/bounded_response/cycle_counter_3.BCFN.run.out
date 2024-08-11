@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/cycle_counter_3.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/cycle_counter_3.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type        Name       Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ----------  ---------  -----  --------  ----------  ----------  -----------
@@ -12,15 +12,15 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
-    Analyzing automaton "p"...
-        Initializing the automaton data for event "c_inc"...
-        Initializing the automaton data for event "c_dec"...
-        Processing edges from the location of automaton "p"...
-        Updating global guards and updates for event "c_inc"...
-        Updating global guards and updates for event "c_dec"...
+Preparing for MDD-based checks:
+    Analyzing automaton "p":
+        Initializing the automaton data for event "c_inc".
+        Initializing the automaton data for event "c_dec".
+        Processing edges from the location of automaton "p".
+        Updating global guards and updates for event "c_inc".
+        Updating global guards and updates for event "c_dec".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: p.counter = 3 [initial states predicate]
 
@@ -98,23 +98,23 @@ Checking for bounded response...
 
         Reachable states: true [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: 0.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: n/a (cycle).
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: false
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -122,7 +122,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: false
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -130,19 +130,19 @@ Checking for non-blocking under control...
 
         Bad states: true
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: p.counter = 3
         Bad initial states: p.counter = 3
 
     Non-blocking under control: no
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton p:
             (c_inc), which is not controllable unconnectable.
             (c_dec), which is not controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Independent event pairs:
         (c_dec, c_inc)
 

@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/non_blocking_under_control/buc_ctrl_cycle.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/non_blocking_under_control/buc_ctrl_cycle.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name        Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
@@ -12,19 +12,19 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
-    Analyzing automaton "Supervisor"...
-        Initializing the automaton data for event "Supervisor.c_act1"...
-        Initializing the automaton data for event "Supervisor.c_act2"...
-        Initializing the automaton data for event "Supervisor.c_act3"...
-        Processing edges from location "Start" of automaton "Supervisor"...
-        Processing edges from location "Done1" of automaton "Supervisor"...
-        Processing edges from location "BothDone" of automaton "Supervisor"...
-        Updating global guards and updates for event "Supervisor.c_act1"...
-        Updating global guards and updates for event "Supervisor.c_act2"...
-        Updating global guards and updates for event "Supervisor.c_act3"...
+Preparing for MDD-based checks:
+    Analyzing automaton "Supervisor":
+        Initializing the automaton data for event "Supervisor.c_act1".
+        Initializing the automaton data for event "Supervisor.c_act2".
+        Initializing the automaton data for event "Supervisor.c_act3".
+        Processing edges from location "Start" of automaton "Supervisor".
+        Processing edges from location "Done1" of automaton "Supervisor".
+        Processing edges from location "BothDone" of automaton "Supervisor".
+        Updating global guards and updates for event "Supervisor.c_act1".
+        Updating global guards and updates for event "Supervisor.c_act2".
+        Updating global guards and updates for event "Supervisor.c_act3".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: Supervisor.Start [initial states predicate]
 
@@ -37,23 +37,23 @@ Checking for bounded response...
 
         Reachable states: true [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: 0.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: n/a (cycle).
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: false
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -61,7 +61,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: false
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -69,18 +69,18 @@ Checking for non-blocking under control...
 
         Bad states: true
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: Supervisor.Start
         Bad initial states: Supervisor.Start
 
     Non-blocking under control: no
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton Supervisor:
             (Supervisor.c_act1 Supervisor.c_act2 Supervisor.c_act3), which is not controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (Supervisor.c_act1, Supervisor.c_act2), (Supervisor.c_act1, Supervisor.c_act3), (Supervisor.c_act2, Supervisor.c_act3)
 

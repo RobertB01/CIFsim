@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/non_blocking_under_control/button_lamp_timer.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/non_blocking_under_control/button_lamp_timer.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
@@ -116,11 +116,11 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: <bdd 13n 13p>
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: <bdd 13n 3p> [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -146,7 +146,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: Lamp.Off and (Timer.Idle and (Cycle.WaitForButtonPush or Cycle.TurnLampOn)) or Lamp.On and (Timer.Idle and Cycle.TurnLampOff) or (Lamp.On and (Timer.Idle and Cycle.StartTimer) or Lamp.On and (Timer.Running and Cycle.WaitForTimeout))
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: (Lamp.On or (Timer.Running or not Cycle.WaitForButtonPush and not Cycle.TurnLampOn)) and (Lamp.Off or (Timer.Running or not Cycle.TurnLampOff)) and ((Lamp.Off or (Timer.Running or not Cycle.StartTimer)) and (Lamp.Off or (Timer.Idle or not Cycle.WaitForTimeout))) [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -154,7 +154,7 @@ Checking for non-blocking under control...
 
         Bad states: (Lamp.On or (Timer.Running or not Cycle.WaitForButtonPush and not Cycle.TurnLampOn)) and (Lamp.Off or (Timer.Running or not Cycle.TurnLampOff)) and ((Lamp.Off or (Timer.Running or not Cycle.StartTimer)) and (Lamp.Off or (Timer.Idle or not Cycle.WaitForTimeout)))
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: Lamp.Off and Timer.Idle and (Cycle.WaitForButtonPush and Button.Released)
         Bad initial states: false
 

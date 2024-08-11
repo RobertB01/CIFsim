@@ -1,36 +1,36 @@
-Loading CIF specification "controllercheck/bounded_response/cycle_self_loop.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/cycle_self_loop.cif".
+Preparing for BDD-based checks:
     The specification has no BDD variables.
 
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
+Preparing for MDD-based checks:
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: true [initial states predicate]
 
         Forward reachability iteration 1:
             No change this iteration.
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: n/a (cycle).
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: 0.
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: true
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: true [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -38,7 +38,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: true
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -46,15 +46,15 @@ Checking for non-blocking under control...
 
         Bad states: false
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: true
         Bad initial states: false
 
     Non-blocking under control: yes
 
-Checking for finite response...
+Checking for finite response:
 
-Checking for confluence...
+Checking for confluence:
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:

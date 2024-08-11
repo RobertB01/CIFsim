@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/bounded_channel_non_deterministic.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/bounded_channel_non_deterministic.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
@@ -133,7 +133,7 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: <bdd 14n 1p> [initial states predicate]
 
@@ -154,7 +154,7 @@ Checking for bounded response...
 
         Reachable states: <bdd 38n 1,225p> [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: <bdd 38n 1,225p>).
         Bounded response check round 2 (states before round: <bdd 42n 1,190p>).
         Bounded response check round 3 (states before round: <bdd 44n 770p>).
@@ -162,7 +162,7 @@ Checking for bounded response...
 
         Bound: 3.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: <bdd 38n 1,225p>).
         Bounded response check round 2 (states before round: <bdd 42n 1,190p>).
         Bounded response check round 3 (states before round: <bdd 44n 770p>).

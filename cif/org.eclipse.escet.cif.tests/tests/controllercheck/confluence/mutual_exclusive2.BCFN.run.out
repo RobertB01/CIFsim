@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/confluence/mutual_exclusive2.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/confluence/mutual_exclusive2.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type  Name                   Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ----  ---------------------  -----  --------  ----------  ----------  -----------
@@ -100,16 +100,16 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
-    Analyzing automaton "DifferentConditions"...
-        Initializing the automaton data for event "DifferentConditions.a"...
-        Initializing the automaton data for event "DifferentConditions.b"...
-        Processing edges from location "p" of automaton "DifferentConditions"...
-        Processing edges from location "q" of automaton "DifferentConditions"...
-        Updating global guards and updates for event "DifferentConditions.a"...
-        Updating global guards and updates for event "DifferentConditions.b"...
+Preparing for MDD-based checks:
+    Analyzing automaton "DifferentConditions":
+        Initializing the automaton data for event "DifferentConditions.a".
+        Initializing the automaton data for event "DifferentConditions.b".
+        Processing edges from location "p" of automaton "DifferentConditions".
+        Processing edges from location "q" of automaton "DifferentConditions".
+        Updating global guards and updates for event "DifferentConditions.a".
+        Updating global guards and updates for event "DifferentConditions.b".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: DifferentConditions.p and not DifferentConditions.z [initial states predicate]
 
@@ -121,12 +121,12 @@ Checking for bounded response...
 
         Reachable states: not DifferentConditions.z [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: not DifferentConditions.z).
 
         Bound: 0.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: not DifferentConditions.z).
         Bounded response check round 2 (states before round: DifferentConditions.q and not DifferentConditions.z).
 
@@ -134,11 +134,11 @@ Checking for bounded response...
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: DifferentConditions.q
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: DifferentConditions.q [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -152,7 +152,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: true
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -160,16 +160,16 @@ Checking for non-blocking under control...
 
         Bad states: false
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: DifferentConditions.p and not DifferentConditions.z
         Bad initial states: false
 
     Non-blocking under control: yes
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (DifferentConditions.a, DifferentConditions.b)
 

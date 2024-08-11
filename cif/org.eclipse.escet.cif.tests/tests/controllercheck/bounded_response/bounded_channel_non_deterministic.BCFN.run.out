@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/bounded_channel_non_deterministic.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/bounded_channel_non_deterministic.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
@@ -133,4 +133,4 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
+Preparing for MDD-based checks:

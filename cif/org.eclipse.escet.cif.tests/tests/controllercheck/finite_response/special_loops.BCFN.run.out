@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/finite_response/special_loops.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/finite_response/special_loops.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -96,25 +96,25 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
-    Analyzing automaton "A"...
-        Initializing the automaton data for event "A.a"...
-        Initializing the automaton data for event "A.b"...
-        Processing edges from location "l0" of automaton "A"...
-        Processing edges from location "l1" of automaton "A"...
-        Processing edges from location "l2" of automaton "A"...
-        Processing edges from location "l3" of automaton "A"...
-        Processing edges from location "l4" of automaton "A"...
-        Updating global guards and updates for event "A.a"...
-        Updating global guards and updates for event "A.b"...
+Preparing for MDD-based checks:
+    Analyzing automaton "A":
+        Initializing the automaton data for event "A.a".
+        Initializing the automaton data for event "A.b".
+        Processing edges from location "l0" of automaton "A".
+        Processing edges from location "l1" of automaton "A".
+        Processing edges from location "l2" of automaton "A".
+        Processing edges from location "l3" of automaton "A".
+        Processing edges from location "l4" of automaton "A".
+        Updating global guards and updates for event "A.a".
+        Updating global guards and updates for event "A.b".
 
-    Analyzing automaton "B"...
-        Initializing the automaton data for event "B.a"...
-        Processing edges from location "l0" of automaton "B"...
-        Processing edges from location "l1" of automaton "B"...
-        Updating global guards and updates for event "B.a"...
+    Analyzing automaton "B":
+        Initializing the automaton data for event "B.a".
+        Processing edges from location "l0" of automaton "B".
+        Processing edges from location "l1" of automaton "B".
+        Updating global guards and updates for event "B.a".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: A.l0 and B.l0 [initial states predicate]
 
@@ -132,23 +132,23 @@ Checking for bounded response...
 
         Reachable states: true [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: 0.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: n/a (cycle).
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: false
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -156,7 +156,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: false
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -164,20 +164,20 @@ Checking for non-blocking under control...
 
         Bad states: true
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: A.l0 and B.l0
         Bad initial states: A.l0 and B.l0
 
     Non-blocking under control: no
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton A:
             (A.a A.b), which is not controllable unconnectable.
         The following events have been encountered in a controllable-event loop of automaton B:
             (B.a B.a), which is not controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Independent event pairs:
         (A.a, B.a), (A.b, B.a)
 

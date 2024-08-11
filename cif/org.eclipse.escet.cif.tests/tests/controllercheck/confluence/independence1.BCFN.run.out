@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/confluence/independence1.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/confluence/independence1.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type       Name               Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ---------  -----------------  -----  --------  ----------  ----------  -----------
@@ -110,18 +110,18 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
-    Analyzing automaton "AutDifferenLocs"...
-        Initializing the automaton data for event "AutDifferenLocs.a"...
-        Initializing the automaton data for event "AutDifferenLocs.b"...
-        Processing edges from location "p" of automaton "AutDifferenLocs"...
-        Processing edges from location "q" of automaton "AutDifferenLocs"...
-        Processing edges from location "r" of automaton "AutDifferenLocs"...
-        Processing edges from location "s" of automaton "AutDifferenLocs"...
-        Updating global guards and updates for event "AutDifferenLocs.a"...
-        Updating global guards and updates for event "AutDifferenLocs.b"...
+Preparing for MDD-based checks:
+    Analyzing automaton "AutDifferenLocs":
+        Initializing the automaton data for event "AutDifferenLocs.a".
+        Initializing the automaton data for event "AutDifferenLocs.b".
+        Processing edges from location "p" of automaton "AutDifferenLocs".
+        Processing edges from location "q" of automaton "AutDifferenLocs".
+        Processing edges from location "r" of automaton "AutDifferenLocs".
+        Processing edges from location "s" of automaton "AutDifferenLocs".
+        Updating global guards and updates for event "AutDifferenLocs.a".
+        Updating global guards and updates for event "AutDifferenLocs.b".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) [initial states predicate]
 
@@ -134,12 +134,12 @@ Checking for bounded response...
 
         Reachable states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) or not AutDifferenLocs.z and (AutDifferenLocs.r and AutDifferenLocs.v = 2) or (AutDifferenLocs.z and (AutDifferenLocs.q and AutDifferenLocs.v = 0) or AutDifferenLocs.z and (AutDifferenLocs.s and AutDifferenLocs.v = 2)) [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) or not AutDifferenLocs.z and (AutDifferenLocs.r and AutDifferenLocs.v = 2) or (AutDifferenLocs.z and (AutDifferenLocs.q and AutDifferenLocs.v = 0) or AutDifferenLocs.z and (AutDifferenLocs.s and AutDifferenLocs.v = 2))).
 
         Bound: 0.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) or not AutDifferenLocs.z and (AutDifferenLocs.r and AutDifferenLocs.v = 2) or (AutDifferenLocs.z and (AutDifferenLocs.q and AutDifferenLocs.v = 0) or AutDifferenLocs.z and (AutDifferenLocs.s and AutDifferenLocs.v = 2))).
         Bounded response check round 2 (states before round: not AutDifferenLocs.z and (AutDifferenLocs.r and AutDifferenLocs.v = 2) or (AutDifferenLocs.z and (AutDifferenLocs.q and AutDifferenLocs.v = 0) or AutDifferenLocs.z and (AutDifferenLocs.s and AutDifferenLocs.v = 2))).
         Bounded response check round 3 (states before round: AutDifferenLocs.z and (AutDifferenLocs.s and AutDifferenLocs.v = 2)).
@@ -148,11 +148,11 @@ Checking for bounded response...
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: AutDifferenLocs.s
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: AutDifferenLocs.s [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -166,7 +166,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: true
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -174,16 +174,16 @@ Checking for non-blocking under control...
 
         Bad states: false
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0)
         Bad initial states: false
 
     Non-blocking under control: yes
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
 
-Checking for confluence...
+Checking for confluence:
     Independent event pairs:
         (AutDifferenLocs.a, AutDifferenLocs.b)
 

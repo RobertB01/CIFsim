@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/bounded_state_evt_excl_inv.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/bounded_state_evt_excl_inv.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
@@ -109,7 +109,7 @@ Preparing for BDD-based checks...
             Edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)
             Edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: p.xc = 0 and p.xu = 0 [initial states predicate]
 
@@ -137,7 +137,7 @@ Checking for bounded response...
 
         Reachable states: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5)) [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
         Bounded response check round 2 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or ((p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 2 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and (p.xu = 1 or p.xu = 3)) or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or ((p.xc = 2 or p.xc = 3) and p.xu = 2 or (p.xc = 2 or p.xc = 3) and (p.xu = 1 or p.xu = 3)))).
         Bounded response check round 3 (states before round: (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 4 or ((p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 2 or (p.xc = 0 or p.xc = 1 or (p.xc = 4 or p.xc = 5)) and p.xu = 3) or ((p.xc = 2 or p.xc = 3) and p.xu = 4 or ((p.xc = 2 or p.xc = 3) and p.xu = 2 or (p.xc = 2 or p.xc = 3) and p.xu = 3))).
@@ -146,7 +146,7 @@ Checking for bounded response...
 
         Bound: 4.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).
         Bounded response check round 2 (states before round: <bdd 8n 12p>).
         Bounded response check round 3 (states before round: 2 <= p.xc and p.xc <= 7 and ((not(p.xc = 4 or p.xc = 5) or p.xu != 6) and (not(p.xc = 4 or p.xc = 5) or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and ((not(p.xc = 2 or p.xc = 3) or p.xu != 6) and (not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5))).

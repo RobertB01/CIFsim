@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/bounded_diamond.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/bounded_diamond.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -118,7 +118,7 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: pc1.loc1 and pc2.loc1 and (pc3.loc1 and pc4.loc1) and (pc5.loc1 and pu1.loc1 and (pu2.loc1 and (pu3.loc1 and pu4.loc1))) [initial states predicate]
 
@@ -138,7 +138,7 @@ Checking for bounded response...
 
         Reachable states: true [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
         Bounded response check round 2 (states before round: pu1.loc2 or pu2.loc2 or (pu3.loc2 or pu4.loc2)).
         Bounded response check round 3 (states before round: (pu1.loc2 or (pu2.loc2 or pu3.loc2)) and (pu1.loc2 or pu2.loc2 or (pu3.loc1 or pu4.loc2)) and ((pu1.loc2 or pu2.loc1 or (pu3.loc2 or pu4.loc2)) and (pu1.loc1 or pu2.loc2 or (pu3.loc2 or pu4.loc2)))).
@@ -147,7 +147,7 @@ Checking for bounded response...
 
         Bound: 4.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
         Bounded response check round 2 (states before round: pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))).
         Bounded response check round 3 (states before round: (pc1.loc2 or pc2.loc2 or (pc3.loc2 or pc4.loc2)) and (pc1.loc2 or pc2.loc2 or (pc3.loc2 or (pc4.loc1 or pc5.loc2))) and ((pc1.loc2 or pc2.loc2 or (pc3.loc1 or (pc4.loc2 or pc5.loc2))) and ((pc1.loc2 or pc2.loc1 or (pc3.loc2 or (pc4.loc2 or pc5.loc2))) and (pc1.loc1 or pc2.loc2 or (pc3.loc2 or (pc4.loc2 or pc5.loc2)))))).

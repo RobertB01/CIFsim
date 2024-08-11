@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/bounded_by_input_var.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/bounded_by_input_var.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
@@ -108,9 +108,9 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
+Preparing for MDD-based checks:
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: p.Off [initial states predicate]
 
@@ -123,24 +123,24 @@ Checking for bounded response...
 
         Reachable states: true [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
         Bounded response check round 2 (states before round: (p.On or not sensor) and (p.Off or sensor)).
 
         Bound: 1.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: 0.
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: true
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: p.Off [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -154,7 +154,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: true
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -162,15 +162,15 @@ Checking for non-blocking under control...
 
         Bad states: false
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: p.Off
         Bad initial states: false
 
     Non-blocking under control: yes
 
-Checking for finite response...
+Checking for finite response:
 
-Checking for confluence...
+Checking for confluence:
 
 CONCLUSION:
     [OK] The specification has bounded response:

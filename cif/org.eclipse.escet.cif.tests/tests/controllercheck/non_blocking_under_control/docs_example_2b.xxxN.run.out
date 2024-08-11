@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/non_blocking_under_control/docs_example_2b.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/non_blocking_under_control/docs_example_2b.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name          Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ------------  -----  --------  ----------  ----------  -----------
@@ -12,11 +12,11 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: Supervisor2b.BothDone or Supervisor2b.Halt
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: Supervisor2b.Halt [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -24,7 +24,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: Supervisor2b.Halt
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: not Supervisor2b.Halt [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -32,7 +32,7 @@ Checking for non-blocking under control...
 
         Bad states: not Supervisor2b.Halt
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: Supervisor2b.Start
         Bad initial states: Supervisor2b.Start
 

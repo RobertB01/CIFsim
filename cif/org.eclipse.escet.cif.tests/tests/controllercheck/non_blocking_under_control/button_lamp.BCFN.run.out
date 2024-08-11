@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/non_blocking_under_control/button_lamp.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/non_blocking_under_control/button_lamp.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
@@ -110,25 +110,25 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Preparing for MDD-based checks...
-    Analyzing automaton "button"...
+Preparing for MDD-based checks:
+    Analyzing automaton "button":
 
-    Analyzing automaton "lamp"...
-        Initializing the automaton data for event "lamp.c_on"...
-        Initializing the automaton data for event "lamp.c_off"...
-        Processing edges from location "Off" of automaton "lamp"...
-        Processing edges from location "On" of automaton "lamp"...
-        Updating global guards and updates for event "lamp.c_on"...
-        Updating global guards and updates for event "lamp.c_off"...
+    Analyzing automaton "lamp":
+        Initializing the automaton data for event "lamp.c_on".
+        Initializing the automaton data for event "lamp.c_off".
+        Processing edges from location "Off" of automaton "lamp".
+        Processing edges from location "On" of automaton "lamp".
+        Updating global guards and updates for event "lamp.c_on".
+        Updating global guards and updates for event "lamp.c_off".
 
-    Analyzing automaton "controller"...
-        Initializing the automaton data for event "lamp.c_on"...
-        Initializing the automaton data for event "lamp.c_off"...
-        Processing edges from the location of automaton "controller"...
-        Updating global guards and updates for event "lamp.c_on"...
-        Updating global guards and updates for event "lamp.c_off"...
+    Analyzing automaton "controller":
+        Initializing the automaton data for event "lamp.c_on".
+        Initializing the automaton data for event "lamp.c_off".
+        Processing edges from the location of automaton "controller".
+        Updating global guards and updates for event "lamp.c_on".
+        Updating global guards and updates for event "lamp.c_off".
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: button.Released and lamp.Off [initial states predicate]
 
@@ -146,13 +146,13 @@ Checking for bounded response...
 
         Reachable states: true [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
         Bounded response check round 2 (states before round: (button.b or button.Released) and (not button.b or button.Pushed)).
 
         Bound: 1.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
         Bounded response check round 2 (states before round: (button.Pushed or lamp.Off) and (button.Released or lamp.On)).
 
@@ -160,11 +160,11 @@ Checking for bounded response...
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: (button.Pushed or lamp.Off) and (button.Released or lamp.On)
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: not button.b and (button.Released and lamp.Off) or button.b and (button.Pushed and lamp.On) [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -183,7 +183,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: true
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -191,18 +191,18 @@ Checking for non-blocking under control...
 
         Bad states: false
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: button.Released and lamp.Off
         Bad initial states: false
 
     Non-blocking under control: yes
 
-Checking for finite response...
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton lamp:
             (lamp.c_on lamp.c_off), which is controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (lamp.c_off, lamp.c_on)
 

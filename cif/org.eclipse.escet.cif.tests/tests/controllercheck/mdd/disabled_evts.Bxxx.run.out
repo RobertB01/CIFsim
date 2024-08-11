@@ -1,20 +1,20 @@
-Loading CIF specification "controllercheck/mdd/disabled_evts.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/mdd/disabled_evts.cif".
+Preparing for BDD-based checks:
     The specification has no BDD variables.
 
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: true [initial states predicate]
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: 0.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
 
         Bound: 0.

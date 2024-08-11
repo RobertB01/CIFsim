@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/common/anno_false_to_true.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/common/anno_false_to_true.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -12,7 +12,7 @@ Preparing for BDD-based checks...
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Checking for bounded response...
+Checking for bounded response:
     Computing reachable states:
         Reachable states: p.loc1 [initial states predicate]
 
@@ -25,13 +25,13 @@ Checking for bounded response...
 
         Reachable states: true [fixed point].
 
-    Computing bound for uncontrollable events...
+    Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
         Bounded response check round 2 (states before round: p.loc3).
 
         Bound: 1.
 
-    Computing bound for controllable events...
+    Computing bound for controllable events:
         Bounded response check round 1 (states before round: true).
         Bounded response check round 2 (states before round: p.loc2).
 

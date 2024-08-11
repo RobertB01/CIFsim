@@ -1,25 +1,25 @@
-Loading CIF specification "controllercheck/common/empty_alphabet.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/common/empty_alphabet.cif".
+Preparing for BDD-based checks:
     The specification has no BDD variables.
 
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: true
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: true [controllable-complete path end states predicate]
 
         Controllable-complete path states: true
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
 
         Bad states: false
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: true
         Bad initial states: false
 

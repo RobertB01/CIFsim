@@ -1,15 +1,15 @@
-Loading CIF specification "controllercheck/non_blocking_under_control/no_init.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/non_blocking_under_control/no_init.cif".
+Preparing for BDD-based checks:
     The specification has no BDD variables.
 
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-Checking for non-blocking under control...
+Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: false
 
-    Computing the controllable-complete path states...
+    Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
 
         Backward reachability iteration 1:
@@ -17,7 +17,7 @@ Checking for non-blocking under control...
 
         Controllable-complete path states: false
 
-    Computing the bad states...
+    Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
 
         Backward reachability iteration 1:
@@ -25,7 +25,7 @@ Checking for non-blocking under control...
 
         Bad states: true
 
-    Computing the result of the non-blocking under control check...
+    Computing the result of the non-blocking under control check:
         Initial states: false
         Bad initial states: false
 
