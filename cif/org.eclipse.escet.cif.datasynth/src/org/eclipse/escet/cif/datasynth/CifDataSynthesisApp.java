@@ -331,6 +331,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         // Write output CIF specification.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".ctrlsys.cif");
         if (dbgEnabled) {
+            dbg();
             dbg("Writing output CIF file \"%s\".", outPath);
         }
         String absOutPath = Paths.resolve(outPath);
