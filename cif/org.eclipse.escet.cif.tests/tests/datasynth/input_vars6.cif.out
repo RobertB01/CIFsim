@@ -163,6 +163,8 @@ Final synthesis result:
         Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
         Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 8 states.
 
 Initial (synthesis result):            true

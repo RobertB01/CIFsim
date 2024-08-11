@@ -110,6 +110,8 @@ Final synthesis result:
     State: (controlled-behavior: p1.l0)
         Edge: (event: c1) (guard: p1.l0 -> false) (assignments: p1 := p1.l1)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 1 state.
 
 Initial (synthesis result):            p1.l0

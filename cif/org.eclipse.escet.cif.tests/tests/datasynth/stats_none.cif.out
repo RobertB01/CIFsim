@@ -84,6 +84,8 @@ Computing final controlled system guards:
 Final synthesis result:
     State: (controlled-behavior: true)
 
+Computing initialization predicate of the controlled system.
+
 Initial (synthesis result):            true
 Initial (uncontrolled system):         true
 Initial (controlled system):           false

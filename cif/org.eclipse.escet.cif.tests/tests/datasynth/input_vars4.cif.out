@@ -122,6 +122,8 @@ Final synthesis result:
     State: (controlled-behavior: true)
         Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 4 states.
 
 Initial (synthesis result):            true

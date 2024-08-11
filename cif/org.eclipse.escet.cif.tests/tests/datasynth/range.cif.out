@@ -136,6 +136,8 @@ Final synthesis result:
         Edge: (event: buffer.add) (guard: true -> buffer.x != 5) (assignments: buffer.x := buffer.x + 1)
         Edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 6 states.
 
 Initial (synthesis result):            true

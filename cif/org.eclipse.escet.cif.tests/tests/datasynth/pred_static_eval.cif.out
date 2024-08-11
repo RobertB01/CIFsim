@@ -211,6 +211,8 @@ Final synthesis result:
         Edge: (event: p.e) (guard: p.b2)
         Edge: (event: p.e) (guard: p.b3)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 1 state.
 
 Initial (synthesis result):            not p.b1 and (p.b2 and not p.b3)

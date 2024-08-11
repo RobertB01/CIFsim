@@ -234,6 +234,8 @@ Final synthesis result:
         Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
         Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 0 states.
 
 Initial (synthesis result):            p.x = 2 or p.x = 3

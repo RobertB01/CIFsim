@@ -111,6 +111,8 @@ Final synthesis result:
         Edge: (event: c) (guard: true)
         Edge: (event: u) (guard: true)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 1 state.
 
 Initial (synthesis result):            true

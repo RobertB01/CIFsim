@@ -260,6 +260,8 @@ Final synthesis result:
     State: (controlled-behavior: <bdd 29n 6p>)
         Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 6 states.
 
 Initial (synthesis result):            <bdd 29n 6p>

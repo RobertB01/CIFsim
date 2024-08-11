@@ -101,6 +101,8 @@ Final synthesis result:
     State: (controlled-behavior: true)
         Edge: (event: p.c_e) (guard: true)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 1 state.
 
 Initial (synthesis result):            true

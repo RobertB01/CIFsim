@@ -389,6 +389,8 @@ Final synthesis result:
         Edge: (event: e46) (guard: p.l0 -> <bdd 22n 1p>)
         Edge: (event: e47) (guard: false)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 1 state.
 
 Initial (synthesis result):            <bdd 22n 1p>

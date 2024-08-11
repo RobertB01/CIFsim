@@ -280,6 +280,8 @@ Final synthesis result:
         Edge: (event: remove_f) (guard: true -> buffer.f != 1) (assignments: buffer.f := buffer.f - 2)
         Edge: (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 0 states.
 
 Initial (synthesis result):            false

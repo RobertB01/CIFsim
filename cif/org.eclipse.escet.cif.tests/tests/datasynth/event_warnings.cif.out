@@ -553,6 +553,8 @@ Final synthesis result:
         Edge: (event: c_synch) (guard: a.l1 and b.l2 -> false)
         Edge: (event: u_synch) (guard: a.l1 and b.l2)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 2 states.
 
 Initial (synthesis result):            <bdd 70n 2p>

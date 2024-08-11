@@ -319,6 +319,8 @@ Final synthesis result:
         Edge: (event: b) (guard: r2.l1 and r3.l3 -> false)
         Edge: (event: b) (guard: r2.l1 and not r3.l3 -> false)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 13 states.
 
 Initial (synthesis result):            <bdd 26n 13p>

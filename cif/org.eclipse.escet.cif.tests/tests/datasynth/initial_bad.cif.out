@@ -254,6 +254,8 @@ Final synthesis result:
         Edge: (event: u1) (guard: p.l0) (assignments: p := p.l1)
         Edge: (event: u2) (guard: p.l1) (assignments: p := p.l2)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 3 states.
 
 Initial (synthesis result):            not p.l1 and p.x = 16 or p.l1 and p.x = 16

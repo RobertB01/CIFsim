@@ -262,6 +262,8 @@ Final synthesis result:
         Edge: (event: g.e4) (guard: g.p.b3 -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4))
         Edge: (event: g.e4) (guard: not g.p.b3 -> false)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 2 states.
 
 Initial (synthesis result):            not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4)

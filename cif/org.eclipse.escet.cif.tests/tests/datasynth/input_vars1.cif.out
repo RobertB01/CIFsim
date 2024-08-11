@@ -202,6 +202,8 @@ Final synthesis result:
         Edge: (event: io.i) (guard: true) (assignments: io.i+ != io.i)
         Edge: (event: io.e) (guard: true) (assignments: io.e+ != io.e)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 0 states.
 
 Initial (synthesis result):            false

@@ -218,6 +218,8 @@ Final synthesis result:
         Edge: (event: green_B) (guard: LightB.Red -> LightA.Red and LightB.Red) (assignments: LightB := LightB.Green)
         Edge: (event: red_B) (guard: LightB.Green) (assignments: LightB := LightB.Red)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 3 states.
 
 Initial (synthesis result):            LightA.Red or LightB.Red

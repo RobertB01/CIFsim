@@ -239,6 +239,8 @@ Final synthesis result:
         Edge: (event: buffer2.c_add) (guard: buffer2.add -> <bdd 23n 19p>) (assignments: buffer2.count := buffer2.count + 1)
         Edge: (event: buffer2.c_remove) (guard: buffer2.remove -> <bdd 21n 18p>) (assignments: buffer2.count := buffer2.count - 1)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 342 states.
 
 Initial (synthesis result):            <bdd 25n 26p>

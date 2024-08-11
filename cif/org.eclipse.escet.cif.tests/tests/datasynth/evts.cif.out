@@ -129,6 +129,8 @@ Final synthesis result:
         Edge: (event: uea) (guard: true)
         Edge: (event: uee) (guard: true)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 0 states.
 
 Initial (synthesis result):            false

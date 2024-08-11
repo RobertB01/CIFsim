@@ -160,6 +160,8 @@ Final synthesis result:
         Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
         Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 16 states.
 
 Initial (synthesis result):            true

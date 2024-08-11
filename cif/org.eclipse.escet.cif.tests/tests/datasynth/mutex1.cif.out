@@ -282,6 +282,8 @@ Final synthesis result:
         Edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2.producing := 0, machine2 := machine2.CoolDown)
         Edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 8 states.
 
 Initial (synthesis result):            not machine1.Producing and machine1.producing = 0 and (machine2.producing = 0 and not machine2.Producing) or (not machine1.Producing and machine1.producing = 0 and (machine2.producing = 1 and machine2.Producing) or machine1.Producing and machine1.producing = 1 and (machine2.producing = 0 and not machine2.Producing))

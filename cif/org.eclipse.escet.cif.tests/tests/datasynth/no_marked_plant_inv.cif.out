@@ -94,6 +94,8 @@ Computing final controlled system guards:
 Final synthesis result:
     State: (controlled-behavior: p.x = 3)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 0 states.
 
 Initial (synthesis result):            p.x = 3

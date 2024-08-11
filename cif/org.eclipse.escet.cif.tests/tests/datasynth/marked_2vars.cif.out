@@ -141,6 +141,8 @@ Computing final controlled system guards:
 Final synthesis result:
     State: (controlled-behavior: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 2 states.
 
 Initial (synthesis result):            p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1

@@ -205,6 +205,8 @@ Final synthesis result:
         Edge: (event: e) (guard: p.x = 6 and p.l1 -> false) (assignments: p.x := p.x + 2, p := p.l2)
         Edge: (event: e) (guard: p.x = 7 and p.l1 -> false) (assignments: p.x := p.x + 1, p := p.l2)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 0 states.
 
 Initial (synthesis result):            p.l2

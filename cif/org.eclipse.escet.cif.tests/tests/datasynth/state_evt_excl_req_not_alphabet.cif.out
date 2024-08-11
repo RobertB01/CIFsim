@@ -126,6 +126,8 @@ Final synthesis result:
     State: (controlled-behavior: true)
         Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 4 states.
 
 Initial (synthesis result):            true

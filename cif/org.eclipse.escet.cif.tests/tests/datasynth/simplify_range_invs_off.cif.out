@@ -273,6 +273,8 @@ Final synthesis result:
         Edge: (event: v13_dec) (guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1)) (assignments: aut.v13 := aut.v13 - 1)
         Edge: (event: v23_dec) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3)))) (assignments: aut.v23 := aut.v23 - 1)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 144 states.
 
 Initial (synthesis result):            true

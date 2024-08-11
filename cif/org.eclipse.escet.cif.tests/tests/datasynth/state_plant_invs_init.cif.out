@@ -123,6 +123,8 @@ Computing final controlled system guards:
 Final synthesis result:
     State: (controlled-behavior: A.D != 1)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 2 states.
 
 Initial (synthesis result):            A.D != 1

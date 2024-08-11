@@ -286,6 +286,8 @@ Final synthesis result:
         Edge: (event: u2) (guard: true -> (1 <= A.Vu2 and A.Vu2 <= 3 or (A.Vu2 = 5 or A.Vu3 != 4)) and A.Vu2 != 2 and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 4)) and (A.Vu2 != 3 or A.Vu3 != 4))) (assignments: A.Vu2 := A.Vu2 + 1)
         Edge: (event: u3) (guard: true -> (A.Vu2 = 1 or A.Vu2 = 3 or (A.Vu2 = 5 or A.Vu3 != 3)) and ((A.Vu2 = 0 or (2 <= A.Vu2 and A.Vu2 <= 4 or A.Vu3 != 3)) and A.Vu2 != 3)) (assignments: A.Vu3 := A.Vu3 + 1)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 60 states.
 
 Initial (synthesis result):            (A.Vu1 = 0 or A.Vu1 = 4) and (A.Vu2 = 0 or A.Vu2 = 2) and (0 <= A.Vu3 and A.Vu3 <= 3) or ((A.Vu1 = 0 or A.Vu1 = 4) and A.Vu2 = 1 and (0 <= A.Vu3 and A.Vu3 <= 3) or A.Vu1 = 2 and (A.Vu2 = 0 or A.Vu2 = 2) and (0 <= A.Vu3 and A.Vu3 <= 3)) or (A.Vu1 = 2 and A.Vu2 = 1 and (0 <= A.Vu3 and A.Vu3 <= 3) or ((A.Vu1 = 1 or A.Vu1 = 3) and (A.Vu2 = 0 or A.Vu2 = 2) and (0 <= A.Vu3 and A.Vu3 <= 3) or (A.Vu1 = 1 or A.Vu1 = 3) and A.Vu2 = 1 and (0 <= A.Vu3 and A.Vu3 <= 3)))

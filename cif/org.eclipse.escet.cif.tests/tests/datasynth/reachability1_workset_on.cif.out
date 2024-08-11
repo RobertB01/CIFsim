@@ -195,6 +195,8 @@ Final synthesis result:
         Edge: (event: p.j) (guard: p.v = 11) (assignments: p.v := 12)
         Edge: (event: p.l) (guard: p.v = 12) (assignments: p.v := 13)
 
+Computing initialization predicate of the controlled system.
+
 Controlled system: exactly 15 states.
 
 Initial (synthesis result):            true
