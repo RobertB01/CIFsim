@@ -503,18 +503,17 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1)): guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1) -> false.
-Edge (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2)): guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2) -> false.
-Edge (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2)): guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2) -> false.
-Edge (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2) -> (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l1 or p.v10 != 1) and (not p.l3 and not p.l2)): guard: (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l1 or p.v10 != 1) and (not p.l3 and not p.l2) -> false.
-Edge (event: p.c12) (guard: p.l1) (assignments: p := p.l2): guard: p.l1 -> false.
-Edge (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1): guard: p.l1 and p.v13 = 10 -> false.
-Edge (event: p.c15) (guard: p.l1): guard: p.l1 -> <bdd 70n 2p>.
-Edge (event: p.c16) (guard: p.l3): guard: p.l3 -> false.
-Edge (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2): guard: a.l1 and b.l1 -> <bdd 69n 1p>.
-Edge (event: c_synch) (guard: a.l1 and b.l2): guard: a.l1 and b.l2 -> false.
+Computing final controlled system guards:
+    Edge (event: p.c7) (guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1)): guard: p.v7 = 8 and p.l1 or p.v7 = 4 and p.l1 or ((p.v7 = 2 or (p.v7 = 6 or p.v7 = 10)) and p.l1 or (p.v7 = 1 or p.v7 = 3 or (p.v7 = 5 or (p.v7 = 7 or p.v7 = 9))) and p.l1) -> false.
+    Edge (event: p.c8) (guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2)): guard: (not p.l1 or p.v8 != 0) and (not p.l3 and not p.l2) -> false.
+    Edge (event: p.c9) (guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2)): guard: (not p.l1 or p.v9 != 0) and (not p.l3 and not p.l2) -> false.
+    Edge (event: p.c10) (guard: (not p.l1 or p.v10 != 0) and (not p.l3 and not p.l2) -> (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l1 or p.v10 != 1) and (not p.l3 and not p.l2)): guard: (not p.l1 or (p.v10 = 1 or 3 <= p.v10 and p.v10 <= 10)) and (not p.l1 or p.v10 != 1) and (not p.l3 and not p.l2) -> false.
+    Edge (event: p.c12) (guard: p.l1) (assignments: p := p.l2): guard: p.l1 -> false.
+    Edge (event: p.c13) (guard: p.l1 and p.v13 = 10) (assignments: p.v13 := p.v13 + 1): guard: p.l1 and p.v13 = 10 -> false.
+    Edge (event: p.c15) (guard: p.l1): guard: p.l1 -> <bdd 70n 2p>.
+    Edge (event: p.c16) (guard: p.l3): guard: p.l3 -> false.
+    Edge (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2): guard: a.l1 and b.l1 -> <bdd 69n 1p>.
+    Edge (event: c_synch) (guard: a.l1 and b.l2): guard: a.l1 and b.l2 -> false.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 70n 2p>)

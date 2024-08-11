@@ -244,9 +244,8 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: c_e) (guard: true -> true) (assignments: p.y := p.y + 2): guard: true -> <bdd 17n 63p>.
+Computing final controlled system guards:
+    Edge (event: c_e) (guard: true -> true) (assignments: p.y := p.y + 2): guard: true -> <bdd 17n 63p>.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 17n 63p>)

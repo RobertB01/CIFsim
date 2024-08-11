@@ -235,13 +235,12 @@ Synthesis round 1:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: p.ed1) (guard: p.loc1) (assignments: p.d1 := p.d1 div 1, p := p.loc2): guard: p.loc1 -> p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)).
-Edge (event: p.ed2) (guard: p.loc1) (assignments: p.d2 := p.d2 div 2, p := p.loc2): guard: p.loc1 -> p.d1 = 1 and ((p.d2 = 2 or p.d2 = 3) and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)).
-Edge (event: p.ed3) (guard: p.loc1) (assignments: p.d3 := p.d3 div 3, p := p.loc2): guard: p.loc1 -> p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)).
-Edge (event: p.ed4) (guard: p.loc1) (assignments: p.d4 := p.d4 div 4, p := p.loc2): guard: p.loc1 -> p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1)).
-Edge (event: p.ed5) (guard: p.loc1) (assignments: p.d5 := p.d5 div 5, p := p.loc2): guard: p.loc1 -> false.
+Computing final controlled system guards:
+    Edge (event: p.ed1) (guard: p.loc1) (assignments: p.d1 := p.d1 div 1, p := p.loc2): guard: p.loc1 -> p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)).
+    Edge (event: p.ed2) (guard: p.loc1) (assignments: p.d2 := p.d2 div 2, p := p.loc2): guard: p.loc1 -> p.d1 = 1 and ((p.d2 = 2 or p.d2 = 3) and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)).
+    Edge (event: p.ed3) (guard: p.loc1) (assignments: p.d3 := p.d3 div 3, p := p.loc2): guard: p.loc1 -> p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)).
+    Edge (event: p.ed4) (guard: p.loc1) (assignments: p.d4 := p.d4 div 4, p := p.loc2): guard: p.loc1 -> p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1)).
+    Edge (event: p.ed5) (guard: p.loc1) (assignments: p.d5 := p.d5 div 5, p := p.loc2): guard: p.loc1 -> false.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 27n 7p>)

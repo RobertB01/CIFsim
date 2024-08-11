@@ -88,7 +88,8 @@ Synthesis round 1:
 
     Finished: all states are bad.
 
-Computing controlled system guards.
+Computing final controlled system guards:
+    No guards changed.
 
 Final synthesis result:
     State: (controlled-behavior: p.x = 3)

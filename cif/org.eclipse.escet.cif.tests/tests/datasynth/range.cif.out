@@ -127,10 +127,9 @@ Synthesis round 1:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1): guard: true -> buffer.x != 5.
-Edge (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1): guard: buffer.x != 0 -> buffer.x != 0.
+Computing final controlled system guards:
+    Edge (event: buffer.add) (guard: true -> true) (assignments: buffer.x := buffer.x + 1): guard: true -> buffer.x != 5.
+    Edge (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1): guard: buffer.x != 0 -> buffer.x != 0.
 
 Final synthesis result:
     State: (controlled-behavior: true)

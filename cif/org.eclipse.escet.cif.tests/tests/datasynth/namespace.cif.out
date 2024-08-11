@@ -227,9 +227,8 @@ Synthesis round 1:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2): guard: g.r.loc1 and g.r.y = 0 -> false.
+Computing final controlled system guards:
+    Edge (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2): guard: g.r.loc1 and g.r.y = 0 -> false.
 
 Final synthesis result:
     State: (controlled-behavior: g.r.loc1)

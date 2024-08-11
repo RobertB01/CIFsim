@@ -246,7 +246,8 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
+Computing final controlled system guards:
+    No guards changed.
 
 Final synthesis result:
     State: (controlled-behavior: not p.l1 and p.x = 16 or p.l1 and p.x = 16)

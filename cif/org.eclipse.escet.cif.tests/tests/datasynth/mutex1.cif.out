@@ -269,10 +269,9 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1.producing := 1, machine1 := machine1.Producing): guard: machine1.Idle -> machine1.Idle and (machine2.producing = 0 and not machine2.Producing).
-Edge (event: machine2.c_start) (guard: machine2.Idle) (assignments: machine2.producing := 1, machine2 := machine2.Producing): guard: machine2.Idle -> not machine1.Producing and (machine1.producing = 0 and machine2.Idle).
+Computing final controlled system guards:
+    Edge (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1.producing := 1, machine1 := machine1.Producing): guard: machine1.Idle -> machine1.Idle and (machine2.producing = 0 and not machine2.Producing).
+    Edge (event: machine2.c_start) (guard: machine2.Idle) (assignments: machine2.producing := 1, machine2 := machine2.Producing): guard: machine2.Idle -> not machine1.Producing and (machine1.producing = 0 and machine2.Idle).
 
 Final synthesis result:
     State: (controlled-behavior: not machine1.Producing and machine1.producing = 0 and (machine2.producing = 0 and not machine2.Producing) or (not machine1.Producing and machine1.producing = 0 and (machine2.producing = 1 and machine2.Producing) or machine1.Producing and machine1.producing = 1 and (machine2.producing = 0 and not machine2.Producing)))

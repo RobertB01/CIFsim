@@ -116,10 +116,9 @@ Synthesis round 1:
 
     Finished: all states are bad.
 
-Computing controlled system guards.
-
-Edge (event: cen) (guard: true): guard: true -> false.
-Edge (event: cee) (guard: true): guard: true -> false.
+Computing final controlled system guards:
+    Edge (event: cen) (guard: true): guard: true -> false.
+    Edge (event: cee) (guard: true): guard: true -> false.
 
 Final synthesis result:
     State: (controlled-behavior: false)

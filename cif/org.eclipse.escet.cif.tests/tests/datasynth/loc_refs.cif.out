@@ -239,15 +239,14 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: e1) (guard: pe.a) (assignments: pe := pe.b): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
-Edge (event: e1) (guard: pe.b) (assignments: pe := pe.a): guard: pe.b -> pe.b and (q1.x = 0 and q1.y = 1).
-Edge (event: e2) (guard: pe.a) (assignments: pe := pe.c): guard: pe.a -> false.
-Edge (event: e3) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
-Edge (event: e4) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
-Edge (event: f1) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
-Edge (event: f2) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
+Computing final controlled system guards:
+    Edge (event: e1) (guard: pe.a) (assignments: pe := pe.b): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
+    Edge (event: e1) (guard: pe.b) (assignments: pe := pe.a): guard: pe.b -> pe.b and (q1.x = 0 and q1.y = 1).
+    Edge (event: e2) (guard: pe.a) (assignments: pe := pe.c): guard: pe.a -> false.
+    Edge (event: e3) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
+    Edge (event: e4) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
+    Edge (event: f1) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
+    Edge (event: f2) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
 
 Final synthesis result:
     State: (controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1))

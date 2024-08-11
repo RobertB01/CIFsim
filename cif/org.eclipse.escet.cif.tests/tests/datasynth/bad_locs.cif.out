@@ -253,10 +253,9 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: c) (guard: p.l2) (assignments: p.x := 3, p := p.l3): guard: p.l2 -> false.
-Edge (event: c) (guard: p.l4) (assignments: p.x := 5, p := p.l5): guard: p.l4 -> false.
+Computing final controlled system guards:
+    Edge (event: c) (guard: p.l2) (assignments: p.x := 3, p := p.l3): guard: p.l2 -> false.
+    Edge (event: c) (guard: p.l4) (assignments: p.x := 5, p := p.l5): guard: p.l4 -> false.
 
 Final synthesis result:
     State: (controlled-behavior: p.x = 0 and p.l0 or (p.x = 2 and p.l2 or p.x = 1 and p.l1))

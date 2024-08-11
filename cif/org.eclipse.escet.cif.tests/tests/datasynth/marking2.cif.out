@@ -180,9 +180,8 @@ Synthesis round 1:
 
     Finished: no initialization possible.
 
-Computing controlled system guards.
-
-Edge (event: p.c) (guard: p.l1) (assignments: p := p.l2): guard: p.l1 -> p.l1 and p.x = 3.
+Computing final controlled system guards:
+    Edge (event: p.c) (guard: p.l1) (assignments: p := p.l2): guard: p.l1 -> p.l1 and p.x = 3.
 
 Final synthesis result:
     State: (controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3)

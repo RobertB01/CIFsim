@@ -287,10 +287,9 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: c1) (guard: p.m0) (assignments: p := p.m1): guard: p.m0 -> p.x = 3 and p.m0.
-Edge (event: c2) (guard: p.m2 -> (p.x = 0 or p.x = 2 or (p.x = 4 or (p.x = 6 or p.x = 8))) and p.m2 or (p.x = 1 or (p.x = 5 or p.x = 9)) and p.m2 or (p.x = 3 and p.m2 or p.x = 7 and p.m2)) (assignments: p.x := p.x + 1): guard: (p.x = 0 or p.x = 2 or (p.x = 4 or (p.x = 6 or p.x = 8))) and p.m2 or (p.x = 1 or (p.x = 5 or p.x = 9)) and p.m2 or (p.x = 3 and p.m2 or p.x = 7 and p.m2) -> p.x = 3 and p.m2.
+Computing final controlled system guards:
+    Edge (event: c1) (guard: p.m0) (assignments: p := p.m1): guard: p.m0 -> p.x = 3 and p.m0.
+    Edge (event: c2) (guard: p.m2 -> (p.x = 0 or p.x = 2 or (p.x = 4 or (p.x = 6 or p.x = 8))) and p.m2 or (p.x = 1 or (p.x = 5 or p.x = 9)) and p.m2 or (p.x = 3 and p.m2 or p.x = 7 and p.m2)) (assignments: p.x := p.x + 1): guard: (p.x = 0 or p.x = 2 or (p.x = 4 or (p.x = 6 or p.x = 8))) and p.m2 or (p.x = 1 or (p.x = 5 or p.x = 9)) and p.m2 or (p.x = 3 and p.m2 or p.x = 7 and p.m2) -> p.x = 3 and p.m2.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 21n 5p>)

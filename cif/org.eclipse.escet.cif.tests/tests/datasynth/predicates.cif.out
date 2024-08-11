@@ -295,50 +295,49 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: e01) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
-Edge (event: e03) (guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15)))): guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15))) -> false.
-Edge (event: e04) (guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15))): guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15)) -> false.
-Edge (event: e05) (guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7)): guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7) -> <bdd 22n 1p>.
-Edge (event: e06) (guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7)))): guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7))) -> <bdd 22n 1p>.
-Edge (event: e07) (guard: p.l0 and p.x1 = 11): guard: p.l0 and p.x1 = 11 -> false.
-Edge (event: e08) (guard: (p.l1 or p.x1 != 11) and p.l0): guard: (p.l1 or p.x1 != 11) and p.l0 -> <bdd 22n 1p>.
-Edge (event: e09) (guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15)))): guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15))) -> false.
-Edge (event: e10) (guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15))): guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15)) -> false.
-Edge (event: e11) (guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7)): guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7) -> <bdd 22n 1p>.
-Edge (event: e12) (guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7)))): guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7))) -> <bdd 22n 1p>.
-Edge (event: e13) (guard: p.l0 and p.x1 = 11): guard: p.l0 and p.x1 = 11 -> false.
-Edge (event: e14) (guard: (p.l1 or p.x1 != 11) and p.l0): guard: (p.l1 or p.x1 != 11) and p.l0 -> <bdd 22n 1p>.
-Edge (event: e15) (guard: p.l0 and p.x1 = 17): guard: p.l0 and p.x1 = 17 -> false.
-Edge (event: e16) (guard: p.l0 and p.x1 = 16): guard: p.l0 and p.x1 = 16 -> false.
-Edge (event: e17) (guard: p.l0 and p.x1 = 11): guard: p.l0 and p.x1 = 11 -> false.
-Edge (event: e18) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
-Edge (event: e19) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
-Edge (event: e22) (guard: p.l0 and (p.x1 = 12 or p.x1 = 13) or p.l0 and (p.x1 = 10 or p.x1 = 11)): guard: p.l0 and (p.x1 = 12 or p.x1 = 13) or p.l0 and (p.x1 = 10 or p.x1 = 11) -> <bdd 22n 1p>.
-Edge (event: e23) (guard: (p.l1 or not(p.x1 = 8 or p.x1 = 12)) and ((p.l1 or p.x1 != 10) and (p.l1 or not(p.x1 = 6 or p.x1 = 14))) and ((p.l1 or not(p.x1 = 9 or p.x1 = 13)) and (p.l1 or p.x1 != 11) and ((p.l1 or p.x1 != 7) and p.l0))): guard: (p.l1 or not(p.x1 = 8 or p.x1 = 12)) and ((p.l1 or p.x1 != 10) and (p.l1 or not(p.x1 = 6 or p.x1 = 14))) and ((p.l1 or not(p.x1 = 9 or p.x1 = 13)) and (p.l1 or p.x1 != 11) and ((p.l1 or p.x1 != 7) and p.l0)) -> false.
-Edge (event: e24) (guard: (p.l1 or not(p.x1 = 16 or p.x1 = 17)) and p.l0): guard: (p.l1 or not(p.x1 = 16 or p.x1 = 17)) and p.l0 -> <bdd 22n 1p>.
-Edge (event: e25) (guard: p.l0 and (p.x1 = 8 or p.x1 = 12) or (p.l0 and p.x1 = 10 or p.l0 and p.x1 = 17) or (p.l0 and p.x1 = 9 or p.l0 and p.x1 = 13 or (p.l0 and (p.x1 = 3 or p.x1 = 11) or p.l0 and p.x1 = 7))): guard: p.l0 and (p.x1 = 8 or p.x1 = 12) or (p.l0 and p.x1 = 10 or p.l0 and p.x1 = 17) or (p.l0 and p.x1 = 9 or p.l0 and p.x1 = 13 or (p.l0 and (p.x1 = 3 or p.x1 = 11) or p.l0 and p.x1 = 7)) -> <bdd 22n 1p>.
-Edge (event: e26) (guard: <bdd 11n 32p>): guard: <bdd 11n 32p> -> false.
-Edge (event: e27) (guard: <bdd 12n 44p>): guard: <bdd 12n 44p> -> <bdd 22n 1p>.
-Edge (event: e28) (guard: <bdd 17n 47p>): guard: <bdd 17n 47p> -> false.
-Edge (event: e29) (guard: not p.bt and (not p.bf and p.l0) or p.bt and (p.bf and p.l0)): guard: not p.bt and (not p.bf and p.l0) or p.bt and (p.bf and p.l0) -> false.
-Edge (event: e30) (guard: not p.bt and (p.bf and p.l0) or p.bt and (not p.bf and p.l0)): guard: not p.bt and (p.bf and p.l0) or p.bt and (not p.bf and p.l0) -> <bdd 22n 1p>.
-Edge (event: e31) (guard: not p.bt and p.l0 or p.bt and (not p.bf and p.l0)): guard: not p.bt and p.l0 or p.bt and (not p.bf and p.l0) -> <bdd 22n 1p>.
-Edge (event: e32) (guard: p.l0 and (p.v1 = X and p.v2 = X) or p.l0 and (p.v1 = Y and p.v2 = Y)): guard: p.l0 and (p.v1 = X and p.v2 = X) or p.l0 and (p.v1 = Y and p.v2 = Y) -> false.
-Edge (event: e33) (guard: p.l0 and (p.v1 = X and p.v2 = Y) or p.l0 and (p.v1 = Y and p.v2 = X)): guard: p.l0 and (p.v1 = X and p.v2 = Y) or p.l0 and (p.v1 = Y and p.v2 = X) -> <bdd 22n 1p>.
-Edge (event: e34) (guard: p.l0 and p.v1 = X): guard: p.l0 and p.v1 = X -> <bdd 22n 1p>.
-Edge (event: e35) (guard: p.l0 and p.v2 = X): guard: p.l0 and p.v2 = X -> false.
-Edge (event: e36) (guard: <bdd 30n 8p>): guard: <bdd 30n 8p> -> false.
-Edge (event: e37) (guard: <bdd 30n 8p>): guard: <bdd 30n 8p> -> false.
-Edge (event: e38) (guard: <bdd 30n 8p>): guard: <bdd 30n 8p> -> false.
-Edge (event: e39) (guard: <bdd 30n 32p>): guard: <bdd 30n 32p> -> <bdd 22n 1p>.
-Edge (event: e41) (guard: <bdd 25n 6p>): guard: <bdd 25n 6p> -> <bdd 22n 1p>.
-Edge (event: e42) (guard: (p.x3 = 2 or p.x3 = 3) and p.l0): guard: (p.x3 = 2 or p.x3 = 3) and p.l0 -> <bdd 22n 1p>.
-Edge (event: e43) (guard: (p.x3 = 1 or p.x3 = 3) and p.l0): guard: (p.x3 = 1 or p.x3 = 3) and p.l0 -> false.
-Edge (event: e44) (guard: p.x3 = 2 and p.l0 or p.x3 = 1 and p.l0): guard: p.x3 = 2 and p.l0 or p.x3 = 1 and p.l0 -> <bdd 22n 1p>.
-Edge (event: e45) (guard: (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) and p.l0): guard: (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) and p.l0 -> <bdd 22n 1p>.
-Edge (event: e46) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
+Computing final controlled system guards:
+    Edge (event: e01) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
+    Edge (event: e03) (guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15)))): guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15))) -> false.
+    Edge (event: e04) (guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15))): guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15)) -> false.
+    Edge (event: e05) (guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7)): guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7) -> <bdd 22n 1p>.
+    Edge (event: e06) (guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7)))): guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7))) -> <bdd 22n 1p>.
+    Edge (event: e07) (guard: p.l0 and p.x1 = 11): guard: p.l0 and p.x1 = 11 -> false.
+    Edge (event: e08) (guard: (p.l1 or p.x1 != 11) and p.l0): guard: (p.l1 or p.x1 != 11) and p.l0 -> <bdd 22n 1p>.
+    Edge (event: e09) (guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15)))): guard: p.l0 and (p.x1 = 16 or p.x1 = 18) or (p.l0 and p.x1 = 20 or p.l0 and (p.x1 = 12 or p.x1 = 14)) or (p.l0 and p.x1 = 17 or p.l0 and p.x1 = 13 or (p.l0 and p.x1 = 19 or p.l0 and (p.x1 = 11 or p.x1 = 15))) -> false.
+    Edge (event: e10) (guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15))): guard: p.l0 and (16 <= p.x1 and p.x1 <= 19) or (p.l0 and p.x1 = 20 or p.l0 and (12 <= p.x1 and p.x1 <= 15)) -> false.
+    Edge (event: e11) (guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7)): guard: p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7) -> <bdd 22n 1p>.
+    Edge (event: e12) (guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7)))): guard: p.l0 and (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) or p.l0 and (p.x1 = 4 or p.x1 = 6) or (p.l0 and (p.x1 = 1 or p.x1 = 9) or (p.l0 and p.x1 = 5 or p.l0 and (p.x1 = 3 or p.x1 = 7))) -> <bdd 22n 1p>.
+    Edge (event: e13) (guard: p.l0 and p.x1 = 11): guard: p.l0 and p.x1 = 11 -> false.
+    Edge (event: e14) (guard: (p.l1 or p.x1 != 11) and p.l0): guard: (p.l1 or p.x1 != 11) and p.l0 -> <bdd 22n 1p>.
+    Edge (event: e15) (guard: p.l0 and p.x1 = 17): guard: p.l0 and p.x1 = 17 -> false.
+    Edge (event: e16) (guard: p.l0 and p.x1 = 16): guard: p.l0 and p.x1 = 16 -> false.
+    Edge (event: e17) (guard: p.l0 and p.x1 = 11): guard: p.l0 and p.x1 = 11 -> false.
+    Edge (event: e18) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
+    Edge (event: e19) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
+    Edge (event: e22) (guard: p.l0 and (p.x1 = 12 or p.x1 = 13) or p.l0 and (p.x1 = 10 or p.x1 = 11)): guard: p.l0 and (p.x1 = 12 or p.x1 = 13) or p.l0 and (p.x1 = 10 or p.x1 = 11) -> <bdd 22n 1p>.
+    Edge (event: e23) (guard: (p.l1 or not(p.x1 = 8 or p.x1 = 12)) and ((p.l1 or p.x1 != 10) and (p.l1 or not(p.x1 = 6 or p.x1 = 14))) and ((p.l1 or not(p.x1 = 9 or p.x1 = 13)) and (p.l1 or p.x1 != 11) and ((p.l1 or p.x1 != 7) and p.l0))): guard: (p.l1 or not(p.x1 = 8 or p.x1 = 12)) and ((p.l1 or p.x1 != 10) and (p.l1 or not(p.x1 = 6 or p.x1 = 14))) and ((p.l1 or not(p.x1 = 9 or p.x1 = 13)) and (p.l1 or p.x1 != 11) and ((p.l1 or p.x1 != 7) and p.l0)) -> false.
+    Edge (event: e24) (guard: (p.l1 or not(p.x1 = 16 or p.x1 = 17)) and p.l0): guard: (p.l1 or not(p.x1 = 16 or p.x1 = 17)) and p.l0 -> <bdd 22n 1p>.
+    Edge (event: e25) (guard: p.l0 and (p.x1 = 8 or p.x1 = 12) or (p.l0 and p.x1 = 10 or p.l0 and p.x1 = 17) or (p.l0 and p.x1 = 9 or p.l0 and p.x1 = 13 or (p.l0 and (p.x1 = 3 or p.x1 = 11) or p.l0 and p.x1 = 7))): guard: p.l0 and (p.x1 = 8 or p.x1 = 12) or (p.l0 and p.x1 = 10 or p.l0 and p.x1 = 17) or (p.l0 and p.x1 = 9 or p.l0 and p.x1 = 13 or (p.l0 and (p.x1 = 3 or p.x1 = 11) or p.l0 and p.x1 = 7)) -> <bdd 22n 1p>.
+    Edge (event: e26) (guard: <bdd 11n 32p>): guard: <bdd 11n 32p> -> false.
+    Edge (event: e27) (guard: <bdd 12n 44p>): guard: <bdd 12n 44p> -> <bdd 22n 1p>.
+    Edge (event: e28) (guard: <bdd 17n 47p>): guard: <bdd 17n 47p> -> false.
+    Edge (event: e29) (guard: not p.bt and (not p.bf and p.l0) or p.bt and (p.bf and p.l0)): guard: not p.bt and (not p.bf and p.l0) or p.bt and (p.bf and p.l0) -> false.
+    Edge (event: e30) (guard: not p.bt and (p.bf and p.l0) or p.bt and (not p.bf and p.l0)): guard: not p.bt and (p.bf and p.l0) or p.bt and (not p.bf and p.l0) -> <bdd 22n 1p>.
+    Edge (event: e31) (guard: not p.bt and p.l0 or p.bt and (not p.bf and p.l0)): guard: not p.bt and p.l0 or p.bt and (not p.bf and p.l0) -> <bdd 22n 1p>.
+    Edge (event: e32) (guard: p.l0 and (p.v1 = X and p.v2 = X) or p.l0 and (p.v1 = Y and p.v2 = Y)): guard: p.l0 and (p.v1 = X and p.v2 = X) or p.l0 and (p.v1 = Y and p.v2 = Y) -> false.
+    Edge (event: e33) (guard: p.l0 and (p.v1 = X and p.v2 = Y) or p.l0 and (p.v1 = Y and p.v2 = X)): guard: p.l0 and (p.v1 = X and p.v2 = Y) or p.l0 and (p.v1 = Y and p.v2 = X) -> <bdd 22n 1p>.
+    Edge (event: e34) (guard: p.l0 and p.v1 = X): guard: p.l0 and p.v1 = X -> <bdd 22n 1p>.
+    Edge (event: e35) (guard: p.l0 and p.v2 = X): guard: p.l0 and p.v2 = X -> false.
+    Edge (event: e36) (guard: <bdd 30n 8p>): guard: <bdd 30n 8p> -> false.
+    Edge (event: e37) (guard: <bdd 30n 8p>): guard: <bdd 30n 8p> -> false.
+    Edge (event: e38) (guard: <bdd 30n 8p>): guard: <bdd 30n 8p> -> false.
+    Edge (event: e39) (guard: <bdd 30n 32p>): guard: <bdd 30n 32p> -> <bdd 22n 1p>.
+    Edge (event: e41) (guard: <bdd 25n 6p>): guard: <bdd 25n 6p> -> <bdd 22n 1p>.
+    Edge (event: e42) (guard: (p.x3 = 2 or p.x3 = 3) and p.l0): guard: (p.x3 = 2 or p.x3 = 3) and p.l0 -> <bdd 22n 1p>.
+    Edge (event: e43) (guard: (p.x3 = 1 or p.x3 = 3) and p.l0): guard: (p.x3 = 1 or p.x3 = 3) and p.l0 -> false.
+    Edge (event: e44) (guard: p.x3 = 2 and p.l0 or p.x3 = 1 and p.l0): guard: p.x3 = 2 and p.l0 or p.x3 = 1 and p.l0 -> <bdd 22n 1p>.
+    Edge (event: e45) (guard: (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) and p.l0): guard: (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) and p.l0 -> <bdd 22n 1p>.
+    Edge (event: e46) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 22n 1p>)

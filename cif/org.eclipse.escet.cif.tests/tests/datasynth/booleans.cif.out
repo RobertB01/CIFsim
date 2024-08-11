@@ -247,13 +247,12 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0): guard: true -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
-Edge (event: g.e2) (guard: not g.p.b2) (assignments: g.p.b0 := 1 = 1): guard: not g.p.b2 -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
-Edge (event: g.e3) (guard: g.p.b4): guard: g.p.b4 -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
-Edge (event: g.e4) (guard: g.p.b3): guard: g.p.b3 -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
-Edge (event: g.e4) (guard: not g.p.b3): guard: not g.p.b3 -> false.
+Computing final controlled system guards:
+    Edge (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0): guard: true -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
+    Edge (event: g.e2) (guard: not g.p.b2) (assignments: g.p.b0 := 1 = 1): guard: not g.p.b2 -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
+    Edge (event: g.e3) (guard: g.p.b4): guard: g.p.b4 -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
+    Edge (event: g.e4) (guard: g.p.b3): guard: g.p.b3 -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
+    Edge (event: g.e4) (guard: not g.p.b3): guard: not g.p.b3 -> false.
 
 Final synthesis result:
     State: (controlled-behavior: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4))

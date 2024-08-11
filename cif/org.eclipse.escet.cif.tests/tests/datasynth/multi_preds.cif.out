@@ -96,9 +96,8 @@ Synthesis round 1:
 
     Finished: no initialization possible.
 
-Computing controlled system guards.
-
-Edge (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3): guard: p.x = 4 or p.x = 3 -> p.x = 4.
+Computing final controlled system guards:
+    Edge (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3): guard: p.x = 4 or p.x = 3 -> p.x = 4.
 
 Final synthesis result:
     State: (controlled-behavior: p.x = 4 or (p.x = 6 or p.x = 5))

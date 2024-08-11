@@ -353,10 +353,9 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: c1) (guard: p.m2 -> not p.m0 and (not p.t1 and not p.t5) and (not p.b4 and (not p.b2 and not p.t3)) and (not p.m1 and (not p.m3 and not p.t2) and (not p.t4 and (not p.b1 and not p.b3)))) (assignments: p.x := p.x + 1, p := p.t1): guard: not p.m0 and (not p.t1 and not p.t5) and (not p.b4 and (not p.b2 and not p.t3)) and (not p.m1 and (not p.m3 and not p.t2) and (not p.t4 and (not p.b1 and not p.b3))) -> <bdd 21n 56p>.
-Edge (event: c2) (guard: p.m2 -> <bdd 14n 25p>) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b1): guard: <bdd 14n 25p> -> <bdd 21n 77p>.
+Computing final controlled system guards:
+    Edge (event: c1) (guard: p.m2 -> not p.m0 and (not p.t1 and not p.t5) and (not p.b4 and (not p.b2 and not p.t3)) and (not p.m1 and (not p.m3 and not p.t2) and (not p.t4 and (not p.b1 and not p.b3)))) (assignments: p.x := p.x + 1, p := p.t1): guard: not p.m0 and (not p.t1 and not p.t5) and (not p.b4 and (not p.b2 and not p.t3)) and (not p.m1 and (not p.m3 and not p.t2) and (not p.t4 and (not p.b1 and not p.b3))) -> <bdd 21n 56p>.
+    Edge (event: c2) (guard: p.m2 -> <bdd 14n 25p>) (assignments: p.x := p.x + 1, p.y := p.y - 1, p := p.b1): guard: <bdd 14n 25p> -> <bdd 21n 77p>.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 105n 1,102p>)

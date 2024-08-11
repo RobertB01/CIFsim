@@ -245,12 +245,11 @@ Synthesis round 1:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR): guard: LightA.Red and R.RR -> LightA.Red and (R.RR and LightB.Red).
-Edge (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR): guard: LightA.Green and R.GR -> LightA.Green and (R.GR and LightB.Red).
-Edge (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG): guard: R.RR and LightB.Red -> LightA.Red and (R.RR and LightB.Red).
-Edge (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR): guard: R.RG and LightB.Green -> LightA.Red and (R.RG and LightB.Green).
+Computing final controlled system guards:
+    Edge (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR): guard: LightA.Red and R.RR -> LightA.Red and (R.RR and LightB.Red).
+    Edge (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR): guard: LightA.Green and R.GR -> LightA.Green and (R.GR and LightB.Red).
+    Edge (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG): guard: R.RR and LightB.Red -> LightA.Red and (R.RR and LightB.Red).
+    Edge (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR): guard: R.RG and LightB.Green -> LightA.Red and (R.RG and LightB.Green).
 
 Final synthesis result:
     State: (controlled-behavior: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)))

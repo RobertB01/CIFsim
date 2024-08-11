@@ -127,9 +127,8 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: next) (guard: true) (assignments: p.x := (p.x + 1) mod count): guard: true -> p.x = 1.
+Computing final controlled system guards:
+    Edge (event: next) (guard: true) (assignments: p.x := (p.x + 1) mod count): guard: true -> p.x = 1.
 
 Final synthesis result:
     State: (controlled-behavior: p.x = 2)

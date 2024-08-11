@@ -196,12 +196,11 @@ Synthesis round 1:
 
     Finished: all states are bad.
 
-Computing controlled system guards.
-
-Edge (event: c) (guard: p1.l0 and p2.l0) (assignments: p1 := p1.l1, p2 := p2.l1): guard: p1.l0 and p2.l0 -> false.
-Edge (event: c) (guard: p1.l0 and p2.l1) (assignments: p1 := p1.l1, p2 := p2.l0): guard: p1.l0 and p2.l1 -> false.
-Edge (event: c) (guard: p1.l1 and p2.l0) (assignments: p1 := p1.l0, p2 := p2.l1): guard: p1.l1 and p2.l0 -> false.
-Edge (event: c) (guard: p1.l1 and p2.l1) (assignments: p1 := p1.l0, p2 := p2.l0): guard: p1.l1 and p2.l1 -> false.
+Computing final controlled system guards:
+    Edge (event: c) (guard: p1.l0 and p2.l0) (assignments: p1 := p1.l1, p2 := p2.l1): guard: p1.l0 and p2.l0 -> false.
+    Edge (event: c) (guard: p1.l0 and p2.l1) (assignments: p1 := p1.l1, p2 := p2.l0): guard: p1.l0 and p2.l1 -> false.
+    Edge (event: c) (guard: p1.l1 and p2.l0) (assignments: p1 := p1.l0, p2 := p2.l1): guard: p1.l1 and p2.l0 -> false.
+    Edge (event: c) (guard: p1.l1 and p2.l1) (assignments: p1 := p1.l0, p2 := p2.l0): guard: p1.l1 and p2.l1 -> false.
 
 Final synthesis result:
     State: (controlled-behavior: false)

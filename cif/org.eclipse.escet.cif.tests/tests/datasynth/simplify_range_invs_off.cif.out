@@ -248,18 +248,17 @@ Synthesis round 1:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1): guard: aut.v01 = 0 -> aut.v01 = 0.
-Edge (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1): guard: true -> aut.v02 != 2.
-Edge (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1): guard: aut.v03 != 3 -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3).
-Edge (event: v13_inc) (guard: true -> aut.v13 != 3) (assignments: aut.v13 := aut.v13 + 1): guard: aut.v13 != 3 -> (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3).
-Edge (event: v23_inc) (guard: true -> aut.v23 = 2) (assignments: aut.v23 := aut.v23 + 1): guard: aut.v23 = 2 -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2))).
-Edge (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1): guard: aut.v01 = 1 -> aut.v01 = 1.
-Edge (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1): guard: aut.v02 != 0 -> aut.v02 != 0.
-Edge (event: v03_dec) (guard: true -> aut.v03 != 0) (assignments: aut.v03 := aut.v03 - 1): guard: aut.v03 != 0 -> (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0).
-Edge (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1): guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1).
-Edge (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1): guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3))).
+Computing final controlled system guards:
+    Edge (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1): guard: aut.v01 = 0 -> aut.v01 = 0.
+    Edge (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1): guard: true -> aut.v02 != 2.
+    Edge (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1): guard: aut.v03 != 3 -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3).
+    Edge (event: v13_inc) (guard: true -> aut.v13 != 3) (assignments: aut.v13 := aut.v13 + 1): guard: aut.v13 != 3 -> (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3).
+    Edge (event: v23_inc) (guard: true -> aut.v23 = 2) (assignments: aut.v23 := aut.v23 + 1): guard: aut.v23 = 2 -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2))).
+    Edge (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1): guard: aut.v01 = 1 -> aut.v01 = 1.
+    Edge (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1): guard: aut.v02 != 0 -> aut.v02 != 0.
+    Edge (event: v03_dec) (guard: true -> aut.v03 != 0) (assignments: aut.v03 := aut.v03 - 1): guard: aut.v03 != 0 -> (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0).
+    Edge (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1): guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1).
+    Edge (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1): guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3))).
 
 Final synthesis result:
     State: (controlled-behavior: true)

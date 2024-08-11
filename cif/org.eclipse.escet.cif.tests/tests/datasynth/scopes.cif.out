@@ -234,11 +234,10 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: c1) (guard: true -> true) (assignments: g.p.x := g.p.x + 1, p.x := 1): guard: true -> g.p.x != 4.
-Edge (event: g.c2) (guard: true -> true) (assignments: g.p.x := g.p.x + 1, p.x := 1): guard: true -> g.p.x != 4.
-Edge (event: g.p.c3) (guard: true -> true) (assignments: g.p.x := g.p.x + 1): guard: true -> g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1.
+Computing final controlled system guards:
+    Edge (event: c1) (guard: true -> true) (assignments: g.p.x := g.p.x + 1, p.x := 1): guard: true -> g.p.x != 4.
+    Edge (event: g.c2) (guard: true -> true) (assignments: g.p.x := g.p.x + 1, p.x := 1): guard: true -> g.p.x != 4.
+    Edge (event: g.p.c3) (guard: true -> true) (assignments: g.p.x := g.p.x + 1): guard: true -> g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1.
 
 Final synthesis result:
     State: (controlled-behavior: g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1))

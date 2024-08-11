@@ -247,11 +247,10 @@ Synthesis round 2:
 
     Finished: controlled behavior is stable.
 
-Computing controlled system guards.
-
-Edge (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1): guard: cnt.c != 3 -> cnt.c = 0 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or (cnt.c = 1 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 1 and (rcv1.x = 1 and rcv2.x = 0))).
-Edge (event: e) (guard: cnt.c = 1 -> cnt.c = 1 and rcv1.x = 0 or (cnt.c = 1 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 1 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1))) (assignments: rcv1.x := 1): guard: cnt.c = 1 and rcv1.x = 0 or (cnt.c = 1 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 1 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)) -> cnt.c = 1 and (rcv1.x = 0 and rcv2.x = 0).
-Edge (event: e) (guard: cnt.c = 2 -> cnt.c = 2 and rcv1.x = 0 or (cnt.c = 2 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 2 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1))) (assignments: rcv2.x := 2): guard: cnt.c = 2 and rcv1.x = 0 or (cnt.c = 2 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 2 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)) -> cnt.c = 2 and rcv1.x = 0.
+Computing final controlled system guards:
+    Edge (event: cnt.next) (guard: cnt.c != 3) (assignments: cnt.c := cnt.c + 1): guard: cnt.c != 3 -> cnt.c = 0 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or (cnt.c = 1 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 1 and (rcv1.x = 1 and rcv2.x = 0))).
+    Edge (event: e) (guard: cnt.c = 1 -> cnt.c = 1 and rcv1.x = 0 or (cnt.c = 1 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 1 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1))) (assignments: rcv1.x := 1): guard: cnt.c = 1 and rcv1.x = 0 or (cnt.c = 1 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 1 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)) -> cnt.c = 1 and (rcv1.x = 0 and rcv2.x = 0).
+    Edge (event: e) (guard: cnt.c = 2 -> cnt.c = 2 and rcv1.x = 0 or (cnt.c = 2 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 2 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1))) (assignments: rcv2.x := 2): guard: cnt.c = 2 and rcv1.x = 0 or (cnt.c = 2 and (rcv1.x = 2 and rcv2.x = 1) or cnt.c = 2 and ((rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)) -> cnt.c = 2 and rcv1.x = 0.
 
 Final synthesis result:
     State: (controlled-behavior: cnt.c = 0 and (rcv1.x = 0 and rcv2.x = 0) or (cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0)) or (cnt.c = 1 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or (cnt.c = 3 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 3 and (rcv1.x = 1 and rcv2.x = 0))))
