@@ -307,6 +307,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                g.p.x3 = g.D and ((g.p.x4 = g.A or g.p.x4 = g.B) and (g.p.x5 = g.A or g.p.x5 = g.E)) or g.p.x3 = g.D and ((g.p.x4 = g.A or g.p.x4 = g.B) and (g.p.x5 = g.B or g.p.x5 = g.D))
 
+Determining supervisor guards for output model.
+
 Checking post-synthesis for events that are never enabled.
 
 Simplification of controlled system under the assumption of the plants:

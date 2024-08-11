@@ -270,6 +270,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                0 <= p.x and p.x <= 5
 
+Determining supervisor guards for output model.
+
 Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.

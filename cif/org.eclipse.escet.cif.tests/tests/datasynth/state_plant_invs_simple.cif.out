@@ -176,6 +176,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                A.l1
 
+Determining supervisor guards for output model.
+
 Checking post-synthesis for events that are never enabled.
 
 Simplification of controlled system under the assumption of the plants:

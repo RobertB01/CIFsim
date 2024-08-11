@@ -253,6 +253,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
+Determining supervisor guards for output model.
+
 Checking post-synthesis for events that are never enabled.
 
 Simplification of controlled system under the assumption of the plants, requirement automata, state/event exclusion plant invariants, state/event exclusion requirement invariants, state plant invariants, state requirement invariants, and controlled behavior:

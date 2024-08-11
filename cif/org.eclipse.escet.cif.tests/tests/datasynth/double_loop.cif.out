@@ -392,6 +392,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                <bdd 13n 55p>
 
+Determining supervisor guards for output model.
+
 Checking post-synthesis for events that are never enabled.
 
 Simplification of controlled system under the assumption of the plants:

@@ -204,6 +204,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                (p.x5 = 1 or (p.x5 = 3 or p.x5 = 5) or (p.x5 = 7 or p.x5 = 9 or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7)))) and (p.x5 = 1 or (p.x5 = 3 or p.x5 = 5) or (p.x5 = 7 or (p.x5 = 9 or not(p.x6 = 2 or p.x6 = 6)))) and ((p.x5 = 1 or p.x5 = 3 or (p.x5 = 5 or (p.x5 = 7 or p.x5 = 9)) or (p.x6 = 0 or (p.x6 = 2 or p.x6 = 4) or (p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7))))) and (not(p.x5 = 1 or p.x5 = 5) and (p.x5 != 9 or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7))))) and ((p.x5 != 9 or not(p.x6 = 2 or p.x6 = 6)) and (p.x5 != 9 or (p.x6 = 0 or p.x6 = 2) or (p.x6 = 4 or p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7)))) and ((not(p.x5 = 3 or p.x5 = 7) or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7))) and ((not(p.x5 = 3 or p.x5 = 7) or not(p.x6 = 2 or p.x6 = 6)) and (not(p.x5 = 3 or p.x5 = 7) or (p.x6 = 0 or p.x6 = 2) or (p.x6 = 4 or p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7)))))))
 
+Determining supervisor guards for output model.
+
 Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.

@@ -126,6 +126,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
+Determining supervisor guards for output model.
+
 Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.

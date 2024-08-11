@@ -278,6 +278,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                p.z = 2 and (p.y = 2 and p.x = 3) or (p.z = 3 and (p.y = 2 and p.x = 2) or p.z = 3 and (p.y = 1 and p.x = 3))
 
+Determining supervisor guards for output model.
+
 Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.

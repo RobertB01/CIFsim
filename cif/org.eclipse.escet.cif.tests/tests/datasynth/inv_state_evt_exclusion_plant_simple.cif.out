@@ -129,5 +129,7 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
+Determining supervisor guards for output model.
+
 Constructing output CIF specification.
 Writing output CIF file "datasynth/inv_state_evt_exclusion_plant_simple.ctrlsys.real.cif".

@@ -272,6 +272,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                p.x = 16
 
+Determining supervisor guards for output model.
+
 Checking post-synthesis for events that are never enabled.
 
 Constructing output CIF specification.
