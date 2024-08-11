@@ -283,7 +283,7 @@ public class CifDataSynthesis {
             if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
-            determineCtrlSysInit(cifBddSpec, synthResult);
+            determineCtrlSysInit(cifBddSpec, synthResult, dbgEnabled);
 
             // Check whether an initial state is present, or the supervisor is empty.
             if (cifBddSpec.settings.getTermination().isRequested()) {
@@ -1700,8 +1700,16 @@ public class CifDataSynthesis {
      *
      * @param cifBddSpec The CIF/BDD specification on which synthesis was performed. Is modified in-place.
      * @param synthResult The synthesis result. Is modified in-place.
+     * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void determineCtrlSysInit(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult) {
+    private static void determineCtrlSysInit(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult,
+            boolean dbgEnabled)
+    {
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Computing initialization predicate of the controlled system.");
+        }
+
         // Update initialization predicate for controlled system with the controlled behavior.
         synthResult.initialCtrl = synthResult.initialCtrl.andWith(synthResult.ctrlBeh.id());
 
