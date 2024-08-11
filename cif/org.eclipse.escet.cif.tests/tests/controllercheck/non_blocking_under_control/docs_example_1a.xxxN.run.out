@@ -9,8 +9,8 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
-
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Checking for non-blocking under control...
     Computing the condition for no controllable event to be enabled...
@@ -18,16 +18,22 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: Supervisor1a.BothDone [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: Supervisor1a.BothDone -> Supervisor1a.Done2 or Supervisor1a.BothDone [backward reach with edge: (event: Supervisor1a.c_act1) (guard: Supervisor1a.Start or Supervisor1a.Done2) (assignments: Supervisor1a := Supervisor1a.Done1 / Supervisor1a := Supervisor1a.BothDone)]
-    Controllable-complete path states: Supervisor1a.Done2 or Supervisor1a.BothDone -> true [backward reach with edge: (event: Supervisor1a.c_act2) (guard: Supervisor1a.Start or Supervisor1a.Done1) (assignments: Supervisor1a := Supervisor1a.Done2 / Supervisor1a := Supervisor1a.BothDone)]
-    Backward reachability: iteration 2.
+
+    Backward reachability iteration 1:
+        Controllable-complete path states: Supervisor1a.BothDone -> Supervisor1a.Done2 or Supervisor1a.BothDone [backward reach with edge: (event: Supervisor1a.c_act1) (guard: Supervisor1a.Start or Supervisor1a.Done2) (assignments: Supervisor1a := Supervisor1a.Done1 / Supervisor1a := Supervisor1a.BothDone)]
+        Controllable-complete path states: Supervisor1a.Done2 or Supervisor1a.BothDone -> true [backward reach with edge: (event: Supervisor1a.c_act2) (guard: Supervisor1a.Start or Supervisor1a.Done1) (assignments: Supervisor1a := Supervisor1a.Done2 / Supervisor1a := Supervisor1a.BothDone)]
+
+    Backward reachability iteration 2:
+        No change this iteration.
+
     Controllable-complete path states: true [fixed point].
     Controllable-complete path states: true
 
     Computing the bad states...
     Bad states: false [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: false
 
     Computing the result of the non-blocking under control check...

@@ -119,31 +119,29 @@ Preparing for BDD-based checks...
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
         Total                                8      16        32          32          100%
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        Edge (event: Aut2.c_a) (guard: Aut2.l1) (assignments: Aut2 := Aut2.l2): guard: Aut2.l1 -> false [plant: false].
+        Edge (event: Aut3.c_a) (guard: Aut3.l1) (assignments: Aut3 := Aut3.l2): guard: Aut3.l1 -> Aut3.l1 and A [plant: A].
+        Edge (event: Aut3.c_b) (guard: Aut3.l2) (assignments: Aut3 := Aut3.l1): guard: Aut3.l2 -> Aut3.l2 and not A [plant: not A].
+        Edge (event: Aut5.c_a) (guard: Aut5.l1) (assignments: Aut5 := Aut5.l2): guard: Aut5.l1 -> false [plant: false].
+        Edge (event: Aut6.c_a) (guard: Aut6.l1) (assignments: Aut6 := Aut6.l2): guard: Aut6.l1 -> A and Aut6.l1 [plant: A].
+        Edge (event: Aut6.c_b) (guard: Aut6.l2) (assignments: Aut6 := Aut6.l1): guard: Aut6.l2 -> not A and Aut6.l2 [plant: not A].
 
-    Restricting system behavior using state/event exclusion plant invariants.
-
-    Edge (event: Aut2.c_a) (guard: Aut2.l1) (assignments: Aut2 := Aut2.l2): guard: Aut2.l1 -> false [plant: false].
-    Edge (event: Aut3.c_a) (guard: Aut3.l1) (assignments: Aut3 := Aut3.l2): guard: Aut3.l1 -> Aut3.l1 and A [plant: A].
-    Edge (event: Aut3.c_b) (guard: Aut3.l2) (assignments: Aut3 := Aut3.l1): guard: Aut3.l2 -> Aut3.l2 and not A [plant: not A].
-    Edge (event: Aut5.c_a) (guard: Aut5.l1) (assignments: Aut5 := Aut5.l2): guard: Aut5.l1 -> false [plant: false].
-    Edge (event: Aut6.c_a) (guard: Aut6.l1) (assignments: Aut6 := Aut6.l2): guard: Aut6.l1 -> A and Aut6.l1 [plant: A].
-    Edge (event: Aut6.c_b) (guard: Aut6.l2) (assignments: Aut6 := Aut6.l1): guard: Aut6.l2 -> not A and Aut6.l2 [plant: not A].
-
-    System:
-        Edge: (event: Aut1.c_a) (guard: Aut1.l1) (assignments: Aut1 := Aut1.l2)
-        Edge: (event: Aut1.c_b) (guard: Aut1.l2) (assignments: Aut1 := Aut1.l1)
-        Edge: (event: Aut2.c_a) (guard: Aut2.l1 -> false) (assignments: Aut2 := Aut2.l2)
-        Edge: (event: Aut2.c_b) (guard: Aut2.l2) (assignments: Aut2 := Aut2.l1)
-        Edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)
-        Edge: (event: Aut3.c_b) (guard: Aut3.l2 -> Aut3.l2 and not A) (assignments: Aut3 := Aut3.l1)
-        Edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)
-        Edge: (event: Aut4.c_b) (guard: Aut4.l2) (assignments: Aut4 := Aut4.l1)
-        Edge: (event: Aut5.c_a) (guard: Aut5.l1 -> false) (assignments: Aut5 := Aut5.l2)
-        Edge: (event: Aut5.c_b) (guard: Aut5.l2) (assignments: Aut5 := Aut5.l1)
-        Edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)
-        Edge: (event: Aut6.c_b) (guard: Aut6.l2 -> not A and Aut6.l2) (assignments: Aut6 := Aut6.l1)
-        Edge: (event: B) (guard: true) (assignments: B+ != B)
-        Edge: (event: A) (guard: true) (assignments: A+ != A)
+        System:
+            Edge: (event: Aut1.c_a) (guard: Aut1.l1) (assignments: Aut1 := Aut1.l2)
+            Edge: (event: Aut1.c_b) (guard: Aut1.l2) (assignments: Aut1 := Aut1.l1)
+            Edge: (event: Aut2.c_a) (guard: Aut2.l1 -> false) (assignments: Aut2 := Aut2.l2)
+            Edge: (event: Aut2.c_b) (guard: Aut2.l2) (assignments: Aut2 := Aut2.l1)
+            Edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)
+            Edge: (event: Aut3.c_b) (guard: Aut3.l2 -> Aut3.l2 and not A) (assignments: Aut3 := Aut3.l1)
+            Edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)
+            Edge: (event: Aut4.c_b) (guard: Aut4.l2) (assignments: Aut4 := Aut4.l1)
+            Edge: (event: Aut5.c_a) (guard: Aut5.l1 -> false) (assignments: Aut5 := Aut5.l2)
+            Edge: (event: Aut5.c_b) (guard: Aut5.l2) (assignments: Aut5 := Aut5.l1)
+            Edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)
+            Edge: (event: Aut6.c_b) (guard: Aut6.l2 -> not A and Aut6.l2) (assignments: Aut6 := Aut6.l1)
+            Edge: (event: B) (guard: true) (assignments: B+ != B)
+            Edge: (event: A) (guard: true) (assignments: A+ != A)
 
 Preparing for MDD-based checks...
     Analyzing automaton "Aut1"...
@@ -210,13 +208,17 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [forward reach with edge: (event: Aut1.c_a) (guard: Aut1.l1) (assignments: Aut1 := Aut1.l2)]
-    Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) or Aut2.l1 and (Aut3.l2 and A) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [forward reach with edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)]
-    Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) or Aut2.l1 and (Aut3.l2 and A) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and (Aut6.l1 and Aut5.l1)) [forward reach with edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)]
-    Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and (Aut6.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (not A and (Aut6.l1 and Aut5.l1)) or (Aut2.l1 and Aut3.l1 and (A and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and Aut5.l1)) [forward reach with edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)]
-    Reachable states: Aut2.l1 and Aut3.l1 and (not A and (Aut6.l1 and Aut5.l1)) or (Aut2.l1 and Aut3.l1 and (A and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and Aut5.l1)) -> Aut2.l1 and Aut5.l1 [forward reach with edge: (event: A) (guard: true) (assignments: A+ != A)]
-    Forward reachability: iteration 2.
+
+    Forward reachability iteration 1:
+        Reachable states: Aut1.l1 and (Aut2.l1 and Aut3.l1) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [forward reach with edge: (event: Aut1.c_a) (guard: Aut1.l1) (assignments: Aut1 := Aut1.l2)]
+        Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) or Aut2.l1 and (Aut3.l2 and A) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) [forward reach with edge: (event: Aut3.c_a) (guard: Aut3.l1 -> Aut3.l1 and A) (assignments: Aut3 := Aut3.l2)]
+        Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) or Aut2.l1 and (Aut3.l2 and A) and (Aut6.l1 and (Aut4.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (Aut6.l1 and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and (Aut6.l1 and Aut5.l1)) [forward reach with edge: (event: Aut4.c_a) (guard: Aut4.l1) (assignments: Aut4 := Aut4.l2)]
+        Reachable states: Aut2.l1 and Aut3.l1 and (Aut6.l1 and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and (Aut6.l1 and Aut5.l1)) -> Aut2.l1 and Aut3.l1 and (not A and (Aut6.l1 and Aut5.l1)) or (Aut2.l1 and Aut3.l1 and (A and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and Aut5.l1)) [forward reach with edge: (event: Aut6.c_a) (guard: Aut6.l1 -> A and Aut6.l1) (assignments: Aut6 := Aut6.l2)]
+        Reachable states: Aut2.l1 and Aut3.l1 and (not A and (Aut6.l1 and Aut5.l1)) or (Aut2.l1 and Aut3.l1 and (A and Aut5.l1) or Aut2.l1 and Aut3.l2 and (A and Aut5.l1)) -> Aut2.l1 and Aut5.l1 [forward reach with edge: (event: A) (guard: true) (assignments: A+ != A)]
+
+    Forward reachability iteration 2:
+        No change this iteration.
+
     Reachable states: Aut2.l1 and Aut5.l1 [fixed point].
 
     Computing bound for uncontrollable events...
@@ -233,12 +235,16 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Controllable-complete path states: false
 
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: true
 
     Computing the result of the non-blocking under control check...

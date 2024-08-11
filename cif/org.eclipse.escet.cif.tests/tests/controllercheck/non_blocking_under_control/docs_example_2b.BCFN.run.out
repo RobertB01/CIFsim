@@ -9,8 +9,8 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
-
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Preparing for MDD-based checks...
     Analyzing automaton "Supervisor2b"...
@@ -26,11 +26,15 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: Supervisor2b.Start [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: Supervisor2b.Start -> Supervisor2b.Start or Supervisor2b.Done1 [forward reach with edge: (event: Supervisor2b.c_act1) (guard: Supervisor2b.Start) (assignments: Supervisor2b := Supervisor2b.Done1)]
-    Reachable states: Supervisor2b.Start or Supervisor2b.Done1 -> not Supervisor2b.Halt [forward reach with edge: (event: Supervisor2b.c_act2) (guard: Supervisor2b.Done1) (assignments: Supervisor2b := Supervisor2b.BothDone)]
-    Reachable states: not Supervisor2b.Halt -> true [forward reach with edge: (event: Supervisor2b.u_button_pushed) (guard: true) (assignments: Supervisor2b := Supervisor2b.Halt / Supervisor2b := Supervisor2b.Start / none)]
-    Forward reachability: iteration 2.
+
+    Forward reachability iteration 1:
+        Reachable states: Supervisor2b.Start -> Supervisor2b.Start or Supervisor2b.Done1 [forward reach with edge: (event: Supervisor2b.c_act1) (guard: Supervisor2b.Start) (assignments: Supervisor2b := Supervisor2b.Done1)]
+        Reachable states: Supervisor2b.Start or Supervisor2b.Done1 -> not Supervisor2b.Halt [forward reach with edge: (event: Supervisor2b.c_act2) (guard: Supervisor2b.Done1) (assignments: Supervisor2b := Supervisor2b.BothDone)]
+        Reachable states: not Supervisor2b.Halt -> true [forward reach with edge: (event: Supervisor2b.u_button_pushed) (guard: true) (assignments: Supervisor2b := Supervisor2b.Halt / Supervisor2b := Supervisor2b.Start / none)]
+
+    Forward reachability iteration 2:
+        No change this iteration.
+
     Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
@@ -50,12 +54,16 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: Supervisor2b.Halt [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Controllable-complete path states: Supervisor2b.Halt
 
     Computing the bad states...
     Bad states: not Supervisor2b.Halt [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: not Supervisor2b.Halt
 
     Computing the result of the non-blocking under control check...

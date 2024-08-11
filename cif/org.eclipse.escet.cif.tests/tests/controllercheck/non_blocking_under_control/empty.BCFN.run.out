@@ -1,7 +1,9 @@
 Loading CIF specification "controllercheck/non_blocking_under_control/empty.cif"...
 Preparing for BDD-based checks...
+    The specification has no BDD variables.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Preparing for MDD-based checks...
 

@@ -101,16 +101,14 @@ Preparing for BDD-based checks...
         -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
         Total                                    2      4         8           8           100%
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        Edge (event: Actuator.c_on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On): guard: Actuator.Off -> Actuator.Off and Sensor [plant: Sensor].
+        Edge (event: Actuator.c_off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> Actuator.On and not Sensor [plant: not Sensor].
 
-    Restricting system behavior using state/event exclusion plant invariants.
-
-    Edge (event: Actuator.c_on) (guard: Actuator.Off) (assignments: Actuator := Actuator.On): guard: Actuator.Off -> Actuator.Off and Sensor [plant: Sensor].
-    Edge (event: Actuator.c_off) (guard: Actuator.On) (assignments: Actuator := Actuator.Off): guard: Actuator.On -> Actuator.On and not Sensor [plant: not Sensor].
-
-    System:
-        Edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)
-        Edge: (event: Actuator.c_off) (guard: Actuator.On -> Actuator.On and not Sensor) (assignments: Actuator := Actuator.Off)
-        Edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)
+        System:
+            Edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)
+            Edge: (event: Actuator.c_off) (guard: Actuator.On -> Actuator.On and not Sensor) (assignments: Actuator := Actuator.Off)
+            Edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)
 
 Preparing for MDD-based checks...
     Analyzing automaton "Actuator"...
@@ -130,10 +128,14 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: Actuator.Off [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: Actuator.Off -> Actuator.Off or Sensor [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)]
-    Reachable states: Actuator.Off or Sensor -> true [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
-    Forward reachability: iteration 2.
+
+    Forward reachability iteration 1:
+        Reachable states: Actuator.Off -> Actuator.Off or Sensor [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)]
+        Reachable states: Actuator.Off or Sensor -> true [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
+
+    Forward reachability iteration 2:
+        No change this iteration.
+
     Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
@@ -151,12 +153,16 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Controllable-complete path states: false
 
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: true
 
     Computing the result of the non-blocking under control check...

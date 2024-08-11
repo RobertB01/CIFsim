@@ -97,8 +97,8 @@ Preparing for BDD-based checks...
 
     Variable order unchanged.
 
-
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Preparing for MDD-based checks...
     Analyzing automaton "p"...
@@ -114,10 +114,14 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: p.loc1 and not p.v [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: p.loc1 and not p.v -> not p.v [forward reach with edge: (event: a) (guard: p.loc1) (assignments: p.v := p.v, p := p.loc2)]
-    Reachable states: not p.v -> p.loc2 or not p.v [forward reach with edge: (event: b) (guard: p.loc1) (assignments: p.v := not p.v, p := p.loc2)]
-    Forward reachability: iteration 2.
+
+    Forward reachability iteration 1:
+        Reachable states: p.loc1 and not p.v -> not p.v [forward reach with edge: (event: a) (guard: p.loc1) (assignments: p.v := p.v, p := p.loc2)]
+        Reachable states: not p.v -> p.loc2 or not p.v [forward reach with edge: (event: b) (guard: p.loc1) (assignments: p.v := not p.v, p := p.loc2)]
+
+    Forward reachability iteration 2:
+        No change this iteration.
+
     Reachable states: p.loc2 or not p.v [fixed point].
 
     Computing bound for uncontrollable events...
@@ -135,12 +139,16 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Controllable-complete path states: false
 
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: true
 
     Computing the result of the non-blocking under control check...

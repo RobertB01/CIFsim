@@ -130,7 +130,7 @@ Preparing for BDD-based checks...
         -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
         Total                                  14     28        56          56          100%
 
-
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Preparing for MDD-based checks...

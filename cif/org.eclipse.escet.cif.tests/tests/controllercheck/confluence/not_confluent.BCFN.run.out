@@ -107,8 +107,8 @@ Preparing for BDD-based checks...
         -----  -----------------  ----  -----------  -----  --------  ----------  ----------  -----------
         Total                                        2      4         8           8           100%
 
-
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Preparing for MDD-based checks...
     Analyzing automaton "SingleAut"...
@@ -122,10 +122,14 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: not SingleAut.z and SingleAut.p [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: not SingleAut.z and SingleAut.p -> not SingleAut.z [forward reach with edge: (event: SingleAut.a) (guard: SingleAut.p) (assignments: SingleAut.z := SingleAut.z, SingleAut := SingleAut.q)]
-    Reachable states: not SingleAut.z -> not SingleAut.z or SingleAut.q [forward reach with edge: (event: SingleAut.b) (guard: SingleAut.p) (assignments: SingleAut.z := not SingleAut.z, SingleAut := SingleAut.q)]
-    Forward reachability: iteration 2.
+
+    Forward reachability iteration 1:
+        Reachable states: not SingleAut.z and SingleAut.p -> not SingleAut.z [forward reach with edge: (event: SingleAut.a) (guard: SingleAut.p) (assignments: SingleAut.z := SingleAut.z, SingleAut := SingleAut.q)]
+        Reachable states: not SingleAut.z -> not SingleAut.z or SingleAut.q [forward reach with edge: (event: SingleAut.b) (guard: SingleAut.p) (assignments: SingleAut.z := not SingleAut.z, SingleAut := SingleAut.q)]
+
+    Forward reachability iteration 2:
+        No change this iteration.
+
     Reachable states: not SingleAut.z or SingleAut.q [fixed point].
 
     Computing bound for uncontrollable events...
@@ -143,15 +147,21 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: SingleAut.q [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: SingleAut.q -> true [backward reach with edge: (event: SingleAut.a) (guard: SingleAut.p) (assignments: SingleAut.z := SingleAut.z, SingleAut := SingleAut.q)]
-    Backward reachability: iteration 2.
+
+    Backward reachability iteration 1:
+        Controllable-complete path states: SingleAut.q -> true [backward reach with edge: (event: SingleAut.a) (guard: SingleAut.p) (assignments: SingleAut.z := SingleAut.z, SingleAut := SingleAut.q)]
+
+    Backward reachability iteration 2:
+        No change this iteration.
+
     Controllable-complete path states: true [fixed point].
     Controllable-complete path states: true
 
     Computing the bad states...
     Bad states: false [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: false
 
     Computing the result of the non-blocking under control check...

@@ -9,8 +9,8 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
-
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Checking for non-blocking under control...
     Computing the condition for no controllable event to be enabled...
@@ -18,12 +18,16 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: Supervisor.Halt [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Controllable-complete path states: Supervisor.Halt
 
     Computing the bad states...
     Bad states: not Supervisor.Halt [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: not Supervisor.Halt
 
     Computing the result of the non-blocking under control check...

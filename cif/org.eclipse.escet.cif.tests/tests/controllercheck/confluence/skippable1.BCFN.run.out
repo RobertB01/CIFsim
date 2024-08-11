@@ -107,8 +107,8 @@ Preparing for BDD-based checks...
         -----  -----------------  ---------  --------------------  -----  --------  ----------  ----------  -----------
         Total                                                      2      8         12          16          75%
 
-
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Preparing for MDD-based checks...
     Analyzing automaton "OptionalChangeBool"...
@@ -123,10 +123,14 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p -> OptionalChangeBool.v = 0 and OptionalChangeBool.p or OptionalChangeBool.v = 1 and OptionalChangeBool.q [forward reach with edge: (event: OptionalChangeBool.a) (guard: OptionalChangeBool.p) (assignments: OptionalChangeBool.v := 1, OptionalChangeBool := OptionalChangeBool.q)]
-    Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p or OptionalChangeBool.v = 1 and OptionalChangeBool.q -> OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q) [forward reach with edge: (event: OptionalChangeBool.b) (guard: not OptionalChangeBool.r) (assignments: OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r / OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r)]
-    Forward reachability: iteration 2.
+
+    Forward reachability iteration 1:
+        Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p -> OptionalChangeBool.v = 0 and OptionalChangeBool.p or OptionalChangeBool.v = 1 and OptionalChangeBool.q [forward reach with edge: (event: OptionalChangeBool.a) (guard: OptionalChangeBool.p) (assignments: OptionalChangeBool.v := 1, OptionalChangeBool := OptionalChangeBool.q)]
+        Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p or OptionalChangeBool.v = 1 and OptionalChangeBool.q -> OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q) [forward reach with edge: (event: OptionalChangeBool.b) (guard: not OptionalChangeBool.r) (assignments: OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r / OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r)]
+
+    Forward reachability iteration 2:
+        No change this iteration.
+
     Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q) [fixed point].
 
     Computing bound for uncontrollable events...
@@ -145,15 +149,21 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: OptionalChangeBool.r [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: OptionalChangeBool.r -> true [backward reach with edge: (event: OptionalChangeBool.b) (guard: not OptionalChangeBool.r) (assignments: OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r / OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r)]
-    Backward reachability: iteration 2.
+
+    Backward reachability iteration 1:
+        Controllable-complete path states: OptionalChangeBool.r -> true [backward reach with edge: (event: OptionalChangeBool.b) (guard: not OptionalChangeBool.r) (assignments: OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r / OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r)]
+
+    Backward reachability iteration 2:
+        No change this iteration.
+
     Controllable-complete path states: true [fixed point].
     Controllable-complete path states: true
 
     Computing the bad states...
     Bad states: false [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: false
 
     Computing the result of the non-blocking under control check...

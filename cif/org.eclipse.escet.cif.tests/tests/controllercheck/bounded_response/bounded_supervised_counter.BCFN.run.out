@@ -9,20 +9,18 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        Edge (event: c_c) (guard: p.x = 2) (assignments: p.x := p.x - 1): guard: p.x = 2 -> false [plant: false].
 
-    Restricting system behavior using state/event exclusion plant invariants.
-
-    Edge (event: c_c) (guard: p.x = 2) (assignments: p.x := p.x - 1): guard: p.x = 2 -> false [plant: false].
-
-    System:
-        Edge: (event: u_a) (guard: p.x = 0) (assignments: p.x := p.x + 1)
-        Edge: (event: u_b) (guard: p.x = 1) (assignments: p.x := p.x + 1)
-        Edge: (event: u_c) (guard: p.x = 2) (assignments: p.x := p.x + 1)
-        Edge: (event: u_d) (guard: false) (assignments: p.x := p.x + 1)
-        Edge: (event: c_a) (guard: p.x = 4) (assignments: p.x := p.x - 1)
-        Edge: (event: c_b) (guard: p.x = 3) (assignments: p.x := p.x - 1)
-        Edge: (event: c_c) (guard: p.x = 2 -> false) (assignments: p.x := p.x - 1)
-        Edge: (event: c_d) (guard: p.x = 1) (assignments: p.x := p.x - 1)
+        System:
+            Edge: (event: u_a) (guard: p.x = 0) (assignments: p.x := p.x + 1)
+            Edge: (event: u_b) (guard: p.x = 1) (assignments: p.x := p.x + 1)
+            Edge: (event: u_c) (guard: p.x = 2) (assignments: p.x := p.x + 1)
+            Edge: (event: u_d) (guard: false) (assignments: p.x := p.x + 1)
+            Edge: (event: c_a) (guard: p.x = 4) (assignments: p.x := p.x - 1)
+            Edge: (event: c_b) (guard: p.x = 3) (assignments: p.x := p.x - 1)
+            Edge: (event: c_c) (guard: p.x = 2 -> false) (assignments: p.x := p.x - 1)
+            Edge: (event: c_d) (guard: p.x = 1) (assignments: p.x := p.x - 1)
 
 Preparing for MDD-based checks...
     Analyzing automaton "p"...
@@ -44,11 +42,15 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: p.x = 0 [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: p.x = 0 -> p.x = 0 or p.x = 1 [forward reach with edge: (event: u_a) (guard: p.x = 0) (assignments: p.x := p.x + 1)]
-    Reachable states: p.x = 0 or p.x = 1 -> p.x != 4 and (p.x != 5 and p.x != 3) [forward reach with edge: (event: u_b) (guard: p.x = 1) (assignments: p.x := p.x + 1)]
-    Reachable states: p.x != 4 and (p.x != 5 and p.x != 3) -> 0 <= p.x and p.x <= 3 [forward reach with edge: (event: u_c) (guard: p.x = 2) (assignments: p.x := p.x + 1)]
-    Forward reachability: iteration 2.
+
+    Forward reachability iteration 1:
+        Reachable states: p.x = 0 -> p.x = 0 or p.x = 1 [forward reach with edge: (event: u_a) (guard: p.x = 0) (assignments: p.x := p.x + 1)]
+        Reachable states: p.x = 0 or p.x = 1 -> p.x != 4 and (p.x != 5 and p.x != 3) [forward reach with edge: (event: u_b) (guard: p.x = 1) (assignments: p.x := p.x + 1)]
+        Reachable states: p.x != 4 and (p.x != 5 and p.x != 3) -> 0 <= p.x and p.x <= 3 [forward reach with edge: (event: u_c) (guard: p.x = 2) (assignments: p.x := p.x + 1)]
+
+    Forward reachability iteration 2:
+        No change this iteration.
+
     Reachable states: 0 <= p.x and p.x <= 3 [fixed point].
 
     Computing bound for uncontrollable events...
@@ -69,12 +71,16 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Controllable-complete path states: false
 
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: true
 
     Computing the result of the non-blocking under control check...

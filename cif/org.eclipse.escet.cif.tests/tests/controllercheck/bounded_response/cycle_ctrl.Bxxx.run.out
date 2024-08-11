@@ -9,15 +9,19 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
-
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Checking for bounded response...
     Computing reachable states...
     Reachable states: p.Off [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: p.Off -> true [forward reach with edge: (event: c_on) (guard: p.Off) (assignments: p := p.On)]
-    Forward reachability: iteration 2.
+
+    Forward reachability iteration 1:
+        Reachable states: p.Off -> true [forward reach with edge: (event: c_on) (guard: p.Off) (assignments: p := p.On)]
+
+    Forward reachability iteration 2:
+        No change this iteration.
+
     Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...

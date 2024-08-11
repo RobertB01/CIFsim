@@ -107,8 +107,8 @@ Preparing for BDD-based checks...
         -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
         Total                                    3      6         12          12          100%
 
-
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
 Preparing for MDD-based checks...
     Analyzing automaton "button"...
@@ -129,14 +129,19 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: button.Released and lamp.Off [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: button.Released and lamp.Off -> not button.b and (button.Released and lamp.Off) or button.b and lamp.Off [forward reach with edge: (event: button.u_pushed) (guard: button.b and button.Released) (assignments: button := button.Pushed)]
-    Reachable states: not button.b and (button.Released and lamp.Off) or button.b and lamp.Off -> (button.b or (button.Pushed or lamp.Off)) and ((button.b or button.Released) and (not button.b or (button.Pushed or lamp.Off))) [forward reach with edge: (event: lamp.c_on) (guard: button.Pushed and lamp.Off) (assignments: lamp := lamp.On)]
-    Reachable states: (button.b or (button.Pushed or lamp.Off)) and ((button.b or button.Released) and (not button.b or (button.Pushed or lamp.Off))) -> button.Pushed or lamp.Off [forward reach with edge: (event: button.b) (guard: true) (assignments: button.b+ != button.b)]
-    Forward reachability: iteration 2.
-    Reachable states: button.Pushed or lamp.Off -> not button.b or (button.Pushed or lamp.Off) [forward reach with edge: (event: button.u_released) (guard: not button.b and button.Pushed) (assignments: button := button.Released)]
-    Reachable states: not button.b or (button.Pushed or lamp.Off) -> true [forward reach with edge: (event: button.b) (guard: true) (assignments: button.b+ != button.b)]
-    Forward reachability: iteration 3.
+
+    Forward reachability iteration 1:
+        Reachable states: button.Released and lamp.Off -> not button.b and (button.Released and lamp.Off) or button.b and lamp.Off [forward reach with edge: (event: button.u_pushed) (guard: button.b and button.Released) (assignments: button := button.Pushed)]
+        Reachable states: not button.b and (button.Released and lamp.Off) or button.b and lamp.Off -> (button.b or (button.Pushed or lamp.Off)) and ((button.b or button.Released) and (not button.b or (button.Pushed or lamp.Off))) [forward reach with edge: (event: lamp.c_on) (guard: button.Pushed and lamp.Off) (assignments: lamp := lamp.On)]
+        Reachable states: (button.b or (button.Pushed or lamp.Off)) and ((button.b or button.Released) and (not button.b or (button.Pushed or lamp.Off))) -> button.Pushed or lamp.Off [forward reach with edge: (event: button.b) (guard: true) (assignments: button.b+ != button.b)]
+
+    Forward reachability iteration 2:
+        Reachable states: button.Pushed or lamp.Off -> not button.b or (button.Pushed or lamp.Off) [forward reach with edge: (event: button.u_released) (guard: not button.b and button.Pushed) (assignments: button := button.Released)]
+        Reachable states: not button.b or (button.Pushed or lamp.Off) -> true [forward reach with edge: (event: button.b) (guard: true) (assignments: button.b+ != button.b)]
+
+    Forward reachability iteration 3:
+        No change this iteration.
+
     Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
@@ -155,20 +160,27 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: not button.b and (button.Released and lamp.Off) or button.b and (button.Pushed and lamp.On) [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: not button.b and (button.Released and lamp.Off) or button.b and (button.Pushed and lamp.On) -> not button.b and (button.Released and lamp.Off) or button.b and button.Pushed [backward reach with edge: (event: lamp.c_on) (guard: button.Pushed and lamp.Off) (assignments: lamp := lamp.On)]
-    Controllable-complete path states: not button.b and (button.Released and lamp.Off) or button.b and button.Pushed -> (button.b or button.Released) and (not button.b or button.Pushed) [backward reach with edge: (event: lamp.c_off) (guard: button.Released and lamp.On) (assignments: lamp := lamp.Off)]
-    Controllable-complete path states: (button.b or button.Released) and (not button.b or button.Pushed) -> (button.b or (button.Released or lamp.On)) and (not button.b or (button.Pushed or lamp.Off)) [backward reach with edge: (event: button.b) (guard: true -> (button.Pushed or lamp.Off) and (button.Released or lamp.On)) (assignments: button.b+ != button.b)]
-    Backward reachability: iteration 2.
-    Controllable-complete path states: (button.b or (button.Released or lamp.On)) and (not button.b or (button.Pushed or lamp.Off)) -> not button.b or (button.Pushed or lamp.Off) [backward reach with edge: (event: lamp.c_on) (guard: button.Pushed and lamp.Off) (assignments: lamp := lamp.On)]
-    Controllable-complete path states: not button.b or (button.Pushed or lamp.Off) -> true [backward reach with edge: (event: lamp.c_off) (guard: button.Released and lamp.On) (assignments: lamp := lamp.Off)]
-    Backward reachability: iteration 3.
+
+    Backward reachability iteration 1:
+        Controllable-complete path states: not button.b and (button.Released and lamp.Off) or button.b and (button.Pushed and lamp.On) -> not button.b and (button.Released and lamp.Off) or button.b and button.Pushed [backward reach with edge: (event: lamp.c_on) (guard: button.Pushed and lamp.Off) (assignments: lamp := lamp.On)]
+        Controllable-complete path states: not button.b and (button.Released and lamp.Off) or button.b and button.Pushed -> (button.b or button.Released) and (not button.b or button.Pushed) [backward reach with edge: (event: lamp.c_off) (guard: button.Released and lamp.On) (assignments: lamp := lamp.Off)]
+        Controllable-complete path states: (button.b or button.Released) and (not button.b or button.Pushed) -> (button.b or (button.Released or lamp.On)) and (not button.b or (button.Pushed or lamp.Off)) [backward reach with edge: (event: button.b) (guard: true -> (button.Pushed or lamp.Off) and (button.Released or lamp.On)) (assignments: button.b+ != button.b)]
+
+    Backward reachability iteration 2:
+        Controllable-complete path states: (button.b or (button.Released or lamp.On)) and (not button.b or (button.Pushed or lamp.Off)) -> not button.b or (button.Pushed or lamp.Off) [backward reach with edge: (event: lamp.c_on) (guard: button.Pushed and lamp.Off) (assignments: lamp := lamp.On)]
+        Controllable-complete path states: not button.b or (button.Pushed or lamp.Off) -> true [backward reach with edge: (event: lamp.c_off) (guard: button.Released and lamp.On) (assignments: lamp := lamp.Off)]
+
+    Backward reachability iteration 3:
+        No change this iteration.
+
     Controllable-complete path states: true [fixed point].
     Controllable-complete path states: true
 
     Computing the bad states...
     Bad states: false [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
+
+    Backward reachability iteration 1:
+        No change this iteration.
     Bad states: false
 
     Computing the result of the non-blocking under control check...
