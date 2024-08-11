@@ -286,7 +286,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event Lamp1.c_on: guard: Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Pushed and LampOnWhileButtonPushed.Pushed [assume Lamp1.Off].
     Event Lamp1.c_off: guard: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On) -> Button1.Released and LampOnWhileButtonPushed.Released [assume Lamp1.On].
 

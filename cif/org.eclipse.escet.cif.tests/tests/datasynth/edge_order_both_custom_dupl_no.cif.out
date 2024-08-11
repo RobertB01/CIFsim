@@ -296,7 +296,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event Counter.inc: guard: not Counter.five -> true [assume not Counter.five].
     Event Counter.dec: guard: not Counter.zero -> true [assume not Counter.zero].
     Event Actuator.on: guard: Counter.zero and Actuator.Off -> Counter.zero [assume Actuator.Off].

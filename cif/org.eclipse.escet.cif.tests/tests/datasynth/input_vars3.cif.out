@@ -242,7 +242,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event c_on: guard: p_act.off -> true [assume p_act.off].
     Event c_off: guard: p_act.on -> true [assume p_act.on].
 

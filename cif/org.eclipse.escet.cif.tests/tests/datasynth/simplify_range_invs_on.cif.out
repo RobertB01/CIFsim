@@ -292,5 +292,10 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the state requirement invariants.
+
+    Guards not changed.
+
 Constructing output CIF specification.
 Writing output CIF file "datasynth/simplify_range_invs_on.ctrlsys.real.cif".

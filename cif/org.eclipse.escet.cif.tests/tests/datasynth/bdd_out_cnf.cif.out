@@ -288,7 +288,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event p.e1: guard: p.y = 4 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or (p.y = 2 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q)) or p.y = 3 and p.L1 and (p.x = 2 and (p.b and p.v != p.Q))) -> p.y = 4 and (p.b and p.v != p.Q) or (p.y = 2 and (p.b and p.v != p.Q) or p.y = 3 and (p.b and p.v != p.Q)) [assume p.L1 and p.x = 2].
     Event p.e2: guard: io.i = 0 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 4 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or (io.i = 1 and (p.y = 2 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and (p.y = 3 and p.L2) and (p.x = 2 and (p.b and p.v != p.Q))) -> io.i = 0 and p.x = 2 and (p.b and p.v != p.Q) or io.i = 1 and p.y = 4 and (p.x = 2 and (p.b and p.v != p.Q)) or (io.i = 1 and p.y = 2 and (p.x = 2 and (p.b and p.v != p.Q)) or io.i = 1 and p.y = 3 and (p.x = 2 and (p.b and p.v != p.Q))) [assume io.i = 0 and (p.y = 2 and p.L2) or io.i = 1 and p.L2].
 

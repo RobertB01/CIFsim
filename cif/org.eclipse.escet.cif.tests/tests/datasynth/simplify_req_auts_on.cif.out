@@ -152,7 +152,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the requirement automata:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the requirement automata.
+
     Event c_a: guard: p.x != 0 and (p.x != 2 and p.x != 1) -> p.x != 2 [assume 2 <= p.x and p.x <= 5].
     Event c_b: guard: p.x = 4 or p.x = 5 -> not(p.x = 2 or p.x = 3) [assume p.x = 4 or p.x = 5].
 

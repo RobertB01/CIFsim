@@ -289,7 +289,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the controlled behavior:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the controlled behavior.
+
     Event c1: guard: p2.x = 0 and ((p1.x = 0 or p1.x = 1) and p1.a) or (p2.x = 2 and p2.a and ((p1.x = 0 or p1.x = 1) and p1.a) or p2.x = 1 and ((p1.x = 0 or p1.x = 1) and p1.a)) -> (p1.x = 0 or p1.x = 1) and p1.a [assume (p2.x != 0 or (p1.x != 2 or p1.a)) and (p2.x != 0 or p1.x != 3) and ((p2.x != 2 or p2.b or (p1.x != 2 or p1.a)) and (p2.x != 2 or (p2.b or p1.x != 3))) and ((p2.x != 2 or p2.a) and (p2.x != 1 or (p1.x != 2 or p1.a)) and ((p2.x != 1 or p1.x != 3) and p2.x != 3))].
     Event c2: guard: (p2.x = 0 or p2.x = 1) and (p2.a and p1.x = 0) or ((p2.x = 0 or p2.x = 1) and p2.a and (p1.x = 2 and p1.a) or (p2.x = 0 or p2.x = 1) and (p2.a and p1.x = 1)) -> (p2.x = 0 or p2.x = 1) and p2.a [assume (p2.x != 0 or (p1.x != 2 or p1.a)) and (p2.x != 0 or p1.x != 3) and ((p2.x != 2 or p2.b or (p1.x != 2 or p1.a)) and (p2.x != 2 or (p2.b or p1.x != 3))) and ((p2.x != 2 or p2.a) and (p2.x != 1 or (p1.x != 2 or p1.a)) and ((p2.x != 1 or p1.x != 3) and p2.x != 3))].
 

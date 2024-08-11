@@ -301,7 +301,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event machine1.c_start: guard: machine1.Idle and (machine2.producing = 0 and not machine2.Producing) -> machine2.producing = 0 and not machine2.Producing [assume machine1.Idle].
     Event machine2.c_start: guard: not machine1.Producing and (machine1.producing = 0 and machine2.Idle) -> not machine1.Producing and machine1.producing = 0 [assume machine2.Idle].
 

@@ -290,5 +290,10 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
+
 Constructing output CIF specification.
 Writing output CIF file "datasynth/edge_granularity_guards_updates7_per_edge.ctrlsys.real.cif".

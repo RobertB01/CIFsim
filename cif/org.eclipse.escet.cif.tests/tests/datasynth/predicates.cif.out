@@ -408,7 +408,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event e01: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume p.l0].
     Event e02: guard: false -> true [assume false].
     Event e05: guard: <bdd 22n 1p> -> p.bt and not p.bf and (p.x2 = 10 and p.x4 = 3) and (p.x3 = 2 and p.x1 = 10 and (p.v1 = X and p.v2 = Y)) [assume p.l0 and (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) or p.l0 and (4 <= p.x1 and p.x1 <= 7)].

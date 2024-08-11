@@ -572,7 +572,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event p.c0: guard: false -> true [assume false].
     Event p.c14: guard: false -> true [assume false].
     Event p.c15: guard: <bdd 70n 2p> -> <bdd 68n 2p> [assume p.l1].

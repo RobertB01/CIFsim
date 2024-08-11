@@ -319,7 +319,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event c1: guard: p.x = 3 and p.m0 -> p.x = 3 [assume p.m0].
     Event c2: guard: p.x = 3 and p.m2 -> p.x = 3 [assume p.m2].
 

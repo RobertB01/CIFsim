@@ -305,5 +305,10 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants, requirement automata, state/event exclusion plant invariants, state/event exclusion requirement invariants, state plant invariants, state requirement invariants, and controlled behavior.
+
+    Guards not changed.
+
 Constructing output CIF specification.
 Writing output CIF file "datasynth/state_plant_invs_unctrl.ctrlsys.real.cif".

@@ -281,7 +281,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event green_A: guard: LightA.Red and (R.RR and LightB.Red) -> R.RR and LightB.Red [assume LightA.Red].
     Event red_A: guard: LightA.Green and (R.GR and LightB.Red) -> R.GR and LightB.Red [assume LightA.Green].
     Event green_B: guard: LightA.Red and (R.RR and LightB.Red) -> LightA.Red and R.RR [assume (R.GR or LightB.Red) and (not R.GR or LightB.Red)].

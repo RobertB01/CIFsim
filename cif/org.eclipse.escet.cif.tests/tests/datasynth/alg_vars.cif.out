@@ -308,7 +308,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event r1.activate: guard: r1.inactive and r3.inactive -> r3.inactive [assume r1.inactive].
     Event r1.deactivate: guard: r1.active -> true [assume r1.active].
     Event r2.activate: guard: r1.inactive and r2.inactive or r1.active and (r2.inactive and r3.inactive) -> r1.inactive or r3.inactive [assume r2.inactive].

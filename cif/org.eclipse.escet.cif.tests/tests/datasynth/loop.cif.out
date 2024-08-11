@@ -275,7 +275,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event c: guard: p.x = 0 and p.l1 -> p.x = 0 [assume p.l1].
 
 Constructing output CIF specification.

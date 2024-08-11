@@ -160,5 +160,8 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
+Simplifying supervisor guards for output model:
+    No simplifications enabled.
+
 Constructing output CIF specification.
 Writing output CIF file "datasynth/simplify_se_excl_req_invs_off.ctrlsys.real.cif".

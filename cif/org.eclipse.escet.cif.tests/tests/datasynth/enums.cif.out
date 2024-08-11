@@ -311,7 +311,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event g.e1: guard: g.p.x0 != g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 != g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) -> g.p.x1 = g.A and (g.p.x2 = g.B and g.p.x3 = g.D) and ((g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x1 = g.A and (g.p.x2 = g.B and g.p.x3 = g.D) and ((g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) [assume g.p.x0 != g.E].
 
 Constructing output CIF specification.

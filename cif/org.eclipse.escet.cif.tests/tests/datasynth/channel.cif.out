@@ -279,7 +279,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event cnt.next: guard: cnt.c = 0 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or (cnt.c = 1 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 1 and (rcv1.x = 1 and rcv2.x = 0))) -> cnt.c = 0 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or ((cnt.c = 1 or cnt.c = 3) and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 1 or cnt.c = 3) and (rcv1.x = 1 and rcv2.x = 0))) [assume cnt.c != 3].
     Event e: guard: cnt.c = 2 and rcv1.x = 0 or cnt.c = 1 and (rcv1.x = 0 and rcv2.x = 0) -> (cnt.c = 0 or cnt.c = 2) and rcv1.x = 0 or (cnt.c = 1 or cnt.c = 3) and (rcv1.x = 0 and rcv2.x = 0) [assume cnt.c != 0 and cnt.c != 3].
 

@@ -261,7 +261,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the state plant invariants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the state plant invariants.
+
     Event e: guard: p.loc1 and (p.x = 4 or p.x = 5) or p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3) -> not(p.x = 2 or p.x = 3) [assume p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))].
 
 Constructing output CIF specification.

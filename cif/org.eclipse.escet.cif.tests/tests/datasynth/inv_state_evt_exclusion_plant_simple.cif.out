@@ -131,5 +131,10 @@ Determining initialization predicate for output model:
 
 Determining supervisor guards for output model.
 
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
+
 Constructing output CIF specification.
 Writing output CIF file "datasynth/inv_state_evt_exclusion_plant_simple.ctrlsys.real.cif".

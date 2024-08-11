@@ -220,7 +220,9 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
-Simplification of controlled system under the assumption of the plants:
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
     Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
 
 Constructing output CIF specification.

@@ -182,5 +182,10 @@ Determining supervisor guards for output model.
 
 Checking post-synthesis for events that are never enabled.
 
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
+
 Constructing output CIF specification.
 Writing output CIF file "datasynth/input_vars6.ctrlsys.real.cif".
