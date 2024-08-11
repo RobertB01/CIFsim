@@ -230,6 +230,8 @@ Synthesis round 1:
 Computing final controlled system guards:
     Edge (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2): guard: g.r.loc1 and g.r.y = 0 -> false.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: g.r.loc1)
         Edge: (event: c) (guard: (g.r.x = 1 or g.r.x = 3) and g.r.loc1)

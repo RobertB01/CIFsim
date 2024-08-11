@@ -253,6 +253,8 @@ Computing final controlled system guards:
     Edge (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4): guard: order.l3 and motor2.Off -> motor1.On and (order.l3 and motor2.Off).
     Edge (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3): guard: order.l2 and motor2.On -> motor1.On and (order.l2 and motor2.On).
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)))
         Edge: (event: motor1.c_on) (guard: motor1.Off and order.l1 -> motor1.Off and (order.l1 and motor2.On)) (assignments: motor1 := motor1.On, order := order.l2)

@@ -248,6 +248,8 @@ Computing final controlled system guards:
     Edge (event: f1) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
     Edge (event: f2) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1))
         Edge: (event: e1) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1)) (assignments: pe := pe.b)

@@ -294,6 +294,8 @@ Computing final controlled system guards:
     Edge (event: k) (guard: p.v = 1) (assignments: p.v := p.v div 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
     Edge (event: k) (guard: p.v = 2) (assignments: p.v := p.v mod 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))))
         Edge: (event: e) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v + 0)

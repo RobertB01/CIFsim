@@ -263,6 +263,8 @@ Synthesis round 1:
 Computing final controlled system guards:
     No guards changed.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: false)
         Edge: (event: add_a) (guard: true -> buffer.a != 3) (assignments: buffer.a := buffer.a + 1)

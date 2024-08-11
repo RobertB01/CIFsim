@@ -120,6 +120,8 @@ Computing final controlled system guards:
     Edge (event: cen) (guard: true): guard: true -> false.
     Edge (event: cee) (guard: true): guard: true -> false.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: false)
         Edge: (event: cen) (guard: true -> false)

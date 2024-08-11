@@ -263,6 +263,8 @@ Computing final controlled system guards:
     Edge (event: q_b) (guard: q.loc4) (assignments: q := q.loc5): guard: q.loc4 -> false.
     Edge (event: q_b) (guard: q.loc6) (assignments: q := q.loc7): guard: q.loc6 -> false.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)))
         Edge: (event: p_a) (guard: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) -> false) (assignments: p := p.loc2)

@@ -254,6 +254,8 @@ Computing final controlled system guards:
     Edge (event: g.e4) (guard: g.p.b3): guard: g.p.b3 -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
     Edge (event: g.e4) (guard: not g.p.b3): guard: not g.p.b3 -> false.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4))
         Edge: (event: g.e1) (guard: true -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4)) (assignments: g.p.b0 := not g.p.b0)

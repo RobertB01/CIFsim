@@ -106,6 +106,8 @@ Synthesis round 1:
 Computing final controlled system guards:
     Edge (event: c1) (guard: p1.l0) (assignments: p1 := p1.l1): guard: p1.l0 -> false.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: p1.l0)
         Edge: (event: c1) (guard: p1.l0 -> false) (assignments: p1 := p1.l1)

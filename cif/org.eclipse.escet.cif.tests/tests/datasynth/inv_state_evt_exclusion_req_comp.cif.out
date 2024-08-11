@@ -208,6 +208,8 @@ Synthesis round 2:
 Computing final controlled system guards:
     No guards changed.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))))
         Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)

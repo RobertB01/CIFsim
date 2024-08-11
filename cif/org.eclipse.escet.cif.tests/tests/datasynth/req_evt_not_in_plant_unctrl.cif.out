@@ -226,6 +226,8 @@ Computing final controlled system guards:
     Edge (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1): guard: (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 -> p.x = 2 and r.loc1 or p.x = 1 and r.loc1.
     Edge (event: p.dec) (guard: true -> p.x != 0) (assignments: p.x := p.x - 1): guard: p.x != 0 -> p.x = 3.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: p.x = 2 or p.x = 3)
         Edge: (event: p.inc) (guard: true -> p.x = 2 and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1)

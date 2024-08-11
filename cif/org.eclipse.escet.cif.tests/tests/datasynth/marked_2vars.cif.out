@@ -138,6 +138,8 @@ Synthesis round 1:
 Computing final controlled system guards:
     No guards changed.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1)
 

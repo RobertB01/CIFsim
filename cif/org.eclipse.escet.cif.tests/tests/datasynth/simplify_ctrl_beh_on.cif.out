@@ -263,6 +263,8 @@ Computing final controlled system guards:
     Edge (event: c1) (guard: p1.a) (assignments: p1 := p1.b): guard: p1.a -> p2.x = 0 and ((p1.x = 0 or p1.x = 1) and p1.a) or (p2.x = 2 and p2.a and ((p1.x = 0 or p1.x = 1) and p1.a) or p2.x = 1 and ((p1.x = 0 or p1.x = 1) and p1.a)).
     Edge (event: c2) (guard: p2.a) (assignments: p2 := p2.b): guard: p2.a -> (p2.x = 0 or p2.x = 1) and (p2.a and p1.x = 0) or ((p2.x = 0 or p2.x = 1) and p2.a and (p1.x = 2 and p1.a) or (p2.x = 0 or p2.x = 1) and (p2.a and p1.x = 1)).
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: (p2.x != 0 or (p1.x != 2 or p1.a)) and (p2.x != 0 or p1.x != 3) and ((p2.x != 2 or p2.b or (p1.x != 2 or p1.a)) and (p2.x != 2 or (p2.b or p1.x != 3))) and ((p2.x != 2 or p2.a) and (p2.x != 1 or (p1.x != 2 or p1.a)) and ((p2.x != 1 or p1.x != 3) and p2.x != 3)))
         Edge: (event: c1) (guard: p1.a -> p2.x = 0 and ((p1.x = 0 or p1.x = 1) and p1.a) or (p2.x = 2 and p2.a and ((p1.x = 0 or p1.x = 1) and p1.a) or p2.x = 1 and ((p1.x = 0 or p1.x = 1) and p1.a))) (assignments: p1 := p1.b)

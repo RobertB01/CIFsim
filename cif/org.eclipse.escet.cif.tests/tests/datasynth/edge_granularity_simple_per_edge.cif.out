@@ -289,6 +289,8 @@ Synthesis round 2:
 Computing final controlled system guards:
     Edge (event: a) (guard: p2.l2) (assignments: p2 := p2.l1): guard: p2.l2 -> p2.x = 0 and (p2.l2 and p1.l1) or (p2.x = 2 and p2.l2 or p2.x = 1 and p2.l2).
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: p2.x = 0 and (p2.l1 and p1.l1) or (p2.x = 2 and not p2.l3 or p2.x = 1 and p2.l1))
         Edge: (event: e) (guard: p2.x = 1 and (p2.l1 and p1.l1)) (assignments: p1 := p1.l2)

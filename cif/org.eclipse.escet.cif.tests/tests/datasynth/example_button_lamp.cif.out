@@ -256,6 +256,8 @@ Computing final controlled system guards:
     Edge (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On): guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off -> Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off).
     Edge (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off): guard: LampOnWhileButtonPushed.Released and Lamp1.On -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On).
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed))
         Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed)

@@ -138,6 +138,8 @@ Synthesis round 2:
 Computing final controlled system guards:
     No guards changed.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: r.x = 5)
         Edge: (event: c) (guard: r.x = 5)

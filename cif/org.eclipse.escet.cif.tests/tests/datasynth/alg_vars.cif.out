@@ -276,6 +276,8 @@ Computing final controlled system guards:
     Edge (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive): guard: r2.active -> r1.inactive and r2.active or r1.active and (r2.active and r3.inactive).
     Edge (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active): guard: r3.inactive -> r1.inactive and r3.inactive.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: r1.inactive or r3.inactive)
         Edge: (event: add) (guard: true -> r1.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.inactive and (p.c = 1 and q.l1) or (r1.active and r3.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.active and r3.inactive and (p.c = 1 and q.l1))) (assignments: p.c := p.c + x)

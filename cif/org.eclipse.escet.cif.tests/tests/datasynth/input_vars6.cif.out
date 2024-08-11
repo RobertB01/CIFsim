@@ -157,6 +157,8 @@ Synthesis round 1:
 Computing final controlled system guards:
     No guards changed.
 
+Cleaning up edges for being applied.
+
 Final synthesis result:
     State: (controlled-behavior: true)
         Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
