@@ -139,29 +139,33 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "Actuator.c_off"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: StopButton.Released and (Actuator.Off and StartButton.Released) [initial states predicate]
+    Computing reachable states:
+        Reachable states: StopButton.Released and (Actuator.Off and StartButton.Released) [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: StopButton.Released and (Actuator.Off and StartButton.Released) -> StopButton.Released and Actuator.Off [forward reach with edge: (event: StartButton.u_pushed) (guard: StartButton.Released) (assignments: StartButton := StartButton.Pushed)]
-        Reachable states: StopButton.Released and Actuator.Off -> Actuator.Off [forward reach with edge: (event: StopButton.u_pushed) (guard: StopButton.Released) (assignments: StopButton := StopButton.Pushed)]
+        Forward reachability iteration 1:
+            Reachable states: StopButton.Released and (Actuator.Off and StartButton.Released) -> StopButton.Released and Actuator.Off [forward reach with edge: (event: StartButton.u_pushed) (guard: StartButton.Released) (assignments: StartButton := StartButton.Pushed)]
+            Reachable states: StopButton.Released and Actuator.Off -> Actuator.Off [forward reach with edge: (event: StopButton.u_pushed) (guard: StopButton.Released) (assignments: StopButton := StopButton.Pushed)]
 
-    Forward reachability iteration 2:
-        Reachable states: Actuator.Off -> Actuator.Off or StartButton.Pushed [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and StartButton.Pushed) (assignments: Actuator := Actuator.On)]
-        Reachable states: Actuator.Off or StartButton.Pushed -> true [forward reach with edge: (event: StartButton.u_released) (guard: StartButton.Pushed) (assignments: StartButton := StartButton.Released)]
+        Forward reachability iteration 2:
+            Reachable states: Actuator.Off -> Actuator.Off or StartButton.Pushed [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and StartButton.Pushed) (assignments: Actuator := Actuator.On)]
+            Reachable states: Actuator.Off or StartButton.Pushed -> true [forward reach with edge: (event: StartButton.u_released) (guard: StartButton.Pushed) (assignments: StartButton := StartButton.Released)]
 
-    Forward reachability iteration 3:
-        No change this iteration.
+        Forward reachability iteration 3:
+            No change this iteration.
 
-    Reachable states: true [fixed point].
+        Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Bounded response check round 1 (states before round: true).
+
+        Bound: n/a (cycle).
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: (StopButton.Pushed or Actuator.On) and ((StopButton.Pushed or (Actuator.Off or StartButton.Pushed)) and (StopButton.Released or (Actuator.Off or StartButton.Pushed)))).
-    Bounded response check round 3 (states before round: StopButton.Pushed and StartButton.Pushed).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: (StopButton.Pushed or Actuator.On) and ((StopButton.Pushed or (Actuator.Off or StartButton.Pushed)) and (StopButton.Released or (Actuator.Off or StartButton.Pushed)))).
+        Bounded response check round 3 (states before round: StopButton.Pushed and StartButton.Pushed).
+
+        Bound: n/a (cycle).
 
     Bounded response check completed.
 

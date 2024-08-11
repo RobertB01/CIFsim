@@ -112,24 +112,28 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "b"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p.loc1 and not p.v [initial states predicate]
+    Computing reachable states:
+        Reachable states: p.loc1 and not p.v [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: p.loc1 and not p.v -> not p.v [forward reach with edge: (event: a) (guard: p.loc1) (assignments: p.v := p.v, p := p.loc2)]
-        Reachable states: not p.v -> p.loc2 or not p.v [forward reach with edge: (event: b) (guard: p.loc1) (assignments: p.v := not p.v, p := p.loc2)]
+        Forward reachability iteration 1:
+            Reachable states: p.loc1 and not p.v -> not p.v [forward reach with edge: (event: a) (guard: p.loc1) (assignments: p.v := p.v, p := p.loc2)]
+            Reachable states: not p.v -> p.loc2 or not p.v [forward reach with edge: (event: b) (guard: p.loc1) (assignments: p.v := not p.v, p := p.loc2)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: p.loc2 or not p.v [fixed point].
+        Reachable states: p.loc2 or not p.v [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: p.loc2 or not p.v).
-    Bounded response check round 2 (states before round: p.loc1 and not p.v).
+        Bounded response check round 1 (states before round: p.loc2 or not p.v).
+        Bounded response check round 2 (states before round: p.loc1 and not p.v).
+
+        Bound: n/a (cycle).
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: p.loc2 or not p.v).
+        Bounded response check round 1 (states before round: p.loc2 or not p.v).
+
+        Bound: n/a (cycle).
 
     Bounded response check completed.
 

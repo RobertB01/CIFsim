@@ -12,17 +12,21 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "c_e"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: true [initial states predicate]
+    Computing reachable states:
+        Reachable states: true [initial states predicate]
 
-    Forward reachability iteration 1:
-        No change this iteration.
+        Forward reachability iteration 1:
+            No change this iteration.
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
+        Bounded response check round 1 (states before round: true).
+
+        Bound: n/a (cycle).
 
     Bounded response check completed.
 

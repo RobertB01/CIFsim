@@ -23,25 +23,29 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "DifferentLocs.b"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: DifferentLocs.p [initial states predicate]
+    Computing reachable states:
+        Reachable states: DifferentLocs.p [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: DifferentLocs.p -> not DifferentLocs.q [forward reach with edge: (event: DifferentLocs.a) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.r)]
-        Reachable states: not DifferentLocs.q -> true [forward reach with edge: (event: DifferentLocs.u) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.q)]
+        Forward reachability iteration 1:
+            Reachable states: DifferentLocs.p -> not DifferentLocs.q [forward reach with edge: (event: DifferentLocs.a) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.r)]
+            Reachable states: not DifferentLocs.q -> true [forward reach with edge: (event: DifferentLocs.u) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.q)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: true [fixed point].
+        Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: DifferentLocs.q).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: DifferentLocs.q).
+
+        Bound: 1.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: DifferentLocs.r).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: DifferentLocs.r).
+
+        Bound: 1.
 
     Bounded response check completed.
 

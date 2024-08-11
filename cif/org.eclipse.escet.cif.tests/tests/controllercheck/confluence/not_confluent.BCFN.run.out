@@ -120,24 +120,28 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "SingleAut.b"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: not SingleAut.z and SingleAut.p [initial states predicate]
+    Computing reachable states:
+        Reachable states: not SingleAut.z and SingleAut.p [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: not SingleAut.z and SingleAut.p -> not SingleAut.z [forward reach with edge: (event: SingleAut.a) (guard: SingleAut.p) (assignments: SingleAut.z := SingleAut.z, SingleAut := SingleAut.q)]
-        Reachable states: not SingleAut.z -> not SingleAut.z or SingleAut.q [forward reach with edge: (event: SingleAut.b) (guard: SingleAut.p) (assignments: SingleAut.z := not SingleAut.z, SingleAut := SingleAut.q)]
+        Forward reachability iteration 1:
+            Reachable states: not SingleAut.z and SingleAut.p -> not SingleAut.z [forward reach with edge: (event: SingleAut.a) (guard: SingleAut.p) (assignments: SingleAut.z := SingleAut.z, SingleAut := SingleAut.q)]
+            Reachable states: not SingleAut.z -> not SingleAut.z or SingleAut.q [forward reach with edge: (event: SingleAut.b) (guard: SingleAut.p) (assignments: SingleAut.z := not SingleAut.z, SingleAut := SingleAut.q)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: not SingleAut.z or SingleAut.q [fixed point].
+        Reachable states: not SingleAut.z or SingleAut.q [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: not SingleAut.z or SingleAut.q).
+        Bounded response check round 1 (states before round: not SingleAut.z or SingleAut.q).
+
+        Bound: 0.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: not SingleAut.z or SingleAut.q).
-    Bounded response check round 2 (states before round: SingleAut.q).
+        Bounded response check round 1 (states before round: not SingleAut.z or SingleAut.q).
+        Bounded response check round 2 (states before round: SingleAut.q).
+
+        Bound: 1.
 
     Bounded response check completed.
 

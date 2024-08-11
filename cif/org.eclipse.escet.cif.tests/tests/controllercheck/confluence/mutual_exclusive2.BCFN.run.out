@@ -110,23 +110,27 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "DifferentConditions.b"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: DifferentConditions.p and not DifferentConditions.z [initial states predicate]
+    Computing reachable states:
+        Reachable states: DifferentConditions.p and not DifferentConditions.z [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: DifferentConditions.p and not DifferentConditions.z -> not DifferentConditions.z [forward reach with edge: (event: DifferentConditions.b) (guard: DifferentConditions.p and not DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
+        Forward reachability iteration 1:
+            Reachable states: DifferentConditions.p and not DifferentConditions.z -> not DifferentConditions.z [forward reach with edge: (event: DifferentConditions.b) (guard: DifferentConditions.p and not DifferentConditions.z) (assignments: DifferentConditions := DifferentConditions.q)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: not DifferentConditions.z [fixed point].
+        Reachable states: not DifferentConditions.z [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: not DifferentConditions.z).
+        Bounded response check round 1 (states before round: not DifferentConditions.z).
+
+        Bound: 0.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: not DifferentConditions.z).
-    Bounded response check round 2 (states before round: DifferentConditions.q and not DifferentConditions.z).
+        Bounded response check round 1 (states before round: not DifferentConditions.z).
+        Bounded response check round 2 (states before round: DifferentConditions.q and not DifferentConditions.z).
+
+        Bound: 1.
 
     Bounded response check completed.
 

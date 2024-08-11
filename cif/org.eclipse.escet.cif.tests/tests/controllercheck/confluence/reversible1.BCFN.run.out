@@ -130,29 +130,33 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "c"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: B.v = 0 and (B.p and A.p) [initial states predicate]
+    Computing reachable states:
+        Reachable states: B.v = 0 and (B.p and A.p) [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: B.v = 0 and (B.p and A.p) -> B.v = 0 and B.p [forward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-        Reachable states: B.v = 0 and B.p -> B.v = 0 and B.p or B.v = 2 and (B.q and A.p) [forward reach with edge: (event: b) (guard: B.v = 0 and (B.p and A.p)) (assignments: B.v := B.v + 2, B := B.q)]
+        Forward reachability iteration 1:
+            Reachable states: B.v = 0 and (B.p and A.p) -> B.v = 0 and B.p [forward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
+            Reachable states: B.v = 0 and B.p -> B.v = 0 and B.p or B.v = 2 and (B.q and A.p) [forward reach with edge: (event: b) (guard: B.v = 0 and (B.p and A.p)) (assignments: B.v := B.v + 2, B := B.q)]
 
-    Forward reachability iteration 2:
-        Reachable states: B.v = 0 and B.p or B.v = 2 and (B.q and A.p) -> B.v = 0 and B.p or B.v = 2 and B.q [forward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
+        Forward reachability iteration 2:
+            Reachable states: B.v = 0 and B.p or B.v = 2 and (B.q and A.p) -> B.v = 0 and B.p or B.v = 2 and B.q [forward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
 
-    Forward reachability iteration 3:
-        No change this iteration.
+        Forward reachability iteration 3:
+            No change this iteration.
 
-    Reachable states: B.v = 0 and B.p or B.v = 2 and B.q [fixed point].
+        Reachable states: B.v = 0 and B.p or B.v = 2 and B.q [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: B.v = 0 and B.p or B.v = 2 and B.q).
+        Bounded response check round 1 (states before round: B.v = 0 and B.p or B.v = 2 and B.q).
+
+        Bound: 0.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: B.v = 0 and B.p or B.v = 2 and B.q).
-    Bounded response check round 2 (states before round: B.v = 0 and (B.p and A.q) or B.v = 2 and B.q).
-    Bounded response check round 3 (states before round: B.v = 0 and (B.p and A.q) or B.v = 2 and (B.q and A.q)).
-    Bounded response check round 4 (states before round: B.v = 0 and (B.p and A.q)).
+        Bounded response check round 1 (states before round: B.v = 0 and B.p or B.v = 2 and B.q).
+        Bounded response check round 2 (states before round: B.v = 0 and (B.p and A.q) or B.v = 2 and B.q).
+        Bounded response check round 3 (states before round: B.v = 0 and (B.p and A.q) or B.v = 2 and (B.q and A.q)).
+        Bounded response check round 4 (states before round: B.v = 0 and (B.p and A.q)).
+
+        Bound: 3.
 
     Bounded response check completed.
 

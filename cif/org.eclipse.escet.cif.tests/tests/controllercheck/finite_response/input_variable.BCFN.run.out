@@ -127,24 +127,28 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "Actuator.c_off"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: Actuator.Off [initial states predicate]
+    Computing reachable states:
+        Reachable states: Actuator.Off [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: Actuator.Off -> Actuator.Off or Sensor [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)]
-        Reachable states: Actuator.Off or Sensor -> true [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
+        Forward reachability iteration 1:
+            Reachable states: Actuator.Off -> Actuator.Off or Sensor [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and Sensor) (assignments: Actuator := Actuator.On)]
+            Reachable states: Actuator.Off or Sensor -> true [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: true [fixed point].
+        Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: (Actuator.On or not Sensor) and (Actuator.Off or Sensor)).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: (Actuator.On or not Sensor) and (Actuator.Off or Sensor)).
+
+        Bound: 1.
 
     Bounded response check completed.
 

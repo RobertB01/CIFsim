@@ -24,27 +24,31 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "Supervisor.c_act2"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: Supervisor.Start [initial states predicate]
+    Computing reachable states:
+        Reachable states: Supervisor.Start [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: Supervisor.Start -> Supervisor.Start or Supervisor.Done1 [forward reach with edge: (event: Supervisor.c_act1) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.Done1)]
-        Reachable states: Supervisor.Start or Supervisor.Done1 -> not Supervisor.Halt [forward reach with edge: (event: Supervisor.c_act2) (guard: Supervisor.Done1) (assignments: Supervisor := Supervisor.BothDone)]
-        Reachable states: not Supervisor.Halt -> true [forward reach with edge: (event: Supervisor.u_button_pushed) (guard: Supervisor.BothDone or Supervisor.Done1) (assignments: Supervisor := Supervisor.Halt / Supervisor := Supervisor.Start)]
+        Forward reachability iteration 1:
+            Reachable states: Supervisor.Start -> Supervisor.Start or Supervisor.Done1 [forward reach with edge: (event: Supervisor.c_act1) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.Done1)]
+            Reachable states: Supervisor.Start or Supervisor.Done1 -> not Supervisor.Halt [forward reach with edge: (event: Supervisor.c_act2) (guard: Supervisor.Done1) (assignments: Supervisor := Supervisor.BothDone)]
+            Reachable states: not Supervisor.Halt -> true [forward reach with edge: (event: Supervisor.u_button_pushed) (guard: Supervisor.BothDone or Supervisor.Done1) (assignments: Supervisor := Supervisor.Halt / Supervisor := Supervisor.Start)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: true [fixed point].
+        Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: Supervisor.Start or Supervisor.Halt).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: Supervisor.Start or Supervisor.Halt).
+
+        Bound: 1.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: Supervisor.BothDone or Supervisor.Done1).
-    Bounded response check round 3 (states before round: Supervisor.BothDone).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: Supervisor.BothDone or Supervisor.Done1).
+        Bounded response check round 3 (states before round: Supervisor.BothDone).
+
+        Bound: 2.
 
     Bounded response check completed.
 

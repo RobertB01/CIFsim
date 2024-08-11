@@ -121,29 +121,33 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "A.b"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: not A.z and (A.p and A.v = 0) [initial states predicate]
+    Computing reachable states:
+        Reachable states: not A.z and (A.p and A.v = 0) [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: not A.z and (A.p and A.v = 0) -> not A.z and (A.p and A.v = 0) or A.z and (A.q and A.v = 0) [forward reach with edge: (event: A.a) (guard: not A.s) (assignments: A.z := true, A := A.q / A.z := true, A := A.s)]
-        Reachable states: not A.z and (A.p and A.v = 0) or A.z and (A.q and A.v = 0) -> not A.z and (A.p and A.v = 0) or not A.z and (A.q and A.v = 2) or (A.z and (A.s and A.v = 2) or A.z and (A.q and A.v = 0)) [forward reach with edge: (event: A.b) (guard: not A.s) (assignments: A.v := 2, A := A.q / A.v := 2, A := A.s)]
+        Forward reachability iteration 1:
+            Reachable states: not A.z and (A.p and A.v = 0) -> not A.z and (A.p and A.v = 0) or A.z and (A.q and A.v = 0) [forward reach with edge: (event: A.a) (guard: not A.s) (assignments: A.z := true, A := A.q / A.z := true, A := A.s)]
+            Reachable states: not A.z and (A.p and A.v = 0) or A.z and (A.q and A.v = 0) -> not A.z and (A.p and A.v = 0) or not A.z and (A.q and A.v = 2) or (A.z and (A.s and A.v = 2) or A.z and (A.q and A.v = 0)) [forward reach with edge: (event: A.b) (guard: not A.s) (assignments: A.v := 2, A := A.q / A.v := 2, A := A.s)]
 
-    Forward reachability iteration 2:
-        Reachable states: not A.z and (A.p and A.v = 0) or not A.z and (A.q and A.v = 2) or (A.z and (A.s and A.v = 2) or A.z and (A.q and A.v = 0)) -> <bdd 11n 4p> [forward reach with edge: (event: A.a) (guard: not A.s) (assignments: A.z := true, A := A.q / A.z := true, A := A.s)]
-        Reachable states: <bdd 11n 4p> -> <bdd 12n 5p> [forward reach with edge: (event: A.b) (guard: not A.s) (assignments: A.v := 2, A := A.q / A.v := 2, A := A.s)]
+        Forward reachability iteration 2:
+            Reachable states: not A.z and (A.p and A.v = 0) or not A.z and (A.q and A.v = 2) or (A.z and (A.s and A.v = 2) or A.z and (A.q and A.v = 0)) -> <bdd 11n 4p> [forward reach with edge: (event: A.a) (guard: not A.s) (assignments: A.z := true, A := A.q / A.z := true, A := A.s)]
+            Reachable states: <bdd 11n 4p> -> <bdd 12n 5p> [forward reach with edge: (event: A.b) (guard: not A.s) (assignments: A.v := 2, A := A.q / A.v := 2, A := A.s)]
 
-    Forward reachability iteration 3:
-        No change this iteration.
+        Forward reachability iteration 3:
+            No change this iteration.
 
-    Reachable states: <bdd 12n 5p> [fixed point].
+        Reachable states: <bdd 12n 5p> [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: <bdd 12n 5p>).
+        Bounded response check round 1 (states before round: <bdd 12n 5p>).
+
+        Bound: 0.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: <bdd 12n 5p>).
-    Bounded response check round 2 (states before round: <bdd 12n 4p>).
-    Bounded response check round 3 (states before round: not A.z and (A.s and A.v = 2) or A.z and (A.s and A.v != 1)).
+        Bounded response check round 1 (states before round: <bdd 12n 5p>).
+        Bounded response check round 2 (states before round: <bdd 12n 4p>).
+        Bounded response check round 3 (states before round: not A.z and (A.s and A.v = 2) or A.z and (A.s and A.v != 1)).
+
+        Bound: 2.
 
     Bounded response check completed.
 

@@ -134,26 +134,30 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "X.c"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: X.A [initial states predicate]
+    Computing reachable states:
+        Reachable states: X.A [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: X.A -> X.A or X.B and Y != 1 [forward reach with edge: (event: X.a) (guard: X.A -> X.A and Y != 1) (assignments: X := X.B)]
-        Reachable states: X.A or X.B and Y != 1 -> X.A or (X.C and Y = 0 or X.B and Y != 1) [forward reach with edge: (event: X.b) (guard: X.B -> X.B and Y != 2) (assignments: X := X.C)]
-        Reachable states: X.A or (X.C and Y = 0 or X.B and Y != 1) -> true [forward reach with edge: (event: Y) (guard: true) (assignments: Y+ != Y)]
+        Forward reachability iteration 1:
+            Reachable states: X.A -> X.A or X.B and Y != 1 [forward reach with edge: (event: X.a) (guard: X.A -> X.A and Y != 1) (assignments: X := X.B)]
+            Reachable states: X.A or X.B and Y != 1 -> X.A or (X.C and Y = 0 or X.B and Y != 1) [forward reach with edge: (event: X.b) (guard: X.B -> X.B and Y != 2) (assignments: X := X.C)]
+            Reachable states: X.A or (X.C and Y = 0 or X.B and Y != 1) -> true [forward reach with edge: (event: Y) (guard: true) (assignments: Y+ != Y)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: true [fixed point].
+        Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: (not X.A or Y != 0) and ((not X.C or Y != 2) and (not X.B or Y != 1))).
-    Bounded response check round 3 (states before round: X.A and Y = 1 or (X.C and Y = 0 or X.B and Y = 2)).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: (not X.A or Y != 0) and ((not X.C or Y != 2) and (not X.B or Y != 1))).
+        Bounded response check round 3 (states before round: X.A and Y = 1 or (X.C and Y = 0 or X.B and Y = 2)).
+
+        Bound: 2.
 
     Bounded response check completed.
 

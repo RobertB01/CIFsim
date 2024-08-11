@@ -6,17 +6,21 @@ Preparing for BDD-based checks...
         No guards changed.
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: true [initial states predicate]
+    Computing reachable states:
+        Reachable states: true [initial states predicate]
 
-    Forward reachability iteration 1:
-        No change this iteration.
+        Forward reachability iteration 1:
+            No change this iteration.
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Bounded response check round 1 (states before round: true).
+
+        Bound: n/a (cycle).
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
 
     Bounded response check completed.
 

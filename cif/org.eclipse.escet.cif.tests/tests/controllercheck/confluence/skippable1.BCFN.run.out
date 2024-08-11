@@ -121,25 +121,29 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "OptionalChangeBool.b"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p [initial states predicate]
+    Computing reachable states:
+        Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p -> OptionalChangeBool.v = 0 and OptionalChangeBool.p or OptionalChangeBool.v = 1 and OptionalChangeBool.q [forward reach with edge: (event: OptionalChangeBool.a) (guard: OptionalChangeBool.p) (assignments: OptionalChangeBool.v := 1, OptionalChangeBool := OptionalChangeBool.q)]
-        Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p or OptionalChangeBool.v = 1 and OptionalChangeBool.q -> OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q) [forward reach with edge: (event: OptionalChangeBool.b) (guard: not OptionalChangeBool.r) (assignments: OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r / OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r)]
+        Forward reachability iteration 1:
+            Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p -> OptionalChangeBool.v = 0 and OptionalChangeBool.p or OptionalChangeBool.v = 1 and OptionalChangeBool.q [forward reach with edge: (event: OptionalChangeBool.a) (guard: OptionalChangeBool.p) (assignments: OptionalChangeBool.v := 1, OptionalChangeBool := OptionalChangeBool.q)]
+            Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p or OptionalChangeBool.v = 1 and OptionalChangeBool.q -> OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q) [forward reach with edge: (event: OptionalChangeBool.b) (guard: not OptionalChangeBool.r) (assignments: OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r / OptionalChangeBool.v := 2, OptionalChangeBool := OptionalChangeBool.r)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q) [fixed point].
+        Reachable states: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q) [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q)).
+        Bounded response check round 1 (states before round: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q)).
+
+        Bound: 0.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q)).
-    Bounded response check round 2 (states before round: OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q).
-    Bounded response check round 3 (states before round: OptionalChangeBool.v = 2 and OptionalChangeBool.r).
+        Bounded response check round 1 (states before round: OptionalChangeBool.v = 0 and OptionalChangeBool.p or (OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q)).
+        Bounded response check round 2 (states before round: OptionalChangeBool.v = 2 and OptionalChangeBool.r or OptionalChangeBool.v = 1 and OptionalChangeBool.q).
+        Bounded response check round 3 (states before round: OptionalChangeBool.v = 2 and OptionalChangeBool.r).
+
+        Bound: 2.
 
     Bounded response check completed.
 

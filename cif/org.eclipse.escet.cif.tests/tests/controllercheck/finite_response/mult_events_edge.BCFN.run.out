@@ -29,24 +29,28 @@ Preparing for MDD-based checks...
         Updating global guards and updates for event "A.e"...
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: A.l0 [initial states predicate]
+    Computing reachable states:
+        Reachable states: A.l0 [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: A.l0 -> not A.l2 [forward reach with edge: (event: A.a) (guard: A.l0) (assignments: A := A.l1)]
-        Reachable states: not A.l2 -> true [forward reach with edge: (event: A.c) (guard: A.l1) (assignments: A := A.l2)]
+        Forward reachability iteration 1:
+            Reachable states: A.l0 -> not A.l2 [forward reach with edge: (event: A.a) (guard: A.l0) (assignments: A := A.l1)]
+            Reachable states: not A.l2 -> true [forward reach with edge: (event: A.c) (guard: A.l1) (assignments: A := A.l2)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: true [fixed point].
+        Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: A.l0).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: A.l0).
+
+        Bound: 1.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
+        Bounded response check round 1 (states before round: true).
+
+        Bound: n/a (cycle).
 
     Bounded response check completed.
 

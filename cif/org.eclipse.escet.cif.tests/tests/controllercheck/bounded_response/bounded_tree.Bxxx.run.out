@@ -107,35 +107,39 @@ Preparing for BDD-based checks...
         No guards changed.
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p2.loc1 and p1.loc1 [initial states predicate]
+    Computing reachable states:
+        Reachable states: p2.loc1 and p1.loc1 [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: p2.loc1 and p1.loc1 -> p2.loc1 and (p1.loc1 or p1.loc2) [forward reach with edge: (event: u_a) (guard: p1.loc1) (assignments: p1 := p1.loc2)]
-        Reachable states: p2.loc1 and (p1.loc1 or p1.loc2) -> p2.loc1 and (p1.loc1 or p1.loc5) or p2.loc1 and p1.loc2 [forward reach with edge: (event: u_d) (guard: p1.loc1) (assignments: p1 := p1.loc5)]
-        Reachable states: p2.loc1 and (p1.loc1 or p1.loc5) or p2.loc1 and p1.loc2 -> p2.loc1 and (p1.loc1 or p1.loc5) or (p2.loc1 and p1.loc3 or p2.loc1 and p1.loc2) [forward reach with edge: (event: u_b) (guard: p1.loc2) (assignments: p1 := p1.loc3)]
-        Reachable states: p2.loc1 and (p1.loc1 or p1.loc5) or (p2.loc1 and p1.loc3 or p2.loc1 and p1.loc2) -> not p2.loc5 and (not p2.loc3 and (p2.loc1 or (p2.loc3 or p2.loc5))) [forward reach with edge: (event: u_c) (guard: p1.loc2) (assignments: p1 := p1.loc4)]
-        Reachable states: not p2.loc5 and (not p2.loc3 and (p2.loc1 or (p2.loc3 or p2.loc5))) -> not p2.loc5 and not p2.loc6 and (not p2.loc3 and not p2.loc4) [forward reach with edge: (event: c_a) (guard: p2.loc1) (assignments: p2 := p2.loc2)]
-        Reachable states: not p2.loc5 and not p2.loc6 and (not p2.loc3 and not p2.loc4) -> not p2.loc5 and (not p2.loc6 and not p2.loc4) [forward reach with edge: (event: c_b) (guard: p2.loc2) (assignments: p2 := p2.loc3)]
-        Reachable states: not p2.loc5 and (not p2.loc6 and not p2.loc4) -> not p2.loc6 and not p2.loc4 [forward reach with edge: (event: c_d) (guard: p2.loc2) (assignments: p2 := p2.loc5)]
-        Reachable states: not p2.loc6 and not p2.loc4 -> not p2.loc6 [forward reach with edge: (event: c_c) (guard: p2.loc3) (assignments: p2 := p2.loc4)]
-        Reachable states: not p2.loc6 -> true [forward reach with edge: (event: c_e) (guard: p2.loc3) (assignments: p2 := p2.loc6)]
+        Forward reachability iteration 1:
+            Reachable states: p2.loc1 and p1.loc1 -> p2.loc1 and (p1.loc1 or p1.loc2) [forward reach with edge: (event: u_a) (guard: p1.loc1) (assignments: p1 := p1.loc2)]
+            Reachable states: p2.loc1 and (p1.loc1 or p1.loc2) -> p2.loc1 and (p1.loc1 or p1.loc5) or p2.loc1 and p1.loc2 [forward reach with edge: (event: u_d) (guard: p1.loc1) (assignments: p1 := p1.loc5)]
+            Reachable states: p2.loc1 and (p1.loc1 or p1.loc5) or p2.loc1 and p1.loc2 -> p2.loc1 and (p1.loc1 or p1.loc5) or (p2.loc1 and p1.loc3 or p2.loc1 and p1.loc2) [forward reach with edge: (event: u_b) (guard: p1.loc2) (assignments: p1 := p1.loc3)]
+            Reachable states: p2.loc1 and (p1.loc1 or p1.loc5) or (p2.loc1 and p1.loc3 or p2.loc1 and p1.loc2) -> not p2.loc5 and (not p2.loc3 and (p2.loc1 or (p2.loc3 or p2.loc5))) [forward reach with edge: (event: u_c) (guard: p1.loc2) (assignments: p1 := p1.loc4)]
+            Reachable states: not p2.loc5 and (not p2.loc3 and (p2.loc1 or (p2.loc3 or p2.loc5))) -> not p2.loc5 and not p2.loc6 and (not p2.loc3 and not p2.loc4) [forward reach with edge: (event: c_a) (guard: p2.loc1) (assignments: p2 := p2.loc2)]
+            Reachable states: not p2.loc5 and not p2.loc6 and (not p2.loc3 and not p2.loc4) -> not p2.loc5 and (not p2.loc6 and not p2.loc4) [forward reach with edge: (event: c_b) (guard: p2.loc2) (assignments: p2 := p2.loc3)]
+            Reachable states: not p2.loc5 and (not p2.loc6 and not p2.loc4) -> not p2.loc6 and not p2.loc4 [forward reach with edge: (event: c_d) (guard: p2.loc2) (assignments: p2 := p2.loc5)]
+            Reachable states: not p2.loc6 and not p2.loc4 -> not p2.loc6 [forward reach with edge: (event: c_c) (guard: p2.loc3) (assignments: p2 := p2.loc4)]
+            Reachable states: not p2.loc6 -> true [forward reach with edge: (event: c_e) (guard: p2.loc3) (assignments: p2 := p2.loc6)]
 
-    Forward reachability iteration 2:
-        No change this iteration.
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Reachable states: true [fixed point].
+        Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: (p2.loc3 or (p2.loc4 or not p1.loc1)) and (not p2.loc3 and not p2.loc4 or not p1.loc1)).
-    Bounded response check round 3 (states before round: (p2.loc3 or p2.loc4 or (p1.loc3 or p1.loc4)) and (not p2.loc3 and not p2.loc4 or (p1.loc3 or p1.loc4))).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: (p2.loc3 or (p2.loc4 or not p1.loc1)) and (not p2.loc3 and not p2.loc4 or not p1.loc1)).
+        Bounded response check round 3 (states before round: (p2.loc3 or p2.loc4 or (p1.loc3 or p1.loc4)) and (not p2.loc3 and not p2.loc4 or (p1.loc3 or p1.loc4))).
+
+        Bound: 2.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: <bdd 8n 12p>).
-    Bounded response check round 3 (states before round: not p2.loc1 and not p2.loc2).
-    Bounded response check round 4 (states before round: (p2.loc2 or (p2.loc4 or p2.loc6)) and not p2.loc2).
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: <bdd 8n 12p>).
+        Bounded response check round 3 (states before round: not p2.loc1 and not p2.loc2).
+        Bounded response check round 4 (states before round: (p2.loc2 or (p2.loc4 or p2.loc6)) and not p2.loc2).
+
+        Bound: 3.
 
     Bounded response check completed.
 

@@ -134,37 +134,41 @@ Preparing for BDD-based checks...
         No guards changed.
 
 Checking for bounded response...
-    Computing reachable states...
-    Reachable states: <bdd 14n 1p> [initial states predicate]
+    Computing reachable states:
+        Reachable states: <bdd 14n 1p> [initial states predicate]
 
-    Forward reachability iteration 1:
-        Reachable states: <bdd 14n 1p> -> <bdd 28n 13p> [forward reach with edge: (event: u_chan) (guard: <bdd 12n 12p>) (assignments: usend1 := usend1.loc2, urecv1 := urecv1.loc2 / usend1 := usend1.loc2, urecv2 := urecv2.loc2 / usend1 := usend1.loc2, urecv3 := urecv3.loc2 / usend1 := usend1.loc2, urecv4 := urecv4.loc2 / usend2 := usend2.loc2, urecv1 := urecv1.loc2 / usend2 := usend2.loc2, urecv2 := urecv2.loc2 / usend2 := usend2.loc2, urecv3 := urecv3.loc2 / usend2 := usend2.loc2, urecv4 := urecv4.loc2 / usend3 := usend3.loc2, urecv1 := urecv1.loc2 / usend3 := usend3.loc2, urecv2 := urecv2.loc2 / usend3 := usend3.loc2, urecv3 := urecv3.loc2 / usend3 := usend3.loc2, urecv4 := urecv4.loc2)]
-        Reachable states: <bdd 28n 13p> -> <bdd 42n 169p> [forward reach with edge: (event: c_chan) (guard: <bdd 12n 12p>) (assignments: csend1 := csend1.loc2, crecv1 := crecv1.loc2 / csend1 := csend1.loc2, crecv2 := crecv2.loc2 / csend1 := csend1.loc2, crecv3 := crecv3.loc2 / csend2 := csend2.loc2, crecv1 := crecv1.loc2 / csend2 := csend2.loc2, crecv2 := crecv2.loc2 / csend2 := csend2.loc2, crecv3 := crecv3.loc2 / csend3 := csend3.loc2, crecv1 := crecv1.loc2 / csend3 := csend3.loc2, crecv2 := crecv2.loc2 / csend3 := csend3.loc2, crecv3 := crecv3.loc2 / csend4 := csend4.loc2, crecv1 := crecv1.loc2 / csend4 := csend4.loc2, crecv2 := crecv2.loc2 / csend4 := csend4.loc2, crecv3 := crecv3.loc2)]
+        Forward reachability iteration 1:
+            Reachable states: <bdd 14n 1p> -> <bdd 28n 13p> [forward reach with edge: (event: u_chan) (guard: <bdd 12n 12p>) (assignments: usend1 := usend1.loc2, urecv1 := urecv1.loc2 / usend1 := usend1.loc2, urecv2 := urecv2.loc2 / usend1 := usend1.loc2, urecv3 := urecv3.loc2 / usend1 := usend1.loc2, urecv4 := urecv4.loc2 / usend2 := usend2.loc2, urecv1 := urecv1.loc2 / usend2 := usend2.loc2, urecv2 := urecv2.loc2 / usend2 := usend2.loc2, urecv3 := urecv3.loc2 / usend2 := usend2.loc2, urecv4 := urecv4.loc2 / usend3 := usend3.loc2, urecv1 := urecv1.loc2 / usend3 := usend3.loc2, urecv2 := urecv2.loc2 / usend3 := usend3.loc2, urecv3 := urecv3.loc2 / usend3 := usend3.loc2, urecv4 := urecv4.loc2)]
+            Reachable states: <bdd 28n 13p> -> <bdd 42n 169p> [forward reach with edge: (event: c_chan) (guard: <bdd 12n 12p>) (assignments: csend1 := csend1.loc2, crecv1 := crecv1.loc2 / csend1 := csend1.loc2, crecv2 := crecv2.loc2 / csend1 := csend1.loc2, crecv3 := crecv3.loc2 / csend2 := csend2.loc2, crecv1 := crecv1.loc2 / csend2 := csend2.loc2, crecv2 := crecv2.loc2 / csend2 := csend2.loc2, crecv3 := crecv3.loc2 / csend3 := csend3.loc2, crecv1 := crecv1.loc2 / csend3 := csend3.loc2, crecv2 := crecv2.loc2 / csend3 := csend3.loc2, crecv3 := crecv3.loc2 / csend4 := csend4.loc2, crecv1 := crecv1.loc2 / csend4 := csend4.loc2, crecv2 := crecv2.loc2 / csend4 := csend4.loc2, crecv3 := crecv3.loc2)]
 
-    Forward reachability iteration 2:
-        Reachable states: <bdd 42n 169p> -> <bdd 46n 403p> [forward reach with edge: (event: u_chan) (guard: <bdd 12n 12p>) (assignments: usend1 := usend1.loc2, urecv1 := urecv1.loc2 / usend1 := usend1.loc2, urecv2 := urecv2.loc2 / usend1 := usend1.loc2, urecv3 := urecv3.loc2 / usend1 := usend1.loc2, urecv4 := urecv4.loc2 / usend2 := usend2.loc2, urecv1 := urecv1.loc2 / usend2 := usend2.loc2, urecv2 := urecv2.loc2 / usend2 := usend2.loc2, urecv3 := urecv3.loc2 / usend2 := usend2.loc2, urecv4 := urecv4.loc2 / usend3 := usend3.loc2, urecv1 := urecv1.loc2 / usend3 := usend3.loc2, urecv2 := urecv2.loc2 / usend3 := usend3.loc2, urecv3 := urecv3.loc2 / usend3 := usend3.loc2, urecv4 := urecv4.loc2)]
-        Reachable states: <bdd 46n 403p> -> <bdd 50n 961p> [forward reach with edge: (event: c_chan) (guard: <bdd 12n 12p>) (assignments: csend1 := csend1.loc2, crecv1 := crecv1.loc2 / csend1 := csend1.loc2, crecv2 := crecv2.loc2 / csend1 := csend1.loc2, crecv3 := crecv3.loc2 / csend2 := csend2.loc2, crecv1 := crecv1.loc2 / csend2 := csend2.loc2, crecv2 := crecv2.loc2 / csend2 := csend2.loc2, crecv3 := crecv3.loc2 / csend3 := csend3.loc2, crecv1 := crecv1.loc2 / csend3 := csend3.loc2, crecv2 := crecv2.loc2 / csend3 := csend3.loc2, crecv3 := crecv3.loc2 / csend4 := csend4.loc2, crecv1 := crecv1.loc2 / csend4 := csend4.loc2, crecv2 := crecv2.loc2 / csend4 := csend4.loc2, crecv3 := crecv3.loc2)]
+        Forward reachability iteration 2:
+            Reachable states: <bdd 42n 169p> -> <bdd 46n 403p> [forward reach with edge: (event: u_chan) (guard: <bdd 12n 12p>) (assignments: usend1 := usend1.loc2, urecv1 := urecv1.loc2 / usend1 := usend1.loc2, urecv2 := urecv2.loc2 / usend1 := usend1.loc2, urecv3 := urecv3.loc2 / usend1 := usend1.loc2, urecv4 := urecv4.loc2 / usend2 := usend2.loc2, urecv1 := urecv1.loc2 / usend2 := usend2.loc2, urecv2 := urecv2.loc2 / usend2 := usend2.loc2, urecv3 := urecv3.loc2 / usend2 := usend2.loc2, urecv4 := urecv4.loc2 / usend3 := usend3.loc2, urecv1 := urecv1.loc2 / usend3 := usend3.loc2, urecv2 := urecv2.loc2 / usend3 := usend3.loc2, urecv3 := urecv3.loc2 / usend3 := usend3.loc2, urecv4 := urecv4.loc2)]
+            Reachable states: <bdd 46n 403p> -> <bdd 50n 961p> [forward reach with edge: (event: c_chan) (guard: <bdd 12n 12p>) (assignments: csend1 := csend1.loc2, crecv1 := crecv1.loc2 / csend1 := csend1.loc2, crecv2 := crecv2.loc2 / csend1 := csend1.loc2, crecv3 := crecv3.loc2 / csend2 := csend2.loc2, crecv1 := crecv1.loc2 / csend2 := csend2.loc2, crecv2 := crecv2.loc2 / csend2 := csend2.loc2, crecv3 := crecv3.loc2 / csend3 := csend3.loc2, crecv1 := crecv1.loc2 / csend3 := csend3.loc2, crecv2 := crecv2.loc2 / csend3 := csend3.loc2, crecv3 := crecv3.loc2 / csend4 := csend4.loc2, crecv1 := crecv1.loc2 / csend4 := csend4.loc2, crecv2 := crecv2.loc2 / csend4 := csend4.loc2, crecv3 := crecv3.loc2)]
 
-    Forward reachability iteration 3:
-        Reachable states: <bdd 50n 961p> -> <bdd 44n 1,085p> [forward reach with edge: (event: u_chan) (guard: <bdd 12n 12p>) (assignments: usend1 := usend1.loc2, urecv1 := urecv1.loc2 / usend1 := usend1.loc2, urecv2 := urecv2.loc2 / usend1 := usend1.loc2, urecv3 := urecv3.loc2 / usend1 := usend1.loc2, urecv4 := urecv4.loc2 / usend2 := usend2.loc2, urecv1 := urecv1.loc2 / usend2 := usend2.loc2, urecv2 := urecv2.loc2 / usend2 := usend2.loc2, urecv3 := urecv3.loc2 / usend2 := usend2.loc2, urecv4 := urecv4.loc2 / usend3 := usend3.loc2, urecv1 := urecv1.loc2 / usend3 := usend3.loc2, urecv2 := urecv2.loc2 / usend3 := usend3.loc2, urecv3 := urecv3.loc2 / usend3 := usend3.loc2, urecv4 := urecv4.loc2)]
-        Reachable states: <bdd 44n 1,085p> -> <bdd 38n 1,225p> [forward reach with edge: (event: c_chan) (guard: <bdd 12n 12p>) (assignments: csend1 := csend1.loc2, crecv1 := crecv1.loc2 / csend1 := csend1.loc2, crecv2 := crecv2.loc2 / csend1 := csend1.loc2, crecv3 := crecv3.loc2 / csend2 := csend2.loc2, crecv1 := crecv1.loc2 / csend2 := csend2.loc2, crecv2 := crecv2.loc2 / csend2 := csend2.loc2, crecv3 := crecv3.loc2 / csend3 := csend3.loc2, crecv1 := crecv1.loc2 / csend3 := csend3.loc2, crecv2 := crecv2.loc2 / csend3 := csend3.loc2, crecv3 := crecv3.loc2 / csend4 := csend4.loc2, crecv1 := crecv1.loc2 / csend4 := csend4.loc2, crecv2 := crecv2.loc2 / csend4 := csend4.loc2, crecv3 := crecv3.loc2)]
+        Forward reachability iteration 3:
+            Reachable states: <bdd 50n 961p> -> <bdd 44n 1,085p> [forward reach with edge: (event: u_chan) (guard: <bdd 12n 12p>) (assignments: usend1 := usend1.loc2, urecv1 := urecv1.loc2 / usend1 := usend1.loc2, urecv2 := urecv2.loc2 / usend1 := usend1.loc2, urecv3 := urecv3.loc2 / usend1 := usend1.loc2, urecv4 := urecv4.loc2 / usend2 := usend2.loc2, urecv1 := urecv1.loc2 / usend2 := usend2.loc2, urecv2 := urecv2.loc2 / usend2 := usend2.loc2, urecv3 := urecv3.loc2 / usend2 := usend2.loc2, urecv4 := urecv4.loc2 / usend3 := usend3.loc2, urecv1 := urecv1.loc2 / usend3 := usend3.loc2, urecv2 := urecv2.loc2 / usend3 := usend3.loc2, urecv3 := urecv3.loc2 / usend3 := usend3.loc2, urecv4 := urecv4.loc2)]
+            Reachable states: <bdd 44n 1,085p> -> <bdd 38n 1,225p> [forward reach with edge: (event: c_chan) (guard: <bdd 12n 12p>) (assignments: csend1 := csend1.loc2, crecv1 := crecv1.loc2 / csend1 := csend1.loc2, crecv2 := crecv2.loc2 / csend1 := csend1.loc2, crecv3 := crecv3.loc2 / csend2 := csend2.loc2, crecv1 := crecv1.loc2 / csend2 := csend2.loc2, crecv2 := crecv2.loc2 / csend2 := csend2.loc2, crecv3 := crecv3.loc2 / csend3 := csend3.loc2, crecv1 := crecv1.loc2 / csend3 := csend3.loc2, crecv2 := crecv2.loc2 / csend3 := csend3.loc2, crecv3 := crecv3.loc2 / csend4 := csend4.loc2, crecv1 := crecv1.loc2 / csend4 := csend4.loc2, crecv2 := crecv2.loc2 / csend4 := csend4.loc2, crecv3 := crecv3.loc2)]
 
-    Forward reachability iteration 4:
-        No change this iteration.
+        Forward reachability iteration 4:
+            No change this iteration.
 
-    Reachable states: <bdd 38n 1,225p> [fixed point].
+        Reachable states: <bdd 38n 1,225p> [fixed point].
 
     Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: <bdd 38n 1,225p>).
-    Bounded response check round 2 (states before round: <bdd 42n 1,190p>).
-    Bounded response check round 3 (states before round: <bdd 44n 770p>).
-    Bounded response check round 4 (states before round: <bdd 32n 140p>).
+        Bounded response check round 1 (states before round: <bdd 38n 1,225p>).
+        Bounded response check round 2 (states before round: <bdd 42n 1,190p>).
+        Bounded response check round 3 (states before round: <bdd 44n 770p>).
+        Bounded response check round 4 (states before round: <bdd 32n 140p>).
+
+        Bound: 3.
 
     Computing bound for controllable events...
-    Bounded response check round 1 (states before round: <bdd 38n 1,225p>).
-    Bounded response check round 2 (states before round: <bdd 42n 1,190p>).
-    Bounded response check round 3 (states before round: <bdd 44n 770p>).
-    Bounded response check round 4 (states before round: <bdd 32n 140p>).
+        Bounded response check round 1 (states before round: <bdd 38n 1,225p>).
+        Bounded response check round 2 (states before round: <bdd 42n 1,190p>).
+        Bounded response check round 3 (states before round: <bdd 44n 770p>).
+        Bounded response check round 4 (states before round: <bdd 32n 140p>).
+
+        Bound: 3.
 
     Bounded response check completed.
 
