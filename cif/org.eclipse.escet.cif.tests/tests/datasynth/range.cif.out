@@ -151,7 +151,9 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event buffer.add: guard: buffer.x != 5.
+    Event buffer.remove: guard: buffer.x != 0.
 
 Checking post-synthesis for events that are never enabled.
 

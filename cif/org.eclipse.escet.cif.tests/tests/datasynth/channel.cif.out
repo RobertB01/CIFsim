@@ -275,7 +275,9 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event cnt.next: guard: cnt.c = 0 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or (cnt.c = 1 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or cnt.c = 1 and (rcv1.x = 1 and rcv2.x = 0))).
+    Event e: guard: cnt.c = 2 and rcv1.x = 0 or cnt.c = 1 and (rcv1.x = 0 and rcv2.x = 0).
 
 Checking post-synthesis for events that are never enabled.
 

@@ -277,7 +277,11 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event g.e1: guard: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
+    Event g.e2: guard: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
+    Event g.e3: guard: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
+    Event g.e4: guard: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
 
 Checking post-synthesis for events that are never enabled.
 

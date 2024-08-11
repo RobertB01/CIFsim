@@ -282,7 +282,9 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event Lamp1.c_on: guard: Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off).
+    Event Lamp1.c_off: guard: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On).
 
 Checking post-synthesis for events that are never enabled.
 

@@ -159,7 +159,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    No controllable events.
 
 Checking post-synthesis for events that are never enabled.
 

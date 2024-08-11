@@ -284,7 +284,11 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event Counter.inc: guard: not Counter.five.
+    Event Counter.dec: guard: not Counter.zero.
+    Event Actuator.on: guard: Counter.zero and Actuator.Off.
+    Event Actuator.off: guard: Counter.five and Actuator.On.
 
 Checking post-synthesis for events that are never enabled.
 

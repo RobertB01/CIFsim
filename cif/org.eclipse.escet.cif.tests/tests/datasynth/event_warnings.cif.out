@@ -568,7 +568,26 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event p.c0: guard: false.
+    Event p.c1: guard: false.
+    Event p.c2: guard: false.
+    Event p.c3: guard: false.
+    Event p.c4: guard: false.
+    Event p.c5: guard: false.
+    Event p.c6: guard: false.
+    Event p.c7: guard: false.
+    Event p.c8: guard: false.
+    Event p.c9: guard: false.
+    Event p.c10: guard: false.
+    Event p.c11: guard: false.
+    Event p.c12: guard: false.
+    Event p.c13: guard: false.
+    Event p.c14: guard: false.
+    Event p.c15: guard: <bdd 70n 2p>.
+    Event p.c16: guard: false.
+    Event c_off: guard: <bdd 69n 1p>.
+    Event c_synch: guard: false.
 
 Checking post-synthesis for events that are never enabled.
 

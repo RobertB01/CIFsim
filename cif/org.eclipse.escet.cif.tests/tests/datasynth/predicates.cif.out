@@ -404,7 +404,54 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event e01: guard: <bdd 22n 1p>.
+    Event e02: guard: false.
+    Event e03: guard: false.
+    Event e04: guard: false.
+    Event e05: guard: <bdd 22n 1p>.
+    Event e06: guard: <bdd 22n 1p>.
+    Event e07: guard: false.
+    Event e08: guard: <bdd 22n 1p>.
+    Event e09: guard: false.
+    Event e10: guard: false.
+    Event e11: guard: <bdd 22n 1p>.
+    Event e12: guard: <bdd 22n 1p>.
+    Event e13: guard: false.
+    Event e14: guard: <bdd 22n 1p>.
+    Event e15: guard: false.
+    Event e16: guard: false.
+    Event e17: guard: false.
+    Event e18: guard: <bdd 22n 1p>.
+    Event e19: guard: <bdd 22n 1p>.
+    Event e20: guard: false.
+    Event e21: guard: false.
+    Event e22: guard: <bdd 22n 1p>.
+    Event e23: guard: false.
+    Event e24: guard: <bdd 22n 1p>.
+    Event e25: guard: <bdd 22n 1p>.
+    Event e26: guard: false.
+    Event e27: guard: <bdd 22n 1p>.
+    Event e28: guard: false.
+    Event e29: guard: false.
+    Event e30: guard: <bdd 22n 1p>.
+    Event e31: guard: <bdd 22n 1p>.
+    Event e32: guard: false.
+    Event e33: guard: <bdd 22n 1p>.
+    Event e34: guard: <bdd 22n 1p>.
+    Event e35: guard: false.
+    Event e36: guard: false.
+    Event e37: guard: false.
+    Event e38: guard: false.
+    Event e39: guard: <bdd 22n 1p>.
+    Event e40: guard: false.
+    Event e41: guard: <bdd 22n 1p>.
+    Event e42: guard: <bdd 22n 1p>.
+    Event e43: guard: false.
+    Event e44: guard: <bdd 22n 1p>.
+    Event e45: guard: <bdd 22n 1p>.
+    Event e46: guard: <bdd 22n 1p>.
+    Event e47: guard: false.
 
 Checking post-synthesis for events that are never enabled.
 

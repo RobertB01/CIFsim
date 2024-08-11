@@ -312,7 +312,21 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event add_a: guard: <bdd 13n 64p>.
+    Event add_b: guard: <bdd 11n 32p>.
+    Event add_c: guard: (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2)))).
+    Event add_d: guard: (buffer.g = 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 1)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 1))).
+    Event add_e: guard: <bdd 12n 32p>.
+    Event add_f: guard: (buffer.g = 1 or buffer.f = 1) and (buffer.g != 1 or buffer.f = 1).
+    Event add_g: guard: buffer.g != 2 and buffer.g != 1.
+    Event remove_a: guard: <bdd 13n 64p>.
+    Event remove_b: guard: (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1))))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))))).
+    Event remove_c: guard: <bdd 11n 32p>.
+    Event remove_d: guard: (buffer.g = 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 2)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 2))).
+    Event remove_e: guard: <bdd 12n 32p>.
+    Event remove_f: guard: (buffer.g = 1 or buffer.f != 2) and (buffer.g = 1 or buffer.f != 1) and ((buffer.g != 1 or buffer.f != 2) and (buffer.g != 1 or buffer.f != 1)).
+    Event remove_g: guard: buffer.g = 2.
 
 Checking post-synthesis for events that are never enabled.
 

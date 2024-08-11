@@ -260,7 +260,11 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event green_A: guard: LightA.Red and LightB.Red.
+    Event red_A: guard: LightA.Green.
+    Event green_B: guard: LightA.Red and LightB.Red.
+    Event red_B: guard: LightB.Green.
 
 Checking post-synthesis for events that are never enabled.
 

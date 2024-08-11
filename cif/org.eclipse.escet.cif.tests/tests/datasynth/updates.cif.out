@@ -334,7 +334,14 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event e: guard: p.v != 0 and (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and ((p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)) and p.v != 5)).
+    Event f: guard: p.v != 0 and p.v != 5.
+    Event g: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and p.v != 5.
+    Event h: guard: false.
+    Event i: guard: p.v != 0 and p.v != 5.
+    Event j: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3).
+    Event k: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3).
 
 Checking post-synthesis for events that are never enabled.
 

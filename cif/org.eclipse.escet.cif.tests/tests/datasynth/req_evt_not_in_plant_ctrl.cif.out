@@ -262,7 +262,10 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event p.inc: guard: (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1.
+    Event p.dec: guard: p.x != 0 and ((p.x != 2 or r.loc1) and (p.x != 1 or r.loc1)).
+    Event r.trace: guard: p.x = 2 or p.x = 3.
 
 Checking post-synthesis for events that are never enabled.
 

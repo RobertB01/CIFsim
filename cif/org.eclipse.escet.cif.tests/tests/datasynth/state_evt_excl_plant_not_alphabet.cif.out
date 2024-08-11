@@ -141,7 +141,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event p.inc: guard: p.x != 3.
 
 Checking post-synthesis for events that are never enabled.
 

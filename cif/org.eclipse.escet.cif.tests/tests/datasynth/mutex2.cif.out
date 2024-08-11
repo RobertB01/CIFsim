@@ -252,7 +252,9 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event machine1.c_start: guard: machine1.Idle and not machine2.Producing.
+    Event machine2.c_start: guard: not machine1.Producing and machine2.Idle.
 
 Checking post-synthesis for events that are never enabled.
 

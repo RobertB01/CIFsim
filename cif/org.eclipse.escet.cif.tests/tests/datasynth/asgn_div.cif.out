@@ -268,7 +268,12 @@ Determining initialization predicate for output model:
 
     Initial (output model):                p.d1 = 1 and p.d2 = 2 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1))) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)) or (p.d1 = 1 and p.d2 = 1 and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and p.d2 = 3 and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1))))
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event p.ed1: guard: p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)).
+    Event p.ed2: guard: p.d1 = 1 and ((p.d2 = 2 or p.d2 = 3) and p.loc1) and (p.d3 = 1 and (p.d4 = 1 and p.d5 = 1)).
+    Event p.ed3: guard: p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 4 and (p.d4 = 1 and p.d5 = 1)) or p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 3 and (p.d4 = 1 and p.d5 = 1)).
+    Event p.ed4: guard: p.d1 = 1 and (p.d2 = 1 and p.loc1) and (p.d3 = 1 and (p.d4 = 4 and p.d5 = 1)).
+    Event p.ed5: guard: false.
 
 Checking post-synthesis for events that are never enabled.
 

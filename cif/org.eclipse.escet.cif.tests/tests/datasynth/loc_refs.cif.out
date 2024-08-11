@@ -273,7 +273,13 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event e1: guard: not pe.c and (q1.x = 0 and q1.y = 1).
+    Event e2: guard: false.
+    Event e3: guard: pe.a and (q1.x = 0 and q1.y = 1).
+    Event e4: guard: pe.a and (q1.x = 0 and q1.y = 1).
+    Event f1: guard: not pe.c and (q1.x = 0 and q1.y = 1).
+    Event f2: guard: not pe.c and (q1.x = 0 and q1.y = 1).
 
 Checking post-synthesis for events that are never enabled.
 

@@ -304,7 +304,16 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event add: guard: r1.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.inactive and (p.c = 1 and q.l1) or (r1.active and r3.inactive and ((p.c = 0 or p.c = 2) and q.l1) or r1.active and r3.inactive and (p.c = 1 and q.l1)).
+    Event remove: guard: (r1.active or p.c != 0) and ((r1.inactive or (r3.active or p.c != 0)) and (r1.inactive or r3.inactive)).
+    Event move: guard: r1.inactive or r3.inactive.
+    Event r1.activate: guard: r1.inactive and r3.inactive.
+    Event r1.deactivate: guard: r1.active.
+    Event r2.activate: guard: r1.inactive and r2.inactive or r1.active and (r2.inactive and r3.inactive).
+    Event r2.deactivate: guard: r1.inactive and r2.active or r1.active and (r2.active and r3.inactive).
+    Event r3.activate: guard: r1.inactive and r3.inactive.
+    Event r3.deactivate: guard: r3.active.
 
 Checking post-synthesis for events that are never enabled.
 

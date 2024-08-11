@@ -368,7 +368,19 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event p1.take_left: guard: <bdd 36n 26p>.
+    Event p4.take_right: guard: <bdd 34n 26p>.
+    Event p1.release_both: guard: p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or (p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.available and p4.neither))) or (p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.left and (f4.taken and p4.left)) or p2.neither and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.both and (f4.taken and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) or (p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.neither and (f4.taken and p4.left)) or p2.right and f2.taken and (f3.taken and p1.both) and (f1.taken and p3.right and (f4.taken and p4.neither))))).
+    Event p4.release_both: guard: <bdd 27n 9p>.
+    Event p2.take_left: guard: <bdd 35n 26p>.
+    Event p1.take_right: guard: <bdd 37n 26p>.
+    Event p2.release_both: guard: <bdd 23n 9p>.
+    Event p3.take_left: guard: <bdd 36n 26p>.
+    Event p2.take_right: guard: <bdd 32n 26p>.
+    Event p3.release_both: guard: <bdd 25n 9p>.
+    Event p4.take_left: guard: <bdd 41n 26p>.
+    Event p3.take_right: guard: <bdd 42n 26p>.
 
 Checking post-synthesis for events that are never enabled.
 

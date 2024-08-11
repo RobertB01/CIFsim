@@ -176,7 +176,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                A.l1
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event c: guard: A.l1.
 
 Checking post-synthesis for events that are never enabled.
 

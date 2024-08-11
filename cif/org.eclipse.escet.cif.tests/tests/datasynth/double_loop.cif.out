@@ -392,7 +392,9 @@ Determining initialization predicate for output model:
 
     Initial (output model):                <bdd 13n 55p>
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event c1: guard: <bdd 21n 56p>.
+    Event c2: guard: <bdd 21n 77p>.
 
 Checking post-synthesis for events that are never enabled.
 

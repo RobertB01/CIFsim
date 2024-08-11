@@ -297,7 +297,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event adder.c_add: guard: count_max3.cnt = 0 and adder.l1 or (count_max3.cnt = 2 and adder.l2 or count_max3.cnt = 1 and not adder.l3).
 
 Checking post-synthesis for events that are never enabled.
 

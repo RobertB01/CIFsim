@@ -307,7 +307,9 @@ Determining initialization predicate for output model:
 
     Initial (output model):                g.p.x3 = g.D and ((g.p.x4 = g.A or g.p.x4 = g.B) and (g.p.x5 = g.A or g.p.x5 = g.E)) or g.p.x3 = g.D and ((g.p.x4 = g.A or g.p.x4 = g.B) and (g.p.x5 = g.B or g.p.x5 = g.D))
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event g.e1: guard: g.p.x0 != g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 != g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)).
+    Event g.e2: guard: (g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or ((g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or ((g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)))).
 
 Checking post-synthesis for events that are never enabled.
 

@@ -291,7 +291,10 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event p_a: guard: false.
+    Event q_a: guard: p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc2 or q.loc4)) or (p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc2 or q.loc4))).
+    Event q_b: guard: p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)).
 
 Checking post-synthesis for events that are never enabled.
 

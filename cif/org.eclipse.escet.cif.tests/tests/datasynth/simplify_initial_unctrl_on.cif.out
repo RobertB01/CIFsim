@@ -165,7 +165,8 @@ Determining initialization predicate for output model:
 
     Initial (output model):                2 <= p.x and (p.x <= 9 and not(p.x = 2 or p.x = 3))
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    No controllable events.
 
 Checking post-synthesis for events that are never enabled.
 

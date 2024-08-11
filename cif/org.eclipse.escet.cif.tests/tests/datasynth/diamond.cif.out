@@ -279,7 +279,11 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event motor1.c_on: guard: motor1.Off and (order.l1 and motor2.On).
+    Event motor1.c_off: guard: motor1.On and (order.l4 and motor2.On).
+    Event motor2.c_on: guard: motor1.On and (order.l3 and motor2.Off).
+    Event motor2.c_off: guard: motor1.On and (order.l2 and motor2.On).
 
 Checking post-synthesis for events that are never enabled.
 

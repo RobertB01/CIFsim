@@ -216,7 +216,9 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)).
+    Event f: guard: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)).
 
 Checking post-synthesis for events that are never enabled.
 

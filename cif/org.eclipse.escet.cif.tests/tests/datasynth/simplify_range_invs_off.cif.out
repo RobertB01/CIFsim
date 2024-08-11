@@ -288,7 +288,17 @@ Determining initialization predicate for output model:
 
     Initial (output model):                n/a
 
-Determining supervisor guards for output model.
+Determining supervisor guards for output model:
+    Event v01_inc: guard: aut.v01 = 0.
+    Event v02_inc: guard: aut.v02 != 2.
+    Event v03_inc: guard: (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3).
+    Event v13_inc: guard: (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3).
+    Event v23_inc: guard: (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2))).
+    Event v01_dec: guard: aut.v01 = 1.
+    Event v02_dec: guard: aut.v02 != 0.
+    Event v03_dec: guard: (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0).
+    Event v13_dec: guard: (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1).
+    Event v23_dec: guard: (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3))).
 
 Checking post-synthesis for events that are never enabled.
 
