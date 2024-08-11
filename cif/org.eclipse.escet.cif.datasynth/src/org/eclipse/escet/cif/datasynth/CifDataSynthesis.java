@@ -93,19 +93,26 @@ public class CifDataSynthesis {
             timing.preSynth.start();
         }
         try {
-            // Check system, and print debug information.
+            // Show input.
             if (cifBddSpec.settings.getTermination().isRequested()) {
                 return null;
             }
             if (dbgEnabled) {
                 cifBddSpec.settings.getDebugOutput().line();
-                cifBddSpec.settings.getDebugOutput().line("Showing input and checking for potential problems:");
+                cifBddSpec.settings.getDebugOutput().line("Synthesis input:");
                 cifBddSpec.settings.getDebugOutput().inc();
-            }
-            checkSystem(cifBddSpec, synthResult, dbgEnabled);
-            if (dbgEnabled) {
+
+                printDebugInput(cifBddSpec, synthResult);
+
                 cifBddSpec.settings.getDebugOutput().dec();
             }
+
+            // Check input.
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().line();
+                cifBddSpec.settings.getDebugOutput().line("Checking input for potential problems.");
+            }
+            checkInput(cifBddSpec, synthResult);
 
             // Print debug information on edge guard restrictions for preventing runtime errors.
             if (cifBddSpec.settings.getTermination().isRequested()) {
@@ -360,49 +367,251 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Checks the system for problems with initialization, marking, and state invariants. Also prints related debug
-     * information.
+     * Prints debug information about the input model. This method should only be invoked if debug output is enabled.
      *
-     * @param cifBddSpec The CIF/BDD specification on which to perform synthesis. Is modified in-place.
+     * @param cifBddSpec The CIF/BDD specification on which to perform synthesis.
      * @param synthResult The synthesis result.
-     * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void checkSystem(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult, boolean dbgEnabled) {
+    private static void printDebugInput(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult) {
         // Debug state plant invariants (predicates) of the components.
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
-        if (dbgEnabled) {
-            for (BDD pred: cifBddSpec.plantInvsComps) {
-                cifBddSpec.settings.getDebugOutput().line("Invariant (component state plant invariant): %s",
-                        bddToStr(pred, cifBddSpec));
-            }
-            cifBddSpec.settings.getDebugOutput().line("Invariant (components state plant inv):      %s",
-                    bddToStr(cifBddSpec.plantInvComps, cifBddSpec));
+        for (BDD pred: cifBddSpec.plantInvsComps) {
+            cifBddSpec.settings.getDebugOutput().line("Invariant (component state plant invariant): %s",
+                    bddToStr(pred, cifBddSpec));
         }
+        cifBddSpec.settings.getDebugOutput().line("Invariant (components state plant inv):      %s",
+                bddToStr(cifBddSpec.plantInvComps, cifBddSpec));
 
         // Debug state plant invariants (predicates) of the locations of the automata.
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
-        if (dbgEnabled) {
-            for (BDD pred: cifBddSpec.plantInvsLocs) {
-                cifBddSpec.settings.getDebugOutput().line("Invariant (location state plant invariant):  %s",
-                        bddToStr(pred, cifBddSpec));
-            }
-            cifBddSpec.settings.getDebugOutput().line("Invariant (locations state plant invariant): %s",
-                    bddToStr(cifBddSpec.plantInvLocs, cifBddSpec));
+        for (BDD pred: cifBddSpec.plantInvsLocs) {
+            cifBddSpec.settings.getDebugOutput().line("Invariant (location state plant invariant):  %s",
+                    bddToStr(pred, cifBddSpec));
         }
+        cifBddSpec.settings.getDebugOutput().line("Invariant (locations state plant invariant): %s",
+                bddToStr(cifBddSpec.plantInvLocs, cifBddSpec));
 
         // Debug state plant invariant (predicate) of the system.
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
         }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line("Invariant (system state plant invariant):    %s",
-                    bddToStr(cifBddSpec.plantInv, cifBddSpec));
-        }
+        cifBddSpec.settings.getDebugOutput().line("Invariant (system state plant invariant):    %s",
+                bddToStr(cifBddSpec.plantInv, cifBddSpec));
 
+        // Debug state requirement invariants (predicates) of the components.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line();
+        for (BDD pred: cifBddSpec.reqInvsComps) {
+            cifBddSpec.settings.getDebugOutput().line("Invariant (component state req invariant):   %s",
+                    bddToStr(pred, cifBddSpec));
+        }
+        cifBddSpec.settings.getDebugOutput().line("Invariant (components state req invariant):  %s",
+                bddToStr(cifBddSpec.reqInvComps, cifBddSpec));
+
+        // Debug state requirement invariants (predicates) of the locations of the automata.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        for (BDD pred: cifBddSpec.reqInvsLocs) {
+            cifBddSpec.settings.getDebugOutput().line("Invariant (location state req invariant):    %s",
+                    bddToStr(pred, cifBddSpec));
+        }
+        cifBddSpec.settings.getDebugOutput().line("Invariant (locations state req invariant):   %s",
+                bddToStr(cifBddSpec.reqInvLocs, cifBddSpec));
+
+        // Debug state requirement invariant (predicate) of the system.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line("Invariant (system state req invariant):      %s",
+                bddToStr(cifBddSpec.reqInv, cifBddSpec));
+
+        // Debug initialization predicates of the discrete variables.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line();
+        for (int i = 0; i < cifBddSpec.variables.length; i++) {
+            CifBddVariable var = cifBddSpec.variables[i];
+            if (!(var instanceof CifBddDiscVariable)) {
+                continue;
+            }
+
+            String nr = String.valueOf(i);
+            cifBddSpec.settings.getDebugOutput().line("Initial   (discrete variable %s):%s%s", nr,
+                    Strings.spaces(14 - nr.length()), bddToStr(cifBddSpec.initialsVars.get(i), cifBddSpec));
+        }
+        cifBddSpec.settings.getDebugOutput().line("Initial   (discrete variables):              %s",
+                bddToStr(cifBddSpec.initialVars, cifBddSpec));
+
+        // Debug initialization predicates of the components.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        for (BDD pred: cifBddSpec.initialsComps) {
+            cifBddSpec.settings.getDebugOutput().line("Initial   (component init predicate):        %s",
+                    bddToStr(pred, cifBddSpec));
+        }
+        cifBddSpec.settings.getDebugOutput().line("Initial   (components init predicate):       %s",
+                bddToStr(cifBddSpec.initialComps, cifBddSpec));
+
+        // Debug initialization predicates of the locations of the automata.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        for (BDD pred: cifBddSpec.initialsLocs) {
+            cifBddSpec.settings.getDebugOutput().line("Initial   (aut/locs init predicate):         %s",
+                    bddToStr(pred, cifBddSpec));
+        }
+        cifBddSpec.settings.getDebugOutput().line("Initial   (auts/locs init predicate):        %s",
+                bddToStr(cifBddSpec.initialLocs, cifBddSpec));
+
+        // Debug initialization predicate of the uncontrolled system.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line("Initial   (uncontrolled system):             %s",
+                bddToStr(cifBddSpec.initial, cifBddSpec));
+
+        // Debug combined initialization and state plant invariants of the system.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line("Initial   (system, combined init/plant inv): %s",
+                bddToStr(cifBddSpec.initialPlantInv, cifBddSpec));
+
+        // Debug combined initialization and state invariants of the system.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line("Initial   (system, combined init/state inv): %s",
+                bddToStr(cifBddSpec.initialInv, cifBddSpec));
+
+        // Debug marker predicates of the components.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line();
+        for (BDD pred: cifBddSpec.markedsComps) {
+            cifBddSpec.settings.getDebugOutput().line("Marked    (component marker predicate):      %s",
+                    bddToStr(pred, cifBddSpec));
+        }
+        cifBddSpec.settings.getDebugOutput().line("Marked    (components marker predicate):     %s",
+                bddToStr(cifBddSpec.markedComps, cifBddSpec));
+
+        // Debug marker predicates of the locations of the automata.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        for (BDD pred: cifBddSpec.markedsLocs) {
+            cifBddSpec.settings.getDebugOutput().line("Marked    (aut/locs marker predicate):       %s",
+                    bddToStr(pred, cifBddSpec));
+        }
+        cifBddSpec.settings.getDebugOutput().line("Marked    (auts/locs marker predicate):      %s",
+                bddToStr(cifBddSpec.markedLocs, cifBddSpec));
+
+        // Debug marker predicate of the uncontrolled system.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line("Marked    (uncontrolled system):             %s",
+                bddToStr(cifBddSpec.marked, cifBddSpec));
+
+        // Debug combined marking and state plant invariants of the system.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line("Marked    (system, combined mark/plant inv): %s",
+                bddToStr(cifBddSpec.markedPlantInv, cifBddSpec));
+
+        // Debug combined marking and state invariants of the system.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line("Marked    (system, combined mark/state inv): %s",
+                bddToStr(cifBddSpec.markedInv, cifBddSpec));
+
+        // Debug state/event exclusion plants.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line();
+        cifBddSpec.settings.getDebugOutput().line("State/event exclusion plants:");
+        cifBddSpec.settings.getDebugOutput().inc();
+        if (cifBddSpec.stateEvtExclPlantLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
+            cifBddSpec.settings.getDebugOutput().line("None");
+        }
+        for (Entry<Event, List<BDD>> entry: cifBddSpec.stateEvtExclPlantLists.entrySet()) {
+            if (entry.getValue().isEmpty()) {
+                continue;
+            }
+            cifBddSpec.settings.getDebugOutput().line("Event \"%s\" needs:",
+                    CifTextUtils.getAbsName(entry.getKey()));
+            cifBddSpec.settings.getDebugOutput().inc();
+            for (BDD pred: entry.getValue()) {
+                cifBddSpec.settings.getDebugOutput().line(bddToStr(pred, cifBddSpec));
+            }
+            cifBddSpec.settings.getDebugOutput().dec();
+        }
+        cifBddSpec.settings.getDebugOutput().dec();
+
+        // Debug state/event exclusion requirements.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line();
+        cifBddSpec.settings.getDebugOutput().line("State/event exclusion requirements:");
+        cifBddSpec.settings.getDebugOutput().inc();
+        if (cifBddSpec.stateEvtExclReqLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
+            cifBddSpec.settings.getDebugOutput().line("None");
+        }
+        for (Entry<Event, List<BDD>> entry: cifBddSpec.stateEvtExclReqLists.entrySet()) {
+            if (entry.getValue().isEmpty()) {
+                continue;
+            }
+            cifBddSpec.settings.getDebugOutput().line("Event \"%s\" needs:",
+                    CifTextUtils.getAbsName(entry.getKey()));
+            cifBddSpec.settings.getDebugOutput().inc();
+            for (BDD pred: entry.getValue()) {
+                cifBddSpec.settings.getDebugOutput().line(bddToStr(pred, cifBddSpec));
+            }
+            cifBddSpec.settings.getDebugOutput().dec();
+        }
+        cifBddSpec.settings.getDebugOutput().dec();
+
+        // Debug uncontrolled system.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return;
+        }
+        cifBddSpec.settings.getDebugOutput().line();
+        if (cifBddSpec.stateEvtExclPlantLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
+            cifBddSpec.settings.getDebugOutput().line("Uncontrolled system:");
+        } else {
+            cifBddSpec.settings.getDebugOutput()
+                    .line("Uncontrolled system (state/event exclusion plants not applied yet):");
+        }
+        cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText(1, cifBddSpec.settings.getIndentAmount()));
+        if (!cifBddSpec.edges.isEmpty()) {
+            for (String line: cifBddSpec.getEdgesText(2, true)) {
+                cifBddSpec.settings.getDebugOutput().line(line);
+            }
+        }
+    }
+
+    /**
+     * Checks the input for problems with initialization, marking, and state invariants. Also cleans up no longer needed
+     * BDDs.
+     *
+     * @param cifBddSpec The CIF/BDD specification on which to perform synthesis. Is modified in-place.
+     * @param synthResult The synthesis result.
+     */
+    private static void checkInput(CifBddSpec cifBddSpec, CifDataSynthesisResult synthResult) {
         // Warn if no state in system, due to state plant invariants.
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
@@ -412,42 +621,6 @@ public class CifDataSynthesis {
                     "The uncontrolled system has no states (taking into account only the state plant invariants).");
         }
 
-        // Debug state requirement invariants (predicates) of the components.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line();
-            for (BDD pred: cifBddSpec.reqInvsComps) {
-                cifBddSpec.settings.getDebugOutput().line("Invariant (component state req invariant):   %s",
-                        bddToStr(pred, cifBddSpec));
-            }
-            cifBddSpec.settings.getDebugOutput().line("Invariant (components state req invariant):  %s",
-                    bddToStr(cifBddSpec.reqInvComps, cifBddSpec));
-        }
-
-        // Debug state requirement invariants (predicates) of the locations of the automata.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            for (BDD pred: cifBddSpec.reqInvsLocs) {
-                cifBddSpec.settings.getDebugOutput().line("Invariant (location state req invariant):    %s",
-                        bddToStr(pred, cifBddSpec));
-            }
-            cifBddSpec.settings.getDebugOutput().line("Invariant (locations state req invariant):   %s",
-                    bddToStr(cifBddSpec.reqInvLocs, cifBddSpec));
-        }
-
-        // Debug state requirement invariant (predicate) of the system.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line("Invariant (system state req invariant):      %s",
-                    bddToStr(cifBddSpec.reqInv, cifBddSpec));
-        }
-
         // Warn if no state in system, due to state requirement invariants.
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
@@ -455,80 +628,6 @@ public class CifDataSynthesis {
         if (cifBddSpec.reqInv.isZero()) {
             cifBddSpec.settings.getWarnOutput().line(
                     "The controlled system has no states (taking into account only the state requirement invariants).");
-        }
-
-        // Debug initialization predicates of the discrete variables.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line();
-            for (int i = 0; i < cifBddSpec.variables.length; i++) {
-                CifBddVariable var = cifBddSpec.variables[i];
-                if (!(var instanceof CifBddDiscVariable)) {
-                    continue;
-                }
-
-                String nr = String.valueOf(i);
-                cifBddSpec.settings.getDebugOutput().line("Initial   (discrete variable %s):%s%s", nr,
-                        Strings.spaces(14 - nr.length()), bddToStr(cifBddSpec.initialsVars.get(i), cifBddSpec));
-            }
-
-            cifBddSpec.settings.getDebugOutput().line("Initial   (discrete variables):              %s",
-                    bddToStr(cifBddSpec.initialVars, cifBddSpec));
-        }
-
-        // Debug initialization predicates of the components.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            for (BDD pred: cifBddSpec.initialsComps) {
-                cifBddSpec.settings.getDebugOutput().line("Initial   (component init predicate):        %s",
-                        bddToStr(pred, cifBddSpec));
-            }
-            cifBddSpec.settings.getDebugOutput().line("Initial   (components init predicate):       %s",
-                    bddToStr(cifBddSpec.initialComps, cifBddSpec));
-        }
-
-        // Debug initialization predicates of the locations of the automata.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            for (BDD pred: cifBddSpec.initialsLocs) {
-                cifBddSpec.settings.getDebugOutput().line("Initial   (aut/locs init predicate):         %s",
-                        bddToStr(pred, cifBddSpec));
-            }
-            cifBddSpec.settings.getDebugOutput().line("Initial   (auts/locs init predicate):        %s",
-                    bddToStr(cifBddSpec.initialLocs, cifBddSpec));
-        }
-
-        // Debug initialization predicate of the uncontrolled system.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line("Initial   (uncontrolled system):             %s",
-                    bddToStr(cifBddSpec.initial, cifBddSpec));
-        }
-
-        // Debug combined initialization and state plant invariants of the system.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line("Initial   (system, combined init/plant inv): %s",
-                    bddToStr(cifBddSpec.initialPlantInv, cifBddSpec));
-        }
-
-        // Debug combined initialization and state invariants of the system.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line("Initial   (system, combined init/state inv): %s",
-                    bddToStr(cifBddSpec.initialInv, cifBddSpec));
         }
 
         // Warn if no initial state in uncontrolled system.
@@ -558,60 +657,6 @@ public class CifDataSynthesis {
                     + "both initialization and state invariants).");
         }
 
-        // Debug marker predicates of the components.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line();
-            for (BDD pred: cifBddSpec.markedsComps) {
-                cifBddSpec.settings.getDebugOutput().line("Marked    (component marker predicate):      %s",
-                        bddToStr(pred, cifBddSpec));
-            }
-            cifBddSpec.settings.getDebugOutput().line("Marked    (components marker predicate):     %s",
-                    bddToStr(cifBddSpec.markedComps, cifBddSpec));
-        }
-
-        // Debug marker predicates of the locations of the automata.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            for (BDD pred: cifBddSpec.markedsLocs) {
-                cifBddSpec.settings.getDebugOutput().line("Marked    (aut/locs marker predicate):       %s",
-                        bddToStr(pred, cifBddSpec));
-            }
-            cifBddSpec.settings.getDebugOutput().line("Marked    (auts/locs marker predicate):      %s",
-                    bddToStr(cifBddSpec.markedLocs, cifBddSpec));
-        }
-
-        // Debug marker predicate of the uncontrolled system.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line("Marked    (uncontrolled system):             %s",
-                    bddToStr(cifBddSpec.marked, cifBddSpec));
-        }
-
-        // Debug combined marking and state plant invariants of the system.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line("Marked    (system, combined mark/plant inv): %s",
-                    bddToStr(cifBddSpec.markedPlantInv, cifBddSpec));
-        }
-
-        // Debug combined marking and state invariants of the system.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line("Marked    (system, combined mark/state inv): %s",
-                    bddToStr(cifBddSpec.markedInv, cifBddSpec));
-        }
-
         // Warn if no marked state in uncontrolled system.
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return;
@@ -637,79 +682,6 @@ public class CifDataSynthesis {
         {
             cifBddSpec.settings.getWarnOutput().line("The controlled system has no marked state (taking into account "
                     + "both marking and state invariants).");
-        }
-
-        // Debug state/event exclusion plants.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line("State/event exclusion plants:");
-            cifBddSpec.settings.getDebugOutput().inc();
-            if (cifBddSpec.stateEvtExclPlantLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line("None");
-            }
-            for (Entry<Event, List<BDD>> entry: cifBddSpec.stateEvtExclPlantLists.entrySet()) {
-                if (entry.getValue().isEmpty()) {
-                    continue;
-                }
-                cifBddSpec.settings.getDebugOutput().line("Event \"%s\" needs:",
-                        CifTextUtils.getAbsName(entry.getKey()));
-                cifBddSpec.settings.getDebugOutput().inc();
-                for (BDD pred: entry.getValue()) {
-                    cifBddSpec.settings.getDebugOutput().line(bddToStr(pred, cifBddSpec));
-                }
-                cifBddSpec.settings.getDebugOutput().dec();
-            }
-            cifBddSpec.settings.getDebugOutput().dec();
-        }
-
-        // Debug state/event exclusion requirements.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line();
-            cifBddSpec.settings.getDebugOutput().line("State/event exclusion requirements:");
-            cifBddSpec.settings.getDebugOutput().inc();
-            if (cifBddSpec.stateEvtExclReqLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line("None");
-            }
-            for (Entry<Event, List<BDD>> entry: cifBddSpec.stateEvtExclReqLists.entrySet()) {
-                if (entry.getValue().isEmpty()) {
-                    continue;
-                }
-                cifBddSpec.settings.getDebugOutput().line("Event \"%s\" needs:",
-                        CifTextUtils.getAbsName(entry.getKey()));
-                cifBddSpec.settings.getDebugOutput().inc();
-                for (BDD pred: entry.getValue()) {
-                    cifBddSpec.settings.getDebugOutput().line(bddToStr(pred, cifBddSpec));
-                }
-                cifBddSpec.settings.getDebugOutput().dec();
-            }
-            cifBddSpec.settings.getDebugOutput().dec();
-        }
-
-        // Debug uncontrolled system.
-        if (cifBddSpec.settings.getTermination().isRequested()) {
-            return;
-        }
-        if (dbgEnabled) {
-            cifBddSpec.settings.getDebugOutput().line();
-            if (cifBddSpec.stateEvtExclPlantLists.values().stream().flatMap(x -> x.stream()).findAny().isEmpty()) {
-                cifBddSpec.settings.getDebugOutput().line("Uncontrolled system:");
-            } else {
-                cifBddSpec.settings.getDebugOutput()
-                        .line("Uncontrolled system (state/event exclusion plants not applied yet):");
-            }
-            cifBddSpec.settings.getDebugOutput()
-                    .line(synthResult.getCtrlBehText(1, cifBddSpec.settings.getIndentAmount()));
-            if (!cifBddSpec.edges.isEmpty()) {
-                for (String line: cifBddSpec.getEdgesText(2, true)) {
-                    cifBddSpec.settings.getDebugOutput().line(line);
-                }
-            }
         }
 
         // Free no longer needed predicates.
