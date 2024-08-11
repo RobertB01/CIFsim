@@ -70,7 +70,9 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
             throw e;
         }
 
-        dbg.line();
+        if (uncontrollablesBound.hasInitialState()) {
+            dbg.line();
+        }
         dbg.line("Bound: %s.", uncontrollablesBound.isBounded() ? uncontrollablesBound.getBound() : "n/a (cycle)");
         dbg.dec();
         if (termination.isRequested()) {
@@ -90,7 +92,9 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
             throw e;
         }
 
-        dbg.line();
+        if (controllablesBound.hasInitialState()) {
+            dbg.line();
+        }
         dbg.line("Bound: %s.", controllablesBound.isBounded() ? controllablesBound.getBound() : "n/a (cycle)");
         dbg.dec();
         if (termination.isRequested()) {
