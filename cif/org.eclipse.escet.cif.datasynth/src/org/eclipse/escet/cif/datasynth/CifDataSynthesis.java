@@ -283,13 +283,11 @@ public class CifDataSynthesis {
                 cifBddSpec.settings.getDebugOutput().line("Final synthesis result:");
                 cifBddSpec.settings.getDebugOutput().inc();
                 cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText());
-                if (!cifBddSpec.edges.isEmpty()) {
-                    cifBddSpec.settings.getDebugOutput().inc();
-                    for (String line: cifBddSpec.getEdgesText()) {
-                        cifBddSpec.settings.getDebugOutput().line(line);
-                    }
-                    cifBddSpec.settings.getDebugOutput().dec();
+                cifBddSpec.settings.getDebugOutput().inc();
+                for (String line: cifBddSpec.getEdgesText()) {
+                    cifBddSpec.settings.getDebugOutput().line(line);
                 }
+                cifBddSpec.settings.getDebugOutput().dec();
                 cifBddSpec.settings.getDebugOutput().dec();
             }
 
@@ -601,13 +599,11 @@ public class CifDataSynthesis {
         }
         cifBddSpec.settings.getDebugOutput().inc();
         cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText());
-        if (!cifBddSpec.edges.isEmpty()) {
-            cifBddSpec.settings.getDebugOutput().inc();
-            for (String line: cifBddSpec.getEdgesText(true)) {
-                cifBddSpec.settings.getDebugOutput().line(line);
-            }
-            cifBddSpec.settings.getDebugOutput().dec();
+        cifBddSpec.settings.getDebugOutput().inc();
+        for (String line: cifBddSpec.getEdgesText(true)) {
+            cifBddSpec.settings.getDebugOutput().line(line);
         }
+        cifBddSpec.settings.getDebugOutput().dec();
         cifBddSpec.settings.getDebugOutput().dec();
     }
 
@@ -1168,7 +1164,7 @@ public class CifDataSynthesis {
                 cifBddSpec.settings.getDebugOutput().line("Restricted behavior using %s requirements:", dbgDescription);
                 cifBddSpec.settings.getDebugOutput().inc();
                 cifBddSpec.settings.getDebugOutput().line(synthResult.getCtrlBehText());
-                if (guardChanged && !cifBddSpec.edges.isEmpty()) {
+                if (guardChanged) {
                     cifBddSpec.settings.getDebugOutput().inc();
                     for (String line: cifBddSpec.getEdgesText()) {
                         cifBddSpec.settings.getDebugOutput().line(line);
