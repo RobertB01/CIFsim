@@ -1777,6 +1777,8 @@ public class CifDataSynthesis {
         // Print some debug output.
         if (dbgEnabled) {
             cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Determining initialization predicate for output model:");
+            cifBddSpec.settings.getDebugOutput().inc();
             cifBddSpec.settings.getDebugOutput().line("Initial (synthesis result):            %s",
                     bddToStr(synthResult.ctrlBeh, cifBddSpec));
             cifBddSpec.settings.getDebugOutput().line("Initial (uncontrolled system):         %s",
@@ -1785,6 +1787,9 @@ public class CifDataSynthesis {
                     bddToStr(synthResult.initialCtrl, cifBddSpec));
         }
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
 
@@ -1793,11 +1798,17 @@ public class CifDataSynthesis {
         // as additional initialization restriction on top of the uncontrolled system.
         BDD initialRemoved = cifBddSpec.initial.id().andWith(synthResult.initialCtrl.not());
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
 
         BDD initialAdded = initialRemoved.not();
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
 
@@ -1808,6 +1819,9 @@ public class CifDataSynthesis {
                     bddToStr(initialAdded, cifBddSpec));
         }
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
 
@@ -1824,6 +1838,9 @@ public class CifDataSynthesis {
             // uncontrolled system initialization predicate, to obtain the additional initialization restrictions
             // introduced by the controller with respect to the uncontrolled system initialization predicate.
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
             if (simplifications.contains(BddSimplify.INITIAL_UNCTRL)) {
@@ -1837,6 +1854,9 @@ public class CifDataSynthesis {
             // state plant invariants, to obtain the additional initialization restrictions introduced by the
             // controller with respect to the state plant invariants.
             if (cifBddSpec.settings.getTermination().isRequested()) {
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().dec();
+                }
                 return;
             }
             if (simplifications.contains(BddSimplify.INITIAL_STATE_PLANT_INVS)) {
@@ -1849,23 +1869,37 @@ public class CifDataSynthesis {
             // Perform simplification if there are assumptions.
             if (!assumptionTxts.isEmpty()) {
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
+
                 String assumptionsTxt = combineAssumptionTexts(assumptionTxts);
+                if (dbgEnabled) {
+                    cifBddSpec.settings.getDebugOutput().line();
+                    cifBddSpec.settings.getDebugOutput().line("Simplifying of controlled system initialization "
+                            + "predicate under the assumption of the %s:", assumptionsTxt);
+                    cifBddSpec.settings.getDebugOutput().inc();
+                }
 
                 BDD newInitial = synthResult.initialOutput.simplify(assumption);
                 if (cifBddSpec.settings.getTermination().isRequested()) {
+                    if (dbgEnabled) {
+                        cifBddSpec.settings.getDebugOutput().dec();
+                        cifBddSpec.settings.getDebugOutput().dec();
+                    }
                     return;
                 }
 
-                if (dbgEnabled && !synthResult.initialOutput.equals(newInitial)) {
-                    cifBddSpec.settings.getDebugOutput().line();
-                    cifBddSpec.settings.getDebugOutput().line("Simplification of controlled system initialization "
-                            + "predicate under the assumption of the %s:", assumptionsTxt);
-                    cifBddSpec.settings.getDebugOutput().inc();
-                    cifBddSpec.settings.getDebugOutput().line("Initial: %s -> %s [assume %s].",
-                            bddToStr(synthResult.initialOutput, cifBddSpec), bddToStr(newInitial, cifBddSpec),
-                            bddToStr(assumption, cifBddSpec));
+                if (dbgEnabled) {
+                    if (synthResult.initialOutput.equals(newInitial)) {
+                        cifBddSpec.settings.getDebugOutput().line("Predicate not changed.");
+                    } else {
+                        cifBddSpec.settings.getDebugOutput().line("Initial: %s -> %s [assume %s].",
+                                bddToStr(synthResult.initialOutput, cifBddSpec), bddToStr(newInitial, cifBddSpec),
+                                bddToStr(assumption, cifBddSpec));
+                    }
                     cifBddSpec.settings.getDebugOutput().dec();
                 }
                 synthResult.initialOutput.free();
@@ -1876,10 +1910,27 @@ public class CifDataSynthesis {
         }
 
         if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
             return;
         }
 
+        if (dbgEnabled) {
+            cifBddSpec.settings.getDebugOutput().line();
+            cifBddSpec.settings.getDebugOutput().line("Initial (output model):                %s",
+                    (synthResult.initialOutput == null) ? "n/a" : bddToStr(synthResult.initialOutput, cifBddSpec));
+            cifBddSpec.settings.getDebugOutput().dec();
+        }
+
         // Free no longer needed predicates.
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            if (dbgEnabled) {
+                cifBddSpec.settings.getDebugOutput().dec();
+            }
+            return;
+        }
+
         synthResult.initialCtrl.free();
         cifBddSpec.initial.free();
         initialRemoved.free();
