@@ -166,7 +166,6 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.l2 [marker predicate]
-Backward reachability: iteration 1.
 Controlled behavior: not(p.x = 4 or p.x = 5) or p.l2 -> p.l2.
 
 Round 1: finished, no initialization possible.

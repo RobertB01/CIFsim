@@ -238,7 +238,6 @@ Round 1: started.
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.l0 [marker predicate]
 Backward controlled-behavior: p.l0 -> <bdd 21n 960p> [restricted to current/previous controlled-behavior predicate: <bdd 20n 960p>]
-Backward reachability: iteration 1.
 Backward controlled-behavior: <bdd 21n 960p> [fixed point].
 Controlled behavior: <bdd 20n 960p> -> <bdd 21n 960p>.
 
@@ -247,7 +246,6 @@ Backward uncontrolled bad-state: <bdd 21n 853p> [current/previous controlled beh
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: <bdd 22n 1p> [initialization predicate]
-Forward reachability: iteration 1.
 Controlled behavior: <bdd 21n 960p> -> <bdd 22n 1p>.
 
 Round 1: finished, need another round.
@@ -257,7 +255,6 @@ Round 2: started.
 Round 2: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.l0 [marker predicate]
 Backward controlled-behavior: p.l0 -> <bdd 22n 1p> [restricted to current/previous controlled-behavior predicate: <bdd 22n 1p>]
-Backward reachability: iteration 1.
 Backward controlled-behavior: <bdd 22n 1p> [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.

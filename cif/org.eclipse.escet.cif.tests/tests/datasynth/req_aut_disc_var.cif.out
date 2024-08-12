@@ -80,7 +80,6 @@ Round 1: started.
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
 Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 1.
 Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
@@ -88,7 +87,6 @@ Backward uncontrolled bad-state: false [current/previous controlled behavior pre
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: r.x = 5 [initialization predicate]
-Forward reachability: iteration 1.
 Controlled behavior: true -> r.x = 5.
 
 Round 1: finished, need another round.
@@ -98,7 +96,6 @@ Round 2: started.
 Round 2: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
 Backward controlled-behavior: true -> r.x = 5 [restricted to current/previous controlled-behavior predicate: r.x = 5]
-Backward reachability: iteration 1.
 Backward controlled-behavior: r.x = 5 [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.

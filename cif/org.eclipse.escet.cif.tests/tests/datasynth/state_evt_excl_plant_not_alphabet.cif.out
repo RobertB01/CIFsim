@@ -69,20 +69,12 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.x = 0 [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: p.x = 0 -> p.x = 0 or p.x = 1 [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 2.
-Forward controlled-behavior: p.x = 0 or p.x = 1 -> p.x != 3 [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 3.
-Forward controlled-behavior: p.x != 3 -> true [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 4.
 Forward controlled-behavior: true [fixed point].
 
 Round 1: finished, controlled behavior is stable.

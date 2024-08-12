@@ -212,7 +212,6 @@ Round 1: started.
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
 Backward controlled-behavior: true -> <bdd 11n 32p> [restricted to current/previous controlled-behavior predicate: <bdd 11n 32p>]
-Backward reachability: iteration 1.
 Backward controlled-behavior: <bdd 11n 32p> [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
@@ -220,7 +219,6 @@ Backward uncontrolled bad-state: <bdd 11n 35p> [current/previous controlled beha
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: <bdd 11n 32p> [initialization predicate]
-Forward reachability: iteration 1.
 
 Round 1: finished, controlled behavior is stable.
 

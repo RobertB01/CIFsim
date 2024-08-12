@@ -68,20 +68,13 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: io.sensor = 2 [marker predicate]
-Backward reachability: iteration 1.
-Backward controlled-behavior: io.sensor = 2 -> true [backward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 2.
 Backward controlled-behavior: true [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: io.sensor = 1 [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: io.sensor = 1 -> true [forward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 2.
 Forward controlled-behavior: true [fixed point].
 
 Round 1: finished, controlled behavior is stable.

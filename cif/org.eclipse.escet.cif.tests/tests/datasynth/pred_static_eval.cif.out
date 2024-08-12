@@ -160,16 +160,13 @@ Round 1: started.
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
 Backward controlled-behavior: true -> not p.b1 and (p.b2 and not p.b3) [restricted to current/previous controlled-behavior predicate: not p.b1 and (p.b2 and not p.b3)]
-Backward reachability: iteration 1.
 Backward controlled-behavior: not p.b1 and (p.b2 and not p.b3) [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: p.b1 or (not p.b2 or p.b3) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: not p.b1 and (p.b2 and not p.b3) [initialization predicate]
-Forward reachability: iteration 1.
 
 Round 1: finished, controlled behavior is stable.
 

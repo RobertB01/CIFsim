@@ -195,26 +195,13 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [marker predicate]
-Backward reachability: iteration 1.
-Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [backward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Released and LampOnWhileButtonPushed.Released or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [backward reach with edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Backward reachability: iteration 2.
-Backward controlled-behavior: Button1.Released and LampOnWhileButtonPushed.Released or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [backward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Backward reachability: iteration 3.
 Backward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: (Button1.Pushed or LampOnWhileButtonPushed.Pushed) and (Button1.Released or LampOnWhileButtonPushed.Released) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [forward reach with edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and LampOnWhileButtonPushed.Pushed [forward reach with edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Forward reachability: iteration 2.
-Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and LampOnWhileButtonPushed.Pushed -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [forward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Forward reachability: iteration 3.
 Forward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
 
 Round 1: finished, controlled behavior is stable.

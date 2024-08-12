@@ -165,29 +165,13 @@ Round 1: started.
 
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: machine1.Idle and machine2.Idle [marker predicate]
-Backward reachability: iteration 1.
-Backward controlled-behavior: machine1.Idle and machine2.Idle -> not machine1.Producing and machine2.Idle [backward reach with edge: (event: machine1.u_finished) (guard: machine1.CoolDown) (assignments: machine1 := machine1.Idle), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
-Backward controlled-behavior: not machine1.Producing and machine2.Idle -> not machine1.Producing and not machine2.Producing [backward reach with edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
-Backward reachability: iteration 2.
-Backward controlled-behavior: not machine1.Producing and not machine2.Producing -> (machine1.Producing or not machine2.Producing) and (not machine1.Producing or not machine2.Producing) [backward reach with edge: (event: machine1.u_waiting) (guard: machine1.Producing) (assignments: machine1 := machine1.CoolDown), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
-Backward controlled-behavior: (machine1.Producing or not machine2.Producing) and (not machine1.Producing or not machine2.Producing) -> not machine1.Producing or not machine2.Producing [backward reach with edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
-Backward reachability: iteration 3.
 Backward controlled-behavior: not machine1.Producing or not machine2.Producing [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: machine1.Producing and machine2.Producing [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: machine1.Idle and machine2.Idle [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: machine1.Idle and machine2.Idle -> not machine1.CoolDown and machine2.Idle [forward reach with edge: (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1 := machine1.Producing), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
-Forward controlled-behavior: not machine1.CoolDown and machine2.Idle -> not machine1.Producing and machine2.Idle or machine1.Producing and machine2.Idle [forward reach with edge: (event: machine1.u_waiting) (guard: machine1.Producing) (assignments: machine1 := machine1.CoolDown), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
-Forward controlled-behavior: not machine1.Producing and machine2.Idle or machine1.Producing and machine2.Idle -> not machine1.Producing and not machine2.CoolDown or machine1.Producing and machine2.Idle [forward reach with edge: (event: machine2.c_start) (guard: machine2.Idle) (assignments: machine2 := machine2.Producing), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
-Forward controlled-behavior: not machine1.Producing and not machine2.CoolDown or machine1.Producing and machine2.Idle -> (not machine1.Producing or not machine2.CoolDown) and (not machine1.Producing or not machine2.Producing) [forward reach with edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
-Forward reachability: iteration 2.
-Forward controlled-behavior: (not machine1.Producing or not machine2.CoolDown) and (not machine1.Producing or not machine2.Producing) -> not machine1.Producing or not machine2.Producing [forward reach with edge: (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1 := machine1.Producing), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
-Forward reachability: iteration 3.
 Forward controlled-behavior: not machine1.Producing or not machine2.Producing [fixed point].
 
 Round 1: finished, controlled behavior is stable.

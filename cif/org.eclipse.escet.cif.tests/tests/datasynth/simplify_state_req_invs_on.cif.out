@@ -161,9 +161,6 @@ Round 1: started.
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: p.loc1 [marker predicate]
 Backward controlled-behavior: p.loc1 -> p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) [restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
-Backward reachability: iteration 1.
-Backward controlled-behavior: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [backward reach with edge: (event: e) (guard: p.loc2) (assignments: p := p.loc1), restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
-Backward reachability: iteration 2.
 Backward controlled-behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [fixed point].
 
 Round 1: computing backward uncontrolled bad-state predicate.
@@ -172,9 +169,6 @@ Backward uncontrolled bad-state: (p.loc2 or p.x != 4) and (p.loc2 or p.x != 5) a
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.loc1 [initialization predicate]
 Forward controlled-behavior: p.loc1 -> p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) [restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
-Forward reachability: iteration 1.
-Forward controlled-behavior: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [forward reach with edge: (event: e) (guard: p.loc1) (assignments: p := p.loc2), restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
-Forward reachability: iteration 2.
 Forward controlled-behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [fixed point].
 
 Round 1: finished, controlled behavior is stable.

@@ -211,10 +211,6 @@ Round 1: started.
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: r2.l2 and r1.l2 [marker predicate]
 Backward controlled-behavior: r2.l2 and r1.l2 -> not(r1.x = 2 or r1.x = 3) and not(r2.x = 2 or r2.x = 3) and (r2.l2 and r1.l2) or not(r1.x = 2 or r1.x = 3) and (r2.x = 2 or r2.x = 3) and (r2.l2 and r1.l2) or ((r1.x = 2 or r1.x = 3) and not(r2.x = 2 or r2.x = 3) and (r2.l2 and r1.l2) or (r1.x = 2 or r1.x = 3) and (r2.x = 2 or r2.x = 3) and (r2.l2 and r1.l2)) [restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 1.
-Backward controlled-behavior: not(r1.x = 2 or r1.x = 3) and not(r2.x = 2 or r2.x = 3) and (r2.l2 and r1.l2) or not(r1.x = 2 or r1.x = 3) and (r2.x = 2 or r2.x = 3) and (r2.l2 and r1.l2) or ((r1.x = 2 or r1.x = 3) and not(r2.x = 2 or r2.x = 3) and (r2.l2 and r1.l2) or (r1.x = 2 or r1.x = 3) and (r2.x = 2 or r2.x = 3) and (r2.l2 and r1.l2)) -> <bdd 17n 33p> [backward reach with edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or (r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l1 and r1.l1) or (r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or r1.x = 1 and r2.x = 1 and (r2.l1 and r1.l1))) (assignments: r1 := r1.l2, r2 := r2.l2), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 17n 33p> -> <bdd 19n 33p> [backward reach with edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l2 and r1.l1) or (r1.x = 0 or r1.x = 2) and (r2.x = 4 and r1.l1) or ((r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l2 and r1.l1) or ((r1.x = 0 or r1.x = 2) and (r2.x = 5 and r1.l1) or (r1.x = 0 or r1.x = 2) and (r2.x = 3 and r1.l1))) or (r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l2 and r1.l1) or r1.x = 1 and (r2.x = 4 and r1.l1) or (r1.x = 1 and r2.x = 1 and (r2.l2 and r1.l1) or (r1.x = 1 and (r2.x = 5 and r1.l1) or r1.x = 1 and (r2.x = 3 and r1.l1))))) (assignments: r1 := r1.l2), restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 2.
 Backward controlled-behavior: <bdd 19n 33p> [fixed point].
 Controlled behavior: true -> <bdd 19n 33p>.
 
@@ -223,9 +219,6 @@ Backward uncontrolled bad-state: <bdd 19n 41p> [current/previous controlled beha
 
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1) [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1) -> r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1) or r1.x = 0 and r2.x = 0 and (r2.l2 and r1.l2) [forward reach with edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or (r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l1 and r1.l1) or (r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or r1.x = 1 and r2.x = 1 and (r2.l1 and r1.l1))) (assignments: r1 := r1.l2, r2 := r2.l2), restricted to current/previous controlled-behavior predicate: <bdd 19n 33p>]
-Forward reachability: iteration 2.
 Forward controlled-behavior: r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1) or r1.x = 0 and r2.x = 0 and (r2.l2 and r1.l2) [fixed point].
 Controlled behavior: <bdd 19n 33p> -> r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1) or r1.x = 0 and r2.x = 0 and (r2.l2 and r1.l2).
 
@@ -236,9 +229,6 @@ Round 2: started.
 Round 2: computing backward controlled-behavior predicate.
 Backward controlled-behavior: r2.l2 and r1.l2 [marker predicate]
 Backward controlled-behavior: r2.l2 and r1.l2 -> r1.x = 0 and r2.x = 0 and (r2.l2 and r1.l2) [restricted to current/previous controlled-behavior predicate: r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1) or r1.x = 0 and r2.x = 0 and (r2.l2 and r1.l2)]
-Backward reachability: iteration 1.
-Backward controlled-behavior: r1.x = 0 and r2.x = 0 and (r2.l2 and r1.l2) -> r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1) or r1.x = 0 and r2.x = 0 and (r2.l2 and r1.l2) [backward reach with edge: (event: p.e2) (guard: (r1.x = 0 or r1.x = 2) and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or (r1.x = 0 or r1.x = 2) and r2.x = 1 and (r2.l1 and r1.l1) or (r1.x = 1 and (r2.x = 0 or r2.x = 2) and (r2.l1 and r1.l1) or r1.x = 1 and r2.x = 1 and (r2.l1 and r1.l1))) (assignments: r1 := r1.l2, r2 := r2.l2), restricted to current/previous controlled-behavior predicate: r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1) or r1.x = 0 and r2.x = 0 and (r2.l2 and r1.l2)]
-Backward reachability: iteration 2.
 Backward controlled-behavior: r1.x = 0 and r2.x = 0 and (r2.l1 and r1.l1) or r1.x = 0 and r2.x = 0 and (r2.l2 and r1.l2) [fixed point].
 
 Round 2: computing backward uncontrolled bad-state predicate.
