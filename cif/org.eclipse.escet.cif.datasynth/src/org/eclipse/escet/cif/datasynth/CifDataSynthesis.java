@@ -266,7 +266,8 @@ public class CifDataSynthesis {
             }
             if (dbgEnabled) {
                 cifBddSpec.settings.getDebugOutput().line();
-                cifBddSpec.settings.getDebugOutput().line("Cleaning up edges for being applied.");
+                cifBddSpec.settings.getDebugOutput()
+                        .line("Cleaning up cached predicate of edges that were used when applying edges.");
             }
             for (CifBddEdge edge: cifBddSpec.edges) {
                 edge.cleanupApply();
