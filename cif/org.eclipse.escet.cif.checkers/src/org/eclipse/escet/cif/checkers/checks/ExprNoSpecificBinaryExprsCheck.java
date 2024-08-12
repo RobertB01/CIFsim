@@ -348,9 +348,9 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
                         addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_NON_POSITIVE_DIVISOR)
-                            && (rtype instanceof IntType && CifTypeUtils.getLowerBound((IntType)rtype) < 1))
+                            && rtype instanceof IntType intType && CifTypeUtils.getLowerBound(intType) < 1)
                     {
-                        boolean alwaysNonPositive = CifTypeUtils.getUpperBound((IntType)rtype) < 1;
+                        boolean alwaysNonPositive = CifTypeUtils.getUpperBound(intType) < 1;
                         String operandTxt = fmt("a %snon-positive divisor", alwaysNonPositive ? "" : "possibly ");
                         addExprViolationOperand(binExpr, operandTxt, violations);
                     }
@@ -431,9 +431,9 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
                         addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
                     }
                     if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_NON_POSITIVE_DIVISOR)
-                            && (rtype instanceof IntType && CifTypeUtils.getLowerBound((IntType)rtype) < 1))
+                            && rtype instanceof IntType intType && CifTypeUtils.getLowerBound(intType) < 1)
                     {
-                        boolean alwaysNonPositive = CifTypeUtils.getUpperBound((IntType)rtype) < 1;
+                        boolean alwaysNonPositive = CifTypeUtils.getUpperBound(intType) < 1;
                         String operandTxt = fmt("a %snon-positive divisor", alwaysNonPositive ? "" : "possibly ");
                         addExprViolationOperand(binExpr, operandTxt, violations);
                     }
