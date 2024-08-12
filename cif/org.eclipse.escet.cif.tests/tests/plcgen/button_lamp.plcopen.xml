@@ -68,16 +68,6 @@
       <pou name="MAIN" pouType="program">
         <interface>
           <localVars>
-            <variable name="timer_t">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="preset_timer_t">
-              <type>
-                <TIME/>
-              </type>
-            </variable>
             <variable name="timer_1">
               <type>
                 <derived name="timer_location"/>
@@ -86,21 +76,6 @@
             <variable name="sup">
               <type>
                 <derived name="sup_location"/>
-              </type>
-            </variable>
-            <variable name="hw_button_bit">
-              <type>
-                <BOOL/>
-              </type>
-            </variable>
-            <variable name="hw_button_bot">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
-            <variable name="hw_button_bat">
-              <type>
-                <LREAL/>
               </type>
             </variable>
             <variable name="hw_button_r">
@@ -121,6 +96,31 @@
             <variable name="hw_lamp">
               <type>
                 <derived name="hw_lamp_location"/>
+              </type>
+            </variable>
+            <variable name="hw_button_bit">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="hw_button_bot">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="hw_button_bat">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="timer_t">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="preset_timer_t">
+              <type>
+                <TIME/>
               </type>
             </variable>
             <variable name="firstRun">
@@ -334,12 +334,6 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
-    (* Initialize continuous variable "timer.t". *)
-    timer_t := 0.0;
-    (* Reset timer of "timer_t". *)
-    preset_timer_t := LINT_TO_TIME(LREAL_TO_LINT(timer_t * 1000.0));
-    ton_timer_t(IN := FALSE, PT := preset_timer_t);
-    ton_timer_t(IN := TRUE, PT := preset_timer_t);
     (* Initialize current location of automaton "timer". *)
     timer_1 := timer_Idle;
     (* Initialize current location of automaton "sup". *)
@@ -352,6 +346,12 @@ IF firstRun THEN
     hw_lamp_bit := FALSE;
     (* Initialize current location of automaton "hw_lamp". *)
     hw_lamp := hw_lamp_Off;
+    (* Initialize continuous variable "timer.t". *)
+    timer_t := 0.0;
+    (* Reset timer of "timer_t". *)
+    preset_timer_t := LINT_TO_TIME(LREAL_TO_LINT(timer_t * 1000.0));
+    ton_timer_t(IN := FALSE, PT := preset_timer_t);
+    ton_timer_t(IN := TRUE, PT := preset_timer_t);
 ELSE
     (* Update remaining time of continuous variable "timer.t". *)
     ton_timer_t(IN := TRUE, PT := preset_timer_t, Q =&gt; timeOut, ET =&gt; curValue);

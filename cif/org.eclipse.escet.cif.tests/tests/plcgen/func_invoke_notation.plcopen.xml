@@ -46,21 +46,6 @@
       <pou name="MAIN" pouType="program">
         <interface>
           <localVars>
-            <variable name="inp">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="c">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="preset_c">
-              <type>
-                <TIME/>
-              </type>
-            </variable>
             <variable name="aut_r">
               <type>
                 <LREAL/>
@@ -84,6 +69,21 @@
             <variable name="aut">
               <type>
                 <derived name="aut_location"/>
+              </type>
+            </variable>
+            <variable name="inp">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="c">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="preset_c">
+              <type>
+                <TIME/>
               </type>
             </variable>
             <variable name="firstRun">
@@ -194,12 +194,6 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
-    (* Initialize continuous variable "c". *)
-    c := 0.0;
-    (* Reset timer of "c". *)
-    preset_c := LINT_TO_TIME(LREAL_TO_LINT(c * 1000.0));
-    ton_c(IN := FALSE, PT := preset_c);
-    ton_c(IN := TRUE, PT := preset_c);
     (* Initialize discrete variable "aut.r". *)
     aut_r := 0.0;
     (* Initialize discrete variable "aut.b". *)
@@ -212,6 +206,12 @@ IF firstRun THEN
     aut_tii := litStruct;
     (* Initialize current location of automaton "aut". *)
     aut := aut_l1;
+    (* Initialize continuous variable "c". *)
+    c := 0.0;
+    (* Reset timer of "c". *)
+    preset_c := LINT_TO_TIME(LREAL_TO_LINT(c * 1000.0));
+    ton_c(IN := FALSE, PT := preset_c);
+    ton_c(IN := TRUE, PT := preset_c);
 ELSE
     (* Update remaining time of continuous variable "c". *)
     ton_c(IN := TRUE, PT := preset_c, Q =&gt; timeOut, ET =&gt; curValue);

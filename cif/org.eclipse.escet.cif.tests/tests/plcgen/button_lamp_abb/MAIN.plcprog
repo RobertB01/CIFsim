@@ -1,16 +1,16 @@
 PROGRAM MAIN
 VAR
-    timer_t: REAL;
-    preset_timer_t: TIME;
     timer_1: BOOL;
     sup: BYTE;
-    hw_button_bit: BOOL;
-    hw_button_bot: DINT;
-    hw_button_bat: REAL;
     hw_button_r: REAL;
     hw_button: BOOL;
     hw_lamp_bit: BOOL;
     hw_lamp: BOOL;
+    hw_button_bit: BOOL;
+    hw_button_bot: DINT;
+    hw_button_bat: REAL;
+    timer_t: REAL;
+    preset_timer_t: TIME;
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP
@@ -117,12 +117,6 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
-    (* Initialize continuous variable "timer.t". *)
-    timer_t := 0.0;
-    (* Reset timer of "timer_t". *)
-    preset_timer_t := DINT_TO_TIME(REAL_TO_DINT(timer_t * 1000.0));
-    ton_timer_t(IN := FALSE, PT := preset_timer_t);
-    ton_timer_t(IN := TRUE, PT := preset_timer_t);
     (* Initialize current location of automaton "timer". *)
     timer_1 := 0;
     (* Initialize current location of automaton "sup". *)
@@ -135,6 +129,12 @@ IF firstRun THEN
     hw_lamp_bit := FALSE;
     (* Initialize current location of automaton "hw_lamp". *)
     hw_lamp := 0;
+    (* Initialize continuous variable "timer.t". *)
+    timer_t := 0.0;
+    (* Reset timer of "timer_t". *)
+    preset_timer_t := DINT_TO_TIME(REAL_TO_DINT(timer_t * 1000.0));
+    ton_timer_t(IN := FALSE, PT := preset_timer_t);
+    ton_timer_t(IN := TRUE, PT := preset_timer_t);
 ELSE
     (* Update remaining time of continuous variable "timer.t". *)
     ton_timer_t(IN := TRUE, PT := preset_timer_t, Q => timeOut, ET => curValue);

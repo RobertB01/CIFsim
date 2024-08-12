@@ -1,10 +1,10 @@
 DATA_BLOCK "DB"
 { S7_Optimized_Access := 'true' }
     VAR
+        aut_y: LREAL;
         i: DINT;
         bol: BOOL;
         col: BYTE;
-        aut_y: LREAL;
         firstRun: BOOL;
     END_VAR
 BEGIN
