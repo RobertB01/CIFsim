@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/workset_forward.cif".
+Reading CIF file "datasynth/chaining_workset_forward.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -213,4 +213,4 @@ Simplification of controlled system under the assumption of the plants:
   Event p2.e: guard: p1.c = 1 and not p2.b -> true [assume p1.c = 1 and not p2.b].
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/workset_forward.ctrlsys.real.cif".
+Writing output CIF file "datasynth/chaining_workset_forward.ctrlsys.real.cif".
