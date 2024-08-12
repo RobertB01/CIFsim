@@ -334,7 +334,7 @@ Computing final controlled system guards:
     Edge (event: p3.take_right) (guard: p3.neither and f4.available) (assignments: f4 := f4.taken, p3 := p3.right): guard: p3.neither and f4.available -> <bdd 32n 17p>.
     Edge (event: p3.take_right) (guard: p3.left and f4.available) (assignments: f4 := f4.taken, p3 := p3.both): guard: p3.left and f4.available -> <bdd 25n 9p>.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 55n 79p>)

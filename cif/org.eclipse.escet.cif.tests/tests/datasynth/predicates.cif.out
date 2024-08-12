@@ -343,7 +343,7 @@ Computing final controlled system guards:
     Edge (event: e45) (guard: (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) and p.l0): guard: (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) and p.l0 -> <bdd 22n 1p>.
     Edge (event: e46) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 22n 1p>)

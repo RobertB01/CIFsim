@@ -519,7 +519,7 @@ Computing final controlled system guards:
     Edge (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2): guard: a.l1 and b.l1 -> <bdd 69n 1p>.
     Edge (event: c_synch) (guard: a.l1 and b.l2): guard: a.l1 and b.l2 -> false.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 70n 2p>)

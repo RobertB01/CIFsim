@@ -138,7 +138,7 @@ Computing final controlled system guards:
     Edge (event: c_c) (guard: 2 <= p.x and p.x <= 5): guard: 2 <= p.x and p.x <= 5 -> 2 <= p.x and p.x <= 5.
     Edge (event: c_d) (guard: p.x = 4 or (p.x = 5 or p.x = 3) -> p.x = 4 or p.x = 5): guard: p.x = 4 or p.x = 5 -> p.x = 4 or p.x = 5.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: true)

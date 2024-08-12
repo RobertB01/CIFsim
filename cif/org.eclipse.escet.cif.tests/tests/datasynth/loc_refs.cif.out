@@ -252,7 +252,7 @@ Computing final controlled system guards:
     Edge (event: f1) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
     Edge (event: f2) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1))

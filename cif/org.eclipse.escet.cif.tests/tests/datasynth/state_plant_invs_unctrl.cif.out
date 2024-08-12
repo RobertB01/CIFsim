@@ -283,7 +283,7 @@ Synthesis round 2:
 Computing final controlled system guards:
     No guards changed.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: (A.Vu1 = 0 or A.Vu1 = 4) and (A.Vu2 = 0 or A.Vu2 = 2) and (0 <= A.Vu3 and A.Vu3 <= 3) or ((A.Vu1 = 0 or A.Vu1 = 4) and A.Vu2 = 1 and (0 <= A.Vu3 and A.Vu3 <= 3) or A.Vu1 = 2 and (A.Vu2 = 0 or A.Vu2 = 2) and (0 <= A.Vu3 and A.Vu3 <= 3)) or (A.Vu1 = 2 and A.Vu2 = 1 and (0 <= A.Vu3 and A.Vu3 <= 3) or ((A.Vu1 = 1 or A.Vu1 = 3) and (A.Vu2 = 0 or A.Vu2 = 2) and (0 <= A.Vu3 and A.Vu3 <= 3) or (A.Vu1 = 1 or A.Vu1 = 3) and A.Vu2 = 1 and (0 <= A.Vu3 and A.Vu3 <= 3))))

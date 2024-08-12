@@ -577,7 +577,7 @@ Computing final controlled system guards:
     Edge (event: c5) (guard: p.l0 -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14))) and p.l0 or (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) and p.l0 or ((p.x = 3 or p.x = 11) and p.l0 or p.x = 7 and p.l0)) (assignments: p.x := p.x + 1, p := p.l5): guard: (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14))) and p.l0 or (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) and p.l0 or ((p.x = 3 or p.x = 11) and p.l0 or p.x = 7 and p.l0) -> false.
     Edge (event: c6) (guard: p.l0 -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14))) and p.l0 or (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) and p.l0 or ((p.x = 3 or p.x = 11) and p.l0 or p.x = 7 and p.l0)) (assignments: p.x := p.x + 1, p := p.l6): guard: (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6) or (p.x = 8 or p.x = 10 or (p.x = 12 or p.x = 14))) and p.l0 or (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) and p.l0 or ((p.x = 3 or p.x = 11) and p.l0 or p.x = 7 and p.l0) -> false.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: false)

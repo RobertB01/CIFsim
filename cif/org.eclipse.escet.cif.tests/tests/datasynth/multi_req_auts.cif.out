@@ -310,7 +310,7 @@ Computing final controlled system guards:
     Edge (event: a) (guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l3) or (p.x = 6 and (r2.l2 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l3)))) (assignments: p.x := p.x + 1, r2 := r2.l1, r3 := r3.l1): guard: (p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) and (r2.l2 and r3.l3) or (p.x = 2 or p.x = 10) and (r2.l2 and r3.l3) or (p.x = 6 and (r2.l2 and r3.l3) or ((p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) and (r2.l2 and r3.l3) or (p.x = 5 or p.x = 7) and (r2.l2 and r3.l3))) -> p.x = 5 and (r2.l2 and r3.l3) or p.x = 11 and (r2.l2 and r3.l3).
     Edge (event: b) (guard: r2.l2 and r3.l3): guard: r2.l2 and r3.l3 -> p.x = 5 and (r2.l2 and r3.l3) or p.x = 11 and (r2.l2 and r3.l3).
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 26n 13p>)

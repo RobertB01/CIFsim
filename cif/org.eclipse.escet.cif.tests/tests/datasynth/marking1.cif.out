@@ -260,7 +260,7 @@ Computing final controlled system guards:
     Edge (event: c1) (guard: p1.l2 and p2.l3) (assignments: p1 := p1.l3, p2 := p2.l4): guard: p1.l2 and p2.l3 -> false.
     Edge (event: c2) (guard: p2.l2) (assignments: p2 := p2.l3): guard: p2.l2 -> false.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: p1.l0 and (p2.l0 and p1.x = 0))

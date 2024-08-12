@@ -264,7 +264,7 @@ Computing final controlled system guards:
     Edge (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1): guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1).
     Edge (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1): guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3))).
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: true)

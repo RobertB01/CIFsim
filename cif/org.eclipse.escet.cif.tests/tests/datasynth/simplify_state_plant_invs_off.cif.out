@@ -241,7 +241,7 @@ Computing final controlled system guards:
     Edge (event: e) (guard: p.loc1 -> p.loc1 and (p.x = 4 or p.x = 5)) (assignments: p := p.loc2): guard: p.loc1 and (p.x = 4 or p.x = 5) -> p.loc1 and (p.x = 4 or p.x = 5).
     Edge (event: e) (guard: p.loc2) (assignments: p := p.loc1): guard: p.loc2 -> p.loc2 and p.x = 4 or (p.loc2 and p.x = 5 or p.loc2 and p.x = 3).
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)))

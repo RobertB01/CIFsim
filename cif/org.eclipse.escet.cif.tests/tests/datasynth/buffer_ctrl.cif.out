@@ -284,7 +284,7 @@ Computing final controlled system guards:
     Edge (event: remove_f) (guard: true -> buffer.f != 1) (assignments: buffer.f := buffer.f - 2): guard: buffer.f != 1 -> (buffer.g = 1 or buffer.f != 2) and (buffer.g = 1 or buffer.f != 1) and ((buffer.g != 1 or buffer.f != 2) and (buffer.g != 1 or buffer.f != 1)).
     Edge (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2): guard: buffer.g = 2 -> buffer.g = 2.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 11n 32p>)

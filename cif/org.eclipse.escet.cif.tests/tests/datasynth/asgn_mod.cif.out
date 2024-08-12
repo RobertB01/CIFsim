@@ -244,7 +244,7 @@ Computing final controlled system guards:
     Edge (event: p.em4) (guard: p.loc1) (assignments: p.m4 := p.m4 mod 4, p := p.loc2): guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)).
     Edge (event: p.em5) (guard: p.loc1) (assignments: p.m5 := p.m5 mod 5, p := p.loc2): guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)).
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: <bdd 21n 4p>)

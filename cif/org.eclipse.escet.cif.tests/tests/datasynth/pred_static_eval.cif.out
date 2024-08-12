@@ -209,7 +209,7 @@ Synthesis round 1:
 Computing final controlled system guards:
     No guards changed.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: not p.b1 and (p.b2 and not p.b3))

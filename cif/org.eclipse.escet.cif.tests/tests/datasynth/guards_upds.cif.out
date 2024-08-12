@@ -244,7 +244,7 @@ Computing final controlled system guards:
     Edge (event: a) (guard: p2.y = 4 and p1.l0 or (p2.y = 5 and p1.l0 or p2.y = 3 and p1.l0) -> p2.y = 4 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or p2.y = 4 and ((p1.x = 1 or p1.x = 5) and p1.l0) or (p2.y = 4 and (p1.x = 3 and p1.l0) or p2.y = 5 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0)) or (p2.y = 5 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 5 and (p1.x = 3 and p1.l0) or (p2.y = 3 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or (p2.y = 3 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 3 and (p1.x = 3 and p1.l0))))) (assignments: p1.x := p1.x + 1, p1 := p1.l1, p2.y := 3): guard: p2.y = 4 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or p2.y = 4 and ((p1.x = 1 or p1.x = 5) and p1.l0) or (p2.y = 4 and (p1.x = 3 and p1.l0) or p2.y = 5 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0)) or (p2.y = 5 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 5 and (p1.x = 3 and p1.l0) or (p2.y = 3 and ((p1.x = 0 or (p1.x = 2 or p1.x = 4)) and p1.l0) or (p2.y = 3 and ((p1.x = 1 or p1.x = 5) and p1.l0) or p2.y = 3 and (p1.x = 3 and p1.l0)))) -> false.
     Edge (event: b) (guard: p1.x = 5 and p1.l0 or p1.x = 3 and p1.l0): guard: p1.x = 5 and p1.l0 or p1.x = 3 and p1.l0 -> false.
 
-Cleaning up edges for being applied.
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
     State: (controlled-behavior: p2.y = 0 and (p1.x = 0 and p1.l0))
