@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen.targets;
 
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -22,6 +23,10 @@ import java.util.regex.Pattern;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
@@ -30,6 +35,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
+import org.eclipse.escet.cif.plcgen.generators.CifProcessor.CifProcessorResults;
 import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultContinuousVariablesGenerator;
 import org.eclipse.escet.cif.plcgen.generators.DefaultNameGenerator;
@@ -205,7 +211,31 @@ public abstract class PlcBaseTarget extends PlcTarget {
         // Processing and code generation.
         //
         // Check and normalize the CIF specification, and extract relevant information from it.
-        cifProcessor.process();
+        CifProcessorResults processorResults = cifProcessor.process();
+        if (settings.termination.isRequested()) {
+            return;
+        }
+
+        // Distribute results of the CIF processor.
+        for (DiscVariable discVar: processorResults.discVariables()) {
+            varStorage.addStateVariable(discVar, discVar.getType());
+        }
+        for (InputVariable inpVar: processorResults.inputVariables()) {
+            varStorage.addStateVariable(inpVar, inpVar.getType());
+        }
+        for (EnumDecl enumDecl: processorResults.enumDecls()) {
+            typeGenerator.convertEnumDecl(enumDecl);
+        }
+        for (ContVariable contVar: processorResults.contVariables()) {
+            varStorage.addStateVariable(contVar, newRealType());
+            continuousVariablesGenerator.addVariable(contVar);
+        }
+        for (Constant constant: processorResults.constants()) {
+            varStorage.addConstant(constant);
+        }
+        codeStorage.addComponentDatas(processorResults.componentDatas());
+        transitionGenerator.setTransitions(processorResults.cifEventTransitions());
+
         if (settings.termination.isRequested()) {
             return;
         }
@@ -217,7 +247,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
         }
 
         // Generate input and output code.
-        ioGenerator.process();
+        ioGenerator.process(processorResults.cifObjectFinder());
         if (settings.termination.isRequested()) {
             return;
         }
