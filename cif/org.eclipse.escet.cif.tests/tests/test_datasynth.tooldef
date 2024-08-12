@@ -40,6 +40,8 @@ map(string:list string) test_options = {
     "datasynth/bdd_out_dnf.cif":                                         ["-t dnf"],
     "datasynth/bdd_out_nodes.cif":                                       ["-t nodes -p n"],
     "datasynth/bdd_out_normal.cif":                                      ["-t normal"],
+    "datasynth/chaining_fixed.cif":                                      ["--exploration-strategy=chaining-fixed"],
+    "datasynth/chaining_fixed_forward.cif":                              ["--exploration-strategy=chaining-fixed --forward-reach=on"],
     "datasynth/chaining_workset_forward.cif":                            ["--exploration-strategy=chaining-workset --edge-granularity=per-event --forward-reach=on"],
     "datasynth/chaining_workset_with_edge_order_duplicate_events.cif":   ["--exploration-strategy=chaining-workset --edge-granularity=per-event --edge-order-duplicate-events=allowed"],
     "datasynth/chaining_workset_with_per_edge_edge_granularity.cif":     ["--exploration-strategy=chaining-workset --edge-granularity=per-edge"],
