@@ -75,6 +75,7 @@ Improvements and fixes:
 * The (still experimental) new CIF PLC code generator now avoids generating parentheses around real literal values for variable and constant declarations (issue {escet-issue}877[#877]).
 * The (still experimental) new CIF PLC code generator now checks that only boolean, integer and real-typed discrete and input variables in a CIF specification are used for I/O, regardless of whether explicit PLC types are given in the I/O table file (issue {escet-issue}884[#884]).
 * The (still experimental) new CIF PLC code generator check whether an I/O address exceeds the size of the largest compatible type supported by the target, now correctly considers the different possible I/O types, rather than always checking for integer types (issue {escet-issue}884[#884]).
+* The (still experimental) new CIF PLC code generator has internal changes to prepare for future adaptations, which causes some variables and statements to be in a different order in the generated PLC code (issue {escet-issue}935[#935]).
 * The CIF to mCRL2 transformer has been re-implemented and is now based on first linearizing the CIF specification.
 For recursive process call, now only the assigned variables are included, not all variables, and the arguments are named rather than positional, which reduces the model size and improves readability.
 No more summations, nor location pointers (sorts) for automata with only one location, are generated (issue {escet-issue}352[#352]).
