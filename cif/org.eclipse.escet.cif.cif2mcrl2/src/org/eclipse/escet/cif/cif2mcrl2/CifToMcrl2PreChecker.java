@@ -94,9 +94,9 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 //   supported.
                 // - For expressions that produce an integer value, only integer literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), received values (already
-                //   eliminated), binary operators '+', '*', '-', 'div' (on non-negative divisors) and 'mod' (on
-                //   non-negative divisors), unary operators '-' and '+', 'if' expressions, 'switch'  expressions, and
-                //   casts that do not change the type are supported.
+                //   eliminated), binary operators '+', '*', '-', 'div' (on positive divisors) and 'mod' (on positive
+                //   divisors), unary operators '-' and '+', 'if' expressions, 'switch'  expressions, and casts that do
+                //   not change the type are supported.
                 // - Unary and binary expressions are only supported with boolean, integer and enumeration operands.
                 new ExprNoSpecificExprsCheck(
                         NoSpecificExpr.FUNC_REFS,
