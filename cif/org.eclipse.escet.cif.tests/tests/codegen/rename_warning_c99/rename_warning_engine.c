@@ -34,7 +34,6 @@ int EnumTypePrint(rename_warningEnum value, char *dest, int start, int end) {
 const char *rename_warning_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
 };
 
 /** Enumeration names. */

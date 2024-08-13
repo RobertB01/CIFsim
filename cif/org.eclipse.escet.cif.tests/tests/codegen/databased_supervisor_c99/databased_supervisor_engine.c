@@ -200,7 +200,6 @@ int A6BTypePrint(A6BType *array, char *dest, int start, int end) {
 const char *databased_supervisor_event_names[] = {
     "initial-step",      /**< Initial step. */
     "delay-step",        /**< Delay step. */
-    "tau",               /**< Tau step. */
     "Button.u_pushed",   /**< Event "Button.u_pushed". */
     "Button.u_released", /**< Event "Button.u_released". */
     "Lamp.c_on",         /**< Event "Lamp.c_on". */

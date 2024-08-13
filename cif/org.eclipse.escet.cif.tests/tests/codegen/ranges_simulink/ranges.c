@@ -1332,9 +1332,6 @@ enum rangesEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e11". */
     e11_,
 
@@ -1415,7 +1412,6 @@ typedef enum rangesEventEnum_ ranges_Event_;
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e11",          /**< Event "e11". */
     "e12",          /**< Event "e12". */
     "e13",          /**< Event "e13". */

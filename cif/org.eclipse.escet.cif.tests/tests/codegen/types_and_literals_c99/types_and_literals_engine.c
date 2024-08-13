@@ -902,7 +902,6 @@ int A1T2A1IA2T2RSTypePrint(A1T2A1IA2T2RSType *array, char *dest, int start, int 
 const char *types_and_literals_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
 };
 
 /** Enumeration names. */

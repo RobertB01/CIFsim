@@ -42,9 +42,6 @@ enum declarationsEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "c_e1". */
     c_e1_,
 

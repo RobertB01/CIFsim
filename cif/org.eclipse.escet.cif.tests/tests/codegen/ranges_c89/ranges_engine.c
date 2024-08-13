@@ -135,7 +135,6 @@ int EnumTypePrint(rangesEnum value, char *dest, int start, int end) {
 const char *ranges_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e11",          /**< Event "e11". */
     "e12",          /**< Event "e12". */
     "e13",          /**< Event "e13". */

@@ -31,9 +31,6 @@ enum svg_input_decl_removedEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "p.c". */
     p_c_,
 };

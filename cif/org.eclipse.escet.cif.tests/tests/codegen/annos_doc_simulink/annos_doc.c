@@ -1712,9 +1712,6 @@ enum annos_docEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e". */
     e_,
 
@@ -1759,7 +1756,6 @@ typedef enum annos_docEventEnum_ annos_doc_Event_;
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e",            /**< Event "e". */
     "events.e1",    /**< Event "events.e1". */
     "events.e2",    /**< Event "events.e2". */

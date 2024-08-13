@@ -74,9 +74,6 @@ enum exprsEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "a1.e". */
     a1_e_,
 };

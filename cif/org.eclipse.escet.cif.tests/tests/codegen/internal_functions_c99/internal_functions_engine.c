@@ -226,7 +226,6 @@ int EnumTypePrint(internal_functionsEnum value, char *dest, int start, int end) 
 const char *internal_functions_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
 };
 
 /** Enumeration names. */

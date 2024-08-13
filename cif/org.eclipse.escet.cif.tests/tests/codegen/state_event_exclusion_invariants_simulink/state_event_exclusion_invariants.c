@@ -1195,9 +1195,6 @@ enum state_event_exclusion_invariantsEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e". */
     e_,
 };
@@ -1206,7 +1203,6 @@ typedef enum state_event_exclusion_invariantsEventEnum_ state_event_exclusion_in
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e",            /**< Event "e". */
 };
 

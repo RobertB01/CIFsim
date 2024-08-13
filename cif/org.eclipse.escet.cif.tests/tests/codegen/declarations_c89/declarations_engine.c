@@ -73,7 +73,6 @@ int T3IIRTypePrint(T3IIRType *tuple, char *dest, int start, int end) {
 const char *declarations_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "c_e1",         /**< Event "c_e1". */
     "c_e2",         /**< Event "c_e2". */
     "c_e3",         /**< Event "c_e3". */

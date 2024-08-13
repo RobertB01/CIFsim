@@ -612,7 +612,6 @@ int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end) {
 const char *edges_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e02a",         /**< Event "e02a". */
     "e02b",         /**< Event "e02b". */
     "e03a",         /**< Event "e03a". */

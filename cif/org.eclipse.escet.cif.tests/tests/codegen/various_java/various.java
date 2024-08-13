@@ -22,7 +22,7 @@ public abstract class various {
     /** Whether this is the first time the code is (to be) executed. */
     protected boolean firstExec;
 
-    /** The names of all the events, except for event 'tau'. */
+    /** The names of all the events. */
     private final String[] EVENT_NAMES = {
         "e1",
         "g.h1",
@@ -285,7 +285,7 @@ public abstract class various {
     /**
      * Informs that an event will be or has been executed.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @param pre Whether the event will be executed ({@code true}) or has
      *      been executed ({@code false}).
      */
@@ -304,11 +304,10 @@ public abstract class various {
     /**
      * Returns the name of an event.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @return The name of the event.
      */
     protected String getEventName(int idx) {
-        if (idx == -1) return "tau";
         return EVENT_NAMES[idx];
     }
 
@@ -369,9 +368,8 @@ public abstract class various {
     /**
      * Print output for all relevant print declarations.
      *
-     * @param idx The 0-based event index of the transition, or {@code -1} for
-     *      'tau' transitions, {@code -2} for time transitions, or {@code -3}
-     *      for the 'initial' transition.
+     * @param idx The 0-based event index of the transition, or {@code -2} for
+     *      time transitions, or {@code -3} for the 'initial' transition.
      * @param pre Whether to print output for the pre/source state of the
      *      transition ({@code true}) or for the post/target state of the
      *      transition ({@code false}).

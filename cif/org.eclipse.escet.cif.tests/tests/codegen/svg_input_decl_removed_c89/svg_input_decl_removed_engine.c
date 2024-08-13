@@ -35,7 +35,6 @@ int EnumTypePrint(svg_input_decl_removedEnum value, char *dest, int start, int e
 const char *svg_input_decl_removed_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "p.c",          /**< Event "p.c". */
 };
 

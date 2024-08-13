@@ -2194,9 +2194,6 @@ enum exprsEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "a1.e". */
     a1_e_,
 };
@@ -2205,7 +2202,6 @@ typedef enum exprsEventEnum_ exprs_Event_;
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "a1.e",         /**< Event "a1.e". */
 };
 

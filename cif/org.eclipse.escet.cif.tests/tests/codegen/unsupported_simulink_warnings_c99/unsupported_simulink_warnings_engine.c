@@ -518,7 +518,6 @@ int EnumTypePrint(unsupported_simulink_warningsEnum value, char *dest, int start
 const char *unsupported_simulink_warnings_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "a.e",          /**< Event "a.e". */
 };
 

@@ -262,7 +262,6 @@ int EnumTypePrint(fmtEnum value, char *dest, int start, int end) {
 const char *fmt_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
 };
 
 /** Enumeration names. */

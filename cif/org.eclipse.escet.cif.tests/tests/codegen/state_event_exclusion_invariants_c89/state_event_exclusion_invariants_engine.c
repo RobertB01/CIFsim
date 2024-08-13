@@ -35,7 +35,6 @@ int EnumTypePrint(state_event_exclusion_invariantsEnum value, char *dest, int st
 const char *state_event_exclusion_invariants_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e",            /**< Event "e". */
 };
 

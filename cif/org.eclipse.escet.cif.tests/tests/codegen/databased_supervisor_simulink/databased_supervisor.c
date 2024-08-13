@@ -1575,9 +1575,6 @@ enum databased_supervisorEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "Button.u_pushed". */
     Button_u_pushed_,
 
@@ -1601,7 +1598,6 @@ typedef enum databased_supervisorEventEnum_ databased_supervisor_Event_;
 const char *evt_names[] = { /** < Event names. */
     "initial-step",      /**< Initial step. */
     "delay-step",        /**< Delay step. */
-    "tau",               /**< Tau step. */
     "Button.u_pushed",   /**< Event "Button.u_pushed". */
     "Button.u_released", /**< Event "Button.u_released". */
     "Lamp.c_on",         /**< Event "Lamp.c_on". */

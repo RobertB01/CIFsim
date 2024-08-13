@@ -35,7 +35,6 @@ int EnumTypePrint(locs_multiple_potential_initialEnum value, char *dest, int sta
 const char *locs_multiple_potential_initial_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
 };
 
 /** Enumeration names. */

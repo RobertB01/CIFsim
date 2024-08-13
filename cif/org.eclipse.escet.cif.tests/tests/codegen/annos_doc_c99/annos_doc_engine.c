@@ -40,7 +40,6 @@ int EnumTypePrint(annos_docEnum value, char *dest, int start, int end) {
 const char *annos_doc_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e",            /**< Event "e". */
     "events.e1",    /**< Event "events.e1". */
     "events.e2",    /**< Event "events.e2". */

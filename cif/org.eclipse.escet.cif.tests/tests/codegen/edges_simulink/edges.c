@@ -2227,9 +2227,6 @@ enum edgesEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e02a". */
     e02a_,
 
@@ -2430,7 +2427,6 @@ typedef enum edgesEventEnum_ edges_Event_;
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e02a",         /**< Event "e02a". */
     "e02b",         /**< Event "e02b". */
     "e03a",         /**< Event "e03a". */

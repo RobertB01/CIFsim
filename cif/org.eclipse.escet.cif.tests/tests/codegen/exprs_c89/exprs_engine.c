@@ -255,7 +255,6 @@ int T2IITypePrint(T2IIType *tuple, char *dest, int start, int end) {
 const char *exprs_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "a1.e",         /**< Event "a1.e". */
 };
 

@@ -115,9 +115,6 @@ enum unsupported_simulink_warningsEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "a.e". */
     a_e_,
 };
