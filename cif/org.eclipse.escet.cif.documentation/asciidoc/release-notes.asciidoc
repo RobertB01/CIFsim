@@ -78,8 +78,8 @@ Improvements and fixes:
 * The CIF to mCRL2 transformer has been re-implemented and is now based on first linearizing the CIF specification.
 For recursive process call, now only the assigned variables are included, not all variables, and the arguments are named rather than positional, which reduces the model size and improves readability.
 No more summations, nor location pointers (sorts) for automata with only one location, are generated (issue {escet-issue}352[#352]).
-* The CIF to mCRL2 transformer no longer supports urgent locations and edges (issue {escet-issue}352[#352]).
-* The CIF to mCRL2 transformer now support `tau` events (issue {escet-issue}226[#226]).
+* The CIF to mCRL2 transformer no longer supports specifications with urgent locations and edges (issue {escet-issue}352[#352]).
+* The CIF to mCRL2 transformer now supports specifications with `tau` events, the `+<=>+` binary operator, the `div` and `mod` binary operators on positive divisors, cast expressions that don't change the type, location references, channels and receive expressions, initialization predicates in components that are trivially `true`, non-restrictive invariants, `if` expressions, `switch` expressions, algebraic variables with equations, and `if` updates (issues {escet-issue}226[#226], {escet-issue}229[#229] and {escet-issue}948[#948]).
 * The CIF to mCRL2 transformer now uses a different naming scheme, based on absolute names.
 See the tool's documentation for details (issues {escet-issue}352[#352] and {escet-issue}224[#224]).
 * The CIF to mCRL2 transformer now generates comments in the generated mCRL2 models (issue {escet-issue}352[#352]).
