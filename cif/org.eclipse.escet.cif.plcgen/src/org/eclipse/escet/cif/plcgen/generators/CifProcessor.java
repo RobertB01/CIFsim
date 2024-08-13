@@ -180,7 +180,7 @@ public class CifProcessor {
             // TODO Extend allowed initial values by computing at runtime.
         }
 
-        // Collect edge transitions from automata and pass them to the transitions generator.
+        // Collect edge transitions from automata.
         Map<Event, CifEventTransition> eventTransitions = map();
         for (Automaton aut: collectAutomata(spec, list())) {
             // Classify the role of the automaton, per relevant event.
@@ -763,14 +763,14 @@ public class CifProcessor {
     /**
      * Results of the {@link CifProcessor} generator.
      *
-     * @param componentDatas Date for generating model view documentation about complex components.
+     * @param componentDatas Data for generating model view documentation about complex components.
      * @param discVariables Discrete variables of the specification.
      * @param inputVariables Input variables of the specification.
      * @param enumDecls Enumeration declarations of the specification.
-     * @param contVariables Input variables of the specification.
+     * @param contVariables Continuous variables of the specification.
      * @param constants Constants of the specification if they are needed by the target, otherwise an empty list.
      * @param cifEventTransitions Edge transitions ordered by event and automaton.
-     * @param cifObjectFinder Find CIF objects by their absolute name.
+     * @param cifObjectFinder Finder to get CIF objects from the input specification from their absolute name.
      */
     public record CifProcessorResults(
             Map<ComplexComponent, ComponentDocData> componentDatas, List<DiscVariable> discVariables,
