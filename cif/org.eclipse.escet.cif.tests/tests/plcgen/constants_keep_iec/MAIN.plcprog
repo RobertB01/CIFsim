@@ -1,9 +1,9 @@
 PROGRAM MAIN
 VAR
+    aut_y: LREAL;
     i: DINT;
     bol: BOOL;
     col: Color;
-    aut_y: LREAL;
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP

@@ -89,14 +89,14 @@ BEGIN
         "DB".p_j := 0;
         (* Initialize discrete variable "p.r". *)
         "DB".p_r := 1000000.0;
+        (* Initialize current location of automaton "p". *)
+        "DB".p := p_l1;
         (* Initialize continuous variable "p.t". *)
         "DB".p_t := 0.0;
         (* Reset timer of "p_t". *)
         "DB".preset_p_t := DINT_TO_TIME(LREAL_TO_DINT("DB".p_t * 1000.0));
         ton_p_t.TON(IN := FALSE, PT := "DB".preset_p_t);
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t);
-        (* Initialize current location of automaton "p". *)
-        "DB".p := p_l1;
     ELSE
         (* Update remaining time of continuous variable "p.t". *)
         ton_p_t.TON(IN := TRUE, PT := "DB".preset_p_t, Q => timeOut, ET => curValue);

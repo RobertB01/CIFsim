@@ -1,6 +1,5 @@
 PROGRAM MAIN
 VAR
-    g_inp: DINT;
     p_b: BOOL;
     p_x: DINT;
     p_y: REAL;
@@ -11,9 +10,10 @@ VAR
     p_tv: TupleStruct2;
     p_j: DINT;
     p_r: REAL;
+    p: BYTE;
+    g_inp: DINT;
     p_t: REAL;
     preset_p_t: TIME;
-    p: BYTE;
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP
@@ -104,14 +104,14 @@ IF firstRun THEN
     p_j := 0;
     (* Initialize discrete variable "p.r". *)
     p_r := 1000000.0;
+    (* Initialize current location of automaton "p". *)
+    p := 0;
     (* Initialize continuous variable "p.t". *)
     p_t := 0.0;
     (* Reset timer of "p_t". *)
     preset_p_t := DINT_TO_TIME(REAL_TO_DINT(p_t * 1000.0));
     ton_p_t(IN := FALSE, PT := preset_p_t);
     ton_p_t(IN := TRUE, PT := preset_p_t);
-    (* Initialize current location of automaton "p". *)
-    p := 0;
 ELSE
     (* Update remaining time of continuous variable "p.t". *)
     ton_p_t(IN := TRUE, PT := preset_p_t, Q => timeOut, ET => curValue);

@@ -1,7 +1,6 @@
 DATA_BLOCK "DB"
 { S7_Optimized_Access := 'false' }
     VAR
-        g_inp: DINT;
         p_b: BOOL;
         p_x: DINT;
         p_y: REAL;
@@ -12,9 +11,10 @@ DATA_BLOCK "DB"
         p_tv: TupleStruct2;
         p_j: DINT;
         p_r: REAL;
+        p: BYTE;
+        g_inp: DINT;
         p_t: REAL;
         preset_p_t: TIME;
-        p: BYTE;
         firstRun: BOOL;
     END_VAR
 BEGIN

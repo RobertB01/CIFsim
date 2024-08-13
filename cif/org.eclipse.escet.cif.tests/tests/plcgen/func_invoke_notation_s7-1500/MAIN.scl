@@ -50,12 +50,6 @@ BEGIN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
-        (* Initialize continuous variable "c". *)
-        "DB".c := 0.0;
-        (* Reset timer of "c". *)
-        "DB".preset_c := LINT_TO_TIME(LREAL_TO_LINT("DB".c * 1000.0));
-        ton_c.TON(IN := FALSE, PT := "DB".preset_c);
-        ton_c.TON(IN := TRUE, PT := "DB".preset_c);
         (* Initialize discrete variable "aut.r". *)
         "DB".aut_r := 0.0;
         (* Initialize discrete variable "aut.b". *)
@@ -68,6 +62,12 @@ BEGIN
         "DB".aut_tii := litStruct;
         (* Initialize current location of automaton "aut". *)
         "DB".aut := aut_l1;
+        (* Initialize continuous variable "c". *)
+        "DB".c := 0.0;
+        (* Reset timer of "c". *)
+        "DB".preset_c := LINT_TO_TIME(LREAL_TO_LINT("DB".c * 1000.0));
+        ton_c.TON(IN := FALSE, PT := "DB".preset_c);
+        ton_c.TON(IN := TRUE, PT := "DB".preset_c);
     ELSE
         (* Update remaining time of continuous variable "c". *)
         ton_c.TON(IN := TRUE, PT := "DB".preset_c, Q => timeOut, ET => curValue);

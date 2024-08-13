@@ -105,12 +105,6 @@ BEGIN
         "DB".firstRun := FALSE;
 
         (* Initialize the state variables. *)
-        (* Initialize continuous variable "timer.t". *)
-        "DB".timer_t := 0.0;
-        (* Reset timer of "timer_t". *)
-        "DB".preset_timer_t := DINT_TO_TIME(LREAL_TO_DINT("DB".timer_t * 1000.0));
-        ton_timer_t.TON(IN := FALSE, PT := "DB".preset_timer_t);
-        ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t);
         (* Initialize current location of automaton "timer". *)
         "DB".timer_1 := timer_Idle;
         (* Initialize current location of automaton "sup". *)
@@ -123,6 +117,12 @@ BEGIN
         "DB".hw_lamp_bit := FALSE;
         (* Initialize current location of automaton "hw_lamp". *)
         "DB".hw_lamp := hw_lamp_Off;
+        (* Initialize continuous variable "timer.t". *)
+        "DB".timer_t := 0.0;
+        (* Reset timer of "timer_t". *)
+        "DB".preset_timer_t := DINT_TO_TIME(LREAL_TO_DINT("DB".timer_t * 1000.0));
+        ton_timer_t.TON(IN := FALSE, PT := "DB".preset_timer_t);
+        ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t);
     ELSE
         (* Update remaining time of continuous variable "timer.t". *)
         ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t, Q => timeOut, ET => curValue);

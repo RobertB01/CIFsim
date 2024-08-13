@@ -15,7 +15,6 @@ package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.checkers.checks.TypeListSizeLimitsCheck.UNLIMITED;
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -118,9 +117,6 @@ public class CifProcessor {
     /** Cooperative termination query function. */
     private final Termination termination;
 
-    /** CIF specification being processed, is {@code null} until the specification has been checked and normalized. */
-    private Specification spec = null;
-
     /**
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
      *
@@ -135,20 +131,28 @@ public class CifProcessor {
         termination = settings.termination;
     }
 
-    /** Process the input CIF specification, extracting the relevant information for PLC code generation. */
-    public void process() {
+    /**
+     * Process the input CIF specification, extracting the relevant information for PLC code generation.
+     *
+     * @return Results of processing the CIF specification.
+     */
+    public CifProcessorResults process() {
         // Read CIF specification.
         Specification spec = new CifReader().init(inputPaths.userPath, inputPaths.systemPath, false).read();
         widenSpec(spec);
         preCheckSpec(spec, inputPaths.systemPath, termination);
         normalizeSpec(spec);
-        this.spec = spec; // Store the specification for querying.
 
         // While collecting the information for performing events, also store the information by component to enable
         // generating documentation for them in the PLC code.
         Map<ComplexComponent, ComponentDocData> componentDatas = map();
 
-        // Collect or convert the declarations of the specification.
+        // Collect the declarations of the specification.
+        List<DiscVariable> discVariables = list();
+        List<InputVariable> inputVariables = list();
+        List<EnumDecl> enumDecls = list();
+        List<ContVariable> contVariables = list();
+        List<Constant> constants = list();
         for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
             // Store the found declaration in the data of its complex component.
             ComponentDocData compData = componentDatas.computeIfAbsent((ComplexComponent)decl.eContainer(),
@@ -157,19 +161,18 @@ public class CifProcessor {
             // Tell other generators about the declaration.
             if (decl instanceof DiscVariable discVar) {
                 compData.variables.add(decl);
-                target.getVarStorage().addStateVariable(decl, discVar.getType());
+                discVariables.add(discVar);
             } else if (decl instanceof InputVariable inpVar) {
                 compData.variables.add(decl);
-                target.getVarStorage().addStateVariable(decl, inpVar.getType());
+                inputVariables.add(inpVar);
             } else if (decl instanceof EnumDecl enumDecl) {
-                target.getTypeGenerator().convertEnumDecl(enumDecl);
+                enumDecls.add(enumDecl);
             } else if (decl instanceof ContVariable contVar) {
                 compData.variables.add(decl);
-                target.getVarStorage().addStateVariable(contVar, newRealType());
-                target.getContinuousVariablesGenerator().addVariable(contVar);
+                contVariables.add(contVar);
             } else if (decl instanceof Constant constant) {
                 if (target.supportsConstant(constant)) {
-                    target.getVarStorage().addConstant(constant);
+                    constants.add(constant);
                 }
                 // Else ignore it: the expression generator will inline it when used.
             }
@@ -177,7 +180,7 @@ public class CifProcessor {
             // TODO Extend allowed initial values by computing at runtime.
         }
 
-        // Collect edge transitions from automata and pass them to the transitions generator.
+        // Collect edge transitions from automata.
         Map<Event, CifEventTransition> eventTransitions = map();
         for (Automaton aut: collectAutomata(spec, list())) {
             // Classify the role of the automaton, per relevant event.
@@ -211,13 +214,11 @@ public class CifProcessor {
             }
         }
 
-        // Give the component data to the code storage generator.
-        target.getCodeStorage().addComponentDatas(componentDatas);
-
-        // Construct the result to pass into the transition generator and give the result to it.
+        // Return the results.
         List<CifEventTransition> cifEventTransitions = listc(eventTransitions.values().size());
         cifEventTransitions.addAll(eventTransitions.values());
-        target.getTransitionGenerator().setTransitions(cifEventTransitions);
+        return new CifProcessorResults(componentDatas, discVariables, inputVariables, enumDecls, contVariables,
+                constants, cifEventTransitions, new CifObjectFinder(spec));
     }
 
     /**
@@ -395,7 +396,6 @@ public class CifProcessor {
             AutomatonRole resultRole = isMonitor ? AutomatonRole.MONITOR : AutomatonRole.SYNCER;
             if (autRole == resultRole) {
                 return; // Do nothing if the classification is already correct.
-
             } else if (EnumSet.of(AutomatonRole.SYNCER_OR_MONITOR, AutomatonRole.UNKNOWN).contains(autRole)) {
                 autRole = resultRole; // Resolve the ambiguity if it exists.
                 return;
@@ -761,19 +761,52 @@ public class CifProcessor {
     }
 
     /**
-     * Try to match the given absolute name to a CIF object in the specification.
+     * Results of the {@link CifProcessor} generator.
      *
-     * @param absName The absolute name of the CIF object to find.
-     * @return The found CIF object.
-     * @throws IllegalArgumentException If no CIF object with the given name is available.
+     * @param componentDatas Data for generating model view documentation about complex components.
+     * @param discVariables Discrete variables of the specification.
+     * @param inputVariables Input variables of the specification.
+     * @param enumDecls Enumeration declarations of the specification.
+     * @param contVariables Continuous variables of the specification.
+     * @param constants Constants of the specification if they are needed by the target, otherwise an empty list.
+     * @param cifEventTransitions Edge transitions ordered by event and automaton.
+     * @param cifObjectFinder Finder to get CIF objects from the input specification from their absolute name.
      */
-    public PositionObject findCifObjectByAbsName(String absName) {
-        Assert.notNull(spec); // Function should be called after loading the CIF file.
+    public record CifProcessorResults(
+            Map<ComplexComponent, ComponentDocData> componentDatas, List<DiscVariable> discVariables,
+            List<InputVariable> inputVariables, List<EnumDecl> enumDecls, List<ContVariable> contVariables,
+            List<Constant> constants, List<CifEventTransition> cifEventTransitions, CifObjectFinder cifObjectFinder)
+    {
+    }
 
-        PositionObject obj = spec; // Object to refine by following the parts of the absolute name.
-        for (String namePart: absName.split("\\.")) {
-            obj = CifScopeUtils.getObject(obj, namePart);
+    /** Find CIF objects by their absolute name. */
+    public static class CifObjectFinder {
+        /** Specification to search for the CIF object. */
+        private final Specification spec;
+
+        /**
+         * Constructor of the {@link CifObjectFinder}.
+         *
+         * @param spec Specification to search for the CIF object.
+         */
+        public CifObjectFinder(Specification spec) {
+            Assert.notNull(spec);
+            this.spec = spec;
         }
-        return obj;
+
+        /**
+         * Try to match the given absolute name to a CIF object in the specification.
+         *
+         * @param absName The absolute name of the CIF object to find.
+         * @return The found CIF object.
+         * @throws IllegalArgumentException If no CIF object with the given name is available.
+         */
+        public PositionObject findCifObjectByAbsName(String absName) {
+            PositionObject obj = spec; // Object to refine by following the parts of the absolute name.
+            for (String namePart: absName.split("\\.")) {
+                obj = CifScopeUtils.getObject(obj, namePart);
+            }
+            return obj;
+        }
     }
 }
