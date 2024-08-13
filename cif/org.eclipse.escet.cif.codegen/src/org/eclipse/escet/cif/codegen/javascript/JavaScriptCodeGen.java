@@ -685,7 +685,8 @@ public class JavaScriptCodeGen extends CodeGen {
     @Override
     protected void addEdges(CodeContext ctxt) {
         // Create codeboxes to hold generated code.
-        CodeBox codeCalls = makeCodeBox(3);
+        CodeBox codeCallsUncontrollables = makeCodeBox(3);
+        CodeBox codeCallsControllables = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);
 
         // Collect the SVG input declarations.
@@ -695,9 +696,15 @@ public class JavaScriptCodeGen extends CodeGen {
         Set<Integer> interactiveEventIndices = JavaScriptSvgCodeGen.getInteractiveEventIndices(svgIns, events);
 
         // Generate code, per edge.
+        for (boolean controllable: List.of(false, true)) {
+            List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
+            CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
+            int edgeOffset = controllable ? uncontrollableEdges.size() : 0;
+
         for (int i = 0; i < edges.size(); i++) {
             // Get edge.
             Edge edge = edges.get(i);
+            int edgeIdx = edgeOffset + i;
 
             // Get event.
             Assert.check(edge.getEvents().size() == 1);
@@ -713,7 +720,7 @@ public class JavaScriptCodeGen extends CodeGen {
             // Add call code.
             codeCalls.add();
             codeCalls.add("// Event \"%s\".", eventName);
-            codeCalls.add("if (this.execEvent%d()) continue;", i);
+            codeCalls.add("if (this.execEvent%d()) continue;", edgeIdx);
 
             // Add method code, starting with the header.
             List<String> docs = CifDocAnnotationUtils.getDocs(event);
@@ -731,7 +738,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
             codeMethods.add(" */");
-            codeMethods.add("execEvent%d() {", i);
+            codeMethods.add("execEvent%d() {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
@@ -809,9 +816,11 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.dedent();
             codeMethods.add("}");
         }
+        }
 
         // Fill the replacement patterns with generated code.
-        replacements.put("javascript-event-calls-code", codeCalls.toString());
+        replacements.put("javascript-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("javascript-event-calls-code-controllables", codeCallsControllables.toString());
         replacements.put("javascript-event-methods-code", codeMethods.toString());
     }
 

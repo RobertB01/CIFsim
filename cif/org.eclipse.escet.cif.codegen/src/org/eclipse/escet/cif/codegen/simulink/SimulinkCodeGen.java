@@ -1311,12 +1311,19 @@ public class SimulinkCodeGen extends CodeGen {
         CodeBox guardFunctions = makeCodeBox(); // Functions computing time-dependent guards.
         CodeBox zcCompute = makeCodeBox(1); // Calls in zero-crossings compute code.
 
-        CodeBox codeCalls = makeCodeBox(2); // Calls to try to perform the events.
+        CodeBox codeCallsUncontrollables = makeCodeBox(2); // Calls to try to perform the uncontrollable events.
+        CodeBox codeCallsControllables = makeCodeBox(2); // Calls to try to perform the controllable events.
         CodeBox codeMethods = makeCodeBox(); // Event execution functions.
 
         int numTimeDependentGuards = 0;
+        for (boolean controllable: List.of(false, true)) {
+            List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
+            CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
+            int edgeOffset = controllable ? uncontrollableEdges.size() : 0;
+
         for (int i = 0; i < edges.size(); i++) {
             Edge edge = edges.get(i);
+            int edgeIdx = edgeOffset + i;
 
             // Get guard. After linearization, there is at most one
             // (linearized) guard. There may not be a guard, due to value
@@ -1366,7 +1373,8 @@ public class SimulinkCodeGen extends CodeGen {
             String eventTargetName = getTargetRef(event);
 
             // Construct the call to try executing the event.
-            codeCalls.add("if (ExecEvent%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", i, eventName);
+            codeCalls.add("if (ExecEvent%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", edgeIdx,
+                    eventName);
 
             // Add method code.
 
@@ -1384,7 +1392,7 @@ public class SimulinkCodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return Whether the event was performed.");
             codeMethods.add(" */");
-            codeMethods.add("static BoolType ExecEvent%d(SimStruct *sim_struct) {", i);
+            codeMethods.add("static BoolType ExecEvent%d(SimStruct *sim_struct) {", edgeIdx);
             codeMethods.indent();
             addPreamble(codeMethods, false);
             codeMethods.add();
@@ -1419,6 +1427,7 @@ public class SimulinkCodeGen extends CodeGen {
             codeMethods.dedent();
             codeMethods.add("}");
         }
+        }
 
         replacements.put("number-of-time-dependent-guards", str(numTimeDependentGuards));
         replacements.put("zero-crossings-compute", zcCompute.toString());
@@ -1430,7 +1439,8 @@ public class SimulinkCodeGen extends CodeGen {
             replacements.put("define-mdlZeroCrossings", "#define MDL_ZERO_CROSSINGS");
         }
 
-        replacements.put("event-calls-code", codeCalls.toString());
+        replacements.put("event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("event-calls-code-controllables", codeCallsControllables.toString());
         replacements.put("event-methods-code", codeMethods.toString());
 
         // 'Initial' calls.

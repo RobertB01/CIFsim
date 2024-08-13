@@ -554,12 +554,19 @@ public class JavaCodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
-        CodeBox codeCalls = makeCodeBox(3);
+        CodeBox codeCallsUncontrollables = makeCodeBox(3);
+        CodeBox codeCallsControllables = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);
+
+        for (boolean controllable: List.of(false, true)) {
+            List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
+            CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
+            int edgeOffset = controllable ? uncontrollableEdges.size() : 0;
 
         for (int i = 0; i < edges.size(); i++) {
             // Get edge.
             Edge edge = edges.get(i);
+            int edgeIdx = edgeOffset + i;
 
             // Get event.
             Assert.check(edge.getEvents().size() == 1);
@@ -571,7 +578,7 @@ public class JavaCodeGen extends CodeGen {
 
             // Add call code.
             codeCalls.add("// Event \"%s\".", eventName);
-            codeCalls.add("if (execEvent%d()) continue;", i);
+            codeCalls.add("if (execEvent%d()) continue;", edgeIdx);
             codeCalls.add();
 
             // Add method code.
@@ -592,7 +599,7 @@ public class JavaCodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return {@code true} if the event was executed, {@code false} otherwise.");
             codeMethods.add(" */");
-            codeMethods.add("private boolean execEvent%d() {", i);
+            codeMethods.add("private boolean execEvent%d() {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
@@ -626,8 +633,10 @@ public class JavaCodeGen extends CodeGen {
             codeMethods.dedent();
             codeMethods.add("}");
         }
+        }
 
-        replacements.put("java-event-calls-code", codeCalls.toString());
+        replacements.put("java-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("java-event-calls-code-controllables", codeCallsControllables.toString());
         replacements.put("java-event-methods-code", codeMethods.toString());
     }
 

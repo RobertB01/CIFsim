@@ -176,7 +176,7 @@ ${javascript-cont-upd-code}
             if (this.doInfoPrintOutput) this.printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
         while (true) {
             // Handle next element from SVG input queue, if not already already processing one.
             if (this.svgInEvent == -1 && this.svgInQueue.length > 0) {
@@ -185,7 +185,22 @@ ${javascript-cont-upd-code}
             }
 
             // Try to execute an event. If one is executed, start from the top again.
-${javascript-event-calls-code}
+${javascript-event-calls-code-uncontrollables}
+
+            // No event executed. We are done.
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
+        while (true) {
+            // Handle next element from SVG input queue, if not already already processing one.
+            if (this.svgInEvent == -1 && this.svgInQueue.length > 0) {
+                var func = this.svgInQueue.shift(); // Remove head of the queue.
+                func(); // Call function, to set the event to allow.
+            }
+
+            // Try to execute an event. If one is executed, start from the top again.
+${javascript-event-calls-code-controllables}
 
             // No event executed. We are done.
             break;

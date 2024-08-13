@@ -82,9 +82,15 @@ ${java-cont-upd-code}
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
         while (true) {
-${java-event-calls-code}
+${java-event-calls-code-uncontrollables}
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
+        while (true) {
+${java-event-calls-code-controllables}
             break;
         }
 

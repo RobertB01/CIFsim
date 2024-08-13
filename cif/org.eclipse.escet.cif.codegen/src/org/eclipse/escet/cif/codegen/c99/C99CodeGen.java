@@ -129,7 +129,8 @@ public class C99CodeGen extends CodeGen {
         replacements.put("derivative-declarations", "");
         replacements.put("derivative-functions", "");
         replacements.put("enum-names-list", "");
-        replacements.put("event-calls-code", "");
+        replacements.put("event-calls-code-uncontrollables", "");
+        replacements.put("event-calls-code-controllables", "");
         replacements.put("event-declarations", "");
         replacements.put("event-methods-code", "");
         replacements.put("event-name-list", "");
@@ -997,12 +998,19 @@ public class C99CodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
-        CodeBox codeCalls = makeCodeBox(2);
+        CodeBox codeCallsUncontrollables = makeCodeBox(2);
+        CodeBox codeCallsControllables = makeCodeBox(2);
         CodeBox codeMethods = makeCodeBox(0);
         String prefix = replacements.get("prefix");
 
+        for (boolean controllable: List.of(false, true)) {
+            List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
+            CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
+            int edgeOffset = controllable ? uncontrollableEdges.size() : 0;
+
         for (int i = 0; i < edges.size(); i++) {
             Edge edge = edges.get(i);
+            int edgeIdx = edgeOffset + i;
 
             // Get event.
             Assert.check(edge.getEvents().size() == 1);
@@ -1014,7 +1022,7 @@ public class C99CodeGen extends CodeGen {
             String eventTargetName = getTargetRef(event);
 
             // Construct the call to try executing the event.
-            codeCalls.add("if (execEvent%d()) continue;  /* (Try to) perform event \"%s\". */", i, eventName);
+            codeCalls.add("if (execEvent%d()) continue;  /* (Try to) perform event \"%s\". */", edgeIdx, eventName);
 
             // Add method code.
 
@@ -1032,7 +1040,7 @@ public class C99CodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return Whether the event was performed.");
             codeMethods.add(" */");
-            codeMethods.add("static BoolType execEvent%d(void) {", i);
+            codeMethods.add("static BoolType execEvent%d(void) {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
@@ -1086,8 +1094,10 @@ public class C99CodeGen extends CodeGen {
             codeMethods.dedent();
             codeMethods.add("}");
         }
+        }
 
-        replacements.put("event-calls-code", codeCalls.toString());
+        replacements.put("event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("event-calls-code-controllables", codeCallsControllables.toString());
         replacements.put("event-methods-code", codeMethods.toString());
 
         // 'Initial' calls.
