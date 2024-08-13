@@ -11,6 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// Lock III is a waterway lock in Tilburg, The Netherlands. The lock features gates, watertight doors used to seal off
+// the chamber from the outside water. The lock's downstream side features paddles for emptying the chamber, while its
+// upstream side has culverts to fill the chamber. Vessel traffic is regulated by traffic lights. In a remote control
+// center operators monitor the lock via camera images, and issue commands via a graphical user interface (GUI) of the
+//  SCADA system, to for instance open the gates. The supervisor ensures the safe and correct operation of the lock.
+
 // Button component for the GUI.
 plant def Button():
   uncontrollable u_push, u_release;

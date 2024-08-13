@@ -59,7 +59,7 @@ tool generate(int v, int n, int k):
     // Add model explanation.
     if v == 1:
         lines = lines + [
-            "// Cat and mouse tower (original version):",
+            "// Cat and mouse tower (CMT), original version:",
             "//  - A tower has a 'n' levels, with 5 rooms at each level.",
             "//  - 'k' cats start in room 1 at level 1, and 'k' mice in room 5 of level 'n'.",
             "//  - Cats and mice may move between connected rooms, either at the same level or to the level above or below.",
@@ -69,7 +69,7 @@ tool generate(int v, int n, int k):
         ];
     elif v == 2:
         lines = lines + [
-            "// Cat and mouse tower (modified version):",
+            "// Cat and mouse tower (CMT), modified version:",
             "//  - A tower has a 'n' levels, with 5 rooms at each level.",
             "//  - Initially all rooms are empty.",
             "//  - Cats and mice may enter and leave the tower, cats via room 1 at level 1, and mice via room 5 at level 'n'.",

@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Swarm robotics involves a groups of robots that interact to solve relatively complex tasks cooperatively.
+// Swarm robotics involves a group of robots that interact to solve relatively complex tasks cooperatively.
 //
 // Swarm robotics clustering involves a group of e-puck robots that cluster objects that are initially dispersed in the
 // environment. Robots are equipped with sensors to detect objects and other robots in their direct line of sight, and

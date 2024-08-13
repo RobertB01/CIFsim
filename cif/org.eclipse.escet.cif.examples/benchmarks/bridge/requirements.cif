@@ -11,6 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// The Algera bridge over the river Hollandse IJssel connects two cities in the Netherlands. It is a movable bridge that
+// consists of two vehicle lanes, a lane for cyclists, and a lane for pedestrians, as well as various stop signs,
+// traffic barriers, and so on. A fault-tolerant controller is synthesized to ensure the safe operation of the bridge,
+// even in case of for instance faulty sensors or broken actuator connections.
+
 import "plant.cif";
 
 // Requirements as described in Section 5.2 and Section 5.5 of the paper.
