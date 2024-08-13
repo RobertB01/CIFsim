@@ -790,6 +790,7 @@ public class CifProcessor {
          * @param spec Specification to search for the CIF object.
          */
         public CifObjectFinder(Specification spec) {
+            Assert.notNull(spec);
             this.spec = spec;
         }
 
@@ -801,8 +802,6 @@ public class CifProcessor {
          * @throws IllegalArgumentException If no CIF object with the given name is available.
          */
         public PositionObject findCifObjectByAbsName(String absName) {
-            Assert.notNull(spec); // Function should be called after loading the CIF file.
-
             PositionObject obj = spec; // Object to refine by following the parts of the absolute name.
             for (String namePart: absName.split("\\.")) {
                 obj = CifScopeUtils.getObject(obj, namePart);
