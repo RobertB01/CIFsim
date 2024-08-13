@@ -48,6 +48,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpose;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
@@ -179,7 +180,7 @@ public class TransitionGeneratorTest {
     @Test
     public void testCreateTransitionGenerator() {
         transitionGenerator.setTransitions(List.of());
-        transitionGenerator.generate();
+        transitionGenerator.generate(target.getCodeStorage().getExprGenerator());
         assertTrue(true);
     }
 
@@ -783,9 +784,10 @@ public class TransitionGeneratorTest {
     private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
         // Construct edge variables.
         transitionGenerator.setTransitions(List.of(transition));
-        transitionGenerator.setupEdgeVariables();
+        ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
+        transitionGenerator.setupEdgeVariables(exprGen);
 
         // Generate the transition.
-        return transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        return transitionGenerator.generateCode(isProgressVar, List.of(transition), exprGen);
     }
 }
