@@ -107,6 +107,9 @@ The following restrictions apply:
 
 * Specifications without automata are not supported.
 
+* Only events that are declared as controllable or uncontrollable are supported.
+All other events are not supported, including the `tau` event when used explicitly or as an edge without events.
+
 * Initialization predicates in components are not supported, except if it can be determined statically that they are trivially `true`.
 
 * State invariants (in components as well as locations) are not supported, except if it can be determined statically that they are trivially `true`.
