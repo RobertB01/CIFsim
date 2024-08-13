@@ -50,7 +50,7 @@ proc P(
     Q'y''varvalue(Q'y') . P()
     +
     % CIF 'marked' action.
-    (false) -> marked . P()
+    (((P' == P'p1') && (Q' == Q'q2'))) -> marked . P()
 ;
 
 % Initialization.

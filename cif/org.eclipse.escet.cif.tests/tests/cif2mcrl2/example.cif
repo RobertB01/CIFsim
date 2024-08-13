@@ -19,6 +19,7 @@ automaton P:
 
   location p1:
     initial;
+    marked;
     edge a do x := x + 1 goto p2;
 
   location p2:
@@ -34,6 +35,7 @@ automaton Q:
     edge a when y = 1 goto q2;
 
   location q2:
+    marked;
     edge b when y = 1 and P.x < 8 and P.zero = 0 goto q1;
     edge b when y = 0 => P.x >= 8 goto q1;
 end
