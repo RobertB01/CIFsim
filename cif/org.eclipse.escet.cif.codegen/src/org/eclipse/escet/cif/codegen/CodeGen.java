@@ -259,9 +259,9 @@ public abstract class CodeGen {
      * The edges of the specification. {@code null} if not available, empty until filled with actual data.
      *
      * <p>
-     * Each linearized edge has at most one guard predicate, and exactly one edge event. There are no implicit 'tau'
-     * edges. No send/receive edges are present. All linearized edges are self loops. There are no urgent linearized
-     * edges, as it is a precondition that there is no urgent locations or edges in the input specification.
+     * Each linearized edge has at most one guard predicate, and exactly one edge event. There are no 'tau' edges. No
+     * send/receive edges are present. All linearized edges are self loops. There are no urgent linearized edges, as it
+     * is a precondition that there is no urgent locations or edges in the input specification.
      * </p>
      */
     protected List<Edge> edges;

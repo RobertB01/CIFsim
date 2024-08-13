@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +60,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
@@ -436,7 +434,6 @@ public class JavaCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(2);
 
         // 0+ evt
-        // -1 tau
         // -2 time
         // -3 init
 
@@ -452,7 +449,7 @@ public class JavaCodeGen extends CodeGen {
                 for (PrintFor printFor: printFors) {
                     switch (printFor.getKind()) {
                         case EVENT:
-                            printConds.add("(idx >= -1)");
+                            printConds.add("(idx >= 0)");
                             break;
 
                         case FINAL:
@@ -567,9 +564,9 @@ public class JavaCodeGen extends CodeGen {
             // Get event.
             Assert.check(edge.getEvents().size() == 1);
             Expression eventRef = first(edge.getEvents()).getEvent();
-            Event event = (eventRef instanceof TauExpression) ? null : ((EventExpression)eventRef).getEvent();
-            int eventIdx = (event == null) ? -1 : events.indexOf(event);
-            String eventName = (event == null) ? "tau" : origDeclNames.get(event);
+            Event event = ((EventExpression)eventRef).getEvent();
+            int eventIdx = events.indexOf(event);
+            String eventName = origDeclNames.get(event);
             Assert.notNull(eventName);
 
             // Add call code.
@@ -580,7 +577,7 @@ public class JavaCodeGen extends CodeGen {
             // Add method code.
 
             // Header.
-            List<String> docs = (event == null) ? Collections.emptyList() : CifDocAnnotationUtils.getDocs(event);
+            List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);

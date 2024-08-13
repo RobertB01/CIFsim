@@ -32,7 +32,7 @@ ${javascript-enum-lits-code}
     /** Whether this is the first time the code is (to be) executed. */
     firstExec;
 
-    /** The names of all the events, except for event 'tau'. */
+    /** The names of all the events. */
     EVENT_NAMES = [
 ${javascript-event-name-code}
     ];
@@ -369,7 +369,7 @@ ${html-error-to-panel-code}
     /**
      * Informs that an event will be or has been executed.
      *
-     * @param idx The 0-based index of the event, or '-1' for 'tau'.
+     * @param idx The 0-based index of the event.
      * @param pre Whether the event will be executed ('true') or has
      *      been executed ('false').
      */
@@ -398,13 +398,10 @@ ${html-error-to-panel-code}
     /**
      * Returns the name of an event.
      *
-     * @param idx The 0-based index of the event, or '-1' for 'tau'.
+     * @param idx The 0-based index of the event.
      * @return The name of the event.
      */
     getEventName(idx) {
-        if (idx == -1) {
-            return 'tau';
-        }
         return this.EVENT_NAMES[idx];
     }
 
@@ -426,9 +423,8 @@ ${javascript-funcs-code}
     /**
      * Print output for all relevant print declarations.
      *
-     * @param idx The 0-based event index of the transition, or '-1' for
-     *      'tau' transitions, '-2' for time transitions, or '-3'
-     *      for the 'initial' transition.
+     * @param idx The 0-based event index of the transition, or '-2' for
+     *      time transitions, or '-3' for the 'initial' transition.
      * @param pre Whether to print output for the pre/source state of the
      *      transition ('true') or for the post/target state of the
      *      transition ('false').
