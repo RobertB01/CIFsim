@@ -115,6 +115,7 @@ The latter may have a range.
 *** Integer-typed algebraic variables are supported.
 *** Integer-typed received values.
 *** Binary operators `pass:c[+]`, `+*+` and `-` on integer-typed arguments are supported.
+*** Binary operators `div` and `mod` on non-negative divisors are supported.
 *** Unary operators `-` and `pass:c[+]` on integer-typed arguments are supported.
 *** `if` expressions with an integer-typed result are supported.
 *** `switch` expressions with an integer-typed result, and supported `switch` and key values, are supported.

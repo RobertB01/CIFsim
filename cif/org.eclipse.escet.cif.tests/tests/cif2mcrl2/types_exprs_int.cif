@@ -22,6 +22,7 @@ automaton aut:
 
   event e01, e02, e03, e04, e05, e06, e07, e08, e09, e10;
   event e11, e12, e13, e14, e15, e16, e17, e18, e19, e20;
+  event e21, e22;
 
   disc bool vt = true, vf = false;
   disc int v0 = 0, v1 = 1, v2 = 2, v3 = 3;
@@ -42,25 +43,27 @@ automaton aut:
     // Binary expressions.
     edge e05 when v + v3 = 5;
     edge e06 when v - v3 = 5;
+    edge e07 when v div 4 = 1;
+    edge e08 when v mod 4 = 1;
 
     // Unary expressions.
-    edge e07 when +v = 5;
-    edge e08 when -v = -5;
-    edge e09 when --v = --5;
+    edge e09 when +v = 5;
+    edge e10 when -v = -5;
+    edge e11 when --v = --5;
 
     // 'if' expressions.
-    edge e10 when v = if vt: v0 else v3 end;
-    edge e11 when v = if vf: v0 else v3 end;
-    edge e12 when v = if vt: v3 else v0 end;
-    edge e13 when v = if vf: v3 else v0 end;
+    edge e12 when v = if vt: v0 else v3 end;
+    edge e13 when v = if vf: v0 else v3 end;
+    edge e14 when v = if vt: v3 else v0 end;
+    edge e15 when v = if vf: v3 else v0 end;
 
-    edge e14 when v = if vt, vt: v0 else v3 end;
-    edge e15 when v = if vt, vf: v0 elif vt, vt: v0 else v3 end;
-    edge e16 when v = if vt, vf: v0 elif vt, vf: v0 else v0 end;
-    edge e17 when v = if vt, vf: v0 elif vt, vf: v0 else v3 end;
+    edge e16 when v = if vt, vt: v0 else v3 end;
+    edge e17 when v = if vt, vf: v0 elif vt, vt: v0 else v3 end;
+    edge e18 when v = if vt, vf: v0 elif vt, vf: v0 else v0 end;
+    edge e19 when v = if vt, vf: v0 elif vt, vf: v0 else v3 end;
 
     // 'switch' expressions.
-    edge e18 when v = switch vt: case vt: 0 case vf: 1 else 1 end;
-    edge e19 when v = switch v2: case v1: 1 case v2: 0 else 1 end;
-    edge e20 when v = switch ve3: case L1: 1 case L2: 0 case L3: 1 end;
+    edge e20 when v = switch vt: case vt: 0 case vf: 1 else 1 end;
+    edge e21 when v = switch v2: case v1: 1 case v2: 0 else 1 end;
+    edge e22 when v = switch ve3: case L1: 1 case L2: 0 case L3: 1 end;
 end

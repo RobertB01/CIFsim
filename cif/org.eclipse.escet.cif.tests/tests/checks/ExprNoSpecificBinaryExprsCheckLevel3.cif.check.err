@@ -4,12 +4,12 @@ WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warnin
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 32, column 13: The type "int[1..1]" of algebraic variable "type_decl.a" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 44, column 13: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 45, column 13: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 203, column 13: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 204, column 13: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 209, column 13: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel3.cif": Semantic warning at line 210, column 13: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   ---------------------------------------------------------------------
-  (1/10) Binary operator "<" is used on a ranged integer typed operand.
+  (1/12) Binary operator "<" is used on a ranged integer typed operand.
   ---------------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant 1 < 2;
@@ -34,14 +34,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                    ^
 
   ------------------------------------------------------------------------
-  (2/10) Binary operator "<" is used on a rangeless integer typed operand.
+  (2/12) Binary operator "<" is used on a rangeless integer typed operand.
   ------------------------------------------------------------------------
    * In invariant "LESS_THAN.II":
      - invariant II: i < i;
                        ^
 
   ----------------------------------------------------------------------
-  (3/10) Binary operator "<=" is used on a ranged integer typed operand.
+  (3/12) Binary operator "<=" is used on a ranged integer typed operand.
   ----------------------------------------------------------------------
    * In invariant "LESS_EQUAL.GG":
      - invariant GG: 1 <= 1;
@@ -54,14 +54,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                          ^
 
   -------------------------------------------------------------------------
-  (4/10) Binary operator "<=" is used on a rangeless integer typed operand.
+  (4/12) Binary operator "<=" is used on a rangeless integer typed operand.
   -------------------------------------------------------------------------
    * In invariant "LESS_EQUAL.II":
      - invariant II: i <= i;
                        ^
 
   ---------------------------------------------------------------------
-  (5/10) Binary operator ">" is used on a ranged integer typed operand.
+  (5/12) Binary operator ">" is used on a ranged integer typed operand.
   ---------------------------------------------------------------------
    * In invariant "ADDITION_NUMBERS.GG":
      - invariant GG: 1 + 1 > 0;
@@ -116,7 +116,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                                ^
 
   ------------------------------------------------------------------------
-  (6/10) Binary operator ">" is used on a rangeless integer typed operand.
+  (6/12) Binary operator ">" is used on a rangeless integer typed operand.
   ------------------------------------------------------------------------
    * In invariant "ADDITION_NUMBERS.GI":
      - invariant GI: 1 + i > 0;
@@ -141,7 +141,7 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                            ^
 
   ----------------------------------------------------------------------
-  (7/10) Binary operator ">=" is used on a ranged integer typed operand.
+  (7/12) Binary operator ">=" is used on a ranged integer typed operand.
   ----------------------------------------------------------------------
    * In invariant "GREATER_EQUAL.GG":
      - invariant GG: 1 >= 1;
@@ -154,14 +154,14 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                          ^
 
   -------------------------------------------------------------------------
-  (8/10) Binary operator ">=" is used on a rangeless integer typed operand.
+  (8/12) Binary operator ">=" is used on a rangeless integer typed operand.
   -------------------------------------------------------------------------
    * In invariant "GREATER_EQUAL.II":
      - invariant II: i >= i;
                        ^
 
   -----------------------------------------------------------------------
-  (9/10) Binary operator "div" is used on a ranged integer typed operand.
+  (9/12) Binary operator "div" is used on a ranged integer typed operand.
   -----------------------------------------------------------------------
    * In invariant "INTEGER_DIVISION.GG":
      - invariant GG: 1 div 1 = 0;
@@ -172,9 +172,15 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "INTEGER_DIVISION.IG":
      - invariant IG: i div 1 = 0;
                        ^
+   * In invariant "INTEGER_DIVISION.NPn1":
+     - invariant NPn1: i div -1 = 0;
+                         ^
+   * In invariant "INTEGER_DIVISION.NPz":
+     - invariant NPz: i div 0 = 0;
+                        ^
 
   ---------------------------------------------------------------------------
-  (10/10) Binary operator "div" is used on a rangeless integer typed operand.
+  (10/12) Binary operator "div" is used on a rangeless integer typed operand.
   ---------------------------------------------------------------------------
    * In invariant "INTEGER_DIVISION.GI":
      - invariant GI: 1 div i = 0;
@@ -184,4 +190,30 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
                        ^
    * In invariant "INTEGER_DIVISION.II":
      - invariant II: i div i = 0;
+                       ^
+   * In invariant "INTEGER_DIVISION.NPn1":
+     - invariant NPn1: i div -1 = 0;
+                         ^
+   * In invariant "INTEGER_DIVISION.NPz":
+     - invariant NPz: i div 0 = 0;
+                        ^
+
+  ------------------------------------------------------------------------
+  (11/12) Binary operator "mod" is used on a non-positive divisor operand.
+  ------------------------------------------------------------------------
+   * In invariant "MODULUS.NPn1":
+     - invariant NPn1: i mod -1 = 0;
+                         ^
+   * In invariant "MODULUS.NPz":
+     - invariant NPz: i mod 0 = 0;
+                        ^
+
+  ---------------------------------------------------------------------------------
+  (12/12) Binary operator "mod" is used on a possibly non-positive divisor operand.
+  ---------------------------------------------------------------------------------
+   * In invariant "MODULUS.GI":
+     - invariant GI: 1 mod i = 0;
+                       ^
+   * In invariant "MODULUS.II":
+     - invariant II: i mod i = 0;
                        ^

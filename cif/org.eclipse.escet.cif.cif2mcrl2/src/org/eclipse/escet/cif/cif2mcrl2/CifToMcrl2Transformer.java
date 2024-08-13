@@ -522,8 +522,10 @@ public class CifToMcrl2Transformer {
                 case GREATER_EQUAL -> ">=";
                 case GREATER_THAN -> ">";
                 case IMPLICATION -> "=>";
+                case INTEGER_DIVISION -> "div";
                 case LESS_EQUAL -> "<=";
                 case LESS_THAN -> "<";
+                case MODULUS -> "mod";
                 case MULTIPLICATION -> "*";
                 case SUBTRACTION -> "-";
                 case UNEQUAL -> "!=";

@@ -94,8 +94,9 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 //   supported.
                 // - For expressions that produce an integer value, only integer literals, constants (eliminated
                 //   already), discrete variables, algebraic variables (eliminated already), received values (already
-                //   eliminated), operators '+', '*' and '-', unary operators '-' and '+', 'if' expressions, 'switch'
-                //   expressions, and casts that do not change the type are supported.
+                //   eliminated), binary operators '+', '*', '-', 'div' (on non-negative divisors) and 'mod' (on
+                //   non-negative divisors), unary operators '-' and '+', 'if' expressions, 'switch'  expressions, and
+                //   casts that do not change the type are supported.
                 // - Unary and binary expressions are only supported with boolean, integer and enumeration operands.
                 new ExprNoSpecificExprsCheck(
                         NoSpecificExpr.FUNC_REFS,
@@ -131,10 +132,10 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                         NoSpecificBinaryOp.EQUAL_TUPLE,
                         NoSpecificBinaryOp.GREATER_EQUAL_REALS,
                         NoSpecificBinaryOp.GREATER_THAN_REALS,
-                        NoSpecificBinaryOp.INTEGER_DIVISION,
+                        NoSpecificBinaryOp.INTEGER_DIVISION_NON_POSITIVE_DIVISOR,
                         NoSpecificBinaryOp.LESS_EQUAL_REALS,
                         NoSpecificBinaryOp.LESS_THAN_REALS,
-                        NoSpecificBinaryOp.MODULUS,
+                        NoSpecificBinaryOp.MODULUS_NON_POSITIVE_DIVISOR,
                         NoSpecificBinaryOp.MULTIPLICATION_REALS,
                         NoSpecificBinaryOp.SUBSET,
                         NoSpecificBinaryOp.SUBTRACTION_DICTS,

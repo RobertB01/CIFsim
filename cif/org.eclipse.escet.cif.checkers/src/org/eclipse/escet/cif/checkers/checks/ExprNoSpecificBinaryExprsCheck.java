@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.checkers.checks;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -334,23 +335,24 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
                 if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION)) {
                     addExprViolationOperator(binExpr, violations);
                 } else {
-                    if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS)) {
-                        if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr, "an integer typed", violations);
-                        }
-                    } else {
-                        if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGED)
-                                && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
-                                        || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
-                        {
-                            addExprViolationOperand(binExpr, "a ranged integer typed", violations);
-                        }
-                        if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS)
-                                && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                        || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
-                        {
-                            addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
-                        }
+                    if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGED)
+                            && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
+                    {
+                        addExprViolationOperand(binExpr, "a ranged integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_INTS_RANGELESS)
+                            && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
+                    {
+                        addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificBinaryOp.INTEGER_DIVISION_NON_POSITIVE_DIVISOR)
+                            && rtype instanceof IntType intType && CifTypeUtils.getLowerBound(intType) < 1)
+                    {
+                        boolean alwaysNonPositive = CifTypeUtils.getUpperBound(intType) < 1;
+                        String operandTxt = fmt("a %snon-positive divisor", alwaysNonPositive ? "" : "possibly ");
+                        addExprViolationOperand(binExpr, operandTxt, violations);
                     }
                 }
                 break;
@@ -416,23 +418,24 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
                 if (disalloweds.contains(NoSpecificBinaryOp.MODULUS)) {
                     addExprViolationOperator(binExpr, violations);
                 } else {
-                    if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS)) {
-                        if (ltype instanceof IntType || rtype instanceof IntType) {
-                            addExprViolationOperand(binExpr, "an integer typed", violations);
-                        }
-                    } else {
-                        if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGED)
-                                && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
-                                        || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
-                        {
-                            addExprViolationOperand(binExpr, "a ranged integer typed", violations);
-                        }
-                        if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGELESS)
-                                && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
-                                        || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
-                        {
-                            addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
-                        }
+                    if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGED)
+                            && ((ltype instanceof IntType && !CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && !CifTypeUtils.isRangeless((IntType)rtype))))
+                    {
+                        addExprViolationOperand(binExpr, "a ranged integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_INTS_RANGELESS)
+                            && ((ltype instanceof IntType && CifTypeUtils.isRangeless((IntType)ltype))
+                                    || (rtype instanceof IntType && CifTypeUtils.isRangeless((IntType)rtype))))
+                    {
+                        addExprViolationOperand(binExpr, "a rangeless integer typed", violations);
+                    }
+                    if (disalloweds.contains(NoSpecificBinaryOp.MODULUS_NON_POSITIVE_DIVISOR)
+                            && rtype instanceof IntType intType && CifTypeUtils.getLowerBound(intType) < 1)
+                    {
+                        boolean alwaysNonPositive = CifTypeUtils.getUpperBound(intType) < 1;
+                        String operandTxt = fmt("a %snon-positive divisor", alwaysNonPositive ? "" : "possibly ");
+                        addExprViolationOperand(binExpr, operandTxt, violations);
                     }
                 }
                 break;
@@ -756,14 +759,14 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
         /** Disallow {@link BinaryOperator#INTEGER_DIVISION}. */
         INTEGER_DIVISION,
 
-        /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on integers. */
-        INTEGER_DIVISION_INTS,
-
         /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on ranged integers. */
         INTEGER_DIVISION_INTS_RANGED,
 
         /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on rangeless integers. */
         INTEGER_DIVISION_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#INTEGER_DIVISION} on non-positive divisors. */
+        INTEGER_DIVISION_NON_POSITIVE_DIVISOR,
 
         /** Disallow {@link BinaryOperator#LESS_EQUAL}. */
         LESS_EQUAL,
@@ -798,14 +801,14 @@ public class ExprNoSpecificBinaryExprsCheck extends CifCheck {
         /** Disallow {@link BinaryOperator#MODULUS}. */
         MODULUS,
 
-        /** Disallow {@link BinaryOperator#MODULUS} on integers. */
-        MODULUS_INTS,
-
         /** Disallow {@link BinaryOperator#MODULUS} on ranged integers. */
         MODULUS_INTS_RANGED,
 
         /** Disallow {@link BinaryOperator#MODULUS} on rangeless integers. */
         MODULUS_INTS_RANGELESS,
+
+        /** Disallow {@link BinaryOperator#MODULUS} on non-positive divisors. */
+        MODULUS_NON_POSITIVE_DIVISOR,
 
         /** Disallow {@link BinaryOperator#MULTIPLICATION}. */
         MULTIPLICATION,

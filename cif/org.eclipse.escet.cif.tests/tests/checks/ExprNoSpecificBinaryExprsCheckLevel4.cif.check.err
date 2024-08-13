@@ -1,0 +1,29 @@
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel4.cif": Semantic warning at line 15, column 1: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel4.cif": Semantic warning at line 19, column 3: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel4.cif": Semantic warning at line 25, column 5: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel4.cif": Semantic warning at line 32, column 13: The type "int[1..1]" of algebraic variable "type_decl.a" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel4.cif": Semantic warning at line 44, column 13: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel4.cif": Semantic warning at line 45, column 13: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel4.cif": Semantic warning at line 209, column 13: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel4.cif": Semantic warning at line 210, column 13: Duplicate state invariant.
+ERROR: CIF checks tester failed due to unsatisfied preconditions:
+
+  ----------------------------------------------------------------------
+  (1/2) Binary operator "div" is used on a non-positive divisor operand.
+  ----------------------------------------------------------------------
+   * In invariant "INTEGER_DIVISION.NPn1":
+     - invariant NPn1: i div -1 = 0;
+                         ^
+   * In invariant "INTEGER_DIVISION.NPz":
+     - invariant NPz: i div 0 = 0;
+                        ^
+
+  -------------------------------------------------------------------------------
+  (2/2) Binary operator "div" is used on a possibly non-positive divisor operand.
+  -------------------------------------------------------------------------------
+   * In invariant "INTEGER_DIVISION.GI":
+     - invariant GI: 1 div i = 0;
+                       ^
+   * In invariant "INTEGER_DIVISION.II":
+     - invariant II: i div i = 0;
+                       ^

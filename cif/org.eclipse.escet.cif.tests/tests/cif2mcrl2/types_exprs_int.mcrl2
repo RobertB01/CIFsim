@@ -25,6 +25,8 @@ act aut'e17';
 act aut'e18';
 act aut'e19';
 act aut'e20';
+act aut'e21';
+act aut'e22';
 
 % Actions for CIF variables having certain values.
 act aut'v''varvalue: Int;
@@ -62,33 +64,37 @@ proc P(
     +
     (((aut'v' - aut'v3') == 5)) -> aut'e06' . P()
     +
-    ((aut'v' == 5)) -> aut'e07' . P()
+    (((aut'v' div 4) == 1)) -> aut'e07' . P()
     +
-    ((-aut'v' == -5)) -> aut'e08' . P()
+    (((aut'v' mod 4) == 1)) -> aut'e08' . P()
     +
-    ((--aut'v' == 5)) -> aut'e09' . P()
+    ((aut'v' == 5)) -> aut'e09' . P()
     +
-    ((aut'v' == if(aut'vt', aut'v0', aut'v3'))) -> aut'e10' . P()
+    ((-aut'v' == -5)) -> aut'e10' . P()
     +
-    ((aut'v' == if(aut'vf', aut'v0', aut'v3'))) -> aut'e11' . P()
+    ((--aut'v' == 5)) -> aut'e11' . P()
     +
-    ((aut'v' == if(aut'vt', aut'v3', aut'v0'))) -> aut'e12' . P()
+    ((aut'v' == if(aut'vt', aut'v0', aut'v3'))) -> aut'e12' . P()
     +
-    ((aut'v' == if(aut'vf', aut'v3', aut'v0'))) -> aut'e13' . P()
+    ((aut'v' == if(aut'vf', aut'v0', aut'v3'))) -> aut'e13' . P()
     +
-    ((aut'v' == if((aut'vt' && aut'vt'), aut'v0', aut'v3'))) -> aut'e14' . P()
+    ((aut'v' == if(aut'vt', aut'v3', aut'v0'))) -> aut'e14' . P()
     +
-    ((aut'v' == if((aut'vt' && aut'vf'), aut'v0', if((aut'vt' && aut'vt'), aut'v0', aut'v3')))) -> aut'e15' . P()
+    ((aut'v' == if(aut'vf', aut'v3', aut'v0'))) -> aut'e15' . P()
     +
-    ((aut'v' == if((aut'vt' && aut'vf'), aut'v0', if((aut'vt' && aut'vf'), aut'v0', aut'v0')))) -> aut'e16' . P()
+    ((aut'v' == if((aut'vt' && aut'vt'), aut'v0', aut'v3'))) -> aut'e16' . P()
     +
-    ((aut'v' == if((aut'vt' && aut'vf'), aut'v0', if((aut'vt' && aut'vf'), aut'v0', aut'v3')))) -> aut'e17' . P()
+    ((aut'v' == if((aut'vt' && aut'vf'), aut'v0', if((aut'vt' && aut'vt'), aut'v0', aut'v3')))) -> aut'e17' . P()
     +
-    ((aut'v' == if((aut'vt' == aut'vt'), 0, if((aut'vt' == aut'vf'), 1, 1)))) -> aut'e18' . P()
+    ((aut'v' == if((aut'vt' && aut'vf'), aut'v0', if((aut'vt' && aut'vf'), aut'v0', aut'v0')))) -> aut'e18' . P()
     +
-    ((aut'v' == if((aut'v2' == aut'v1'), 1, if((aut'v2' == aut'v2'), 0, 1)))) -> aut'e19' . P()
+    ((aut'v' == if((aut'vt' && aut'vf'), aut'v0', if((aut'vt' && aut'vf'), aut'v0', aut'v3')))) -> aut'e19' . P()
     +
-    ((aut'v' == if((aut've3' == L1'), 1, if((aut've3' == L2'), 0, 1)))) -> aut'e20' . P()
+    ((aut'v' == if((aut'vt' == aut'vt'), 0, if((aut'vt' == aut'vf'), 1, 1)))) -> aut'e20' . P()
+    +
+    ((aut'v' == if((aut'v2' == aut'v1'), 1, if((aut'v2' == aut'v2'), 0, 1)))) -> aut'e21' . P()
+    +
+    ((aut'v' == if((aut've3' == L1'), 1, if((aut've3' == L2'), 0, 1)))) -> aut'e22' . P()
     +
     % CIF variable value actions.
     aut'v''varvalue(aut'v') . P()
