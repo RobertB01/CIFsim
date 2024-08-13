@@ -140,13 +140,6 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: StopButton.Released and (Actuator.Off and StartButton.Released) [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: StopButton.Released and (Actuator.Off and StartButton.Released) -> StopButton.Released and Actuator.Off [forward reach with edge: (event: StartButton.u_pushed) (guard: StartButton.Released) (assignments: StartButton := StartButton.Pushed)]
-    Reachable states: StopButton.Released and Actuator.Off -> Actuator.Off [forward reach with edge: (event: StopButton.u_pushed) (guard: StopButton.Released) (assignments: StopButton := StopButton.Pushed)]
-    Forward reachability: iteration 2.
-    Reachable states: Actuator.Off -> Actuator.Off or StartButton.Pushed [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Actuator.Off and StartButton.Pushed) (assignments: Actuator := Actuator.On)]
-    Reachable states: Actuator.Off or StartButton.Pushed -> true [forward reach with edge: (event: StartButton.u_released) (guard: StartButton.Pushed) (assignments: StartButton := StartButton.Released)]
-    Forward reachability: iteration 3.
     Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
@@ -165,12 +158,10 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
     Controllable-complete path states: false
 
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
     Bad states: true
 
     Computing the result of the non-blocking under control check...

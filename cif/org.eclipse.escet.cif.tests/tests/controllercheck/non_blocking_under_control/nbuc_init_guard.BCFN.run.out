@@ -111,10 +111,6 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: Supervisor.Start [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: Supervisor.Start -> (not Supervisor.DoneFalse or not Supervisor.i) and (not Supervisor.DoneTrue or Supervisor.i) [forward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
-    Reachable states: (not Supervisor.DoneFalse or not Supervisor.i) and (not Supervisor.DoneTrue or Supervisor.i) -> true [forward reach with edge: (event: Supervisor.i) (guard: true) (assignments: Supervisor.i+ != Supervisor.i)]
-    Forward reachability: iteration 2.
     Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
@@ -133,19 +129,11 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: Supervisor.DoneTrue [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: Supervisor.DoneTrue -> Supervisor.Start and Supervisor.i or Supervisor.DoneTrue [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
-    Controllable-complete path states: Supervisor.Start and Supervisor.i or Supervisor.DoneTrue -> Supervisor.DoneTrue or Supervisor.i [backward reach with edge: (event: Supervisor.u_back) (guard: not Supervisor.Start) (assignments: Supervisor := Supervisor.Start / Supervisor := Supervisor.Start)]
-    Controllable-complete path states: Supervisor.DoneTrue or Supervisor.i -> not Supervisor.Start or Supervisor.i [backward reach with edge: (event: Supervisor.i) (guard: true -> not Supervisor.Start) (assignments: Supervisor.i+ != Supervisor.i)]
-    Backward reachability: iteration 2.
-    Controllable-complete path states: not Supervisor.Start or Supervisor.i -> true [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
-    Backward reachability: iteration 3.
     Controllable-complete path states: true [fixed point].
     Controllable-complete path states: true
 
     Computing the bad states...
     Bad states: false [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
     Bad states: false
 
     Computing the result of the non-blocking under control check...

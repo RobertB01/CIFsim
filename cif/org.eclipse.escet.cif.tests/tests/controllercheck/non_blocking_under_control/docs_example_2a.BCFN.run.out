@@ -25,10 +25,6 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: Supervisor2a.Start [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: Supervisor2a.Start -> not Supervisor2a.BothDone [forward reach with edge: (event: Supervisor2a.c_act1) (guard: Supervisor2a.Start) (assignments: Supervisor2a := Supervisor2a.Done1)]
-    Reachable states: not Supervisor2a.BothDone -> true [forward reach with edge: (event: Supervisor2a.c_act2) (guard: Supervisor2a.Done1) (assignments: Supervisor2a := Supervisor2a.BothDone)]
-    Forward reachability: iteration 2.
     Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
@@ -48,17 +44,11 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: Supervisor2a.BothDone [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: Supervisor2a.BothDone -> not Supervisor2a.Start [backward reach with edge: (event: Supervisor2a.c_act2) (guard: Supervisor2a.Done1) (assignments: Supervisor2a := Supervisor2a.BothDone)]
-    Backward reachability: iteration 2.
-    Controllable-complete path states: not Supervisor2a.Start -> true [backward reach with edge: (event: Supervisor2a.c_act1) (guard: Supervisor2a.Start) (assignments: Supervisor2a := Supervisor2a.Done1)]
-    Backward reachability: iteration 3.
     Controllable-complete path states: true [fixed point].
     Controllable-complete path states: true
 
     Computing the bad states...
     Bad states: false [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
     Bad states: false
 
     Computing the result of the non-blocking under control check...

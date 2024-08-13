@@ -56,15 +56,6 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: A.l0 [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: A.l0 -> A.l0 or A.l1 [forward reach with edge: (event: A.a) (guard: A.l0) (assignments: A := A.l1)]
-    Reachable states: A.l0 or A.l1 -> A.l0 or (A.l2 or A.l1) [forward reach with edge: (event: A.b) (guard: A.l1) (assignments: A := A.l2)]
-    Reachable states: A.l0 or (A.l2 or A.l1) -> A.l0 or A.l4 or (A.l2 or A.l1) [forward reach with edge: (event: A.c) (guard: A.l1) (assignments: A := A.l4)]
-    Reachable states: A.l0 or A.l4 or (A.l2 or A.l1) -> not A.l6 and (not A.l3 and not A.l7) [forward reach with edge: (event: A.d) (guard: A.l1) (assignments: A := A.l5)]
-    Reachable states: not A.l6 and (not A.l3 and not A.l7) -> not A.l6 and not A.l7 [forward reach with edge: (event: A.e) (guard: A.l2) (assignments: A := A.l3)]
-    Reachable states: not A.l6 and not A.l7 -> not A.l7 [forward reach with edge: (event: A.f) (guard: A.l2) (assignments: A := A.l6)]
-    Reachable states: not A.l7 -> true [forward reach with edge: (event: A.h) (guard: A.l3) (assignments: A := A.l7)]
-    Forward reachability: iteration 2.
     Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
@@ -81,12 +72,10 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
     Controllable-complete path states: false
 
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
     Bad states: true
 
     Computing the result of the non-blocking under control check...

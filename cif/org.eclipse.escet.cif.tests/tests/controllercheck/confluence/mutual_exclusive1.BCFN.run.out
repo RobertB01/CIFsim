@@ -25,10 +25,6 @@ Preparing for MDD-based checks...
 Checking for bounded response...
     Computing reachable states...
     Reachable states: DifferentLocs.p [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: DifferentLocs.p -> not DifferentLocs.q [forward reach with edge: (event: DifferentLocs.a) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.r)]
-    Reachable states: not DifferentLocs.q -> true [forward reach with edge: (event: DifferentLocs.u) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.q)]
-    Forward reachability: iteration 2.
     Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events...
@@ -47,16 +43,11 @@ Checking for non-blocking under control...
 
     Computing the controllable-complete path states...
     Controllable-complete path states: DifferentLocs.r [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: DifferentLocs.r -> not DifferentLocs.q [backward reach with edge: (event: DifferentLocs.a) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.r)]
-    Controllable-complete path states: not DifferentLocs.q -> true [backward reach with edge: (event: DifferentLocs.b) (guard: DifferentLocs.q) (assignments: DifferentLocs := DifferentLocs.r)]
-    Backward reachability: iteration 2.
     Controllable-complete path states: true [fixed point].
     Controllable-complete path states: true
 
     Computing the bad states...
     Bad states: false [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
     Bad states: false
 
     Computing the result of the non-blocking under control check...
