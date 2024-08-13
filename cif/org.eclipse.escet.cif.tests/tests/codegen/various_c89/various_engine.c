@@ -162,6 +162,7 @@ const char *various_event_names[] = {
     "tau",          /**< Tau step. */
     "e1",           /**< Event "e1". */
     "g.h1",         /**< Event "g.h1". */
+    "a.e",          /**< Event "a.e". */
 };
 
 /** Enumeration names. */
@@ -278,11 +279,49 @@ static void PrintOutput(various_Event_ event, BoolType pre) {
 /* Event execution code. */
 
 /**
- * Execute code for event "e1".
+ * Execute code for event "a.e".
  *
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
+    BoolType guard = FALSE;
+    if (!guard) return FALSE;
+
+    #if PRINT_OUTPUT
+        PrintOutput(a_e_, TRUE);
+    #endif
+    #if EVENT_OUTPUT
+        various_InfoEvent(a_e_, TRUE);
+    #endif
+
+    {
+        IntType rhs2 = a_x_;
+        IntType index3 = 0;
+        #if CHECK_RANGES
+        if ((rhs2) > 3) {
+            fprintf(stderr, "RangeError: Writing %d into \"list[2] int[0..3]\"\n", rhs2);
+            fprintf(stderr, "            at " "a.li" "[%d]" "\n", index3);
+            RangeErrorDetected();
+        }
+        #endif
+        A2ITypeModify(&a_li_, index3, rhs2);
+    }
+
+    #if EVENT_OUTPUT
+        various_InfoEvent(a_e_, FALSE);
+    #endif
+    #if PRINT_OUTPUT
+        PrintOutput(a_e_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "e1".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent1(void) {
     BoolType guard = (g_sync_) == (_various_l1);
     if (!guard) return FALSE;
 
@@ -309,7 +348,7 @@ static BoolType execEvent0(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent1(void) {
+static BoolType execEvent2(void) {
     BoolType guard = ((g_sync_) == (_various_l2)) && ((g_sync_c_) >= (2));
     if (!guard) return FALSE;
 
@@ -330,44 +369,6 @@ static BoolType execEvent1(void) {
     #endif
     #if PRINT_OUTPUT
         PrintOutput(g_h1_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent2(void) {
-    BoolType guard = FALSE;
-    if (!guard) return FALSE;
-
-    #if PRINT_OUTPUT
-        PrintOutput(EVT_TAU_, TRUE);
-    #endif
-    #if EVENT_OUTPUT
-        various_InfoEvent(EVT_TAU_, TRUE);
-    #endif
-
-    {
-        IntType rhs2 = a_x_;
-        IntType index3 = 0;
-        #if CHECK_RANGES
-        if ((rhs2) > 3) {
-            fprintf(stderr, "RangeError: Writing %d into \"list[2] int[0..3]\"\n", rhs2);
-            fprintf(stderr, "            at " "a.li" "[%d]" "\n", index3);
-            RangeErrorDetected();
-        }
-        #endif
-        A2ITypeModify(&a_li_, index3, rhs2);
-    }
-
-    #if EVENT_OUTPUT
-        various_InfoEvent(EVT_TAU_, FALSE);
-    #endif
-    #if PRINT_OUTPUT
-        PrintOutput(EVT_TAU_, FALSE);
     #endif
     return TRUE;
 }
@@ -401,9 +402,9 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "e1". */
-        if (execEvent1()) continue;  /* (Try to) perform event "g.h1". */
-        if (execEvent2()) continue;  /* (Try to) perform event "tau". */
+        if (execEvent0()) continue;  /* (Try to) perform event "a.e". */
+        if (execEvent1()) continue;  /* (Try to) perform event "e1". */
+        if (execEvent2()) continue;  /* (Try to) perform event "g.h1". */
         break; /* No event fired, done with discrete steps. */
     }
 }

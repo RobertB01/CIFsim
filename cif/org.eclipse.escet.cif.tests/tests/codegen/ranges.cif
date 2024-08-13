@@ -11,10 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-event e11, e12, e13, e14, e15, e16, e17, e18;
-event e21, e22, e23, e24, e25, e26, e27, e28;
-event e31, e32, e33, e34, e35, e36, e37, e38;
-event e41;
+controllable e11, e12, e13, e14, e15, e16, e17, e18;
+controllable e21, e22, e23, e24, e25, e26, e27, e28;
+controllable e31, e32, e33, e34, e35, e36, e37, e38;
+controllable e41;
 
 automaton aut1:
   disc list[3] tuple(int[0..7] a, b) v1, v2;

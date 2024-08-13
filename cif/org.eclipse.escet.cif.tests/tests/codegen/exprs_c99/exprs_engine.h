@@ -76,6 +76,9 @@ enum exprsEventEnum_ {
 
     /** Tau step. */
     EVT_TAU_,
+
+    /** Event "a1.e". */
+    a1_e_,
 };
 typedef enum exprsEventEnum_ exprs_Event_;
 

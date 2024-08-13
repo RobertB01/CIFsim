@@ -36,6 +36,7 @@ public abstract class annos_doc {
 
     /** The names of all the events, except for event 'tau'. */
     private final String[] EVENT_NAMES = {
+        "e",
         "events.e1",
         "events.e2",
         "events.e3",
@@ -310,26 +311,23 @@ public abstract class annos_doc {
 
         // Execute events as long as they are possible.
         while (true) {
-            // Event "events.e1".
+            // Event "e".
             if (execEvent0()) continue;
 
-            // Event "events.e2".
+            // Event "events.e1".
             if (execEvent1()) continue;
 
-            // Event "events.e3".
+            // Event "events.e2".
             if (execEvent2()) continue;
 
-            // Event "events.e4".
+            // Event "events.e3".
             if (execEvent3()) continue;
 
-            // Event "events.e5".
+            // Event "events.e4".
             if (execEvent4()) continue;
 
-            // Event "tau".
+            // Event "events.e5".
             if (execEvent5()) continue;
-
-            // Event "tau".
-            if (execEvent6()) continue;
 
             break;
         }
@@ -394,11 +392,14 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "events.e1".
+     * Execute code for event "e".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
+        boolean guard = ((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || (((contvars_c3_) > (0)) || (((contvars_c4_) > (0)) || ((contvars_c5_) > (0))))) && (((discvars_d1_) || (discvars_d2_)) || ((discvars_d3_) || ((discvars_d4_) || (discvars_d5_))));
+        if (!guard) return false;
+
         if (doInfoPrintOutput) printOutput(0, true);
         if (doInfoEvent) infoEvent(0, true);
 
@@ -409,11 +410,7 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "events.e2".
-     *
-     * <p>
-     * single line doc
-     * </p>
+     * Execute code for event "events.e1".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -428,12 +425,10 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "events.e3".
+     * Execute code for event "events.e2".
      *
      * <p>
-     * doc with multiple
-     * lines of
-     *  text
+     * single line doc
      * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
@@ -449,10 +444,12 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "events.e4".
+     * Execute code for event "events.e3".
      *
      * <p>
-     * some doc
+     * doc with multiple
+     * lines of
+     *  text
      * </p>
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
@@ -464,6 +461,25 @@ public abstract class annos_doc {
 
         if (doInfoEvent) infoEvent(3, false);
         if (doInfoPrintOutput) printOutput(3, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "events.e4".
+     *
+     * <p>
+     * some doc
+     * </p>
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent4() {
+        if (doInfoPrintOutput) printOutput(4, true);
+        if (doInfoEvent) infoEvent(4, true);
+
+
+        if (doInfoEvent) infoEvent(4, false);
+        if (doInfoPrintOutput) printOutput(4, false);
         return true;
     }
 
@@ -481,49 +497,13 @@ public abstract class annos_doc {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent4() {
-        if (doInfoPrintOutput) printOutput(4, true);
-        if (doInfoEvent) infoEvent(4, true);
-
-
-        if (doInfoEvent) infoEvent(4, false);
-        if (doInfoPrintOutput) printOutput(4, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
     private boolean execEvent5() {
-        boolean guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
-        if (!guard) return false;
-
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
+        if (doInfoPrintOutput) printOutput(5, true);
+        if (doInfoEvent) infoEvent(5, true);
 
 
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent6() {
-        boolean guard = ((((discvars_d1_) || (discvars_d2_)) || (discvars_d3_)) || (discvars_d4_)) || (discvars_d5_);
-        if (!guard) return false;
-
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
+        if (doInfoEvent) infoEvent(5, false);
+        if (doInfoPrintOutput) printOutput(5, false);
         return true;
     }
 

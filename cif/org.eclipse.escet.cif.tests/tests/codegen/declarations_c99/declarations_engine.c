@@ -73,10 +73,10 @@ const char *declarations_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "e_e1",         /**< Event "e_e1". */
-    "e_e2",         /**< Event "e_e2". */
     "c_e1",         /**< Event "c_e1". */
     "c_e2",         /**< Event "c_e2". */
+    "c_e3",         /**< Event "c_e3". */
+    "c_e4",         /**< Event "c_e4". */
     "u_e1",         /**< Event "u_e1". */
     "u_e2",         /**< Event "u_e2". */
 };
@@ -225,9 +225,14 @@ static void PrintOutput(declarations_Event_ event, BoolType pre) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
+    BoolType guard = (g1_a1_) == (_declarations_loc1);
+    if (!guard) return FALSE;
+
     #if EVENT_OUTPUT
         declarations_InfoEvent(c_e1_, TRUE);
     #endif
+
+    g1_a1_ = _declarations_loc2;
 
     #if EVENT_OUTPUT
         declarations_InfoEvent(c_e1_, FALSE);
@@ -241,9 +246,14 @@ static BoolType execEvent0(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent1(void) {
+    BoolType guard = (g1_a1_) == (_declarations_loc2);
+    if (!guard) return FALSE;
+
     #if EVENT_OUTPUT
         declarations_InfoEvent(c_e2_, TRUE);
     #endif
+
+    g1_a1_ = _declarations_loc1;
 
     #if EVENT_OUTPUT
         declarations_InfoEvent(c_e2_, FALSE);
@@ -252,43 +262,33 @@ static BoolType execEvent1(void) {
 }
 
 /**
- * Execute code for event "e_e1".
+ * Execute code for event "c_e3".
  *
  * @return Whether the event was performed.
  */
 static BoolType execEvent2(void) {
-    BoolType guard = (g1_a1_) == (_declarations_loc1);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
-        declarations_InfoEvent(e_e1_, TRUE);
+        declarations_InfoEvent(c_e3_, TRUE);
     #endif
 
-    g1_a1_ = _declarations_loc2;
-
     #if EVENT_OUTPUT
-        declarations_InfoEvent(e_e1_, FALSE);
+        declarations_InfoEvent(c_e3_, FALSE);
     #endif
     return TRUE;
 }
 
 /**
- * Execute code for event "e_e2".
+ * Execute code for event "c_e4".
  *
  * @return Whether the event was performed.
  */
 static BoolType execEvent3(void) {
-    BoolType guard = (g1_a1_) == (_declarations_loc2);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
-        declarations_InfoEvent(e_e2_, TRUE);
+        declarations_InfoEvent(c_e4_, TRUE);
     #endif
 
-    g1_a1_ = _declarations_loc1;
-
     #if EVENT_OUTPUT
-        declarations_InfoEvent(e_e2_, FALSE);
+        declarations_InfoEvent(c_e4_, FALSE);
     #endif
     return TRUE;
 }
@@ -365,8 +365,8 @@ static void PerformEvents(void) {
 
         if (execEvent0()) continue;  /* (Try to) perform event "c_e1". */
         if (execEvent1()) continue;  /* (Try to) perform event "c_e2". */
-        if (execEvent2()) continue;  /* (Try to) perform event "e_e1". */
-        if (execEvent3()) continue;  /* (Try to) perform event "e_e2". */
+        if (execEvent2()) continue;  /* (Try to) perform event "c_e3". */
+        if (execEvent3()) continue;  /* (Try to) perform event "c_e4". */
         if (execEvent4()) continue;  /* (Try to) perform event "u_e1". */
         if (execEvent5()) continue;  /* (Try to) perform event "u_e2". */
         break; /* No event fired, done with discrete steps. */

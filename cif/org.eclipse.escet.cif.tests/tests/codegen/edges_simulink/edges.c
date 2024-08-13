@@ -3926,62 +3926,6 @@ static BoolType ExecEvent64(SimStruct *sim_struct) {
     return TRUE;
 }
 
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType ExecEvent65(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
-
-
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType ExecEvent66(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
-
-
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType ExecEvent67(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
-
-
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType ExecEvent68(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
-
-
-    return TRUE;
-}
-
 #if PRINT_OUTPUT
 static void PrintOutput(edges_Event_ event, BoolType pre) {
 }
@@ -4455,10 +4399,6 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         if (ExecEvent62(sim_struct)) continue;  /* (Try to) perform event "e14f". */
         if (ExecEvent63(sim_struct)) continue;  /* (Try to) perform event "e14g". */
         if (ExecEvent64(sim_struct)) continue;  /* (Try to) perform event "e14h". */
-        if (ExecEvent65(sim_struct)) continue;  /* (Try to) perform event "tau". */
-        if (ExecEvent66(sim_struct)) continue;  /* (Try to) perform event "tau". */
-        if (ExecEvent67(sim_struct)) continue;  /* (Try to) perform event "tau". */
-        if (ExecEvent68(sim_struct)) continue;  /* (Try to) perform event "tau". */
 
         break; /* None of the events triggered. */
     }

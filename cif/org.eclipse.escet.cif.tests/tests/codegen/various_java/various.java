@@ -26,6 +26,7 @@ public abstract class various {
     private final String[] EVENT_NAMES = {
         "e1",
         "g.h1",
+        "a.e",
     };
 
 
@@ -117,13 +118,13 @@ public abstract class various {
 
         // Execute events as long as they are possible.
         while (true) {
-            // Event "e1".
+            // Event "a.e".
             if (execEvent0()) continue;
 
-            // Event "g.h1".
+            // Event "e1".
             if (execEvent1()) continue;
 
-            // Event "tau".
+            // Event "g.h1".
             if (execEvent2()) continue;
 
             break;
@@ -189,11 +190,37 @@ public abstract class various {
     }
 
     /**
-     * Execute code for event "e1".
+     * Execute code for event "a.e".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
+        boolean guard = false;
+        if (!guard) return false;
+
+        if (doInfoPrintOutput) printOutput(2, true);
+        if (doInfoEvent) infoEvent(2, true);
+
+        {
+            int rhs1 = a_x_;
+            int index2 = 0;
+            if ((rhs1) > 3) {
+                rangeErrInt("a.li" + "[" + Integer.toString(index2) + "]", valueToStr(rhs1), "list[2] int[0..3]");
+            }
+            a_li_ = modify(a_li_, index2, rhs1);
+        }
+
+        if (doInfoEvent) infoEvent(2, false);
+        if (doInfoPrintOutput) printOutput(2, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "e1".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent1() {
         boolean guard = (g_sync_) == (variousEnum._l1);
         if (!guard) return false;
 
@@ -212,7 +239,7 @@ public abstract class various {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent1() {
+    private boolean execEvent2() {
         boolean guard = ((g_sync_) == (variousEnum._l2)) && ((g_sync_c_) >= (2));
         if (!guard) return false;
 
@@ -226,32 +253,6 @@ public abstract class various {
 
         if (doInfoEvent) infoEvent(1, false);
         if (doInfoPrintOutput) printOutput(1, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent2() {
-        boolean guard = false;
-        if (!guard) return false;
-
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-        {
-            int rhs1 = a_x_;
-            int index2 = 0;
-            if ((rhs1) > 3) {
-                rangeErrInt("a.li" + "[" + Integer.toString(index2) + "]", valueToStr(rhs1), "list[2] int[0..3]");
-            }
-            a_li_ = modify(a_li_, index2, rhs1);
-        }
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
         return true;
     }
 

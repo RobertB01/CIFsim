@@ -39,7 +39,7 @@ print "bla8" file ":stderr";
 
 // Print 'for' filters.
 
-event e1, e2;
+controllable e1, e2;
 
 print "bla9";
 print "bla10" for initial;

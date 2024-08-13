@@ -502,18 +502,6 @@ public abstract class edges {
             // Event "e14h".
             if (execEvent64()) continue;
 
-            // Event "tau".
-            if (execEvent65()) continue;
-
-            // Event "tau".
-            if (execEvent66()) continue;
-
-            // Event "tau".
-            if (execEvent67()) continue;
-
-            // Event "tau".
-            if (execEvent68()) continue;
-
             break;
         }
 
@@ -1861,66 +1849,6 @@ public abstract class edges {
 
         if (doInfoEvent) infoEvent(64, false);
         if (doInfoPrintOutput) printOutput(64, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent65() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent66() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent67() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent68() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
         return true;
     }
 

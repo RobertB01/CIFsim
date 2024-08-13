@@ -24,7 +24,7 @@ public abstract class exprs {
 
     /** The names of all the events, except for event 'tau'. */
     private final String[] EVENT_NAMES = {
-
+        "a1.e",
     };
 
     /** Constant "x1". */
@@ -526,7 +526,7 @@ public abstract class exprs {
 
         // Execute events as long as they are possible.
         while (true) {
-            // Event "tau".
+            // Event "a1.e".
             if (execEvent0()) continue;
 
             break;
@@ -592,13 +592,13 @@ public abstract class exprs {
     }
 
     /**
-     * Execute code for event "tau".
+     * Execute code for event "a1.e".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
+        if (doInfoPrintOutput) printOutput(0, true);
+        if (doInfoEvent) infoEvent(0, true);
 
         if ((!equalObjs(a1_x_, 1)) && (!equalObjs(a1_x_, 2))) {
             a1_x_ = 3;
@@ -606,8 +606,8 @@ public abstract class exprs {
             a1_x_ = 4;
         }
 
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
+        if (doInfoEvent) infoEvent(0, false);
+        if (doInfoPrintOutput) printOutput(0, false);
         return true;
     }
 

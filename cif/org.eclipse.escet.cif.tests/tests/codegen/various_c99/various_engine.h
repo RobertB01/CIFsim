@@ -61,6 +61,9 @@ enum variousEventEnum_ {
 
     /** Event "g.h1". */
     g_h1_,
+
+    /** Event "a.e". */
+    a_e_,
 };
 typedef enum variousEventEnum_ various_Event_;
 

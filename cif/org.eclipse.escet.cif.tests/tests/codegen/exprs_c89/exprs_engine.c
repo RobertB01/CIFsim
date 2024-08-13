@@ -256,6 +256,7 @@ const char *exprs_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
+    "a1.e",         /**< Event "a1.e". */
 };
 
 /** Enumeration names. */
@@ -869,13 +870,13 @@ static void PrintOutput(exprs_Event_ event, BoolType pre) {
 /* Event execution code. */
 
 /**
- * Execute code for event "tau".
+ * Execute code for event "a1.e".
  *
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
     #if EVENT_OUTPUT
-        exprs_InfoEvent(EVT_TAU_, TRUE);
+        exprs_InfoEvent(a1_e_, TRUE);
     #endif
 
     if (((a1_x_) != (1)) && ((a1_x_) != (2))) {
@@ -885,7 +886,7 @@ static BoolType execEvent0(void) {
     }
 
     #if EVENT_OUTPUT
-        exprs_InfoEvent(EVT_TAU_, FALSE);
+        exprs_InfoEvent(a1_e_, FALSE);
     #endif
     return TRUE;
 }
@@ -919,7 +920,7 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "tau". */
+        if (execEvent0()) continue;  /* (Try to) perform event "a1.e". */
         break; /* No event fired, done with discrete steps. */
     }
 }

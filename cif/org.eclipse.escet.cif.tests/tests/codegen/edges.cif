@@ -11,18 +11,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Implicit tau, explicit tau.
-automaton aut01:
-  location:
-    initial;
-    edge tau;
-    edge tau;
-    edge when true;
-    edge when true;
-end
-
 // Guard and updates, various combinations.
-event e02a, e02b;
+controllable e02a, e02b;
 
 automaton aut02:
   disc int[0..3] x;
@@ -42,7 +32,7 @@ automaton aut02:
 end
 
 // Simple assignments.
-event e03a, e03b;
+controllable e03a, e03b;
 
 automaton aut03:
   cont c der 1;
@@ -56,7 +46,7 @@ end
 
 // Conditional updates, multiple conditional updates.
 
-event e04a, e04b, e04c, e04d, e04e, e04f;
+controllable e04a, e04b, e04c, e04d, e04e, e04f;
 
 automaton aut04:
   disc int a, b, c, d;
@@ -74,7 +64,7 @@ end
 
 // Assignment multiple parts of same variable.
 
-event e05a, e05b, e05c, e05d, e05e;
+controllable e05a, e05b, e05c, e05d, e05e;
 
 automaton aut05:
   disc list[5] int v1, v2;
@@ -90,7 +80,7 @@ end
 
 // Assign whole, part, packing, unpacking, etc.
 
-event e06a, e06b, e06c, e06d, e06e;
+controllable e06a, e06b, e06c, e06d, e06e;
 
 automaton aut06:
   disc tuple(int a, b) v1, v2;
@@ -107,7 +97,7 @@ end
 
 // Assign continuous variables.
 
-event e07a, e07b;
+controllable e07a, e07b;
 
 automaton aut07:
   cont x der 1;
@@ -121,7 +111,7 @@ end
 
 // Multiple levels of tuples.
 
-event e08a, e08b, e08c, e08d, e08e, e08f, e08g, e08h;
+controllable e08a, e08b, e08c, e08d, e08e, e08f, e08g, e08h;
 
 automaton aut08:
   disc tuple(tuple(int a, b) t; string c) tt1, tt2;
@@ -143,7 +133,7 @@ end
 
 // Multiple levels of arrays.
 
-event e09a, e09b, e09c, e09d, e09e, e09f, e09g;
+controllable e09a, e09b, e09c, e09d, e09e, e09f, e09g;
 
 automaton aut09:
   disc list[2] list[3] int ll1, ll2;
@@ -163,7 +153,7 @@ end
 
 // Combi arrays and tuples.
 
-event e10a, e10b, e10c, e10d, e10e, e10f, e10g, e10h, e10i;
+controllable e10a, e10b, e10c, e10d, e10e, e10f, e10g, e10h, e10i;
 
 automaton aut10:
   disc tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) x1, x2;
@@ -188,7 +178,7 @@ end
 
 // Complex combination.
 
-event e11a;
+controllable e11a;
 
 automaton aut11:
   disc list[3] tuple(int a, b) v1;
@@ -205,7 +195,7 @@ automaton aut11:
                  end;
 end
 
-event e12a, e12b, e12c, e12d, e12e;
+controllable e12a, e12b, e12c, e12d, e12e;
 
 automaton aut12:
   disc real x, y, z;
@@ -224,7 +214,7 @@ automaton aut12:
     edge e12e do x := 1, td := u', y := 1; // Indirect derivative conflict, both assignments destroy t'
 end
 
-event e13a, e13b, e13c, e13d, e13e;
+controllable e13a, e13b, e13c, e13d, e13e;
 
 automaton aut13:
   disc real x, y, z;
@@ -259,7 +249,7 @@ automaton aut13:
                  end;
   end
 
-event e14a, e14b, e14c, e14d, e14e, e14f, e14g, e14h;
+controllable e14a, e14b, e14c, e14d, e14e, e14f, e14g, e14h;
 
 automaton aut14:
   input bool b;

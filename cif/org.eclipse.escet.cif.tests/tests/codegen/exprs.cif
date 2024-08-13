@@ -14,13 +14,14 @@
 // Multiple predicates.
 
 automaton a1:
+  controllable e;
   disc int x;
 
   location:
     initial;
-    edge do if   x != 1, x != 2: x := 3
-            elif x != 2, x != 3: x := 4
-            end;
+    edge e do if   x != 1, x != 2: x := 3
+              elif x != 2, x != 3: x := 4
+              end;
 end
 
 func int f1(int x):

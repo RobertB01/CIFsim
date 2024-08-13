@@ -24,10 +24,10 @@ public abstract class declarations {
 
     /** The names of all the events, except for event 'tau'. */
     private final String[] EVENT_NAMES = {
-        "e_e1",
-        "e_e2",
         "c_e1",
         "c_e2",
+        "c_e3",
+        "c_e4",
         "u_e1",
         "u_e2",
     };
@@ -157,10 +157,10 @@ public abstract class declarations {
             // Event "c_e2".
             if (execEvent1()) continue;
 
-            // Event "e_e1".
+            // Event "c_e3".
             if (execEvent2()) continue;
 
-            // Event "e_e2".
+            // Event "c_e4".
             if (execEvent3()) continue;
 
             // Event "u_e1".
@@ -237,36 +237,6 @@ public abstract class declarations {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        if (doInfoPrintOutput) printOutput(2, true);
-        if (doInfoEvent) infoEvent(2, true);
-
-
-        if (doInfoEvent) infoEvent(2, false);
-        if (doInfoPrintOutput) printOutput(2, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "c_e2".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent1() {
-        if (doInfoPrintOutput) printOutput(3, true);
-        if (doInfoEvent) infoEvent(3, true);
-
-
-        if (doInfoEvent) infoEvent(3, false);
-        if (doInfoPrintOutput) printOutput(3, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "e_e1".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent2() {
         boolean guard = (g1_a1_) == (declarationsEnum._loc1);
         if (!guard) return false;
 
@@ -281,11 +251,11 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "e_e2".
+     * Execute code for event "c_e2".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent3() {
+    private boolean execEvent1() {
         boolean guard = (g1_a1_) == (declarationsEnum._loc2);
         if (!guard) return false;
 
@@ -296,6 +266,36 @@ public abstract class declarations {
 
         if (doInfoEvent) infoEvent(1, false);
         if (doInfoPrintOutput) printOutput(1, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "c_e3".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent2() {
+        if (doInfoPrintOutput) printOutput(2, true);
+        if (doInfoEvent) infoEvent(2, true);
+
+
+        if (doInfoEvent) infoEvent(2, false);
+        if (doInfoPrintOutput) printOutput(2, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "c_e4".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent3() {
+        if (doInfoPrintOutput) printOutput(3, true);
+        if (doInfoEvent) infoEvent(3, true);
+
+
+        if (doInfoEvent) infoEvent(3, false);
+        if (doInfoPrintOutput) printOutput(3, false);
         return true;
     }
 

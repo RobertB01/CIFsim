@@ -2196,6 +2196,9 @@ enum exprsEventEnum_ {
 
     /** Tau step. */
     EVT_TAU_,
+
+    /** Event "a1.e". */
+    a1_e_,
 };
 typedef enum exprsEventEnum_ exprs_Event_;
 
@@ -2203,6 +2206,7 @@ const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
+    "a1.e",         /**< Event "a1.e". */
 };
 
 /** Enum names. */
@@ -2228,7 +2232,7 @@ static void ClearInputFlags(struct WorkStruct *work) {
 /* Event execution. */
 
 /**
- * Execute code for event "tau".
+ * Execute code for event "a1.e".
  *
  * @return Whether the event was performed.
  */
@@ -3149,7 +3153,7 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
     }
 
     for (;;) {
-        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "tau". */
+        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "a1.e". */
 
         break; /* None of the events triggered. */
     }
