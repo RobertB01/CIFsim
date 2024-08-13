@@ -24,7 +24,7 @@ alg list[1] list[1] list[1] bool a7 = [[[true]]];     // Algebraic variable with
 
 // Warnings for discrete variables.
 automaton a:
-  event e;
+  controllable e;
 
   disc tuple(int x, y) d1;                            // Discrete variable with tuple type.
   disc string d2;                                     // Discrete variable with string type.

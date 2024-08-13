@@ -20,6 +20,8 @@ group g:
 end
 
 plant p:
+  event e;                              // Event not declared as controllable or uncontrollable.
+
   disc int x in any;                    // Discrete variable any init value.
   disc int y in {1, 2};                 // Discrete variable multi init value.
 
@@ -30,7 +32,9 @@ plant p:
     initial;
     plant invariant x > 3;              // Invariant in location.
     urgent;                             // Urgent location.
-    edge when true goto b;
+    edge when true goto b;              // Implicit use of 'tau'.
+    edge tau when true;                 // Explicit use of 'tau'.
+    edge e when true;
 
   location b:
     //initial sqrt(-1.0) > 0;           // Evaluation failure. (can't test, simplify already fails)
