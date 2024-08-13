@@ -6,6 +6,9 @@ act e';
 % Actions for CIF variables having certain values.
 act aut'x''varvalue: Int;
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P(
     aut'x': Int
@@ -15,6 +18,9 @@ proc P(
     +
     % CIF variable value actions.
     aut'x''varvalue(aut'x') . P()
+    +
+    % CIF 'marked' action.
+    (false) -> marked . P()
 ;
 
 % Initialization.

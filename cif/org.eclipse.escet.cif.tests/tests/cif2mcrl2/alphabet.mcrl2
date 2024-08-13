@@ -11,6 +11,9 @@ act A'c';
 % Actions for CIF variables having certain values.
 act A''varvalue: A'LPE';
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P(
     A': A'LPE'
@@ -22,6 +25,9 @@ proc P(
     +
     % CIF variable value actions.
     A''varvalue(A') . P()
+    +
+    % CIF 'marked' action.
+    ((A' == A'Q')) -> marked . P()
 ;
 
 % Initialization.

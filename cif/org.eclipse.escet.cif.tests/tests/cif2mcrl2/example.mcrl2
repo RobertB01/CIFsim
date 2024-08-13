@@ -16,6 +16,9 @@ act P'zero''varvalue: Int;
 act Q''varvalue: Q'LPE';
 act Q'y''varvalue: Int;
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P(
     P'x': Int,
@@ -45,6 +48,9 @@ proc P(
     Q''varvalue(Q') . P()
     +
     Q'y''varvalue(Q'y') . P()
+    +
+    % CIF 'marked' action.
+    (false) -> marked . P()
 ;
 
 % Initialization.
