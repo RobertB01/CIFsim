@@ -696,10 +696,10 @@ public class JavaScriptCodeGen extends CodeGen {
         Set<Integer> interactiveEventIndices = JavaScriptSvgCodeGen.getInteractiveEventIndices(svgIns, events);
 
         // Generate code, per edge.
+        int edgeOffset = 0;
         for (boolean controllable: List.of(false, true)) {
             List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
             CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
-            int edgeOffset = controllable ? uncontrollableEdges.size() : 0;
 
             for (int i = 0; i < edges.size(); i++) {
                 // Get edge.
@@ -815,6 +815,8 @@ public class JavaScriptCodeGen extends CodeGen {
                 codeMethods.dedent();
                 codeMethods.add("}");
             }
+
+            edgeOffset += edges.size();
         }
 
         // Fill the replacement patterns with generated code.

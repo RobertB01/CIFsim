@@ -1003,10 +1003,10 @@ public class C99CodeGen extends CodeGen {
         CodeBox codeMethods = makeCodeBox(0);
         String prefix = replacements.get("prefix");
 
+        int edgeOffset = 0;
         for (boolean controllable: List.of(false, true)) {
             List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
             CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
-            int edgeOffset = controllable ? uncontrollableEdges.size() : 0;
 
             for (int i = 0; i < edges.size(); i++) {
                 Edge edge = edges.get(i);
@@ -1094,6 +1094,8 @@ public class C99CodeGen extends CodeGen {
                 codeMethods.dedent();
                 codeMethods.add("}");
             }
+
+            edgeOffset += edges.size();
         }
 
         replacements.put("event-calls-code-uncontrollables", codeCallsUncontrollables.toString());

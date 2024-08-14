@@ -1316,10 +1316,10 @@ public class SimulinkCodeGen extends CodeGen {
         CodeBox codeMethods = makeCodeBox(); // Event execution functions.
 
         int numTimeDependentGuards = 0;
+        int edgeOffset = 0;
         for (boolean controllable: List.of(false, true)) {
             List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
             CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
-            int edgeOffset = controllable ? uncontrollableEdges.size() : 0;
 
             for (int i = 0; i < edges.size(); i++) {
                 Edge edge = edges.get(i);
@@ -1427,6 +1427,8 @@ public class SimulinkCodeGen extends CodeGen {
                 codeMethods.dedent();
                 codeMethods.add("}");
             }
+
+            edgeOffset += edges.size();
         }
 
         replacements.put("number-of-time-dependent-guards", str(numTimeDependentGuards));

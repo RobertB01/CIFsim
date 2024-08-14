@@ -558,10 +558,10 @@ public class JavaCodeGen extends CodeGen {
         CodeBox codeCallsControllables = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);
 
+        int edgeOffset = 0;
         for (boolean controllable: List.of(false, true)) {
             List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
             CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
-            int edgeOffset = controllable ? uncontrollableEdges.size() : 0;
 
             for (int i = 0; i < edges.size(); i++) {
                 // Get edge.
@@ -633,6 +633,8 @@ public class JavaCodeGen extends CodeGen {
                 codeMethods.dedent();
                 codeMethods.add("}");
             }
+
+            edgeOffset += edges.size();
         }
 
         replacements.put("java-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
