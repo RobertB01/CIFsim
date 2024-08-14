@@ -16,6 +16,7 @@ package org.eclipse.escet.cif.plcgen.generators;
 import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 
 /** Interface for generators that construct PLC code for performing CIF events in the PLC. */
 public interface TransitionGenerator {
@@ -30,6 +31,7 @@ public interface TransitionGenerator {
      * Generate the event transition functions.
      *
      * @param exprGen Expression generator for the scope of the generated code.
+     * @param isProgressVar The variable to set if an event transition is performed.
      */
-    void generate(ExprGenerator exprGen);
+    void generate(ExprGenerator exprGen, PlcBasicVariable isProgressVar);
 }

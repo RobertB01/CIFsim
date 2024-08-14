@@ -124,7 +124,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     @Override
-    public void generate(ExprGenerator exprGen) {
+    public void generate(ExprGenerator exprGen, PlcBasicVariable isProgressVar) {
         // Split event transitions between controllable and uncontrollable events.
         List<CifEventTransition> uncontrollableTransitions = list();
         List<CifEventTransition> controllableTransitions = list();
@@ -141,9 +141,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
         // Construct edge variables.
         setupEdgeVariables(exprGen);
-
-        // Variable that tracks whether at least one event was performed in the current event loop cycle.
-        PlcBasicVariable isProgressVar = target.getCodeStorage().getIsProgressVariable();
 
         // Convert the event transition collections in the same order as they appear in the final code.
         List<PlcStatement> uncontrollableStatements = generateCode(isProgressVar, uncontrollableTransitions, exprGen);

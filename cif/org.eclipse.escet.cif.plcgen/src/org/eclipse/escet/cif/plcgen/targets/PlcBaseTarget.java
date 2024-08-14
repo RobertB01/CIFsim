@@ -259,7 +259,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
         }
 
         // Generate the event transition functions.
-        transitionGenerator.generate(codeStorage.getExprGenerator());
+        transitionGenerator.generate(codeStorage.getExprGenerator(), codeStorage.getIsProgressVariable());
         if (settings.termination.isRequested()) {
             return;
         }
