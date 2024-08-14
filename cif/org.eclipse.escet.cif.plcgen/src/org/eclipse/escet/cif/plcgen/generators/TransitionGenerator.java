@@ -21,11 +21,11 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 /** Interface for generators that construct PLC code for performing CIF events in the PLC. */
 public interface TransitionGenerator {
     /**
-     * Define the event transitions to generate.
+     * Setup the transition generator.
      *
-     * @param transitions Description of the event transitions that should be generated.
+     * @param allTransitions Descriptions of all the event transitions that should be generated.
      */
-    void setTransitions(List<CifEventTransition> transitions);
+    void setup(List<CifEventTransition> allTransitions);
 
     /**
      * Generate the event transition functions.

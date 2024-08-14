@@ -233,13 +233,23 @@ public class ExprGenerator {
         String name = target.getNameGenerator().generateLocalName(prefix, localNameScope);
         String targetText = target.getUsageVariableText(PlcVariablePurpose.LOCAL_VAR, name);
         PlcDataVariable newVar = new PlcDataVariable(targetText, name, plcType, address, value);
+        addLocalVariable(newVar, isTempVar);
+        return newVar;
+    }
+
+    /**
+     * Add a variable to the scope.
+     *
+     * @param variable Variable to add.
+     * @param isTempVar Whether the variable is a temporary variable.
+     */
+    public void addLocalVariable(PlcDataVariable variable, boolean isTempVar) {
         int newVarIndex = variables.size();
-        variables.add(newVar);
-        varNameToVarIndex.put(newVar.varName, newVarIndex);
+        variables.add(variable);
+        varNameToVarIndex.put(variable.varName, newVarIndex);
         if (isTempVar) {
             variableIsTemp.set(newVarIndex);
         }
-        return newVar;
     }
 
     /**

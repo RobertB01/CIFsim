@@ -61,6 +61,7 @@ import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpos
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcBoolLiteral;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcExpression;
 import org.eclipse.escet.cif.plcgen.model.expressions.PlcIntLiteral;
@@ -90,20 +91,23 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private final PlcTarget target;
 
     /**
-     * The event transitions to generate. Is {@code null} until the transitions are provided with
-     * {@link #setTransitions}.
+     * All the event transitions to generate. Is {@code null} until the transitions are provided with
+     * {@link #setup}.
      */
-    private List<CifEventTransition> eventTransitions = null;
+    private List<CifEventTransition> allEventTransitions = null;
 
     /**
-     * For each automaton with at least one edge outside monitor context, the variable that tracks the selected edge to
-     * perform for its automaton.
+     * For each automaton with at least one edge outside monitor context, the name of the variable that tracks the
+     * selected edge to perform for its automaton.
      *
      * <p>
      * Use the {@link #getAutomatonEdgeVariable} method to query this map.
      * </p>
      */
-    private final Map<Automaton, PlcBasicVariable> edgeSelectionVariables = map();
+    private final Map<Automaton, EdgeVariableData> edgeSelectionVarData = map();
+
+    /** Edge selection variables that exist in the current scope. */
+    private Map<Automaton, PlcDataVariable> edgeSelectionVariables;
 
     /** Generation of standard PLC functions. */
     private final PlcFunctionAppls funcAppls;
@@ -119,8 +123,9 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     @Override
-    public void setTransitions(List<CifEventTransition> eventTransitions) {
-        this.eventTransitions = eventTransitions;
+    public void setup(List<CifEventTransition> allEventTransitions) {
+        this.allEventTransitions = allEventTransitions;
+        setupEdgeVariableData(allEventTransitions);
     }
 
     @Override
@@ -128,7 +133,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
         // Split event transitions between controllable and uncontrollable events.
         List<CifEventTransition> uncontrollableTransitions = list();
         List<CifEventTransition> controllableTransitions = list();
-        for (CifEventTransition eventTrans: eventTransitions) {
+        for (CifEventTransition eventTrans: allEventTransitions) {
             if (eventTrans.event.getControllable() == null) {
                 throw new AssertionError(
                         "Unexpected lack of controllability for event \"" + eventTrans.event + "\" found.");
@@ -138,34 +143,31 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 uncontrollableTransitions.add(eventTrans);
             }
         }
+        List<List<CifEventTransition>> transLoops = List.of(uncontrollableTransitions, controllableTransitions);
 
-        // Construct edge variables.
-        setupEdgeVariables(exprGen);
-
-        // Convert the event transition collections in the same order as they appear in the final code.
-        List<PlcStatement> uncontrollableStatements = generateCode(isProgressVar, uncontrollableTransitions, exprGen);
-        List<PlcStatement> controllableStatements = generateCode(isProgressVar, controllableTransitions, exprGen);
+        // Construct the edge selection variables, convert the event transition collections in the same structure as
+        // provided.
+        edgeSelectionVariables = createEdgeVariables(transLoops, exprGen);
+        List<List<PlcStatement>> loopsStatements = transLoops.stream()
+                .map(tl -> generateCode(isProgressVar, tl, exprGen)).toList();
+        edgeSelectionVariables = null;
 
         // And give the result to code storage.
-        target.getCodeStorage().addEventTransitions(uncontrollableStatements, controllableStatements);
-
-        // Release the (temporary) edge variables.
-        exprGen.releaseTempVariables(edgeSelectionVariables.values());
-        edgeSelectionVariables.clear();
+        target.getCodeStorage().addEventTransitions(loopsStatements.get(0), loopsStatements.get(1));
     }
 
     /**
-     * Construct edge variables for the automata.
+     * Construct edge variable data for all automata of all event transitions.
      *
-     * @param exprGen Expression generator for the scope of the generated code.
+     * @param allEventTransitions All event transitions.
      */
-    void setupEdgeVariables(ExprGenerator exprGen) {
+    void setupEdgeVariableData(List<CifEventTransition> allEventTransitions) {
         // For all automata, find the maximum number of edges to examine for an event.
         //
         // Skip cases without edges, monitors don't need edge variables. This leads to not having edge variables when
         // there are no edges that need them.
         Map<Automaton, Integer> maxEventEdges = map(); // Max number of edges for an event for all automata.
-        for (CifEventTransition evtTrans: eventTransitions) {
+        for (CifEventTransition evtTrans: allEventTransitions) {
             for (TransitionAutomaton transAut: evtTrans.senders) {
                 if (!transAut.transitionEdges.isEmpty()) {
                     maxEventEdges.merge(transAut.aut, transAut.transitionEdges.size(), (x, y) -> Math.max(x, y));
@@ -184,21 +186,66 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             // Monitors do not need edge tracking since the first enabled edge is immediately taken.
         }
 
+        NameGenerator nameGen = target.getNameGenerator();
+
         // Construct edge variables.
-        edgeSelectionVariables.clear();
+        edgeSelectionVarData.clear();
         for (Entry<Automaton, Integer> entry: maxEventEdges.entrySet()) {
             Automaton aut = entry.getKey();
             int numEdges = entry.getValue(); // Maximum number of different edge indices for the automaton.
-            Assert.check(numEdges > 0);
+            Assert.check(numEdges > 0); // Pure monitor automata are not allowed.
 
             // Derive a variable type for the edge variable.
             PlcType varType = PlcElementaryType.getTypeByRequiredCount(numEdges, target.getSupportedBitStringTypes());
 
             // Construct the edge variable itself, and store it for future use.
-            String edgeVariableName = "edge_" + getAbsName(aut, false);
-            PlcBasicVariable autVar = exprGen.getTempVariable(edgeVariableName, varType);
-            target.getCodeStorage().setAutomatonEdgeVariableName(aut, autVar.varName);
-            edgeSelectionVariables.put(aut, autVar);
+            String variableName = "edge_" + nameGen.generateGlobalNames(Set.of("edge_"), getAbsName(aut, false), false);
+            target.getCodeStorage().setAutomatonEdgeVariableName(aut, variableName);
+            edgeSelectionVarData.put(aut, new EdgeVariableData(variableName, varType));
+        }
+    }
+
+    /**
+     * Construct edge variables in the scope of the expression generator for the automata in the provided event
+     * transitions. Automata that do not need an edge variable are not in the returned map.
+     *
+     * @param transLoops Event transitions to examine.
+     * @param exprGen Expression generator to add the created variables to the scope.
+     * @return The constructed edge variables ordered by automaton.
+     */
+    private Map<Automaton, PlcDataVariable> createEdgeVariables(List<List<CifEventTransition>> transLoops,
+            ExprGenerator exprGen)
+    {
+        // Construct edge variable for the automaata as needed.
+        Map<Automaton, PlcDataVariable> edgeVariables = map();
+        for (List<CifEventTransition> transLoop: transLoops) {
+            for (CifEventTransition evtTrans: transLoop) {
+                addEdgeVariables(evtTrans.senders, edgeVariables);
+                addEdgeVariables(evtTrans.receivers, edgeVariables);
+                addEdgeVariables(evtTrans.syncers, edgeVariables);
+            }
+        }
+
+        // Add the created variable s to the scope.
+        for (PlcDataVariable edgeVar: edgeVariables.values()) {
+            exprGen.addLocalVariable(edgeVar, true);
+        }
+
+        return edgeVariables;
+    }
+
+    /**
+     * Construct an edge variable for the given automaton if it needs one and doesn't have one already.
+     *
+     * @param transAuts Automaton transitions to analyze.
+     * @param edgeVariables Already created edge variables ordered by automaton. Is updated in-plac.
+     */
+    private void addEdgeVariables(List<TransitionAutomaton> transAuts, Map<Automaton, PlcDataVariable> edgeVariables) {
+        for (TransitionAutomaton transAut: transAuts) {
+            EdgeVariableData edgeVarData = edgeSelectionVarData.get(transAut.aut);
+            if (edgeVarData != null) {
+                edgeVariables.computeIfAbsent(transAut.aut, aut -> edgeVarData.makeVariable(target));
+            }
         }
     }
 
@@ -1097,11 +1144,30 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
      * Get the variable that tracks the selected edge of the provided automaton.
      *
      * @param aut Automaton to use for finding the edge variable.
-     * @return The edge variable. Returns {@code null} if an edge variable if there is no edge variable.
+     * @return The edge variable. Returns {@code null} for an edge variable if there is no edge variable.
      */
     private PlcBasicVariable getAutomatonEdgeVariable(Automaton aut) {
         PlcBasicVariable edgeVariable = edgeSelectionVariables.get(aut);
         return edgeVariable;
+    }
+
+    /**
+     * Data to construct an edge variable.
+     *
+     *  @param name Name of the variable.
+     *  @param plcType Type of the variable in the PLC.
+     */
+    private record EdgeVariableData(String name, PlcType plcType) {
+        /**
+         * Construct an edge variable from the stored data.
+         *
+         * @param target PLC target to generate code for.
+         * @return The created variable.
+         */
+        public PlcDataVariable makeVariable(PlcTarget target) {
+            String targetText = target.getUsageVariableText(PlcVariablePurpose.LOCAL_VAR, name);
+            return new PlcDataVariable(targetText, name, plcType, null, null);
+        }
     }
 
     /**

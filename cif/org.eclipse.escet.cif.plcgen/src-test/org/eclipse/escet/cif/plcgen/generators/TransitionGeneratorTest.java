@@ -29,6 +29,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newReceivedEx
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
+import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -179,8 +180,10 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testCreateTransitionGenerator() {
-        transitionGenerator.setTransitions(List.of());
-        transitionGenerator.generate(target.getCodeStorage().getExprGenerator());
+        PlcCodeStorage codeStorage = target.getCodeStorage();
+
+        transitionGenerator.setup(List.of());
+        transitionGenerator.generate(codeStorage.getExprGenerator(), codeStorage.getIsProgressVariable());
         assertTrue(true);
     }
 
@@ -782,12 +785,15 @@ public class TransitionGeneratorTest {
 
     /** Run the transition generator. */
     private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
-        // Construct edge variables.
-        transitionGenerator.setTransitions(List.of(transition));
         ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
-        transitionGenerator.setupEdgeVariables(exprGen);
 
         // Generate the transition.
-        return transitionGenerator.generateCode(isProgressVar, List.of(transition), exprGen);
+        transitionGenerator.setup(List.of(transition));
+        transitionGenerator.generate(exprGen, isProgressVar);
+
+        // Construct the result and return it.
+        List<PlcStatement> unconResult = target.getCodeStorage().uncontrollableEventTransitionsCode;
+        List<PlcStatement> conResult = target.getCodeStorage().controllableEventTransitionsCode;
+        return concat((unconResult == null ? List.of() : unconResult), (conResult == null ? List.of() : conResult));
     }
 }

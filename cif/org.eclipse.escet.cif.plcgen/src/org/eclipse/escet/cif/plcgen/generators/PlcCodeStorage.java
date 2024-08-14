@@ -114,10 +114,10 @@ public class PlcCodeStorage {
     private List<PlcStatement> updateContVarsRemainingTimeCode = null;
 
     /** If not {@code null}, code to perform one iteration of every uncontrollable event. */
-    private List<PlcStatement> uncontrollableEventTransitionsCode = null;
+    List<PlcStatement> uncontrollableEventTransitionsCode = null;
 
     /** If not {@code null}, code to perform one iteration of every controllable event. */
-    private List<PlcStatement> controllableEventTransitionsCode = null;
+    List<PlcStatement> controllableEventTransitionsCode = null;
 
     /**
      * Maximum number of iterations for performing uncontrollable events in a single cycle, or {@code null} if

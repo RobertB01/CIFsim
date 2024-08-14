@@ -234,7 +234,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
             varStorage.addConstant(constant);
         }
         codeStorage.addComponentDatas(processorResults.componentDatas());
-        transitionGenerator.setTransitions(processorResults.cifEventTransitions());
+        transitionGenerator.setup(processorResults.cifEventTransitions());
 
         if (settings.termination.isRequested()) {
             return;
