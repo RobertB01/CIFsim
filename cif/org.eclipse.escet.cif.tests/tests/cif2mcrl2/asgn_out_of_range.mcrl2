@@ -6,6 +6,9 @@ act buff'c_e';
 % Actions for CIF variables having certain values.
 act buff'cnt''varvalue: Int;
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P(
     buff'cnt': Int
@@ -15,6 +18,9 @@ proc P(
     +
     % CIF variable value actions.
     buff'cnt''varvalue(buff'cnt') . P()
+    +
+    % CIF 'marked' action.
+    ((buff'cnt' == 0)) -> marked . P()
 ;
 
 % Initialization.

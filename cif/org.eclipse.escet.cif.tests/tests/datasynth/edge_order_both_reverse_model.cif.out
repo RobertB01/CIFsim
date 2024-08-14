@@ -1,137 +1,211 @@
 Reading CIF file "datasynth/edge_order_both_reverse_model.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind            Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      input variable  bool  D     0      1 * 2     2 * 2       2 * 2       100%
-  2      input variable  bool  C     1      1 * 2     2 * 2       2 * 2       100%
-  3      input variable  bool  p.Y   2      1 * 2     2 * 2       2 * 2       100%
-  4      input variable  bool  p.X   3      1 * 2     2 * 2       2 * 2       100%
-  -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                              4      8         16          16          100%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind            Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      input variable  bool  D     0      1 * 2     2 * 2       2 * 2       100%
+        2      input variable  bool  C     1      1 * 2     2 * 2       2 * 2       100%
+        3      input variable  bool  p.Y   2      1 * 2     2 * 2       2 * 2       100%
+        4      input variable  bool  p.X   3      1 * 2     2 * 2       2 * 2       100%
+        -----  --------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                              4      8         16          16          100%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 0
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Skipping orderer: no hyper-edges.
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 0
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Maximum number of iterations: 20
+                Skipping orderer: no hyper-edges.
 
-      Skipping algorithm: no hyper-edges.
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 0
+                Maximum number of iterations: 20
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Window length: 4
+                Skipping algorithm: no hyper-edges.
 
-      Skipping algorithm: no hyper-edges.
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 0
+                Window length: 4
 
-Variable order unchanged.
+                Skipping algorithm: no hyper-edges.
+
+    Variable order unchanged.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             true
-Initial   (system, combined init/plant inv): true
-Initial   (system, combined init/state inv): true
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             true
+    Initial   (system, combined init/plant inv): true
+    Initial   (system, combined init/state inv): true
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: p.c) (guard: true)
-    Edge: (event: p.a) (guard: true)
-    Edge: (event: p.z) (guard: true)
-    Edge: (event: D) (guard: true) (assignments: D+ != D)
-    Edge: (event: C) (guard: true) (assignments: C+ != C)
-    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
-    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.c) (guard: true)
+            Edge: (event: p.a) (guard: true)
+            Edge: (event: p.z) (guard: true)
+            Edge: (event: D) (guard: true) (assignments: D+ != D)
+            Edge: (event: C) (guard: true) (assignments: C+ != C)
+            Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
+            Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: true.
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Restricting behavior using implicit runtime error requirements.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: true.
 
-Round 1: started.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
+<<<<<<< HEAD
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
+=======
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
+>>>>>>> refs/remotes/origin/develop
 
+<<<<<<< HEAD
 Round 1: computing backward uncontrolled bad-state predicate.
 Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+=======
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
+>>>>>>> refs/remotes/origin/develop
 
+<<<<<<< HEAD
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: true [initialization predicate]
+=======
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
+>>>>>>> refs/remotes/origin/develop
 
-Round 1: finished, controlled behavior is stable.
+Re-initializing edges for being applied.
 
-Computing controlled system guards.
+Checking pre-synthesis for events that are never enabled.
+
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: true [initialization predicate]
+
+        Forward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    No guards changed.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: p.c) (guard: true)
-    Edge: (event: p.a) (guard: true)
-    Edge: (event: p.z) (guard: true)
-    Edge: (event: D) (guard: true) (assignments: D+ != D)
-    Edge: (event: C) (guard: true) (assignments: C+ != C)
-    Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
-    Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
+    State: (controlled-behavior: true)
+        Edge: (event: p.c) (guard: true)
+        Edge: (event: p.a) (guard: true)
+        Edge: (event: p.z) (guard: true)
+        Edge: (event: D) (guard: true) (assignments: D+ != D)
+        Edge: (event: C) (guard: true) (assignments: C+ != C)
+        Edge: (event: p.Y) (guard: true) (assignments: p.Y+ != p.Y)
+        Edge: (event: p.X) (guard: true) (assignments: p.X+ != p.X)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 16 states.
 
-Initial (synthesis result):            true
-Initial (uncontrolled system):         true
-Initial (controlled system):           true
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            true
+    Initial (uncontrolled system):         true
+    Initial (controlled system):           true
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    Event p.c: guard: true.
+    Event p.a: guard: true.
+    Event p.z: guard: true.
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/edge_order_both_reverse_model.ctrlsys.real.cif".

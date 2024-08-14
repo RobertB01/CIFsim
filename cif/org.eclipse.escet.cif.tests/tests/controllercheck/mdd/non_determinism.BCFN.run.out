@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/mdd/non_determinism.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/mdd/non_determinism.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
@@ -109,7 +109,7 @@ Preparing for BDD-based checks...
         -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
         Total                                      3      10        20          24          ~83%
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
-
-Preparing for MDD-based checks...
+Preparing for MDD-based checks:

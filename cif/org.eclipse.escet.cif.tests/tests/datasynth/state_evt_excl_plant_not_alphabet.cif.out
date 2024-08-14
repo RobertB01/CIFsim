@@ -1,97 +1,173 @@
 Reading CIF file "datasynth/state_evt_excl_plant_not_alphabet.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..3]  p.x   0      2 * 2     4 * 2       4 * 2       100%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      1      4         8           8           100%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Skipping variable ordering: only one variable present.
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..3]  p.x   0      2 * 2     4 * 2       4 * 2       100%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      1      4         8           8           100%
+
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             p.x = 0
-Initial   (discrete variables):              p.x = 0
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             p.x = 0
-Initial   (system, combined init/plant inv): p.x = 0
-Initial   (system, combined init/state inv): p.x = 0
+    Initial   (discrete variable 0):             p.x = 0
+    Initial   (discrete variables):              p.x = 0
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             p.x = 0
+    Initial   (system, combined init/plant inv): p.x = 0
+    Initial   (system, combined init/state inv): p.x = 0
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: p.inc) (guard: true) (assignments: p.x := p.x + 1)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.inc) (guard: true) (assignments: p.x := p.x + 1)
+
+Checking input for potential problems.
 
 Restricting edge guards to prevent runtime errors:
-  Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
+    Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: p.x = 0.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Restricting behavior using state requirements.
+Initializing edges for being applied.
 
-Extending controlled-behavior predicate using variable ranges.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Restricting behavior using state/event exclusion requirements.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: p.x = 0.
 
-Restricting behavior using implicit runtime error requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
-Round 1: started.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
+<<<<<<< HEAD
 Round 1: computing backward controlled-behavior predicate.
 Backward controlled-behavior: true [marker predicate]
+=======
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
+>>>>>>> refs/remotes/origin/develop
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
+<<<<<<< HEAD
 Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: p.x = 0 [initialization predicate]
 Forward controlled-behavior: true [fixed point].
+=======
+Re-initializing edges for being applied.
+>>>>>>> refs/remotes/origin/develop
 
-Round 1: finished, controlled behavior is stable.
+Checking pre-synthesis for events that are never enabled.
 
-Computing controlled system guards.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: p.x = 0 [initialization predicate]
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: p.x = 0 -> p.x = 0 or p.x = 1 [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            Forward controlled-behavior: p.x = 0 or p.x = 1 -> p.x != 3 [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 3:
+            Forward controlled-behavior: p.x != 3 -> true [forward reach with edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 4:
+            No change this iteration.
+
+        Forward controlled-behavior: true [fixed point].
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    No guards changed.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
+    State: (controlled-behavior: true)
+        Edge: (event: p.inc) (guard: true -> p.x != 3) (assignments: p.x := p.x + 1)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 4 states.
 
-Initial (synthesis result):            true
-Initial (uncontrolled system):         p.x = 0
-Initial (controlled system):           p.x = 0
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            true
+    Initial (uncontrolled system):         p.x = 0
+    Initial (controlled system):           p.x = 0
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    Event p.inc: guard: p.x != 3.
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/state_evt_excl_plant_not_alphabet.ctrlsys.real.cif".

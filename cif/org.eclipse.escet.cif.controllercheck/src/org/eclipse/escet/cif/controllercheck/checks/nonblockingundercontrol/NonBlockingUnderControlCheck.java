@@ -53,7 +53,8 @@ public class NonBlockingUnderControlCheck
 
         // 1) Compute predicate 'not gc' that indicates when no controllable event is enabled. That is, the negation of
         // the disjunction of the guards of the edges with controllable events.
-        dbg.line("Computing the condition for no controllable event to be enabled...");
+        dbg.line("Computing the condition for no controllable event to be enabled:");
+        dbg.inc();
 
         BDD notGc = computeNotGc(cifBddSpec);
 
@@ -61,39 +62,47 @@ public class NonBlockingUnderControlCheck
             return null;
         }
         dbg.line("Condition under which no controllable event is enabled: %s", BddUtils.bddToStr(notGc, cifBddSpec));
+        dbg.dec();
 
         // 2) Compute the 'ccp' states, the states on controllable-complete paths. This is computed by performing a
         // backwards reachability computation from 'marked and not gc', using all edges. For the edges of the
         // uncontrollable events, use 'guard and not gc' instead of the 'guard' of the edge.
         dbg.line();
-        dbg.line("Computing the controllable-complete path states...");
+        dbg.line("Computing the controllable-complete path states:");
+        dbg.inc();
 
         BDD ccp = computeCcp(cifBddSpec, notGc);
 
         if (termination.isRequested()) {
             return null;
         }
+        dbg.line();
         dbg.line("Controllable-complete path states: %s", BddUtils.bddToStr(ccp, cifBddSpec));
+        dbg.dec();
 
         // 3) Compute the 'bad' states: the not-'ccp' states and states that can reach such states. This is computed by
         // performing a backwards reachability computation on 'not ccp', using all edges. Unlike in step 2, the
         // original/unchanged guards of the edges are used.
         dbg.line();
-        dbg.line("Computing the bad states...");
+        dbg.line("Computing the bad states:");
+        dbg.inc();
 
         BDD bad = computeBad(cifBddSpec, ccp);
 
         if (termination.isRequested()) {
             return null;
         }
+        dbg.line();
         dbg.line("Bad states: %s", BddUtils.bddToStr(bad, cifBddSpec));
+        dbg.dec();
 
         // 4) Check whether non-blocking under control holds. It holds if the initial states are not 'bad'. That is,
         // check whether '(initial and bad) = false' holds.
         //
         // We can use 'initial' rather than 'initialInv', since preconditions forbid state invariants.
         dbg.line();
-        dbg.line("Computing the result of the non-blocking under control check...");
+        dbg.line("Computing the result of the non-blocking under control check:");
+        dbg.inc();
 
         BDD initialAndBad = cifBddSpec.initial.id().andWith(bad);
 
@@ -102,9 +111,13 @@ public class NonBlockingUnderControlCheck
         }
         dbg.line("Initial states: %s", BddUtils.bddToStr(cifBddSpec.initial, cifBddSpec));
         dbg.line("Bad initial states: %s", BddUtils.bddToStr(initialAndBad, cifBddSpec));
+        dbg.dec();
 
         boolean isNonBlockingUnderControl = initialAndBad.isZero();
         initialAndBad.free();
+
+        dbg.line();
+        dbg.line("Non-blocking under control: %s", isNonBlockingUnderControl ? "yes" : "no");
 
         // Return check result.
         return new NonBlockingUnderControlCheckConclusion(isNonBlockingUnderControl);

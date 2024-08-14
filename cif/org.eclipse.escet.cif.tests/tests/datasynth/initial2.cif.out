@@ -1,137 +1,188 @@
 Reading CIF file "datasynth/initial2.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a        p     0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..3]  p.x   1      2 * 2     4 * 2       4 * 2       100%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      2      6         12          12          100%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a        p     0      1 * 2     2 * 2       2 * 2       100%
+        2      discrete variable  int[0..3]  p.x   1      2 * 2     4 * 2       4 * 2       100%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      2      6         12          12          100%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 0
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Skipping orderer: no hyper-edges.
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 0
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Maximum number of iterations: 10
+                Skipping orderer: no hyper-edges.
 
-      Skipping algorithm: no hyper-edges.
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 0
+                Maximum number of iterations: 10
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Window length: 2
+                Skipping algorithm: no hyper-edges.
 
-      Skipping algorithm: no hyper-edges.
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 0
+                Window length: 2
 
-Variable order unchanged.
+                Skipping algorithm: no hyper-edges.
+
+    Variable order unchanged.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):             true
-Initial   (discrete variables):              true
-Initial   (component init predicate):        p.x != 1
-Initial   (component init predicate):        p.x != 2
-Initial   (components init predicate):       p.x != 2 and p.x != 1
-Initial   (aut/locs init predicate):         (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
-Initial   (auts/locs init predicate):        (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
-Initial   (uncontrolled system):             p.l1 and p.x = 3 or p.l2 and p.x = 0
-Initial   (system, combined init/plant inv): p.l1 and p.x = 3 or p.l2 and p.x = 0
-Initial   (system, combined init/state inv): p.l1 and p.x = 3 or p.l2 and p.x = 0
+    Initial   (discrete variable 1):             true
+    Initial   (discrete variables):              true
+    Initial   (component init predicate):        p.x != 1
+    Initial   (component init predicate):        p.x != 2
+    Initial   (components init predicate):       p.x != 2 and p.x != 1
+    Initial   (aut/locs init predicate):         (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
+    Initial   (auts/locs init predicate):        (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
+    Initial   (uncontrolled system):             p.l1 and p.x = 3 or p.l2 and p.x = 0
+    Initial   (system, combined init/plant inv): p.l1 and p.x = 3 or p.l2 and p.x = 0
+    Initial   (system, combined init/state inv): p.l1 and p.x = 3 or p.l2 and p.x = 0
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0.
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Restricting behavior using implicit runtime error requirements.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0.
 
-Round 1: started.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [initialization predicate]
-Controlled behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
-Round 1: finished, need another round.
+Re-initializing edges for being applied.
 
-Round 2: started.
+Checking pre-synthesis for events that are never enabled.
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [restricted to current/previous controlled-behavior predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0]
-Backward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [fixed point].
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (p.l2 or p.x != 3) and (p.l1 or p.x != 0) [current/previous controlled behavior predicate]
+        Controlled behavior not changed.
 
-Round 2: finished, controlled behavior is stable.
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
 
-Computing controlled system guards.
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [initialization predicate]
+
+        Controlled behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0.
+
+    Need another round.
+
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [restricted to current/previous controlled-behavior predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0]
+
+        Backward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: (p.l2 or p.x != 3) and (p.l1 or p.x != 0) [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    No guards changed.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0)
+    State: (controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 2 states.
 
-Initial (synthesis result):            p.l1 and p.x = 3 or p.l2 and p.x = 0
-Initial (uncontrolled system):         p.l1 and p.x = 3 or p.l2 and p.x = 0
-Initial (controlled system):           p.l1 and p.x = 3 or p.l2 and p.x = 0
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            p.l1 and p.x = 3 or p.l2 and p.x = 0
+    Initial (uncontrolled system):         p.l1 and p.x = 3 or p.l2 and p.x = 0
+    Initial (controlled system):           p.l1 and p.x = 3 or p.l2 and p.x = 0
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    No controllable events.
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/initial2.ctrlsys.real.cif".

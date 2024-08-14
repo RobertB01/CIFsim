@@ -11,9 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Five Automated Guided Vehicles (AGVs) serve a manufacturing work cell that produces parts. The AGVs travel on fixed
-// circular routes, alternately loading and unloading. The AGVs move through shared zones, and no two AGVs may be in
-// such a zone at the same time, to avoid collisions.
+// The Automated Guided Vehicles (AGVs) serve a manufacturing work cell that produces parts. The five AGVs travel on
+// fixed circular routes, alternately loading and unloading. The AGVs move through shared zones, and no two AGVs may be
+// in such a zone at the same time, to avoid collisions.
 
 // Five AGVs.
 

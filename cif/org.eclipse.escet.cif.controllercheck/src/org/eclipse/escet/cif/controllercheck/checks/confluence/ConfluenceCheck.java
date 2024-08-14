@@ -30,6 +30,7 @@ import org.eclipse.escet.cif.controllercheck.mdd.CifMddSpec;
 import org.eclipse.escet.cif.controllercheck.mdd.MddSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.output.DebugNormalOutput;
@@ -85,10 +86,12 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
         DebugNormalOutput out = cifMddSpec.getNormalOutput();
         DebugNormalOutput dbg = cifMddSpec.getDebugOutput();
         List<Automaton> automata = cifMddSpec.getAutomata();
+        Assert.check(!automata.isEmpty());
         Set<Event> controllableEvents = cifMddSpec.getControllableEvents();
 
-        // If no automata, or no controllable events, then confluence trivially holds.
-        if (automata.isEmpty() || controllableEvents.isEmpty()) {
+        // If no controllable events, then confluence trivially holds.
+        if (controllableEvents.isEmpty()) {
+            dbg.line("No controllable events. Confluence trivially holds.");
             return new ConfluenceCheckConclusion(List.of());
         }
 
@@ -137,7 +140,7 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
 
                 String evt2Name = CifTextUtils.getAbsName(event2);
                 if (DEBUG_GLOBAL) {
-                    dbg.line("Trying event pair (" + evt1Name + ", " + evt2Name + ")...");
+                    dbg.line("Trying event pair (" + evt1Name + ", " + evt2Name + ").");
                 }
 
                 Node globalGuard2 = entry2.getValue();
@@ -391,6 +394,19 @@ public class ConfluenceCheck extends ControllerCheckerMddBasedCheck<ConfluenceCh
         needEmptyLine = dumpMatches(independents, "Independent event pairs", out, needEmptyLine);
         needEmptyLine = dumpMatches(skippables, "Skippable event pairs", out, needEmptyLine);
         needEmptyLine = dumpMatches(reversibles, "Reversible event pairs", out, needEmptyLine);
+
+        if (mutualExclusives.isEmpty() && updateEquivalents.isEmpty() && independents.isEmpty() && skippables.isEmpty()
+                && reversibles.isEmpty())
+        {
+            dbg.line("No proven pairs.");
+        }
+
+        dbg.line();
+        if (cannotProves.isEmpty()) {
+            dbg.line("All pairs proven. Confluence holds.");
+        } else {
+            dbg.line("Some pairs unproven. Confluence may not hold.");
+        }
 
         // Return check conclusion.
         return new ConfluenceCheckConclusion(cannotProves);

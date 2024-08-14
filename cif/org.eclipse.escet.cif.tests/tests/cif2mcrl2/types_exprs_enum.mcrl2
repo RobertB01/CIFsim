@@ -4,27 +4,86 @@
 sort E' = struct L1' | L2' | L3';
 
 % Actions for CIF events.
-act aut'e1';
-act aut'e2';
-act aut'e3';
+act aut'e01';
+act aut'e02';
+act aut'e03';
+act aut'e04';
+act aut'e05';
+act aut'e06';
+act aut'e07';
+act aut'e08';
+act aut'e09';
+act aut'e10';
+act aut'e11';
+act aut'e12';
+act aut'e13';
+act aut'e14';
 
 % Actions for CIF variables having certain values.
 act aut'v''varvalue: E';
+act aut'v1''varvalue: Int;
+act aut'v2''varvalue: Int;
+act aut've3''varvalue: E';
+act aut'vf''varvalue: Bool;
+act aut'vt''varvalue: Bool;
+
+% Action for CIF marker predicate.
+act marked;
 
 % Process for behavior of the CIF specification.
 proc P(
-    aut'v': E'
+    aut'v': E',
+    aut'vt': Bool,
+    aut'vf': Bool,
+    aut'v1': Int,
+    aut'v2': Int,
+    aut've3': E'
 ) =
     % CIF linearized edges.
-    ((aut'v' == L3')) -> aut'e1' . P()
+    ((aut'v' == L3')) -> aut'e01' . P()
     +
-    ((aut'v' == L1')) -> aut'e2' . P()
+    ((aut'v' == L1')) -> aut'e02' . P()
     +
-    ((aut'v' == L1')) -> aut'e3' . P()
+    ((aut'v' == L1')) -> aut'e03' . P()
+    +
+    ((aut'v' == if(aut'vt', L1', L2'))) -> aut'e04' . P()
+    +
+    ((aut'v' == if(aut'vf', L1', L2'))) -> aut'e05' . P()
+    +
+    ((aut'v' == if(aut'vt', L2', L1'))) -> aut'e06' . P()
+    +
+    ((aut'v' == if(aut'vf', L2', L1'))) -> aut'e07' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vt'), L1', L2'))) -> aut'e08' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vf'), L1', if((aut'vt' && aut'vt'), L1', L2')))) -> aut'e09' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vf'), L1', if((aut'vt' && aut'vf'), L1', L1')))) -> aut'e10' . P()
+    +
+    ((aut'v' == if((aut'vt' && aut'vf'), L1', if((aut'vt' && aut'vf'), L1', L2')))) -> aut'e11' . P()
+    +
+    ((aut'v' == if((aut'vt' == aut'vt'), L1', if((aut'vt' == aut'vf'), L2', L2')))) -> aut'e12' . P()
+    +
+    ((aut'v' == if((aut'v2' == aut'v1'), L2', if((aut'v2' == aut'v2'), L1', L2')))) -> aut'e13' . P()
+    +
+    ((aut'v' == if((aut've3' == L1'), L2', if((aut've3' == L2'), L1', L2')))) -> aut'e14' . P()
     +
     % CIF variable value actions.
     aut'v''varvalue(aut'v') . P()
+    +
+    aut'v1''varvalue(aut'v1') . P()
+    +
+    aut'v2''varvalue(aut'v2') . P()
+    +
+    aut've3''varvalue(aut've3') . P()
+    +
+    aut'vf''varvalue(aut'vf') . P()
+    +
+    aut'vt''varvalue(aut'vt') . P()
+    +
+    % CIF 'marked' action.
+    (false) -> marked . P()
 ;
 
 % Initialization.
-init P(L1');
+init P(L1', true, false, 1, 2, L3');

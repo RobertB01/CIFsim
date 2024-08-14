@@ -16,7 +16,7 @@
 //  - Number of levels:        n = 3
 //  - Number of cats and mice: k = 2
 
-// Cat and mouse tower (original version):
+// Cat and mouse tower (CMT), original version:
 //  - A tower has a 'n' levels, with 5 rooms at each level.
 //  - 'k' cats start in room 1 at level 1, and 'k' mice in room 5 of level 'n'.
 //  - Cats and mice may move between connected rooms, either at the same level or to the level above or below.

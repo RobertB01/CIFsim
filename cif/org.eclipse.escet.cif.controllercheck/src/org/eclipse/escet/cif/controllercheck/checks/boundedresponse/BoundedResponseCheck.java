@@ -48,23 +48,56 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
         DebugNormalOutput dbg = cifBddSpec.settings.getDebugOutput();
 
         // Compute reachable states.
-        dbg.line("Computing reachable states...");
+        dbg.line("Computing reachable states:");
+        dbg.inc();
+
         BDD reachableStates = computeReachableStates(cifBddSpec);
+
+        dbg.dec();
         if (termination.isRequested()) {
             return null;
         }
 
-        // Compute bounds.
+        // Compute uncontrollables bounds.
         dbg.line();
-        dbg.line("Computing bound for uncontrollable events...");
-        Bound uncontrollablesBound = computeBound(cifBddSpec, reachableStates, false);
+        dbg.line("Computing bound for uncontrollable events:");
+        dbg.inc();
+
+        Bound uncontrollablesBound;
+        try {
+            uncontrollablesBound = computeBound(cifBddSpec, reachableStates, false);
+        } catch (Throwable e) {
+            dbg.dec();
+            throw e;
+        }
+
+        if (uncontrollablesBound.hasInitialState()) {
+            dbg.line();
+        }
+        dbg.line("Bound: %s.", uncontrollablesBound.isBounded() ? uncontrollablesBound.getBound() : "n/a (cycle)");
+        dbg.dec();
         if (termination.isRequested()) {
             return null;
         }
 
+        // Compute controllables bounds.
         dbg.line();
-        dbg.line("Computing bound for controllable events...");
-        Bound controllablesBound = computeBound(cifBddSpec, reachableStates, true);
+        dbg.line("Computing bound for controllable events:");
+        dbg.inc();
+
+        Bound controllablesBound;
+        try {
+            controllablesBound = computeBound(cifBddSpec, reachableStates, true);
+        } catch (Throwable e) {
+            dbg.dec();
+            throw e;
+        }
+
+        if (controllablesBound.hasInitialState()) {
+            dbg.line();
+        }
+        dbg.line("Bound: %s.", controllablesBound.isBounded() ? controllablesBound.getBound() : "n/a (cycle)");
+        dbg.dec();
         if (termination.isRequested()) {
             return null;
         }

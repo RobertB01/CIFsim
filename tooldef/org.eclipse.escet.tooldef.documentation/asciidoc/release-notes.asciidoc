@@ -26,6 +26,12 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-n
 
 TBD
 
+Improvements and fixes:
+
+* The ToolDef built-in tools that work on user-provided paths no longer crash when an invalid path is provided, but instead give a proper error message (issue {escet-issue}924[#924]).
+* The ToolDef interpreter no longer crashes on user-specified Java method invocations that result in an exception (issue {escet-issue}925[#925]).
+* The ToolDef documentation has a small fix (issue {escet-issue}943[#943]).
+
 === Version 4.0 (2024-06-30)
 
 Improvements and fixes:

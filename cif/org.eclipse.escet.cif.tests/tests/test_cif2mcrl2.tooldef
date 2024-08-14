@@ -18,9 +18,12 @@ string test_path = "cif2mcrl2";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1"];
 map(string:list string) test_options = {
-    "cif2mcrl2/example.cif":              ["--value-actions=+*,-*novalue*,-*value*,+*wel"],
-    "cif2mcrl2/no_value_actions.cif":     ["-v ''"],
-    "cif2mcrl2/value_actions_subset.cif": ["--value-actions=Q,P.*,-P.x"],
+    "cif2mcrl2/empty_supported_no_marked.cif": ["-a0"],
+    "cif2mcrl2/example.cif":                   ["--value-actions=+*,-*novalue*,-*value*,+*wel"],
+    "cif2mcrl2/marked_opt_off.cif":            ["--marked-action=off"],
+    "cif2mcrl2/marked_opt_on.cif":             ["--marked-action=on"],
+    "cif2mcrl2/no_value_actions.cif":          ["-v ''"],
+    "cif2mcrl2/value_actions_subset.cif":      ["--value-actions=Q,P.*,-P.x"],
 };
 set string test_skip = {};
 

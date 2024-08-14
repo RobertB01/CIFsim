@@ -11,6 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// This dining philosophers model concerns a simplified version of the traditional dining philosophers problem. Five
+// philosophers dine at a table, and each has its own plate. Between the plates are forks. Each philosopher requires two
+// forks to eat the meal. No two philosophers can take the same fork at the same time.
+
 plant def Fork(controllable take_left, take_right, release_left, release_right):
   location available:
     initial;

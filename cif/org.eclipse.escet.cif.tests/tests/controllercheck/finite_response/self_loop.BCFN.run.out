@@ -1,46 +1,86 @@
-Loading CIF specification "controllercheck/finite_response/self_loop.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/finite_response/self_loop.cif".
+Preparing for BDD-based checks:
+    The specification has no BDD variables.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-Preparing for MDD-based checks...
-    Analyzing automaton "test"...
-        Initializing the automaton data for event "test.c"...
-        Processing edges from the location of automaton "test"...
-        Updating global guards and updates for event "test.c"...
+Preparing for MDD-based checks:
+    Analyzing automaton "test":
+        Initializing the automaton data for event "test.c".
+        Processing edges from the location of automaton "test".
+        Updating global guards and updates for event "test.c".
 
+<<<<<<< HEAD
 Checking for bounded response...
     Computing reachable states...
     Reachable states: true [initial states predicate]
+=======
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: true [initial states predicate]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Forward reachability iteration 1:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: true
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: true
 
+<<<<<<< HEAD
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
     Controllable-complete path states: false
+=======
+    Computing the controllable-complete path states:
+        Controllable-complete path states: false [controllable-complete path end states predicate]
+>>>>>>> refs/remotes/origin/develop
 
+<<<<<<< HEAD
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
     Bad states: true
+=======
+        Backward reachability iteration 1:
+            No change this iteration.
+>>>>>>> refs/remotes/origin/develop
 
-    Computing the result of the non-blocking under control check...
-    Initial states: true
-    Bad initial states: true
+        Controllable-complete path states: false
 
-Checking for finite response...
+    Computing the bad states:
+        Bad states: true [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
+
+    Computing the result of the non-blocking under control check:
+        Initial states: true
+        Bad initial states: true
+
+    Non-blocking under control: no
+
+Checking for finite response:
     Iteration 1.
 
-Checking for confluence...
+Checking for confluence:
+    No proven pairs.
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [OK] The specification has bounded response:

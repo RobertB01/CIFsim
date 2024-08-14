@@ -1,0 +1,45 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton m:
+  disc int v;
+
+  marked v = 1;
+  marked v = 2;
+
+  location:
+    initial;
+    marked;
+end
+
+marked m.v = 3;
+marked m.v = 4;
+
+automaton a1:
+  location:
+    initial;
+    marked m.v = 5, m.v = 6;
+end
+
+automaton a2:
+  event e;
+
+  location loc1:
+    initial;
+    marked m.v = 7, m.v = 8;
+    edge e goto loc2;
+
+  location loc2:
+    marked m.v = 9, m.v = 10;
+end
+

@@ -17,10 +17,8 @@ import org.eclipse.escet.cif.checkers.CifPreconditionChecker;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck;
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
+import org.eclipse.escet.cif.checkers.checks.EdgeNoMultiAssignCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
-import org.eclipse.escet.cif.checkers.checks.EdgeOnlySimpleAssignmentsCheck;
-import org.eclipse.escet.cif.checkers.checks.EqnNotAllowedCheck;
-import org.eclipse.escet.cif.checkers.checks.EventNoChannelsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
@@ -75,57 +73,53 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                 // Input variables are not supported.
                 new VarNoInputCheck(),
 
-                // Equations are not supported.
-                new EqnNotAllowedCheck(),
-
-                // Channels are not supported.
-                new EventNoChannelsCheck(),
-
                 // There must be at least one automaton.
                 new SpecAutomataCountsCheck().setMinMaxAuts(1, SpecAutomataCountsCheck.NO_CHANGE),
 
                 // Exactly one initial location per automaton.
                 new AutOnlyWithCertainNumberOfInitLocsCheck(AllowedNumberOfInitLocs.EXACTLY_ONE),
 
-                // No conditional updates and multi-assignments.
-                new EdgeOnlySimpleAssignmentsCheck(),
+                // No multi-assignments.
+                new EdgeNoMultiAssignCheck(),
 
                 // Only certain expression:
                 // - For expressions that produce a boolean value, only boolean literals, constants (eliminated
-                //   already), discrete variables, algebraic variables (eliminated already), binary operators 'and',
-                //   'or', '=>', '=', '!=', '<', '<=', '>' and '>=', and unary operator 'not' are supported.
+                //   already), discrete variables, algebraic variables (eliminated already), received values (already
+                //   eliminated), binary operators 'and', 'or', '=>', '<=>', '=', '!=', '<', '<=', '>' and '>=', unary
+                //   operator 'not', location references (already eliminated), 'if' expressions, 'switch' expressions,
+                //   and casts that do not change the type are supported.
                 // - For expressions that produce an enumeration value, only enumeration literals, constants (eliminated
-                //   already), discrete variables, and algebraic variables (eliminated already) are supported.
+                //   already), discrete variables, algebraic variables (eliminated already), received values (already
+                //   eliminated), 'if' expressions, 'switch' expressions, and casts that do not change the type are
+                //   supported.
                 // - For expressions that produce an integer value, only integer literals, constants (eliminated
-                //   already), discrete variables, algebraic variables (eliminated already), binary operators '+', '*'
-                //   and '-', and unary operators '-' and '+' are supported.
+                //   already), discrete variables, algebraic variables (eliminated already), received values (already
+                //   eliminated), binary operators '+', '*', '-', 'div' (on positive divisors) and 'mod' (on positive
+                //   divisors), unary operators '-' and '+', 'if' expressions, 'switch'  expressions, and casts that do
+                //   not change the type are supported.
                 // - Unary and binary expressions are only supported with boolean, integer and enumeration operands.
                 new ExprNoSpecificExprsCheck(
                         NoSpecificExpr.FUNC_REFS,
-                        NoSpecificExpr.CAST_EXPRS,
+                        NoSpecificExpr.CAST_EXPRS_NON_EQUAL_TYPE,
                         NoSpecificExpr.COMP_REFS,
                         NoSpecificExpr.CONT_VAR_REFS,
                         NoSpecificExpr.DICT_LITS,
                         NoSpecificExpr.TUPLE_FIELD_REFS,
                         NoSpecificExpr.FUNC_CALLS,
-                        NoSpecificExpr.IF_EXPRS,
                         NoSpecificExpr.INPUT_VAR_REFS,
                         NoSpecificExpr.LIST_LITS,
-                        NoSpecificExpr.LOC_REFS,
                         NoSpecificExpr.PROJECTION_EXPRS,
                         NoSpecificExpr.REAL_LITS,
-                        NoSpecificExpr.RECEIVE_EXPRS,
                         NoSpecificExpr.SET_LITS,
                         NoSpecificExpr.SLICE_EXPRS,
                         NoSpecificExpr.STRING_LITS,
-                        NoSpecificExpr.SWITCH_EXPRS,
                         NoSpecificExpr.TIME_VAR_REFS,
                         NoSpecificExpr.TUPLE_LITS),
                 new ExprNoSpecificBinaryExprsCheck(
-                        NoSpecificBinaryOp.ADDITION_REALS,
-                        NoSpecificBinaryOp.ADDITION_LISTS,
-                        NoSpecificBinaryOp.ADDITION_STRINGS,
                         NoSpecificBinaryOp.ADDITION_DICTS,
+                        NoSpecificBinaryOp.ADDITION_LISTS,
+                        NoSpecificBinaryOp.ADDITION_REALS,
+                        NoSpecificBinaryOp.ADDITION_STRINGS,
                         NoSpecificBinaryOp.CONJUNCTION_SETS,
                         NoSpecificBinaryOp.DISJUNCTION_SETS,
                         NoSpecificBinaryOp.DIVISION,
@@ -138,16 +132,16 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                         NoSpecificBinaryOp.EQUAL_TUPLE,
                         NoSpecificBinaryOp.GREATER_EQUAL_REALS,
                         NoSpecificBinaryOp.GREATER_THAN_REALS,
-                        NoSpecificBinaryOp.INTEGER_DIVISION,
+                        NoSpecificBinaryOp.INTEGER_DIVISION_NON_POSITIVE_DIVISOR,
                         NoSpecificBinaryOp.LESS_EQUAL_REALS,
                         NoSpecificBinaryOp.LESS_THAN_REALS,
-                        NoSpecificBinaryOp.MODULUS,
+                        NoSpecificBinaryOp.MODULUS_NON_POSITIVE_DIVISOR,
                         NoSpecificBinaryOp.MULTIPLICATION_REALS,
                         NoSpecificBinaryOp.SUBSET,
-                        NoSpecificBinaryOp.SUBTRACTION_REALS,
-                        NoSpecificBinaryOp.SUBTRACTION_LISTS,
-                        NoSpecificBinaryOp.SUBTRACTION_SETS,
                         NoSpecificBinaryOp.SUBTRACTION_DICTS,
+                        NoSpecificBinaryOp.SUBTRACTION_LISTS,
+                        NoSpecificBinaryOp.SUBTRACTION_REALS,
+                        NoSpecificBinaryOp.SUBTRACTION_SETS,
                         NoSpecificBinaryOp.UNEQUAL_DICT,
                         NoSpecificBinaryOp.UNEQUAL_LIST,
                         NoSpecificBinaryOp.UNEQUAL_REAL,
@@ -159,12 +153,15 @@ public class CifToMcrl2PreChecker extends CifPreconditionChecker {
                         NoSpecificUnaryOp.PLUS_REALS,
                         NoSpecificUnaryOp.SAMPLE),
 
-                // No initialization predicates in components.
-                new CompNoInitPredsCheck(),
+                // No initialization predicates in components, unless they are trivially 'true'.
+                new CompNoInitPredsCheck(true),
 
-                // No invariants.
-                new InvNoSpecificInvsCheck().disallow(
-                        NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS, NoInvariantPlaceKind.ALL_PLACES),
+                // Only non-restrictive invariants.
+                new InvNoSpecificInvsCheck()
+                        .disallow(
+                                NoInvariantSupKind.ALL_KINDS, NoInvariantKind.ALL_KINDS,
+                                NoInvariantPlaceKind.ALL_PLACES)
+                        .ignoreNeverBlockingInvariants(),
 
                 // No urgency.
                 new LocNoUrgentCheck(),

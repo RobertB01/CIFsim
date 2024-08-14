@@ -1,2 +1,3 @@
 Reading CIF file "datasynth/plant_ref_req.cif".
-Preprocessing CIF specification.
+
+Preprocessing CIF specification (includes checking that the specification is supported).

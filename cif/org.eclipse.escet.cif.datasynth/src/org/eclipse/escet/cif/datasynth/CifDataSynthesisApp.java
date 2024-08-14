@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
@@ -126,7 +128,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         settings.setDebugOutput(OutputProvider.getDebugOutputStream());
         settings.setNormalOutput(OutputProvider.getNormalOutputStream());
         settings.setWarnOutput(OutputProvider.getWarningOutputStream());
-        settings.setIndentAmount(2);
+        settings.setIndentAmount(4);
         settings.setDoPlantsRefReqsWarn(PlantsRefReqsWarnOption.isEnabled());
         settings.setAllowNonDeterminism(AllowNonDeterminism.UNCONTROLLABLE);
         settings.setBddInitNodeTableSize(BddInitNodeTableSizeOption.getInitialSize());
@@ -178,7 +180,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             // Print timing statistics.
             if (doTiming) {
                 timing.total.stop();
-                timing.print(settings.getDebugOutput(), settings.getNormalOutput());
+                timing.print(settings.getIndentAmount(), settings.getDebugOutput(), settings.getNormalOutput());
             }
         }
 
@@ -221,9 +223,10 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             return;
         }
 
-        // Perform preprocessing.
+        // Check for supported specification and perform preprocessing.
         if (dbgEnabled) {
-            dbg("Preprocessing CIF specification.");
+            dbg();
+            dbg("Preprocessing CIF specification (includes checking that the specification is supported).");
         }
 
         if (doTiming) {
@@ -251,10 +254,10 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         // Perform synthesis.
         Specification rslt;
         try {
-            // Convert CIF specification to a CIF/BDD representation, checking for precondition violations along the
-            // way.
+            // Convert CIF specification to a CIF/BDD representation.
             if (dbgEnabled) {
-                dbg("Converting CIF specification to internal format.");
+                dbg();
+                dbg("Converting CIF specification to internal format (BDDs):");
             }
 
             CifBddSpec cifBddSpec;
@@ -262,8 +265,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 timing.inputConvert.start();
             }
             try {
-                converter1.setNeedEmptyDebugLine();
+                idbg();
                 cifBddSpec = converter1.convert(spec, settings, factory);
+                ddbg();
             } finally {
                 if (doTiming) {
                     timing.inputConvert.stop();
@@ -276,6 +280,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Perform synthesis.
             if (dbgEnabled) {
+                dbg();
                 dbg("Starting data-based synthesis.");
             }
             CifDataSynthesisResult synthResult = CifDataSynthesis.synthesize(cifBddSpec, settings, timing);
@@ -285,6 +290,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Construct output CIF specification.
             if (dbgEnabled) {
+                dbg();
                 dbg("Constructing output CIF specification.");
             }
             SynthesisToCifConverter converter2 = new SynthesisToCifConverter();
@@ -318,6 +324,10 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         }
 
         // Check CIF specification to output.
+        if (dbgEnabled) {
+            dbg();
+            dbg("Checking output CIF specification.");
+        }
         CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "synthesized");
         try {
             new CifAnnotationsPostChecker(env).check(spec);
@@ -329,6 +339,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         // Write output CIF specification.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".ctrlsys.cif");
         if (dbgEnabled) {
+            dbg();
             dbg("Writing output CIF file \"%s\".", outPath);
         }
         String absOutPath = Paths.resolve(outPath);

@@ -39,6 +39,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
+import org.eclipse.escet.cif.plcgen.generators.CifProcessor.CifObjectFinder;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.generators.io.IoEntry;
@@ -133,9 +134,13 @@ public class InputOutputGenerator {
         return result;
     }
 
-    /** Generate input/output code for communicating with the world outside the PLC. */
-    public void process() {
-        List<IoEntry> entries = convertIoTableEntries();
+    /**
+     * Generate input/output code for communicating with the world outside the PLC.
+     *
+     * @param cifObjectFinder Finder to get CIF objects from the input specification from their absolute name.
+     */
+    public void process(CifObjectFinder cifObjectFinder) {
+        List<IoEntry> entries = convertIoTableEntries(cifObjectFinder);
         generateIoCode(entries);
     }
 
@@ -187,9 +192,10 @@ public class InputOutputGenerator {
      * </ul>
      * </p>
      *
+     * @param cifObjectFinder Finder to get CIF objects from the input specification from their absolute name.
      * @return The created entries of the I/O table, list is empty if no table file was found.
      */
-    private List<IoEntry> convertIoTableEntries() {
+    private List<IoEntry> convertIoTableEntries(CifObjectFinder cifObjectFinder) {
         Set<PositionObject> connectedInputCifObjects = set(); // Used CIF objects for input.
         Set<IoAddress> connectedPlcAddresses = set(); // Used PLC addresses for output.
 
@@ -219,7 +225,7 @@ public class InputOutputGenerator {
             String absCifName = line.get(ABS_CIF_NAME_COLUMN).trim();
             PositionObject cifObj;
             try {
-                cifObj = target.getCifProcessor().findCifObjectByAbsName(absCifName);
+                cifObj = cifObjectFinder.findCifObjectByAbsName(absCifName);
             } catch (IllegalArgumentException ex) {
                 String message = fmt(
                         "The 'CIF name' field containing \"%s\" does not refer to an object in the CIF "

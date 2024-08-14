@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/cycle_ctrl.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/cycle_ctrl.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -9,19 +9,37 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: p.Off [initial states predicate]
 
+<<<<<<< HEAD
 Checking for bounded response...
     Computing reachable states...
     Reachable states: p.Off [initial states predicate]
     Reachable states: true [fixed point].
+=======
+        Forward reachability iteration 1:
+            Reachable states: p.Off -> true [forward reach with edge: (event: c_on) (guard: p.Off) (assignments: p := p.On)]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
+        Reachable states: true [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: n/a (cycle).
 
     Bounded response check completed.
 

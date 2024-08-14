@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/finite_response/three_part_loop.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/finite_response/three_part_loop.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type       Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ---------  ----  -----  --------  ----------  ----------  -----------
@@ -101,78 +101,121 @@ Preparing for BDD-based checks...
         -----  ----------------  ---------  ----  -----  --------  ----------  ----------  -----------
         Total                                     2      8         12          16          75%
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        Edge (event: X.a) (guard: X.A) (assignments: X := X.B): guard: X.A -> X.A and Y != 1 [plant: Y != 1].
+        Edge (event: X.b) (guard: X.B) (assignments: X := X.C): guard: X.B -> X.B and Y != 2 [plant: Y != 2].
+        Edge (event: X.c) (guard: X.C) (assignments: X := X.A): guard: X.C -> X.C and Y = 2 or X.C and Y = 1 [plant: Y != 0].
 
-    Restricting system behavior using state/event exclusion plant invariants.
+        System:
+            Edge: (event: X.a) (guard: X.A -> X.A and Y != 1) (assignments: X := X.B)
+            Edge: (event: X.b) (guard: X.B -> X.B and Y != 2) (assignments: X := X.C)
+            Edge: (event: X.c) (guard: X.C -> X.C and Y = 2 or X.C and Y = 1) (assignments: X := X.A)
+            Edge: (event: Y) (guard: true) (assignments: Y+ != Y)
 
-    Edge (event: X.a) (guard: X.A) (assignments: X := X.B): guard: X.A -> X.A and Y != 1 [plant: Y != 1].
-    Edge (event: X.b) (guard: X.B) (assignments: X := X.C): guard: X.B -> X.B and Y != 2 [plant: Y != 2].
-    Edge (event: X.c) (guard: X.C) (assignments: X := X.A): guard: X.C -> X.C and Y = 2 or X.C and Y = 1 [plant: Y != 0].
+Preparing for MDD-based checks:
+    Analyzing automaton "X":
+        Initializing the automaton data for event "X.a".
+        Initializing the automaton data for event "X.b".
+        Initializing the automaton data for event "X.c".
+        Processing edges from location "A" of automaton "X".
+        Processing edges from location "B" of automaton "X".
+        Processing edges from location "C" of automaton "X".
+        Updating global guards and updates for event "X.a".
+        Updating global guards and updates for event "X.b".
+        Updating global guards and updates for event "X.c".
 
-    System:
-        Edge: (event: X.a) (guard: X.A -> X.A and Y != 1) (assignments: X := X.B)
-        Edge: (event: X.b) (guard: X.B -> X.B and Y != 2) (assignments: X := X.C)
-        Edge: (event: X.c) (guard: X.C -> X.C and Y = 2 or X.C and Y = 1) (assignments: X := X.A)
-        Edge: (event: Y) (guard: true) (assignments: Y+ != Y)
+    Analyzing automaton "SupervisorStateEvtExcls":
+        Initializing the automaton data for event "X.a".
+        Initializing the automaton data for event "X.b".
+        Initializing the automaton data for event "X.c".
+        Processing edges from the location of automaton "SupervisorStateEvtExcls".
+        Updating global guards and updates for event "X.a".
+        Updating global guards and updates for event "X.b".
+        Updating global guards and updates for event "X.c".
 
-Preparing for MDD-based checks...
-    Analyzing automaton "X"...
-        Initializing the automaton data for event "X.a"...
-        Initializing the automaton data for event "X.b"...
-        Initializing the automaton data for event "X.c"...
-        Processing edges from location "A" of automaton "X"...
-        Processing edges from location "B" of automaton "X"...
-        Processing edges from location "C" of automaton "X"...
-        Updating global guards and updates for event "X.a"...
-        Updating global guards and updates for event "X.b"...
-        Updating global guards and updates for event "X.c"...
-    Analyzing automaton "SupervisorStateEvtExcls"...
-        Initializing the automaton data for event "X.a"...
-        Initializing the automaton data for event "X.b"...
-        Initializing the automaton data for event "X.c"...
-        Processing edges from the location of automaton "SupervisorStateEvtExcls"...
-        Updating global guards and updates for event "X.a"...
-        Updating global guards and updates for event "X.b"...
-        Updating global guards and updates for event "X.c"...
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: X.A [initial states predicate]
 
+<<<<<<< HEAD
 Checking for bounded response...
     Computing reachable states...
     Reachable states: X.A [initial states predicate]
     Reachable states: true [fixed point].
+=======
+        Forward reachability iteration 1:
+            Reachable states: X.A -> X.A or X.B and Y != 1 [forward reach with edge: (event: X.a) (guard: X.A -> X.A and Y != 1) (assignments: X := X.B)]
+            Reachable states: X.A or X.B and Y != 1 -> X.A or (X.C and Y = 0 or X.B and Y != 1) [forward reach with edge: (event: X.b) (guard: X.B -> X.B and Y != 2) (assignments: X := X.C)]
+            Reachable states: X.A or (X.C and Y = 0 or X.B and Y != 1) -> true [forward reach with edge: (event: Y) (guard: true) (assignments: Y+ != Y)]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: (not X.A or Y != 0) and ((not X.C or Y != 2) and (not X.B or Y != 1))).
-    Bounded response check round 3 (states before round: X.A and Y = 1 or (X.C and Y = 0 or X.B and Y = 2)).
+        Reachable states: true [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: (not X.A or Y != 0) and ((not X.C or Y != 2) and (not X.B or Y != 1))).
+        Bounded response check round 3 (states before round: X.A and Y = 1 or (X.C and Y = 0 or X.B and Y = 2)).
+
+        Bound: 2.
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: X.A and Y = 1 or (X.C and Y = 0 or X.B and Y = 2)
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: X.A and Y = 1 or (X.C and Y = 0 or X.B and Y = 2)
 
+<<<<<<< HEAD
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
     Controllable-complete path states: false
+=======
+    Computing the controllable-complete path states:
+        Controllable-complete path states: false [controllable-complete path end states predicate]
+>>>>>>> refs/remotes/origin/develop
 
+<<<<<<< HEAD
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
     Bad states: true
+=======
+        Backward reachability iteration 1:
+            No change this iteration.
+>>>>>>> refs/remotes/origin/develop
 
-    Computing the result of the non-blocking under control check...
-    Initial states: X.A
-    Bad initial states: X.A
+        Controllable-complete path states: false
 
-Checking for finite response...
+    Computing the bad states:
+        Bad states: true [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
+
+    Computing the result of the non-blocking under control check:
+        Initial states: X.A
+        Bad initial states: X.A
+
+    Non-blocking under control: no
+
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton X:
             (X.a X.b X.c), which is controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (X.a, X.b), (X.a, X.c), (X.b, X.c)
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [OK] The specification has bounded response:

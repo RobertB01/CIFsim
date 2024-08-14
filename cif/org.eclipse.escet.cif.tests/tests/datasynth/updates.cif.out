@@ -1,163 +1,168 @@
 Reading CIF file "datasynth/updates.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..5]  p.v   0      3 * 2     6 * 2       8 * 2       75%
-  2      discrete variable  int[0..5]  p.w   1      3 * 2     6 * 2       8 * 2       75%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      2      12        24          32          75%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..5]  p.v   0      3 * 2     6 * 2       8 * 2       75%
+        2      discrete variable  int[0..5]  p.w   1      3 * 2     6 * 2       8 * 2       75%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      2      12        24          32          75%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 51
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 51
 
-        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
-        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [after]
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-      Found new best variable order.
+                    Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
+                    Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [after]
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+                Found new best variable order.
 
-        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
-        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [after]
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+                    Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
+                    Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [after]
 
-          Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
-          Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 1
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 51
+                        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
+                        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [after]
 
-          Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
-          Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 51
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+                        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
+                        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [reversed]
 
-          Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
-          Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 1
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 51
+                        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
+                        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [after]
 
-          Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
-          Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 51
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 22
-      Maximum number of iterations: 10
+                        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [before]
+                        Total span:   2 (total)   0.04 (avg/edge) / WES:   0.039216 (total)   0.000769 (avg/edge) [reversed]
 
-      Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [before]
-      Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [iteration 1]
-      Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [after]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 22
+                Maximum number of iterations: 10
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 22
-      Window length: 2
+                Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [before]
+                Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [iteration 1]
+                Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [after]
 
-      Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [before]
-      Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 22
+                Window length: 2
 
-Variable order unchanged.
+                Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [before]
+                Total span:   1 (total)   0.05 (avg/edge) / WES:   0.045455 (total)   0.002066 (avg/edge) [after]
+
+    Variable order unchanged.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             p.v = 3
-Initial   (discrete variable 1):             true
-Initial   (discrete variables):              (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
-Initial   (system, combined init/plant inv): (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
-Initial   (system, combined init/state inv): (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+    Initial   (discrete variable 0):             p.v = 3
+    Initial   (discrete variable 1):             true
+    Initial   (discrete variables):              (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+    Initial   (system, combined init/plant inv): (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+    Initial   (system, combined init/state inv): (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: e) (guard: p.v = 1) (assignments: p.v := p.v + 0)
-    Edge: (event: e) (guard: p.v = 2) (assignments: p.v := p.v - 0)
-    Edge: (event: e) (guard: p.v = 3) (assignments: p.v := p.v - 0)
-    Edge: (event: e) (guard: p.v = 4) (assignments: p.v := p.v + 0)
-    Edge: (event: f) (guard: p.v = 1) (assignments: p.v := p.v + 1)
-    Edge: (event: f) (guard: p.v = 2) (assignments: p.v := p.v - 1)
-    Edge: (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1)
-    Edge: (event: f) (guard: p.v = 4) (assignments: p.v := p.v + 1)
-    Edge: (event: g) (guard: p.v = 1) (assignments: p.v := p.v + 2)
-    Edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2)
-    Edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2)
-    Edge: (event: g) (guard: p.v = 4) (assignments: p.v := p.v + 2)
-    Edge: (event: h) (guard: p.v = 1) (assignments: p.v := p.v - 2)
-    Edge: (event: h) (guard: p.v = 2) (assignments: p.v := p.v - (9 * 2 - c))
-    Edge: (event: i) (guard: p.v = 1) (assignments: p.v := 1)
-    Edge: (event: i) (guard: p.v = 2) (assignments: p.v := 2)
-    Edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5)
-    Edge: (event: i) (guard: p.v = 4) (assignments: p.v := c - 13)
-    Edge: (event: j) (guard: p.v = 1) (assignments: p.v := p.v)
-    Edge: (event: j) (guard: p.v = 2) (assignments: p.v := p.w)
-    Edge: (event: k) (guard: p.v = 1) (assignments: p.v := p.v div 1)
-    Edge: (event: k) (guard: p.v = 2) (assignments: p.v := p.v mod 2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: e) (guard: p.v = 1) (assignments: p.v := p.v + 0)
+            Edge: (event: e) (guard: p.v = 2) (assignments: p.v := p.v - 0)
+            Edge: (event: e) (guard: p.v = 3) (assignments: p.v := p.v - 0)
+            Edge: (event: e) (guard: p.v = 4) (assignments: p.v := p.v + 0)
+            Edge: (event: f) (guard: p.v = 1) (assignments: p.v := p.v + 1)
+            Edge: (event: f) (guard: p.v = 2) (assignments: p.v := p.v - 1)
+            Edge: (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1)
+            Edge: (event: f) (guard: p.v = 4) (assignments: p.v := p.v + 1)
+            Edge: (event: g) (guard: p.v = 1) (assignments: p.v := p.v + 2)
+            Edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2)
+            Edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2)
+            Edge: (event: g) (guard: p.v = 4) (assignments: p.v := p.v + 2)
+            Edge: (event: h) (guard: p.v = 1) (assignments: p.v := p.v - 2)
+            Edge: (event: h) (guard: p.v = 2) (assignments: p.v := p.v - (9 * 2 - c))
+            Edge: (event: i) (guard: p.v = 1) (assignments: p.v := 1)
+            Edge: (event: i) (guard: p.v = 2) (assignments: p.v := 2)
+            Edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5)
+            Edge: (event: i) (guard: p.v = 4) (assignments: p.v := c - 13)
+            Edge: (event: j) (guard: p.v = 1) (assignments: p.v := p.v)
+            Edge: (event: j) (guard: p.v = 2) (assignments: p.v := p.w)
+            Edge: (event: k) (guard: p.v = 1) (assignments: p.v := p.v div 1)
+            Edge: (event: k) (guard: p.v = 2) (assignments: p.v := p.v mod 2)
+
+Checking input for potential problems.
 
 Restricting edge guards to prevent runtime errors:
+<<<<<<< HEAD
   Edge: (event: h) (guard: p.v = 1 -> false) (assignments: p.v := p.v - 2)
   Edge: (event: h) (guard: p.v = 2 -> false) (assignments: p.v := p.v - (9 * 2 - c))
 
@@ -245,32 +250,207 @@ Final synthesis result:
     Edge: (event: g) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v - 2)
     Edge: (event: g) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := p.v - 2)
     Edge: (event: g) (guard: p.v = 4 -> false) (assignments: p.v := p.v + 2)
+=======
+>>>>>>> refs/remotes/origin/develop
     Edge: (event: h) (guard: p.v = 1 -> false) (assignments: p.v := p.v - 2)
     Edge: (event: h) (guard: p.v = 2 -> false) (assignments: p.v := p.v - (9 * 2 - c))
-    Edge: (event: i) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := 1)
-    Edge: (event: i) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := 2)
-    Edge: (event: i) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := 5)
-    Edge: (event: i) (guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4)))) (assignments: p.v := c - 13)
-    Edge: (event: j) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v)
-    Edge: (event: j) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.w)
-    Edge: (event: k) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v div 1)
-    Edge: (event: k) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v mod 2)
+
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: e) (guard: p.v = 1) (assignments: p.v := p.v + 0)
+            Edge: (event: e) (guard: p.v = 2) (assignments: p.v := p.v - 0)
+            Edge: (event: e) (guard: p.v = 3) (assignments: p.v := p.v - 0)
+            Edge: (event: e) (guard: p.v = 4) (assignments: p.v := p.v + 0)
+            Edge: (event: f) (guard: p.v = 1) (assignments: p.v := p.v + 1)
+            Edge: (event: f) (guard: p.v = 2) (assignments: p.v := p.v - 1)
+            Edge: (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1)
+            Edge: (event: f) (guard: p.v = 4) (assignments: p.v := p.v + 1)
+            Edge: (event: g) (guard: p.v = 1) (assignments: p.v := p.v + 2)
+            Edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2)
+            Edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2)
+            Edge: (event: g) (guard: p.v = 4) (assignments: p.v := p.v + 2)
+            Edge: (event: h) (guard: p.v = 1 -> false) (assignments: p.v := p.v - 2)
+            Edge: (event: h) (guard: p.v = 2 -> false) (assignments: p.v := p.v - (9 * 2 - c))
+            Edge: (event: i) (guard: p.v = 1) (assignments: p.v := 1)
+            Edge: (event: i) (guard: p.v = 2) (assignments: p.v := 2)
+            Edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5)
+            Edge: (event: i) (guard: p.v = 4) (assignments: p.v := c - 13)
+            Edge: (event: j) (guard: p.v = 1) (assignments: p.v := p.v)
+            Edge: (event: j) (guard: p.v = 2) (assignments: p.v := p.w)
+            Edge: (event: k) (guard: p.v = 1) (assignments: p.v := p.v div 1)
+            Edge: (event: k) (guard: p.v = 2) (assignments: p.v := p.v mod 2)
+
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
+
+Initializing edges for being applied.
+
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
+
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
+
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.v" of type "int[0..5]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.w" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
+
+    Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
+
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
+
+Re-initializing edges for being applied.
+
+Checking pre-synthesis for events that are never enabled.
+
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Backward controlled-behavior: true [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4) [initialization predicate]
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4) -> p.v = 2 or p.v = 3 [forward reach with edge: (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: p.v = 2 or p.v = 3 -> p.v != 4 and (p.v = 0 or 2 <= p.v and p.v <= 4) [forward reach with edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: p.v != 4 and (p.v = 0 or 2 <= p.v and p.v <= 4) -> 0 <= p.v and p.v <= 3 [forward reach with edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: 0 <= p.v and p.v <= 3 -> p.v != 4 [forward reach with edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: p.v != 4 -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [forward reach with edge: (event: j) (guard: p.v = 2) (assignments: p.v := p.w), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
+        Forward controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [fixed point].
+
+        Controlled behavior: true -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))).
+
+    Need another round.
+
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [restricted to current/previous controlled-behavior predicate: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)))]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Backward controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: p.v = 4 and p.w = 0 or (p.v = 4 and p.w = 2 or p.v = 4 and (p.w = 1 or (p.w = 3 or p.w = 5))) [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    Edge (event: e) (guard: p.v = 1) (assignments: p.v := p.v + 0): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+    Edge (event: e) (guard: p.v = 2) (assignments: p.v := p.v - 0): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+    Edge (event: e) (guard: p.v = 3) (assignments: p.v := p.v - 0): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+    Edge (event: e) (guard: p.v = 4) (assignments: p.v := p.v + 0): guard: p.v = 4 -> p.v = 4 and p.w = 4.
+    Edge (event: f) (guard: p.v = 1) (assignments: p.v := p.v + 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+    Edge (event: f) (guard: p.v = 2) (assignments: p.v := p.v - 1): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+    Edge (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+    Edge (event: f) (guard: p.v = 4) (assignments: p.v := p.v + 1): guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4))).
+    Edge (event: g) (guard: p.v = 1) (assignments: p.v := p.v + 2): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+    Edge (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+    Edge (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+    Edge (event: g) (guard: p.v = 4) (assignments: p.v := p.v + 2): guard: p.v = 4 -> false.
+    Edge (event: i) (guard: p.v = 1) (assignments: p.v := 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+    Edge (event: i) (guard: p.v = 2) (assignments: p.v := 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+    Edge (event: i) (guard: p.v = 3) (assignments: p.v := 5): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+    Edge (event: i) (guard: p.v = 4) (assignments: p.v := c - 13): guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4))).
+    Edge (event: j) (guard: p.v = 1) (assignments: p.v := p.v): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+    Edge (event: j) (guard: p.v = 2) (assignments: p.v := p.w): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+    Edge (event: k) (guard: p.v = 1) (assignments: p.v := p.v div 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+    Edge (event: k) (guard: p.v = 2) (assignments: p.v := p.v mod 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+
+Cleaning up cached predicate of edges that were used when applying edges.
+
+Final synthesis result:
+    State: (controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))))
+        Edge: (event: e) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v + 0)
+        Edge: (event: e) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v - 0)
+        Edge: (event: e) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := p.v - 0)
+        Edge: (event: e) (guard: p.v = 4 -> p.v = 4 and p.w = 4) (assignments: p.v := p.v + 0)
+        Edge: (event: f) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v + 1)
+        Edge: (event: f) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v - 1)
+        Edge: (event: f) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := p.v - 1)
+        Edge: (event: f) (guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4)))) (assignments: p.v := p.v + 1)
+        Edge: (event: g) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v + 2)
+        Edge: (event: g) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v - 2)
+        Edge: (event: g) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := p.v - 2)
+        Edge: (event: g) (guard: p.v = 4 -> false) (assignments: p.v := p.v + 2)
+        Edge: (event: h) (guard: p.v = 1 -> false) (assignments: p.v := p.v - 2)
+        Edge: (event: h) (guard: p.v = 2 -> false) (assignments: p.v := p.v - (9 * 2 - c))
+        Edge: (event: i) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := 1)
+        Edge: (event: i) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := 2)
+        Edge: (event: i) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := 5)
+        Edge: (event: i) (guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4)))) (assignments: p.v := c - 13)
+        Edge: (event: j) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v)
+        Edge: (event: j) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.w)
+        Edge: (event: k) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v div 1)
+        Edge: (event: k) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v mod 2)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 31 states.
 
-Initial (synthesis result):            (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)))
-Initial (uncontrolled system):         (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
-Initial (controlled system):           (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)))
+    Initial (uncontrolled system):         (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+    Initial (controlled system):           (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
 
-Simplification of controlled system under the assumption of the plants:
-  Event e: guard: p.v != 0 and (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and ((p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)) and p.v != 5)) -> (1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 0)) and ((1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 2)) and (1 <= p.v and p.v <= 3 or p.v = 5 or (p.w = 0 or (p.w = 2 or p.w = 4)))) [assume p.v != 0 and p.v != 5].
-  Event f: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
-  Event g: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and p.v != 5 -> 1 <= p.v and p.v <= 3 or p.v = 5 [assume p.v != 0 and p.v != 5].
-  Event i: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
-  Event j: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
-  Event k: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    Event e: guard: p.v != 0 and (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and ((p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)) and p.v != 5)).
+    Event f: guard: p.v != 0 and p.v != 5.
+    Event g: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and p.v != 5.
+    Event h: guard: false.
+    Event i: guard: p.v != 0 and p.v != 5.
+    Event j: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3).
+    Event k: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3).
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Event e: guard: p.v != 0 and (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and ((p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)) and p.v != 5)) -> (1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 0)) and ((1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 2)) and (1 <= p.v and p.v <= 3 or p.v = 5 or (p.w = 0 or (p.w = 2 or p.w = 4)))) [assume p.v != 0 and p.v != 5].
+    Event f: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
+    Event g: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and p.v != 5 -> 1 <= p.v and p.v <= 3 or p.v = 5 [assume p.v != 0 and p.v != 5].
+    Event i: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
+    Event j: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
+    Event k: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/updates.ctrlsys.real.cif".

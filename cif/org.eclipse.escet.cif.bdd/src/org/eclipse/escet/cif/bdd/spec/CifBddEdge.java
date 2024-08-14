@@ -35,7 +35,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
-import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
 import com.github.javabdd.BDDVarSet;
@@ -240,34 +239,29 @@ public class CifBddEdge {
      */
     @Override
     public String toString() {
-        return toString(0, 0, "Edge: ");
+        return toString("Edge: ");
     }
 
     /**
      * Returns a textual representation of the CIF/BDD edge.
      *
-     * @param indentLevel The indentation level.
-     * @param indentAmount The number of spaces to use per indentation level.
      * @param prefix The prefix to use, e.g. {@code "Edge: "} or {@code ""}.
      * @return The textual representation.
      */
-    public String toString(int indentLevel, int indentAmount, String prefix) {
-        return toString(indentLevel, indentAmount, prefix, false);
+    public String toString(String prefix) {
+        return toString(prefix, false);
     }
 
     /**
      * Returns a textual representation of the CIF/BDD edge.
      *
-     * @param indentLevel The indentation level.
-     * @param indentAmount The number of spaces to use per indentation level.
      * @param prefix The prefix to use, e.g. {@code "Edge: "} or {@code ""}.
      * @param includeOnlyOrigGuard Whether to include only the {@link #origGuard original edge guard}, or also the
      *     {@link #guard current edge guard}.
      * @return The textual representation.
      */
-    public String toString(int indentLevel, int indentAmount, String prefix, boolean includeOnlyOrigGuard) {
+    public String toString(String prefix, boolean includeOnlyOrigGuard) {
         StringBuilder txt = new StringBuilder();
-        txt.append(Strings.duplicate(" ", indentLevel * indentAmount));
         txt.append(prefix);
         txt.append(fmt("(event: %s)", CifTextUtils.getAbsName(event)));
 

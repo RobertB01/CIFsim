@@ -1,17 +1,32 @@
-Loading CIF specification "controllercheck/common/svg_input_decl_removed.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/common/svg_input_decl_removed.cif".
+Preparing for BDD-based checks:
+    The specification has no BDD variables.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
+<<<<<<< HEAD
 Checking for bounded response...
     Computing reachable states...
     Reachable states: true [initial states predicate]
+=======
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: true [initial states predicate]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Forward reachability iteration 1:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: n/a (cycle).
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: n/a (cycle).
 
     Bounded response check completed.
 

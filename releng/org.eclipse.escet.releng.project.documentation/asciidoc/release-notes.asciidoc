@@ -30,6 +30,28 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
+New features:
+
+* The ESCET website now contains the first part of an online SBE course.
+The course will be extended over time (issue {escet-issue}742[#742]).
+* The ESCET website 'About' page and general toolkit documentation now explain how to pronounce 'ESCET'.
+The 'About' page also features audio (issue {escet-issue}928[#928]).
+
+Improvements and fixes:
+
+* All tools now open their option dialog on the current monitor, rather than on the primary monitor (issue {escet-issue}942[#942]).
+* Various tools now report a user-provided path, or a path derived from it, in error messages, rather than an absolute path (issue {escet-issue}881[#881]).
+* Various tools now properly print warning and error prefixes for all warning/error console output lines, rather than only the first line of a warning or error (issue {escet-issue}939[#939]).
+* The DSM clustering tool now writes DMMs with the minimal number of needed double quotes (issue {escet-issue}643[#643]).
+* The Eclipse ESCET IDE launchers for Linux and macOS now have an ESCET icon, like the launcher for Windows.
+For Linux, you may have to create a shortcut with the icon yourself (issue {escet-issue}793[#793]).
+* The ESCET website download page has various improvements (issue {escet-issue}836[#836]).
+* The ESCET website has improved contact information (issue {escet-issue}941[#941]).
+* The Eclipse Foundation webserver has improved caching responses, that should prevent browsers from showing outdated website content long after new content is released.
+If your browser has old responses cached, you may need to clear your browser cache or force refresh the page (issue {escet-issue}914[#914]).
+* Fixed an ESCET website version selector issue when using Firefox as browser (issue {escet-issue}922[#922]).
+* Small improvements to the ESCET website (issue {escet-issue}915[#915]).
+
 === Version 4.0 (2024-06-30)
 
 Improvements and fixes:

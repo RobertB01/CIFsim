@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/finite_response/mult_iterations.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/finite_response/mult_iterations.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name       Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
@@ -104,80 +104,126 @@ Preparing for BDD-based checks...
         -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
         Total                                     3      6         12          12          100%
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        Edge (event: Actuator2.c_on) (guard: Actuator2.Off) (assignments: Actuator2 := Actuator2.On): guard: Actuator2.Off -> Actuator2.Off and Actuator1.On [plant: Actuator1.On].
+        Edge (event: Actuator2.c_off) (guard: Actuator2.On) (assignments: Actuator2 := Actuator2.Off): guard: Actuator2.On -> Actuator2.On and Actuator1.Off [plant: Actuator1.Off].
+        Edge (event: Actuator1.c_on) (guard: Actuator1.Off) (assignments: Actuator1 := Actuator1.On): guard: Actuator1.Off -> Actuator1.Off and Sensor [plant: Sensor].
+        Edge (event: Actuator1.c_off) (guard: Actuator1.On) (assignments: Actuator1 := Actuator1.Off): guard: Actuator1.On -> Actuator1.On and not Sensor [plant: not Sensor].
 
-    Restricting system behavior using state/event exclusion plant invariants.
+        System:
+            Edge: (event: Actuator2.c_on) (guard: Actuator2.Off -> Actuator2.Off and Actuator1.On) (assignments: Actuator2 := Actuator2.On)
+            Edge: (event: Actuator2.c_off) (guard: Actuator2.On -> Actuator2.On and Actuator1.Off) (assignments: Actuator2 := Actuator2.Off)
+            Edge: (event: Actuator1.c_on) (guard: Actuator1.Off -> Actuator1.Off and Sensor) (assignments: Actuator1 := Actuator1.On)
+            Edge: (event: Actuator1.c_off) (guard: Actuator1.On -> Actuator1.On and not Sensor) (assignments: Actuator1 := Actuator1.Off)
+            Edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)
 
-    Edge (event: Actuator2.c_on) (guard: Actuator2.Off) (assignments: Actuator2 := Actuator2.On): guard: Actuator2.Off -> Actuator2.Off and Actuator1.On [plant: Actuator1.On].
-    Edge (event: Actuator2.c_off) (guard: Actuator2.On) (assignments: Actuator2 := Actuator2.Off): guard: Actuator2.On -> Actuator2.On and Actuator1.Off [plant: Actuator1.Off].
-    Edge (event: Actuator1.c_on) (guard: Actuator1.Off) (assignments: Actuator1 := Actuator1.On): guard: Actuator1.Off -> Actuator1.Off and Sensor [plant: Sensor].
-    Edge (event: Actuator1.c_off) (guard: Actuator1.On) (assignments: Actuator1 := Actuator1.Off): guard: Actuator1.On -> Actuator1.On and not Sensor [plant: not Sensor].
+Preparing for MDD-based checks:
+    Analyzing automaton "Actuator2":
+        Initializing the automaton data for event "Actuator2.c_on".
+        Initializing the automaton data for event "Actuator2.c_off".
+        Processing edges from location "Off" of automaton "Actuator2".
+        Processing edges from location "On" of automaton "Actuator2".
+        Updating global guards and updates for event "Actuator2.c_on".
+        Updating global guards and updates for event "Actuator2.c_off".
 
-    System:
-        Edge: (event: Actuator2.c_on) (guard: Actuator2.Off -> Actuator2.Off and Actuator1.On) (assignments: Actuator2 := Actuator2.On)
-        Edge: (event: Actuator2.c_off) (guard: Actuator2.On -> Actuator2.On and Actuator1.Off) (assignments: Actuator2 := Actuator2.Off)
-        Edge: (event: Actuator1.c_on) (guard: Actuator1.Off -> Actuator1.Off and Sensor) (assignments: Actuator1 := Actuator1.On)
-        Edge: (event: Actuator1.c_off) (guard: Actuator1.On -> Actuator1.On and not Sensor) (assignments: Actuator1 := Actuator1.Off)
-        Edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)
+    Analyzing automaton "Actuator1":
+        Initializing the automaton data for event "Actuator1.c_on".
+        Initializing the automaton data for event "Actuator1.c_off".
+        Processing edges from location "Off" of automaton "Actuator1".
+        Processing edges from location "On" of automaton "Actuator1".
+        Updating global guards and updates for event "Actuator1.c_on".
+        Updating global guards and updates for event "Actuator1.c_off".
 
-Preparing for MDD-based checks...
-    Analyzing automaton "Actuator2"...
-        Initializing the automaton data for event "Actuator2.c_on"...
-        Initializing the automaton data for event "Actuator2.c_off"...
-        Processing edges from location "Off" of automaton "Actuator2"...
-        Processing edges from location "On" of automaton "Actuator2"...
-        Updating global guards and updates for event "Actuator2.c_on"...
-        Updating global guards and updates for event "Actuator2.c_off"...
-    Analyzing automaton "Actuator1"...
-        Initializing the automaton data for event "Actuator1.c_on"...
-        Initializing the automaton data for event "Actuator1.c_off"...
-        Processing edges from location "Off" of automaton "Actuator1"...
-        Processing edges from location "On" of automaton "Actuator1"...
-        Updating global guards and updates for event "Actuator1.c_on"...
-        Updating global guards and updates for event "Actuator1.c_off"...
-    Analyzing automaton "SupervisorStateEvtExcls"...
-        Initializing the automaton data for event "Actuator1.c_on"...
-        Initializing the automaton data for event "Actuator1.c_off"...
-        Initializing the automaton data for event "Actuator2.c_on"...
-        Initializing the automaton data for event "Actuator2.c_off"...
-        Processing edges from the location of automaton "SupervisorStateEvtExcls"...
-        Updating global guards and updates for event "Actuator1.c_on"...
-        Updating global guards and updates for event "Actuator1.c_off"...
-        Updating global guards and updates for event "Actuator2.c_on"...
-        Updating global guards and updates for event "Actuator2.c_off"...
+    Analyzing automaton "SupervisorStateEvtExcls":
+        Initializing the automaton data for event "Actuator1.c_on".
+        Initializing the automaton data for event "Actuator1.c_off".
+        Initializing the automaton data for event "Actuator2.c_on".
+        Initializing the automaton data for event "Actuator2.c_off".
+        Processing edges from the location of automaton "SupervisorStateEvtExcls".
+        Updating global guards and updates for event "Actuator1.c_on".
+        Updating global guards and updates for event "Actuator1.c_off".
+        Updating global guards and updates for event "Actuator2.c_on".
+        Updating global guards and updates for event "Actuator2.c_off".
 
+<<<<<<< HEAD
 Checking for bounded response...
     Computing reachable states...
     Reachable states: Actuator2.Off and Actuator1.Off [initial states predicate]
     Reachable states: true [fixed point].
+=======
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: Actuator2.Off and Actuator1.Off [initial states predicate]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Forward reachability iteration 1:
+            Reachable states: Actuator2.Off and Actuator1.Off -> (Actuator2.On or (Actuator1.Off or Sensor)) and Actuator2.Off [forward reach with edge: (event: Actuator1.c_on) (guard: Actuator1.Off -> Actuator1.Off and Sensor) (assignments: Actuator1 := Actuator1.On)]
+            Reachable states: (Actuator2.On or (Actuator1.Off or Sensor)) and Actuator2.Off -> Actuator2.Off [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: (Actuator2.On or (Actuator1.Off or Sensor)) and (Actuator2.Off or (Actuator1.On or not Sensor))).
-    Bounded response check round 3 (states before round: (Actuator1.On or not Sensor) and (Actuator1.Off or Sensor)).
-    Bounded response check round 4 (states before round: Actuator2.Off and (Actuator1.Off and not Sensor) or Actuator2.On and (Actuator1.On and Sensor)).
+        Forward reachability iteration 2:
+            Reachable states: Actuator2.Off -> Actuator2.Off or Actuator1.On [forward reach with edge: (event: Actuator2.c_on) (guard: Actuator2.Off -> Actuator2.Off and Actuator1.On) (assignments: Actuator2 := Actuator2.On)]
+            Reachable states: Actuator2.Off or Actuator1.On -> Actuator2.Off or (Actuator1.On or not Sensor) [forward reach with edge: (event: Actuator1.c_off) (guard: Actuator1.On -> Actuator1.On and not Sensor) (assignments: Actuator1 := Actuator1.Off)]
+            Reachable states: Actuator2.Off or (Actuator1.On or not Sensor) -> true [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
+
+        Forward reachability iteration 3:
+            No change this iteration.
+
+        Reachable states: true [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: (Actuator2.On or (Actuator1.Off or Sensor)) and (Actuator2.Off or (Actuator1.On or not Sensor))).
+        Bounded response check round 3 (states before round: (Actuator1.On or not Sensor) and (Actuator1.Off or Sensor)).
+        Bounded response check round 4 (states before round: Actuator2.Off and (Actuator1.Off and not Sensor) or Actuator2.On and (Actuator1.On and Sensor)).
+
+        Bound: 3.
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: Actuator2.Off and (Actuator1.Off and not Sensor) or Actuator2.On and (Actuator1.On and Sensor)
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: Actuator2.Off and (Actuator1.Off and not Sensor) or Actuator2.On and (Actuator1.On and Sensor)
 
+<<<<<<< HEAD
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
     Controllable-complete path states: false
+=======
+    Computing the controllable-complete path states:
+        Controllable-complete path states: false [controllable-complete path end states predicate]
+>>>>>>> refs/remotes/origin/develop
 
+<<<<<<< HEAD
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
     Bad states: true
+=======
+        Backward reachability iteration 1:
+            No change this iteration.
+>>>>>>> refs/remotes/origin/develop
 
-    Computing the result of the non-blocking under control check...
-    Initial states: Actuator2.Off and Actuator1.Off
-    Bad initial states: Actuator2.Off and Actuator1.Off
+        Controllable-complete path states: false
 
-Checking for finite response...
+    Computing the bad states:
+        Bad states: true [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
+
+    Computing the result of the non-blocking under control check:
+        Initial states: Actuator2.Off and Actuator1.Off
+        Bad initial states: Actuator2.Off and Actuator1.Off
+
+    Non-blocking under control: no
+
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton Actuator2:
             (Actuator2.c_on Actuator2.c_off), which is not controllable unconnectable.
@@ -191,9 +237,11 @@ Checking for finite response...
         The following events have been encountered in a controllable-event loop of automaton Actuator2:
             (Actuator2.c_on Actuator2.c_off), which is controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (Actuator1.c_off, Actuator1.c_on), (Actuator1.c_off, Actuator2.c_off), (Actuator1.c_on, Actuator2.c_on), (Actuator2.c_off, Actuator2.c_on)
+
+    Some pairs unproven. Confluence may not hold.
 
 CONCLUSION:
     [OK] The specification has bounded response:

@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/non_blocking_under_control/nbuc_init_guard.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/non_blocking_under_control/nbuc_init_guard.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name          Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ------------  -----  --------  ----------  ----------  -----------
@@ -97,25 +97,57 @@ Preparing for BDD-based checks...
 
     Variable order unchanged.
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: not Supervisor.Start
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: not Supervisor.Start
+    Computing the controllable-complete path states:
+        Controllable-complete path states: Supervisor.DoneTrue [controllable-complete path end states predicate]
 
+<<<<<<< HEAD
     Computing the controllable-complete path states...
     Controllable-complete path states: Supervisor.DoneTrue [controllable-complete path end states predicate]
     Controllable-complete path states: true [fixed point].
     Controllable-complete path states: true
+=======
+        Backward reachability iteration 1:
+            Controllable-complete path states: Supervisor.DoneTrue -> Supervisor.Start and Supervisor.i or Supervisor.DoneTrue [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
+            Controllable-complete path states: Supervisor.Start and Supervisor.i or Supervisor.DoneTrue -> Supervisor.DoneTrue or Supervisor.i [backward reach with edge: (event: Supervisor.u_back) (guard: not Supervisor.Start) (assignments: Supervisor := Supervisor.Start / Supervisor := Supervisor.Start)]
+            Controllable-complete path states: Supervisor.DoneTrue or Supervisor.i -> not Supervisor.Start or Supervisor.i [backward reach with edge: (event: Supervisor.i) (guard: true -> not Supervisor.Start) (assignments: Supervisor.i+ != Supervisor.i)]
+>>>>>>> refs/remotes/origin/develop
 
+<<<<<<< HEAD
     Computing the bad states...
     Bad states: false [not controllable-complete path states predicate]
     Bad states: false
+=======
+        Backward reachability iteration 2:
+            Controllable-complete path states: not Supervisor.Start or Supervisor.i -> true [backward reach with edge: (event: Supervisor.c_act) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.DoneTrue / Supervisor := Supervisor.DoneFalse)]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing the result of the non-blocking under control check...
-    Initial states: Supervisor.Start
-    Bad initial states: false
+        Backward reachability iteration 3:
+            No change this iteration.
+
+        Controllable-complete path states: true [fixed point].
+
+        Controllable-complete path states: true
+
+    Computing the bad states:
+        Bad states: false [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: false
+
+    Computing the result of the non-blocking under control check:
+        Initial states: Supervisor.Start
+        Bad initial states: false
+
+    Non-blocking under control: yes
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

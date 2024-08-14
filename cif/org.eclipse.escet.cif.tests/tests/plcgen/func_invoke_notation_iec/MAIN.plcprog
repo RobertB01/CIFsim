@@ -1,13 +1,13 @@
 PROGRAM MAIN
 VAR
-    inp: LREAL;
-    c: LREAL;
-    preset_c: TIME;
     aut_r: LREAL;
     aut_b: BOOL;
     aut_i: DINT;
     aut_tii: TupleStruct2;
     aut: aut_location;
+    inp: LREAL;
+    c: LREAL;
+    preset_c: TIME;
     firstRun: BOOL := TRUE;
 END_VAR
 VAR_TEMP
@@ -59,12 +59,6 @@ IF firstRun THEN
     firstRun := FALSE;
 
     (* Initialize the state variables. *)
-    (* Initialize continuous variable "c". *)
-    c := 0.0;
-    (* Reset timer of "c". *)
-    preset_c := LINT_TO_TIME(LREAL_TO_LINT(c * 1000.0));
-    ton_c(IN := FALSE, PT := preset_c);
-    ton_c(IN := TRUE, PT := preset_c);
     (* Initialize discrete variable "aut.r". *)
     aut_r := 0.0;
     (* Initialize discrete variable "aut.b". *)
@@ -77,6 +71,12 @@ IF firstRun THEN
     aut_tii := litStruct;
     (* Initialize current location of automaton "aut". *)
     aut := aut_l1;
+    (* Initialize continuous variable "c". *)
+    c := 0.0;
+    (* Reset timer of "c". *)
+    preset_c := LINT_TO_TIME(LREAL_TO_LINT(c * 1000.0));
+    ton_c(IN := FALSE, PT := preset_c);
+    ton_c(IN := TRUE, PT := preset_c);
 ELSE
     (* Update remaining time of continuous variable "c". *)
     ton_c(IN := TRUE, PT := preset_c, Q => timeOut, ET => curValue);

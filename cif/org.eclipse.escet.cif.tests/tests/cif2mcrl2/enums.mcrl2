@@ -17,6 +17,9 @@ act aut'x2''varvalue: E';
 act aut'y''varvalue: F';
 act aut'z''varvalue: h'E';
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P(
     aut'x1': E',
@@ -52,6 +55,9 @@ proc P(
     aut'y''varvalue(aut'y') . P()
     +
     aut'z''varvalue(aut'z') . P()
+    +
+    % CIF 'marked' action.
+    (false) -> marked . P()
 ;
 
 % Initialization.

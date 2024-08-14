@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/cycle_ctrl.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/cycle_ctrl.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -9,55 +9,97 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Preparing for MDD-based checks:
+    Analyzing automaton "p":
+        Initializing the automaton data for event "c_on".
+        Initializing the automaton data for event "c_off".
+        Processing edges from location "Off" of automaton "p".
+        Processing edges from location "On" of automaton "p".
+        Updating global guards and updates for event "c_on".
+        Updating global guards and updates for event "c_off".
 
-Preparing for MDD-based checks...
-    Analyzing automaton "p"...
-        Initializing the automaton data for event "c_on"...
-        Initializing the automaton data for event "c_off"...
-        Processing edges from location "Off" of automaton "p"...
-        Processing edges from location "On" of automaton "p"...
-        Updating global guards and updates for event "c_on"...
-        Updating global guards and updates for event "c_off"...
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: p.Off [initial states predicate]
 
+<<<<<<< HEAD
 Checking for bounded response...
     Computing reachable states...
     Reachable states: p.Off [initial states predicate]
     Reachable states: true [fixed point].
+=======
+        Forward reachability iteration 1:
+            Reachable states: p.Off -> true [forward reach with edge: (event: c_on) (guard: p.Off) (assignments: p := p.On)]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
+        Reachable states: true [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: 0.
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: true).
+
+        Bound: n/a (cycle).
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: false
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: false
 
+<<<<<<< HEAD
     Computing the controllable-complete path states...
     Controllable-complete path states: false [controllable-complete path end states predicate]
     Controllable-complete path states: false
+=======
+    Computing the controllable-complete path states:
+        Controllable-complete path states: false [controllable-complete path end states predicate]
+>>>>>>> refs/remotes/origin/develop
 
+<<<<<<< HEAD
     Computing the bad states...
     Bad states: true [not controllable-complete path states predicate]
     Bad states: true
+=======
+        Backward reachability iteration 1:
+            No change this iteration.
+>>>>>>> refs/remotes/origin/develop
 
-    Computing the result of the non-blocking under control check...
-    Initial states: p.Off
-    Bad initial states: p.Off
+        Controllable-complete path states: false
 
-Checking for finite response...
+    Computing the bad states:
+        Bad states: true [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
+
+    Computing the result of the non-blocking under control check:
+        Initial states: p.Off
+        Bad initial states: p.Off
+
+    Non-blocking under control: no
+
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton p:
             (c_on c_off), which is not controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (c_off, c_on)
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:

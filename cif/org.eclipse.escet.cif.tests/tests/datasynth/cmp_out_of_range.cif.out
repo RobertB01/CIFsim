@@ -1,125 +1,160 @@
 Reading CIF file "datasynth/cmp_out_of_range.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[2..4]  a.x   0      3 * 2     3 * 2       8 * 2       ~38%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      1      6         6           16          ~38%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Skipping variable ordering: only one variable present.
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[2..4]  a.x   0      3 * 2     3 * 2       8 * 2       ~38%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      1      6         6           16          ~38%
+
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   a.x = 2
-Invariant (component state req invariant):   a.x = 3
-Invariant (component state req invariant):   a.x = 4
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   a.x != 2
-Invariant (component state req invariant):   a.x != 3
-Invariant (component state req invariant):   a.x != 4
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   a.x = 2
-Invariant (component state req invariant):   a.x != 4
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   a.x = 2
-Invariant (component state req invariant):   a.x != 4
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   a.x != 2
-Invariant (component state req invariant):   a.x = 4
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   true
-Invariant (component state req invariant):   a.x != 2
-Invariant (component state req invariant):   a.x = 4
-Invariant (component state req invariant):   false
-Invariant (component state req invariant):   false
-Invariant (components state req invariant):  false
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      false
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   a.x = 2
+    Invariant (component state req invariant):   a.x = 3
+    Invariant (component state req invariant):   a.x = 4
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   a.x != 2
+    Invariant (component state req invariant):   a.x != 3
+    Invariant (component state req invariant):   a.x != 4
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   a.x = 2
+    Invariant (component state req invariant):   a.x != 4
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   a.x = 2
+    Invariant (component state req invariant):   a.x != 4
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   a.x != 2
+    Invariant (component state req invariant):   a.x = 4
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   true
+    Invariant (component state req invariant):   a.x != 2
+    Invariant (component state req invariant):   a.x = 4
+    Invariant (component state req invariant):   false
+    Invariant (component state req invariant):   false
+    Invariant (components state req invariant):  false
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      false
 
-Initial   (discrete variable 0):             a.x = 2
-Initial   (discrete variables):              a.x = 2
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             a.x = 2
-Initial   (system, combined init/plant inv): a.x = 2
-Initial   (system, combined init/state inv): false
+    Initial   (discrete variable 0):             a.x = 2
+    Initial   (discrete variables):              a.x = 2
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             a.x = 2
+    Initial   (system, combined init/plant inv): a.x = 2
+    Initial   (system, combined init/state inv): false
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): false
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): false
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: a.x = 2.
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> false [state requirements: false].
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Restricting behavior using implicit runtime error requirements.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: a.x = 2.
 
-Round 1: started.
+Restricting behavior using state requirements:
+    Controlled behavior: true -> false [state requirements: false].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> false [restricted to current/previous controlled-behavior predicate: false]
-Backward controlled-behavior: false [fixed point].
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
-Round 1: finished, all states are bad.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
-Computing controlled system guards.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
+
+Re-initializing edges for being applied.
+
+Checking pre-synthesis for events that are never enabled.
+
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> false [restricted to current/previous controlled-behavior predicate: false]
+
+        Backward controlled-behavior: false [fixed point].
+
+        Controlled behavior not changed.
+
+    Finished: all states are bad.
+
+Computing final controlled system guards:
+    No guards changed.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: false)
+    State: (controlled-behavior: false)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 0 states.
 
-Initial (synthesis result):            false
-Initial (uncontrolled system):         a.x = 2
-Initial (controlled system):           false
-Initial (removed by supervisor):       a.x = 2
-Initial (added by supervisor):         a.x != 2
+Determining initialization predicate for output model:
+    Initial (synthesis result):            false
+    Initial (uncontrolled system):         a.x = 2
+    Initial (controlled system):           false
+    Initial (removed by supervisor):       a.x = 2
+    Initial (added by supervisor):         a.x != 2
+
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Predicate not changed.
+
+    Initial (output model):                false
+

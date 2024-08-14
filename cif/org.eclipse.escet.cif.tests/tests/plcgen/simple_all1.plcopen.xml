@@ -99,11 +99,6 @@
       <pou name="MAIN" pouType="program">
         <interface>
           <localVars>
-            <variable name="g_inp">
-              <type>
-                <DINT/>
-              </type>
-            </variable>
             <variable name="p_b">
               <type>
                 <BOOL/>
@@ -154,6 +149,16 @@
                 <LREAL/>
               </type>
             </variable>
+            <variable name="p">
+              <type>
+                <derived name="p_location"/>
+              </type>
+            </variable>
+            <variable name="g_inp">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
             <variable name="p_t">
               <type>
                 <LREAL/>
@@ -162,11 +167,6 @@
             <variable name="preset_p_t">
               <type>
                 <TIME/>
-              </type>
-            </variable>
-            <variable name="p">
-              <type>
-                <derived name="p_location"/>
               </type>
             </variable>
             <variable name="firstRun">
@@ -336,14 +336,14 @@ IF firstRun THEN
     p_j := 0;
     (* Initialize discrete variable "p.r". *)
     p_r := 1000000.0;
+    (* Initialize current location of automaton "p". *)
+    p := p_l1;
     (* Initialize continuous variable "p.t". *)
     p_t := 0.0;
     (* Reset timer of "p_t". *)
     preset_p_t := LINT_TO_TIME(LREAL_TO_LINT(p_t * 1000.0));
     ton_p_t(IN := FALSE, PT := preset_p_t);
     ton_p_t(IN := TRUE, PT := preset_p_t);
-    (* Initialize current location of automaton "p". *)
-    p := p_l1;
 ELSE
     (* Update remaining time of continuous variable "p.t". *)
     ton_p_t(IN := TRUE, PT := preset_p_t, Q =&gt; timeOut, ET =&gt; curValue);

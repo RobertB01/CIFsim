@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/confluence/not_confluent.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/confluence/not_confluent.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type  Name         Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ----  -----------  -----  --------  ----------  ----------  -----------
@@ -107,53 +107,102 @@ Preparing for BDD-based checks...
         -----  -----------------  ----  -----------  -----  --------  ----------  ----------  -----------
         Total                                        2      4         8           8           100%
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Preparing for MDD-based checks:
+    Analyzing automaton "SingleAut":
+        Initializing the automaton data for event "SingleAut.a".
+        Initializing the automaton data for event "SingleAut.b".
+        Processing edges from location "p" of automaton "SingleAut".
+        Processing edges from location "q" of automaton "SingleAut".
+        Updating global guards and updates for event "SingleAut.a".
+        Updating global guards and updates for event "SingleAut.b".
 
-Preparing for MDD-based checks...
-    Analyzing automaton "SingleAut"...
-        Initializing the automaton data for event "SingleAut.a"...
-        Initializing the automaton data for event "SingleAut.b"...
-        Processing edges from location "p" of automaton "SingleAut"...
-        Processing edges from location "q" of automaton "SingleAut"...
-        Updating global guards and updates for event "SingleAut.a"...
-        Updating global guards and updates for event "SingleAut.b"...
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: not SingleAut.z and SingleAut.p [initial states predicate]
 
+<<<<<<< HEAD
 Checking for bounded response...
     Computing reachable states...
     Reachable states: not SingleAut.z and SingleAut.p [initial states predicate]
     Reachable states: not SingleAut.z or SingleAut.q [fixed point].
+=======
+        Forward reachability iteration 1:
+            Reachable states: not SingleAut.z and SingleAut.p -> not SingleAut.z [forward reach with edge: (event: SingleAut.a) (guard: SingleAut.p) (assignments: SingleAut.z := SingleAut.z, SingleAut := SingleAut.q)]
+            Reachable states: not SingleAut.z -> not SingleAut.z or SingleAut.q [forward reach with edge: (event: SingleAut.b) (guard: SingleAut.p) (assignments: SingleAut.z := not SingleAut.z, SingleAut := SingleAut.q)]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: not SingleAut.z or SingleAut.q).
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: not SingleAut.z or SingleAut.q).
-    Bounded response check round 2 (states before round: SingleAut.q).
+        Reachable states: not SingleAut.z or SingleAut.q [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: not SingleAut.z or SingleAut.q).
+
+        Bound: 0.
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: not SingleAut.z or SingleAut.q).
+        Bounded response check round 2 (states before round: SingleAut.q).
+
+        Bound: 1.
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: SingleAut.q
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: SingleAut.q
 
+<<<<<<< HEAD
     Computing the controllable-complete path states...
     Controllable-complete path states: SingleAut.q [controllable-complete path end states predicate]
     Controllable-complete path states: true [fixed point].
     Controllable-complete path states: true
+=======
+    Computing the controllable-complete path states:
+        Controllable-complete path states: SingleAut.q [controllable-complete path end states predicate]
+>>>>>>> refs/remotes/origin/develop
 
+<<<<<<< HEAD
     Computing the bad states...
     Bad states: false [not controllable-complete path states predicate]
     Bad states: false
+=======
+        Backward reachability iteration 1:
+            Controllable-complete path states: SingleAut.q -> true [backward reach with edge: (event: SingleAut.a) (guard: SingleAut.p) (assignments: SingleAut.z := SingleAut.z, SingleAut := SingleAut.q)]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing the result of the non-blocking under control check...
-    Initial states: not SingleAut.z and SingleAut.p
-    Bad initial states: false
+        Backward reachability iteration 2:
+            No change this iteration.
 
-Checking for finite response...
+        Controllable-complete path states: true [fixed point].
+
+        Controllable-complete path states: true
+
+    Computing the bad states:
+        Bad states: false [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: false
+
+    Computing the result of the non-blocking under control check:
+        Initial states: not SingleAut.z and SingleAut.p
+        Bad initial states: false
+
+    Non-blocking under control: yes
+
+Checking for finite response:
     Iteration 1.
 
-Checking for confluence...
+Checking for confluence:
+    No proven pairs.
+
+    Some pairs unproven. Confluence may not hold.
 
 CONCLUSION:
     [OK] The specification has bounded response:

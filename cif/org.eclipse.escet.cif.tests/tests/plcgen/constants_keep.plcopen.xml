@@ -47,6 +47,11 @@
       <pou name="MAIN" pouType="program">
         <interface>
           <localVars>
+            <variable name="aut_y">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
             <variable name="i">
               <type>
                 <DINT/>
@@ -60,11 +65,6 @@
             <variable name="col">
               <type>
                 <derived name="Color"/>
-              </type>
-            </variable>
-            <variable name="aut_y">
-              <type>
-                <LREAL/>
               </type>
             </variable>
             <variable name="firstRun">

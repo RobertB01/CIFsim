@@ -3,10 +3,16 @@
 % Actions for CIF events.
 act p'c';
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P =
     % CIF linearized edges.
     (true) -> p'c' . P()
+    +
+    % CIF 'marked' action.
+    (true) -> marked . P()
 ;
 
 % Initialization.

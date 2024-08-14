@@ -1,8 +1,10 @@
-Loading CIF specification "controllercheck/common/empty_alphabet.cif"...
-Preparing for MDD-based checks...
-    Analyzing automaton "p"...
+Loading CIF specification "controllercheck/common/empty_alphabet.cif".
+Preparing for MDD-based checks:
+    Analyzing automaton "p":
+        Nothing to process.
 
-Checking for finite response...
+Checking for finite response:
+    No controllable events. Finite response trivially holds.
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/non_blocking_under_control/nbuc_unreach.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/non_blocking_under_control/nbuc_unreach.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name        Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
@@ -9,26 +9,64 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: Supervisor.Unreach3 or Supervisor.Done
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: Supervisor.Unreach3 or Supervisor.Done
+    Computing the controllable-complete path states:
+        Controllable-complete path states: Supervisor.Done [controllable-complete path end states predicate]
 
+<<<<<<< HEAD
     Computing the controllable-complete path states...
     Controllable-complete path states: Supervisor.Done [controllable-complete path end states predicate]
     Controllable-complete path states: not Supervisor.Unreach3 [fixed point].
     Controllable-complete path states: not Supervisor.Unreach3
+=======
+        Backward reachability iteration 1:
+            Controllable-complete path states: Supervisor.Done -> not Supervisor.Unreach3 and not Supervisor.Unreach1 [backward reach with edge: (event: Supervisor.c_act) (guard: not Supervisor.Unreach3 and not Supervisor.Done) (assignments: Supervisor := Supervisor.Done / Supervisor := Supervisor.Unreach2 / Supervisor := Supervisor.Unreach3 / Supervisor := Supervisor.Done)]
+>>>>>>> refs/remotes/origin/develop
 
+<<<<<<< HEAD
     Computing the bad states...
     Bad states: Supervisor.Unreach3 [not controllable-complete path states predicate]
     Bad states: not Supervisor.Start and not Supervisor.Done [fixed point].
     Bad states: not Supervisor.Start and not Supervisor.Done
+=======
+        Backward reachability iteration 2:
+            Controllable-complete path states: not Supervisor.Unreach3 and not Supervisor.Unreach1 -> not Supervisor.Unreach3 [backward reach with edge: (event: Supervisor.c_act) (guard: not Supervisor.Unreach3 and not Supervisor.Done) (assignments: Supervisor := Supervisor.Done / Supervisor := Supervisor.Unreach2 / Supervisor := Supervisor.Unreach3 / Supervisor := Supervisor.Done)]
+>>>>>>> refs/remotes/origin/develop
 
-    Computing the result of the non-blocking under control check...
-    Initial states: Supervisor.Start
-    Bad initial states: false
+        Backward reachability iteration 3:
+            No change this iteration.
+
+        Controllable-complete path states: not Supervisor.Unreach3 [fixed point].
+
+        Controllable-complete path states: not Supervisor.Unreach3
+
+    Computing the bad states:
+        Bad states: Supervisor.Unreach3 [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            Bad states: Supervisor.Unreach3 -> Supervisor.Unreach3 or Supervisor.Unreach2 [backward reach with edge: (event: Supervisor.c_act) (guard: not Supervisor.Unreach3 and not Supervisor.Done) (assignments: Supervisor := Supervisor.Done / Supervisor := Supervisor.Unreach2 / Supervisor := Supervisor.Unreach3 / Supervisor := Supervisor.Done)]
+
+        Backward reachability iteration 2:
+            Bad states: Supervisor.Unreach3 or Supervisor.Unreach2 -> not Supervisor.Start and not Supervisor.Done [backward reach with edge: (event: Supervisor.c_act) (guard: not Supervisor.Unreach3 and not Supervisor.Done) (assignments: Supervisor := Supervisor.Done / Supervisor := Supervisor.Unreach2 / Supervisor := Supervisor.Unreach3 / Supervisor := Supervisor.Done)]
+
+        Backward reachability iteration 3:
+            No change this iteration.
+
+        Bad states: not Supervisor.Start and not Supervisor.Done [fixed point].
+
+        Bad states: not Supervisor.Start and not Supervisor.Done
+
+    Computing the result of the non-blocking under control check:
+        Initial states: Supervisor.Start
+        Bad initial states: false
+
+    Non-blocking under control: yes
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

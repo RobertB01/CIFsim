@@ -55,6 +55,11 @@ By default, such actions are generated for every variable and automaton with at 
 Using this option, you can define a reduced set of variables and automata that should get such an action.
 See the <<tools-cif2mcrl2-value-actions,section on value actions>> for more details.
 
+* _Generate 'marked' action_: Whether to generate a 'marked' action in the generated mCRL2 model.
+By default, a 'marked' action is generated.
+Using this option, generation of this action can be disabled.
+See the <<tools-cif2mcrl2-marked-action,section on the marked action>> for more details.
+
 indexterm:[CIF to mCRL2 transformer,supported specifications]
 
 === Supported specifications
@@ -72,18 +77,12 @@ The latter may have a range.
 ** Continuous variables are not supported.
 ** Algebraic variables are supported, if their types and values are supported.
 ** Input variables are not supported.
-** Equations are not supported.
-
-* Regarding events:
-** Channels are not supported.
 
 * Regarding automata:
 ** There must be at least one automaton.
 ** The supervisory kind of automata is ignored.
 ** The initialization predicates in locations must be statically evaluable to `true` or `false`.
 ** There must be exactly one initial location in each automaton, and it must be possible to determine this statically.
-** `if` updates are not supported.
-Only assignments are supported.
 ** Multi-assignments are not supported.
 Multiple assignments on an edge is supported.
 ** Urgent locations and edges are not supported.
@@ -96,28 +95,40 @@ The latter may have a range.
 *** Boolean-typed constants are supported.
 *** Boolean-typed discrete variables are supported.
 *** Boolean-typed algebraic variables are supported.
-*** Binary operators `and`, `or` and `+=>+` on boolean-typed arguments are supported.
+*** Boolean-typed received values.
+*** Binary operators `and`, `or`, `+=>+` and `+<=>+` on boolean-typed arguments are supported.
 *** Binary operators `=` and `!=` on boolean, enum and integer-typed arguments are supported.
 *** Binary operators `<`, `+<=+`, `>` and `>=` on integer-typed arguments are supported.
 *** Unary operator `not` on boolean-typed arguments is supported.
-*** Location references are not supported.
+*** Location references are supported.
+*** `if` expressions with a boolean-typed result are supported.
+*** `switch` expressions with a boolean-typed result, and supported `switch` and key values, are supported.
+*** Cast expressions on boolean-typed arguments that don't change the type are supported.
 ** Regarding enumeration-typed expressions (resulting in an enumeration literal as value):
 *** Enumeration literals are supported.
 *** Enumeration-typed constants are supported.
 *** Enumeration-typed discrete variables are supported.
 *** Enumeration-typed algebraic variables are supported.
+*** Enumeration-typed received values.
+*** `if` expressions with an enumeration-typed result are supported.
+*** `switch` expressions with an enumeration-typed result, and supported `switch` and key values, are supported.
+*** Cast expressions on enumeration-typed arguments that don't change the type are supported.
 ** Regarding integer-typed expressions (resulting in an integer as value):
 *** Integer literals are supported.
 *** Integer-typed constants are supported.
 *** Integer-typed discrete variables are supported.
 *** Integer-typed algebraic variables are supported.
+*** Integer-typed received values.
 *** Binary operators `pass:c[+]`, `+*+` and `-` on integer-typed arguments are supported.
+*** Binary operators `div` and `mod` on positive divisors are supported.
 *** Unary operators `-` and `pass:c[+]` on integer-typed arguments are supported.
+*** `if` expressions with an integer-typed result are supported.
+*** `switch` expressions with an integer-typed result, and supported `switch` and key values, are supported.
+*** Cast expressions on integer-typed arguments that don't change the type are supported.
 
 * Regarding other concepts:
-** Initialization predicates in components are not supported.
-** Invariants are not supported.
-** Marker predicates are ignored.
+** Initialization predicates in components are not supported, unless they are statically evaluable to `true`.
+** Invariants are not supported, unless they do not pose any restriction.
 ** I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
 ** Annotations are ignored.
@@ -147,6 +158,10 @@ The following transformations are additionally applied as preprocesing (in the g
 * <<tools-cif2cif-chapter-add-default-init-values>>
 
 * <<tools-cif2cif-chapter-linearize-product>>
+
+* <<tools-cif2cif-chapter-switches-to-ifs>>
+
+* <<tools-cif2cif-chapter-elim-if-updates>>
 
 indexterm:[CIF to mCRL2 transformer,result of the transformation]
 
@@ -226,6 +241,14 @@ First, `++++*+++` adds all automata and variables.
 Then, `-B` removes automaton `B`.
 Finally, `+-B*+` removes all variables that start with `B.`, so all variables in automaton `B`.
 
+[[tools-cif2mcrl2-marked-action]]
+==== 'marked' action
+
+By default, a `marked` action is generated.
+The action is enabled when the CIF specification's marker predicate holds, and is disabled otherwise.
+The action allows to verify properties in mCRL2 that relate to marked states of the CIF specification.
+To disable the generated of this action, use the _Generate 'marked' action_ option can be used (`--marked-action=off` or `-a0`).
+
 ==== Behavior
 
 A single mCRL2 process named `P` is generated that represents the behavior of the CIF specification.
@@ -260,6 +283,7 @@ automaton P:
 
   location p1:
     initial;
+    marked;
     edge a do x := x + 1 goto p2;
 
   location p2:
@@ -275,6 +299,7 @@ automaton Q:
     edge a when y = 1 goto q2;
 
   location q2:
+    marked;
     edge b when y = 1 and P.x < 8 and P.zero = 0 goto q1;
     edge b when y = 0 => P.x >= 8 goto q1;
 end
@@ -301,6 +326,9 @@ act P'x''varvalue: Int;
 act P'zero''varvalue: Int;
 act Q''varvalue: Q'LPE';
 act Q'y''varvalue: Int;
+
+% Action for CIF marker predicate.
+act marked;
 
 % Process for behavior of the CIF specification.
 proc P(
@@ -331,6 +359,9 @@ proc P(
     Q''varvalue(Q') . P()
     +
     Q'y''varvalue(Q'y') . P()
+    +
+    % CIF 'marked' action.
+    (((P' == P'p1') && (Q' == Q'q2'))) -> marked . P()
 ;
 
 % Initialization.

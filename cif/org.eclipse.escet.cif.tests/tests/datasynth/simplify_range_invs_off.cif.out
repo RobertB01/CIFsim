@@ -1,153 +1,158 @@
 Reading CIF file "datasynth/simplify_range_invs_off.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name     Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..1]  aut.v01  0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..2]  aut.v02  1      2 * 2     3 * 2       4 * 2       75%
-  3      discrete variable  int[0..3]  aut.v03  2      2 * 2     4 * 2       4 * 2       100%
-  4      discrete variable  int[1..3]  aut.v13  3      2 * 2     3 * 2       4 * 2       75%
-  5      discrete variable  int[2..3]  aut.v23  4      2 * 2     2 * 2       4 * 2       50%
-  -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
-  Total                                         5      18        28          36          ~78%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name     Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..1]  aut.v01  0      1 * 2     2 * 2       2 * 2       100%
+        2      discrete variable  int[0..2]  aut.v02  1      2 * 2     3 * 2       4 * 2       75%
+        3      discrete variable  int[0..3]  aut.v03  2      2 * 2     4 * 2       4 * 2       100%
+        4      discrete variable  int[1..3]  aut.v13  3      2 * 2     3 * 2       4 * 2       75%
+        5      discrete variable  int[2..3]  aut.v23  4      2 * 2     2 * 2       4 * 2       50%
+        -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
+        Total                                         5      18        28          36          ~78%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 20
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 20
 
-        Skipping algorithm: no graph edges.
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Found new best variable order.
+                    Skipping algorithm: no graph edges.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+                Found new best variable order.
 
-        Skipping algorithm: no graph edges.
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                    Skipping algorithm: no graph edges.
 
-          Skipping algorithm: no graph edges.
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 20
+                        Skipping algorithm: no graph edges.
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 20
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [reversed]
 
-          Skipping algorithm: no graph edges.
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 20
+                        Skipping algorithm: no graph edges.
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 20
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 10
-      Maximum number of iterations: 20
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.008000 (avg/edge) [reversed]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [iteration 1]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [after]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 10
+                Maximum number of iterations: 20
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 10
-      Window length: 4
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [iteration 1]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [after]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 10
+                Window length: 4
 
-Variable order unchanged.
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.160000 (total)   0.016000 (avg/edge) [after]
+
+    Variable order unchanged.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             aut.v01 = 0
-Initial   (discrete variable 1):             aut.v02 = 0
-Initial   (discrete variable 2):             aut.v03 = 0
-Initial   (discrete variable 3):             aut.v13 = 1
-Initial   (discrete variable 4):             aut.v23 = 2
-Initial   (discrete variables):              aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial   (system, combined init/plant inv): aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial   (system, combined init/state inv): aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial   (discrete variable 0):             aut.v01 = 0
+    Initial   (discrete variable 1):             aut.v02 = 0
+    Initial   (discrete variable 2):             aut.v03 = 0
+    Initial   (discrete variable 3):             aut.v13 = 1
+    Initial   (discrete variable 4):             aut.v23 = 2
+    Initial   (discrete variables):              aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial   (system, combined init/plant inv): aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial   (system, combined init/state inv): aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: v01_inc) (guard: true) (assignments: aut.v01 := aut.v01 + 1)
-    Edge: (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1)
-    Edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1)
-    Edge: (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1)
-    Edge: (event: v23_inc) (guard: true) (assignments: aut.v23 := aut.v23 + 1)
-    Edge: (event: v01_dec) (guard: true) (assignments: aut.v01 := aut.v01 - 1)
-    Edge: (event: v02_dec) (guard: true) (assignments: aut.v02 := aut.v02 - 1)
-    Edge: (event: v03_dec) (guard: true) (assignments: aut.v03 := aut.v03 - 1)
-    Edge: (event: v13_dec) (guard: true) (assignments: aut.v13 := aut.v13 - 1)
-    Edge: (event: v23_dec) (guard: true) (assignments: aut.v23 := aut.v23 - 1)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: v01_inc) (guard: true) (assignments: aut.v01 := aut.v01 + 1)
+            Edge: (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1)
+            Edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1)
+            Edge: (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1)
+            Edge: (event: v23_inc) (guard: true) (assignments: aut.v23 := aut.v23 + 1)
+            Edge: (event: v01_dec) (guard: true) (assignments: aut.v01 := aut.v01 - 1)
+            Edge: (event: v02_dec) (guard: true) (assignments: aut.v02 := aut.v02 - 1)
+            Edge: (event: v03_dec) (guard: true) (assignments: aut.v03 := aut.v03 - 1)
+            Edge: (event: v13_dec) (guard: true) (assignments: aut.v13 := aut.v13 - 1)
+            Edge: (event: v23_dec) (guard: true) (assignments: aut.v23 := aut.v23 - 1)
+
+Checking input for potential problems.
 
 Restricting edge guards to prevent runtime errors:
+<<<<<<< HEAD
   Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)
   Edge: (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1)
   Edge: (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1)
@@ -209,24 +214,167 @@ Edge (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1
 
 Final synthesis result:
   State: (controlled-behavior: true)
+=======
+>>>>>>> refs/remotes/origin/develop
     Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)
-    Edge: (event: v02_inc) (guard: true -> aut.v02 != 2) (assignments: aut.v02 := aut.v02 + 1)
-    Edge: (event: v03_inc) (guard: true -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3)) (assignments: aut.v03 := aut.v03 + 1)
-    Edge: (event: v13_inc) (guard: true -> (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3)) (assignments: aut.v13 := aut.v13 + 1)
-    Edge: (event: v23_inc) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2)))) (assignments: aut.v23 := aut.v23 + 1)
+    Edge: (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1)
+    Edge: (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1)
+    Edge: (event: v13_inc) (guard: true -> aut.v13 != 3) (assignments: aut.v13 := aut.v13 + 1)
+    Edge: (event: v23_inc) (guard: true -> aut.v23 = 2) (assignments: aut.v23 := aut.v23 + 1)
     Edge: (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1)
     Edge: (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1)
-    Edge: (event: v03_dec) (guard: true -> (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0)) (assignments: aut.v03 := aut.v03 - 1)
-    Edge: (event: v13_dec) (guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1)) (assignments: aut.v13 := aut.v13 - 1)
-    Edge: (event: v23_dec) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3)))) (assignments: aut.v23 := aut.v23 - 1)
+    Edge: (event: v03_dec) (guard: true -> aut.v03 != 0) (assignments: aut.v03 := aut.v03 - 1)
+    Edge: (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1)
+    Edge: (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1)
+
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)
+            Edge: (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1)
+            Edge: (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1)
+            Edge: (event: v13_inc) (guard: true -> aut.v13 != 3) (assignments: aut.v13 := aut.v13 + 1)
+            Edge: (event: v23_inc) (guard: true -> aut.v23 = 2) (assignments: aut.v23 := aut.v23 + 1)
+            Edge: (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1)
+            Edge: (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1)
+            Edge: (event: v03_dec) (guard: true -> aut.v03 != 0) (assignments: aut.v03 := aut.v03 - 1)
+            Edge: (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1)
+            Edge: (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1)
+
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
+
+Initializing edges for being applied.
+
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
+
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2)).
+
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
+
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: discrete variable "aut.v02" of type "int[0..2]" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "aut.v13" of type "int[1..3]" (group: 3, domain: 6+7, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "aut.v23" of type "int[2..3]" (group: 4, domain: 8+9, BDD variables: 2, CIF/BDD values: 2/4)].
+
+    Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
+
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
+
+Re-initializing edges for being applied.
+
+Checking pre-synthesis for events that are never enabled.
+
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Backward controlled-behavior: true [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2)) [initialization predicate]
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2)) -> aut.v02 = 0 and aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2) [forward reach with edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: aut.v02 = 0 and aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2) -> aut.v02 != 2 and aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2) [forward reach with edge: (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: aut.v02 != 2 and aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2) -> aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 1 and aut.v23 = 2) [forward reach with edge: (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 1 and aut.v23 = 2) -> aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 2 and aut.v23 = 2) or aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 1 and aut.v23 = 2) [forward reach with edge: (event: v13_inc) (guard: true -> aut.v13 != 3) (assignments: aut.v13 := aut.v13 + 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 2 and aut.v23 = 2) or aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 1 and aut.v23 = 2) -> (aut.v02 = 2 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 = 2 or (aut.v03 = 0 or aut.v03 = 1)) and aut.v02 != 2) [forward reach with edge: (event: v23_inc) (guard: true -> aut.v23 = 2) (assignments: aut.v23 := aut.v23 + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            Forward controlled-behavior: (aut.v02 = 2 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 = 2 or (aut.v03 = 0 or aut.v03 = 1)) and aut.v02 != 2) -> (aut.v02 = 1 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and (aut.v02 = 1 or (aut.v03 = 0 or aut.v03 = 1)) and ((aut.v02 != 1 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and (aut.v02 != 1 or (aut.v03 = 0 or aut.v03 = 1))) [forward reach with edge: (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: (aut.v02 = 1 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and (aut.v02 = 1 or (aut.v03 = 0 or aut.v03 = 1)) and ((aut.v02 != 1 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and (aut.v02 != 1 or (aut.v03 = 0 or aut.v03 = 1))) -> (aut.v02 = 1 or aut.v03 = 1 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 = 1 or (aut.v03 != 1 or aut.v13 != 3)) and (aut.v02 = 1 or aut.v03 != 3)) and ((aut.v02 != 1 or aut.v03 = 1 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 != 1 or (aut.v03 != 1 or aut.v13 != 3)) and (aut.v02 != 1 or aut.v03 != 3))) [forward reach with edge: (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: (aut.v02 = 1 or aut.v03 = 1 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 = 1 or (aut.v03 != 1 or aut.v13 != 3)) and (aut.v02 = 1 or aut.v03 != 3)) and ((aut.v02 != 1 or aut.v03 = 1 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 != 1 or (aut.v03 != 1 or aut.v13 != 3)) and (aut.v02 != 1 or aut.v03 != 3))) -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3) [forward reach with edge: (event: v13_inc) (guard: true -> aut.v13 != 3) (assignments: aut.v13 := aut.v13 + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 3:
+            Forward controlled-behavior: (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3) -> true [forward reach with edge: (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 4:
+            No change this iteration.
+
+        Forward controlled-behavior: true [fixed point].
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    Edge (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1): guard: aut.v01 = 0 -> aut.v01 = 0.
+    Edge (event: v02_inc) (guard: true -> true) (assignments: aut.v02 := aut.v02 + 1): guard: true -> aut.v02 != 2.
+    Edge (event: v03_inc) (guard: true -> aut.v03 != 3) (assignments: aut.v03 := aut.v03 + 1): guard: aut.v03 != 3 -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3).
+    Edge (event: v13_inc) (guard: true -> aut.v13 != 3) (assignments: aut.v13 := aut.v13 + 1): guard: aut.v13 != 3 -> (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3).
+    Edge (event: v23_inc) (guard: true -> aut.v23 = 2) (assignments: aut.v23 := aut.v23 + 1): guard: aut.v23 = 2 -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2))).
+    Edge (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1): guard: aut.v01 = 1 -> aut.v01 = 1.
+    Edge (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1): guard: aut.v02 != 0 -> aut.v02 != 0.
+    Edge (event: v03_dec) (guard: true -> aut.v03 != 0) (assignments: aut.v03 := aut.v03 - 1): guard: aut.v03 != 0 -> (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0).
+    Edge (event: v13_dec) (guard: true -> true) (assignments: aut.v13 := aut.v13 - 1): guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1).
+    Edge (event: v23_dec) (guard: true -> true) (assignments: aut.v23 := aut.v23 - 1): guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3))).
+
+Cleaning up cached predicate of edges that were used when applying edges.
+
+Final synthesis result:
+    State: (controlled-behavior: true)
+        Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)
+        Edge: (event: v02_inc) (guard: true -> aut.v02 != 2) (assignments: aut.v02 := aut.v02 + 1)
+        Edge: (event: v03_inc) (guard: true -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3)) (assignments: aut.v03 := aut.v03 + 1)
+        Edge: (event: v13_inc) (guard: true -> (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3)) (assignments: aut.v13 := aut.v13 + 1)
+        Edge: (event: v23_inc) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2)))) (assignments: aut.v23 := aut.v23 + 1)
+        Edge: (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1)
+        Edge: (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1)
+        Edge: (event: v03_dec) (guard: true -> (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0)) (assignments: aut.v03 := aut.v03 - 1)
+        Edge: (event: v13_dec) (guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1)) (assignments: aut.v13 := aut.v13 - 1)
+        Edge: (event: v23_dec) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3)))) (assignments: aut.v23 := aut.v23 - 1)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 144 states.
 
-Initial (synthesis result):            true
-Initial (uncontrolled system):         aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial (controlled system):           aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            true
+    Initial (uncontrolled system):         aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial (controlled system):           aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    Event v01_inc: guard: aut.v01 = 0.
+    Event v02_inc: guard: aut.v02 != 2.
+    Event v03_inc: guard: (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3).
+    Event v13_inc: guard: (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3).
+    Event v23_inc: guard: (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2))).
+    Event v01_dec: guard: aut.v01 = 1.
+    Event v02_dec: guard: aut.v02 != 0.
+    Event v03_dec: guard: (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0).
+    Event v13_dec: guard: (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1).
+    Event v23_dec: guard: (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3))).
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    No simplifications enabled.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/simplify_range_invs_off.ctrlsys.real.cif".

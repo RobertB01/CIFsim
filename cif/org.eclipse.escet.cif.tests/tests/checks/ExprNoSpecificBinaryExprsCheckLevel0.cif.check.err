@@ -4,8 +4,8 @@ WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": Semantic warnin
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": Semantic warning at line 32, column 13: The type "int[1..1]" of algebraic variable "type_decl.a" allows only one value. Consider whether the type is correct, or use a constant instead of the algebraic variable.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": Semantic warning at line 44, column 13: Duplicate state invariant.
 WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": Semantic warning at line 45, column 13: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": Semantic warning at line 203, column 13: Duplicate state invariant.
-WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": Semantic warning at line 204, column 13: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": Semantic warning at line 209, column 13: Duplicate state invariant.
+WARNING: File "checks/ExprNoSpecificBinaryExprsCheckLevel0.cif": Semantic warning at line 210, column 13: Duplicate state invariant.
 ERROR: CIF checks tester failed due to unsatisfied preconditions:
 
   ------------------------------------
@@ -189,6 +189,12 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "INTEGER_DIVISION.II":
      - invariant II: i div i = 0;
                              ^
+   * In invariant "INTEGER_DIVISION.NPn1":
+     - invariant NPn1: i div -1 = 0;
+                                ^
+   * In invariant "INTEGER_DIVISION.NPz":
+     - invariant NPz: i div 0 = 0;
+                              ^
    * In invariant "MODULUS.GG":
      - invariant GG: 1 mod 1 = 0;
                              ^
@@ -201,6 +207,12 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "MODULUS.II":
      - invariant II: i mod i = 0;
                              ^
+   * In invariant "MODULUS.NPn1":
+     - invariant NPn1: i mod -1 = 0;
+                                ^
+   * In invariant "MODULUS.NPz":
+     - invariant NPz: i mod 0 = 0;
+                              ^
    * In invariant "MULTIPLICATION.GG":
      - invariant GG: 1 * 1 = 0;
                            ^
@@ -249,6 +261,12 @@ ERROR: CIF checks tester failed due to unsatisfied preconditions:
    * In invariant "MODULUS.II":
      - invariant II: i mod i = 0;
                        ^
+   * In invariant "MODULUS.NPn1":
+     - invariant NPn1: i mod -1 = 0;
+                         ^
+   * In invariant "MODULUS.NPz":
+     - invariant NPz: i mod 0 = 0;
+                        ^
 
   -------------------------------------
   (10/11) Binary operator "or" is used.

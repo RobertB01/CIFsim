@@ -11,12 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Swarm robotics involves a groups of robots that interact to solve relatively complex tasks cooperatively.
+// Swarm robotics involves a group of robots that interact to solve relatively complex tasks cooperatively.
 //
 // Swarm robotics group formation involves leader robots, green follower robots and blue follower robots. Each leader
-// should be in equilibrium, its number green and blue followers differing by at most one. Leaders initially stand
-// still a random location, while followers move randomly. Leaders send offers to followers, which followers may accept,
-// making them stop and relay the leader messages.
+// should be in equilibrium, its number of green and blue followers differing by at most one. Leaders initially stand
+// still at a random location, while followers move randomly. Leaders send offers to followers, which followers may
+// accept, making them stop and relay their leader's messages.
 
 // Plants.
 
