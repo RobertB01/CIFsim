@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 
 /** Interface for generators that construct PLC code for performing CIF events in the PLC. */
 public interface TransitionGenerator {
@@ -28,10 +29,19 @@ public interface TransitionGenerator {
     void setup(List<CifEventTransition> allTransitions);
 
     /**
-     * Generate the event transition functions.
+     * Generate event transition statements for a scope.
      *
+     * <p>
+     * The generated code sets the given {@code isProgressVar} variable when a transition is taken. The generator also
+     * usually adds temporary variables into the scope that are needed for the generated code to function.
+     * </p>
+     *
+     * @param transLoops Sequence of event loops, where a single loop may try several events in each iteration. The used
+     *     {@link CifEventTransition} here must be a subset of the transitions given to {@link #setup}.
      * @param exprGen Expression generator for the scope of the generated code.
      * @param isProgressVar The variable to set if an event transition is performed.
+     * @return The sequence of statements for each loop.
      */
-    void generate(ExprGenerator exprGen, PlcBasicVariable isProgressVar);
+    List<List<PlcStatement>> generate(List<List<CifEventTransition>> transLoops,
+            ExprGenerator exprGen, PlcBasicVariable isProgressVar);
 }

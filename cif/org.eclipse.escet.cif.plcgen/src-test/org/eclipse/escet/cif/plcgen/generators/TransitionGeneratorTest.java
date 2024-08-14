@@ -29,7 +29,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newReceivedEx
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
-import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -183,7 +182,7 @@ public class TransitionGeneratorTest {
         PlcCodeStorage codeStorage = target.getCodeStorage();
 
         transitionGenerator.setup(List.of());
-        transitionGenerator.generate(codeStorage.getExprGenerator(), codeStorage.getIsProgressVariable());
+        transitionGenerator.generate(List.of(), codeStorage.getExprGenerator(), codeStorage.getIsProgressVariable());
         assertTrue(true);
     }
 
@@ -787,13 +786,12 @@ public class TransitionGeneratorTest {
     private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
         ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
 
-        // Generate the transition.
+        // Setup the trnasition generator.
         transitionGenerator.setup(List.of(transition));
-        transitionGenerator.generate(exprGen, isProgressVar);
 
-        // Construct the result and return it.
-        List<PlcStatement> unconResult = target.getCodeStorage().uncontrollableEventTransitionsCode;
-        List<PlcStatement> conResult = target.getCodeStorage().controllableEventTransitionsCode;
-        return concat((unconResult == null ? List.of() : unconResult), (conResult == null ? List.of() : conResult));
+        // Generate the transition and return the code.
+        List<List<CifEventTransition>> transLoops = List.of(List.of(transition));
+        List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transLoops, exprGen, isProgressVar);
+        return loopsStatements.get(0);
     }
 }

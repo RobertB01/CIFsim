@@ -91,12 +91,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private final PlcTarget target;
 
     /**
-     * All the event transitions to generate. Is {@code null} until the transitions are provided with
-     * {@link #setup}.
-     */
-    private List<CifEventTransition> allEventTransitions = null;
-
-    /**
      * For each automaton with at least one edge outside monitor context, the name of the variable that tracks the
      * selected edge to perform for its automaton.
      *
@@ -124,36 +118,20 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
 
     @Override
     public void setup(List<CifEventTransition> allEventTransitions) {
-        this.allEventTransitions = allEventTransitions;
         setupEdgeVariableData(allEventTransitions);
     }
 
     @Override
-    public void generate(ExprGenerator exprGen, PlcBasicVariable isProgressVar) {
-        // Split event transitions between controllable and uncontrollable events.
-        List<CifEventTransition> uncontrollableTransitions = list();
-        List<CifEventTransition> controllableTransitions = list();
-        for (CifEventTransition eventTrans: allEventTransitions) {
-            if (eventTrans.event.getControllable() == null) {
-                throw new AssertionError(
-                        "Unexpected lack of controllability for event \"" + eventTrans.event + "\" found.");
-            } else if (eventTrans.event.getControllable()) {
-                controllableTransitions.add(eventTrans);
-            } else {
-                uncontrollableTransitions.add(eventTrans);
-            }
-        }
-        List<List<CifEventTransition>> transLoops = List.of(uncontrollableTransitions, controllableTransitions);
-
+    public List<List<PlcStatement>> generate(List<List<CifEventTransition>> transLoops,
+            ExprGenerator exprGen, PlcBasicVariable isProgressVar)
+    {
         // Construct the edge selection variables, convert the event transition collections in the same structure as
-        // provided.
+        // provided, and return the generated code.
         edgeSelectionVariables = createEdgeVariables(transLoops, exprGen);
         List<List<PlcStatement>> loopsStatements = transLoops.stream()
                 .map(tl -> generateCode(isProgressVar, tl, exprGen)).toList();
         edgeSelectionVariables = null;
-
-        // And give the result to code storage.
-        target.getCodeStorage().addEventTransitions(loopsStatements.get(0), loopsStatements.get(1));
+        return loopsStatements;
     }
 
     /**
