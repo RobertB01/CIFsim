@@ -18,7 +18,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationExpression;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.concat;
-import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.List;
 
@@ -58,45 +57,46 @@ public class CifMarkedUtils {
      * @return The marker predicate.
      */
     public static Expression getMarked(Automaton aut) {
-        // Create a conjunction of the markings of the locations of the automaton.
-        List<Expression> locMarkeds = listc(aut.getLocations().size());
-        for (Location loc: aut.getLocations()) {
-            // Get marker predicate of the location. If the automaton has at least two locations, then make it
-            // conditional on being in the location.
-            Expression marked = getMarked(loc);
-            if (aut.getLocations().size() >= 2) {
-                // Create 'loc => marked'.
-                LocationExpression locExpr = newLocationExpression();
-                locExpr.setLocation(loc);
-                locExpr.setType(newBoolType());
-
-                BinaryExpression binExpr = newBinaryExpression();
-                binExpr.setOperator(BinaryOperator.IMPLICATION);
-                binExpr.setLeft(locExpr);
-                binExpr.setRight(marked);
-                binExpr.setType(newBoolType());
-
-                marked = binExpr;
-            }
-            locMarkeds.add(marked);
-        }
+        boolean makeConditional = aut.getLocations().size() >= 2;
+        List<Expression> locMarkeds = aut.getLocations().stream().map(loc -> getMarked(loc, makeConditional)).toList();
         return CifValueUtils.createConjunction(locMarkeds, true);
     }
 
     /**
-     * Get the marker predicate of a CIF location. Note that it is not made conditional on the location.
+     * Get the marker predicate of a CIF location.
      *
      * @param loc The CIF location.
+     * @param makeConditional Whether to only consider the marker predicates of the location ({@code false}) or
+     *     additionally also make those dependent on being in the location ({@code true}).
      * @return The marker predicate.
      */
-    public static Expression getMarked(Location loc) {
-        // No marker predicates in a location means 'false'.
+    public static Expression getMarked(Location loc, boolean makeConditional) {
+        // Get marker predicate of the location.
+        Expression marked;
         if (loc.getMarkeds().isEmpty()) {
-            return CifValueUtils.makeFalse();
+            marked = CifValueUtils.makeFalse();
+        } else {
+            List<Expression> preds = loc.getMarkeds().stream().map(p -> deepclone(p)).toList();
+            marked = CifValueUtils.createConjunction(preds, true);
         }
 
-        // At least one marker predicate. Make a conjunction.
-        List<Expression> preds = loc.getMarkeds().stream().map(p -> deepclone(p)).toList();
-        return CifValueUtils.createConjunction(preds, true);
+        // If requested, make it conditional on being in the location.
+        if (makeConditional) {
+            // Create 'loc => marked'.
+            LocationExpression locExpr = newLocationExpression();
+            locExpr.setLocation(loc);
+            locExpr.setType(newBoolType());
+
+            BinaryExpression binExpr = newBinaryExpression();
+            binExpr.setOperator(BinaryOperator.IMPLICATION);
+            binExpr.setLeft(locExpr);
+            binExpr.setRight(marked);
+            binExpr.setType(newBoolType());
+
+            marked = binExpr;
+        }
+
+        // Return the marker predicate.
+        return marked;
     }
 }
