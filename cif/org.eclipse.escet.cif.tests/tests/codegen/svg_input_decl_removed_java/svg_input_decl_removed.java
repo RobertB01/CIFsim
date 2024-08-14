@@ -86,7 +86,13 @@ public abstract class svg_input_decl_removed {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
+        while (true) {
+
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
         while (true) {
             // Event "p.c".
             if (execEvent0()) continue;

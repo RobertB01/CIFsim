@@ -82,10 +82,10 @@ Several pre-processor symbols are available to influence the compilation result.
     i = j; // Should abort if j > 5
 
 * MAX_NUM_EVENTS
-  If defined, its value is the maximum number of edges that can be taken
-  after each time step. In CIF there is no maximum. In this implementation
-  however, the maximum avoids livelock. Behavior of the specification becomes
-  however undefined. Default value is 1000.
+  If defined, its value is the maximum number of uncontrollable or controllable
+  edges that can be taken after each time step. In CIF there is no maximum. In
+  this implementation however, the maximum avoids livelock. Behavior of the
+  specification becomes however undefined. Default value is 1000.
 
 * KEEP_RUNNING
   The CIF language checks for model correctness with every operation. When an

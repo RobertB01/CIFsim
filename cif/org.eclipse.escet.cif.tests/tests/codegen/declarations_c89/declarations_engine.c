@@ -250,11 +250,43 @@ static void PrintOutput(declarations_Event_ event, BoolType pre) {
 /* Event execution code. */
 
 /**
- * Execute code for event "c_e1".
+ * Execute code for event "u_e1".
  *
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
+    #if EVENT_OUTPUT
+        declarations_InfoEvent(u_e1_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        declarations_InfoEvent(u_e1_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "u_e2".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent1(void) {
+    #if EVENT_OUTPUT
+        declarations_InfoEvent(u_e2_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        declarations_InfoEvent(u_e2_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "c_e1".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent2(void) {
     BoolType guard = (g1_a1_) == (_declarations_loc1);
     if (!guard) return FALSE;
 
@@ -275,7 +307,7 @@ static BoolType execEvent0(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent1(void) {
+static BoolType execEvent3(void) {
     BoolType guard = (g1_a1_) == (_declarations_loc2);
     if (!guard) return FALSE;
 
@@ -296,7 +328,7 @@ static BoolType execEvent1(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent2(void) {
+static BoolType execEvent4(void) {
     #if EVENT_OUTPUT
         declarations_InfoEvent(c_e3_, TRUE);
     #endif
@@ -312,45 +344,13 @@ static BoolType execEvent2(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent3(void) {
+static BoolType execEvent5(void) {
     #if EVENT_OUTPUT
         declarations_InfoEvent(c_e4_, TRUE);
     #endif
 
     #if EVENT_OUTPUT
         declarations_InfoEvent(c_e4_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "u_e1".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent4(void) {
-    #if EVENT_OUTPUT
-        declarations_InfoEvent(u_e1_, TRUE);
-    #endif
-
-    #if EVENT_OUTPUT
-        declarations_InfoEvent(u_e1_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "u_e2".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent5(void) {
-    #if EVENT_OUTPUT
-        declarations_InfoEvent(u_e2_, TRUE);
-    #endif
-
-    #if EVENT_OUTPUT
-        declarations_InfoEvent(u_e2_, FALSE);
     #endif
     return TRUE;
 }
@@ -376,20 +376,33 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
 static void PerformEvents(void) {
+    /* Uncontrollables. */
     int count = 0;
     for (;;) {
         count++;
         if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
-            fprintf(stderr, "Warning: Quitting after performing %d events, infinite loop?\n", count);
+            fprintf(stderr, "Warning: Quitting after performing %d uncontrollable events, infinite loop?\n", count);
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "c_e1". */
-        if (execEvent1()) continue;  /* (Try to) perform event "c_e2". */
-        if (execEvent2()) continue;  /* (Try to) perform event "c_e3". */
-        if (execEvent3()) continue;  /* (Try to) perform event "c_e4". */
-        if (execEvent4()) continue;  /* (Try to) perform event "u_e1". */
-        if (execEvent5()) continue;  /* (Try to) perform event "u_e2". */
+        if (execEvent0()) continue;  /* (Try to) perform event "u_e1". */
+        if (execEvent1()) continue;  /* (Try to) perform event "u_e2". */
+        break; /* No event fired, done with discrete steps. */
+    }
+
+    /* Controllables. */
+    count = 0;
+    for (;;) {
+        count++;
+        if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
+            fprintf(stderr, "Warning: Quitting after performing %d controllable events, infinite loop?\n", count);
+            break;
+        }
+
+        if (execEvent2()) continue;  /* (Try to) perform event "c_e1". */
+        if (execEvent3()) continue;  /* (Try to) perform event "c_e2". */
+        if (execEvent4()) continue;  /* (Try to) perform event "c_e3". */
+        if (execEvent5()) continue;  /* (Try to) perform event "c_e4". */
         break; /* No event fired, done with discrete steps. */
     }
 }

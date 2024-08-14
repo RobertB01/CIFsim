@@ -5,7 +5,7 @@ set -e -u -x
 # Maximum length of string including terminator.
 
 # MAX_NUM_EVENTS = 1000  default
-# Maximum number of events to process before deciding it may be an infinite loop.
+# Maximum number of uncontrollable or controllable events to process before deciding it may be an infinite loop.
 
 # PRINT_OUTPUT
 # If set, 'print' statements are forwarded to fmt_PrintOutput.

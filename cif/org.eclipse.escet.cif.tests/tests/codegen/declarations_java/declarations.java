@@ -149,24 +149,29 @@ public abstract class declarations {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
         while (true) {
-            // Event "c_e1".
+            // Event "u_e1".
             if (execEvent0()) continue;
 
-            // Event "c_e2".
+            // Event "u_e2".
             if (execEvent1()) continue;
 
-            // Event "c_e3".
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
+        while (true) {
+            // Event "c_e1".
             if (execEvent2()) continue;
 
-            // Event "c_e4".
+            // Event "c_e2".
             if (execEvent3()) continue;
 
-            // Event "u_e1".
+            // Event "c_e3".
             if (execEvent4()) continue;
 
-            // Event "u_e2".
+            // Event "c_e4".
             if (execEvent5()) continue;
 
             break;
@@ -232,11 +237,41 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e1".
+     * Execute code for event "u_e1".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
+        if (doInfoPrintOutput) printOutput(4, true);
+        if (doInfoEvent) infoEvent(4, true);
+
+
+        if (doInfoEvent) infoEvent(4, false);
+        if (doInfoPrintOutput) printOutput(4, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "u_e2".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent1() {
+        if (doInfoPrintOutput) printOutput(5, true);
+        if (doInfoEvent) infoEvent(5, true);
+
+
+        if (doInfoEvent) infoEvent(5, false);
+        if (doInfoPrintOutput) printOutput(5, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "c_e1".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent2() {
         boolean guard = (g1_a1_) == (declarationsEnum._loc1);
         if (!guard) return false;
 
@@ -255,7 +290,7 @@ public abstract class declarations {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent1() {
+    private boolean execEvent3() {
         boolean guard = (g1_a1_) == (declarationsEnum._loc2);
         if (!guard) return false;
 
@@ -274,7 +309,7 @@ public abstract class declarations {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent2() {
+    private boolean execEvent4() {
         if (doInfoPrintOutput) printOutput(2, true);
         if (doInfoEvent) infoEvent(2, true);
 
@@ -289,43 +324,13 @@ public abstract class declarations {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent3() {
+    private boolean execEvent5() {
         if (doInfoPrintOutput) printOutput(3, true);
         if (doInfoEvent) infoEvent(3, true);
 
 
         if (doInfoEvent) infoEvent(3, false);
         if (doInfoPrintOutput) printOutput(3, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "u_e1".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent4() {
-        if (doInfoPrintOutput) printOutput(4, true);
-        if (doInfoEvent) infoEvent(4, true);
-
-
-        if (doInfoEvent) infoEvent(4, false);
-        if (doInfoPrintOutput) printOutput(4, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "u_e2".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent5() {
-        if (doInfoPrintOutput) printOutput(5, true);
-        if (doInfoEvent) infoEvent(5, true);
-
-
-        if (doInfoEvent) infoEvent(5, false);
-        if (doInfoPrintOutput) printOutput(5, false);
         return true;
     }
 

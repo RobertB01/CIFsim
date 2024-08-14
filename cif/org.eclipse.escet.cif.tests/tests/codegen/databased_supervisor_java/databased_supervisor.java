@@ -100,7 +100,7 @@ public abstract class databased_supervisor {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
         while (true) {
             // Event "Button.u_pushed".
             if (execEvent0()) continue;
@@ -108,16 +108,21 @@ public abstract class databased_supervisor {
             // Event "Button.u_released".
             if (execEvent1()) continue;
 
-            // Event "Lamp.c_off".
+            // Event "Timer.u_timeout".
             if (execEvent2()) continue;
 
-            // Event "Lamp.c_on".
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
+        while (true) {
+            // Event "Lamp.c_off".
             if (execEvent3()) continue;
 
-            // Event "Timer.c_start".
+            // Event "Lamp.c_on".
             if (execEvent4()) continue;
 
-            // Event "Timer.u_timeout".
+            // Event "Timer.c_start".
             if (execEvent5()) continue;
 
             break;
@@ -232,11 +237,31 @@ public abstract class databased_supervisor {
     }
 
     /**
-     * Execute code for event "Lamp.c_off".
+     * Execute code for event "Timer.u_timeout".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent2() {
+        boolean guard = ((Cycle_) == (databased_supervisorEnum._WaitForTimeout)) && ((Timer_) == (databased_supervisorEnum._Running));
+        if (!guard) return false;
+
+        if (doInfoPrintOutput) printOutput(5, true);
+        if (doInfoEvent) infoEvent(5, true);
+
+        Cycle_ = databased_supervisorEnum._TurnLampOff;
+        Timer_ = databased_supervisorEnum._Idle;
+
+        if (doInfoEvent) infoEvent(5, false);
+        if (doInfoPrintOutput) printOutput(5, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "Lamp.c_off".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent3() {
         boolean guard = (((Cycle_) == (databased_supervisorEnum._TurnLampOff)) && ((Lamp_) == (databased_supervisorEnum._On))) && (bdd_eval_(5, bdd_values_()));
         if (!guard) return false;
 
@@ -256,7 +281,7 @@ public abstract class databased_supervisor {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent3() {
+    private boolean execEvent4() {
         boolean guard = (((Cycle_) == (databased_supervisorEnum._TurnLampOn)) && ((Lamp_) == (databased_supervisorEnum._Off))) && (bdd_eval_(0, bdd_values_()));
         if (!guard) return false;
 
@@ -276,7 +301,7 @@ public abstract class databased_supervisor {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent4() {
+    private boolean execEvent5() {
         boolean guard = ((Cycle_) == (databased_supervisorEnum._StartTimer)) && ((bdd_eval_(9, bdd_values_())) && ((Timer_) == (databased_supervisorEnum._Idle)));
         if (!guard) return false;
 
@@ -288,26 +313,6 @@ public abstract class databased_supervisor {
 
         if (doInfoEvent) infoEvent(4, false);
         if (doInfoPrintOutput) printOutput(4, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "Timer.u_timeout".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent5() {
-        boolean guard = ((Cycle_) == (databased_supervisorEnum._WaitForTimeout)) && ((Timer_) == (databased_supervisorEnum._Running));
-        if (!guard) return false;
-
-        if (doInfoPrintOutput) printOutput(5, true);
-        if (doInfoEvent) infoEvent(5, true);
-
-        Cycle_ = databased_supervisorEnum._TurnLampOff;
-        Timer_ = databased_supervisorEnum._Idle;
-
-        if (doInfoEvent) infoEvent(5, false);
-        if (doInfoPrintOutput) printOutput(5, false);
         return true;
     }
 

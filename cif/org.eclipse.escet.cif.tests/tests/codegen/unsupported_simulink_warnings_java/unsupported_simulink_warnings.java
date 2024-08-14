@@ -102,7 +102,13 @@ public abstract class unsupported_simulink_warnings {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
+        while (true) {
+
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
         while (true) {
             // Event "a.e".
             if (execEvent0()) continue;
