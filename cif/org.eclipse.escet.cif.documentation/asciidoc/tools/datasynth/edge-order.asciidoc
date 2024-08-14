@@ -38,9 +38,9 @@ Besides finding or not finding new states, which new states are found first and 
 It may lead to smaller or larger intermediate BDD representations of predicates.
 See the <<tools-datasynth-var-order,section about BDD variable order>> for more information.
 
-=== Two approaches
+=== Three approaches
 
-There are two approaches that determine the order in which edges are considered:
+There are three approaches that determine the order in which edges are considered:
 
 * _Fixed order_:
 +
@@ -72,9 +72,16 @@ The dependencies of an edge are those other edges that may be enabled after usin
 The workset algorithm can only be used in combination with a 'per event' <<tools-datasynth-edge-granularity,edge granularity>>.
 The workset algorithm can not be used when duplicate events are allowed in a <<tools-datasynth-edge-order-custom,custom edge order>>.
 
-Which approach to use during synthesis, can be configured using the _Edge workset algorithm_ option (see the <<tools-datasynth-options,options section>>).
-By default a fixed order is used, and the workset algorithm is disabled.
-By enabling the workset algorithm, it is used instead.
+* _Saturation_:
++
+Saturation is a strategy for BDD-based symbolic reachability computations that exploits locality of the edges that are considered.
+The edges to consider are sorted on the top-most BDD variable of their BDD representations.
+The saturation algorithm then uses this order to saturate the BDD representation of the set of reachable states from the bottom up.
+This is done by first applying edges over the lowest part of the BDD until they no longer lead to new states, and then gradually go upward in the sorted edge order until saturation is reached for all edges.
+Saturation thereby tries to reduce blow-ups of BDDs at intermediate points during reachability computations, which can sometimes be observed with other exploration strategies, like chaining.
+
+Which approach to use during synthesis, can be configured using the _Exploration strategy_ option (see the <<tools-datasynth-options,options section>>).
+Saturation is used by default.
 
 Which approach works best depends on the model, and this may involve a trade-off.
 The workset algorithm may reduce the maximum amount of memory used during synthesis, compared to using a fixed order.

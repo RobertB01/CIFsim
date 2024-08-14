@@ -41,6 +41,11 @@ For more information, see the <<tools-datasynth-forward-reach,section about forw
 This may impact the performance of synthesis.
 For more information, see the <<tools-datasynth-fixed-point-order,section about fixed-point computations order>>.
 
+* _Exploration strategy_: The exploration strategy to use for symbolic reachability computations.
+This strategy determines in which order the edges are to be considered.
+This may impact the performance of synthesis.
+For more information, see the <<tools-datasynth-edge-order,section about edge order>>.
+
 * _Edge granularity_: Specify the granularity of edges to use during synthesis.
 For more information, see the <<tools-datasynth-edge-granularity,section about edge granularity>>.
 
@@ -61,9 +66,8 @@ For more information, see the <<tools-datasynth-edge-order,section about edge or
 By default, duplicate events are disallowed.
 For more information, see the <<tools-datasynth-edge-order,section about edge order>>.
 
-* _Edge workset algorithm_: Synthesis involves many reachability computations that involve following edges forward or backward.
-The workset algorithm is one approach that determines the order in which edges are considered.
-For more information, see the <<tools-datasynth-edge-order,section about edge order>>.
+* _Edge workset algorithm_: This option is no longer supported.
+Use the _Exploration strategy_ option instead.
 
 * _State requirement invariant enforcement_: Specify how state requirement invariants are enforced during synthesis.
 By default, they are all enforced via the controlled behavior.
