@@ -11,8 +11,9 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// An Advanced Driver Assistance System (ADAS), in this case an Adaptive Cruise Control (ACC) that is controlled via a
-// Human Machine Interface (HMI).
+// The Advanced Driver Assistance System (ADAS) concerns a safe controller for an Adaptive Cruise Control (ACC) system
+// for the Toyota Prius Executive, which is controlled via a Human Machine Interface (HMI). The synthesized controller
+// was among others tested by driving around in real-world traffic.
 
 // Brake sensor.
 

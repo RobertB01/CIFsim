@@ -11,6 +11,12 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+// The FESTO production line consists of six connected stations. Products enter via the distributing station. They
+// proceed to the handling station, which buffers products, before they go to the testing station. The testing station
+// measures the height of the products, rejects faulty products, and lets correct products through to the buffering
+// station. After the buffering station, products are processed by drilling a hole in them. Finally, products arrive at
+// the storage station. The supervisor ensures safe, correct and efficient operation of the product line.
+
 import "stations12.cif";
 import "stations34.cif";
 import "station5.cif";

@@ -11,11 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Swarm robotics involves a groups of robots that interact to solve relatively complex tasks cooperatively.
+// Swarm robotics involves a group of robots that interact to solve relatively complex tasks cooperatively.
 //
 // Swarm robotics segregation involves leader and follower robots. Each leader has a type, characterized by a color
-// (red/green/blue). Followers that are not in range of a leader, or only in range of a single type of leader, do not
-// move. Followers that are in range of multiple types of leaders move randomly.
+// (red, green or blue). Followers that are not in range of a leader, or only in range of a single type of leader, do
+// not move. Followers that are in range of multiple types of leaders move randomly.
 
 // Plants.
 

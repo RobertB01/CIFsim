@@ -11,18 +11,20 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Consider a 4 x 4 Sudoku:
-//        _ _ _ _
-//       |_|_|_|_|
-//       |_|_|_|_|
-//       |_|_|_|_|
-//       |_|_|_|_|
+// Sudoku is a number placement game. Consider a Sudoku with a 4-by-4 grid:
+//    _ _ _ _
+//   |_|_|_|_|
+//   |_|_|_|_|
+//   |_|_|_|_|
+//   |_|_|_|_|
 //
 // A Sudoku is completed when the following conditions hold:
-//  * Every cell has to contain a 1, 2, 3, or 4.
-//  * Every row has to contain a 1, 2, 3, and 4.
-//  * Every column has to contain a 1, 2, 3, and 4.
-//  * The top-left, top-right, bottom-left, and bottom-right 2x2 grid have to contain a 1, 2, 3, and 4.
+//  * Every cell has to contain a 1, 2, 3 or 4.
+//  * Every row has to contain a 1, 2, 3 and 4.
+//  * Every column has to contain a 1, 2, 3 and 4.
+//  * The top-left, top-right, bottom-left, and bottom-right 2-by-2 grids have to contain a 1, 2, 3 and 4.
+//
+// Synthesis computes all the possible solutions.
 
 plant def Cell():
   controllable c_1, c_2, c_3, c_4;

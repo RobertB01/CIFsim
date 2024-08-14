@@ -12,8 +12,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Lithography machine initialization model:
-// - There are multiple sub-systems that each need to be initialized.
-// - Each sub-system is modelled by two automata, representing its orchestrator and the sub-system itself.
+// - Models a lithography system with multiple sub-systems that each need to be initialized in the correct order.
+// - Each sub-system is modeled by two automata, representing its orchestrator and the sub-system itself.
 // - The orchestrator initializes the sub-system, from its unknown starting state to its initialized state.
 // - The sub-system can be initialized via one or more phases, by transitioning from a phase to a previous or next one.
 // - The requirements represent dependencies between sub-systems, constraining the initialization order.
