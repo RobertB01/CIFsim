@@ -554,6 +554,8 @@ public class JavaCodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
+        Assert.check(svgInEdges.isEmpty());
+
         CodeBox codeCallsUncontrollables = makeCodeBox(3);
         CodeBox codeCallsControllables = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);

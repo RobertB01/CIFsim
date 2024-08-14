@@ -1308,6 +1308,8 @@ public class SimulinkCodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
+        Assert.check(svgInEdges.isEmpty());
+
         CodeBox guardFunctions = makeCodeBox(); // Functions computing time-dependent guards.
         CodeBox zcCompute = makeCodeBox(1); // Calls in zero-crossings compute code.
 

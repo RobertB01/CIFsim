@@ -998,6 +998,8 @@ public class C99CodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
+        Assert.check(svgInEdges.isEmpty());
+
         CodeBox codeCallsUncontrollables = makeCodeBox(2);
         CodeBox codeCallsControllables = makeCodeBox(2);
         CodeBox codeMethods = makeCodeBox(0);

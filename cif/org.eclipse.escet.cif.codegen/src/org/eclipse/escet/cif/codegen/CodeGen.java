@@ -258,8 +258,20 @@ public abstract class CodeGen {
     protected List<IoDecl> svgDecls;
 
     /**
-     * The edges of the specification, for uncontrollable events. {@code null} if not available, empty until filled with
+     * The edges of the specification, for SVG input events. {@code null} if not available, empty until filled with
      * actual data.
+     *
+     * <p>
+     * Each linearized edge has at most one guard predicate, and exactly one edge event. No send/receive edges are
+     * present. All linearized edges are self loops. There are no urgent linearized edges, as it is a precondition that
+     * there is no urgent locations or edges in the input specification.
+     * </p>
+     */
+    protected List<Edge> svgInEdges;
+
+    /**
+     * The edges of the specification, for uncontrollable events (excluding SVG input events). {@code null} if not
+     * available, empty until filled with actual data.
      *
      * <p>
      * Each linearized edge has at most one guard predicate, and exactly one edge event. No send/receive edges are
@@ -270,8 +282,8 @@ public abstract class CodeGen {
     protected List<Edge> uncontrollableEdges;
 
     /**
-     * The edges of the specification, for controllable events. {@code null} if not available, empty until filled with
-     * actual data.
+     * The edges of the specification, for controllable events (excluding SVG input events). {@code null} if not
+     * available, empty until filled with actual data.
      *
      * <p>
      * Each linearized edge has at most one guard predicate, and exactly one edge event. No send/receive edges are
@@ -482,6 +494,7 @@ public abstract class CodeGen {
         functions = list();
         printDecls = list();
         svgDecls = list();
+        svgInEdges = list();
         uncontrollableEdges = list();
         controllableEdges = list();
 
@@ -701,6 +714,7 @@ public abstract class CodeGen {
         inputVars = null;
         functions = null;
         printDecls = null;
+        svgInEdges = null;
         uncontrollableEdges = null;
         controllableEdges = null;
     }
@@ -964,9 +978,18 @@ public abstract class CodeGen {
             Assert.check(!(edge.getEvents().get(0) instanceof EdgeReceive));
             Assert.check(edge.getEvents().get(0).getEvent() instanceof EventExpression);
         }
-        uncontrollableEdges = edges.stream().filter(e -> !CifEventUtils.getEvent(e).getControllable()).toList();
-        controllableEdges = edges.stream().filter(e -> CifEventUtils.getEvent(e).getControllable()).toList();
-        Assert.areEqual(edges.size(), uncontrollableEdges.size() + controllableEdges.size());
+        List<SvgIn> svgIns = svgDecls.stream().filter(SvgIn.class::isInstance).map(SvgIn.class::cast).toList();
+        Set<Event> svgInEvents = SvgCodeGen.getSvgInEvents(svgIns, events);
+        svgInEdges = edges.stream().filter(e -> svgInEvents.contains(CifEventUtils.getEvent(e))).toList();
+        uncontrollableEdges = edges.stream().filter(e -> {
+            Event evt = CifEventUtils.getEvent(e);
+            return !evt.getControllable() && !svgInEvents.contains(evt);
+        }).toList();
+        controllableEdges = edges.stream().filter(e -> {
+            Event evt = CifEventUtils.getEvent(e);
+            return evt.getControllable() && !svgInEvents.contains(evt);
+        }).toList();
+        Assert.areEqual(edges.size(), svgInEdges.size() + uncontrollableEdges.size() + controllableEdges.size());
         addEdges(ctxt);
 
         // Add code for the specification itself.

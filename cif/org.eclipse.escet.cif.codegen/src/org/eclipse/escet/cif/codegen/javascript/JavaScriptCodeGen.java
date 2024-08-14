@@ -48,7 +48,6 @@ import org.eclipse.escet.cif.common.CifDocAnnotationUtils;
 import org.eclipse.escet.cif.common.CifIntFuncUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
-import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -684,22 +683,22 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
+        Assert.implies(language == TargetLanguage.JAVASCRIPT, svgInEdges.isEmpty());
+
         // Create codeboxes to hold generated code.
+        CodeBox codeCallsSvgIn = makeCodeBox(3);
         CodeBox codeCallsUncontrollables = makeCodeBox(3);
         CodeBox codeCallsControllables = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);
 
-        // Collect the SVG input declarations.
-        List<SvgIn> svgIns = svgDecls.stream().filter(decl -> decl instanceof SvgIn).map(decl -> (SvgIn)decl).toList();
-
-        // Get the indices of the interactive events, the events coupled to SVG input mappings.
-        Set<Integer> interactiveEventIndices = JavaScriptSvgCodeGen.getInteractiveEventIndices(svgIns, events);
-
         // Generate code, per edge.
         int edgeOffset = 0;
-        for (boolean controllable: List.of(false, true)) {
-            List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
-            CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
+        for (Boolean controllable: list(null, false, true)) { // 'null' for SVG input edges.
+            List<Edge> edges = (controllable == null) ? svgInEdges
+                    : controllable ? controllableEdges : uncontrollableEdges;
+            CodeBox codeCalls = (controllable == null) ? codeCallsSvgIn
+                    : controllable ? codeCallsControllables : codeCallsUncontrollables;
+            boolean isSvgInEvent = (controllable == null);
 
             for (int i = 0; i < edges.size(); i++) {
                 // Get edge.
@@ -713,9 +712,6 @@ public class JavaScriptCodeGen extends CodeGen {
                 int eventIdx = events.indexOf(event);
                 String eventName = origDeclNames.get(event);
                 Assert.notNull(eventName);
-
-                // Determine whether event is an interactive SVG input event.
-                boolean isSvgInEvent = interactiveEventIndices.contains(eventIdx);
 
                 // Add call code.
                 codeCalls.add();
@@ -820,6 +816,7 @@ public class JavaScriptCodeGen extends CodeGen {
         }
 
         // Fill the replacement patterns with generated code.
+        replacements.put("javascript-event-calls-code-svgin", codeCallsSvgIn.toString());
         replacements.put("javascript-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
         replacements.put("javascript-event-calls-code-controllables", codeCallsControllables.toString());
         replacements.put("javascript-event-methods-code", codeMethods.toString());
