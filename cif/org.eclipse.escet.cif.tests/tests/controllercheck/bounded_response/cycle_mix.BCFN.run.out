@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/bounded_response/cycle_mix.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/bounded_response/cycle_mix.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -9,82 +9,102 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Preparing for MDD-based checks:
+    Analyzing automaton "p":
+        Initializing the automaton data for event "c_c1".
+        Initializing the automaton data for event "c_c2".
+        Initializing the automaton data for event "c_e1".
+        Initializing the automaton data for event "c_e2".
+        Initializing the automaton data for event "c_e3".
+        Processing edges from location "loc1" of automaton "p".
+        Processing edges from location "loc2" of automaton "p".
+        Processing edges from location "loc3" of automaton "p".
+        Processing edges from location "loc4" of automaton "p".
+        Processing edges from location "loc5" of automaton "p".
+        Processing edges from location "loc6" of automaton "p".
+        Processing edges from location "loc7" of automaton "p".
+        Processing edges from location "loc8" of automaton "p".
+        Updating global guards and updates for event "c_c1".
+        Updating global guards and updates for event "c_c2".
+        Updating global guards and updates for event "c_e1".
+        Updating global guards and updates for event "c_e2".
+        Updating global guards and updates for event "c_e3".
 
-Preparing for MDD-based checks...
-    Analyzing automaton "p"...
-        Initializing the automaton data for event "c_c1"...
-        Initializing the automaton data for event "c_c2"...
-        Initializing the automaton data for event "c_e1"...
-        Initializing the automaton data for event "c_e2"...
-        Initializing the automaton data for event "c_e3"...
-        Processing edges from location "loc1" of automaton "p"...
-        Processing edges from location "loc2" of automaton "p"...
-        Processing edges from location "loc3" of automaton "p"...
-        Processing edges from location "loc4" of automaton "p"...
-        Processing edges from location "loc5" of automaton "p"...
-        Processing edges from location "loc6" of automaton "p"...
-        Processing edges from location "loc7" of automaton "p"...
-        Processing edges from location "loc8" of automaton "p"...
-        Updating global guards and updates for event "c_c1"...
-        Updating global guards and updates for event "c_c2"...
-        Updating global guards and updates for event "c_e1"...
-        Updating global guards and updates for event "c_e2"...
-        Updating global guards and updates for event "c_e3"...
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: p.loc1 [initial states predicate]
 
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p.loc1 [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: p.loc1 -> p.loc1 or p.loc3 [forward reach with edge: (event: u_e1) (guard: p.loc1) (assignments: p := p.loc3)]
-    Reachable states: p.loc1 or p.loc3 -> p.loc1 or (p.loc3 or p.loc2) [forward reach with edge: (event: c_c1) (guard: p.loc1) (assignments: p := p.loc2)]
-    Reachable states: p.loc1 or (p.loc3 or p.loc2) -> p.loc1 or p.loc2 or (p.loc3 or p.loc4) [forward reach with edge: (event: u_c1) (guard: p.loc3) (assignments: p := p.loc4)]
-    Reachable states: p.loc1 or p.loc2 or (p.loc3 or p.loc4) -> not p.loc7 and (not p.loc6 and not p.loc8) [forward reach with edge: (event: u_e2) (guard: p.loc3) (assignments: p := p.loc5)]
-    Reachable states: not p.loc7 and (not p.loc6 and not p.loc8) -> not p.loc7 and not p.loc8 [forward reach with edge: (event: u_e3) (guard: p.loc5) (assignments: p := p.loc6)]
-    Reachable states: not p.loc7 and not p.loc8 -> not p.loc8 [forward reach with edge: (event: c_e2) (guard: p.loc6) (assignments: p := p.loc7)]
-    Reachable states: not p.loc8 -> true [forward reach with edge: (event: c_e3) (guard: p.loc7) (assignments: p := p.loc8)]
-    Forward reachability: iteration 2.
-    Reachable states: true [fixed point].
+        Forward reachability iteration 1:
+            Reachable states: p.loc1 -> p.loc1 or p.loc3 [forward reach with edge: (event: u_e1) (guard: p.loc1) (assignments: p := p.loc3)]
+            Reachable states: p.loc1 or p.loc3 -> p.loc1 or (p.loc3 or p.loc2) [forward reach with edge: (event: c_c1) (guard: p.loc1) (assignments: p := p.loc2)]
+            Reachable states: p.loc1 or (p.loc3 or p.loc2) -> p.loc1 or p.loc2 or (p.loc3 or p.loc4) [forward reach with edge: (event: u_c1) (guard: p.loc3) (assignments: p := p.loc4)]
+            Reachable states: p.loc1 or p.loc2 or (p.loc3 or p.loc4) -> not p.loc7 and (not p.loc6 and not p.loc8) [forward reach with edge: (event: u_e2) (guard: p.loc3) (assignments: p := p.loc5)]
+            Reachable states: not p.loc7 and (not p.loc6 and not p.loc8) -> not p.loc7 and not p.loc8 [forward reach with edge: (event: u_e3) (guard: p.loc5) (assignments: p := p.loc6)]
+            Reachable states: not p.loc7 and not p.loc8 -> not p.loc8 [forward reach with edge: (event: c_e2) (guard: p.loc6) (assignments: p := p.loc7)]
+            Reachable states: not p.loc8 -> true [forward reach with edge: (event: c_e3) (guard: p.loc7) (assignments: p := p.loc8)]
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: p.loc5 or p.loc6 or (p.loc3 or p.loc4)).
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: p.loc1 or p.loc2 or (p.loc7 or p.loc8)).
-    Bounded response check round 3 (states before round: p.loc1 or (p.loc2 or p.loc8)).
-    Bounded response check round 4 (states before round: p.loc1 or p.loc2).
+        Reachable states: true [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: p.loc5 or p.loc6 or (p.loc3 or p.loc4)).
+
+        Bound: n/a (cycle).
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: p.loc1 or p.loc2 or (p.loc7 or p.loc8)).
+        Bounded response check round 3 (states before round: p.loc1 or (p.loc2 or p.loc8)).
+        Bounded response check round 4 (states before round: p.loc1 or p.loc2).
+
+        Bound: n/a (cycle).
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: p.loc5 or (p.loc4 or p.loc8)
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: p.loc5 or (p.loc4 or p.loc8)
 
-    Computing the controllable-complete path states...
-    Controllable-complete path states: p.loc8 [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: p.loc8 -> p.loc7 or p.loc8 [backward reach with edge: (event: c_e3) (guard: p.loc7) (assignments: p := p.loc8)]
-    Backward reachability: iteration 2.
-    Controllable-complete path states: p.loc7 or p.loc8 -> p.loc7 or (p.loc6 or p.loc8) [backward reach with edge: (event: c_e2) (guard: p.loc6) (assignments: p := p.loc7)]
-    Backward reachability: iteration 3.
-    Controllable-complete path states: p.loc7 or (p.loc6 or p.loc8) -> p.loc5 or p.loc6 or (p.loc7 or p.loc8) [backward reach with edge: (event: u_e3) (guard: p.loc5) (assignments: p := p.loc6)]
-    Backward reachability: iteration 4.
-    Controllable-complete path states: p.loc5 or p.loc6 or (p.loc7 or p.loc8) [fixed point].
-    Controllable-complete path states: p.loc5 or p.loc6 or (p.loc7 or p.loc8)
+    Computing the controllable-complete path states:
+        Controllable-complete path states: p.loc8 [controllable-complete path end states predicate]
 
-    Computing the bad states...
-    Bad states: p.loc1 or p.loc2 or (p.loc3 or p.loc4) [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
-    Bad states: p.loc1 or p.loc2 or (p.loc3 or p.loc4)
+        Backward reachability iteration 1:
+            Controllable-complete path states: p.loc8 -> p.loc7 or p.loc8 [backward reach with edge: (event: c_e3) (guard: p.loc7) (assignments: p := p.loc8)]
 
-    Computing the result of the non-blocking under control check...
-    Initial states: p.loc1
-    Bad initial states: p.loc1
+        Backward reachability iteration 2:
+            Controllable-complete path states: p.loc7 or p.loc8 -> p.loc7 or (p.loc6 or p.loc8) [backward reach with edge: (event: c_e2) (guard: p.loc6) (assignments: p := p.loc7)]
 
-Checking for finite response...
+        Backward reachability iteration 3:
+            Controllable-complete path states: p.loc7 or (p.loc6 or p.loc8) -> p.loc5 or p.loc6 or (p.loc7 or p.loc8) [backward reach with edge: (event: u_e3) (guard: p.loc5) (assignments: p := p.loc6)]
+
+        Backward reachability iteration 4:
+            No change this iteration.
+
+        Controllable-complete path states: p.loc5 or p.loc6 or (p.loc7 or p.loc8) [fixed point].
+
+        Controllable-complete path states: p.loc5 or p.loc6 or (p.loc7 or p.loc8)
+
+    Computing the bad states:
+        Bad states: p.loc1 or p.loc2 or (p.loc3 or p.loc4) [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: p.loc1 or p.loc2 or (p.loc3 or p.loc4)
+
+    Computing the result of the non-blocking under control check:
+        Initial states: p.loc1
+        Bad initial states: p.loc1
+
+    Non-blocking under control: no
+
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton p:
             (c_c1 c_c2), which is not controllable unconnectable.
@@ -93,9 +113,11 @@ Checking for finite response...
         The following events have been encountered in a controllable-event loop of automaton p:
             (c_c1 c_c2), which is not controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (c_c1, c_c2), (c_c1, c_e1), (c_c1, c_e2), (c_c1, c_e3), (c_c2, c_e1), (c_c2, c_e2), (c_c2, c_e3), (c_e1, c_e2), (c_e1, c_e3), (c_e2, c_e3)
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:

@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/non_blocking_under_control/buc_no_marked.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/non_blocking_under_control/buc_no_marked.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name        Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  ----------  -----  --------  ----------  ----------  -----------
@@ -9,63 +9,81 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Preparing for MDD-based checks:
+    Analyzing automaton "Supervisor":
+        Initializing the automaton data for event "Supervisor.c_act1".
+        Initializing the automaton data for event "Supervisor.c_act2".
+        Processing edges from location "Start" of automaton "Supervisor".
+        Processing edges from location "Done1" of automaton "Supervisor".
+        Processing edges from location "BothDone" of automaton "Supervisor".
+        Updating global guards and updates for event "Supervisor.c_act1".
+        Updating global guards and updates for event "Supervisor.c_act2".
 
-Preparing for MDD-based checks...
-    Analyzing automaton "Supervisor"...
-        Initializing the automaton data for event "Supervisor.c_act1"...
-        Initializing the automaton data for event "Supervisor.c_act2"...
-        Processing edges from location "Start" of automaton "Supervisor"...
-        Processing edges from location "Done1" of automaton "Supervisor"...
-        Processing edges from location "BothDone" of automaton "Supervisor"...
-        Updating global guards and updates for event "Supervisor.c_act1"...
-        Updating global guards and updates for event "Supervisor.c_act2"...
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: Supervisor.Start [initial states predicate]
 
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: Supervisor.Start [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: Supervisor.Start -> not Supervisor.BothDone [forward reach with edge: (event: Supervisor.c_act1) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.Done1)]
-    Reachable states: not Supervisor.BothDone -> true [forward reach with edge: (event: Supervisor.c_act2) (guard: Supervisor.Done1) (assignments: Supervisor := Supervisor.BothDone)]
-    Forward reachability: iteration 2.
-    Reachable states: true [fixed point].
+        Forward reachability iteration 1:
+            Reachable states: Supervisor.Start -> not Supervisor.BothDone [forward reach with edge: (event: Supervisor.c_act1) (guard: Supervisor.Start) (assignments: Supervisor := Supervisor.Done1)]
+            Reachable states: not Supervisor.BothDone -> true [forward reach with edge: (event: Supervisor.c_act2) (guard: Supervisor.Done1) (assignments: Supervisor := Supervisor.BothDone)]
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: Supervisor.Start).
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: not Supervisor.Start).
-    Bounded response check round 3 (states before round: Supervisor.BothDone).
+        Reachable states: true [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: Supervisor.Start).
+
+        Bound: 1.
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: not Supervisor.Start).
+        Bounded response check round 3 (states before round: Supervisor.BothDone).
+
+        Bound: 2.
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: Supervisor.BothDone
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: Supervisor.BothDone
 
-    Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: false
+    Computing the controllable-complete path states:
+        Controllable-complete path states: false [controllable-complete path end states predicate]
 
-    Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
-    Bad states: true
+        Backward reachability iteration 1:
+            No change this iteration.
 
-    Computing the result of the non-blocking under control check...
-    Initial states: Supervisor.Start
-    Bad initial states: Supervisor.Start
+        Controllable-complete path states: false
 
-Checking for finite response...
+    Computing the bad states:
+        Bad states: true [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
+
+    Computing the result of the non-blocking under control check:
+        Initial states: Supervisor.Start
+        Bad initial states: Supervisor.Start
+
+    Non-blocking under control: no
+
+Checking for finite response:
     Iteration 1.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (Supervisor.c_act1, Supervisor.c_act2)
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [OK] The specification has bounded response:

@@ -1,223 +1,288 @@
 Reading CIF file "datasynth/input_vars7.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type  Name       Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----  ---------  -----  --------  ----------  ----------  -----------
-  1      input variable     bool  io.sensor  0      1 * 2     2 * 2       2 * 2       100%
-  2      location pointer   n/a   p          1      1 * 2     2 * 2       2 * 2       100%
-  3      discrete variable  bool  p.b        2      1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ----  ---------  -----  --------  ----------  ----------  -----------
-  Total                                      3      6         12          12          100%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type  Name       Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+        1      input variable     bool  io.sensor  0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer   n/a   p          1      1 * 2     2 * 2       2 * 2       100%
+        3      discrete variable  bool  p.b        2      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+        Total                                      3      6         12          12          100%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 1
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 1
 
-        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.888889 (total)   0.888889 (avg/edge) [before]
-        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-      Found new best variable order.
+                    Total span:   1 (total)   1.00 (avg/edge) / WES:   0.888889 (total)   0.888889 (avg/edge) [before]
+                    Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 1
+                Found new best variable order.
 
-        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.888889 (total)   0.888889 (avg/edge) [before]
-        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 1
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+                    Total span:   1 (total)   1.00 (avg/edge) / WES:   0.888889 (total)   0.888889 (avg/edge) [before]
+                    Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
 
-          Total span:   1 (total)   1.00 (avg/edge) / WES:   0.888889 (total)   0.888889 (avg/edge) [before]
-          Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 1
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 1
+                        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.888889 (total)   0.888889 (avg/edge) [before]
+                        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
 
-          Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [before]
-          Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 1
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 1
+                        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [before]
+                        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [reversed]
 
-          Total span:   1 (total)   1.00 (avg/edge) / WES:   0.888889 (total)   0.888889 (avg/edge) [before]
-          Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 1
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 1
+                        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.888889 (total)   0.888889 (avg/edge) [before]
+                        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
 
-          Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [before]
-          Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 1
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 1
-      Maximum number of iterations: 20
+                        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [before]
+                        Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [reversed]
 
-      Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [before]
-      Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [iteration 1]
-      Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 1
+                Maximum number of iterations: 20
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 1
-      Window length: 3
+                Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [before]
+                Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [iteration 1]
+                Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
 
-      Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [before]
-      Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 1
+                Window length: 3
 
-Variable order changed.
+                Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [before]
+                Total span:   1 (total)   1.00 (avg/edge) / WES:   0.444444 (total)   0.444444 (avg/edge) [after]
 
-CIF variables and location pointers:
-  Nr     Kind               Type  Name       Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----  ---------  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a   p          0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  bool  p.b        1      1 * 2     2 * 2       2 * 2       100%
-  3      input variable     bool  io.sensor  2      1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ----  ---------  -----  --------  ----------  ----------  -----------
-  Total                                      3      6         12          12          100%
+    Variable order changed.
+
+    CIF variables and location pointers:
+        Nr     Kind               Type  Name       Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a   p          0      1 * 2     2 * 2       2 * 2       100%
+        2      discrete variable  bool  p.b        1      1 * 2     2 * 2       2 * 2       100%
+        3      input variable     bool  io.sensor  2      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+        Total                                      3      6         12          12          100%
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):             (p.b or not io.sensor) and (not p.b or io.sensor)
-Initial   (discrete variables):              (p.b or not io.sensor) and (not p.b or io.sensor)
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.test
-Initial   (auts/locs init predicate):        p.test
-Initial   (uncontrolled system):             p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
-Initial   (system, combined init/plant inv): p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
-Initial   (system, combined init/state inv): p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
+    Initial   (discrete variable 1):             (p.b or not io.sensor) and (not p.b or io.sensor)
+    Initial   (discrete variables):              (p.b or not io.sensor) and (not p.b or io.sensor)
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.test
+    Initial   (auts/locs init predicate):        p.test
+    Initial   (uncontrolled system):             p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
+    Initial   (system, combined init/plant inv): p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
+    Initial   (system, combined init/state inv): p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.done
-Marked    (auts/locs marker predicate):      p.done
-Marked    (uncontrolled system):             p.done
-Marked    (system, combined mark/plant inv): p.done
-Marked    (system, combined mark/state inv): p.done
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.done
+    Marked    (auts/locs marker predicate):      p.done
+    Marked    (uncontrolled system):             p.done
+    Marked    (system, combined mark/plant inv): p.done
+    Marked    (system, combined mark/state inv): p.done
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done)
-    Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done)
+            Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor).
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Restricting behavior using implicit runtime error requirements.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor).
 
-Round 1: started.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.done [marker predicate]
-Backward reachability: iteration 1.
-Backward controlled-behavior: p.done -> p.done or p.b [backward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 2.
-Backward controlled-behavior: p.done or p.b [fixed point].
-Controlled behavior: true -> p.done or p.b.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: p.test and not p.b [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor) [initialization predicate]
-Forward controlled-behavior: p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor) -> p.test and (p.b and io.sensor) [restricted to current/previous controlled-behavior predicate: p.done or p.b]
-Forward reachability: iteration 1.
-Forward controlled-behavior: p.test and (p.b and io.sensor) -> p.b and io.sensor [forward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: p.done or p.b]
-Forward controlled-behavior: p.b and io.sensor -> p.b [forward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: p.done or p.b]
-Forward reachability: iteration 2.
-Forward controlled-behavior: p.b [fixed point].
-Controlled behavior: p.done or p.b -> p.b.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
-Round 1: finished, need another round.
+Re-initializing edges for being applied.
 
-Round 2: started.
+Checking pre-synthesis for events that are never enabled.
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.done [marker predicate]
-Backward controlled-behavior: p.done -> p.done and p.b [restricted to current/previous controlled-behavior predicate: p.b]
-Backward reachability: iteration 1.
-Backward controlled-behavior: p.done and p.b -> p.b [backward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: p.b]
-Backward reachability: iteration 2.
-Backward controlled-behavior: p.b [fixed point].
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p.done [marker predicate]
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: not p.b [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+        Backward reachability iteration 1:
+            Backward controlled-behavior: p.done -> p.done or p.b [backward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: true]
 
-Round 2: finished, controlled behavior is stable.
+        Backward reachability iteration 2:
+            No change this iteration.
 
-Computing controlled system guards.
+        Backward controlled-behavior: p.done or p.b [fixed point].
+
+        Controlled behavior: true -> p.done or p.b.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: p.test and not p.b [current/previous controlled behavior predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor) [initialization predicate]
+        Forward controlled-behavior: p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor) -> p.test and (p.b and io.sensor) [restricted to current/previous controlled-behavior predicate: p.done or p.b]
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: p.test and (p.b and io.sensor) -> p.b and io.sensor [forward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: p.done or p.b]
+            Forward controlled-behavior: p.b and io.sensor -> p.b [forward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: p.done or p.b]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
+        Forward controlled-behavior: p.b [fixed point].
+
+        Controlled behavior: p.done or p.b -> p.b.
+
+    Need another round.
+
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p.done [marker predicate]
+        Backward controlled-behavior: p.done -> p.done and p.b [restricted to current/previous controlled-behavior predicate: p.b]
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: p.done and p.b -> p.b [backward reach with edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done), restricted to current/previous controlled-behavior predicate: p.b]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
+        Backward controlled-behavior: p.b [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: not p.b [current/previous controlled behavior predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    No guards changed.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: p.b)
-    Edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done)
-    Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+    State: (controlled-behavior: p.b)
+        Edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done)
+        Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 4 states.
 
-Initial (synthesis result):            p.b
-Initial (uncontrolled system):         p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
-Initial (controlled system):           p.test and (p.b and io.sensor)
-Initial (removed by supervisor):       p.test and (not p.b and not io.sensor)
-Initial (added by supervisor):         p.done or (p.b or io.sensor)
+Determining initialization predicate for output model:
+    Initial (synthesis result):            p.b
+    Initial (uncontrolled system):         p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)
+    Initial (controlled system):           p.test and (p.b and io.sensor)
+    Initial (removed by supervisor):       p.test and (not p.b and not io.sensor)
+    Initial (added by supervisor):         p.done or (p.b or io.sensor)
 
-Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-  Initial: p.test and (p.b and io.sensor) -> p.b [assume p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)].
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Initial: p.test and (p.b and io.sensor) -> p.b [assume p.test and (not p.b and not io.sensor) or p.test and (p.b and io.sensor)].
+
+    Initial (output model):                p.b
+
+Determining supervisor guards for output model:
+    No controllable events.
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/input_vars7.ctrlsys.real.cif".

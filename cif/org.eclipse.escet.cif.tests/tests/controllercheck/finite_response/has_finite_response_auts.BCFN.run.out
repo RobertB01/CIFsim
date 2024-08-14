@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/finite_response/has_finite_response_auts.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/finite_response/has_finite_response_auts.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
@@ -107,72 +107,94 @@ Preparing for BDD-based checks...
         -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
         Total                                    3      6         12          12          100%
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Preparing for MDD-based checks:
+    Analyzing automaton "Actuator":
+        Initializing the automaton data for event "Actuator.c_on".
+        Initializing the automaton data for event "Actuator.c_off".
+        Processing edges from location "Off" of automaton "Actuator".
+        Processing edges from location "On" of automaton "Actuator".
+        Updating global guards and updates for event "Actuator.c_on".
+        Updating global guards and updates for event "Actuator.c_off".
 
-Preparing for MDD-based checks...
-    Analyzing automaton "Actuator"...
-        Initializing the automaton data for event "Actuator.c_on"...
-        Initializing the automaton data for event "Actuator.c_off"...
-        Processing edges from location "Off" of automaton "Actuator"...
-        Processing edges from location "On" of automaton "Actuator"...
-        Updating global guards and updates for event "Actuator.c_on"...
-        Updating global guards and updates for event "Actuator.c_off"...
-    Analyzing automaton "Sensor"...
-    Analyzing automaton "sup"...
-        Initializing the automaton data for event "Actuator.c_off"...
-        Initializing the automaton data for event "Actuator.c_on"...
-        Processing edges from location "Off" of automaton "sup"...
-        Processing edges from location "On" of automaton "sup"...
-        Updating global guards and updates for event "Actuator.c_off"...
-        Updating global guards and updates for event "Actuator.c_on"...
+    Analyzing automaton "Sensor":
+        Nothing to process.
 
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: Actuator.Off and (sup.Off and Sensor.Off) [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: Actuator.Off and (sup.Off and Sensor.Off) -> Actuator.Off and (sup.Off and Sensor.Off) or Actuator.Off and (sup.On and Sensor.On) [forward reach with edge: (event: Sensor.u_on) (guard: sup.Off and Sensor.Off) (assignments: Sensor := Sensor.On, sup := sup.On)]
-    Forward reachability: iteration 2.
-    Reachable states: Actuator.Off and (sup.Off and Sensor.Off) or Actuator.Off and (sup.On and Sensor.On) -> Actuator.Off and (sup.Off and Sensor.Off) or (Actuator.Off and (sup.On and Sensor.On) or Actuator.On and (sup.On and Sensor.On)) [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off and sup.On) (assignments: Actuator := Actuator.On)]
-    Reachable states: Actuator.Off and (sup.Off and Sensor.Off) or (Actuator.Off and (sup.On and Sensor.On) or Actuator.On and (sup.On and Sensor.On)) -> (sup.On or Sensor.Off) and (sup.Off or Sensor.On) [forward reach with edge: (event: Sensor.u_off) (guard: sup.On and Sensor.On) (assignments: Sensor := Sensor.Off, sup := sup.Off)]
-    Forward reachability: iteration 3.
-    Reachable states: (sup.On or Sensor.Off) and (sup.Off or Sensor.On) [fixed point].
+    Analyzing automaton "sup":
+        Initializing the automaton data for event "Actuator.c_off".
+        Initializing the automaton data for event "Actuator.c_on".
+        Processing edges from location "Off" of automaton "sup".
+        Processing edges from location "On" of automaton "sup".
+        Updating global guards and updates for event "Actuator.c_off".
+        Updating global guards and updates for event "Actuator.c_on".
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: (sup.On or Sensor.Off) and (sup.Off or Sensor.On)).
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: Actuator.Off and (sup.Off and Sensor.Off) [initial states predicate]
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: (sup.On or Sensor.Off) and (sup.Off or Sensor.On)).
-    Bounded response check round 2 (states before round: Actuator.Off and (sup.Off and Sensor.Off) or Actuator.On and (sup.On and Sensor.On)).
+        Forward reachability iteration 1:
+            Reachable states: Actuator.Off and (sup.Off and Sensor.Off) -> Actuator.Off and (sup.Off and Sensor.Off) or Actuator.Off and (sup.On and Sensor.On) [forward reach with edge: (event: Sensor.u_on) (guard: sup.Off and Sensor.Off) (assignments: Sensor := Sensor.On, sup := sup.On)]
+
+        Forward reachability iteration 2:
+            Reachable states: Actuator.Off and (sup.Off and Sensor.Off) or Actuator.Off and (sup.On and Sensor.On) -> Actuator.Off and (sup.Off and Sensor.Off) or (Actuator.Off and (sup.On and Sensor.On) or Actuator.On and (sup.On and Sensor.On)) [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off and sup.On) (assignments: Actuator := Actuator.On)]
+            Reachable states: Actuator.Off and (sup.Off and Sensor.Off) or (Actuator.Off and (sup.On and Sensor.On) or Actuator.On and (sup.On and Sensor.On)) -> (sup.On or Sensor.Off) and (sup.Off or Sensor.On) [forward reach with edge: (event: Sensor.u_off) (guard: sup.On and Sensor.On) (assignments: Sensor := Sensor.Off, sup := sup.Off)]
+
+        Forward reachability iteration 3:
+            No change this iteration.
+
+        Reachable states: (sup.On or Sensor.Off) and (sup.Off or Sensor.On) [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: (sup.On or Sensor.Off) and (sup.Off or Sensor.On)).
+
+        Bound: n/a (cycle).
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: (sup.On or Sensor.Off) and (sup.Off or Sensor.On)).
+        Bounded response check round 2 (states before round: Actuator.Off and (sup.Off and Sensor.Off) or Actuator.On and (sup.On and Sensor.On)).
+
+        Bound: 1.
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: (Actuator.On or sup.Off) and (Actuator.Off or sup.On)
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: (Actuator.On or sup.Off) and (Actuator.Off or sup.On)
 
-    Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: false
+    Computing the controllable-complete path states:
+        Controllable-complete path states: false [controllable-complete path end states predicate]
 
-    Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
-    Bad states: true
+        Backward reachability iteration 1:
+            No change this iteration.
 
-    Computing the result of the non-blocking under control check...
-    Initial states: Actuator.Off and (sup.Off and Sensor.Off)
-    Bad initial states: Actuator.Off and (sup.Off and Sensor.Off)
+        Controllable-complete path states: false
 
-Checking for finite response...
+    Computing the bad states:
+        Bad states: true [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
+
+    Computing the result of the non-blocking under control check:
+        Initial states: Actuator.Off and (sup.Off and Sensor.Off)
+        Bad initial states: Actuator.Off and (sup.Off and Sensor.Off)
+
+    Non-blocking under control: no
+
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton Actuator:
             (Actuator.c_on Actuator.c_off), which is controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (Actuator.c_off, Actuator.c_on)
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:

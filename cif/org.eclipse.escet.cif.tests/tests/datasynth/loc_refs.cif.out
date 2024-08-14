@@ -1,242 +1,301 @@
 Reading CIF file "datasynth/loc_refs.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a        pe    0      2 * 2     3 * 2       4 * 2       75%
-  2      discrete variable  int[0..5]  q1.x  1      3 * 2     6 * 2       8 * 2       75%
-  3      discrete variable  int[1..3]  q1.y  2      2 * 2     3 * 2       4 * 2       75%
-  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
-  Total                                      3      14        24          32          75%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a        pe    0      2 * 2     3 * 2       4 * 2       75%
+        2      discrete variable  int[0..5]  q1.x  1      3 * 2     6 * 2       8 * 2       75%
+        3      discrete variable  int[1..3]  q1.y  2      2 * 2     3 * 2       4 * 2       75%
+        -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+        Total                                      3      14        24          32          75%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 4
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 4
 
-        Skipping algorithm: no graph edges.
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Found new best variable order.
+                    Skipping algorithm: no graph edges.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+                Found new best variable order.
 
-        Skipping algorithm: no graph edges.
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                    Skipping algorithm: no graph edges.
 
-          Skipping algorithm: no graph edges.
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 4
+                        Skipping algorithm: no graph edges.
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 4
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [reversed]
 
-          Skipping algorithm: no graph edges.
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 4
+                        Skipping algorithm: no graph edges.
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 4
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 5
-      Maximum number of iterations: 20
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [reversed]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [iteration 1]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [after]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 5
+                Maximum number of iterations: 20
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 5
-      Window length: 3
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [iteration 1]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [after]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 5
+                Window length: 3
 
-Variable order unchanged.
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.000000 (total)   0.000000 (avg/edge) [after]
+
+    Variable order unchanged.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):             q1.x = 0
-Initial   (discrete variable 2):             q1.y = 1
-Initial   (discrete variables):              q1.x = 0 and q1.y = 1
-Initial   (component init predicate):        true
-Initial   (component init predicate):        q1.x = 0
-Initial   (component init predicate):        q1.y = 1
-Initial   (components init predicate):       q1.x = 0 and q1.y = 1
-Initial   (aut/locs init predicate):         pe.a
-Initial   (aut/locs init predicate):         true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        pe.a
-Initial   (uncontrolled system):             pe.a and (q1.x = 0 and q1.y = 1)
-Initial   (system, combined init/plant inv): pe.a and (q1.x = 0 and q1.y = 1)
-Initial   (system, combined init/state inv): pe.a and (q1.x = 0 and q1.y = 1)
+    Initial   (discrete variable 1):             q1.x = 0
+    Initial   (discrete variable 2):             q1.y = 1
+    Initial   (discrete variables):              q1.x = 0 and q1.y = 1
+    Initial   (component init predicate):        true
+    Initial   (component init predicate):        q1.x = 0
+    Initial   (component init predicate):        q1.y = 1
+    Initial   (components init predicate):       q1.x = 0 and q1.y = 1
+    Initial   (aut/locs init predicate):         pe.a
+    Initial   (aut/locs init predicate):         true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        pe.a
+    Initial   (uncontrolled system):             pe.a and (q1.x = 0 and q1.y = 1)
+    Initial   (system, combined init/plant inv): pe.a and (q1.x = 0 and q1.y = 1)
+    Initial   (system, combined init/state inv): pe.a and (q1.x = 0 and q1.y = 1)
 
-Marked    (component marker predicate):      pe.a
-Marked    (components marker predicate):     pe.a
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             pe.a
-Marked    (system, combined mark/plant inv): pe.a
-Marked    (system, combined mark/state inv): pe.a
+    Marked    (component marker predicate):      pe.a
+    Marked    (components marker predicate):     pe.a
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             pe.a
+    Marked    (system, combined mark/plant inv): pe.a
+    Marked    (system, combined mark/state inv): pe.a
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b)
-    Edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a)
-    Edge: (event: e2) (guard: pe.a) (assignments: pe := pe.c)
-    Edge: (event: e3) (guard: pe.a)
-    Edge: (event: e4) (guard: pe.a)
-    Edge: (event: f1) (guard: true)
-    Edge: (event: f2) (guard: true)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b)
+            Edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a)
+            Edge: (event: e2) (guard: pe.a) (assignments: pe := pe.c)
+            Edge: (event: e3) (guard: pe.a)
+            Edge: (event: e4) (guard: pe.a)
+            Edge: (event: f1) (guard: true)
+            Edge: (event: f2) (guard: true)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: pe.a and (q1.x = 0 and q1.y = 1).
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Controlled behavior: true -> true [range: true, variable: location pointer for automaton "pe" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "q1.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "q1.y" of type "int[1..3]" (group: 2, domain: 4+5, BDD variables: 2, CIF/BDD values: 3/4)].
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Extended controlled-behavior predicate using variable ranges: true.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: pe.a and (q1.x = 0 and q1.y = 1).
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: location pointer for automaton "pe" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "q1.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "q1.y" of type "int[1..3]" (group: 2, domain: 4+5, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Round 1: started.
+    Extended controlled-behavior predicate using variable ranges: true.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: pe.a [marker predicate]
-Backward controlled-behavior: pe.a -> not pe.c and not pe.b [restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 1.
-Backward controlled-behavior: not pe.c and not pe.b -> not pe.c [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 2.
-Backward controlled-behavior: not pe.c [fixed point].
-Controlled behavior: true -> not pe.c.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: pe.c [current/previous controlled behavior predicate]
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [forward reach with edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b), restricted to current/previous controlled-behavior predicate: not pe.c]
-Forward reachability: iteration 2.
-Forward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
-Controlled behavior: not pe.c -> not pe.c and (q1.x = 0 and q1.y = 1).
+Re-initializing edges for being applied.
 
-Round 1: finished, need another round.
+Checking pre-synthesis for events that are never enabled.
 
-Round 2: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: pe.a [marker predicate]
+        Backward controlled-behavior: pe.a -> not pe.c and not pe.b [restricted to current/previous controlled-behavior predicate: true]
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: pe.a [marker predicate]
-Backward controlled-behavior: pe.a -> pe.a and (q1.x = 0 and q1.y = 1) [restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
-Backward reachability: iteration 1.
-Backward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
-Backward reachability: iteration 2.
-Backward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
+        Backward reachability iteration 1:
+            Backward controlled-behavior: not pe.c and not pe.b -> not pe.c [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: true]
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: pe.c or (q1.x != 0 or q1.y != 1) [current/previous controlled behavior predicate]
+        Backward reachability iteration 2:
+            No change this iteration.
 
-Round 2: finished, controlled behavior is stable.
+        Backward controlled-behavior: not pe.c [fixed point].
 
-Computing controlled system guards.
+        Controlled behavior: true -> not pe.c.
 
-Edge (event: e1) (guard: pe.a) (assignments: pe := pe.b): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
-Edge (event: e1) (guard: pe.b) (assignments: pe := pe.a): guard: pe.b -> pe.b and (q1.x = 0 and q1.y = 1).
-Edge (event: e2) (guard: pe.a) (assignments: pe := pe.c): guard: pe.a -> false.
-Edge (event: e3) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
-Edge (event: e4) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
-Edge (event: f1) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
-Edge (event: f2) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: pe.c [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) [initialization predicate]
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [forward reach with edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b), restricted to current/previous controlled-behavior predicate: not pe.c]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
+        Forward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
+
+        Controlled behavior: not pe.c -> not pe.c and (q1.x = 0 and q1.y = 1).
+
+    Need another round.
+
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: pe.a [marker predicate]
+        Backward controlled-behavior: pe.a -> pe.a and (q1.x = 0 and q1.y = 1) [restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
+        Backward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: pe.c or (q1.x != 0 or q1.y != 1) [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    Edge (event: e1) (guard: pe.a) (assignments: pe := pe.b): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
+    Edge (event: e1) (guard: pe.b) (assignments: pe := pe.a): guard: pe.b -> pe.b and (q1.x = 0 and q1.y = 1).
+    Edge (event: e2) (guard: pe.a) (assignments: pe := pe.c): guard: pe.a -> false.
+    Edge (event: e3) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
+    Edge (event: e4) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
+    Edge (event: f1) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
+    Edge (event: f2) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1))
-    Edge: (event: e1) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1)) (assignments: pe := pe.b)
-    Edge: (event: e1) (guard: pe.b -> pe.b and (q1.x = 0 and q1.y = 1)) (assignments: pe := pe.a)
-    Edge: (event: e2) (guard: pe.a -> false) (assignments: pe := pe.c)
-    Edge: (event: e3) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1))
-    Edge: (event: e4) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1))
-    Edge: (event: f1) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
-    Edge: (event: f2) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
+    State: (controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1))
+        Edge: (event: e1) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1)) (assignments: pe := pe.b)
+        Edge: (event: e1) (guard: pe.b -> pe.b and (q1.x = 0 and q1.y = 1)) (assignments: pe := pe.a)
+        Edge: (event: e2) (guard: pe.a -> false) (assignments: pe := pe.c)
+        Edge: (event: e3) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1))
+        Edge: (event: e4) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1))
+        Edge: (event: f1) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
+        Edge: (event: f2) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 2 states.
 
-Initial (synthesis result):            not pe.c and (q1.x = 0 and q1.y = 1)
-Initial (uncontrolled system):         pe.a and (q1.x = 0 and q1.y = 1)
-Initial (controlled system):           pe.a and (q1.x = 0 and q1.y = 1)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            not pe.c and (q1.x = 0 and q1.y = 1)
+    Initial (uncontrolled system):         pe.a and (q1.x = 0 and q1.y = 1)
+    Initial (controlled system):           pe.a and (q1.x = 0 and q1.y = 1)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
 
-Simplification of controlled system under the assumption of the plants:
-  Event e1: guard: not pe.c and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume not pe.c].
-  Event e3: guard: pe.a and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume pe.a].
-  Event e4: guard: pe.a and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume pe.a].
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    Event e1: guard: not pe.c and (q1.x = 0 and q1.y = 1).
+    Event e2: guard: false.
+    Event e3: guard: pe.a and (q1.x = 0 and q1.y = 1).
+    Event e4: guard: pe.a and (q1.x = 0 and q1.y = 1).
+    Event f1: guard: not pe.c and (q1.x = 0 and q1.y = 1).
+    Event f2: guard: not pe.c and (q1.x = 0 and q1.y = 1).
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Event e1: guard: not pe.c and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume not pe.c].
+    Event e3: guard: pe.a and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume pe.a].
+    Event e4: guard: pe.a and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume pe.a].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/loc_refs.ctrlsys.real.cif".

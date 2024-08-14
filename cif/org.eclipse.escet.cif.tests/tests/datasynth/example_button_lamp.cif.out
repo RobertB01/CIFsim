@@ -1,251 +1,305 @@
 Reading CIF file "datasynth/example_button_lamp.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name                     Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  -----------------------  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   Button1                  0      1 * 2     2 * 2       2 * 2       100%
-  2      location pointer  n/a   Lamp1                    1      1 * 2     2 * 2       2 * 2       100%
-  3      location pointer  n/a   LampOnWhileButtonPushed  2      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  -----------------------  -----  --------  ----------  ----------  -----------
-  Total                                                   3      6         12          12          100%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name                     Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  -----------------------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Button1                  0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   Lamp1                    1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   LampOnWhileButtonPushed  2      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  -----------------------  -----  --------  ----------  ----------  -----------
+        Total                                                   3      6         12          12          100%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 4
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 2
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 4
 
-        Total span:   6 (total)   1.50 (avg/edge) / WES:   1.111111 (total)   0.277778 (avg/edge) [before]
-        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 2
 
-      Found new best variable order.
+                    Total span:   6 (total)   1.50 (avg/edge) / WES:   1.111111 (total)   0.277778 (avg/edge) [before]
+                    Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 2
+                Found new best variable order.
 
-        Total span:   6 (total)   1.50 (avg/edge) / WES:   1.111111 (total)   0.277778 (avg/edge) [before]
-        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 2
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 2
+                    Total span:   6 (total)   1.50 (avg/edge) / WES:   1.111111 (total)   0.277778 (avg/edge) [before]
+                    Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
 
-          Total span:   6 (total)   1.50 (avg/edge) / WES:   1.111111 (total)   0.277778 (avg/edge) [before]
-          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 2
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 4
+                        Total span:   6 (total)   1.50 (avg/edge) / WES:   1.111111 (total)   0.277778 (avg/edge) [before]
+                        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
 
-          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
-          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 4
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 2
+                        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+                        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [reversed]
 
-          Total span:   6 (total)   1.50 (avg/edge) / WES:   1.111111 (total)   0.277778 (avg/edge) [before]
-          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 2
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 4
+                        Total span:   6 (total)   1.50 (avg/edge) / WES:   1.111111 (total)   0.277778 (avg/edge) [before]
+                        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
 
-          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
-          Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 4
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 4
-      Maximum number of iterations: 20
+                        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+                        Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [reversed]
 
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [iteration 1]
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 4
+                Maximum number of iterations: 20
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 4
-      Window length: 3
+                Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+                Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [iteration 1]
+                Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
 
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
-      Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 4
+                Window length: 3
 
-Variable order changed.
+                Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [before]
+                Total span:   4 (total)   1.00 (avg/edge) / WES:   0.666667 (total)   0.166667 (avg/edge) [after]
 
-CIF variables and location pointers:
-  Nr     Kind              Type  Name                     Group  BDD vars  CIF values  BDD values  Values used
-  -----  ----------------  ----  -----------------------  -----  --------  ----------  ----------  -----------
-  1      location pointer  n/a   Button1                  0      1 * 2     2 * 2       2 * 2       100%
-  2      location pointer  n/a   LampOnWhileButtonPushed  1      1 * 2     2 * 2       2 * 2       100%
-  3      location pointer  n/a   Lamp1                    2      1 * 2     2 * 2       2 * 2       100%
-  -----  ----------------  ----  -----------------------  -----  --------  ----------  ----------  -----------
-  Total                                                   3      6         12          12          100%
+    Variable order changed.
+
+    CIF variables and location pointers:
+        Nr     Kind              Type  Name                     Group  BDD vars  CIF values  BDD values  Values used
+        -----  ----------------  ----  -----------------------  -----  --------  ----------  ----------  -----------
+        1      location pointer  n/a   Button1                  0      1 * 2     2 * 2       2 * 2       100%
+        2      location pointer  n/a   LampOnWhileButtonPushed  1      1 * 2     2 * 2       2 * 2       100%
+        3      location pointer  n/a   Lamp1                    2      1 * 2     2 * 2       2 * 2       100%
+        -----  ----------------  ----  -----------------------  -----  --------  ----------  ----------  -----------
+        Total                                                   3      6         12          12          100%
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variables):              true
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         Button1.Released
-Initial   (aut/locs init predicate):         Lamp1.Off
-Initial   (aut/locs init predicate):         LampOnWhileButtonPushed.Released
-Initial   (auts/locs init predicate):        Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Initial   (uncontrolled system):             Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Initial   (system, combined init/plant inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Initial   (system, combined init/state inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Initial   (discrete variables):              true
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         Button1.Released
+    Initial   (aut/locs init predicate):         Lamp1.Off
+    Initial   (aut/locs init predicate):         LampOnWhileButtonPushed.Released
+    Initial   (auts/locs init predicate):        Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Initial   (uncontrolled system):             Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Initial   (system, combined init/plant inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Initial   (system, combined init/state inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       Button1.Released
-Marked    (aut/locs marker predicate):       Lamp1.Off
-Marked    (aut/locs marker predicate):       LampOnWhileButtonPushed.Released
-Marked    (auts/locs marker predicate):      Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Marked    (uncontrolled system):             Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Marked    (system, combined mark/plant inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Marked    (system, combined mark/state inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       Button1.Released
+    Marked    (aut/locs marker predicate):       Lamp1.Off
+    Marked    (aut/locs marker predicate):       LampOnWhileButtonPushed.Released
+    Marked    (auts/locs marker predicate):      Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Marked    (uncontrolled system):             Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Marked    (system, combined mark/plant inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Marked    (system, combined mark/state inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  Event "Button1.u_pushed" needs:
-    LampOnWhileButtonPushed.Released
-  Event "Button1.u_released" needs:
-    LampOnWhileButtonPushed.Pushed
-  Event "Lamp1.c_on" needs:
-    LampOnWhileButtonPushed.Pushed
-  Event "Lamp1.c_off" needs:
-    LampOnWhileButtonPushed.Released
+    State/event exclusion requirements:
+        Event "Button1.u_pushed" needs:
+            LampOnWhileButtonPushed.Released
+        Event "Button1.u_released" needs:
+            LampOnWhileButtonPushed.Pushed
+        Event "Lamp1.c_on" needs:
+            LampOnWhileButtonPushed.Pushed
+        Event "Lamp1.c_off" needs:
+            LampOnWhileButtonPushed.Released
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed)
-    Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)
-    Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released)
-    Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)
-    Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On)
-    Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off) (assignments: Lamp1 := Lamp1.On)
-    Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
-    Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed)
+            Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)
+            Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released)
+            Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)
+            Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On)
+            Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off) (assignments: Lamp1 := Lamp1.On)
+            Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
+            Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off).
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Controlled behavior: true -> Button1.Pushed or LampOnWhileButtonPushed.Released [state/event exclusion requirement: LampOnWhileButtonPushed.Released, edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)].
-Controlled behavior: Button1.Pushed or LampOnWhileButtonPushed.Released -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [state/event exclusion requirement: LampOnWhileButtonPushed.Pushed, edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)].
-Edge (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off) (assignments: Lamp1 := Lamp1.On): guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false [state/event exclusion requirement: LampOnWhileButtonPushed.Pushed].
-Edge (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off): guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false [state/event exclusion requirement: LampOnWhileButtonPushed.Released].
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off).
 
-Restricted behavior using state/event exclusion requirements:
-  State: (controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed))
-    Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed)
-    Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)
-    Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released)
-    Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)
-    Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On)
-    Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false) (assignments: Lamp1 := Lamp1.On)
-    Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
-    Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false) (assignments: Lamp1 := Lamp1.Off)
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
-Round 1: started.
+Restricting behavior using state/event exclusion requirements:
+    Controlled behavior: true -> Button1.Pushed or LampOnWhileButtonPushed.Released [state/event exclusion requirement: LampOnWhileButtonPushed.Released, edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)].
+    Controlled behavior: Button1.Pushed or LampOnWhileButtonPushed.Released -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [state/event exclusion requirement: LampOnWhileButtonPushed.Pushed, edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)].
+    Edge (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off) (assignments: Lamp1 := Lamp1.On): guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false [state/event exclusion requirement: LampOnWhileButtonPushed.Pushed].
+    Edge (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off): guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false [state/event exclusion requirement: LampOnWhileButtonPushed.Released].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [marker predicate]
-Backward reachability: iteration 1.
-Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [backward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Released and LampOnWhileButtonPushed.Released or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [backward reach with edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Backward reachability: iteration 2.
-Backward controlled-behavior: Button1.Released and LampOnWhileButtonPushed.Released or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [backward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Backward reachability: iteration 3.
-Backward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
+    Restricted behavior using state/event exclusion requirements:
+        State: (controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed))
+            Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed)
+            Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)
+            Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released)
+            Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)
+            Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On)
+            Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false) (assignments: Lamp1 := Lamp1.On)
+            Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
+            Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false) (assignments: Lamp1 := Lamp1.Off)
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (Button1.Pushed or LampOnWhileButtonPushed.Pushed) and (Button1.Released or LampOnWhileButtonPushed.Released) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [forward reach with edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and LampOnWhileButtonPushed.Pushed [forward reach with edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Forward reachability: iteration 2.
-Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and LampOnWhileButtonPushed.Pushed -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [forward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-Forward reachability: iteration 3.
-Forward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
+Re-initializing edges for being applied.
 
-Round 1: finished, controlled behavior is stable.
+Checking pre-synthesis for events that are never enabled.
 
-Computing controlled system guards.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [marker predicate]
 
-Edge (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On): guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off -> Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off).
-Edge (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off): guard: LampOnWhileButtonPushed.Released and Lamp1.On -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On).
+        Backward reachability iteration 1:
+            Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [backward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
+            Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Released and LampOnWhileButtonPushed.Released or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [backward reach with edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
+
+        Backward reachability iteration 2:
+            Backward controlled-behavior: Button1.Released and LampOnWhileButtonPushed.Released or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [backward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
+
+        Backward reachability iteration 3:
+            No change this iteration.
+
+        Backward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: (Button1.Pushed or LampOnWhileButtonPushed.Pushed) and (Button1.Released or LampOnWhileButtonPushed.Released) [current/previous controlled behavior predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [initialization predicate]
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [forward reach with edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
+            Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and LampOnWhileButtonPushed.Pushed [forward reach with edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
+
+        Forward reachability iteration 2:
+            Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and LampOnWhileButtonPushed.Pushed -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [forward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
+
+        Forward reachability iteration 3:
+            No change this iteration.
+
+        Forward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    Edge (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On): guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off -> Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off).
+    Edge (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off): guard: LampOnWhileButtonPushed.Released and Lamp1.On -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On).
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed))
-    Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed)
-    Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)
-    Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released)
-    Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)
-    Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off -> Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off)) (assignments: Lamp1 := Lamp1.On)
-    Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false) (assignments: Lamp1 := Lamp1.On)
-    Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On)) (assignments: Lamp1 := Lamp1.Off)
-    Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false) (assignments: Lamp1 := Lamp1.Off)
+    State: (controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed))
+        Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed)
+        Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Pushed)
+        Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released)
+        Edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Released)
+        Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off -> Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off)) (assignments: Lamp1 := Lamp1.On)
+        Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false) (assignments: Lamp1 := Lamp1.On)
+        Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On)) (assignments: Lamp1 := Lamp1.Off)
+        Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false) (assignments: Lamp1 := Lamp1.Off)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 4 states.
 
-Initial (synthesis result):            (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)
-Initial (uncontrolled system):         Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Initial (controlled system):           Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)
+    Initial (uncontrolled system):         Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Initial (controlled system):           Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
 
-Simplification of controlled system under the assumption of the plants:
-  Event Lamp1.c_on: guard: Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Pushed and LampOnWhileButtonPushed.Pushed [assume Lamp1.Off].
-  Event Lamp1.c_off: guard: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On) -> Button1.Released and LampOnWhileButtonPushed.Released [assume Lamp1.On].
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    Event Lamp1.c_on: guard: Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off).
+    Event Lamp1.c_off: guard: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On).
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Event Lamp1.c_on: guard: Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Pushed and LampOnWhileButtonPushed.Pushed [assume Lamp1.Off].
+    Event Lamp1.c_off: guard: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.On) -> Button1.Released and LampOnWhileButtonPushed.Released [assume Lamp1.On].
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/example_button_lamp.ctrlsys.real.cif".

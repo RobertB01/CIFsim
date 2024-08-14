@@ -1,270 +1,346 @@
 Reading CIF file "datasynth/buffer_ctrl.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..3]  buffer.a  0      2 * 2     4 * 2       4 * 2       100%
-  2      discrete variable  int[1..3]  buffer.b  1      2 * 2     3 * 2       4 * 2       75%
-  3      discrete variable  int[0..2]  buffer.c  2      2 * 2     3 * 2       4 * 2       75%
-  4      discrete variable  int[1..2]  buffer.d  3      2 * 2     2 * 2       4 * 2       50%
-  5      discrete variable  int[0..3]  buffer.e  4      2 * 2     4 * 2       4 * 2       100%
-  6      discrete variable  int[1..3]  buffer.f  5      2 * 2     3 * 2       4 * 2       75%
-  7      discrete variable  int[0..2]  buffer.g  6      2 * 2     3 * 2       4 * 2       75%
-  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-  Total                                          7      28        44          56          ~79%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..3]  buffer.a  0      2 * 2     4 * 2       4 * 2       100%
+        2      discrete variable  int[1..3]  buffer.b  1      2 * 2     3 * 2       4 * 2       75%
+        3      discrete variable  int[0..2]  buffer.c  2      2 * 2     3 * 2       4 * 2       75%
+        4      discrete variable  int[1..2]  buffer.d  3      2 * 2     2 * 2       4 * 2       50%
+        5      discrete variable  int[0..3]  buffer.e  4      2 * 2     4 * 2       4 * 2       100%
+        6      discrete variable  int[1..3]  buffer.f  5      2 * 2     3 * 2       4 * 2       75%
+        7      discrete variable  int[0..2]  buffer.g  6      2 * 2     3 * 2       4 * 2       75%
+        -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+        Total                                          7      28        44          56          ~79%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 28
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 28
 
-        Skipping algorithm: no graph edges.
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Found new best variable order.
+                    Skipping algorithm: no graph edges.
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 0
+                Found new best variable order.
 
-        Skipping algorithm: no graph edges.
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 0
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                    Skipping algorithm: no graph edges.
 
-          Skipping algorithm: no graph edges.
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 28
+                        Skipping algorithm: no graph edges.
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 28
 
-      Found new best variable order.
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [reversed]
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 0
+                Found new best variable order.
 
-          Skipping algorithm: no graph edges.
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 0
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 28
+                        Skipping algorithm: no graph edges.
 
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [before]
-          Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 28
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 14
-      Maximum number of iterations: 20
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [before]
+                        Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.004373 (avg/edge) [reversed]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [iteration 1]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [after]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 14
+                Maximum number of iterations: 20
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 14
-      Window length: 4
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [iteration 1]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [after]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 14
+                Window length: 4
 
-Variable order changed.
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.122449 (total)   0.008746 (avg/edge) [after]
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..2]  buffer.g  0      2 * 2     3 * 2       4 * 2       75%
-  2      discrete variable  int[1..3]  buffer.f  1      2 * 2     3 * 2       4 * 2       75%
-  3      discrete variable  int[0..3]  buffer.e  2      2 * 2     4 * 2       4 * 2       100%
-  4      discrete variable  int[1..2]  buffer.d  3      2 * 2     2 * 2       4 * 2       50%
-  5      discrete variable  int[0..2]  buffer.c  4      2 * 2     3 * 2       4 * 2       75%
-  6      discrete variable  int[1..3]  buffer.b  5      2 * 2     3 * 2       4 * 2       75%
-  7      discrete variable  int[0..3]  buffer.a  6      2 * 2     4 * 2       4 * 2       100%
-  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
-  Total                                          7      28        44          56          ~79%
+    Variable order changed.
+
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..2]  buffer.g  0      2 * 2     3 * 2       4 * 2       75%
+        2      discrete variable  int[1..3]  buffer.f  1      2 * 2     3 * 2       4 * 2       75%
+        3      discrete variable  int[0..3]  buffer.e  2      2 * 2     4 * 2       4 * 2       100%
+        4      discrete variable  int[1..2]  buffer.d  3      2 * 2     2 * 2       4 * 2       50%
+        5      discrete variable  int[0..2]  buffer.c  4      2 * 2     3 * 2       4 * 2       75%
+        6      discrete variable  int[1..3]  buffer.b  5      2 * 2     3 * 2       4 * 2       75%
+        7      discrete variable  int[0..3]  buffer.a  6      2 * 2     4 * 2       4 * 2       100%
+        -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+        Total                                          7      28        44          56          ~79%
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             true
-Initial   (discrete variable 1):             true
-Initial   (discrete variable 2):             true
-Initial   (discrete variable 3):             true
-Initial   (discrete variable 4):             true
-Initial   (discrete variable 5):             true
-Initial   (discrete variable 6):             true
-Initial   (discrete variables):              <bdd 11n 32p>
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             <bdd 11n 32p>
-Initial   (system, combined init/plant inv): <bdd 11n 32p>
-Initial   (system, combined init/state inv): <bdd 11n 32p>
+    Initial   (discrete variable 0):             true
+    Initial   (discrete variable 1):             true
+    Initial   (discrete variable 2):             true
+    Initial   (discrete variable 3):             true
+    Initial   (discrete variable 4):             true
+    Initial   (discrete variable 5):             true
+    Initial   (discrete variable 6):             true
+    Initial   (discrete variables):              <bdd 11n 32p>
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             <bdd 11n 32p>
+    Initial   (system, combined init/plant inv): <bdd 11n 32p>
+    Initial   (system, combined init/state inv): <bdd 11n 32p>
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): true
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): true
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: add_a) (guard: true) (assignments: buffer.a := buffer.a + 1)
-    Edge: (event: add_b) (guard: true) (assignments: buffer.b := buffer.b + 1)
-    Edge: (event: add_c) (guard: true) (assignments: buffer.c := buffer.c + 1)
-    Edge: (event: add_d) (guard: true) (assignments: buffer.d := buffer.d + 1)
-    Edge: (event: add_e) (guard: true) (assignments: buffer.e := buffer.e + 2)
-    Edge: (event: add_f) (guard: true) (assignments: buffer.f := buffer.f + 2)
-    Edge: (event: add_g) (guard: true) (assignments: buffer.g := buffer.g + 2)
-    Edge: (event: remove_a) (guard: true) (assignments: buffer.a := buffer.a - 1)
-    Edge: (event: remove_b) (guard: true) (assignments: buffer.b := buffer.b - 1)
-    Edge: (event: remove_c) (guard: true) (assignments: buffer.c := buffer.c - 1)
-    Edge: (event: remove_d) (guard: true) (assignments: buffer.d := buffer.d - 1)
-    Edge: (event: remove_e) (guard: true) (assignments: buffer.e := buffer.e - 2)
-    Edge: (event: remove_f) (guard: true) (assignments: buffer.f := buffer.f - 2)
-    Edge: (event: remove_g) (guard: true) (assignments: buffer.g := buffer.g - 2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: add_a) (guard: true) (assignments: buffer.a := buffer.a + 1)
+            Edge: (event: add_b) (guard: true) (assignments: buffer.b := buffer.b + 1)
+            Edge: (event: add_c) (guard: true) (assignments: buffer.c := buffer.c + 1)
+            Edge: (event: add_d) (guard: true) (assignments: buffer.d := buffer.d + 1)
+            Edge: (event: add_e) (guard: true) (assignments: buffer.e := buffer.e + 2)
+            Edge: (event: add_f) (guard: true) (assignments: buffer.f := buffer.f + 2)
+            Edge: (event: add_g) (guard: true) (assignments: buffer.g := buffer.g + 2)
+            Edge: (event: remove_a) (guard: true) (assignments: buffer.a := buffer.a - 1)
+            Edge: (event: remove_b) (guard: true) (assignments: buffer.b := buffer.b - 1)
+            Edge: (event: remove_c) (guard: true) (assignments: buffer.c := buffer.c - 1)
+            Edge: (event: remove_d) (guard: true) (assignments: buffer.d := buffer.d - 1)
+            Edge: (event: remove_e) (guard: true) (assignments: buffer.e := buffer.e - 2)
+            Edge: (event: remove_f) (guard: true) (assignments: buffer.f := buffer.f - 2)
+            Edge: (event: remove_g) (guard: true) (assignments: buffer.g := buffer.g - 2)
+
+Checking input for potential problems.
 
 Restricting edge guards to prevent runtime errors:
-  Edge: (event: add_a) (guard: true -> buffer.a != 3) (assignments: buffer.a := buffer.a + 1)
-  Edge: (event: add_b) (guard: true -> buffer.b != 3) (assignments: buffer.b := buffer.b + 1)
-  Edge: (event: add_c) (guard: true -> true) (assignments: buffer.c := buffer.c + 1)
-  Edge: (event: add_d) (guard: true -> true) (assignments: buffer.d := buffer.d + 1)
-  Edge: (event: add_e) (guard: true -> buffer.e = 0 or buffer.e = 1) (assignments: buffer.e := buffer.e + 2)
-  Edge: (event: add_f) (guard: true -> buffer.f = 1) (assignments: buffer.f := buffer.f + 2)
-  Edge: (event: add_g) (guard: true -> buffer.g != 2) (assignments: buffer.g := buffer.g + 2)
-  Edge: (event: remove_a) (guard: true -> buffer.a != 0) (assignments: buffer.a := buffer.a - 1)
-  Edge: (event: remove_b) (guard: true -> true) (assignments: buffer.b := buffer.b - 1)
-  Edge: (event: remove_c) (guard: true -> buffer.c != 0) (assignments: buffer.c := buffer.c - 1)
-  Edge: (event: remove_d) (guard: true -> true) (assignments: buffer.d := buffer.d - 1)
-  Edge: (event: remove_e) (guard: true -> buffer.e = 2 or buffer.e = 3) (assignments: buffer.e := buffer.e - 2)
-  Edge: (event: remove_f) (guard: true -> buffer.f != 1) (assignments: buffer.f := buffer.f - 2)
-  Edge: (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2)
+    Edge: (event: add_a) (guard: true -> buffer.a != 3) (assignments: buffer.a := buffer.a + 1)
+    Edge: (event: add_b) (guard: true -> buffer.b != 3) (assignments: buffer.b := buffer.b + 1)
+    Edge: (event: add_c) (guard: true -> true) (assignments: buffer.c := buffer.c + 1)
+    Edge: (event: add_d) (guard: true -> true) (assignments: buffer.d := buffer.d + 1)
+    Edge: (event: add_e) (guard: true -> buffer.e = 0 or buffer.e = 1) (assignments: buffer.e := buffer.e + 2)
+    Edge: (event: add_f) (guard: true -> buffer.f = 1) (assignments: buffer.f := buffer.f + 2)
+    Edge: (event: add_g) (guard: true -> buffer.g != 2) (assignments: buffer.g := buffer.g + 2)
+    Edge: (event: remove_a) (guard: true -> buffer.a != 0) (assignments: buffer.a := buffer.a - 1)
+    Edge: (event: remove_b) (guard: true -> true) (assignments: buffer.b := buffer.b - 1)
+    Edge: (event: remove_c) (guard: true -> buffer.c != 0) (assignments: buffer.c := buffer.c - 1)
+    Edge: (event: remove_d) (guard: true -> true) (assignments: buffer.d := buffer.d - 1)
+    Edge: (event: remove_e) (guard: true -> buffer.e = 2 or buffer.e = 3) (assignments: buffer.e := buffer.e - 2)
+    Edge: (event: remove_f) (guard: true -> buffer.f != 1) (assignments: buffer.f := buffer.f - 2)
+    Edge: (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: add_a) (guard: true -> buffer.a != 3) (assignments: buffer.a := buffer.a + 1)
+            Edge: (event: add_b) (guard: true -> buffer.b != 3) (assignments: buffer.b := buffer.b + 1)
+            Edge: (event: add_c) (guard: true -> true) (assignments: buffer.c := buffer.c + 1)
+            Edge: (event: add_d) (guard: true -> true) (assignments: buffer.d := buffer.d + 1)
+            Edge: (event: add_e) (guard: true -> buffer.e = 0 or buffer.e = 1) (assignments: buffer.e := buffer.e + 2)
+            Edge: (event: add_f) (guard: true -> buffer.f = 1) (assignments: buffer.f := buffer.f + 2)
+            Edge: (event: add_g) (guard: true -> buffer.g != 2) (assignments: buffer.g := buffer.g + 2)
+            Edge: (event: remove_a) (guard: true -> buffer.a != 0) (assignments: buffer.a := buffer.a - 1)
+            Edge: (event: remove_b) (guard: true -> true) (assignments: buffer.b := buffer.b - 1)
+            Edge: (event: remove_c) (guard: true -> buffer.c != 0) (assignments: buffer.c := buffer.c - 1)
+            Edge: (event: remove_d) (guard: true -> true) (assignments: buffer.d := buffer.d - 1)
+            Edge: (event: remove_e) (guard: true -> buffer.e = 2 or buffer.e = 3) (assignments: buffer.e := buffer.e - 2)
+            Edge: (event: remove_f) (guard: true -> buffer.f != 1) (assignments: buffer.f := buffer.f - 2)
+            Edge: (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2)
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: <bdd 11n 32p>.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Restricting behavior using state requirements.
+Initializing edges for being applied.
 
-Extending controlled-behavior predicate using variable ranges.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.g" of type "int[0..2]" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.f" of type "int[1..3]" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.d" of type "int[1..2]" (group: 3, domain: 6+7, BDD variables: 2, CIF/BDD values: 2/4)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.c" of type "int[0..2]" (group: 4, domain: 8+9, BDD variables: 2, CIF/BDD values: 3/4)].
-Controlled behavior: true -> <bdd 11n 32p> [range: true, variable: discrete variable "buffer.b" of type "int[1..3]" (group: 5, domain: 10+11, BDD variables: 2, CIF/BDD values: 3/4)].
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: <bdd 11n 32p>.
 
-Extended controlled-behavior predicate using variable ranges: <bdd 11n 32p>.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
-Restricting behavior using state/event exclusion requirements.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.g" of type "int[0..2]" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.f" of type "int[1..3]" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.d" of type "int[1..2]" (group: 3, domain: 6+7, BDD variables: 2, CIF/BDD values: 2/4)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.c" of type "int[0..2]" (group: 4, domain: 8+9, BDD variables: 2, CIF/BDD values: 3/4)].
+    Controlled behavior: true -> <bdd 11n 32p> [range: true, variable: discrete variable "buffer.b" of type "int[1..3]" (group: 5, domain: 10+11, BDD variables: 2, CIF/BDD values: 3/4)].
 
-Restricting behavior using implicit runtime error requirements.
+    Extended controlled-behavior predicate using variable ranges: <bdd 11n 32p>.
 
-Round 1: started.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> <bdd 11n 32p> [restricted to current/previous controlled-behavior predicate: <bdd 11n 32p>]
-Backward reachability: iteration 1.
-Backward controlled-behavior: <bdd 11n 32p> [fixed point].
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 11n 35p> [current/previous controlled behavior predicate]
+Re-initializing edges for being applied.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: <bdd 11n 32p> [initialization predicate]
-Forward reachability: iteration 1.
+Checking pre-synthesis for events that are never enabled.
 
-Round 1: finished, controlled behavior is stable.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> <bdd 11n 32p> [restricted to current/previous controlled-behavior predicate: <bdd 11n 32p>]
 
-Computing controlled system guards.
+        Backward reachability iteration 1:
+            No change this iteration.
 
-Edge (event: add_a) (guard: true -> buffer.a != 3) (assignments: buffer.a := buffer.a + 1): guard: buffer.a != 3 -> <bdd 13n 64p>.
-Edge (event: add_b) (guard: true -> buffer.b != 3) (assignments: buffer.b := buffer.b + 1): guard: buffer.b != 3 -> <bdd 11n 32p>.
-Edge (event: add_c) (guard: true -> true) (assignments: buffer.c := buffer.c + 1): guard: true -> (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2)))).
-Edge (event: add_d) (guard: true -> true) (assignments: buffer.d := buffer.d + 1): guard: true -> (buffer.g = 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 1)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 1))).
-Edge (event: add_e) (guard: true -> buffer.e = 0 or buffer.e = 1) (assignments: buffer.e := buffer.e + 2): guard: buffer.e = 0 or buffer.e = 1 -> <bdd 12n 32p>.
-Edge (event: add_f) (guard: true -> buffer.f = 1) (assignments: buffer.f := buffer.f + 2): guard: buffer.f = 1 -> (buffer.g = 1 or buffer.f = 1) and (buffer.g != 1 or buffer.f = 1).
-Edge (event: add_g) (guard: true -> buffer.g != 2) (assignments: buffer.g := buffer.g + 2): guard: buffer.g != 2 -> buffer.g != 2 and buffer.g != 1.
-Edge (event: remove_a) (guard: true -> buffer.a != 0) (assignments: buffer.a := buffer.a - 1): guard: buffer.a != 0 -> <bdd 13n 64p>.
-Edge (event: remove_b) (guard: true -> true) (assignments: buffer.b := buffer.b - 1): guard: true -> (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1))))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))))).
-Edge (event: remove_c) (guard: true -> buffer.c != 0) (assignments: buffer.c := buffer.c - 1): guard: buffer.c != 0 -> <bdd 11n 32p>.
-Edge (event: remove_d) (guard: true -> true) (assignments: buffer.d := buffer.d - 1): guard: true -> (buffer.g = 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 2)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 2))).
-Edge (event: remove_e) (guard: true -> buffer.e = 2 or buffer.e = 3) (assignments: buffer.e := buffer.e - 2): guard: buffer.e = 2 or buffer.e = 3 -> <bdd 12n 32p>.
-Edge (event: remove_f) (guard: true -> buffer.f != 1) (assignments: buffer.f := buffer.f - 2): guard: buffer.f != 1 -> (buffer.g = 1 or buffer.f != 2) and (buffer.g = 1 or buffer.f != 1) and ((buffer.g != 1 or buffer.f != 2) and (buffer.g != 1 or buffer.f != 1)).
-Edge (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2): guard: buffer.g = 2 -> buffer.g = 2.
+        Backward controlled-behavior: <bdd 11n 32p> [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: <bdd 11n 35p> [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: <bdd 11n 32p> [initialization predicate]
+
+        Forward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    Edge (event: add_a) (guard: true -> buffer.a != 3) (assignments: buffer.a := buffer.a + 1): guard: buffer.a != 3 -> <bdd 13n 64p>.
+    Edge (event: add_b) (guard: true -> buffer.b != 3) (assignments: buffer.b := buffer.b + 1): guard: buffer.b != 3 -> <bdd 11n 32p>.
+    Edge (event: add_c) (guard: true -> true) (assignments: buffer.c := buffer.c + 1): guard: true -> (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2)))).
+    Edge (event: add_d) (guard: true -> true) (assignments: buffer.d := buffer.d + 1): guard: true -> (buffer.g = 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 1)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 1))).
+    Edge (event: add_e) (guard: true -> buffer.e = 0 or buffer.e = 1) (assignments: buffer.e := buffer.e + 2): guard: buffer.e = 0 or buffer.e = 1 -> <bdd 12n 32p>.
+    Edge (event: add_f) (guard: true -> buffer.f = 1) (assignments: buffer.f := buffer.f + 2): guard: buffer.f = 1 -> (buffer.g = 1 or buffer.f = 1) and (buffer.g != 1 or buffer.f = 1).
+    Edge (event: add_g) (guard: true -> buffer.g != 2) (assignments: buffer.g := buffer.g + 2): guard: buffer.g != 2 -> buffer.g != 2 and buffer.g != 1.
+    Edge (event: remove_a) (guard: true -> buffer.a != 0) (assignments: buffer.a := buffer.a - 1): guard: buffer.a != 0 -> <bdd 13n 64p>.
+    Edge (event: remove_b) (guard: true -> true) (assignments: buffer.b := buffer.b - 1): guard: true -> (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1))))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))))).
+    Edge (event: remove_c) (guard: true -> buffer.c != 0) (assignments: buffer.c := buffer.c - 1): guard: buffer.c != 0 -> <bdd 11n 32p>.
+    Edge (event: remove_d) (guard: true -> true) (assignments: buffer.d := buffer.d - 1): guard: true -> (buffer.g = 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 2)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 2))).
+    Edge (event: remove_e) (guard: true -> buffer.e = 2 or buffer.e = 3) (assignments: buffer.e := buffer.e - 2): guard: buffer.e = 2 or buffer.e = 3 -> <bdd 12n 32p>.
+    Edge (event: remove_f) (guard: true -> buffer.f != 1) (assignments: buffer.f := buffer.f - 2): guard: buffer.f != 1 -> (buffer.g = 1 or buffer.f != 2) and (buffer.g = 1 or buffer.f != 1) and ((buffer.g != 1 or buffer.f != 2) and (buffer.g != 1 or buffer.f != 1)).
+    Edge (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2): guard: buffer.g = 2 -> buffer.g = 2.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 11n 32p>)
-    Edge: (event: add_a) (guard: true -> <bdd 13n 64p>) (assignments: buffer.a := buffer.a + 1)
-    Edge: (event: add_b) (guard: true -> <bdd 11n 32p>) (assignments: buffer.b := buffer.b + 1)
-    Edge: (event: add_c) (guard: true -> (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2))))) (assignments: buffer.c := buffer.c + 1)
-    Edge: (event: add_d) (guard: true -> (buffer.g = 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 1)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 1)))) (assignments: buffer.d := buffer.d + 1)
-    Edge: (event: add_e) (guard: true -> <bdd 12n 32p>) (assignments: buffer.e := buffer.e + 2)
-    Edge: (event: add_f) (guard: true -> (buffer.g = 1 or buffer.f = 1) and (buffer.g != 1 or buffer.f = 1)) (assignments: buffer.f := buffer.f + 2)
-    Edge: (event: add_g) (guard: true -> buffer.g != 2 and buffer.g != 1) (assignments: buffer.g := buffer.g + 2)
-    Edge: (event: remove_a) (guard: true -> <bdd 13n 64p>) (assignments: buffer.a := buffer.a - 1)
-    Edge: (event: remove_b) (guard: true -> (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1))))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1))))))) (assignments: buffer.b := buffer.b - 1)
-    Edge: (event: remove_c) (guard: true -> <bdd 11n 32p>) (assignments: buffer.c := buffer.c - 1)
-    Edge: (event: remove_d) (guard: true -> (buffer.g = 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 2)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 2)))) (assignments: buffer.d := buffer.d - 1)
-    Edge: (event: remove_e) (guard: true -> <bdd 12n 32p>) (assignments: buffer.e := buffer.e - 2)
-    Edge: (event: remove_f) (guard: true -> (buffer.g = 1 or buffer.f != 2) and (buffer.g = 1 or buffer.f != 1) and ((buffer.g != 1 or buffer.f != 2) and (buffer.g != 1 or buffer.f != 1))) (assignments: buffer.f := buffer.f - 2)
-    Edge: (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2)
+    State: (controlled-behavior: <bdd 11n 32p>)
+        Edge: (event: add_a) (guard: true -> <bdd 13n 64p>) (assignments: buffer.a := buffer.a + 1)
+        Edge: (event: add_b) (guard: true -> <bdd 11n 32p>) (assignments: buffer.b := buffer.b + 1)
+        Edge: (event: add_c) (guard: true -> (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2))))) (assignments: buffer.c := buffer.c + 1)
+        Edge: (event: add_d) (guard: true -> (buffer.g = 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 1)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 1)))) (assignments: buffer.d := buffer.d + 1)
+        Edge: (event: add_e) (guard: true -> <bdd 12n 32p>) (assignments: buffer.e := buffer.e + 2)
+        Edge: (event: add_f) (guard: true -> (buffer.g = 1 or buffer.f = 1) and (buffer.g != 1 or buffer.f = 1)) (assignments: buffer.f := buffer.f + 2)
+        Edge: (event: add_g) (guard: true -> buffer.g != 2 and buffer.g != 1) (assignments: buffer.g := buffer.g + 2)
+        Edge: (event: remove_a) (guard: true -> <bdd 13n 64p>) (assignments: buffer.a := buffer.a - 1)
+        Edge: (event: remove_b) (guard: true -> (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1))))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1))))))) (assignments: buffer.b := buffer.b - 1)
+        Edge: (event: remove_c) (guard: true -> <bdd 11n 32p>) (assignments: buffer.c := buffer.c - 1)
+        Edge: (event: remove_d) (guard: true -> (buffer.g = 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 2)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 2)))) (assignments: buffer.d := buffer.d - 1)
+        Edge: (event: remove_e) (guard: true -> <bdd 12n 32p>) (assignments: buffer.e := buffer.e - 2)
+        Edge: (event: remove_f) (guard: true -> (buffer.g = 1 or buffer.f != 2) and (buffer.g = 1 or buffer.f != 1) and ((buffer.g != 1 or buffer.f != 2) and (buffer.g != 1 or buffer.f != 1))) (assignments: buffer.f := buffer.f - 2)
+        Edge: (event: remove_g) (guard: true -> buffer.g = 2) (assignments: buffer.g := buffer.g - 2)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 2,592 states.
 
-Initial (synthesis result):            <bdd 11n 32p>
-Initial (uncontrolled system):         <bdd 11n 32p>
-Initial (controlled system):           <bdd 11n 32p>
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            <bdd 11n 32p>
+    Initial (uncontrolled system):         <bdd 11n 32p>
+    Initial (controlled system):           <bdd 11n 32p>
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    Event add_a: guard: <bdd 13n 64p>.
+    Event add_b: guard: <bdd 11n 32p>.
+    Event add_c: guard: (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or buffer.c != 2)) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or buffer.c != 2)) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or buffer.c != 2)))).
+    Event add_d: guard: (buffer.g = 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 1)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 1)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 1))).
+    Event add_e: guard: <bdd 12n 32p>.
+    Event add_f: guard: (buffer.g = 1 or buffer.f = 1) and (buffer.g != 1 or buffer.f = 1).
+    Event add_g: guard: buffer.g != 2 and buffer.g != 1.
+    Event remove_a: guard: <bdd 13n 64p>.
+    Event remove_b: guard: (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g = 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1))))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f != 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 1 or (buffer.c != 1 or buffer.b != 1))) and ((buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c = 1 or buffer.b != 1))) and (buffer.g != 1 or buffer.f = 2 or (buffer.d = 2 or (buffer.c != 1 or buffer.b != 1)))))).
+    Event remove_c: guard: <bdd 11n 32p>.
+    Event remove_d: guard: (buffer.g = 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g = 1 or (buffer.f = 2 or buffer.d = 2)) and ((buffer.g != 1 or (buffer.f != 2 or buffer.d = 2)) and (buffer.g != 1 or (buffer.f = 2 or buffer.d = 2))).
+    Event remove_e: guard: <bdd 12n 32p>.
+    Event remove_f: guard: (buffer.g = 1 or buffer.f != 2) and (buffer.g = 1 or buffer.f != 1) and ((buffer.g != 1 or buffer.f != 2) and (buffer.g != 1 or buffer.f != 1)).
+    Event remove_g: guard: buffer.g = 2.
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/buffer_ctrl.ctrlsys.real.cif".

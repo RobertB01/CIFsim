@@ -1,236 +1,299 @@
 Reading CIF file "datasynth/update_complex.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
-  1      location pointer   n/a        p      0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  int[0..3]  p.x    1      2 * 2     4 * 2       4 * 2       100%
-  3      discrete variable  int[1..2]  p.y    2      2 * 2     2 * 2       4 * 2       50%
-  4      discrete variable  int[2..3]  p.z    3      2 * 2     2 * 2       4 * 2       50%
-  5      discrete variable  int[3..8]  p.sum  4      4 * 2     6 * 2       16 * 2      ~38%
-  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
-  Total                                       5      22        32          60          ~53%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+        1      location pointer   n/a        p      0      1 * 2     2 * 2       2 * 2       100%
+        2      discrete variable  int[0..3]  p.x    1      2 * 2     4 * 2       4 * 2       100%
+        3      discrete variable  int[1..2]  p.y    2      2 * 2     2 * 2       4 * 2       50%
+        4      discrete variable  int[2..3]  p.z    3      2 * 2     2 * 2       4 * 2       50%
+        5      discrete variable  int[3..8]  p.sum  4      4 * 2     6 * 2       16 * 2      ~38%
+        -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+        Total                                       5      22        32          60          ~53%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 2
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 10
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 2
 
-        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 10
 
-      Found new best variable order.
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 10
+                Found new best variable order.
 
-        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 10
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 10
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                    Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
 
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 10
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 2
+                        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
 
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 2
 
-      Found new best variable order.
+                        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [reversed]
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 10
+                Found new best variable order.
 
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 10
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 2
+                        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [after]
 
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
-          Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 2
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 1
-      Maximum number of iterations: 20
+                        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [before]
+                        Total span:   7 (total)   3.50 (avg/edge) / WES:   1.440000 (total)   0.720000 (avg/edge) [reversed]
 
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [before]
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [iteration 1]
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [after]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 1
+                Maximum number of iterations: 20
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 1
-      Window length: 4
+                Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [before]
+                Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [iteration 1]
+                Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [after]
 
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [before]
-      Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 1
+                Window length: 4
 
-Variable order changed.
+                Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [before]
+                Total span:   4 (total)   4.00 (avg/edge) / WES:   1.600000 (total)   1.600000 (avg/edge) [after]
 
-CIF variables and location pointers:
-  Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[3..8]  p.sum  0      4 * 2     6 * 2       16 * 2      ~38%
-  2      discrete variable  int[2..3]  p.z    1      2 * 2     2 * 2       4 * 2       50%
-  3      discrete variable  int[1..2]  p.y    2      2 * 2     2 * 2       4 * 2       50%
-  4      discrete variable  int[0..3]  p.x    3      2 * 2     4 * 2       4 * 2       100%
-  5      location pointer   n/a        p      4      1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
-  Total                                       5      22        32          60          ~53%
+    Variable order changed.
+
+    CIF variables and location pointers:
+        Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[3..8]  p.sum  0      4 * 2     6 * 2       16 * 2      ~38%
+        2      discrete variable  int[2..3]  p.z    1      2 * 2     2 * 2       4 * 2       50%
+        3      discrete variable  int[1..2]  p.y    2      2 * 2     2 * 2       4 * 2       50%
+        4      discrete variable  int[0..3]  p.x    3      2 * 2     4 * 2       4 * 2       100%
+        5      location pointer   n/a        p      4      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+        Total                                       5      22        32          60          ~53%
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):             p.sum = 3
-Initial   (discrete variable 1):             true
-Initial   (discrete variable 2):             true
-Initial   (discrete variable 3):             true
-Initial   (discrete variables):              p.sum = 3 and p.y = 2 or p.sum = 3 and p.y = 1
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         p.l1
-Initial   (auts/locs init predicate):        p.l1
-Initial   (uncontrolled system):             p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
-Initial   (system, combined init/plant inv): p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
-Initial   (system, combined init/state inv): p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
+    Initial   (discrete variable 0):             p.sum = 3
+    Initial   (discrete variable 1):             true
+    Initial   (discrete variable 2):             true
+    Initial   (discrete variable 3):             true
+    Initial   (discrete variables):              p.sum = 3 and p.y = 2 or p.sum = 3 and p.y = 1
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         p.l1
+    Initial   (auts/locs init predicate):        p.l1
+    Initial   (uncontrolled system):             p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
+    Initial   (system, combined init/plant inv): p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
+    Initial   (system, combined init/state inv): p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       p.sum = 7 and p.l2
-Marked    (auts/locs marker predicate):      p.sum = 7 and p.l2
-Marked    (uncontrolled system):             p.sum = 7 and p.l2
-Marked    (system, combined mark/plant inv): p.sum = 7 and p.l2
-Marked    (system, combined mark/state inv): p.sum = 7 and p.l2
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       p.sum = 7 and p.l2
+    Marked    (auts/locs marker predicate):      p.sum = 7 and p.l2
+    Marked    (uncontrolled system):             p.sum = 7 and p.l2
+    Marked    (system, combined mark/plant inv): p.sum = 7 and p.l2
+    Marked    (system, combined mark/state inv): p.sum = 7 and p.l2
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1).
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Controlled behavior: true -> true [range: true, variable: discrete variable "p.sum" of type "int[3..8]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 6/16)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "p.z" of type "int[2..3]" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 2/4)].
-Controlled behavior: true -> true [range: true, variable: discrete variable "p.y" of type "int[1..2]" (group: 2, domain: 4+5, BDD variables: 2, CIF/BDD values: 2/4)].
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Extended controlled-behavior predicate using variable ranges: true.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1).
 
-Restricting behavior using state/event exclusion requirements.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
-Restricting behavior using implicit runtime error requirements.
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.sum" of type "int[3..8]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 6/16)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.z" of type "int[2..3]" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 2/4)].
+    Controlled behavior: true -> true [range: true, variable: discrete variable "p.y" of type "int[1..2]" (group: 2, domain: 4+5, BDD variables: 2, CIF/BDD values: 2/4)].
 
-Round 1: started.
+    Extended controlled-behavior predicate using variable ranges: true.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.sum = 7 and p.l2 [marker predicate]
-Backward controlled-behavior: p.sum = 7 and p.l2 -> p.sum = 7 and (p.y = 2 and p.l2) or p.sum = 7 and (p.y = 1 and p.l2) [restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 1.
-Backward controlled-behavior: p.sum = 7 and (p.y = 2 and p.l2) or p.sum = 7 and (p.y = 1 and p.l2) -> <bdd 34n 25p> [backward reach with edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 2.
-Backward controlled-behavior: <bdd 34n 25p> [fixed point].
-Controlled behavior: true -> <bdd 34n 25p>.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 34n 96p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1) [initialization predicate]
-Forward controlled-behavior: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1) -> p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) [restricted to current/previous controlled-behavior predicate: <bdd 34n 25p>]
-Forward reachability: iteration 1.
-Forward controlled-behavior: p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) -> <bdd 29n 6p> [forward reach with edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2), restricted to current/previous controlled-behavior predicate: <bdd 34n 25p>]
-Forward reachability: iteration 2.
-Forward controlled-behavior: <bdd 29n 6p> [fixed point].
-Controlled behavior: <bdd 34n 25p> -> <bdd 29n 6p>.
+Re-initializing edges for being applied.
 
-Round 1: finished, need another round.
+Checking pre-synthesis for events that are never enabled.
 
-Round 2: started.
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p.sum = 7 and p.l2 [marker predicate]
+        Backward controlled-behavior: p.sum = 7 and p.l2 -> p.sum = 7 and (p.y = 2 and p.l2) or p.sum = 7 and (p.y = 1 and p.l2) [restricted to current/previous controlled-behavior predicate: true]
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.sum = 7 and p.l2 [marker predicate]
-Backward controlled-behavior: p.sum = 7 and p.l2 -> p.sum = 7 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l2)) or (p.sum = 7 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l2)) or p.sum = 7 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l2))) [restricted to current/previous controlled-behavior predicate: <bdd 29n 6p>]
-Backward reachability: iteration 1.
-Backward controlled-behavior: p.sum = 7 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l2)) or (p.sum = 7 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l2)) or p.sum = 7 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l2))) -> <bdd 29n 6p> [backward reach with edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2), restricted to current/previous controlled-behavior predicate: <bdd 29n 6p>]
-Backward reachability: iteration 2.
-Backward controlled-behavior: <bdd 29n 6p> [fixed point].
+        Backward reachability iteration 1:
+            Backward controlled-behavior: p.sum = 7 and (p.y = 2 and p.l2) or p.sum = 7 and (p.y = 1 and p.l2) -> <bdd 34n 25p> [backward reach with edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 29n 34p> [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+        Backward reachability iteration 2:
+            No change this iteration.
 
-Round 2: finished, controlled behavior is stable.
+        Backward controlled-behavior: <bdd 34n 25p> [fixed point].
 
-Computing controlled system guards.
+        Controlled behavior: true -> <bdd 34n 25p>.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: <bdd 34n 96p> [current/previous controlled behavior predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1) [initialization predicate]
+        Forward controlled-behavior: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1) -> p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) [restricted to current/previous controlled-behavior predicate: <bdd 34n 25p>]
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) -> <bdd 29n 6p> [forward reach with edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2), restricted to current/previous controlled-behavior predicate: <bdd 34n 25p>]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
+        Forward controlled-behavior: <bdd 29n 6p> [fixed point].
+
+        Controlled behavior: <bdd 34n 25p> -> <bdd 29n 6p>.
+
+    Need another round.
+
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: p.sum = 7 and p.l2 [marker predicate]
+        Backward controlled-behavior: p.sum = 7 and p.l2 -> p.sum = 7 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l2)) or (p.sum = 7 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l2)) or p.sum = 7 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l2))) [restricted to current/previous controlled-behavior predicate: <bdd 29n 6p>]
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: p.sum = 7 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l2)) or (p.sum = 7 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l2)) or p.sum = 7 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l2))) -> <bdd 29n 6p> [backward reach with edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2), restricted to current/previous controlled-behavior predicate: <bdd 29n 6p>]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
+        Backward controlled-behavior: <bdd 29n 6p> [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: <bdd 29n 34p> [current/previous controlled behavior predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    No guards changed.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: <bdd 29n 6p>)
-    Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
+    State: (controlled-behavior: <bdd 29n 6p>)
+        Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 6 states.
 
-Initial (synthesis result):            <bdd 29n 6p>
-Initial (uncontrolled system):         p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
-Initial (controlled system):           p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1)))
-Initial (removed by supervisor):       p.sum = 3 and p.z = 2 and (p.y = 2 and ((p.x = 0 or p.x = 2) and p.l1)) or (p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 1 and p.l1)) or p.sum = 3 and p.z = 2 and (p.y = 1 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 0 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 2 and ((p.x = 1 or p.x = 3) and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 1 and ((p.x = 0 or p.x = 2) and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 1 and p.l1))))
-Initial (added by supervisor):         (p.sum != 3 or (p.z = 3 or p.y = 1) or (p.x = 1 or (p.x = 3 or p.l2))) and ((p.sum != 3 or p.z = 3 or (p.y = 1 or (p.x != 1 or p.l2))) and (p.sum != 3 or p.z = 3 or (p.y = 2 or p.l2))) and ((p.sum != 3 or p.z = 2 or (p.y = 1 or (p.x != 0 or p.l2))) and (p.sum != 3 or (p.z = 2 or p.y = 1) or (p.x = 0 or (p.x = 2 or p.l2))) and ((p.sum != 3 or (p.z = 2 or p.y = 2) or (p.x = 1 or (p.x = 3 or p.l2))) and (p.sum != 3 or p.z = 2 or (p.y = 2 or (p.x != 1 or p.l2)))))
+Determining initialization predicate for output model:
+    Initial (synthesis result):            <bdd 29n 6p>
+    Initial (uncontrolled system):         p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)
+    Initial (controlled system):           p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1)))
+    Initial (removed by supervisor):       p.sum = 3 and p.z = 2 and (p.y = 2 and ((p.x = 0 or p.x = 2) and p.l1)) or (p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 1 and p.l1)) or p.sum = 3 and p.z = 2 and (p.y = 1 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 0 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 2 and ((p.x = 1 or p.x = 3) and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 1 and ((p.x = 0 or p.x = 2) and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 1 and p.l1))))
+    Initial (added by supervisor):         (p.sum != 3 or (p.z = 3 or p.y = 1) or (p.x = 1 or (p.x = 3 or p.l2))) and ((p.sum != 3 or p.z = 3 or (p.y = 1 or (p.x != 1 or p.l2))) and (p.sum != 3 or p.z = 3 or (p.y = 2 or p.l2))) and ((p.sum != 3 or p.z = 2 or (p.y = 1 or (p.x != 0 or p.l2))) and (p.sum != 3 or (p.z = 2 or p.y = 1) or (p.x = 0 or (p.x = 2 or p.l2))) and ((p.sum != 3 or (p.z = 2 or p.y = 2) or (p.x = 1 or (p.x = 3 or p.l2))) and (p.sum != 3 or p.z = 2 or (p.y = 2 or (p.x != 1 or p.l2)))))
 
-Simplification of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
-  Initial: p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) -> p.z = 2 and (p.y = 2 and p.x = 3) or (p.z = 3 and (p.y = 2 and p.x = 2) or p.z = 3 and (p.y = 1 and p.x = 3)) [assume p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)].
+    Simplifying of controlled system initialization predicate under the assumption of the uncontrolled system initialization predicates:
+        Initial: p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) -> p.z = 2 and (p.y = 2 and p.x = 3) or (p.z = 3 and (p.y = 2 and p.x = 2) or p.z = 3 and (p.y = 1 and p.x = 3)) [assume p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1)].
+
+    Initial (output model):                p.z = 2 and (p.y = 2 and p.x = 3) or (p.z = 3 and (p.y = 2 and p.x = 2) or p.z = 3 and (p.y = 1 and p.x = 3))
+
+Determining supervisor guards for output model:
+    No controllable events.
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/update_complex.ctrlsys.real.cif".

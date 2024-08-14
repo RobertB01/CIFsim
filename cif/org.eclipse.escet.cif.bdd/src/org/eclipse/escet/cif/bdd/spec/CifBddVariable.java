@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import org.eclipse.escet.cif.bdd.utils.BddUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 import com.github.javabdd.BDDDomain;
@@ -109,7 +108,7 @@ public abstract class CifBddVariable {
 
     @Override
     public String toString() {
-        return toString(0, 0, "Variable: ");
+        return toString("Variable: ");
     }
 
     /**
@@ -131,15 +130,13 @@ public abstract class CifBddVariable {
     /**
      * Returns a textual representation of the CIF/BDD variable.
      *
-     * @param indentLevel The indentation level.
-     * @param indentAmount The number of spaces to use per indentation level.
      * @param prefix The prefix to use, e.g. {@code "Variable: "} or {@code ""}.
      * @return The textual representation.
      */
-    public String toString(int indentLevel, int indentAmount, String prefix) {
-        return fmt("%s%s%s (group: %d, domain: %d+%d, BDD variables: %d, CIF/BDD values: %d/%d)",
-                Strings.duplicate(" ", indentLevel * indentAmount), prefix, toStringInternal(), group,
-                domain.getIndex(), domainNew.getIndex(), domain.varNum(), count, 1 << domain.varNum());
+    public String toString(String prefix) {
+        return fmt("%s%s (group: %d, domain: %d+%d, BDD variables: %d, CIF/BDD values: %d/%d)", prefix,
+                toStringInternal(), group, domain.getIndex(), domainNew.getIndex(), domain.varNum(), count,
+                1 << domain.varNum());
     }
 
     /**

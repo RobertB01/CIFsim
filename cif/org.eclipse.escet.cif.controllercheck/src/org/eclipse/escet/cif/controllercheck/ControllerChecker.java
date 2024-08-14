@@ -126,7 +126,7 @@ public class ControllerChecker {
         // Preparations for BDD-based checks.
         CifBddSpec cifBddSpec = null; // Used for BDD-based checks.
         if (hasBddBasedChecks) {
-            debugOutput.line("Preparing for BDD-based checks...");
+            debugOutput.line("Preparing for BDD-based checks:");
             debugOutput.inc();
 
             cifBddSpec = convertToBdd(spec, specAbsPath, settings);
@@ -145,7 +145,7 @@ public class ControllerChecker {
         // Preparations for MDD-based checks.
         CifMddSpec cifMddSpec = null; // Used for MDD-based checks.
         if (hasMddBasedChecks) {
-            debugOutput.line("Preparing for MDD-based checks...");
+            debugOutput.line("Preparing for MDD-based checks:");
             debugOutput.inc();
 
             cifMddSpec = convertToMdd(spec, specAbsPath, computeGlobalGuardedUpdates, termination, normalOutput,
@@ -168,7 +168,7 @@ public class ControllerChecker {
             if (debugOutput.isEnabled() || checksPerformed > 0) {
                 normalOutput.line();
             }
-            normalOutput.line("Checking for %s...", check.getPropertyName());
+            normalOutput.line("Checking for %s:", check.getPropertyName());
 
             // Perform check.
             debugOutput.inc();

@@ -1,25 +1,35 @@
-Loading CIF specification "controllercheck/common/svg_input_decl_removed.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/common/svg_input_decl_removed.cif".
+Preparing for BDD-based checks:
+    The specification has no BDD variables.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: false
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: false
 
-    Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: false
+    Computing the controllable-complete path states:
+        Controllable-complete path states: false [controllable-complete path end states predicate]
 
-    Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
-    Bad states: true
+        Backward reachability iteration 1:
+            No change this iteration.
 
-    Computing the result of the non-blocking under control check...
-    Initial states: true
-    Bad initial states: true
+        Controllable-complete path states: false
+
+    Computing the bad states:
+        Bad states: true [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
+
+    Computing the result of the non-blocking under control check:
+        Initial states: true
+        Bad initial states: true
+
+    Non-blocking under control: no
 
 CONCLUSION:
     [UNKNOWN] Bounded response checking was disabled, bounded response property is unknown.

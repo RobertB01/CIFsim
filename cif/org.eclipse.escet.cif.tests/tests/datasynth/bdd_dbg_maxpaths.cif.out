@@ -1,106 +1,157 @@
 Reading CIF file "datasynth/bdd_dbg_maxpaths.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type           Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  -------------  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  int[0..1,024]  p.x   0      11 * 2    1025 * 2    2048 * 2    ~50%
-  -----  -----------------  -------------  ----  -----  --------  ----------  ----------  -----------
-  Total                                          1      22        2050        4096        ~50%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Skipping variable ordering: only one variable present.
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type           Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  -------------  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  int[0..1,024]  p.x   0      11 * 2    1025 * 2    2048 * 2    ~50%
+        -----  -----------------  -------------  ----  -----  --------  ----------  ----------  -----------
+        Total                                          1      22        2050        4096        ~50%
+
+    Skipping variable ordering: only one variable present.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
-Invariant (components state req invariant):  p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
+    Invariant (component state req invariant):   p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
+    Invariant (components state req invariant):  p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
 
-Initial   (discrete variable 0):             p.x = 5
-Initial   (discrete variables):              p.x = 5
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             p.x = 5
-Initial   (system, combined init/plant inv): p.x = 5
-Initial   (system, combined init/state inv): p.x = 5
+    Initial   (discrete variable 0):             p.x = 5
+    Initial   (discrete variables):              p.x = 5
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             p.x = 5
+    Initial   (system, combined init/plant inv): p.x = 5
+    Initial   (system, combined init/state inv): p.x = 5
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: p.x = 5.
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) [state requirements: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))].
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Restricting behavior using implicit runtime error requirements.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: p.x = 5.
 
-Round 1: started.
+Restricting behavior using state requirements:
+    Controlled behavior: true -> p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) [state requirements: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) [restricted to current/previous controlled-behavior predicate: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))]
-Backward controlled-behavior: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) [fixed point].
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 10n 16p> [current/previous controlled behavior predicate]
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.x = 5 [initialization predicate]
-Controlled behavior: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) -> p.x = 5.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
-Round 1: finished, need another round.
+Re-initializing edges for being applied.
 
-Round 2: started.
+Checking pre-synthesis for events that are never enabled.
 
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> p.x = 5 [restricted to current/previous controlled-behavior predicate: p.x = 5]
-Backward controlled-behavior: p.x = 5 [fixed point].
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) [restricted to current/previous controlled-behavior predicate: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))]
 
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 11n 11p> [current/previous controlled behavior predicate]
+        Backward controlled-behavior: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) [fixed point].
 
-Round 2: finished, controlled behavior is stable.
+        Controlled behavior not changed.
 
-Computing controlled system guards.
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: <bdd 10n 16p> [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: p.x = 5 [initialization predicate]
+
+        Controlled behavior: p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7)) -> p.x = 5.
+
+    Need another round.
+
+Synthesis round 2:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> p.x = 5 [restricted to current/previous controlled-behavior predicate: p.x = 5]
+
+        Backward controlled-behavior: p.x = 5 [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: <bdd 11n 11p> [current/previous controlled behavior predicate]
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    No guards changed.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: p.x = 5)
+    State: (controlled-behavior: p.x = 5)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 1 state.
 
-Initial (synthesis result):            p.x = 5
-Initial (uncontrolled system):         p.x = 5
-Initial (controlled system):           p.x = 5
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            p.x = 5
+    Initial (uncontrolled system):         p.x = 5
+    Initial (controlled system):           p.x = 5
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    No controllable events.
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/bdd_dbg_maxpaths.ctrlsys.real.cif".

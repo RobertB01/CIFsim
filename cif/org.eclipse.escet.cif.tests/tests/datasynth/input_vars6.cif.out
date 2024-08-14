@@ -1,141 +1,199 @@
 Reading CIF file "datasynth/input_vars6.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind            Type  Name        Group  BDD vars  CIF values  BDD values  Values used
-  -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
-  1      input variable  bool  io.sensor1  0      1 * 2     2 * 2       2 * 2       100%
-  2      input variable  bool  io.sensor2  1      1 * 2     2 * 2       2 * 2       100%
-  3      input variable  bool  io.sensor3  2      1 * 2     2 * 2       2 * 2       100%
-  -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
-  Total                                    3      6         12          12          100%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind            Type  Name        Group  BDD vars  CIF values  BDD values  Values used
+        -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
+        1      input variable  bool  io.sensor1  0      1 * 2     2 * 2       2 * 2       100%
+        2      input variable  bool  io.sensor2  1      1 * 2     2 * 2       2 * 2       100%
+        3      input variable  bool  io.sensor3  2      1 * 2     2 * 2       2 * 2       100%
+        -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
+        Total                                    3      6         12          12          100%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 0
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Skipping orderer: no hyper-edges.
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 0
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Maximum number of iterations: 20
+                Skipping orderer: no hyper-edges.
 
-      Skipping algorithm: no hyper-edges.
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 0
+                Maximum number of iterations: 20
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 0
-      Window length: 3
+                Skipping algorithm: no hyper-edges.
 
-      Skipping algorithm: no hyper-edges.
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 0
+                Window length: 3
 
-Variable order unchanged.
+                Skipping algorithm: no hyper-edges.
+
+    Variable order unchanged.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (components state req invariant):  true
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      true
+    Invariant (components state req invariant):  true
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      true
 
-Initial   (discrete variables):              true
-Initial   (component init predicate):        io.sensor1
-Initial   (component init predicate):        io.sensor2
-Initial   (components init predicate):       io.sensor1 and io.sensor2
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             io.sensor1 and io.sensor2
-Initial   (system, combined init/plant inv): io.sensor1 and io.sensor2
-Initial   (system, combined init/state inv): io.sensor1 and io.sensor2
+    Initial   (discrete variables):              true
+    Initial   (component init predicate):        io.sensor1
+    Initial   (component init predicate):        io.sensor2
+    Initial   (components init predicate):       io.sensor1 and io.sensor2
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             io.sensor1 and io.sensor2
+    Initial   (system, combined init/plant inv): io.sensor1 and io.sensor2
+    Initial   (system, combined init/state inv): io.sensor1 and io.sensor2
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       not io.sensor2 and not io.sensor3
-Marked    (auts/locs marker predicate):      not io.sensor2 and not io.sensor3
-Marked    (uncontrolled system):             not io.sensor2 and not io.sensor3
-Marked    (system, combined mark/plant inv): not io.sensor2 and not io.sensor3
-Marked    (system, combined mark/state inv): not io.sensor2 and not io.sensor3
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       not io.sensor2 and not io.sensor3
+    Marked    (auts/locs marker predicate):      not io.sensor2 and not io.sensor3
+    Marked    (uncontrolled system):             not io.sensor2 and not io.sensor3
+    Marked    (system, combined mark/plant inv): not io.sensor2 and not io.sensor3
+    Marked    (system, combined mark/state inv): not io.sensor2 and not io.sensor3
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
-    Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
-    Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
+            Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
+            Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: io.sensor1 and io.sensor2.
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Restricting behavior using implicit runtime error requirements.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: io.sensor1 and io.sensor2.
 
-Round 1: started.
+Restricting behavior using state requirements:
+    Controlled behavior not changed.
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: not io.sensor2 and not io.sensor3 [marker predicate]
-Backward reachability: iteration 1.
-Backward controlled-behavior: not io.sensor2 and not io.sensor3 -> not io.sensor3 [backward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: not io.sensor3 -> true [backward reach with edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3), restricted to current/previous controlled-behavior predicate: true]
-Backward reachability: iteration 2.
-Backward controlled-behavior: true [fixed point].
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: io.sensor1 and io.sensor2 [initialization predicate]
-Forward reachability: iteration 1.
-Forward controlled-behavior: io.sensor1 and io.sensor2 -> io.sensor2 [forward reach with edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1), restricted to current/previous controlled-behavior predicate: true]
-Forward controlled-behavior: io.sensor2 -> true [forward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 2.
-Forward controlled-behavior: true [fixed point].
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
-Round 1: finished, controlled behavior is stable.
+Re-initializing edges for being applied.
 
-Computing controlled system guards.
+Checking pre-synthesis for events that are never enabled.
+
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: not io.sensor2 and not io.sensor3 [marker predicate]
+
+        Backward reachability iteration 1:
+            Backward controlled-behavior: not io.sensor2 and not io.sensor3 -> not io.sensor3 [backward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
+            Backward controlled-behavior: not io.sensor3 -> true [backward reach with edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3), restricted to current/previous controlled-behavior predicate: true]
+
+        Backward reachability iteration 2:
+            No change this iteration.
+
+        Backward controlled-behavior: true [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: io.sensor1 and io.sensor2 [initialization predicate]
+
+        Forward reachability iteration 1:
+            Forward controlled-behavior: io.sensor1 and io.sensor2 -> io.sensor2 [forward reach with edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1), restricted to current/previous controlled-behavior predicate: true]
+            Forward controlled-behavior: io.sensor2 -> true [forward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
+
+        Forward reachability iteration 2:
+            No change this iteration.
+
+        Forward controlled-behavior: true [fixed point].
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    No guards changed.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: true)
-    Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
-    Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
-    Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
+    State: (controlled-behavior: true)
+        Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
+        Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
+        Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 8 states.
 
-Initial (synthesis result):            true
-Initial (uncontrolled system):         io.sensor1 and io.sensor2
-Initial (controlled system):           io.sensor1 and io.sensor2
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            true
+    Initial (uncontrolled system):         io.sensor1 and io.sensor2
+    Initial (controlled system):           io.sensor1 and io.sensor2
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    No controllable events.
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/input_vars6.ctrlsys.real.cif".

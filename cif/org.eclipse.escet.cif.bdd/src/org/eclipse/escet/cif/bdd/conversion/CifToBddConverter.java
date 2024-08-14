@@ -163,7 +163,6 @@ import com.github.javabdd.JFactory;
  * <ul>
  * <li>{@link #preprocess}</li>
  * <li>{@link #createFactory}</li>
- * <li>Optionally, {@link #setNeedEmptyDebugLine}</li>
  * <li>{@link #convert}</li>
  * </ul>
  * Check their JavaDocs for further details.
@@ -180,9 +179,6 @@ public class CifToBddConverter {
      * available.
      */
     private Map<Automaton, Monitors> originalMonitors;
-
-    /** Whether an empty line of debug output is needed before the next debug output line. */
-    private boolean needEmptyDebugLine = false;
 
     /**
      * Constructor for the {@link CifToBddConverter} class.
@@ -297,11 +293,6 @@ public class CifToBddConverter {
 
         // Return BDD factory.
         return factory;
-    }
-
-    /** Sets that an empty line of debug output is needed before the next debug output line. */
-    public void setNeedEmptyDebugLine() {
-        needEmptyDebugLine = true;
     }
 
     /**
@@ -703,6 +694,7 @@ public class CifToBddConverter {
         // Skip ordering, including debug output printing, if no variables are present.
         int varCnt = cifBddSpec.variables.length;
         if (varCnt == 0) {
+            cifBddSpec.settings.getDebugOutput().line("The specification has no BDD variables.");
             return;
         }
 
@@ -714,10 +706,6 @@ public class CifToBddConverter {
         // Print variable debugging information, before ordering.
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled();
         if (dbgEnabled) {
-            if (needEmptyDebugLine) {
-                needEmptyDebugLine = false;
-                cifBddSpec.settings.getDebugOutput().line();
-            }
             debugCifVars(cifBddSpec);
         }
 
@@ -726,7 +714,6 @@ public class CifToBddConverter {
             if (dbgEnabled) {
                 cifBddSpec.settings.getDebugOutput().line();
                 cifBddSpec.settings.getDebugOutput().line("Skipping variable ordering: only one variable present.");
-                cifBddSpec.settings.getDebugOutput().line();
             }
             return;
         }
@@ -778,7 +765,6 @@ public class CifToBddConverter {
                 cifBddSpec.settings.getDebugOutput().line();
                 debugCifVars(cifBddSpec);
             }
-            cifBddSpec.settings.getDebugOutput().line();
         }
     }
 
@@ -862,10 +848,11 @@ public class CifToBddConverter {
 
         // Print the variable information, for debugging.
         cifBddSpec.settings.getDebugOutput().line("CIF variables and location pointers:");
-        String indent = Strings.duplicate(" ", cifBddSpec.settings.getIndentAmount());
+        cifBddSpec.settings.getDebugOutput().inc();
         for (String line: grid.getLines()) {
-            cifBddSpec.settings.getDebugOutput().line(indent + line);
+            cifBddSpec.settings.getDebugOutput().line(line);
         }
+        cifBddSpec.settings.getDebugOutput().dec();
     }
 
     /**

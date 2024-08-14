@@ -118,9 +118,11 @@ public class CifMddSpec {
     public boolean compute(Specification spec) {
         // Collect automata and controllable events.
         automata = CifCollectUtils.collectAutomata(spec, list());
+        Assert.check(!automata.isEmpty());
         Set<Event> allControllableEvents = CifCollectUtils.collectControllableEvents(spec, set());
-        if (automata.isEmpty() || allControllableEvents.isEmpty()) {
+        if (allControllableEvents.isEmpty()) {
             // All MDD-based checks trivially hold.
+            debugOutput.line("No controllable events.");
             return true;
         }
 
@@ -139,13 +141,16 @@ public class CifMddSpec {
         }
 
         // Compute global guards, global guarded updates, and updated variables for each event.
+        boolean first = true;
         for (Automaton aut: automata) {
-            debugOutput.line("Analyzing %s...", CifTextUtils.getComponentText1(aut));
+            if (!first) {
+                debugOutput.line();
+            }
+            first = false;
+            debugOutput.line("Analyzing %s:", CifTextUtils.getComponentText1(aut));
             Set<Event> controllableAutEvents = intersection(CifEventUtils.getAlphabet(aut), allControllableEvents);
-            if (!controllableAutEvents.isEmpty()) {
-                if (!processAutomaton(aut, controllableAutEvents)) {
-                    return false; // Abort requested.
-                }
+            if (!processAutomaton(aut, controllableAutEvents)) {
+                return false; // Abort requested.
             }
         }
 
@@ -169,9 +174,13 @@ public class CifMddSpec {
                 : mapc(controllableAutEvents.size());
 
         debugOutput.inc();
+        boolean debugPrinted = false;
+
         // Initialize the automaton data for all automata events, and extend the global data for new events.
         for (Event evt: controllableAutEvents) {
-            debugOutput.line("Initializing the automaton data for event \"%s\"...", CifTextUtils.getAbsName(evt));
+            debugOutput.line("Initializing the automaton data for event \"%s\".", CifTextUtils.getAbsName(evt));
+            debugPrinted = true;
+
             autGuards.put(evt, Tree.ZERO);
             if (autGuardedUpdates != null) {
                 autGuardedUpdates.put(evt, Tree.ZERO);
@@ -192,51 +201,56 @@ public class CifMddSpec {
         }
 
         // Process the locations and edges.
-        for (Location loc: aut.getLocations()) {
-            debugOutput.line("Processing edges from %s...", CifTextUtils.getLocationText2(loc));
-            for (Edge edge: loc.getEdges()) {
-                // Filter on relevant events.
-                Set<Event> controllableEdgeEvents = intersection(CifEventUtils.getEvents(edge), controllableAutEvents);
-                if (controllableEdgeEvents.isEmpty()) {
-                    continue;
-                }
+        if (!controllableAutEvents.isEmpty()) {
+            for (Location loc: aut.getLocations()) {
+                debugOutput.line("Processing edges from %s.", CifTextUtils.getLocationText2(loc));
+                debugPrinted = true;
 
-                // Compute guard of the edge.
-                Node guard = computeGuard(edge);
-                if (termination.isRequested()) {
-                    debugOutput.dec();
-                    return false;
-                }
+                for (Edge edge: loc.getEdges()) {
+                    // Filter on relevant events.
+                    Set<Event> controllableEdgeEvents = intersection(CifEventUtils.getEvents(edge),
+                            controllableAutEvents);
+                    if (controllableEdgeEvents.isEmpty()) {
+                        continue;
+                    }
 
-                // Compute update of the edge.
-                Node update = computeUpdate(edge, controllableEdgeEvents);
-                if (termination.isRequested()) {
-                    debugOutput.dec();
-                    return false;
-                }
-
-                // Compute combined guard and update of the edge.
-                Node guardedUpdate = (autGuardedUpdates == null) ? null : tree.conjunct(guard, update);
-                if (termination.isRequested()) {
-                    debugOutput.dec();
-                    return false;
-                }
-
-                // Add the guard and guarded update as alternative to the relevant events of the edge.
-                for (Event evt: controllableEdgeEvents) {
-                    Node autGuard = autGuards.get(evt);
-                    autGuards.put(evt, tree.disjunct(autGuard, guard));
+                    // Compute guard of the edge.
+                    Node guard = computeGuard(edge);
                     if (termination.isRequested()) {
                         debugOutput.dec();
                         return false;
                     }
 
-                    if (autGuardedUpdates != null) {
-                        Node autGuardedUpdate = autGuardedUpdates.get(evt);
-                        autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
+                    // Compute update of the edge.
+                    Node update = computeUpdate(edge, controllableEdgeEvents);
+                    if (termination.isRequested()) {
+                        debugOutput.dec();
+                        return false;
+                    }
+
+                    // Compute combined guard and update of the edge.
+                    Node guardedUpdate = (autGuardedUpdates == null) ? null : tree.conjunct(guard, update);
+                    if (termination.isRequested()) {
+                        debugOutput.dec();
+                        return false;
+                    }
+
+                    // Add the guard and guarded update as alternative to the relevant events of the edge.
+                    for (Event evt: controllableEdgeEvents) {
+                        Node autGuard = autGuards.get(evt);
+                        autGuards.put(evt, tree.disjunct(autGuard, guard));
                         if (termination.isRequested()) {
                             debugOutput.dec();
                             return false;
+                        }
+
+                        if (autGuardedUpdates != null) {
+                            Node autGuardedUpdate = autGuardedUpdates.get(evt);
+                            autGuardedUpdates.put(evt, tree.disjunct(autGuardedUpdate, guardedUpdate));
+                            if (termination.isRequested()) {
+                                debugOutput.dec();
+                                return false;
+                            }
                         }
                     }
                 }
@@ -245,8 +259,10 @@ public class CifMddSpec {
 
         // At global level, guards and updates of each event must synchronize between participating automata.
         for (Event autEvent: controllableAutEvents) {
-            debugOutput.line("Updating global guards and updates for event \"%s\"...",
+            debugOutput.line("Updating global guards and updates for event \"%s\".",
                     CifTextUtils.getAbsName(autEvent));
+            debugPrinted = true;
+
             Node globGuard = globalGuardsByEvent.get(autEvent);
             globalGuardsByEvent.put(autEvent, tree.conjunct(globGuard, autGuards.get(autEvent)));
             if (termination.isRequested()) {
@@ -263,6 +279,10 @@ public class CifMddSpec {
                     return false;
                 }
             }
+        }
+
+        if (!debugPrinted) {
+            debugOutput.line("Nothing to process.");
         }
 
         debugOutput.dec();

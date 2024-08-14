@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/common/anno_true_to_false.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/common/anno_true_to_false.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
         -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
@@ -97,57 +97,73 @@ Preparing for BDD-based checks...
 
     Variable order unchanged.
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Preparing for MDD-based checks:
+    Analyzing automaton "p":
+        Initializing the automaton data for event "c".
+        Initializing the automaton data for event "a".
+        Initializing the automaton data for event "b".
+        Processing edges from location "loc1" of automaton "p".
+        Processing edges from location "loc2" of automaton "p".
+        Updating global guards and updates for event "c".
+        Updating global guards and updates for event "a".
+        Updating global guards and updates for event "b".
 
-Preparing for MDD-based checks...
-    Analyzing automaton "p"...
-        Initializing the automaton data for event "c"...
-        Initializing the automaton data for event "a"...
-        Initializing the automaton data for event "b"...
-        Processing edges from location "loc1" of automaton "p"...
-        Processing edges from location "loc2" of automaton "p"...
-        Updating global guards and updates for event "c"...
-        Updating global guards and updates for event "a"...
-        Updating global guards and updates for event "b"...
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: p.loc1 and not p.v [initial states predicate]
 
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p.loc1 and not p.v [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: p.loc1 and not p.v -> not p.v [forward reach with edge: (event: a) (guard: p.loc1) (assignments: p.v := p.v, p := p.loc2)]
-    Reachable states: not p.v -> p.loc2 or not p.v [forward reach with edge: (event: b) (guard: p.loc1) (assignments: p.v := not p.v, p := p.loc2)]
-    Forward reachability: iteration 2.
-    Reachable states: p.loc2 or not p.v [fixed point].
+        Forward reachability iteration 1:
+            Reachable states: p.loc1 and not p.v -> not p.v [forward reach with edge: (event: a) (guard: p.loc1) (assignments: p.v := p.v, p := p.loc2)]
+            Reachable states: not p.v -> p.loc2 or not p.v [forward reach with edge: (event: b) (guard: p.loc1) (assignments: p.v := not p.v, p := p.loc2)]
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: p.loc2 or not p.v).
-    Bounded response check round 2 (states before round: p.loc1 and not p.v).
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: p.loc2 or not p.v).
+        Reachable states: p.loc2 or not p.v [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: p.loc2 or not p.v).
+        Bounded response check round 2 (states before round: p.loc1 and not p.v).
+
+        Bound: n/a (cycle).
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: p.loc2 or not p.v).
+
+        Bound: n/a (cycle).
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: false
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: false
 
-    Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: false
+    Computing the controllable-complete path states:
+        Controllable-complete path states: false [controllable-complete path end states predicate]
 
-    Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
-    Bad states: true
+        Backward reachability iteration 1:
+            No change this iteration.
 
-    Computing the result of the non-blocking under control check...
-    Initial states: p.loc1 and not p.v
-    Bad initial states: p.loc1 and not p.v
+        Controllable-complete path states: false
 
-Checking for finite response...
+    Computing the bad states:
+        Bad states: true [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: true
+
+    Computing the result of the non-blocking under control check:
+        Initial states: p.loc1 and not p.v
+        Bad initial states: p.loc1 and not p.v
+
+    Non-blocking under control: no
+
+Checking for finite response:
     Iteration 1.
         The following events have been encountered in a controllable-event loop of automaton p:
             (c), which is not controllable unconnectable.
@@ -156,9 +172,11 @@ Checking for finite response...
         The following events have been encountered in a controllable-event loop of automaton p:
             (c), which is not controllable unconnectable.
 
-Checking for confluence...
+Checking for confluence:
     Independent event pairs:
         (a, c), (b, c)
+
+    Some pairs unproven. Confluence may not hold.
 
 CONCLUSION:
     [ERROR] The specification does NOT have bounded response:

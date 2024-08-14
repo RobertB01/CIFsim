@@ -1,5 +1,5 @@
-Loading CIF specification "controllercheck/confluence/mutual_exclusive1.cif"...
-Preparing for BDD-based checks...
+Loading CIF specification "controllercheck/confluence/mutual_exclusive1.cif".
+Preparing for BDD-based checks:
     CIF variables and location pointers:
         Nr     Kind              Type  Name           Group  BDD vars  CIF values  BDD values  Values used
         -----  ----------------  ----  -------------  -----  --------  ----------  ----------  -----------
@@ -9,66 +9,86 @@ Preparing for BDD-based checks...
 
     Skipping variable ordering: only one variable present.
 
+    Restricting system behavior using state/event exclusion plant invariants:
+        No guards changed.
 
-    Restricting system behavior using state/event exclusion plant invariants.
+Preparing for MDD-based checks:
+    Analyzing automaton "DifferentLocs":
+        Initializing the automaton data for event "DifferentLocs.a".
+        Initializing the automaton data for event "DifferentLocs.b".
+        Processing edges from location "p" of automaton "DifferentLocs".
+        Processing edges from location "q" of automaton "DifferentLocs".
+        Processing edges from location "r" of automaton "DifferentLocs".
+        Updating global guards and updates for event "DifferentLocs.a".
+        Updating global guards and updates for event "DifferentLocs.b".
 
-Preparing for MDD-based checks...
-    Analyzing automaton "DifferentLocs"...
-        Initializing the automaton data for event "DifferentLocs.a"...
-        Initializing the automaton data for event "DifferentLocs.b"...
-        Processing edges from location "p" of automaton "DifferentLocs"...
-        Processing edges from location "q" of automaton "DifferentLocs"...
-        Processing edges from location "r" of automaton "DifferentLocs"...
-        Updating global guards and updates for event "DifferentLocs.a"...
-        Updating global guards and updates for event "DifferentLocs.b"...
+Checking for bounded response:
+    Computing reachable states:
+        Reachable states: DifferentLocs.p [initial states predicate]
 
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: DifferentLocs.p [initial states predicate]
-    Forward reachability: iteration 1.
-    Reachable states: DifferentLocs.p -> not DifferentLocs.q [forward reach with edge: (event: DifferentLocs.a) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.r)]
-    Reachable states: not DifferentLocs.q -> true [forward reach with edge: (event: DifferentLocs.u) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.q)]
-    Forward reachability: iteration 2.
-    Reachable states: true [fixed point].
+        Forward reachability iteration 1:
+            Reachable states: DifferentLocs.p -> not DifferentLocs.q [forward reach with edge: (event: DifferentLocs.a) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.r)]
+            Reachable states: not DifferentLocs.q -> true [forward reach with edge: (event: DifferentLocs.u) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.q)]
 
-    Computing bound for uncontrollable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: DifferentLocs.q).
+        Forward reachability iteration 2:
+            No change this iteration.
 
-    Computing bound for controllable events...
-    Bounded response check round 1 (states before round: true).
-    Bounded response check round 2 (states before round: DifferentLocs.r).
+        Reachable states: true [fixed point].
+
+    Computing bound for uncontrollable events:
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: DifferentLocs.q).
+
+        Bound: 1.
+
+    Computing bound for controllable events:
+        Bounded response check round 1 (states before round: true).
+        Bounded response check round 2 (states before round: DifferentLocs.r).
+
+        Bound: 1.
 
     Bounded response check completed.
 
-Checking for non-blocking under control...
-    Computing the condition for no controllable event to be enabled...
-    Condition under which no controllable event is enabled: DifferentLocs.r
+Checking for non-blocking under control:
+    Computing the condition for no controllable event to be enabled:
+        Condition under which no controllable event is enabled: DifferentLocs.r
 
-    Computing the controllable-complete path states...
-    Controllable-complete path states: DifferentLocs.r [controllable-complete path end states predicate]
-    Backward reachability: iteration 1.
-    Controllable-complete path states: DifferentLocs.r -> not DifferentLocs.q [backward reach with edge: (event: DifferentLocs.a) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.r)]
-    Controllable-complete path states: not DifferentLocs.q -> true [backward reach with edge: (event: DifferentLocs.b) (guard: DifferentLocs.q) (assignments: DifferentLocs := DifferentLocs.r)]
-    Backward reachability: iteration 2.
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
+    Computing the controllable-complete path states:
+        Controllable-complete path states: DifferentLocs.r [controllable-complete path end states predicate]
 
-    Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
-    Backward reachability: iteration 1.
-    Bad states: false
+        Backward reachability iteration 1:
+            Controllable-complete path states: DifferentLocs.r -> not DifferentLocs.q [backward reach with edge: (event: DifferentLocs.a) (guard: DifferentLocs.p) (assignments: DifferentLocs := DifferentLocs.r)]
+            Controllable-complete path states: not DifferentLocs.q -> true [backward reach with edge: (event: DifferentLocs.b) (guard: DifferentLocs.q) (assignments: DifferentLocs := DifferentLocs.r)]
 
-    Computing the result of the non-blocking under control check...
-    Initial states: DifferentLocs.p
-    Bad initial states: false
+        Backward reachability iteration 2:
+            No change this iteration.
 
-Checking for finite response...
+        Controllable-complete path states: true [fixed point].
+
+        Controllable-complete path states: true
+
+    Computing the bad states:
+        Bad states: false [not controllable-complete path states predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Bad states: false
+
+    Computing the result of the non-blocking under control check:
+        Initial states: DifferentLocs.p
+        Bad initial states: false
+
+    Non-blocking under control: yes
+
+Checking for finite response:
     Iteration 1.
 
-Checking for confluence...
+Checking for confluence:
     Mutual exclusive event pairs:
         (DifferentLocs.a, DifferentLocs.b)
+
+    All pairs proven. Confluence holds.
 
 CONCLUSION:
     [OK] The specification has bounded response:

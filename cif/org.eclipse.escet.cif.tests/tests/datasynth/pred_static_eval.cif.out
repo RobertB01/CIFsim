@@ -1,193 +1,247 @@
 Reading CIF file "datasynth/pred_static_eval.cif".
-Preprocessing CIF specification.
-Converting CIF specification to internal format.
 
-CIF variables and location pointers:
-  Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
-  -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  1      discrete variable  bool  p.b1  0      1 * 2     2 * 2       2 * 2       100%
-  2      discrete variable  bool  p.b2  1      1 * 2     2 * 2       2 * 2       100%
-  3      discrete variable  bool  p.b3  2      1 * 2     2 * 2       2 * 2       100%
-  -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
-  Total                                 3      6         12          12          100%
+Preprocessing CIF specification (includes checking that the specification is supported).
 
-Applying variable ordering:
-  Applying 4 orderers, sequentially:
-    Applying model variable order:
-      Effect: both
+Converting CIF specification to internal format (BDDs):
+    CIF variables and location pointers:
+        Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+        -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        1      discrete variable  bool  p.b1  0      1 * 2     2 * 2       2 * 2       100%
+        2      discrete variable  bool  p.b2  1      1 * 2     2 * 2       2 * 2       100%
+        3      discrete variable  bool  p.b3  2      1 * 2     2 * 2       2 * 2       100%
+        -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+        Total                                 3      6         12          12          100%
 
-    Applying DCSH algorithm:
-      Metric: wes
-      Relations: legacy
-      Effect: var-order
-      Number of hyper-edges: 2
+    Applying variable ordering:
+        Applying 4 orderers, sequentially:
+            Applying model variable order:
+                Effect: both
 
-      Applying Weighted Cuthill-McKee algorithm:
-        Node finder: george-liu
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 3
+            Applying DCSH algorithm:
+                Metric: wes
+                Relations: legacy
+                Effect: var-order
+                Number of hyper-edges: 2
 
-        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
-        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [after]
+                Applying Weighted Cuthill-McKee algorithm:
+                    Node finder: george-liu
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 3
 
-      Found new best variable order.
+                    Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
+                    Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [after]
 
-      Applying Sloan algorithm:
-        Relations: legacy
-        Effect: var-order
-        Number of graph edges: 3
+                Found new best variable order.
 
-        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
-        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [after]
+                Applying Sloan algorithm:
+                    Relations: legacy
+                    Effect: var-order
+                    Number of graph edges: 3
 
-      Applying 2 orderers, sequentially:
-        Applying Weighted Cuthill-McKee algorithm:
-          Node finder: george-liu
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 3
+                    Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
+                    Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [after]
 
-          Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
-          Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Weighted Cuthill-McKee algorithm:
+                        Node finder: george-liu
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 3
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 2
+                        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
+                        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [after]
 
-          Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
-          Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 2
 
-      Applying 2 orderers, sequentially:
-        Applying Sloan algorithm:
-          Relations: legacy
-          Effect: var-order
-          Number of graph edges: 3
+                        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
+                        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [reversed]
 
-          Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
-          Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [after]
+                Applying 2 orderers, sequentially:
+                    Applying Sloan algorithm:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of graph edges: 3
 
-        Reversing the variable order:
-          Relations: legacy
-          Effect: var-order
-          Number of hyper-edges: 2
+                        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
+                        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [after]
 
-          Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
-          Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [reversed]
+                    Reversing the variable order:
+                        Relations: legacy
+                        Effect: var-order
+                        Number of hyper-edges: 2
 
-    Applying FORCE algorithm:
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 3
-      Maximum number of iterations: 20
+                        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [before]
+                        Total span:   4 (total)   2.00 (avg/edge) / WES:   1.333333 (total)   0.666667 (avg/edge) [reversed]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [iteration 1]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [after]
+            Applying FORCE algorithm:
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 3
+                Maximum number of iterations: 20
 
-    Applying sliding window algorithm:
-      Size: 4
-      Metric: total-span
-      Relations: linearized
-      Effect: var-order
-      Number of hyper-edges: 3
-      Window length: 3
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [iteration 1]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [after]
 
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [before]
-      Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [after]
+            Applying sliding window algorithm:
+                Size: 4
+                Metric: total-span
+                Relations: linearized
+                Effect: var-order
+                Number of hyper-edges: 3
+                Window length: 3
 
-Variable order unchanged.
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [before]
+                Total span:   0 (total)   0.00 (avg/edge) / WES:   0.222222 (total)   0.074074 (avg/edge) [after]
+
+    Variable order unchanged.
 
 Starting data-based synthesis.
 
-Invariant (components state plant inv):      true
-Invariant (locations state plant invariant): true
-Invariant (system state plant invariant):    true
+Synthesis input:
+    Invariant (components state plant inv):      true
+    Invariant (locations state plant invariant): true
+    Invariant (system state plant invariant):    true
 
-Invariant (component state req invariant):   not p.b1 and (p.b2 and not p.b3)
-Invariant (components state req invariant):  not p.b1 and (p.b2 and not p.b3)
-Invariant (locations state req invariant):   true
-Invariant (system state req invariant):      not p.b1 and (p.b2 and not p.b3)
+    Invariant (component state req invariant):   not p.b1 and (p.b2 and not p.b3)
+    Invariant (components state req invariant):  not p.b1 and (p.b2 and not p.b3)
+    Invariant (locations state req invariant):   true
+    Invariant (system state req invariant):      not p.b1 and (p.b2 and not p.b3)
 
-Initial   (discrete variable 0):             not p.b1
-Initial   (discrete variable 1):             p.b2
-Initial   (discrete variable 2):             not p.b3
-Initial   (discrete variables):              not p.b1 and (p.b2 and not p.b3)
-Initial   (components init predicate):       true
-Initial   (aut/locs init predicate):         true
-Initial   (auts/locs init predicate):        true
-Initial   (uncontrolled system):             not p.b1 and (p.b2 and not p.b3)
-Initial   (system, combined init/plant inv): not p.b1 and (p.b2 and not p.b3)
-Initial   (system, combined init/state inv): not p.b1 and (p.b2 and not p.b3)
+    Initial   (discrete variable 0):             not p.b1
+    Initial   (discrete variable 1):             p.b2
+    Initial   (discrete variable 2):             not p.b3
+    Initial   (discrete variables):              not p.b1 and (p.b2 and not p.b3)
+    Initial   (components init predicate):       true
+    Initial   (aut/locs init predicate):         true
+    Initial   (auts/locs init predicate):        true
+    Initial   (uncontrolled system):             not p.b1 and (p.b2 and not p.b3)
+    Initial   (system, combined init/plant inv): not p.b1 and (p.b2 and not p.b3)
+    Initial   (system, combined init/state inv): not p.b1 and (p.b2 and not p.b3)
 
-Marked    (components marker predicate):     true
-Marked    (aut/locs marker predicate):       true
-Marked    (auts/locs marker predicate):      true
-Marked    (uncontrolled system):             true
-Marked    (system, combined mark/plant inv): true
-Marked    (system, combined mark/state inv): not p.b1 and (p.b2 and not p.b3)
+    Marked    (components marker predicate):     true
+    Marked    (aut/locs marker predicate):       true
+    Marked    (auts/locs marker predicate):      true
+    Marked    (uncontrolled system):             true
+    Marked    (system, combined mark/plant inv): true
+    Marked    (system, combined mark/state inv): not p.b1 and (p.b2 and not p.b3)
 
-State/event exclusion plants:
-  None
+    State/event exclusion plants:
+        None
 
-State/event exclusion requirements:
-  None
+    State/event exclusion requirements:
+        None
 
-Uncontrolled system:
-  State: (controlled-behavior: ?)
-    Edge: (event: p.e) (guard: p.b1)
-    Edge: (event: p.e) (guard: p.b2)
-    Edge: (event: p.e) (guard: p.b3)
+    Uncontrolled system:
+        State: (controlled-behavior: ?)
+            Edge: (event: p.e) (guard: p.b1)
+            Edge: (event: p.e) (guard: p.b2)
+            Edge: (event: p.e) (guard: p.b3)
 
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
+Checking input for potential problems.
 
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: not p.b1 and (p.b2 and not p.b3).
+Restricting edge guards to prevent runtime errors:
+    No guards changed.
 
-Restricting behavior using state requirements.
-Controlled behavior: true -> not p.b1 and (p.b2 and not p.b3) [state requirements: not p.b1 and (p.b2 and not p.b3)].
+Restricting uncontrolled system behavior using state/event exclusion plant invariants:
+    No guards changed.
 
-Extending controlled-behavior predicate using variable ranges.
+Initializing edges for being applied.
 
-Restricting behavior using state/event exclusion requirements.
+Restricting uncontrolled system behavior using state plant invariants:
+    No restrictions needed.
 
-Restricting behavior using implicit runtime error requirements.
+Initializing controlled behavior:
+    Controlled-behavior predicate: true.
+    Controlled-initialization predicate: not p.b1 and (p.b2 and not p.b3).
 
-Round 1: started.
+Restricting behavior using state requirements:
+    Controlled behavior: true -> not p.b1 and (p.b2 and not p.b3) [state requirements: not p.b1 and (p.b2 and not p.b3)].
 
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> not p.b1 and (p.b2 and not p.b3) [restricted to current/previous controlled-behavior predicate: not p.b1 and (p.b2 and not p.b3)]
-Backward reachability: iteration 1.
-Backward controlled-behavior: not p.b1 and (p.b2 and not p.b3) [fixed point].
+Extending controlled-behavior predicate using variable ranges:
+    Controlled behavior not changed.
 
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: p.b1 or (not p.b2 or p.b3) [current/previous controlled behavior predicate]
-Backward reachability: iteration 1.
+Restricting behavior using state/event exclusion requirements:
+    Guards and controlled behavior not changed.
 
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: not p.b1 and (p.b2 and not p.b3) [initialization predicate]
-Forward reachability: iteration 1.
+Restricting behavior using implicit runtime error requirements:
+    Controlled behavior not changed.
 
-Round 1: finished, controlled behavior is stable.
+Re-initializing edges for being applied.
 
-Computing controlled system guards.
+Checking pre-synthesis for events that are never enabled.
+
+Synthesis round 1:
+    Computing backward controlled-behavior predicate:
+        Backward controlled-behavior: true [marker predicate]
+        Backward controlled-behavior: true -> not p.b1 and (p.b2 and not p.b3) [restricted to current/previous controlled-behavior predicate: not p.b1 and (p.b2 and not p.b3)]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Backward controlled-behavior: not p.b1 and (p.b2 and not p.b3) [fixed point].
+
+        Controlled behavior not changed.
+
+    Computing backward uncontrolled bad-state predicate:
+        Backward uncontrolled bad-state: p.b1 or (not p.b2 or p.b3) [current/previous controlled behavior predicate]
+
+        Backward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Computing forward controlled-behavior predicate:
+        Forward controlled-behavior: not p.b1 and (p.b2 and not p.b3) [initialization predicate]
+
+        Forward reachability iteration 1:
+            No change this iteration.
+
+        Controlled behavior not changed.
+
+    Finished: controlled behavior is stable.
+
+Computing final controlled system guards:
+    No guards changed.
+
+Cleaning up cached predicate of edges that were used when applying edges.
 
 Final synthesis result:
-  State: (controlled-behavior: not p.b1 and (p.b2 and not p.b3))
-    Edge: (event: p.e) (guard: p.b1)
-    Edge: (event: p.e) (guard: p.b2)
-    Edge: (event: p.e) (guard: p.b3)
+    State: (controlled-behavior: not p.b1 and (p.b2 and not p.b3))
+        Edge: (event: p.e) (guard: p.b1)
+        Edge: (event: p.e) (guard: p.b2)
+        Edge: (event: p.e) (guard: p.b3)
+
+Computing initialization predicate of the controlled system.
 
 Controlled system: exactly 1 state.
 
-Initial (synthesis result):            not p.b1 and (p.b2 and not p.b3)
-Initial (uncontrolled system):         not p.b1 and (p.b2 and not p.b3)
-Initial (controlled system):           not p.b1 and (p.b2 and not p.b3)
-Initial (removed by supervisor):       false
-Initial (added by supervisor):         true
+Determining initialization predicate for output model:
+    Initial (synthesis result):            not p.b1 and (p.b2 and not p.b3)
+    Initial (uncontrolled system):         not p.b1 and (p.b2 and not p.b3)
+    Initial (controlled system):           not p.b1 and (p.b2 and not p.b3)
+    Initial (removed by supervisor):       false
+    Initial (added by supervisor):         true
+
+    Initial (output model):                n/a
+
+Determining supervisor guards for output model:
+    No controllable events.
+
+Checking post-synthesis for events that are never enabled.
+
+Simplifying supervisor guards for output model:
+    Simplification under the assumption of the plants.
+
+    Guards not changed.
 
 Constructing output CIF specification.
+
+Checking output CIF specification.
+
 Writing output CIF file "datasynth/pred_static_eval.ctrlsys.real.cif".
