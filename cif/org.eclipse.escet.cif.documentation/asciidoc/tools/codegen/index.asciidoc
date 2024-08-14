@@ -238,7 +238,7 @@ Once no more edges are enabled, an event loop terminates.
 
 ==== Event order
 
-The order in which the code is generated for the different edges (in the _event loops_), is done in such a way that it matches the order in which transitions are chosen by the <<tools-cifsim,simulator>>.
+The order in which the code is generated for the different edges (in the _event loops_), is done in such a way that it matches the order in which transitions are chosen by the <<tools-cifsim-chapter-index,simulator>>.
 Assuming the simulator is used to simulate by always automatically choosing the <<tools-cifsim-input-chapter-automatic,first transition>> that is enabled, the generated code will choose that same transition.
 That is, for each iteration of the event loop, the code is executed for the first event with an enabled guard.
 Then, a new iteration of the loop is started, from the top, to ensure that the first enabled event is always executed, similar to simulation.
