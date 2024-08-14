@@ -176,28 +176,13 @@ Extending controlled-behavior predicate using variable ranges:
 
     Extended controlled-behavior predicate using variable ranges: true.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: pe.a [marker predicate]
-Backward controlled-behavior: pe.a -> not pe.c and not pe.b [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: not pe.c [fixed point].
-Controlled behavior: true -> not pe.c.
-=======
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) [initialization predicate]
-Forward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
-Controlled behavior: not pe.c -> not pe.c and (q1.x = 0 and q1.y = 1).
-=======
 Re-initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Checking pre-synthesis for events that are never enabled.
 
@@ -205,19 +190,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: pe.a [marker predicate]
         Backward controlled-behavior: pe.a -> not pe.c and not pe.b [restricted to current/previous controlled-behavior predicate: true]
-
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: pe.a [marker predicate]
-Backward controlled-behavior: pe.a -> pe.a and (q1.x = 0 and q1.y = 1) [restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
-Backward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
-=======
-        Backward reachability iteration 1:
-            Backward controlled-behavior: not pe.c and not pe.b -> not pe.c [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: true]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Backward controlled-behavior: not pe.c [fixed point].
 
@@ -231,12 +203,6 @@ Backward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point]
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) [initialization predicate]
 
-        Forward reachability iteration 1:
-            Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [forward reach with edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b), restricted to current/previous controlled-behavior predicate: not pe.c]
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Forward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
 
         Controlled behavior: not pe.c -> not pe.c and (q1.x = 0 and q1.y = 1).
@@ -247,12 +213,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: pe.a [marker predicate]
         Backward controlled-behavior: pe.a -> pe.a and (q1.x = 0 and q1.y = 1) [restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
-
-        Backward reachability iteration 1:
-            Backward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Backward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
 

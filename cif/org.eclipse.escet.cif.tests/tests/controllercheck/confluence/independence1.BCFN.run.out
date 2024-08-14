@@ -125,20 +125,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) [initial states predicate]
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) [initial states predicate]
-    Reachable states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) or not AutDifferenLocs.z and (AutDifferenLocs.r and AutDifferenLocs.v = 2) or (AutDifferenLocs.z and (AutDifferenLocs.q and AutDifferenLocs.v = 0) or AutDifferenLocs.z and (AutDifferenLocs.s and AutDifferenLocs.v = 2)) [fixed point].
-=======
-        Forward reachability iteration 1:
-            Reachable states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) -> not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) or AutDifferenLocs.z and (AutDifferenLocs.q and AutDifferenLocs.v = 0) [forward reach with edge: (event: AutDifferenLocs.a) (guard: AutDifferenLocs.p or AutDifferenLocs.r) (assignments: AutDifferenLocs.z := true, AutDifferenLocs := AutDifferenLocs.q / AutDifferenLocs.z := true, AutDifferenLocs := AutDifferenLocs.s)]
-            Reachable states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) or AutDifferenLocs.z and (AutDifferenLocs.q and AutDifferenLocs.v = 0) -> not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) or not AutDifferenLocs.z and (AutDifferenLocs.r and AutDifferenLocs.v = 2) or (AutDifferenLocs.z and (AutDifferenLocs.q and AutDifferenLocs.v = 0) or AutDifferenLocs.z and (AutDifferenLocs.s and AutDifferenLocs.v = 2)) [forward reach with edge: (event: AutDifferenLocs.b) (guard: AutDifferenLocs.p or AutDifferenLocs.q) (assignments: AutDifferenLocs.v := 2, AutDifferenLocs := AutDifferenLocs.r / AutDifferenLocs.v := 2, AutDifferenLocs := AutDifferenLocs.s)]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Reachable states: not AutDifferenLocs.z and (AutDifferenLocs.p and AutDifferenLocs.v = 0) or not AutDifferenLocs.z and (AutDifferenLocs.r and AutDifferenLocs.v = 2) or (AutDifferenLocs.z and (AutDifferenLocs.q and AutDifferenLocs.v = 0) or AutDifferenLocs.z and (AutDifferenLocs.s and AutDifferenLocs.v = 2)) [fixed point].
 
     Computing bound for uncontrollable events:
@@ -159,28 +145,8 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: AutDifferenLocs.s
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: AutDifferenLocs.s [controllable-complete path end states predicate]
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: AutDifferenLocs.s [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
-    Bad states: false
-=======
-        Backward reachability iteration 1:
-            Controllable-complete path states: AutDifferenLocs.s -> AutDifferenLocs.r or AutDifferenLocs.s [backward reach with edge: (event: AutDifferenLocs.a) (guard: AutDifferenLocs.p or AutDifferenLocs.r) (assignments: AutDifferenLocs.z := true, AutDifferenLocs := AutDifferenLocs.q / AutDifferenLocs.z := true, AutDifferenLocs := AutDifferenLocs.s)]
-            Controllable-complete path states: AutDifferenLocs.r or AutDifferenLocs.s -> true [backward reach with edge: (event: AutDifferenLocs.b) (guard: AutDifferenLocs.p or AutDifferenLocs.q) (assignments: AutDifferenLocs.v := 2, AutDifferenLocs := AutDifferenLocs.r / AutDifferenLocs.v := 2, AutDifferenLocs := AutDifferenLocs.s)]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Controllable-complete path states: true [fixed point].
 
@@ -188,9 +154,6 @@ Checking for non-blocking under control:
 
     Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: false
 

@@ -172,26 +172,14 @@ Restricting edge guards to prevent runtime errors:
 Restricting uncontrolled system behavior using state/event exclusion plant invariants:
     No guards changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-=======
 Initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.x = 3 and p.y = 6 [initialization predicate]
-Forward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [fixed point].
-Controlled behavior: true -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)).
-=======
 Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: p.x = 3 and p.y = 6.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using state requirements:
     Controlled behavior not changed.
@@ -199,18 +187,11 @@ Restricting behavior using state requirements:
 Extending controlled-behavior predicate using variable ranges:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [restricted to current/previous controlled-behavior predicate: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2))]
-Backward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [fixed point].
-=======
 Restricting behavior using state/event exclusion requirements:
     Edge (event: a) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> 2 <= p.x and p.x <= 7 and ((not(p.x = 4 or p.x = 5) or p.y != 0) and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5))) [state/event exclusion requirement: p.x = 4 or p.x = 5].
     Edge (event: b) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 6 or p.y = 7) or ((p.x = 1 or p.x = 5) and (p.y = 6 or p.y = 7) or p.x = 3 and (p.y = 6 or p.y = 7)) [state/event exclusion requirement: p.y = 6 or p.y = 7].
     Edge (event: c) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and ((p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 5))) and (not(p.x = 1 or p.x = 5) or p.y != 0)) and ((not(p.x = 1 or p.x = 5) or p.y != 5) and (p.x != 3 or p.y != 0) and ((p.x != 3 or p.y != 5) and p.x != 7)) [state/event exclusion requirement: p.y != 5].
     Edge (event: d) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1): guard: (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7) -> false [state/event exclusion requirement: false].
->>>>>>> refs/remotes/origin/develop
 
     Restricted behavior using state/event exclusion requirements:
         State: (controlled-behavior: true)
@@ -231,9 +212,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
@@ -243,17 +221,6 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.x = 3 and p.y = 6 [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: p.x = 3 and p.y = 6 -> p.x = 4 and p.y = 5 or p.x = 3 and p.y = 6 [forward reach with edge: (event: b) (guard: true -> (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) and (p.y = 6 or p.y = 7) or ((p.x = 1 or p.x = 5) and (p.y = 6 or p.y = 7) or p.x = 3 and (p.y = 6 or p.y = 7))) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
-            Forward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 3 and p.y = 6 -> p.x = 4 and p.y = 5 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) [forward reach with edge: (event: e) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and (not(p.x = 1 or p.x = 5) or p.y != 0) and ((p.x != 3 or p.y != 0) and p.x != 7)) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 2:
-            Forward controlled-behavior: p.x = 4 and p.y = 5 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) [forward reach with edge: (event: a) (guard: true -> 2 <= p.x and p.x <= 7 and ((not(p.x = 4 or p.x = 5) or p.y != 0) and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)))) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
-            Forward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6) -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [forward reach with edge: (event: c) (guard: true -> (p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 0))) and ((p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.y != 5))) and (not(p.x = 1 or p.x = 5) or p.y != 0)) and ((not(p.x = 1 or p.x = 5) or p.y != 5) and (p.x != 3 or p.y != 0) and ((p.x != 3 or p.y != 5) and p.x != 7))) (assignments: p.x := p.x + 1, p.y := p.y - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 3:
-            No change this iteration.
 
         Forward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [fixed point].
 
@@ -265,9 +232,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [restricted to current/previous controlled-behavior predicate: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2))]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: p.x = 4 and p.y = 5 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or (p.x = 3 and p.y = 6 or p.x = 7 and p.y = 2)) [fixed point].
 

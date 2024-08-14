@@ -151,39 +151,6 @@ Synthesis input:
 Checking input for potential problems.
 
 Restricting edge guards to prevent runtime errors:
-<<<<<<< HEAD
-  Edge: (event: e) (guard: p.x = 6 and p.l1 -> false) (assignments: p.x := p.x + 2, p := p.l2)
-  Edge: (event: e) (guard: p.x = 7 and p.l1 -> false) (assignments: p.x := p.x + 1, p := p.l2)
-
-Restricting uncontrolled system behavior using state/event exclusion plant invariants.
-
-Initialized controlled-behavior predicate: true.
-Initialized controlled-initialization predicate: p.l1.
-
-Restricting behavior using state requirements.
-
-Extending controlled-behavior predicate using variable ranges.
-
-Restricting behavior using state/event exclusion requirements.
-
-Restricting behavior using implicit runtime error requirements.
-Controlled behavior: true -> p.x != 6 or p.l2 [runtime error requirement (event: e): p.x != 6 or p.l2].
-Controlled behavior: p.x != 6 or p.l2 -> 0 <= p.x and p.x <= 5 or p.l2 [runtime error requirement (event: e): p.x != 7 or p.l2].
-
-Round 1: started.
-
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l2 [marker predicate]
-Controlled behavior: 0 <= p.x and p.x <= 5 or p.l2 -> p.l2.
-
-Round 1: finished, no initialization possible.
-
-Computing controlled system guards.
-
-Final synthesis result:
-  State: (controlled-behavior: p.l2)
-=======
->>>>>>> refs/remotes/origin/develop
     Edge: (event: e) (guard: p.x = 6 and p.l1 -> false) (assignments: p.x := p.x + 2, p := p.l2)
     Edge: (event: e) (guard: p.x = 7 and p.l1 -> false) (assignments: p.x := p.x + 1, p := p.l2)
 
@@ -226,9 +193,6 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l2 [marker predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior: 0 <= p.x and p.x <= 5 or p.l2 -> p.l2.
 

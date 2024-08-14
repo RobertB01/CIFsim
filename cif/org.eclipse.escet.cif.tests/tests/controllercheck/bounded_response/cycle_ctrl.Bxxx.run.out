@@ -16,19 +16,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: p.Off [initial states predicate]
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p.Off [initial states predicate]
-    Reachable states: true [fixed point].
-=======
-        Forward reachability iteration 1:
-            Reachable states: p.Off -> true [forward reach with edge: (event: c_on) (guard: p.Off) (assignments: p := p.On)]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events:

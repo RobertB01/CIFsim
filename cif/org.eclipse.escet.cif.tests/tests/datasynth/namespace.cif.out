@@ -188,10 +188,6 @@ Restricting behavior using state/event exclusion requirements:
     Controlled behavior: true -> g.r.loc1 [state/event exclusion requirement: g.r.loc1, edge: (event: p.u) (guard: g.r.loc2)].
     Edge (event: p.c2) (guard: g.r.loc2 or g.r.y != 0): guard: g.r.loc2 or g.r.y != 0 -> false [state/event exclusion requirement: g.r.loc1 and g.r.y = 0].
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: g.r.loc1 [marker predicate]
-=======
     Restricted behavior using state/event exclusion requirements:
         State: (controlled-behavior: g.r.loc1)
             Edge: (event: c) (guard: (g.r.x = 1 or g.r.x = 3) and g.r.loc1)
@@ -200,22 +196,11 @@ Backward controlled-behavior: g.r.loc1 [marker predicate]
             Edge: (event: p.u) (guard: g.r.loc2)
             Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2)
             Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0 -> false)
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: g.r.loc2 [current/previous controlled behavior predicate]
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: g.r.loc1 [initialization predicate]
-=======
 Re-initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Checking pre-synthesis for events that are never enabled.
 
@@ -223,24 +208,15 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: g.r.loc1 [marker predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: g.r.loc2 [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: g.r.loc1 [initialization predicate]
-
-        Forward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

@@ -206,36 +206,16 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR)
             Edge: (event: red_B) (guard: not R.RG and LightB.Green -> false) (assignments: LightB := LightB.Red)
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) [marker predicate]
-Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [fixed point].
-Controlled behavior: true -> LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)).
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Re-initializing edges for being applied.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) [initialization predicate]
-Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [fixed point].
-=======
 Checking pre-synthesis for events that are never enabled.
->>>>>>> refs/remotes/origin/develop
 
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) [marker predicate]
-
-        Backward reachability iteration 1:
-            Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) -> LightA.Red and (R.RR and LightB.Red) or LightA.Green and (R.GR and LightB.Red) [backward reach with edge: (event: red_A) (guard: LightA.Green and R.GR) (assignments: LightA := LightA.Red, R := R.RR), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or LightA.Green and (R.GR and LightB.Red) -> LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [backward reach with edge: (event: red_B) (guard: R.RG and LightB.Green) (assignments: LightB := LightB.Red, R := R.RR), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Backward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [fixed point].
 
@@ -248,13 +228,6 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) -> LightA.Red and (R.RR and LightB.Red) or LightA.Green and (R.GR and LightB.Red) [forward reach with edge: (event: green_A) (guard: LightA.Red and R.RR) (assignments: LightA := LightA.Green, R := R.GR), restricted to current/previous controlled-behavior predicate: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red))]
-            Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or LightA.Green and (R.GR and LightB.Red) -> LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [forward reach with edge: (event: green_B) (guard: R.RR and LightB.Red) (assignments: LightB := LightB.Green, R := R.RG), restricted to current/previous controlled-behavior predicate: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red))]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: LightA.Red and (R.RR and LightB.Red) or (LightA.Red and (R.RG and LightB.Green) or LightA.Green and (R.GR and LightB.Red)) [fixed point].
 

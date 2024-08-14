@@ -163,31 +163,14 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p_sensor.off and p_act.off [marker predicate]
-Backward controlled-behavior: true [fixed point].
-=======
 Extending controlled-behavior predicate using variable ranges:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-=======
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off) [initialization predicate]
-Forward controlled-behavior: true [fixed point].
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Re-initializing edges for being applied.
 
@@ -197,14 +180,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p_sensor.off and p_act.off [marker predicate]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: p_sensor.off and p_act.off -> not io.sensor and p_act.off or io.sensor and (p_sensor.off and p_act.off) [backward reach with edge: (event: u_off) (guard: not io.sensor and p_sensor.on) (assignments: p_sensor := p_sensor.off), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: not io.sensor and p_act.off or io.sensor and (p_sensor.off and p_act.off) -> not io.sensor or p_sensor.off [backward reach with edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: not io.sensor or p_sensor.off -> true [backward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -212,20 +187,10 @@ Synthesis round 1:
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off) [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off) -> (io.sensor or p_sensor.off) and (not io.sensor or p_sensor.on) [forward reach with edge: (event: c_on) (guard: p_act.off) (assignments: p_act := p_act.on), restricted to current/previous controlled-behavior predicate: true]
-            Forward controlled-behavior: (io.sensor or p_sensor.off) and (not io.sensor or p_sensor.on) -> true [forward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: true [fixed point].
 

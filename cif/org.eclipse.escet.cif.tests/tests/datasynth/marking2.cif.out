@@ -160,16 +160,8 @@ Extending controlled-behavior predicate using variable ranges:
 
     Extended controlled-behavior predicate using variable ranges: true.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [marker predicate]
-Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 -> p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [fixed point].
-Controlled behavior: true -> p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3.
-=======
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
@@ -182,9 +174,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [marker predicate]
         Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 -> p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3 [fixed point].
 

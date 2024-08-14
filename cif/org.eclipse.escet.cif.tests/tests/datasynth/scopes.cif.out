@@ -179,43 +179,19 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: true [fixed point].
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Re-initializing edges for being applied.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: g.p.x = 2 and p.x = 1 [initialization predicate]
-Forward controlled-behavior: g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1) [fixed point].
-Controlled behavior: true -> g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1).
-=======
 Checking pre-synthesis for events that are never enabled.
->>>>>>> refs/remotes/origin/develop
 
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1) [restricted to current/previous controlled-behavior predicate: g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1)]
-Backward controlled-behavior: g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1) [fixed point].
-=======
         Backward controlled-behavior: true [fixed point].
->>>>>>> refs/remotes/origin/develop
 
         Controlled behavior not changed.
 
@@ -227,13 +203,6 @@ Backward controlled-behavior: g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: g.p.x = 2 and p.x = 1 [initialization predicate]
 
-        Forward reachability iteration 1:
-            Forward controlled-behavior: g.p.x = 2 and p.x = 1 -> g.p.x != 4 and p.x = 1 [forward reach with edge: (event: c1) (guard: true -> true) (assignments: g.p.x := g.p.x + 1, p.x := 1), restricted to current/previous controlled-behavior predicate: true]
-            Forward controlled-behavior: g.p.x != 4 and p.x = 1 -> g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1) [forward reach with edge: (event: g.c2) (guard: true -> true) (assignments: g.p.x := g.p.x + 1, p.x := 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Forward controlled-behavior: g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1) [fixed point].
 
         Controlled behavior: true -> g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1).
@@ -244,9 +213,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1) [restricted to current/previous controlled-behavior predicate: g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1)]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: g.p.x = 4 and p.x = 1 or (g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1) [fixed point].
 

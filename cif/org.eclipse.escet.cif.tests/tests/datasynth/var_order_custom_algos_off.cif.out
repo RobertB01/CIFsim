@@ -132,32 +132,13 @@ Restricting behavior using state requirements:
 Extending controlled-behavior predicate using variable ranges:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3) [restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-Backward controlled-behavior: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3) [fixed point].
-=======
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: buffer1.count = 3 and (buffer2.count = 3 and buffer3.count = 3) [current/previous controlled behavior predicate]
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: buffer1.count = 0 and (buffer2.count = 0 and buffer3.count = 0) and (buffer3.add and (buffer1.add and buffer2.add)) [initialization predicate]
-Forward controlled-behavior: <bdd 25n 26p> [fixed point].
-Controlled behavior: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3) -> <bdd 25n 26p>.
-=======
 Re-initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Checking pre-synthesis for events that are never enabled.
 
@@ -166,62 +147,17 @@ Synthesis round 1:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3) [restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
 
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> <bdd 25n 26p> [restricted to current/previous controlled-behavior predicate: <bdd 25n 26p>]
-Backward controlled-behavior: <bdd 25n 26p> [fixed point].
-=======
-        Backward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 25n 25p> [current/previous controlled behavior predicate]
-=======
         Backward controlled-behavior: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3) [fixed point].
->>>>>>> refs/remotes/origin/develop
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: buffer1.count = 3 and (buffer2.count = 3 and buffer3.count = 3) [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: buffer1.count = 0 and (buffer2.count = 0 and buffer3.count = 0) and (buffer3.add and (buffer1.add and buffer2.add)) [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: buffer1.count = 0 and (buffer2.count = 0 and buffer3.count = 0) and (buffer3.add and (buffer1.add and buffer2.add)) -> buffer1.count = 0 and buffer2.count = 0 and (buffer3.count = 0 and (buffer3.add and buffer2.add)) [forward reach with edge: (event: buffer1.u_switch_loc) (guard: (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1 := buffer1.remove), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: buffer1.count = 0 and buffer2.count = 0 and (buffer3.count = 0 and (buffer3.add and buffer2.add)) -> buffer1.count = 0 and buffer2.count = 0 and (buffer3.count = 0 and (buffer3.add and buffer2.add)) or buffer1.count = 1 and (buffer2.count = 0 and buffer3.count = 0) and (buffer3.add and (buffer1.add and buffer2.add)) [forward reach with edge: (event: buffer1.c_add) (guard: buffer1.add -> (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1.count := buffer1.count + 1), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: buffer1.count = 0 and buffer2.count = 0 and (buffer3.count = 0 and (buffer3.add and buffer2.add)) or buffer1.count = 1 and (buffer2.count = 0 and buffer3.count = 0) and (buffer3.add and (buffer1.add and buffer2.add)) -> buffer1.count = 0 and buffer2.count = 0 and (buffer3.count = 0 and buffer2.add) or buffer1.count = 1 and buffer2.count = 0 and (buffer3.count = 0 and (buffer1.add and buffer2.add)) [forward reach with edge: (event: buffer3.u_switch_loc) (guard: (buffer3.count = 0 or buffer3.count = 2) and buffer3.add or buffer3.count = 1 and buffer3.add) (assignments: buffer3 := buffer3.remove), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: buffer1.count = 0 and buffer2.count = 0 and (buffer3.count = 0 and buffer2.add) or buffer1.count = 1 and buffer2.count = 0 and (buffer3.count = 0 and (buffer1.add and buffer2.add)) -> <bdd 21n 4p> [forward reach with edge: (event: buffer3.c_add) (guard: buffer3.add -> (buffer3.count = 0 or buffer3.count = 2) and buffer3.add or buffer3.count = 1 and buffer3.add) (assignments: buffer3.count := buffer3.count + 1), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: <bdd 21n 4p> -> buffer1.count = 0 and (buffer2.count = 0 and buffer3.count = 0) or buffer1.count = 0 and buffer2.count = 0 and (buffer3.count = 1 and buffer3.add) or (buffer1.count = 1 and buffer2.count = 0 and (buffer3.count = 0 and buffer1.add) or buffer1.count = 1 and buffer2.count = 0 and (buffer3.count = 1 and (buffer3.add and buffer1.add))) [forward reach with edge: (event: buffer2.u_switch_loc) (guard: (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2 := buffer2.remove), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: buffer1.count = 0 and (buffer2.count = 0 and buffer3.count = 0) or buffer1.count = 0 and buffer2.count = 0 and (buffer3.count = 1 and buffer3.add) or (buffer1.count = 1 and buffer2.count = 0 and (buffer3.count = 0 and buffer1.add) or buffer1.count = 1 and buffer2.count = 0 and (buffer3.count = 1 and (buffer3.add and buffer1.add))) -> <bdd 38n 8p> [forward reach with edge: (event: buffer2.c_add) (guard: buffer2.add -> (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2.count := buffer2.count + 1), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-
-        Forward reachability iteration 2:
-            Forward controlled-behavior: <bdd 38n 8p> -> (buffer1.count = 0 or buffer1.count = 1) and (buffer2.count = 0 and buffer3.count = 0) or (buffer1.count = 0 or buffer1.count = 1) and buffer2.count = 0 and (buffer3.count = 1 and buffer3.add) or ((buffer1.count = 0 or buffer1.count = 1) and buffer2.count = 1 and (buffer3.count = 0 and buffer2.add) or (buffer1.count = 0 or buffer1.count = 1) and buffer2.count = 1 and (buffer3.count = 1 and (buffer3.add and buffer2.add))) [forward reach with edge: (event: buffer1.u_switch_loc) (guard: (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1 := buffer1.remove), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: (buffer1.count = 0 or buffer1.count = 1) and (buffer2.count = 0 and buffer3.count = 0) or (buffer1.count = 0 or buffer1.count = 1) and buffer2.count = 0 and (buffer3.count = 1 and buffer3.add) or ((buffer1.count = 0 or buffer1.count = 1) and buffer2.count = 1 and (buffer3.count = 0 and buffer2.add) or (buffer1.count = 0 or buffer1.count = 1) and buffer2.count = 1 and (buffer3.count = 1 and (buffer3.add and buffer2.add))) -> <bdd 38n 12p> [forward reach with edge: (event: buffer1.c_add) (guard: buffer1.add -> (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1.count := buffer1.count + 1), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: <bdd 38n 12p> -> buffer1.count = 0 and (buffer2.count = 0 and (buffer3.count = 0 or buffer3.count = 1)) or (buffer1.count = 2 and buffer2.count = 0 and ((buffer3.count = 0 or buffer3.count = 1) and buffer1.add) or buffer1.count = 0 and buffer2.count = 1 and ((buffer3.count = 0 or buffer3.count = 1) and buffer2.add)) or (buffer1.count = 2 and buffer2.count = 1 and ((buffer3.count = 0 or buffer3.count = 1) and (buffer1.add and buffer2.add)) or (buffer1.count = 1 and (buffer2.count = 0 and (buffer3.count = 0 or buffer3.count = 1)) or buffer1.count = 1 and buffer2.count = 1 and ((buffer3.count = 0 or buffer3.count = 1) and buffer2.add))) [forward reach with edge: (event: buffer3.u_switch_loc) (guard: (buffer3.count = 0 or buffer3.count = 2) and buffer3.add or buffer3.count = 1 and buffer3.add) (assignments: buffer3 := buffer3.remove), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: buffer1.count = 0 and (buffer2.count = 0 and (buffer3.count = 0 or buffer3.count = 1)) or (buffer1.count = 2 and buffer2.count = 0 and ((buffer3.count = 0 or buffer3.count = 1) and buffer1.add) or buffer1.count = 0 and buffer2.count = 1 and ((buffer3.count = 0 or buffer3.count = 1) and buffer2.add)) or (buffer1.count = 2 and buffer2.count = 1 and ((buffer3.count = 0 or buffer3.count = 1) and (buffer1.add and buffer2.add)) or (buffer1.count = 1 and (buffer2.count = 0 and (buffer3.count = 0 or buffer3.count = 1)) or buffer1.count = 1 and buffer2.count = 1 and ((buffer3.count = 0 or buffer3.count = 1) and buffer2.add))) -> <bdd 38n 18p> [forward reach with edge: (event: buffer3.c_add) (guard: buffer3.add -> (buffer3.count = 0 or buffer3.count = 2) and buffer3.add or buffer3.count = 1 and buffer3.add) (assignments: buffer3.count := buffer3.count + 1), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: <bdd 38n 18p> -> buffer1.count = 0 and ((buffer2.count = 0 or buffer2.count = 1) and buffer3.count = 0) or buffer1.count = 0 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 2 and buffer3.add) or (buffer1.count = 2 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 0 and buffer1.add) or buffer1.count = 2 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 2 and (buffer3.add and buffer1.add))) or (buffer1.count = 0 and ((buffer2.count = 0 or buffer2.count = 1) and buffer3.count = 1) or buffer1.count = 2 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 1 and buffer1.add) or (buffer1.count = 1 and ((buffer2.count = 0 or buffer2.count = 1) and buffer3.count = 0) or (buffer1.count = 1 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 2 and buffer3.add) or buffer1.count = 1 and ((buffer2.count = 0 or buffer2.count = 1) and buffer3.count = 1)))) [forward reach with edge: (event: buffer2.u_switch_loc) (guard: (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2 := buffer2.remove), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: buffer1.count = 0 and ((buffer2.count = 0 or buffer2.count = 1) and buffer3.count = 0) or buffer1.count = 0 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 2 and buffer3.add) or (buffer1.count = 2 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 0 and buffer1.add) or buffer1.count = 2 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 2 and (buffer3.add and buffer1.add))) or (buffer1.count = 0 and ((buffer2.count = 0 or buffer2.count = 1) and buffer3.count = 1) or buffer1.count = 2 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 1 and buffer1.add) or (buffer1.count = 1 and ((buffer2.count = 0 or buffer2.count = 1) and buffer3.count = 0) or (buffer1.count = 1 and (buffer2.count = 0 or buffer2.count = 1) and (buffer3.count = 2 and buffer3.add) or buffer1.count = 1 and ((buffer2.count = 0 or buffer2.count = 1) and buffer3.count = 1)))) -> <bdd 38n 27p> [forward reach with edge: (event: buffer2.c_add) (guard: buffer2.add -> (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2.count := buffer2.count + 1), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-
-        Forward reachability iteration 3:
-            Forward controlled-behavior: <bdd 38n 27p> -> <bdd 22n 18p> [forward reach with edge: (event: buffer1.u_switch_loc) (guard: (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1 := buffer1.remove), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: <bdd 22n 18p> -> <bdd 34n 27p> [forward reach with edge: (event: buffer1.c_add) (guard: buffer1.add -> (buffer1.count = 0 or buffer1.count = 2) and buffer1.add or buffer1.count = 1 and buffer1.add) (assignments: buffer1.count := buffer1.count + 1), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: <bdd 34n 27p> -> <bdd 26n 18p> [forward reach with edge: (event: buffer3.u_switch_loc) (guard: (buffer3.count = 0 or buffer3.count = 2) and buffer3.add or buffer3.count = 1 and buffer3.add) (assignments: buffer3 := buffer3.remove), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: <bdd 26n 18p> -> <bdd 30n 27p> [forward reach with edge: (event: buffer3.c_add) (guard: buffer3.add -> (buffer3.count = 0 or buffer3.count = 2) and buffer3.add or buffer3.count = 1 and buffer3.add) (assignments: buffer3.count := buffer3.count + 1), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: <bdd 30n 27p> -> (buffer1.count = 1 or (buffer1.count = 3 or buffer2.count = 1) or (buffer2.count = 3 or (buffer3.count != 3 or buffer3.add))) and (buffer1.count = 1 or buffer1.count = 3 or (buffer2.count != 3 or (buffer3.count = 1 or buffer3.count = 3))) and ((buffer1.count = 1 or buffer1.count = 3 or (buffer2.count != 1 or (buffer3.count != 3 or buffer3.add))) and (buffer1.count = 1 or buffer1.count = 3 or (buffer2.count != 3 or (buffer3.count = 0 or buffer3.count = 2)))) and ((buffer1.count != 3 or (buffer2.count = 1 or buffer2.count = 3) or (buffer3.count = 1 or (buffer3.count = 3 or buffer1.add))) and (buffer1.count != 1 or buffer2.count = 1 or (buffer2.count = 3 or (buffer3.count != 3 or buffer3.add))) and ((buffer1.count != 3 or buffer2.count = 1 or (buffer2.count = 3 or (buffer3.count != 1 or buffer1.add))) and ((buffer1.count != 3 or (buffer2.count = 1 or buffer2.count = 3) or (buffer3.count != 3 or (buffer3.remove or buffer1.add))) and (buffer1.count != 3 or buffer2.count = 1 or (buffer2.count = 3 or (buffer3.count != 3 or buffer3.add)))))) and ((buffer1.count != 1 or buffer2.count != 3 or (buffer3.count = 1 or buffer3.count = 3)) and (buffer1.count != 3 or buffer2.count != 1 or (buffer3.count = 1 or (buffer3.count = 3 or buffer1.add))) and ((buffer1.count != 3 or buffer2.count != 3 or (buffer3.count = 1 or buffer3.count = 3)) and (buffer1.count != 1 or buffer2.count != 1 or (buffer3.count != 3 or buffer3.add))) and ((buffer1.count != 1 or buffer2.count != 3 or (buffer3.count = 0 or buffer3.count = 2)) and (buffer1.count != 3 or buffer2.count != 1 or (buffer3.count != 1 or buffer1.add)) and ((buffer1.count != 3 or buffer2.count != 1 or (buffer3.count != 3 or (buffer3.remove or buffer1.add))) and ((buffer1.count != 3 or buffer2.count != 1 or (buffer3.count != 3 or buffer3.add)) and (buffer1.count != 3 or buffer2.count != 3 or (buffer3.count = 0 or buffer3.count = 2)))))) [forward reach with edge: (event: buffer2.u_switch_loc) (guard: (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2 := buffer2.remove), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-            Forward controlled-behavior: (buffer1.count = 1 or (buffer1.count = 3 or buffer2.count = 1) or (buffer2.count = 3 or (buffer3.count != 3 or buffer3.add))) and (buffer1.count = 1 or buffer1.count = 3 or (buffer2.count != 3 or (buffer3.count = 1 or buffer3.count = 3))) and ((buffer1.count = 1 or buffer1.count = 3 or (buffer2.count != 1 or (buffer3.count != 3 or buffer3.add))) and (buffer1.count = 1 or buffer1.count = 3 or (buffer2.count != 3 or (buffer3.count = 0 or buffer3.count = 2)))) and ((buffer1.count != 3 or (buffer2.count = 1 or buffer2.count = 3) or (buffer3.count = 1 or (buffer3.count = 3 or buffer1.add))) and (buffer1.count != 1 or buffer2.count = 1 or (buffer2.count = 3 or (buffer3.count != 3 or buffer3.add))) and ((buffer1.count != 3 or buffer2.count = 1 or (buffer2.count = 3 or (buffer3.count != 1 or buffer1.add))) and ((buffer1.count != 3 or (buffer2.count = 1 or buffer2.count = 3) or (buffer3.count != 3 or (buffer3.remove or buffer1.add))) and (buffer1.count != 3 or buffer2.count = 1 or (buffer2.count = 3 or (buffer3.count != 3 or buffer3.add)))))) and ((buffer1.count != 1 or buffer2.count != 3 or (buffer3.count = 1 or buffer3.count = 3)) and (buffer1.count != 3 or buffer2.count != 1 or (buffer3.count = 1 or (buffer3.count = 3 or buffer1.add))) and ((buffer1.count != 3 or buffer2.count != 3 or (buffer3.count = 1 or buffer3.count = 3)) and (buffer1.count != 1 or buffer2.count != 1 or (buffer3.count != 3 or buffer3.add))) and ((buffer1.count != 1 or buffer2.count != 3 or (buffer3.count = 0 or buffer3.count = 2)) and (buffer1.count != 3 or buffer2.count != 1 or (buffer3.count != 1 or buffer1.add)) and ((buffer1.count != 3 or buffer2.count != 1 or (buffer3.count != 3 or (buffer3.remove or buffer1.add))) and ((buffer1.count != 3 or buffer2.count != 1 or (buffer3.count != 3 or buffer3.add)) and (buffer1.count != 3 or buffer2.count != 3 or (buffer3.count = 0 or buffer3.count = 2)))))) -> <bdd 25n 26p> [forward reach with edge: (event: buffer2.c_add) (guard: buffer2.add -> (buffer2.count = 0 or buffer2.count = 2) and buffer2.add or buffer2.count = 1 and buffer2.add) (assignments: buffer2.count := buffer2.count + 1), restricted to current/previous controlled-behavior predicate: buffer1.count != 3 or (buffer2.count != 3 or buffer3.count != 3)]
-
-        Forward reachability iteration 4:
-            No change this iteration.
 
         Forward controlled-behavior: <bdd 25n 26p> [fixed point].
 
@@ -234,18 +170,12 @@ Synthesis round 2:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> <bdd 25n 26p> [restricted to current/previous controlled-behavior predicate: <bdd 25n 26p>]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Backward controlled-behavior: <bdd 25n 26p> [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: <bdd 25n 25p> [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

@@ -243,27 +243,13 @@ Extending controlled-behavior predicate using variable ranges:
 
     Extended controlled-behavior predicate using variable ranges: <bdd 20n 960p>.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l0 [marker predicate]
-Backward controlled-behavior: p.l0 -> <bdd 21n 960p> [restricted to current/previous controlled-behavior predicate: <bdd 20n 960p>]
-Backward controlled-behavior: <bdd 21n 960p> [fixed point].
-Controlled behavior: <bdd 20n 960p> -> <bdd 21n 960p>.
-=======
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: <bdd 22n 1p> [initialization predicate]
-Controlled behavior: <bdd 21n 960p> -> <bdd 22n 1p>.
-=======
 Re-initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Checking pre-synthesis for events that are never enabled.
 
@@ -271,16 +257,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l0 [marker predicate]
         Backward controlled-behavior: p.l0 -> <bdd 21n 960p> [restricted to current/previous controlled-behavior predicate: <bdd 20n 960p>]
-
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l0 [marker predicate]
-Backward controlled-behavior: p.l0 -> <bdd 22n 1p> [restricted to current/previous controlled-behavior predicate: <bdd 22n 1p>]
-Backward controlled-behavior: <bdd 22n 1p> [fixed point].
-=======
-        Backward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
 
         Backward controlled-behavior: <bdd 21n 960p> [fixed point].
 
@@ -294,9 +270,6 @@ Backward controlled-behavior: <bdd 22n 1p> [fixed point].
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: <bdd 22n 1p> [initialization predicate]
 
-        Forward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior: <bdd 21n 960p> -> <bdd 22n 1p>.
 
     Need another round.
@@ -305,9 +278,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l0 [marker predicate]
         Backward controlled-behavior: p.l0 -> <bdd 22n 1p> [restricted to current/previous controlled-behavior predicate: <bdd 22n 1p>]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: <bdd 22n 1p> [fixed point].
 

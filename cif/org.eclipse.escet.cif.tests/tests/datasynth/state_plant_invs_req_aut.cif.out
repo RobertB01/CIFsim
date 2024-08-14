@@ -105,64 +105,23 @@ Restricting behavior using state/event exclusion requirements:
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-=======
 Re-initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-=======
 Checking pre-synthesis for events that are never enabled.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: A.l1 [initialization predicate]
-Forward controlled-behavior: not A.l3 [fixed point].
-Controlled behavior: true -> not A.l3.
-=======
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> not A.l3 [restricted to current/previous controlled-behavior predicate: not A.l3]
-Backward controlled-behavior: not A.l3 [fixed point].
-=======
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: A.l3 [current/previous controlled behavior predicate]
-=======
-        Backward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
 
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: A.l1 [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: A.l1 -> not A.l3 [forward reach with edge: (event: A.c) (guard: A.l1) (assignments: A := A.l2), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: not A.l3 [fixed point].
 
@@ -175,18 +134,12 @@ Synthesis round 2:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> not A.l3 [restricted to current/previous controlled-behavior predicate: not A.l3]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Backward controlled-behavior: not A.l3 [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: A.l3 [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

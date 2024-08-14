@@ -129,26 +129,9 @@ Preparing for MDD-based checks:
         Updating global guards and updates for event "b".
         Updating global guards and updates for event "c".
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: B.v = 0 and (B.p and A.p) [initial states predicate]
-    Reachable states: B.v = 0 and B.p or B.v = 2 and B.q [fixed point].
-=======
 Checking for bounded response:
     Computing reachable states:
         Reachable states: B.v = 0 and (B.p and A.p) [initial states predicate]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 1:
-            Reachable states: B.v = 0 and (B.p and A.p) -> B.v = 0 and B.p [forward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-            Reachable states: B.v = 0 and B.p -> B.v = 0 and B.p or B.v = 2 and (B.q and A.p) [forward reach with edge: (event: b) (guard: B.v = 0 and (B.p and A.p)) (assignments: B.v := B.v + 2, B := B.q)]
-
-        Forward reachability iteration 2:
-            Reachable states: B.v = 0 and B.p or B.v = 2 and (B.q and A.p) -> B.v = 0 and B.p or B.v = 2 and B.q [forward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-
-        Forward reachability iteration 3:
-            No change this iteration.
 
         Reachable states: B.v = 0 and B.p or B.v = 2 and B.q [fixed point].
 
@@ -171,31 +154,8 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: B.v != 2 and A.q or B.v = 2 and (B.p and A.q)
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: B.p and A.q [controllable-complete path end states predicate]
-    Controllable-complete path states: B.v = 2 or B.p [fixed point].
-    Controllable-complete path states: B.v = 2 or B.p
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: B.p and A.q [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: B.v != 2 and B.q [not controllable-complete path states predicate]
-    Bad states: B.v != 2 and B.q
-=======
-        Backward reachability iteration 1:
-            Controllable-complete path states: B.p and A.q -> B.p [backward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-            Controllable-complete path states: B.p -> (B.v = 2 or B.p) and (B.v != 2 or (B.p or A.q)) [backward reach with edge: (event: c) (guard: B.q and A.q -> B.v = 2 and (B.q and A.q)) (assignments: B.v := B.v - 2, B := B.p)]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 2:
-            Controllable-complete path states: (B.v = 2 or B.p) and (B.v != 2 or (B.p or A.q)) -> B.v = 2 or B.p [backward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-
-        Backward reachability iteration 3:
-            No change this iteration.
 
         Controllable-complete path states: B.v = 2 or B.p [fixed point].
 
@@ -203,9 +163,6 @@ Checking for non-blocking under control:
 
     Computing the bad states:
         Bad states: B.v != 2 and B.q [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: B.v != 2 and B.q
 

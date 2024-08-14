@@ -172,15 +172,8 @@ Extending controlled-behavior predicate using variable ranges:
 
     Extended controlled-behavior predicate using variable ranges: true.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: true [fixed point].
-=======
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
@@ -193,9 +186,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: true [fixed point].
 

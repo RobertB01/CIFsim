@@ -161,28 +161,13 @@ Extending controlled-behavior predicate using variable ranges:
 
     Extended controlled-behavior predicate using variable ranges: true.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) [marker predicate]
-Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) -> (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))) [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))) [fixed point].
-Controlled behavior: true -> (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))).
-=======
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.l0 and (p.x = 1 and p.y = 1) [initialization predicate]
-Forward controlled-behavior: p.x = 1 and p.y = 1 [fixed point].
-Controlled behavior: (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))) -> p.x = 1 and p.y = 1.
-=======
 Re-initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Checking pre-synthesis for events that are never enabled.
 
@@ -190,16 +175,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) [marker predicate]
         Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) -> (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))) [restricted to current/previous controlled-behavior predicate: true]
-
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) [marker predicate]
-Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) -> p.x = 1 and p.y = 1 [restricted to current/previous controlled-behavior predicate: p.x = 1 and p.y = 1]
-Backward controlled-behavior: p.x = 1 and p.y = 1 [fixed point].
-=======
-        Backward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
 
         Backward controlled-behavior: (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))) [fixed point].
 
@@ -213,12 +188,6 @@ Backward controlled-behavior: p.x = 1 and p.y = 1 [fixed point].
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.l0 and (p.x = 1 and p.y = 1) [initialization predicate]
 
-        Forward reachability iteration 1:
-            Forward controlled-behavior: p.l0 and (p.x = 1 and p.y = 1) -> p.x = 1 and p.y = 1 [forward reach with edge: (event: c) (guard: p.l0) (assignments: p := p.l1), restricted to current/previous controlled-behavior predicate: (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1)))]
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Forward controlled-behavior: p.x = 1 and p.y = 1 [fixed point].
 
         Controlled behavior: (p.l1 or p.x = 1) and ((p.l0 or p.x = 1) and (p.l0 or (p.x = 2 or p.y = 1))) -> p.x = 1 and p.y = 1.
@@ -229,9 +198,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) [marker predicate]
         Backward controlled-behavior: p.l0 and p.x = 1 or p.l1 and (p.x = 1 and p.y = 1) -> p.x = 1 and p.y = 1 [restricted to current/previous controlled-behavior predicate: p.x = 1 and p.y = 1]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: p.x = 1 and p.y = 1 [fixed point].
 

@@ -122,12 +122,6 @@ Preparing for MDD-based checks:
     Analyzing automaton "Sensor":
         Nothing to process.
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: Actuator.Off and (sup.Off and Sensor.Off) [initial states predicate]
-    Reachable states: (sup.On or Sensor.Off) and (sup.Off or Sensor.On) [fixed point].
-=======
     Analyzing automaton "sup":
         Initializing the automaton data for event "Actuator.c_off".
         Initializing the automaton data for event "Actuator.c_on".
@@ -135,21 +129,10 @@ Checking for bounded response...
         Processing edges from location "On" of automaton "sup".
         Updating global guards and updates for event "Actuator.c_off".
         Updating global guards and updates for event "Actuator.c_on".
->>>>>>> refs/remotes/origin/develop
 
 Checking for bounded response:
     Computing reachable states:
         Reachable states: Actuator.Off and (sup.Off and Sensor.Off) [initial states predicate]
-
-        Forward reachability iteration 1:
-            Reachable states: Actuator.Off and (sup.Off and Sensor.Off) -> Actuator.Off and (sup.Off and Sensor.Off) or Actuator.Off and (sup.On and Sensor.On) [forward reach with edge: (event: Sensor.u_on) (guard: sup.Off and Sensor.Off) (assignments: Sensor := Sensor.On, sup := sup.On)]
-
-        Forward reachability iteration 2:
-            Reachable states: Actuator.Off and (sup.Off and Sensor.Off) or Actuator.Off and (sup.On and Sensor.On) -> Actuator.Off and (sup.Off and Sensor.Off) or (Actuator.Off and (sup.On and Sensor.On) or Actuator.On and (sup.On and Sensor.On)) [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off and sup.On) (assignments: Actuator := Actuator.On)]
-            Reachable states: Actuator.Off and (sup.Off and Sensor.Off) or (Actuator.Off and (sup.On and Sensor.On) or Actuator.On and (sup.On and Sensor.On)) -> (sup.On or Sensor.Off) and (sup.Off or Sensor.On) [forward reach with edge: (event: Sensor.u_off) (guard: sup.On and Sensor.On) (assignments: Sensor := Sensor.Off, sup := sup.Off)]
-
-        Forward reachability iteration 3:
-            No change this iteration.
 
         Reachable states: (sup.On or Sensor.Off) and (sup.Off or Sensor.On) [fixed point].
 
@@ -170,31 +153,13 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: (Actuator.On or sup.Off) and (Actuator.Off or sup.On)
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
-    Controllable-complete path states: false
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
-    Bad states: true
-=======
-        Backward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
 
         Controllable-complete path states: false
 
     Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: true
 

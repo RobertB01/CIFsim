@@ -193,11 +193,6 @@ Restricting behavior using state/event exclusion requirements:
     Edge (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off) (assignments: Lamp1 := Lamp1.On): guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false [state/event exclusion requirement: LampOnWhileButtonPushed.Pushed].
     Edge (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off): guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false [state/event exclusion requirement: LampOnWhileButtonPushed.Released].
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [marker predicate]
-Backward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
-=======
     Restricted behavior using state/event exclusion requirements:
         State: (controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed))
             Edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed)
@@ -208,39 +203,17 @@ Backward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Release
             Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off -> false) (assignments: Lamp1 := Lamp1.On)
             Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
             Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On -> false) (assignments: Lamp1 := Lamp1.Off)
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: (Button1.Pushed or LampOnWhileButtonPushed.Pushed) and (Button1.Released or LampOnWhileButtonPushed.Released) [current/previous controlled behavior predicate]
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [initialization predicate]
-Forward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
-=======
 Re-initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Checking pre-synthesis for events that are never enabled.
 
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [marker predicate]
-
-        Backward reachability iteration 1:
-            Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [backward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-            Backward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Released and LampOnWhileButtonPushed.Released or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [backward reach with edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-
-        Backward reachability iteration 2:
-            Backward controlled-behavior: Button1.Released and LampOnWhileButtonPushed.Released or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [backward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-
-        Backward reachability iteration 3:
-            No change this iteration.
 
         Backward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
 
@@ -249,23 +222,10 @@ Synthesis round 1:
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: (Button1.Pushed or LampOnWhileButtonPushed.Pushed) and (Button1.Released or LampOnWhileButtonPushed.Released) [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) [forward reach with edge: (event: Button1.u_pushed) (guard: Button1.Released and LampOnWhileButtonPushed.Released) (assignments: Button1 := Button1.Pushed, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Pushed), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-            Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and (LampOnWhileButtonPushed.Pushed and Lamp1.Off) -> Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and LampOnWhileButtonPushed.Pushed [forward reach with edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.Off) (assignments: Lamp1 := Lamp1.On), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-
-        Forward reachability iteration 2:
-            Forward controlled-behavior: Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off) or Button1.Pushed and LampOnWhileButtonPushed.Pushed -> (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [forward reach with edge: (event: Button1.u_released) (guard: Button1.Pushed and LampOnWhileButtonPushed.Pushed) (assignments: Button1 := Button1.Released, LampOnWhileButtonPushed := LampOnWhileButtonPushed.Released), restricted to current/previous controlled-behavior predicate: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed)]
-
-        Forward reachability iteration 3:
-            No change this iteration.
 
         Forward controlled-behavior: (Button1.Pushed or LampOnWhileButtonPushed.Released) and (Button1.Released or LampOnWhileButtonPushed.Pushed) [fixed point].
 

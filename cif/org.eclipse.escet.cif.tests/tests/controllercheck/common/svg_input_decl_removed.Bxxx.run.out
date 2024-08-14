@@ -5,18 +5,9 @@ Preparing for BDD-based checks:
     Restricting system behavior using state/event exclusion plant invariants:
         No guards changed.
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: true [initial states predicate]
-=======
 Checking for bounded response:
     Computing reachable states:
         Reachable states: true [initial states predicate]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 1:
-            No change this iteration.
 
     Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).

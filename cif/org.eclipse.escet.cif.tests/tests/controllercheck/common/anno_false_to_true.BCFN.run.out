@@ -24,20 +24,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: p.loc1 [initial states predicate]
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p.loc1 [initial states predicate]
-    Reachable states: true [fixed point].
-=======
-        Forward reachability iteration 1:
-            Reachable states: p.loc1 -> not p.loc3 [forward reach with edge: (event: c) (guard: p.loc1) (assignments: p := p.loc2)]
-            Reachable states: not p.loc3 -> true [forward reach with edge: (event: u) (guard: p.loc2) (assignments: p := p.loc3)]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events:
@@ -58,30 +44,8 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: not p.loc1
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: p.loc3 [controllable-complete path end states predicate]
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: p.loc3 [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
-    Bad states: false
-=======
-        Backward reachability iteration 1:
-            Controllable-complete path states: p.loc3 -> not p.loc1 [backward reach with edge: (event: u) (guard: p.loc2) (assignments: p := p.loc3)]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 2:
-            Controllable-complete path states: not p.loc1 -> true [backward reach with edge: (event: c) (guard: p.loc1) (assignments: p := p.loc2)]
-
-        Backward reachability iteration 3:
-            No change this iteration.
 
         Controllable-complete path states: true [fixed point].
 
@@ -89,9 +53,6 @@ Checking for non-blocking under control:
 
     Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: false
 

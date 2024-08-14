@@ -27,20 +27,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: Supervisor1a.Start [initial states predicate]
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: Supervisor1a.Start [initial states predicate]
-    Reachable states: true [fixed point].
-=======
-        Forward reachability iteration 1:
-            Reachable states: Supervisor1a.Start -> Supervisor1a.Start or Supervisor1a.Done1 [forward reach with edge: (event: Supervisor1a.c_act1) (guard: Supervisor1a.Start or Supervisor1a.Done2) (assignments: Supervisor1a := Supervisor1a.Done1 / Supervisor1a := Supervisor1a.BothDone)]
-            Reachable states: Supervisor1a.Start or Supervisor1a.Done1 -> true [forward reach with edge: (event: Supervisor1a.c_act2) (guard: Supervisor1a.Start or Supervisor1a.Done1) (assignments: Supervisor1a := Supervisor1a.Done2 / Supervisor1a := Supervisor1a.BothDone)]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events:
@@ -62,28 +48,8 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: Supervisor1a.BothDone
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: Supervisor1a.BothDone [controllable-complete path end states predicate]
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: Supervisor1a.BothDone [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
-    Bad states: false
-=======
-        Backward reachability iteration 1:
-            Controllable-complete path states: Supervisor1a.BothDone -> Supervisor1a.Done2 or Supervisor1a.BothDone [backward reach with edge: (event: Supervisor1a.c_act1) (guard: Supervisor1a.Start or Supervisor1a.Done2) (assignments: Supervisor1a := Supervisor1a.Done1 / Supervisor1a := Supervisor1a.BothDone)]
-            Controllable-complete path states: Supervisor1a.Done2 or Supervisor1a.BothDone -> true [backward reach with edge: (event: Supervisor1a.c_act2) (guard: Supervisor1a.Start or Supervisor1a.Done1) (assignments: Supervisor1a := Supervisor1a.Done2 / Supervisor1a := Supervisor1a.BothDone)]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Controllable-complete path states: true [fixed point].
 
@@ -91,9 +57,6 @@ Checking for non-blocking under control:
 
     Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: false
 

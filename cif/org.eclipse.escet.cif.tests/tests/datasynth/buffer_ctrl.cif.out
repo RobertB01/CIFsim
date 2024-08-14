@@ -234,32 +234,17 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> <bdd 11n 32p> [restricted to current/previous controlled-behavior predicate: <bdd 11n 32p>]
-Backward controlled-behavior: <bdd 11n 32p> [fixed point].
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Re-initializing edges for being applied.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: <bdd 11n 32p> [initialization predicate]
-=======
 Checking pre-synthesis for events that are never enabled.
->>>>>>> refs/remotes/origin/develop
 
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> <bdd 11n 32p> [restricted to current/previous controlled-behavior predicate: <bdd 11n 32p>]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: <bdd 11n 32p> [fixed point].
 
@@ -272,9 +257,6 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: <bdd 11n 32p> [initialization predicate]
-
-        Forward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

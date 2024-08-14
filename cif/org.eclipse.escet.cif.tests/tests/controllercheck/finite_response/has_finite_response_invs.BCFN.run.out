@@ -132,26 +132,9 @@ Preparing for MDD-based checks:
         Updating global guards and updates for event "Actuator.c_on".
         Updating global guards and updates for event "Actuator.c_off".
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: Sensor.Off and Actuator.Off [initial states predicate]
-    Reachable states: true [fixed point].
-=======
 Checking for bounded response:
     Computing reachable states:
         Reachable states: Sensor.Off and Actuator.Off [initial states predicate]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 1:
-            Reachable states: Sensor.Off and Actuator.Off -> Actuator.Off [forward reach with edge: (event: Sensor.u_on) (guard: Sensor.Off) (assignments: Sensor := Sensor.On)]
-
-        Forward reachability iteration 2:
-            Reachable states: Actuator.Off -> Sensor.On or Actuator.Off [forward reach with edge: (event: Actuator.c_on) (guard: Actuator.Off -> Sensor.On and Actuator.Off) (assignments: Actuator := Actuator.On)]
-            Reachable states: Sensor.On or Actuator.Off -> true [forward reach with edge: (event: Sensor.u_off) (guard: Sensor.On) (assignments: Sensor := Sensor.Off)]
-
-        Forward reachability iteration 3:
-            No change this iteration.
 
         Reachable states: true [fixed point].
 
@@ -172,31 +155,13 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: (Sensor.On or Actuator.Off) and (Sensor.Off or Actuator.On)
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
-    Controllable-complete path states: false
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
-    Bad states: true
-=======
-        Backward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
 
         Controllable-complete path states: false
 
     Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: true
 

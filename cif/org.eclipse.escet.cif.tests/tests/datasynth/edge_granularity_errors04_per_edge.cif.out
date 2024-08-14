@@ -177,14 +177,8 @@ Restricting behavior using state requirements:
 Extending controlled-behavior predicate using variable ranges:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l2 [marker predicate]
-Controlled behavior: p.x != 7 or p.l2 -> p.l2.
-=======
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior: true -> p.x != 7 or p.l2 [runtime error requirement (event: e): p.x != 7 or p.l2].
@@ -198,9 +192,6 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l2 [marker predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior: p.x != 7 or p.l2 -> p.l2.
 

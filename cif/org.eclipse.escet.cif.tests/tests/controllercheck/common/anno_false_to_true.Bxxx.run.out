@@ -16,20 +16,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: p.loc1 [initial states predicate]
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p.loc1 [initial states predicate]
-    Reachable states: true [fixed point].
-=======
-        Forward reachability iteration 1:
-            Reachable states: p.loc1 -> not p.loc3 [forward reach with edge: (event: c) (guard: p.loc1) (assignments: p := p.loc2)]
-            Reachable states: not p.loc3 -> true [forward reach with edge: (event: u) (guard: p.loc2) (assignments: p := p.loc3)]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events:

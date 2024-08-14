@@ -137,21 +137,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: X.A [initial states predicate]
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: X.A [initial states predicate]
-    Reachable states: true [fixed point].
-=======
-        Forward reachability iteration 1:
-            Reachable states: X.A -> X.A or X.B and Y != 1 [forward reach with edge: (event: X.a) (guard: X.A -> X.A and Y != 1) (assignments: X := X.B)]
-            Reachable states: X.A or X.B and Y != 1 -> X.A or (X.C and Y = 0 or X.B and Y != 1) [forward reach with edge: (event: X.b) (guard: X.B -> X.B and Y != 2) (assignments: X := X.C)]
-            Reachable states: X.A or (X.C and Y = 0 or X.B and Y != 1) -> true [forward reach with edge: (event: Y) (guard: true) (assignments: Y+ != Y)]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events:
@@ -172,31 +157,13 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: X.A and Y = 1 or (X.C and Y = 0 or X.B and Y = 2)
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
-    Controllable-complete path states: false
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
-    Bad states: true
-=======
-        Backward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
 
         Controllable-complete path states: false
 
     Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: true
 

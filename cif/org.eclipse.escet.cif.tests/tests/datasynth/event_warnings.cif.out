@@ -443,62 +443,19 @@ Restricting behavior using implicit runtime error requirements:
 
 Re-initializing edges for being applied.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l1 and q.l1 [marker predicate]
-Backward controlled-behavior: p.l1 and q.l1 -> <bdd 66n 244,140,625p> [restricted to current/previous controlled-behavior predicate: <bdd 65n 488,281,250p>]
-Backward controlled-behavior: <bdd 66n 244,140,625p> [fixed point].
-Controlled behavior: <bdd 65n 488,281,250p> -> <bdd 66n 244,140,625p>.
-=======
 Checking pre-synthesis for events that are never enabled.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 66n 261,233,718p> [current/previous controlled behavior predicate]
-Backward uncontrolled bad-state: <bdd 65n 212,405,593p> [fixed point].
-Controlled behavior: <bdd 66n 244,140,625p> -> <bdd 65n 146,484,375p>.
-=======
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l1 and q.l1 [marker predicate]
         Backward controlled-behavior: p.l1 and q.l1 -> <bdd 66n 244,140,625p> [restricted to current/previous controlled-behavior predicate: <bdd 65n 488,281,250p>]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: <bdd 69n 1p> [initialization predicate]
-Forward controlled-behavior: <bdd 70n 2p> [fixed point].
-Controlled behavior: <bdd 65n 146,484,375p> -> <bdd 70n 2p>.
-=======
-        Backward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
 
         Backward controlled-behavior: <bdd 66n 244,140,625p> [fixed point].
 
         Controlled behavior: <bdd 65n 488,281,250p> -> <bdd 66n 244,140,625p>.
 
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.l1 and q.l1 [marker predicate]
-Backward controlled-behavior: p.l1 and q.l1 -> <bdd 70n 2p> [restricted to current/previous controlled-behavior predicate: <bdd 70n 2p>]
-Backward controlled-behavior: <bdd 70n 2p> [fixed point].
-=======
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: <bdd 66n 261,233,718p> [current/previous controlled behavior predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 70n 69p> [current/previous controlled behavior predicate]
-=======
-        Backward reachability iteration 1:
-            Backward uncontrolled bad-state: <bdd 66n 261,233,718p> -> <bdd 65n 212,405,593p> [backward reach with edge: (event: q.u13) (guard: q.l1 and q.v13 = 10) (assignments: q.v13 := q.v13 + 1)]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Backward uncontrolled bad-state: <bdd 65n 212,405,593p> [fixed point].
 
@@ -506,12 +463,6 @@ Backward uncontrolled bad-state: <bdd 70n 69p> [current/previous controlled beha
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: <bdd 69n 1p> [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: <bdd 69n 1p> -> <bdd 70n 2p> [forward reach with edge: (event: c_off) (guard: a.l1 and b.l1) (assignments: a := a.l2, b := b.l2), restricted to current/previous controlled-behavior predicate: <bdd 65n 146,484,375p>]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: <bdd 70n 2p> [fixed point].
 
@@ -524,18 +475,12 @@ Synthesis round 2:
         Backward controlled-behavior: p.l1 and q.l1 [marker predicate]
         Backward controlled-behavior: p.l1 and q.l1 -> <bdd 70n 2p> [restricted to current/previous controlled-behavior predicate: <bdd 70n 2p>]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Backward controlled-behavior: <bdd 70n 2p> [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: <bdd 70n 69p> [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

@@ -42,24 +42,9 @@ Preparing for MDD-based checks:
         Processing edges from the location of automaton "PlantStateEvtExcls".
         Updating global guards and updates for event "c_c".
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p.x = 0 [initial states predicate]
-    Reachable states: 0 <= p.x and p.x <= 3 [fixed point].
-=======
 Checking for bounded response:
     Computing reachable states:
         Reachable states: p.x = 0 [initial states predicate]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 1:
-            Reachable states: p.x = 0 -> p.x = 0 or p.x = 1 [forward reach with edge: (event: u_a) (guard: p.x = 0) (assignments: p.x := p.x + 1)]
-            Reachable states: p.x = 0 or p.x = 1 -> p.x != 4 and (p.x != 5 and p.x != 3) [forward reach with edge: (event: u_b) (guard: p.x = 1) (assignments: p.x := p.x + 1)]
-            Reachable states: p.x != 4 and (p.x != 5 and p.x != 3) -> 0 <= p.x and p.x <= 3 [forward reach with edge: (event: u_c) (guard: p.x = 2) (assignments: p.x := p.x + 1)]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Reachable states: 0 <= p.x and p.x <= 3 [fixed point].
 
@@ -83,31 +68,13 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: p.x = 0 or (p.x = 2 or p.x = 5)
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: false [controllable-complete path end states predicate]
-    Controllable-complete path states: false
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: true [not controllable-complete path states predicate]
-    Bad states: true
-=======
-        Backward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
 
         Controllable-complete path states: false
 
     Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: true
 

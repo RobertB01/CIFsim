@@ -92,32 +92,17 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: c_b) (guard: p.x = 4 or p.x = 5)
             Edge: (event: c_b) (guard: p.x = 3 -> false)
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: true [fixed point].
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Re-initializing edges for being applied.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: true [initialization predicate]
-=======
 Checking pre-synthesis for events that are never enabled.
->>>>>>> refs/remotes/origin/develop
 
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: true [fixed point].
 
@@ -130,9 +115,6 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: true [initialization predicate]
-
-        Forward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

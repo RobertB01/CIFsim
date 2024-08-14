@@ -24,15 +24,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: true [initial states predicate]
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: true [initial states predicate]
-=======
-        Forward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
-
     Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
         Bounded response check round 2 (states before round: p.counter = 0 or (p.counter = 2 or p.counter = 4) or (p.counter = 6 or (p.counter = 8 or p.counter = 10)) or (p.counter = 12 or (p.counter = 14 or p.counter = 16) or (p.counter = 18 or p.counter = 20 or (p.counter = 22 or p.counter = 24)))).
@@ -51,28 +42,8 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: p.counter = 1 or (p.counter = 3 or p.counter = 5) or (p.counter = 7 or (p.counter = 9 or p.counter = 11)) or (p.counter = 13 or (p.counter = 15 or p.counter = 17) or (p.counter = 19 or p.counter = 21 or (p.counter = 23 or p.counter = 25)))
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: p.counter = 1 or (p.counter = 3 or p.counter = 5) or (p.counter = 7 or (p.counter = 9 or p.counter = 11)) or (p.counter = 13 or (p.counter = 15 or p.counter = 17) or (p.counter = 19 or p.counter = 21 or (p.counter = 23 or p.counter = 25))) [controllable-complete path end states predicate]
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: p.counter = 1 or (p.counter = 3 or p.counter = 5) or (p.counter = 7 or (p.counter = 9 or p.counter = 11)) or (p.counter = 13 or (p.counter = 15 or p.counter = 17) or (p.counter = 19 or p.counter = 21 or (p.counter = 23 or p.counter = 25))) [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
-    Bad states: false
-=======
-        Backward reachability iteration 1:
-            Controllable-complete path states: p.counter = 1 or (p.counter = 3 or p.counter = 5) or (p.counter = 7 or (p.counter = 9 or p.counter = 11)) or (p.counter = 13 or (p.counter = 15 or p.counter = 17) or (p.counter = 19 or p.counter = 21 or (p.counter = 23 or p.counter = 25))) -> true [backward reach with edge: (event: c_inc_even) (guard: p.counter = 0 or (p.counter = 2 or p.counter = 4) or (p.counter = 6 or (p.counter = 8 or p.counter = 10)) or (p.counter = 12 or (p.counter = 14 or p.counter = 16) or (p.counter = 18 or p.counter = 20 or (p.counter = 22 or p.counter = 24)))) (assignments: p.counter := p.counter + 1)]
-            Controllable-complete path states: true -> true [backward reach with edge: (event: c_dec_even) (guard: p.counter = 16 or (p.counter = 8 or p.counter = 24) or (p.counter = 4 or (p.counter = 12 or p.counter = 20)) or (p.counter = 2 or (p.counter = 6 or p.counter = 10) or (p.counter = 14 or (p.counter = 18 or p.counter = 22)))) (assignments: p.counter := p.counter - 1)]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Controllable-complete path states: true [fixed point].
 
@@ -80,9 +51,6 @@ Checking for non-blocking under control:
 
     Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: false
 

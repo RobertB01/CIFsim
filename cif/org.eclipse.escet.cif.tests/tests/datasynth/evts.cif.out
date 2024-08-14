@@ -90,12 +90,6 @@ Restricting behavior using state/event exclusion requirements:
     Edge (event: cea) (guard: true): guard: true -> false [state/event exclusion requirement: false].
     Controlled behavior: true -> false [state/event exclusion requirement: false, edge: (event: uea) (guard: true)].
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> false [restricted to current/previous controlled-behavior predicate: false]
-Backward controlled-behavior: false [fixed point].
-=======
     Restricted behavior using state/event exclusion requirements:
         State: (controlled-behavior: false)
             Edge: (event: cen) (guard: true)
@@ -104,7 +98,6 @@ Backward controlled-behavior: false [fixed point].
             Edge: (event: uen) (guard: true)
             Edge: (event: uea) (guard: true)
             Edge: (event: uee) (guard: true)
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
@@ -117,9 +110,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> false [restricted to current/previous controlled-behavior predicate: false]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: false [fixed point].
 

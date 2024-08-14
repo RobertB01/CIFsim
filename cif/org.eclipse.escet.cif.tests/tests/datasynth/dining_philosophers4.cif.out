@@ -209,27 +209,14 @@ Initializing controlled behavior:
 Restricting behavior using state requirements:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) [marker predicate]
-Backward controlled-behavior: <bdd 55n 79p> [fixed point].
-Controlled behavior: true -> <bdd 55n 79p>.
-=======
 Extending controlled-behavior predicate using variable ranges:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) [initialization predicate]
-Forward controlled-behavior: <bdd 55n 79p> [fixed point].
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Re-initializing edges for being applied.
 
@@ -238,57 +225,6 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) [marker predicate]
-
-        Backward reachability iteration 1:
-            Backward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) -> p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) [backward reach with edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.taken and (f3.available and p1.both) and (f1.taken and p3.neither and (f4.available and p4.neither)) -> <bdd 21n 3p> [backward reach with edge: (event: p4.release_both) (guard: f1.taken and (f4.taken and p4.both)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 21n 3p> -> <bdd 22n 4p> [backward reach with edge: (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 22n 4p> -> <bdd 25n 7p> [backward reach with edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 25n 7p> -> <bdd 26n 10p> [backward reach with edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 26n 10p> -> <bdd 36n 15p> [backward reach with edge: (event: p3.release_both) (guard: f3.taken and (p3.both and f4.taken)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 36n 15p> -> <bdd 37n 18p> [backward reach with edge: (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 37n 18p> -> <bdd 37n 23p> [backward reach with edge: (event: p3.take_right) (guard: p3.left and f4.available) (assignments: f4 := f4.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            Backward controlled-behavior: <bdd 37n 23p> -> <bdd 40n 26p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 40n 26p> -> <bdd 44n 29p> [backward reach with edge: (event: p4.take_right) (guard: f1.available and p4.left) (assignments: f1 := f1.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 44n 29p> -> <bdd 45n 30p> [backward reach with edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 45n 30p> -> <bdd 49n 34p> [backward reach with edge: (event: p4.release_both) (guard: f1.taken and (f4.taken and p4.both)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 49n 34p> -> <bdd 50n 39p> [backward reach with edge: (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 50n 39p> -> <bdd 53n 40p> [backward reach with edge: (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 53n 40p> -> <bdd 54n 41p> [backward reach with edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 54n 41p> -> <bdd 65n 47p> [backward reach with edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 65n 47p> -> <bdd 61n 48p> [backward reach with edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 61n 48p> -> <bdd 65n 50p> [backward reach with edge: (event: p3.release_both) (guard: f3.taken and (p3.both and f4.taken)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 65n 50p> -> <bdd 62n 54p> [backward reach with edge: (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 3:
-            Backward controlled-behavior: <bdd 62n 54p> -> <bdd 60n 55p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 60n 55p> -> <bdd 61n 58p> [backward reach with edge: (event: p4.take_right) (guard: f1.available and p4.left) (assignments: f1 := f1.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 61n 58p> -> <bdd 65n 61p> [backward reach with edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 65n 61p> -> <bdd 59n 62p> [backward reach with edge: (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 59n 62p> -> <bdd 62n 63p> [backward reach with edge: (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 62n 63p> -> <bdd 63n 65p> [backward reach with edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 63n 65p> -> <bdd 67n 67p> [backward reach with edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 67n 67p> -> <bdd 65n 68p> [backward reach with edge: (event: p3.release_both) (guard: f3.taken and (p3.both and f4.taken)) (assignments: f3 := f3.available, f4 := f4.available, p3 := p3.neither), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 4:
-            Backward controlled-behavior: <bdd 65n 68p> -> <bdd 67n 70p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 67n 70p> -> <bdd 70n 71p> [backward reach with edge: (event: p4.release_both) (guard: f1.taken and (f4.taken and p4.both)) (assignments: f1 := f1.available, f4 := f4.available, p4 := p4.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 70n 71p> -> <bdd 65n 73p> [backward reach with edge: (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 65n 73p> -> <bdd 66n 74p> [backward reach with edge: (event: p2.release_both) (guard: p2.both and (f2.taken and f3.taken)) (assignments: f2 := f2.available, f3 := f3.available, p2 := p2.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 66n 74p> -> <bdd 66n 75p> [backward reach with edge: (event: p3.take_left) (guard: f3.available and p3.right) (assignments: f3 := f3.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 66n 75p> -> <bdd 63n 76p> [backward reach with edge: (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 5:
-            Backward controlled-behavior: <bdd 63n 76p> -> <bdd 61n 77p> [backward reach with edge: (event: p1.release_both) (guard: f2.taken and (p1.both and f1.taken)) (assignments: f1 := f1.available, f2 := f2.available, p1 := p1.neither), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 61n 77p> -> <bdd 57n 78p> [backward reach with edge: (event: p2.take_left) (guard: p2.right and f2.available) (assignments: f2 := f2.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 6:
-            Backward controlled-behavior: <bdd 57n 78p> -> <bdd 55n 79p> [backward reach with edge: (event: p1.take_left) (guard: p1.right and f1.available) (assignments: f1 := f1.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 7:
-            No change this iteration.
 
         Backward controlled-behavior: <bdd 55n 79p> [fixed point].
 
@@ -301,23 +237,6 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) -> p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither)) [forward reach with edge: (event: p1.take_left) (guard: p1.neither and f1.available) (assignments: f1 := f1.taken, p1 := p1.left), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither)) -> p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or (p2.neither and f2.available and (f3.available and p1.neither) and (f1.taken and p3.neither and (f4.available and p4.right)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither))) [forward reach with edge: (event: p4.take_right) (guard: f1.available and p4.neither) (assignments: f1 := f1.taken, p4 := p4.right), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: p2.neither and f2.available and (f3.available and p1.neither) and (f1.available and p3.neither and (f4.available and p4.neither)) or (p2.neither and f2.available and (f3.available and p1.neither) and (f1.taken and p3.neither and (f4.available and p4.right)) or p2.neither and f2.available and (f3.available and p1.left) and (f1.taken and p3.neither and (f4.available and p4.neither))) -> <bdd 21n 6p> [forward reach with edge: (event: p2.take_left) (guard: p2.neither and f2.available) (assignments: f2 := f2.taken, p2 := p2.left), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: <bdd 21n 6p> -> <bdd 24n 8p> [forward reach with edge: (event: p1.take_right) (guard: f2.available and p1.neither) (assignments: f2 := f2.taken, p1 := p1.right), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: <bdd 24n 8p> -> <bdd 25n 9p> [forward reach with edge: (event: p1.take_right) (guard: f2.available and p1.left) (assignments: f2 := f2.taken, p1 := p1.both), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: <bdd 25n 9p> -> <bdd 35n 18p> [forward reach with edge: (event: p3.take_left) (guard: f3.available and p3.neither) (assignments: f3 := f3.taken, p3 := p3.left), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: <bdd 35n 18p> -> <bdd 38n 24p> [forward reach with edge: (event: p2.take_right) (guard: p2.neither and f3.available) (assignments: f3 := f3.taken, p2 := p2.right), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: <bdd 38n 24p> -> <bdd 39n 27p> [forward reach with edge: (event: p2.take_right) (guard: p2.left and f3.available) (assignments: f3 := f3.taken, p2 := p2.both), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: <bdd 39n 27p> -> <bdd 47n 44p> [forward reach with edge: (event: p4.take_left) (guard: f4.available and p4.neither) (assignments: f4 := f4.taken, p4 := p4.left), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: <bdd 47n 44p> -> <bdd 48n 53p> [forward reach with edge: (event: p4.take_left) (guard: f4.available and p4.right) (assignments: f4 := f4.taken, p4 := p4.both), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: <bdd 48n 53p> -> <bdd 56n 70p> [forward reach with edge: (event: p3.take_right) (guard: p3.neither and f4.available) (assignments: f4 := f4.taken, p3 := p3.right), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-            Forward controlled-behavior: <bdd 56n 70p> -> <bdd 55n 79p> [forward reach with edge: (event: p3.take_right) (guard: p3.left and f4.available) (assignments: f4 := f4.taken, p3 := p3.both), restricted to current/previous controlled-behavior predicate: <bdd 55n 79p>]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: <bdd 55n 79p> [fixed point].
 

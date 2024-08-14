@@ -91,67 +91,26 @@ Extending controlled-behavior predicate using variable ranges:
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
-=======
 Re-initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: A.l1 [initialization predicate]
-Forward controlled-behavior: A.l1 or A.l2 [fixed point].
-Controlled behavior: true -> A.l1 or A.l2.
-=======
 Checking pre-synthesis for events that are never enabled.
->>>>>>> refs/remotes/origin/develop
 
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> A.l1 or A.l2 [restricted to current/previous controlled-behavior predicate: A.l1 or A.l2]
-Backward controlled-behavior: A.l1 or A.l2 [fixed point].
-=======
         Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: not A.l1 and not A.l2 [current/previous controlled behavior predicate]
-=======
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: A.l1 [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: A.l1 -> A.l1 or A.l2 [forward reach with edge: (event: c) (guard: A.l1) (assignments: A := A.l2), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: A.l1 or A.l2 [fixed point].
 
@@ -164,18 +123,12 @@ Synthesis round 2:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> A.l1 or A.l2 [restricted to current/previous controlled-behavior predicate: A.l1 or A.l2]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Backward controlled-behavior: A.l1 or A.l2 [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: not A.l1 and not A.l2 [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

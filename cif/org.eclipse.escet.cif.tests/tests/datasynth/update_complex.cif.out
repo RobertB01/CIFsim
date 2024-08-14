@@ -183,34 +183,13 @@ Extending controlled-behavior predicate using variable ranges:
 
     Extended controlled-behavior predicate using variable ranges: true.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.sum = 7 and p.l2 [marker predicate]
-Backward controlled-behavior: p.sum = 7 and p.l2 -> p.sum = 7 and (p.y = 2 and p.l2) or p.sum = 7 and (p.y = 1 and p.l2) [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: <bdd 34n 25p> [fixed point].
-Controlled behavior: true -> <bdd 34n 25p>.
-=======
 Restricting behavior using state/event exclusion requirements:
     Guards and controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 34n 96p> [current/previous controlled behavior predicate]
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1) [initialization predicate]
-Forward controlled-behavior: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1) -> p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) [restricted to current/previous controlled-behavior predicate: <bdd 34n 25p>]
-Forward controlled-behavior: <bdd 29n 6p> [fixed point].
-Controlled behavior: <bdd 34n 25p> -> <bdd 29n 6p>.
-=======
 Re-initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Checking pre-synthesis for events that are never enabled.
 
@@ -219,24 +198,6 @@ Synthesis round 1:
         Backward controlled-behavior: p.sum = 7 and p.l2 [marker predicate]
         Backward controlled-behavior: p.sum = 7 and p.l2 -> p.sum = 7 and (p.y = 2 and p.l2) or p.sum = 7 and (p.y = 1 and p.l2) [restricted to current/previous controlled-behavior predicate: true]
 
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.sum = 7 and p.l2 [marker predicate]
-Backward controlled-behavior: p.sum = 7 and p.l2 -> p.sum = 7 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l2)) or (p.sum = 7 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l2)) or p.sum = 7 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l2))) [restricted to current/previous controlled-behavior predicate: <bdd 29n 6p>]
-Backward controlled-behavior: <bdd 29n 6p> [fixed point].
-=======
-        Backward reachability iteration 1:
-            Backward controlled-behavior: p.sum = 7 and (p.y = 2 and p.l2) or p.sum = 7 and (p.y = 1 and p.l2) -> <bdd 34n 25p> [backward reach with edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2), restricted to current/previous controlled-behavior predicate: true]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: <bdd 29n 34p> [current/previous controlled behavior predicate]
-=======
-        Backward reachability iteration 2:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
-
         Backward controlled-behavior: <bdd 34n 25p> [fixed point].
 
         Controlled behavior: true -> <bdd 34n 25p>.
@@ -244,20 +205,11 @@ Backward uncontrolled bad-state: <bdd 29n 34p> [current/previous controlled beha
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: <bdd 34n 96p> [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1) [initialization predicate]
         Forward controlled-behavior: p.sum = 3 and (p.y = 2 and p.l1) or p.sum = 3 and (p.y = 1 and p.l1) -> p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) [restricted to current/previous controlled-behavior predicate: <bdd 34n 25p>]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: p.sum = 3 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l1)) or (p.sum = 3 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l1)) or p.sum = 3 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l1))) -> <bdd 29n 6p> [forward reach with edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2), restricted to current/previous controlled-behavior predicate: <bdd 34n 25p>]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: <bdd 29n 6p> [fixed point].
 
@@ -270,21 +222,12 @@ Synthesis round 2:
         Backward controlled-behavior: p.sum = 7 and p.l2 [marker predicate]
         Backward controlled-behavior: p.sum = 7 and p.l2 -> p.sum = 7 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l2)) or (p.sum = 7 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l2)) or p.sum = 7 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l2))) [restricted to current/previous controlled-behavior predicate: <bdd 29n 6p>]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: p.sum = 7 and p.z = 2 and (p.y = 2 and (p.x = 3 and p.l2)) or (p.sum = 7 and p.z = 3 and (p.y = 2 and (p.x = 2 and p.l2)) or p.sum = 7 and p.z = 3 and (p.y = 1 and (p.x = 3 and p.l2))) -> <bdd 29n 6p> [backward reach with edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2), restricted to current/previous controlled-behavior predicate: <bdd 29n 6p>]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward controlled-behavior: <bdd 29n 6p> [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: <bdd 29n 34p> [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

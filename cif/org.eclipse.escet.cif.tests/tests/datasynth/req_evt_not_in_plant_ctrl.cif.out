@@ -163,27 +163,14 @@ Restricting edge guards to prevent runtime errors:
 Restricting uncontrolled system behavior using state/event exclusion plant invariants:
     No guards changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: r.loc1 [marker predicate]
-Backward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
-Controlled behavior: true -> p.x = 2 or (p.x = 3 or r.loc1).
-=======
 Initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: p.x = 0 and r.loc1 [initialization predicate]
-Forward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
-=======
 Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: p.x = 0 and r.loc1.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using state requirements:
     Controlled behavior not changed.
@@ -214,12 +201,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: r.loc1 [marker predicate]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: r.loc1 -> p.x = 2 or (p.x = 3 or r.loc1) [backward reach with edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
 
         Controlled behavior: true -> p.x = 2 or (p.x = 3 or r.loc1).
@@ -231,20 +212,6 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.x = 0 and r.loc1 [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: p.x = 0 and r.loc1 -> (p.x = 0 or p.x = 1) and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-
-        Forward reachability iteration 2:
-            Forward controlled-behavior: (p.x = 0 or p.x = 1) and r.loc1 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-            Forward controlled-behavior: (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 -> (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-
-        Forward reachability iteration 3:
-            Forward controlled-behavior: (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) -> (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) [forward reach with edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-            Forward controlled-behavior: (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) -> p.x = 2 or (p.x = 3 or r.loc1) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
-
-        Forward reachability iteration 4:
-            No change this iteration.
 
         Forward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
 

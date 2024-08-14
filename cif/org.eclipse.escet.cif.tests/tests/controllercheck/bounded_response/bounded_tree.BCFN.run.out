@@ -128,30 +128,9 @@ Preparing for MDD-based checks:
         Updating global guards and updates for event "c_c".
         Updating global guards and updates for event "c_e".
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p2.loc1 and p1.loc1 [initial states predicate]
-    Reachable states: true [fixed point].
-=======
 Checking for bounded response:
     Computing reachable states:
         Reachable states: p2.loc1 and p1.loc1 [initial states predicate]
->>>>>>> refs/remotes/origin/develop
-
-        Forward reachability iteration 1:
-            Reachable states: p2.loc1 and p1.loc1 -> p2.loc1 and (p1.loc1 or p1.loc2) [forward reach with edge: (event: u_a) (guard: p1.loc1) (assignments: p1 := p1.loc2)]
-            Reachable states: p2.loc1 and (p1.loc1 or p1.loc2) -> p2.loc1 and (p1.loc1 or p1.loc5) or p2.loc1 and p1.loc2 [forward reach with edge: (event: u_d) (guard: p1.loc1) (assignments: p1 := p1.loc5)]
-            Reachable states: p2.loc1 and (p1.loc1 or p1.loc5) or p2.loc1 and p1.loc2 -> p2.loc1 and (p1.loc1 or p1.loc5) or (p2.loc1 and p1.loc3 or p2.loc1 and p1.loc2) [forward reach with edge: (event: u_b) (guard: p1.loc2) (assignments: p1 := p1.loc3)]
-            Reachable states: p2.loc1 and (p1.loc1 or p1.loc5) or (p2.loc1 and p1.loc3 or p2.loc1 and p1.loc2) -> not p2.loc5 and (not p2.loc3 and (p2.loc1 or (p2.loc3 or p2.loc5))) [forward reach with edge: (event: u_c) (guard: p1.loc2) (assignments: p1 := p1.loc4)]
-            Reachable states: not p2.loc5 and (not p2.loc3 and (p2.loc1 or (p2.loc3 or p2.loc5))) -> not p2.loc5 and not p2.loc6 and (not p2.loc3 and not p2.loc4) [forward reach with edge: (event: c_a) (guard: p2.loc1) (assignments: p2 := p2.loc2)]
-            Reachable states: not p2.loc5 and not p2.loc6 and (not p2.loc3 and not p2.loc4) -> not p2.loc5 and (not p2.loc6 and not p2.loc4) [forward reach with edge: (event: c_b) (guard: p2.loc2) (assignments: p2 := p2.loc3)]
-            Reachable states: not p2.loc5 and (not p2.loc6 and not p2.loc4) -> not p2.loc6 and not p2.loc4 [forward reach with edge: (event: c_d) (guard: p2.loc2) (assignments: p2 := p2.loc5)]
-            Reachable states: not p2.loc6 and not p2.loc4 -> not p2.loc6 [forward reach with edge: (event: c_c) (guard: p2.loc3) (assignments: p2 := p2.loc4)]
-            Reachable states: not p2.loc6 -> true [forward reach with edge: (event: c_e) (guard: p2.loc3) (assignments: p2 := p2.loc6)]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Reachable states: true [fixed point].
 
@@ -176,33 +155,8 @@ Checking for non-blocking under control:
     Computing the condition for no controllable event to be enabled:
         Condition under which no controllable event is enabled: p2.loc5 or (p2.loc6 or p2.loc4)
 
-<<<<<<< HEAD
-    Computing the controllable-complete path states...
-    Controllable-complete path states: p2.loc5 and p1.loc5 or p2.loc5 and p1.loc3 or (p2.loc5 and p1.loc4 or p2.loc6 and p1.loc5) or (p2.loc6 and p1.loc3 or p2.loc6 and p1.loc4 or (p2.loc4 and p1.loc5 or (p2.loc4 and p1.loc3 or p2.loc4 and p1.loc4))) [controllable-complete path end states predicate]
-    Controllable-complete path states: true [fixed point].
-    Controllable-complete path states: true
-=======
     Computing the controllable-complete path states:
         Controllable-complete path states: p2.loc5 and p1.loc5 or p2.loc5 and p1.loc3 or (p2.loc5 and p1.loc4 or p2.loc6 and p1.loc5) or (p2.loc6 and p1.loc3 or p2.loc6 and p1.loc4 or (p2.loc4 and p1.loc5 or (p2.loc4 and p1.loc3 or p2.loc4 and p1.loc4))) [controllable-complete path end states predicate]
->>>>>>> refs/remotes/origin/develop
-
-<<<<<<< HEAD
-    Computing the bad states...
-    Bad states: false [not controllable-complete path states predicate]
-    Bad states: false
-=======
-        Backward reachability iteration 1:
-            Controllable-complete path states: p2.loc5 and p1.loc5 or p2.loc5 and p1.loc3 or (p2.loc5 and p1.loc4 or p2.loc6 and p1.loc5) or (p2.loc6 and p1.loc3 or p2.loc6 and p1.loc4 or (p2.loc4 and p1.loc5 or (p2.loc4 and p1.loc3 or p2.loc4 and p1.loc4))) -> not p2.loc1 and ((not p2.loc5 or not p1.loc2) and not p2.loc3) and (not p2.loc2 and ((not p2.loc6 or not p1.loc2) and (not p2.loc4 or not p1.loc2))) [backward reach with edge: (event: u_d) (guard: p1.loc1 -> p2.loc5 and p1.loc1 or (p2.loc6 and p1.loc1 or p2.loc4 and p1.loc1)) (assignments: p1 := p1.loc5)]
-            Controllable-complete path states: not p2.loc1 and ((not p2.loc5 or not p1.loc2) and not p2.loc3) and (not p2.loc2 and ((not p2.loc6 or not p1.loc2) and (not p2.loc4 or not p1.loc2))) -> not p2.loc1 and (not p2.loc3 and not p2.loc2) [backward reach with edge: (event: u_b) (guard: p1.loc2 -> p2.loc5 and p1.loc2 or (p2.loc6 and p1.loc2 or p2.loc4 and p1.loc2)) (assignments: p1 := p1.loc3)]
-            Controllable-complete path states: not p2.loc1 and (not p2.loc3 and not p2.loc2) -> not p2.loc1 and not p2.loc3 [backward reach with edge: (event: c_d) (guard: p2.loc2) (assignments: p2 := p2.loc5)]
-            Controllable-complete path states: not p2.loc1 and not p2.loc3 -> <bdd 8n 12p> [backward reach with edge: (event: c_c) (guard: p2.loc3) (assignments: p2 := p2.loc4)]
->>>>>>> refs/remotes/origin/develop
-
-        Backward reachability iteration 2:
-            Controllable-complete path states: <bdd 8n 12p> -> true [backward reach with edge: (event: c_a) (guard: p2.loc1) (assignments: p2 := p2.loc2)]
-
-        Backward reachability iteration 3:
-            No change this iteration.
 
         Controllable-complete path states: true [fixed point].
 
@@ -210,9 +164,6 @@ Checking for non-blocking under control:
 
     Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: false
 

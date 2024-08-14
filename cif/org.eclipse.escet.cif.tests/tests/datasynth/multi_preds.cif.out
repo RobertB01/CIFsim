@@ -82,14 +82,8 @@ Restricting behavior using state/event exclusion requirements:
         State: (controlled-behavior: true)
             Edge: (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3)
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: p.x = 4 or (p.x = 6 or p.x = 5) [marker predicate]
-Controlled behavior: true -> p.x = 4 or (p.x = 6 or p.x = 5).
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Re-initializing edges for being applied.
 
@@ -98,9 +92,6 @@ Checking pre-synthesis for events that are never enabled.
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.x = 4 or (p.x = 6 or p.x = 5) [marker predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior: true -> p.x = 4 or (p.x = 6 or p.x = 5).
 

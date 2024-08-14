@@ -72,26 +72,14 @@ Restricting edge guards to prevent runtime errors:
 Restricting uncontrolled system behavior using state/event exclusion plant invariants:
     No guards changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: true [fixed point].
-=======
 Initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: true [initialization predicate]
-=======
 Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: true.
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using state requirements:
     Controlled behavior not changed.
@@ -123,9 +111,6 @@ Synthesis round 1:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -137,9 +122,6 @@ Synthesis round 1:
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: true [initialization predicate]
-
-        Forward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

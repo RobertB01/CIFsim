@@ -167,34 +167,14 @@ Restricting edge guards to prevent runtime errors:
 Restricting uncontrolled system behavior using state/event exclusion plant invariants:
     No guards changed.
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: g.p.l0 [marker predicate]
-Backward controlled-behavior: g.p.l0 -> (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [restricted to current/previous controlled-behavior predicate: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7))]
-Backward controlled-behavior: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7)) [fixed point].
-=======
 Initializing edges for being applied.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: not(g.p.x = 4 or g.p.x = 6) and g.p.x != 5 and ((g.p.x != 3 or g.p.l1) and g.p.x != 7) [current/previous controlled behavior predicate]
-=======
 Restricting uncontrolled system behavior using state plant invariants:
     No restrictions needed.
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)) [initialization predicate]
-Forward controlled-behavior: (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)) -> (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [restricted to current/previous controlled-behavior predicate: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7))]
-Forward controlled-behavior: g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [fixed point].
-Controlled behavior: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7)) -> g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0).
-=======
 Initializing controlled behavior:
     Controlled-behavior predicate: true.
     Controlled-initialization predicate: (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)).
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using state requirements:
     Controlled behavior: true -> g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)) [state requirements: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))].
@@ -202,26 +182,14 @@ Restricting behavior using state requirements:
 Extending controlled-behavior predicate using variable ranges:
     Controlled behavior not changed.
 
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: g.p.l0 [marker predicate]
-Backward controlled-behavior: g.p.l0 -> (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [restricted to current/previous controlled-behavior predicate: g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)]
-Backward controlled-behavior: g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [fixed point].
-=======
 Restricting behavior using state/event exclusion requirements:
     Edge (event: c) (guard: g.p.l0 -> (g.p.x = 1 or (g.p.x = 3 or g.p.x = 5) or (g.p.x = 7 or (g.p.x = 9 or g.p.l0))) and (not(g.p.x = 1 or (g.p.x = 5 or g.p.x = 9)) or g.p.l0) and ((g.p.x != 3 or g.p.l0) and (g.p.x != 7 or g.p.l0))) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1): guard: (g.p.x = 1 or (g.p.x = 3 or g.p.x = 5) or (g.p.x = 7 or (g.p.x = 9 or g.p.l0))) and (not(g.p.x = 1 or (g.p.x = 5 or g.p.x = 9)) or g.p.l0) and ((g.p.x != 3 or g.p.l0) and (g.p.x != 7 or g.p.l0)) -> (g.p.x = 0 or g.p.x = 4) and g.p.l0 or (g.p.x = 2 and g.p.l0 or (g.p.x = 1 or g.p.x = 3) and g.p.l0) [state/event exclusion requirement: g.p.x = 0 or g.p.x = 4 or (g.p.x = 2 or (g.p.x = 1 or g.p.x = 3))].
     Controlled behavior: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)) -> g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7)) [state/event exclusion requirement: 4 <= g.p.x and g.p.x <= 10, edge: (event: u) (guard: g.p.l1 -> g.p.x = 8 and g.p.l1 or g.p.x = 4 and g.p.l1 or ((g.p.x = 2 or (g.p.x = 6 or g.p.x = 10)) and g.p.l1 or (g.p.x = 1 or g.p.x = 3 or (g.p.x = 5 or (g.p.x = 7 or g.p.x = 9))) and g.p.l1)) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)].
->>>>>>> refs/remotes/origin/develop
 
-<<<<<<< HEAD
-Round 2: computing backward uncontrolled bad-state predicate.
-Backward uncontrolled bad-state: g.p.x != 4 and (g.p.x != 6 or g.p.l1) and (g.p.x != 5 and (not(g.p.x = 3 or g.p.x = 7) or g.p.l1)) [current/previous controlled behavior predicate]
-=======
     Restricted behavior using state/event exclusion requirements:
         State: (controlled-behavior: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7)))
             Edge: (event: c) (guard: g.p.l0 -> (g.p.x = 0 or g.p.x = 4) and g.p.l0 or (g.p.x = 2 and g.p.l0 or (g.p.x = 1 or g.p.x = 3) and g.p.l0)) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
             Edge: (event: u) (guard: g.p.l1 -> g.p.x = 8 and g.p.l1 or g.p.x = 4 and g.p.l1 or ((g.p.x = 2 or (g.p.x = 6 or g.p.x = 10)) and g.p.l1 or (g.p.x = 1 or g.p.x = 3 or (g.p.x = 5 or (g.p.x = 7 or g.p.x = 9))) and g.p.l1)) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
->>>>>>> refs/remotes/origin/develop
 
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
@@ -235,12 +203,6 @@ Synthesis round 1:
         Backward controlled-behavior: g.p.l0 [marker predicate]
         Backward controlled-behavior: g.p.l0 -> (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [restricted to current/previous controlled-behavior predicate: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7))]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) -> g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7)) [backward reach with edge: (event: u) (guard: g.p.l1 -> g.p.x = 8 and g.p.l1 or g.p.x = 4 and g.p.l1 or ((g.p.x = 2 or (g.p.x = 6 or g.p.x = 10)) and g.p.l1 or (g.p.x = 1 or g.p.x = 3 or (g.p.x = 5 or (g.p.x = 7 or g.p.x = 9))) and g.p.l1)) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0), restricted to current/previous controlled-behavior predicate: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7))]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward controlled-behavior: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7)) [fixed point].
 
         Controlled behavior not changed.
@@ -248,20 +210,11 @@ Synthesis round 1:
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: not(g.p.x = 4 or g.p.x = 6) and g.p.x != 5 and ((g.p.x != 3 or g.p.l1) and g.p.x != 7) [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)) [initialization predicate]
         Forward controlled-behavior: (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) and g.p.l0 or (g.p.x = 4 or g.p.x = 6) and g.p.l0 or ((g.p.x = 1 or g.p.x = 9) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)) -> (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [restricted to current/previous controlled-behavior predicate: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7))]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) -> g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [forward reach with edge: (event: c) (guard: g.p.l0 -> (g.p.x = 0 or g.p.x = 4) and g.p.l0 or (g.p.x = 2 and g.p.l0 or (g.p.x = 1 or g.p.x = 3) and g.p.l0)) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1), restricted to current/previous controlled-behavior predicate: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 and g.p.l0 or g.p.x = 7))]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [fixed point].
 
@@ -274,21 +227,12 @@ Synthesis round 2:
         Backward controlled-behavior: g.p.l0 [marker predicate]
         Backward controlled-behavior: g.p.l0 -> (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [restricted to current/previous controlled-behavior predicate: g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: (g.p.x = 4 or g.p.x = 6) and g.p.l0 or (g.p.x = 5 and g.p.l0 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) -> g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [backward reach with edge: (event: u) (guard: g.p.l1 -> g.p.x = 8 and g.p.l1 or g.p.x = 4 and g.p.l1 or ((g.p.x = 2 or (g.p.x = 6 or g.p.x = 10)) and g.p.l1 or (g.p.x = 1 or g.p.x = 3 or (g.p.x = 5 or (g.p.x = 7 or g.p.x = 9))) and g.p.l1)) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0), restricted to current/previous controlled-behavior predicate: g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0)]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward controlled-behavior: g.p.x = 4 or g.p.x = 6 and g.p.l0 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7) and g.p.l0) [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: g.p.x != 4 and (g.p.x != 6 or g.p.l1) and (g.p.x != 5 and (not(g.p.x = 3 or g.p.x = 7) or g.p.l1)) [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

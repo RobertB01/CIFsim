@@ -86,42 +86,19 @@ Restricting behavior using state/event exclusion requirements:
             Edge: (event: c) (guard: r.x = 5)
             Edge: (event: c) (guard: r.x != 5 -> false)
 
-<<<<<<< HEAD
-Round 1: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
-Backward controlled-behavior: true [fixed point].
-=======
 Restricting behavior using implicit runtime error requirements:
     Controlled behavior not changed.
->>>>>>> refs/remotes/origin/develop
 
 Re-initializing edges for being applied.
 
-<<<<<<< HEAD
-Round 1: computing forward controlled-behavior predicate.
-Forward controlled-behavior: r.x = 5 [initialization predicate]
-Controlled behavior: true -> r.x = 5.
-=======
 Checking pre-synthesis for events that are never enabled.
->>>>>>> refs/remotes/origin/develop
 
 Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
-<<<<<<< HEAD
-Round 2: computing backward controlled-behavior predicate.
-Backward controlled-behavior: true [marker predicate]
-Backward controlled-behavior: true -> r.x = 5 [restricted to current/previous controlled-behavior predicate: r.x = 5]
-Backward controlled-behavior: r.x = 5 [fixed point].
-=======
         Backward controlled-behavior: true [fixed point].
->>>>>>> refs/remotes/origin/develop
 
         Controlled behavior not changed.
 
@@ -133,9 +110,6 @@ Backward controlled-behavior: r.x = 5 [fixed point].
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: r.x = 5 [initialization predicate]
 
-        Forward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior: true -> r.x = 5.
 
     Need another round.
@@ -144,9 +118,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> r.x = 5 [restricted to current/previous controlled-behavior predicate: r.x = 5]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: r.x = 5 [fixed point].
 

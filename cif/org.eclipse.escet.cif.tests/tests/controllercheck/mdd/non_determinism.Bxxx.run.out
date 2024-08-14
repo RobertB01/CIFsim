@@ -116,15 +116,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: p.v = 0 [initial states predicate]
 
-<<<<<<< HEAD
-Checking for bounded response...
-    Computing reachable states...
-    Reachable states: p.v = 0 [initial states predicate]
-=======
-        Forward reachability iteration 1:
-            No change this iteration.
->>>>>>> refs/remotes/origin/develop
-
     Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: p.v = 0).
 
