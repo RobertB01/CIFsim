@@ -3,6 +3,9 @@
 % Actions for CIF variables having certain values.
 act a'b''varvalue: Bool;
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P(
     a'b': Bool
@@ -14,6 +17,9 @@ proc P(
     +
     % CIF variable value actions.
     a'b''varvalue(a'b') . P()
+    +
+    % CIF 'marked' action.
+    (false) -> marked . P()
 ;
 
 % Initialization.

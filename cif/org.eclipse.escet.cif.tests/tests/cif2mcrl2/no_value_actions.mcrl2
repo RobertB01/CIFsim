@@ -8,6 +8,9 @@ sort Q'LPE' = struct Q'q1' | Q'q2';
 act P'a';
 act Q'b';
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P(
     P'x': Int,
@@ -20,6 +23,9 @@ proc P(
     ((P' == P'p1')) -> P'a' . P(P' = P'p2')
     +
     ((Q' == Q'q1')) -> Q'b' . P(Q' = Q'q2')
+    +
+    % CIF 'marked' action.
+    (false) -> marked . P()
 ;
 
 % Initialization.

@@ -55,6 +55,11 @@ By default, such actions are generated for every variable and automaton with at 
 Using this option, you can define a reduced set of variables and automata that should get such an action.
 See the <<tools-cif2mcrl2-value-actions,section on value actions>> for more details.
 
+* _Generate 'marked' action_: Whether to generate a 'marked' action in the generated mCRL2 model.
+By default, a 'marked' action is generated.
+Using this option, generation of this action can be disabled.
+See the <<tools-cif2mcrl2-marked-action,section on the marked action>> for more details.
+
 indexterm:[CIF to mCRL2 transformer,supported specifications]
 
 === Supported specifications
@@ -124,7 +129,6 @@ The latter may have a range.
 * Regarding other concepts:
 ** Initialization predicates in components are not supported, unless they are statically evaluable to `true`.
 ** Invariants are not supported, unless they do not pose any restriction.
-** Marker predicates are ignored.
 ** I/O declarations are ignored.
 A warning is printed if a CIF/SVG input declaration is encountered.
 ** Annotations are ignored.
@@ -237,6 +241,14 @@ First, `++++*+++` adds all automata and variables.
 Then, `-B` removes automaton `B`.
 Finally, `+-B*+` removes all variables that start with `B.`, so all variables in automaton `B`.
 
+[[tools-cif2mcrl2-marked-action]]
+==== 'marked' action
+
+By default, a `marked` action is generated.
+The action is enabled when the CIF specification's marker predicate holds, and is disabled otherwise.
+The action allows to verify properties in mCRL2 that relate to marked states of the CIF specification.
+To disable the generated of this action, use the _Generate 'marked' action_ option can be used (`--marked-action=off` or `-a0`).
+
 ==== Behavior
 
 A single mCRL2 process named `P` is generated that represents the behavior of the CIF specification.
@@ -271,6 +283,7 @@ automaton P:
 
   location p1:
     initial;
+    marked;
     edge a do x := x + 1 goto p2;
 
   location p2:
@@ -286,6 +299,7 @@ automaton Q:
     edge a when y = 1 goto q2;
 
   location q2:
+    marked;
     edge b when y = 1 and P.x < 8 and P.zero = 0 goto q1;
     edge b when y = 0 => P.x >= 8 goto q1;
 end
@@ -312,6 +326,9 @@ act P'x''varvalue: Int;
 act P'zero''varvalue: Int;
 act Q''varvalue: Q'LPE';
 act Q'y''varvalue: Int;
+
+% Action for CIF marker predicate.
+act marked;
 
 % Process for behavior of the CIF specification.
 proc P(
@@ -342,6 +359,9 @@ proc P(
     Q''varvalue(Q') . P()
     +
     Q'y''varvalue(Q'y') . P()
+    +
+    % CIF 'marked' action.
+    (((P' == P'p1') && (Q' == Q'q2'))) -> marked . P()
 ;
 
 % Initialization.

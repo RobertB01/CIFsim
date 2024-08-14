@@ -13,6 +13,9 @@ act aut3'e3';
 act aut''varvalue: aut'LPE';
 act aut2''varvalue: aut'LPE';
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P(
     aut': aut'LPE',
@@ -37,6 +40,9 @@ proc P(
     aut''varvalue(aut') . P()
     +
     aut2''varvalue(aut2') . P()
+    +
+    % CIF 'marked' action.
+    (false) -> marked . P()
 ;
 
 % Initialization.

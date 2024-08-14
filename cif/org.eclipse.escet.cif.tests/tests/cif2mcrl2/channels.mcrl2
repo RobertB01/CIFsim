@@ -7,6 +7,9 @@ act chan';
 act recv1'v''varvalue: Int;
 act recv2'v''varvalue: Int;
 
+% Action for CIF marker predicate.
+act marked;
+
 % Process for behavior of the CIF specification.
 proc P(
     recv1'v': Int,
@@ -25,6 +28,9 @@ proc P(
     recv1'v''varvalue(recv1'v') . P()
     +
     recv2'v''varvalue(recv2'v') . P()
+    +
+    % CIF 'marked' action.
+    (false) -> marked . P()
 ;
 
 % Initialization.

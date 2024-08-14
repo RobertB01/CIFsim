@@ -69,9 +69,10 @@ public class CifToMcrl2Application extends Application<IOutputComponent> {
 
         // Transform.
         String valueActionPatterns = GenerateValueActionsOption.getValue();
+        boolean addMarkedAction = GenerateMarkedActionOption.isEnabled();
         CifToMcrl2Transformer transformer = new CifToMcrl2Transformer(() -> isTerminationRequested(),
                 OutputProvider.getWarningOutputStream());
-        CodeBox code = transformer.transform(spec, absSpecPath, valueActionPatterns);
+        CodeBox code = transformer.transform(spec, absSpecPath, valueActionPatterns, addMarkedAction);
 
         // Write mCRL2 file.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".mcrl2");
@@ -109,6 +110,7 @@ public class CifToMcrl2Application extends Application<IOutputComponent> {
         List<Option> options = list();
         options.add(Options.getInstance(InputFileOption.class));
         options.add(Options.getInstance(GenerateValueActionsOption.class));
+        options.add(Options.getInstance(GenerateMarkedActionOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
         return new OptionCategory("CIF to mCRL2 options", "Options for converting a CIF specification to mCRL2.",
                 subPages, options);
