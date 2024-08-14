@@ -207,10 +207,13 @@ The specific pages that explain the code generated for specific target languages
 
 ==== Code overview
 
-The code that executes the edges of the CIF model is called the _event loop_ code.
-The event loop is not the only code that is executed.
-Before the loop, the values of the input variables are obtained from the environment, the initial state is initialized (for the first execution only), and the values of the continuous variables are updated to account for the amount of time that has passed (for all but the first execution).
-Then the event loop is executed.
+Code that executes edges of a CIF model is called _event loop_ code.
+The generated code for a CIF specification has multiple event loops.
+If the target supports SVG input mappings, the first event loop is for the interactive SVG input events.
+For all targets, what follows is an event loop for the edges with uncontrollable events, and one for the edges with controllable events.
+The event loops are not the only code that is executed.
+Before the loops, the values of the input variables are obtained from the environment, the initial state is initialized (for the first execution only), and the values of the continuous variables are updated to account for the amount of time that has passed (for all but the first execution).
+Then the event loops are executed.
 Finally, output values may be supplied to the environment.
 
 ==== Repeated execution
@@ -229,18 +232,18 @@ The details differ per target language, and can be found on their respective pag
 The CIF model is first <<tools-cif2cif-chapter-linearize-merge,linearized>> to eliminate parallel composition.
 The result is self loop edges with guards and updates.
 The main part of the generated code essentially consists of update code that is conditionally executed.
-This code executes edges.
-This is done repeatedly, until no more events are enabled.
-The loop in the generated code that repeatedly executes event code until no more events are possible, is called the _event loop_.
-Once no more events are enabled, the event loop terminates.
+This code is part of the event loops, that execute edges for the various events.
+Each event loop repeatedly executes its enabled edges, until no more edges are enabled.
+Once no more edges are enabled, an event loop terminates.
 
 ==== Event order
 
-The order in which the code is generated for the different edges (in the _event loop_), is done in such a way that it matches the order in which transitions are chosen by the simulator.
+The order in which the code is generated for the different edges (in the _event loops_), is done in such a way that it matches the order in which transitions are chosen by the <<tools-cifsim,simulator>>.
 Assuming the simulator is used to simulate by always automatically choosing the <<tools-cifsim-input-chapter-automatic,first transition>> that is enabled, the generated code will choose that same transition.
 That is, for each iteration of the event loop, the code is executed for the first event with an enabled guard.
 Then, a new iteration of the loop is started, from the top, to ensure that the first enabled event is always executed, similar to simulation.
 If during an iteration of the loop none of the events is enabled, the event loop terminates.
+One difference with the CIF simulator, is that generated code has multiple event loops, while the simulator does not distinguish the events as such.
 
 ==== Termination
 
@@ -248,15 +251,18 @@ If in the CIF model always at least one event is enabled, the generated code wil
 Time will not pass.
 Code generation should be avoided for such models.
 It is the responsibility of the modeler to ensure this is taken into account.
+A <<tools-controller-checker-bounded-response, bounded response check>> can be done to ensure the CIF specification does not have infinite sequences of enabled events.
 
 ==== Predictability of execution time
 
-If at least one event is enabled, the event loop is executed again.
-If during an iteration of the loop none of the edges is enabled, the loop terminates.
+If during an iteration of an event loop none of its edges is enabled, the loop terminates.
+If at least one of its edge is enabled, the event loop is executed again.
+
 This approach generally does not result in predictable execution times of the program body.
-That is, if a certain edge keeps being enabled, the loop is executed over an over again.
+That is, if a certain edge keeps being enabled, its loop is executed over and over again.
 In that case, the execution time of the body may exceed the fixed cycle time, and the controller is no longer guaranteed to work correctly.
-Even if the loop is only executed a finite number of times, the execution time of the body may exceed the fixed cycle time.
+
+Even if a loop is only executed a finite number of times, the execution time of the body may exceed the fixed cycle time.
 One may consider monitoring the execution times to detect such issues.
 All implementations provide a way to obtain execution time statistics.
 The details differ per target language, and can be found on their respective pages.
