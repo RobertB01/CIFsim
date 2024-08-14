@@ -756,17 +756,16 @@ public class JavaScriptCodeGen extends CodeGen {
                     codeMethods.add(guardCode.getCode());
                     codeMethods.add("var guard = %s;", guardCode.getData());
 
-                    // Add code for when the event is not enabled. If the event is an interactive SVG input event, display a
-                    // warning if the event is not enabled.
+                    // Add code for when the event is not enabled. If the event is an interactive SVG input event,
+                    // display a warning if the event is not enabled.
                     codeMethods.add();
                     codeMethods.add("if (!guard) {");
                     codeMethods.indent();
                     if (isSvgInEvent) {
                         codeMethods.add("if (%s.svgInEvent == %d) {", ctxt.getPrefix(), eventIdx);
                         codeMethods.indent();
-                        codeMethods.add(
-                                "%s.warning(%sUtils.fmt('An SVG element with id \"%%s\" was clicked, but the corresponding "
-                                        + "event \"%s\" is not enabled in the current state.', %s.svgInId));",
+                        codeMethods.add("%s.warning(%sUtils.fmt('An SVG element with id \"%%s\" was clicked, but the "
+                                + "corresponding event \"%s\" is not enabled in the current state.', %s.svgInId));",
                                 ctxt.getPrefix(), ctxt.getPrefix(), eventName, ctxt.getPrefix());
                         codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
                         codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
@@ -778,15 +777,15 @@ public class JavaScriptCodeGen extends CodeGen {
                     codeMethods.add("}");
                 }
 
-                // Add code to disable events that are associated to SVG input mappings, to ensure they can't occur until
-                // the corresponding SVG element is clicked.
+                // Add code to disable events that are associated to SVG input mappings, to ensure they can't occur
+                // until the corresponding SVG element is clicked.
                 if (isSvgInEvent) {
                     // Check whether we can take the event.
                     codeMethods.add();
                     codeMethods.add("if (%s.svgInEvent != %d) return false;", ctxt.getPrefix(), eventIdx);
 
-                    // We will perform a transition for the event. This event is no longer the current SVG input event to
-                    // process.
+                    // We will perform a transition for the event. This event is no longer the current SVG input event
+                    // to process.
                     codeMethods.add();
                     codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
                     codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
