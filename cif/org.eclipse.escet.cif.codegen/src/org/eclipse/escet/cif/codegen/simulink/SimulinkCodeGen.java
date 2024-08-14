@@ -1321,112 +1321,112 @@ public class SimulinkCodeGen extends CodeGen {
             CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
             int edgeOffset = controllable ? uncontrollableEdges.size() : 0;
 
-        for (int i = 0; i < edges.size(); i++) {
-            Edge edge = edges.get(i);
-            int edgeIdx = edgeOffset + i;
+            for (int i = 0; i < edges.size(); i++) {
+                Edge edge = edges.get(i);
+                int edgeIdx = edgeOffset + i;
 
-            // Get guard. After linearization, there is at most one
-            // (linearized) guard. There may not be a guard, due to value
-            // simplification. We don't try to detect always 'true' guards,
-            // as that is hard to do, in general.
-            List<Expression> guards = edge.getGuards();
-            Assert.check(guards.size() <= 1);
-            Expression guard = guards.isEmpty() ? null : first(guards);
+                // Get guard. After linearization, there is at most one
+                // (linearized) guard. There may not be a guard, due to value
+                // simplification. We don't try to detect always 'true' guards,
+                // as that is hard to do, in general.
+                List<Expression> guards = edge.getGuards();
+                Assert.check(guards.size() <= 1);
+                Expression guard = guards.isEmpty() ? null : first(guards);
 
-            ExprCode guardCode;
-            if (guard == null) {
-                guardCode = null;
-            } else {
-                guardCode = ctxt.exprToTarget(guard, null);
-                if (!isTimeConstant(guard, false)) {
-                    // Guard to check in zero crossings as well as in event processing, fold it in
-                    // a separate function.
-                    String guardFuncName = fmt("GuardEval%02d", i);
-                    zcCompute.add("zcSignals[%d] = %s(sim_struct);", numTimeDependentGuards, guardFuncName);
+                ExprCode guardCode;
+                if (guard == null) {
+                    guardCode = null;
+                } else {
+                    guardCode = ctxt.exprToTarget(guard, null);
+                    if (!isTimeConstant(guard, false)) {
+                        // Guard to check in zero crossings as well as in event processing, fold it in
+                        // a separate function.
+                        String guardFuncName = fmt("GuardEval%02d", i);
+                        zcCompute.add("zcSignals[%d] = %s(sim_struct);", numTimeDependentGuards, guardFuncName);
 
-                    if (!guardFunctions.isEmpty()) {
+                        if (!guardFunctions.isEmpty()) {
+                            guardFunctions.add();
+                        }
+                        guardFunctions.add("static BoolType %s(SimStruct *sim_struct) {", guardFuncName);
+                        guardFunctions.indent();
+                        addPreamble(guardFunctions, false);
                         guardFunctions.add();
+                        guardFunctions.add(guardCode.getCode());
+                        guardFunctions.add("return %s;", guardCode.getData());
+                        guardFunctions.dedent();
+                        guardFunctions.add("}");
+
+                        numTimeDependentGuards++;
+
+                        guardCode = new ExprCode();
+                        guardCode.setDataValue(makeComputed(guardFuncName + "(sim_struct)"));
                     }
-                    guardFunctions.add("static BoolType %s(SimStruct *sim_struct) {", guardFuncName);
-                    guardFunctions.indent();
-                    addPreamble(guardFunctions, false);
-                    guardFunctions.add();
-                    guardFunctions.add(guardCode.getCode());
-                    guardFunctions.add("return %s;", guardCode.getData());
-                    guardFunctions.dedent();
-                    guardFunctions.add("}");
-
-                    numTimeDependentGuards++;
-
-                    guardCode = new ExprCode();
-                    guardCode.setDataValue(makeComputed(guardFuncName + "(sim_struct)"));
                 }
-            }
 
-            // Get event.
-            Assert.check(edge.getEvents().size() == 1);
-            Expression eventRef = first(edge.getEvents()).getEvent();
-            Event event = ((EventExpression)eventRef).getEvent();
+                // Get event.
+                Assert.check(edge.getEvents().size() == 1);
+                Expression eventRef = first(edge.getEvents()).getEvent();
+                Event event = ((EventExpression)eventRef).getEvent();
 
-            String eventName = origDeclNames.get(event);
-            Assert.notNull(eventName);
-            String eventTargetName = getTargetRef(event);
+                String eventName = origDeclNames.get(event);
+                Assert.notNull(eventName);
+                String eventTargetName = getTargetRef(event);
 
-            // Construct the call to try executing the event.
-            codeCalls.add("if (ExecEvent%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", edgeIdx,
-                    eventName);
+                // Construct the call to try executing the event.
+                codeCalls.add("if (ExecEvent%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", edgeIdx,
+                        eventName);
 
-            // Add method code.
+                // Add method code.
 
-            // Header.
-            List<String> docs = CifDocAnnotationUtils.getDocs(event);
-            codeMethods.add();
-            codeMethods.add("/**");
-            codeMethods.add(" * Execute code for event \"%s\".", eventName);
-            for (String doc: docs) {
+                // Header.
+                List<String> docs = CifDocAnnotationUtils.getDocs(event);
+                codeMethods.add();
+                codeMethods.add("/**");
+                codeMethods.add(" * Execute code for event \"%s\".", eventName);
+                for (String doc: docs) {
+                    codeMethods.add(" *");
+                    for (String line: doc.split("\\r?\\n")) {
+                        codeMethods.add(" * %s", line);
+                    }
+                }
                 codeMethods.add(" *");
-                for (String line: doc.split("\\r?\\n")) {
-                    codeMethods.add(" * %s", line);
-                }
-            }
-            codeMethods.add(" *");
-            codeMethods.add(" * @return Whether the event was performed.");
-            codeMethods.add(" */");
-            codeMethods.add("static BoolType ExecEvent%d(SimStruct *sim_struct) {", edgeIdx);
-            codeMethods.indent();
-            addPreamble(codeMethods, false);
-            codeMethods.add();
+                codeMethods.add(" * @return Whether the event was performed.");
+                codeMethods.add(" */");
+                codeMethods.add("static BoolType ExecEvent%d(SimStruct *sim_struct) {", edgeIdx);
+                codeMethods.indent();
+                addPreamble(codeMethods, false);
+                codeMethods.add();
 
-            // Add event code.
-            if (guardCode != null) {
-                codeMethods.add(guardCode.getCode());
-                codeMethods.add("BoolType guard = %s;", guardCode.getData());
-                codeMethods.add("if (!guard) return FALSE;");
+                // Add event code.
+                if (guardCode != null) {
+                    codeMethods.add(guardCode.getCode());
+                    codeMethods.add("BoolType guard = %s;", guardCode.getData());
+                    codeMethods.add("if (!guard) return FALSE;");
+                    codeMethods.add();
+                }
+                if (!printDecls.isEmpty()) {
+                    codeMethods.add("#if PRINT_OUTPUT");
+                    codeMethods.indent();
+                    codeMethods.add("PrintOutput(%s, TRUE);", eventTargetName);
+                    codeMethods.dedent();
+                    codeMethods.add("#endif");
+                }
                 codeMethods.add();
-            }
-            if (!printDecls.isEmpty()) {
-                codeMethods.add("#if PRINT_OUTPUT");
-                codeMethods.indent();
-                codeMethods.add("PrintOutput(%s, TRUE);", eventTargetName);
+                if (!edge.getUpdates().isEmpty()) {
+                    addUpdates(edge.getUpdates(), codeMethods, ctxt);
+                    codeMethods.add();
+                }
+                if (!printDecls.isEmpty()) {
+                    codeMethods.add("#if PRINT_OUTPUT");
+                    codeMethods.indent();
+                    codeMethods.add("PrintOutput(%s, FALSE);", eventTargetName);
+                    codeMethods.dedent();
+                    codeMethods.add("#endif");
+                }
+                codeMethods.add("return TRUE;");
                 codeMethods.dedent();
-                codeMethods.add("#endif");
+                codeMethods.add("}");
             }
-            codeMethods.add();
-            if (!edge.getUpdates().isEmpty()) {
-                addUpdates(edge.getUpdates(), codeMethods, ctxt);
-                codeMethods.add();
-            }
-            if (!printDecls.isEmpty()) {
-                codeMethods.add("#if PRINT_OUTPUT");
-                codeMethods.indent();
-                codeMethods.add("PrintOutput(%s, FALSE);", eventTargetName);
-                codeMethods.dedent();
-                codeMethods.add("#endif");
-            }
-            codeMethods.add("return TRUE;");
-            codeMethods.dedent();
-            codeMethods.add("}");
-        }
         }
 
         replacements.put("number-of-time-dependent-guards", str(numTimeDependentGuards));
