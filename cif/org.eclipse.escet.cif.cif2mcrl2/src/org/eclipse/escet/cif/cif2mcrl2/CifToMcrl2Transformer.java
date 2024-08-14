@@ -158,13 +158,7 @@ public class CifToMcrl2Transformer {
         Set<DiscVariable> valueActionVars = determineValueActionVars(vars, valueActionPatterns);
 
         // Collect simplified marker predicate, if applicable.
-        Expression marked = addMarked ? CifMarkedUtils.getMarked(spec) : null;
-        if (marked != null) {
-            spec.getMarkeds().add(marked); // Temporarily put the marker predicate in the specification.
-            new SimplifyValues().transform(marked); // Simplify the predicate.
-            marked = last(spec.getMarkeds()); // Get the simplified predicate. It may have been completely replaced.
-            spec.getMarkeds().remove(marked); // Remove the marker predicate from the specification again.
-        }
+        Expression marked = addMarked ? getMarked(spec) : null;
 
         // Generate the mCRL2 code.
         MemoryCodeBox code = new MemoryCodeBox();
@@ -266,6 +260,27 @@ public class CifToMcrl2Transformer {
         Set<DiscVariable> result = includeNames.stream().map(n -> namesMap.get(n)).collect(Sets.toSet());
         Assert.check(vars.containsAll(result)); // Select a subset of the variables from the linearized specification.
         return result;
+    }
+
+    /**
+     * Get the marker predicate of the specification, and simplify it.
+     *
+     * @param spec The CIF specification.
+     * @return The simplified marker predicate.
+     */
+    private Expression getMarked(Specification spec) {
+        // Get marker predicate of the specification.
+        Expression marked = CifMarkedUtils.getMarked(spec);
+
+        // Simplify the marker predicate. We temporarily put the predicate in the specification, to ensure value
+        // simplification won't crash. Then we simplify the predicate, and take it out of the specification again.
+        // Note that simplification may completely replace the predicate, so we need to get it from the specification
+        // after simplification.
+        spec.getMarkeds().add(marked);
+        new SimplifyValues().transform(marked);
+        marked = last(spec.getMarkeds());
+        spec.getMarkeds().remove(marked);
+        return marked;
     }
 
     /**
