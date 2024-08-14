@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.eclipse.escet.cif.bdd.settings.ExplorationStrategy;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
@@ -95,6 +96,11 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
         BDD initPred = cifBddSpec.initial.id(); // The initial predicate. Note: preconditions forbid state invariants.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName, restrictionName,
                 restriction, direction, edgeKinds, dbgEnabled);
+
+        // If the saturation strategy is used, configure the saturation instance number.
+        if (cifBddSpec.settings.getExplorationStrategy() == ExplorationStrategy.SATURATION) {
+            reachability.setSaturationInstance(SATURATION_INSTANCE_BOUNDED_RESPONSE_FORWARD);
+        }
 
         // Perform forward reachability.
         BDD reachabilityResult = reachability.performReachability(initPred);
