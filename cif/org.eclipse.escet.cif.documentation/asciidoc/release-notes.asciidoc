@@ -26,6 +26,85 @@ See also the Eclipse ESCET link:https://eclipse.dev/escet/{escet-deploy-folder-n
 
 TBD
 
+Language changes:
+
+* Annotations are now a stable CIF language feature (issue {escet-issue}869[#869]).
+
+Deprecations and removals:
+
+* The CIF to mCRL2 transformer has been re-implemented and is now based on first linearizing the CIF specification.
+It generates mCRL2 models with a single process.
+Therefore, the options related to specifying and debugging instance trees have been removed (issue {escet-issue}352[#352]).
+* The CIF to mCRL2 transformer's _Generate value actions_ option has been renamed from `--read-values`/`-r` to `--value-actions`/`-v` (issue {escet-issue}352[#352]).
+
+Improvements and fixes:
+
+* Various CIF tools have improved termination checking performance (issue {escet-issue}936[#936]).
+* CIF tools that fail to save a CIF XML file now give the correct error message (issue {escet-issue}881[#881]).
+* CIF tools that write CIF files have improved performance, especially when using Eclipse platform paths (issue {escet-issue}42[#42]).
+* The CIF simulator has improved output in case of precondition violations (issue {escet-issue}424[#424]).
+* The CIF to yEd transformer has improved output in case of precondition violations (issue {escet-issue}424[#424]).
+* The CIF to CIF transformer's linearization transformations have an improved unsupported message in case linearization is applied to a CIF specification without automata (issue {escet-issue}944[#944]).
+* The CIF to CIF transformer's linearize merge transformation now removes the controller properties annotation from the input specification, if present (issue {escet-issue}896[#896]).
+* The CIF to CIF transformer's convert (un)controllable events to (un)controllable transformations now remove the controller properties annotation from the input specification, if present (issue {escet-issue}896[#896]).
+* The CIF to CIF transformer's remove requirements transformation now removes the controller properties annotation from the input specification, if present (issue {escet-issue}896[#896]).
+* The CIF explorer has improved output in case of precondition violations (issue {escet-issue}424[#424]).
+* The CIF explorer precondition check for not having too many potential initial states has been improved (issue {escet-issue}424[#424]).
+* The CIF merger now removes the controller properties annotation from the input specification, if present (issue {escet-issue}896[#896]).
+* The CIF data-based synthesis tool no longer crashes when a termination request is given while converting updates to BDDs (issue {escet-issue}909[#909]).
+* The CIF data-based synthesis tool has improved output in case of precondition violations (issue {escet-issue}424[#424]).
+* The CIF data-based synthesis tool now supports CIF specifications with predicates that are not one of the supported forms, but that can be statically evaluated to a single value without giving evaluation errors (issue {escet-issue}424[#424]).
+* The CIF data-based synthesis tool now removes the controller properties annotation from the input specification, if present (issue {escet-issue}896[#896]).
+* The CIF data-based synthesis tool has a fix for an integer overflow bug, which may trigger while checking for the need to resize the node array, causing large node arrays to grow unnecessary (issue {escet-issue}947[#947]).
+* The CIF controller properties checker has improved output in case of precondition violations (issue {escet-issue}424[#424]).
+* The CIF controller properties checker no longer has indented empty lines in its console output (issue {escet-issue}406[#406]).
+* The CIF controller properties checker has improved debug output, related to indentation (issue {escet-issue}937[#937]).
+* The CIF controller properties checker for bounded response and non-blocking under control, no longer crashes when a termination request is given while converting updates to BDDs (issue {escet-issue}909[#909]).
+* The CIF controller properties checker for bounded response and non-blocking under control, now supports CIF specifications with predicates that are not one of the supported forms, but that can be statically evaluated to a single value without giving evaluation errors (issue {escet-issue}424[#424]).
+* The CIF controller properties checker for bounded response and non-blocking under control, has a fix for an integer overflow bug, which may trigger while checking for the need to resize the node array, causing large node arrays to grow unnecessary (issue {escet-issue}947[#947]).
+* The (still experimental) new CIF PLC code generator now allows to custom I/O variable names in the I/O table file, using an optional fourth column (issue {escet-issue}897[#897]).
+* The (still experimental) new CIF PLC code generator now supports documentation annotations of various CIF objects and includes them in the generated PLC code (issue {escet-issue}814[#814]).
+* The (still experimental) new CIF PLC code generator now allows differently sized types for the I/O port and the corresponding CIF variable (issue {escet-issue}884[#884]).
+* The (still experimental) new CIF PLC code generator has various improvements for generated edge selection variables, such as not generating one for automata that don't need it, improved naming, using smaller data types if possible, and starting at zero rather than one to more often allow using smaller data types (issue {escet-issue}923[#923]).
+* The (still experimental) new CIF PLC code generator has improved handling of enumerations (including those generated for locations of automata), using bit-like types rather than integers, using smaller types when possible, and having more direct traceability to the input CIF model (issue {escet-issue}934[#934]).
+* The (still experimental) new CIF PLC code generator has improved comments for applying updates of monitor automata (issue {escet-issue}814[#814]).
+* The (still experimental) new CIF PLC code generator has improved layout for the model overview in the generated code (issue {escet-issue}814[#814]).
+* The (still experimental) new CIF PLC code generator has improved names for generated PLC tuple types, in general, but especially for CIF tuple types that are part of a CIF type declaration (issue {escet-issue}679[#679]).
+* The (still experimental) new CIF PLC code generator has improved names in the generated code (issue {escet-issue}945[#945]).
+* The (still experimental) new CIF PLC code generator now ensures that generated S7 temporary variable tables have the required minimum size (issue {escet-issue}860[#860]).
+* The (still experimental) new CIF PLC code generator now avoids generating parentheses around real literal values for variable and constant declarations (issue {escet-issue}877[#877]).
+* The (still experimental) new CIF PLC code generator now checks that only boolean, integer and real-typed discrete and input variables in a CIF specification are used for I/O, regardless of whether explicit PLC types are given in the I/O table file (issue {escet-issue}884[#884]).
+* The (still experimental) new CIF PLC code generator check whether an I/O address exceeds the size of the largest compatible type supported by the target, now correctly considers the different possible I/O types, rather than always checking for integer types (issue {escet-issue}884[#884]).
+* The (still experimental) new CIF PLC code generator has internal changes to prepare for future adaptations, which causes some variables and statements to be in a different order in the generated PLC code (issue {escet-issue}935[#935]).
+* The CIF to mCRL2 transformer has been re-implemented and is now based on first linearizing the CIF specification.
+For recursive process call, now only the assigned variables are included, not all variables, and the arguments are named rather than positional, which reduces the model size and improves readability.
+No more summations, nor location pointers (sorts) for automata with only one location, are generated (issue {escet-issue}352[#352]).
+* The CIF to mCRL2 transformer no longer supports specifications with urgent locations and edges (issue {escet-issue}352[#352]).
+* The CIF to mCRL2 transformer now supports specifications with `tau` events, the `+<=>+` binary operator, the `div` and `mod` binary operators on positive divisors, cast expressions that don't change the type, location references, channels and receive expressions, initialization predicates in components that are trivially `true`, non-restrictive invariants, `if` expressions, `switch` expressions, algebraic variables with equations, and `if` updates (issues {escet-issue}226[#226], {escet-issue}229[#229] and {escet-issue}948[#948]).
+* The CIF to mCRL2 transformer now uses a different naming scheme, based on absolute names.
+See the tool's documentation for details (issues {escet-issue}352[#352] and {escet-issue}224[#224]).
+* The CIF to mCRL2 transformer now generates comments in the generated mCRL2 models (issue {escet-issue}352[#352]).
+* The CIF to mCRL2 transformer now performs less preprocessing before the precondition check, for improved traceability of precondition violations.
+* The CIF to mCRL2 transformer no longer eliminates automaton `self` references as preprocessing, and additional eliminates type declarations and performs linearization as preprocessing (issue {escet-issue}352[#352]).
+* The CIF to mCRL2 transformer has improved output in case of precondition violations (issue {escet-issue}424[#424]).
+* The CIF to mCRL2 transformer has improved documentation (issues {escet-issue}352[#352] and {escet-issue}424[#424]).
+* The CIF event-based tools have improved output in case of precondition violations (issue {escet-issue}424[#424]).
+* The CIF event-based tools no longer support unused channels (issue {escet-issue}424[#424]).
+* The CIF event-based tools now support non-restrictive invariants in components, non-restrictive state/event exclusion invariants in locations, multiple non-restrictive state invariants per location, and any statically-determinable non-restrictive state invariant rather than only literal `true` (issue {escet-issue}424[#424]).
+* The CIF event-based tools now support having multiple initialization/marker predicates in a location, and any initialization/marker predicate in locations that can be statically evaluated rather than only boolean literals (issue {escet-issue}424[#424]).
+* The CIF event-based tools now support having multiple guards on an edge of a location, and any guard predicate that can be statically evaluated rather than only boolean literals (issue {escet-issue}424[#424]).
+* The CIF event-based controllability check no longer supports unused events that are not controllable or uncontrollable (issue {escet-issue}424[#424]).
+* The CIF event-based supervisory synthesis tool no longer supports unused events that are not controllable or uncontrollable (issue {escet-issue}424[#424]).
+* The CIF event-based supervisory synthesis tool no longer checks for no marking during precondition checking, but now does so as a first step during synthesis.
+Having no marking still results in an empty supervisor (issue {escet-issue}424[#424]).
+* The CIF event-based language equivalence check no longer has indented empty lines in its console output (issue {escet-issue}406[#406]).
+* The CIF event-based DFA minimization tool no longer has indented empty lines in its console output (issue {escet-issue}406[#406]).
+* The CIF event disabler now supports component definitions/instantiations and eliminates them as preprocessing (issue {escet-issue}424[#424]).
+* The CIF event disabler now removes the controller properties annotation from the input specification, if present (issue {escet-issue}896[#896]).
+* The CIF benchmarks overview generation script now consistently generates `?` instead of `-1` (issue {escet-issue}906[#906]).
+* The CIF tutorial lesson on initialization predicates has been improved (issue {escet-issue}739[#739]).
+* Various documentation improvements and fixes (issues {escet-issue}424[#424], {escet-issue}742[#742], {escet-issue}929[#929], {escet-issue}931[#931], {escet-issue}943[#943] and {escet-issue}946[#946]).
+
 === Version 4.0 (2024-06-30)
 
 Language changes:
