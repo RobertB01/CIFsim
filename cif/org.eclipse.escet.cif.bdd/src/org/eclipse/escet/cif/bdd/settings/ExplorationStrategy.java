@@ -22,5 +22,5 @@ public enum ExplorationStrategy {
     CHAINING_WORKSET,
 
     /** Use the saturation strategy. */
-    SATURATION
+    SATURATION;
 }
