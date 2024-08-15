@@ -4,6 +4,7 @@
 proc P(
     a'x': Int
 ) =
+    delta
 ;
 
 % Initialization.
