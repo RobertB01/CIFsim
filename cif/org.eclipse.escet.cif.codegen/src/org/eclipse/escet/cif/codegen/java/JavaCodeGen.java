@@ -561,85 +561,97 @@ public class JavaCodeGen extends CodeGen {
         CodeBox codeMethods = makeCodeBox(1);
 
         int edgeIdx = 0;
-        for (boolean controllable: List.of(false, true)) {
-            List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
-            CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
-
-            for (int i = 0; i < edges.size(); i++) {
-                // Get edge.
-                Edge edge = edges.get(i);
-                edgeIdx++;
-
-                // Get event.
-                Assert.check(edge.getEvents().size() == 1);
-                Expression eventRef = first(edge.getEvents()).getEvent();
-                Event event = ((EventExpression)eventRef).getEvent();
-                int eventIdx = events.indexOf(event);
-                String eventName = origDeclNames.get(event);
-                Assert.notNull(eventName);
-
-                // Add call code.
-                codeCalls.add("// Event \"%s\".", eventName);
-                codeCalls.add("if (execEvent%d()) continue;", edgeIdx);
-                codeCalls.add();
-
-                // Add method code.
-
-                // Header.
-                List<String> docs = CifDocAnnotationUtils.getDocs(event);
-                codeMethods.add();
-                codeMethods.add("/**");
-                codeMethods.add(" * Execute code for event \"%s\".", eventName);
-                for (String doc: docs) {
-                    codeMethods.add(" *");
-                    codeMethods.add(" * <p>");
-                    for (String line: doc.split("\\r?\\n")) {
-                        codeMethods.add(" * %s", line);
-                    }
-                    codeMethods.add(" * </p>");
-                }
-                codeMethods.add(" *");
-                codeMethods.add(" * @return {@code true} if the event was executed, {@code false} otherwise.");
-                codeMethods.add(" */");
-                codeMethods.add("private boolean execEvent%d() {", edgeIdx);
-                codeMethods.indent();
-
-                // Get guard. After linearization, there is at most one
-                // (linearized) guard. There may not be a guard, due to value
-                // simplification. We don't try to detect always 'true' guards,
-                // as that is hard to do, in general.
-                List<Expression> guards = edge.getGuards();
-                Assert.check(guards.size() <= 1);
-                Expression guard = guards.isEmpty() ? null : first(guards);
-
-                // Add event code.
-                if (guard != null) {
-                    ExprCode guardCode = ctxt.exprToTarget(guard, null);
-                    codeMethods.add(guardCode.getCode());
-                    codeMethods.add("boolean guard = %s;", guardCode.getData());
-                    codeMethods.add("if (!guard) return false;");
-                    codeMethods.add();
-                }
-                codeMethods.add("if (doInfoPrintOutput) printOutput(%d, true);", eventIdx);
-                codeMethods.add("if (doInfoEvent) infoEvent(%d, true);", eventIdx);
-                codeMethods.add();
-                if (!edge.getUpdates().isEmpty()) {
-                    addUpdates(edge.getUpdates(), codeMethods, ctxt);
-                }
-                codeMethods.add();
-                codeMethods.add("if (doInfoEvent) infoEvent(%d, false);", eventIdx);
-                codeMethods.add("if (doInfoPrintOutput) printOutput(%d, false);", eventIdx);
-                codeMethods.add("return true;");
-
-                // Method code done.
-                codeMethods.dedent();
-                codeMethods.add("}");
-            }
-        }
+        edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, ctxt);
+        edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, ctxt);
 
         replacements.put("java-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
         replacements.put("java-event-calls-code-controllables", codeCallsControllables.toString());
         replacements.put("java-event-methods-code", codeMethods.toString());
+    }
+
+    /**
+     * Generate code for the given edges.
+     *
+     * @param edges The edges for which to generate code.
+     * @param edgeIdx The edge index to use for the first edge.
+     * @param codeCalls The code storage for calls.
+     * @param codeMethods The code storage for methods.
+     * @param ctxt The code generation context.
+     * @return The edge index to use for the next edge, after the edges given to this method.
+     */
+    private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, CodeContext ctxt) {
+        for (int i = 0; i < edges.size(); i++) {
+            // Get edge.
+            Edge edge = edges.get(i);
+            edgeIdx++;
+
+            // Get event.
+            Assert.check(edge.getEvents().size() == 1);
+            Expression eventRef = first(edge.getEvents()).getEvent();
+            Event event = ((EventExpression)eventRef).getEvent();
+            int eventIdx = events.indexOf(event);
+            String eventName = origDeclNames.get(event);
+            Assert.notNull(eventName);
+
+            // Add call code.
+            codeCalls.add("// Event \"%s\".", eventName);
+            codeCalls.add("if (execEvent%d()) continue;", edgeIdx);
+            codeCalls.add();
+
+            // Add method code.
+
+            // Header.
+            List<String> docs = CifDocAnnotationUtils.getDocs(event);
+            codeMethods.add();
+            codeMethods.add("/**");
+            codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            for (String doc: docs) {
+                codeMethods.add(" *");
+                codeMethods.add(" * <p>");
+                for (String line: doc.split("\\r?\\n")) {
+                    codeMethods.add(" * %s", line);
+                }
+                codeMethods.add(" * </p>");
+            }
+            codeMethods.add(" *");
+            codeMethods.add(" * @return {@code true} if the event was executed, {@code false} otherwise.");
+            codeMethods.add(" */");
+            codeMethods.add("private boolean execEvent%d() {", edgeIdx);
+            codeMethods.indent();
+
+            // Get guard. After linearization, there is at most one
+            // (linearized) guard. There may not be a guard, due to value
+            // simplification. We don't try to detect always 'true' guards,
+            // as that is hard to do, in general.
+            List<Expression> guards = edge.getGuards();
+            Assert.check(guards.size() <= 1);
+            Expression guard = guards.isEmpty() ? null : first(guards);
+
+            // Add event code.
+            if (guard != null) {
+                ExprCode guardCode = ctxt.exprToTarget(guard, null);
+                codeMethods.add(guardCode.getCode());
+                codeMethods.add("boolean guard = %s;", guardCode.getData());
+                codeMethods.add("if (!guard) return false;");
+                codeMethods.add();
+            }
+            codeMethods.add("if (doInfoPrintOutput) printOutput(%d, true);", eventIdx);
+            codeMethods.add("if (doInfoEvent) infoEvent(%d, true);", eventIdx);
+            codeMethods.add();
+            if (!edge.getUpdates().isEmpty()) {
+                addUpdates(edge.getUpdates(), codeMethods, ctxt);
+            }
+            codeMethods.add();
+            codeMethods.add("if (doInfoEvent) infoEvent(%d, false);", eventIdx);
+            codeMethods.add("if (doInfoPrintOutput) printOutput(%d, false);", eventIdx);
+            codeMethods.add("return true;");
+
+            // Method code done.
+            codeMethods.dedent();
+            codeMethods.add("}");
+        }
+
+        return edgeIdx;
     }
 
     @Override

@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.CodeGen;
@@ -1310,132 +1311,25 @@ public class SimulinkCodeGen extends CodeGen {
     protected void addEdges(CodeContext ctxt) {
         Assert.check(svgInEdges.isEmpty());
 
-        CodeBox guardFunctions = makeCodeBox(); // Functions computing time-dependent guards.
-        CodeBox zcCompute = makeCodeBox(1); // Calls in zero-crossings compute code.
+        CodeBox codeGuardFuncs = makeCodeBox(); // Functions computing time-dependent guards.
+        CodeBox codeZeroCross = makeCodeBox(1); // Calls in zero-crossings compute code.
 
         CodeBox codeCallsUncontrollables = makeCodeBox(2); // Calls to try to perform the uncontrollable events.
         CodeBox codeCallsControllables = makeCodeBox(2); // Calls to try to perform the controllable events.
         CodeBox codeMethods = makeCodeBox(); // Event execution functions.
 
-        int numTimeDependentGuards = 0;
+        AtomicInteger numTimeDependentGuards = new AtomicInteger(0);
         int edgeIdx = 0;
-        for (boolean controllable: List.of(false, true)) {
-            List<Edge> edges = controllable ? controllableEdges : uncontrollableEdges;
-            CodeBox codeCalls = controllable ? codeCallsControllables : codeCallsUncontrollables;
-
-            for (int i = 0; i < edges.size(); i++) {
-                Edge edge = edges.get(i);
-                edgeIdx++;
-
-                // Get guard. After linearization, there is at most one
-                // (linearized) guard. There may not be a guard, due to value
-                // simplification. We don't try to detect always 'true' guards,
-                // as that is hard to do, in general.
-                List<Expression> guards = edge.getGuards();
-                Assert.check(guards.size() <= 1);
-                Expression guard = guards.isEmpty() ? null : first(guards);
-
-                ExprCode guardCode;
-                if (guard == null) {
-                    guardCode = null;
-                } else {
-                    guardCode = ctxt.exprToTarget(guard, null);
-                    if (!isTimeConstant(guard, false)) {
-                        // Guard to check in zero crossings as well as in event processing, fold it in
-                        // a separate function.
-                        String guardFuncName = fmt("GuardEval%02d", i);
-                        zcCompute.add("zcSignals[%d] = %s(sim_struct);", numTimeDependentGuards, guardFuncName);
-
-                        if (!guardFunctions.isEmpty()) {
-                            guardFunctions.add();
-                        }
-                        guardFunctions.add("static BoolType %s(SimStruct *sim_struct) {", guardFuncName);
-                        guardFunctions.indent();
-                        addPreamble(guardFunctions, false);
-                        guardFunctions.add();
-                        guardFunctions.add(guardCode.getCode());
-                        guardFunctions.add("return %s;", guardCode.getData());
-                        guardFunctions.dedent();
-                        guardFunctions.add("}");
-
-                        numTimeDependentGuards++;
-
-                        guardCode = new ExprCode();
-                        guardCode.setDataValue(makeComputed(guardFuncName + "(sim_struct)"));
-                    }
-                }
-
-                // Get event.
-                Assert.check(edge.getEvents().size() == 1);
-                Expression eventRef = first(edge.getEvents()).getEvent();
-                Event event = ((EventExpression)eventRef).getEvent();
-
-                String eventName = origDeclNames.get(event);
-                Assert.notNull(eventName);
-                String eventTargetName = getTargetRef(event);
-
-                // Construct the call to try executing the event.
-                codeCalls.add("if (ExecEvent%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", edgeIdx,
-                        eventName);
-
-                // Add method code.
-
-                // Header.
-                List<String> docs = CifDocAnnotationUtils.getDocs(event);
-                codeMethods.add();
-                codeMethods.add("/**");
-                codeMethods.add(" * Execute code for event \"%s\".", eventName);
-                for (String doc: docs) {
-                    codeMethods.add(" *");
-                    for (String line: doc.split("\\r?\\n")) {
-                        codeMethods.add(" * %s", line);
-                    }
-                }
-                codeMethods.add(" *");
-                codeMethods.add(" * @return Whether the event was performed.");
-                codeMethods.add(" */");
-                codeMethods.add("static BoolType ExecEvent%d(SimStruct *sim_struct) {", edgeIdx);
-                codeMethods.indent();
-                addPreamble(codeMethods, false);
-                codeMethods.add();
-
-                // Add event code.
-                if (guardCode != null) {
-                    codeMethods.add(guardCode.getCode());
-                    codeMethods.add("BoolType guard = %s;", guardCode.getData());
-                    codeMethods.add("if (!guard) return FALSE;");
-                    codeMethods.add();
-                }
-                if (!printDecls.isEmpty()) {
-                    codeMethods.add("#if PRINT_OUTPUT");
-                    codeMethods.indent();
-                    codeMethods.add("PrintOutput(%s, TRUE);", eventTargetName);
-                    codeMethods.dedent();
-                    codeMethods.add("#endif");
-                }
-                codeMethods.add();
-                if (!edge.getUpdates().isEmpty()) {
-                    addUpdates(edge.getUpdates(), codeMethods, ctxt);
-                    codeMethods.add();
-                }
-                if (!printDecls.isEmpty()) {
-                    codeMethods.add("#if PRINT_OUTPUT");
-                    codeMethods.indent();
-                    codeMethods.add("PrintOutput(%s, FALSE);", eventTargetName);
-                    codeMethods.dedent();
-                    codeMethods.add("#endif");
-                }
-                codeMethods.add("return TRUE;");
-                codeMethods.dedent();
-                codeMethods.add("}");
-            }
-        }
+        edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, codeGuardFuncs,
+                codeZeroCross, numTimeDependentGuards, ctxt);
+        edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, codeGuardFuncs,
+                codeZeroCross, numTimeDependentGuards, ctxt);
 
         replacements.put("number-of-time-dependent-guards", str(numTimeDependentGuards));
-        replacements.put("zero-crossings-compute", zcCompute.toString());
-        replacements.put("guard-functions", guardFunctions.toString());
+        replacements.put("zero-crossings-compute", codeZeroCross.toString());
+        replacements.put("guard-functions", codeGuardFuncs.toString());
 
-        if (numTimeDependentGuards == 0) {
+        if (numTimeDependentGuards.get() == 0) {
             replacements.put("define-mdlZeroCrossings", "#undef MDL_ZERO_CROSSINGS");
         } else {
             replacements.put("define-mdlZeroCrossings", "#define MDL_ZERO_CROSSINGS");
@@ -1473,6 +1367,132 @@ public class SimulinkCodeGen extends CodeGen {
         code.dedent();
         code.add("#endif");
         replacements.put("time-post-print-call", code.toString());
+    }
+
+    /**
+     * Generate code for the given edges.
+     *
+     * @param edges The edges for which to generate code.
+     * @param edgeIdx The edge index to use for the first edge.
+     * @param codeCalls The code storage for calls.
+     * @param codeMethods The code storage for methods.
+     * @param codeGuardFuncs The code storage for guard functions.
+     * @param codeZeroCross The code storage zero-crossing computations.
+     * @param numTimeDependentGuards The number of time-dependent guards. Is modified in-place.
+     * @param ctxt The code generation context.
+     * @return The edge index to use for the next edge, after the edges given to this method.
+     */
+    private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, CodeBox codeGuardFuncs,
+            CodeBox codeZeroCross, AtomicInteger numTimeDependentGuards, CodeContext ctxt)
+    {
+        for (int i = 0; i < edges.size(); i++) {
+            Edge edge = edges.get(i);
+            edgeIdx++;
+
+            // Get guard. After linearization, there is at most one
+            // (linearized) guard. There may not be a guard, due to value
+            // simplification. We don't try to detect always 'true' guards,
+            // as that is hard to do, in general.
+            List<Expression> guards = edge.getGuards();
+            Assert.check(guards.size() <= 1);
+            Expression guard = guards.isEmpty() ? null : first(guards);
+
+            ExprCode guardCode;
+            if (guard == null) {
+                guardCode = null;
+            } else {
+                guardCode = ctxt.exprToTarget(guard, null);
+                if (!isTimeConstant(guard, false)) {
+                    // Guard to check in zero crossings as well as in event processing, fold it in
+                    // a separate function.
+                    String guardFuncName = fmt("GuardEval%02d", i);
+                    codeZeroCross.add("zcSignals[%d] = %s(sim_struct);", numTimeDependentGuards.get(), guardFuncName);
+
+                    if (!codeGuardFuncs.isEmpty()) {
+                        codeGuardFuncs.add();
+                    }
+                    codeGuardFuncs.add("static BoolType %s(SimStruct *sim_struct) {", guardFuncName);
+                    codeGuardFuncs.indent();
+                    addPreamble(codeGuardFuncs, false);
+                    codeGuardFuncs.add();
+                    codeGuardFuncs.add(guardCode.getCode());
+                    codeGuardFuncs.add("return %s;", guardCode.getData());
+                    codeGuardFuncs.dedent();
+                    codeGuardFuncs.add("}");
+
+                    numTimeDependentGuards.incrementAndGet();
+
+                    guardCode = new ExprCode();
+                    guardCode.setDataValue(makeComputed(guardFuncName + "(sim_struct)"));
+                }
+            }
+
+            // Get event.
+            Assert.check(edge.getEvents().size() == 1);
+            Expression eventRef = first(edge.getEvents()).getEvent();
+            Event event = ((EventExpression)eventRef).getEvent();
+
+            String eventName = origDeclNames.get(event);
+            Assert.notNull(eventName);
+            String eventTargetName = getTargetRef(event);
+
+            // Construct the call to try executing the event.
+            codeCalls.add("if (ExecEvent%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", edgeIdx,
+                    eventName);
+
+            // Add method code.
+
+            // Header.
+            List<String> docs = CifDocAnnotationUtils.getDocs(event);
+            codeMethods.add();
+            codeMethods.add("/**");
+            codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            for (String doc: docs) {
+                codeMethods.add(" *");
+                for (String line: doc.split("\\r?\\n")) {
+                    codeMethods.add(" * %s", line);
+                }
+            }
+            codeMethods.add(" *");
+            codeMethods.add(" * @return Whether the event was performed.");
+            codeMethods.add(" */");
+            codeMethods.add("static BoolType ExecEvent%d(SimStruct *sim_struct) {", edgeIdx);
+            codeMethods.indent();
+            addPreamble(codeMethods, false);
+            codeMethods.add();
+
+            // Add event code.
+            if (guardCode != null) {
+                codeMethods.add(guardCode.getCode());
+                codeMethods.add("BoolType guard = %s;", guardCode.getData());
+                codeMethods.add("if (!guard) return FALSE;");
+                codeMethods.add();
+            }
+            if (!printDecls.isEmpty()) {
+                codeMethods.add("#if PRINT_OUTPUT");
+                codeMethods.indent();
+                codeMethods.add("PrintOutput(%s, TRUE);", eventTargetName);
+                codeMethods.dedent();
+                codeMethods.add("#endif");
+            }
+            codeMethods.add();
+            if (!edge.getUpdates().isEmpty()) {
+                addUpdates(edge.getUpdates(), codeMethods, ctxt);
+                codeMethods.add();
+            }
+            if (!printDecls.isEmpty()) {
+                codeMethods.add("#if PRINT_OUTPUT");
+                codeMethods.indent();
+                codeMethods.add("PrintOutput(%s, FALSE);", eventTargetName);
+                codeMethods.dedent();
+                codeMethods.add("#endif");
+            }
+            codeMethods.add("return TRUE;");
+            codeMethods.dedent();
+            codeMethods.add("}");
+        }
+
+        return edgeIdx;
     }
 
     @Override

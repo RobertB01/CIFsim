@@ -691,133 +691,146 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox codeCallsControllables = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);
 
-        // Generate code, per edge.
+        // Generate code, for the different kinds of edges.
         int edgeIdx = 0;
-        for (Boolean controllable: list(null, false, true)) { // 'null' for SVG input edges.
-            List<Edge> edges = (controllable == null) ? svgInEdges
-                    : controllable ? controllableEdges : uncontrollableEdges;
-            CodeBox codeCalls = (controllable == null) ? codeCallsSvgIn
-                    : controllable ? codeCallsControllables : codeCallsUncontrollables;
-            boolean isSvgInEvent = (controllable == null);
-
-            for (int i = 0; i < edges.size(); i++) {
-                // Get edge.
-                Edge edge = edges.get(i);
-                edgeIdx++;
-
-                // Get event.
-                Assert.check(edge.getEvents().size() == 1);
-                Expression eventRef = first(edge.getEvents()).getEvent();
-                Event event = ((EventExpression)eventRef).getEvent();
-                int eventIdx = events.indexOf(event);
-                String eventName = origDeclNames.get(event);
-                Assert.notNull(eventName);
-
-                // Add call code.
-                codeCalls.add();
-                codeCalls.add("// Event \"%s\".", eventName);
-                codeCalls.add("if (this.execEvent%d()) continue;", edgeIdx);
-
-                // Add method code, starting with the header.
-                List<String> docs = CifDocAnnotationUtils.getDocs(event);
-                codeMethods.add();
-                codeMethods.add("/**");
-                codeMethods.add(" * Execute code for event \"%s\".", eventName);
-                for (String doc: docs) {
-                    codeMethods.add(" *");
-                    codeMethods.add(" * <p>");
-                    for (String line: doc.split("\\r?\\n")) {
-                        codeMethods.add(" * %s", line);
-                    }
-                    codeMethods.add(" * </p>");
-                }
-                codeMethods.add(" *");
-                codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
-                codeMethods.add(" */");
-                codeMethods.add("execEvent%d() {", edgeIdx);
-                codeMethods.indent();
-
-                // Get guard. After linearization, there is at most one
-                // (linearized) guard. There may not be a guard, due to value
-                // simplification. We don't try to detect always 'true' guards,
-                // as that is hard to do, in general.
-                List<Expression> guards = edge.getGuards();
-                Assert.check(guards.size() <= 1);
-                Expression guard = guards.isEmpty() ? null : first(guards);
-
-                // Add guard code.
-                if (guard != null) {
-                    // Add guard computation code.
-                    ExprCode guardCode = ctxt.exprToTarget(guard, null);
-                    codeMethods.add(guardCode.getCode());
-                    codeMethods.add("var guard = %s;", guardCode.getData());
-
-                    // Add code for when the event is not enabled. If the event is an interactive SVG input event,
-                    // display a warning if the event is not enabled.
-                    codeMethods.add();
-                    codeMethods.add("if (!guard) {");
-                    codeMethods.indent();
-                    if (isSvgInEvent) {
-                        codeMethods.add("if (%s.svgInEvent == %d) {", ctxt.getPrefix(), eventIdx);
-                        codeMethods.indent();
-                        codeMethods.add("%s.warning(%sUtils.fmt('An SVG element with id \"%%s\" was clicked, but the "
-                                + "corresponding event \"%s\" is not enabled in the current state.', %s.svgInId));",
-                                ctxt.getPrefix(), ctxt.getPrefix(), eventName, ctxt.getPrefix());
-                        codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
-                        codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
-                        codeMethods.dedent();
-                        codeMethods.add("}");
-                    }
-                    codeMethods.add("return false;");
-                    codeMethods.dedent();
-                    codeMethods.add("}");
-                }
-
-                // Add code to disable events that are associated to SVG input mappings, to ensure they can't occur
-                // until the corresponding SVG element is clicked.
-                if (isSvgInEvent) {
-                    // Check whether we can take the event.
-                    codeMethods.add();
-                    codeMethods.add("if (%s.svgInEvent != %d) return false;", ctxt.getPrefix(), eventIdx);
-
-                    // We will perform a transition for the event. This event is no longer the current SVG input event
-                    // to process.
-                    codeMethods.add();
-                    codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
-                    codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
-                }
-
-                // Add pre-transition callbacks code.
-                codeMethods.add();
-                codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, true);", eventIdx);
-                codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, true);", eventIdx);
-
-                // Add code for updates.
-                if (!edge.getUpdates().isEmpty()) {
-                    codeMethods.add();
-                    addUpdates(edge.getUpdates(), codeMethods, ctxt);
-                }
-
-                // Add post-transition callbacks code.
-                codeMethods.add();
-                codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, false);", eventIdx);
-                codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, false);", eventIdx);
-                codeMethods.add("if (this.doStateOutput || this.doTransitionOutput) this.log('');");
-
-                // We executed the event.
-                codeMethods.add("return true;");
-
-                // Method code done.
-                codeMethods.dedent();
-                codeMethods.add("}");
-            }
-        }
+        edgeIdx = addEdges(svgInEdges, edgeIdx, codeCallsUncontrollables, codeMethods, true, ctxt);
+        edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, false, ctxt);
+        edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, false, ctxt);
 
         // Fill the replacement patterns with generated code.
         replacements.put("javascript-event-calls-code-svgin", codeCallsSvgIn.toString());
         replacements.put("javascript-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
         replacements.put("javascript-event-calls-code-controllables", codeCallsControllables.toString());
         replacements.put("javascript-event-methods-code", codeMethods.toString());
+    }
+
+    /**
+     * Generate code for the given edges.
+     *
+     * @param edges The edges for which to generate code.
+     * @param edgeIdx The edge index to use for the first edge.
+     * @param codeCalls The code storage for calls.
+     * @param codeMethods The code storage for methods.
+     * @param areSvgInEdges Whether the given edges are edges for SVG input events.
+     * @param ctxt The code generation context.
+     * @return The edge index to use for the next edge, after the edges given to this method.
+     */
+    private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, boolean areSvgInEdges,
+            CodeContext ctxt)
+    {
+        for (int i = 0; i < edges.size(); i++) {
+            // Get edge.
+            Edge edge = edges.get(i);
+            edgeIdx++;
+
+            // Get event.
+            Assert.check(edge.getEvents().size() == 1);
+            Expression eventRef = first(edge.getEvents()).getEvent();
+            Event event = ((EventExpression)eventRef).getEvent();
+            int eventIdx = events.indexOf(event);
+            String eventName = origDeclNames.get(event);
+            Assert.notNull(eventName);
+
+            // Add call code.
+            codeCalls.add();
+            codeCalls.add("// Event \"%s\".", eventName);
+            codeCalls.add("if (this.execEvent%d()) continue;", edgeIdx);
+
+            // Add method code, starting with the header.
+            List<String> docs = CifDocAnnotationUtils.getDocs(event);
+            codeMethods.add();
+            codeMethods.add("/**");
+            codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            for (String doc: docs) {
+                codeMethods.add(" *");
+                codeMethods.add(" * <p>");
+                for (String line: doc.split("\\r?\\n")) {
+                    codeMethods.add(" * %s", line);
+                }
+                codeMethods.add(" * </p>");
+            }
+            codeMethods.add(" *");
+            codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
+            codeMethods.add(" */");
+            codeMethods.add("execEvent%d() {", edgeIdx);
+            codeMethods.indent();
+
+            // Get guard. After linearization, there is at most one
+            // (linearized) guard. There may not be a guard, due to value
+            // simplification. We don't try to detect always 'true' guards,
+            // as that is hard to do, in general.
+            List<Expression> guards = edge.getGuards();
+            Assert.check(guards.size() <= 1);
+            Expression guard = guards.isEmpty() ? null : first(guards);
+
+            // Add guard code.
+            if (guard != null) {
+                // Add guard computation code.
+                ExprCode guardCode = ctxt.exprToTarget(guard, null);
+                codeMethods.add(guardCode.getCode());
+                codeMethods.add("var guard = %s;", guardCode.getData());
+
+                // Add code for when the event is not enabled. If the event is an interactive SVG input event,
+                // display a warning if the event is not enabled.
+                codeMethods.add();
+                codeMethods.add("if (!guard) {");
+                codeMethods.indent();
+                if (areSvgInEdges) {
+                    codeMethods.add("if (%s.svgInEvent == %d) {", ctxt.getPrefix(), eventIdx);
+                    codeMethods.indent();
+                    codeMethods.add("%s.warning(%sUtils.fmt('An SVG element with id \"%%s\" was clicked, but the "
+                            + "corresponding event \"%s\" is not enabled in the current state.', %s.svgInId));",
+                            ctxt.getPrefix(), ctxt.getPrefix(), eventName, ctxt.getPrefix());
+                    codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
+                    codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
+                    codeMethods.dedent();
+                    codeMethods.add("}");
+                }
+                codeMethods.add("return false;");
+                codeMethods.dedent();
+                codeMethods.add("}");
+            }
+
+            // Add code to disable events that are associated to SVG input mappings, to ensure they can't occur
+            // until the corresponding SVG element is clicked.
+            if (areSvgInEdges) {
+                // Check whether we can take the event.
+                codeMethods.add();
+                codeMethods.add("if (%s.svgInEvent != %d) return false;", ctxt.getPrefix(), eventIdx);
+
+                // We will perform a transition for the event. This event is no longer the current SVG input event
+                // to process.
+                codeMethods.add();
+                codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
+                codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
+            }
+
+            // Add pre-transition callbacks code.
+            codeMethods.add();
+            codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, true);", eventIdx);
+            codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, true);", eventIdx);
+
+            // Add code for updates.
+            if (!edge.getUpdates().isEmpty()) {
+                codeMethods.add();
+                addUpdates(edge.getUpdates(), codeMethods, ctxt);
+            }
+
+            // Add post-transition callbacks code.
+            codeMethods.add();
+            codeMethods.add("if (this.doInfoEvent) this.infoEvent(%d, false);", eventIdx);
+            codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, false);", eventIdx);
+            codeMethods.add("if (this.doStateOutput || this.doTransitionOutput) this.log('');");
+
+            // We executed the event.
+            codeMethods.add("return true;");
+
+            // Method code done.
+            codeMethods.dedent();
+            codeMethods.add("}");
+        }
+
+        return edgeIdx;
     }
 
     @Override
