@@ -86,6 +86,7 @@ Saturation is used by default.
 Which approach works best depends on the model, and this may involve a trade-off.
 The workset algorithm may reduce the maximum amount of memory used during synthesis, compared to using a fixed order.
 However, this often comes at the cost of extra computations that require more time, especially if edges have many other edges as their dependencies.
+Saturation generally works best.
 
 === Configuring the order
 
