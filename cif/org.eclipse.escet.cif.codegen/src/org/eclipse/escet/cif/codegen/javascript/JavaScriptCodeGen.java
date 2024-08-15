@@ -692,7 +692,7 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox codeMethods = makeCodeBox(1);
 
         // Generate code, per edge.
-        int edgeOffset = 0;
+        int edgeIdx = 0;
         for (Boolean controllable: list(null, false, true)) { // 'null' for SVG input edges.
             List<Edge> edges = (controllable == null) ? svgInEdges
                     : controllable ? controllableEdges : uncontrollableEdges;
@@ -703,7 +703,7 @@ public class JavaScriptCodeGen extends CodeGen {
             for (int i = 0; i < edges.size(); i++) {
                 // Get edge.
                 Edge edge = edges.get(i);
-                int edgeIdx = edgeOffset + i;
+                edgeIdx++;
 
                 // Get event.
                 Assert.check(edge.getEvents().size() == 1);
@@ -811,8 +811,6 @@ public class JavaScriptCodeGen extends CodeGen {
                 codeMethods.dedent();
                 codeMethods.add("}");
             }
-
-            edgeOffset += edges.size();
         }
 
         // Fill the replacement patterns with generated code.
