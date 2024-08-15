@@ -24,7 +24,7 @@ public class ExplorationStrategyOption extends EnumOption<ExplorationStrategy> {
     public ExplorationStrategyOption() {
         super(
                 // name
-                "Exploration strategy for symbolic reachability computations",
+                "Exploration strategy",
 
                 // description
                 "Specify the exploration strategy to be used for symbolic reachability computations. "
@@ -56,11 +56,11 @@ public class ExplorationStrategyOption extends EnumOption<ExplorationStrategy> {
     protected String getDialogText(ExplorationStrategy strategy) {
         switch (strategy) {
             case CHAINING_FIXED:
-                return "The chaining strategy with a fixed edge ordering.";
+                return "The chaining strategy with a fixed edge ordering";
             case CHAINING_WORKSET:
-                return "The chaining strategy with a dynamic edge ordering determined by the edge workset algorithm.";
+                return "The chaining strategy with a dynamic edge ordering determined by the edge workset algorithm";
             case SATURATION:
-                return "The saturation strategy.";
+                return "The saturation strategy";
         }
         throw new RuntimeException("Unknown strategy: " + strategy);
     }
