@@ -589,6 +589,12 @@ public class CifToBddConverter {
             return cifBddSpec;
         }
 
+        // Check saturation settings.
+        checkSaturationSettings(cifBddSpec.settings);
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return cifBddSpec;
+        }
+
         // Return the conversion result, the CIF/BDD specification.
         return cifBddSpec;
     }
@@ -2180,6 +2186,25 @@ public class CifToBddConverter {
             throw new InvalidOptionException(
                     "The edge workset algorithm can not be used with duplicate events in the edge order. "
                             + "Either disable the edge workset algorithm, or disable duplicates for custom edge orders.");
+        }
+    }
+
+    /**
+     * Check saturation settings.
+     *
+     * @param settings The settings.
+     */
+    private void checkSaturationSettings(CifBddSettings settings) {
+        // Skip if saturation is disabled.
+        if (settings.getExplorationStrategy() != ExplorationStrategy.SATURATION) {
+            return;
+        }
+
+        // Saturation requires no duplicate edges in the edge order.
+        if (settings.getEdgeOrderAllowDuplicateEvents() == EdgeOrderDuplicateEventAllowance.ALLOWED) {
+            throw new InvalidOptionException(
+                    "Saturation can not be used with duplicate events in the edge order. "
+                            + "Either disable saturation, or disable duplicates for custom edge orders.");
         }
     }
 
