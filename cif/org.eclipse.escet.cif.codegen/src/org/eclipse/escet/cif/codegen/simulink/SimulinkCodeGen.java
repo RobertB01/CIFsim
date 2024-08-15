@@ -1385,9 +1385,8 @@ public class SimulinkCodeGen extends CodeGen {
     private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, CodeBox codeGuardFuncs,
             CodeBox codeZeroCross, AtomicInteger numTimeDependentGuards, CodeContext ctxt)
     {
-        for (int i = 0; i < edges.size(); i++) {
+        for (int i = 0; i < edges.size(); i++, edgeIdx++) {
             Edge edge = edges.get(i);
-            edgeIdx++;
 
             // Get guard. After linearization, there is at most one
             // (linearized) guard. There may not be a guard, due to value

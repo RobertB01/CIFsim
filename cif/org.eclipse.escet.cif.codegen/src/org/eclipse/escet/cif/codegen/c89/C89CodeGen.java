@@ -1056,9 +1056,8 @@ public class C89CodeGen extends CodeGen {
     private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, CodeContext ctxt) {
         String prefix = ctxt.getPrefix();
 
-        for (int i = 0; i < edges.size(); i++) {
+        for (int i = 0; i < edges.size(); i++, edgeIdx++) {
             Edge edge = edges.get(i);
-            edgeIdx++;
 
             // Get event.
             Assert.check(edge.getEvents().size() == 1);

@@ -718,10 +718,9 @@ public class JavaScriptCodeGen extends CodeGen {
     private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, boolean areSvgInEdges,
             CodeContext ctxt)
     {
-        for (int i = 0; i < edges.size(); i++) {
+        for (int i = 0; i < edges.size(); i++, edgeIdx++) {
             // Get edge.
             Edge edge = edges.get(i);
-            edgeIdx++;
 
             // Get event.
             Assert.check(edge.getEvents().size() == 1);
