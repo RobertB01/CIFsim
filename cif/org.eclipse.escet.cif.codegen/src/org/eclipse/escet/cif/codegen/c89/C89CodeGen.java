@@ -1069,7 +1069,7 @@ public class C89CodeGen extends CodeGen {
             String eventTargetName = getTargetRef(event);
 
             // Construct the call to try executing the event.
-            codeCalls.add("if (execEvent%d()) continue;  /* (Try to) perform event \"%s\". */", edgeIdx, eventName);
+            codeCalls.add("if (execEdge%d()) continue;  /* (Try to) perform event \"%s\". */", edgeIdx, eventName);
 
             // Add method code.
 
@@ -1087,7 +1087,7 @@ public class C89CodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return Whether the event was performed.");
             codeMethods.add(" */");
-            codeMethods.add("static BoolType execEvent%d(void) {", edgeIdx);
+            codeMethods.add("static BoolType execEdge%d(void) {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one

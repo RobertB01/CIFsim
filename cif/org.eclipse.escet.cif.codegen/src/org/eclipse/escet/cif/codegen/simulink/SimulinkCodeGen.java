@@ -1436,7 +1436,7 @@ public class SimulinkCodeGen extends CodeGen {
             String eventTargetName = getTargetRef(event);
 
             // Construct the call to try executing the event.
-            codeCalls.add("if (ExecEvent%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", edgeIdx,
+            codeCalls.add("if (execEdge%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", edgeIdx,
                     eventName);
 
             // Add method code.
@@ -1455,7 +1455,7 @@ public class SimulinkCodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return Whether the event was performed.");
             codeMethods.add(" */");
-            codeMethods.add("static BoolType ExecEvent%d(SimStruct *sim_struct) {", edgeIdx);
+            codeMethods.add("static BoolType execEdge%d(SimStruct *sim_struct) {", edgeIdx);
             codeMethods.indent();
             addPreamble(codeMethods, false);
             codeMethods.add();

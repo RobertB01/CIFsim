@@ -733,7 +733,7 @@ public class JavaScriptCodeGen extends CodeGen {
             // Add call code.
             codeCalls.add();
             codeCalls.add("// Event \"%s\".", eventName);
-            codeCalls.add("if (this.execEvent%d()) continue;", edgeIdx);
+            codeCalls.add("if (this.execEdge%d()) continue;", edgeIdx);
 
             // Add method code, starting with the header.
             List<String> docs = CifDocAnnotationUtils.getDocs(event);
@@ -751,7 +751,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
             codeMethods.add(" */");
-            codeMethods.add("execEvent%d() {", edgeIdx);
+            codeMethods.add("execEdge%d() {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one

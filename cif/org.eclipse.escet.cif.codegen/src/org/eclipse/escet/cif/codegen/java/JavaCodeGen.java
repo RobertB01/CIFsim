@@ -594,7 +594,7 @@ public class JavaCodeGen extends CodeGen {
 
             // Add call code.
             codeCalls.add("// Event \"%s\".", eventName);
-            codeCalls.add("if (execEvent%d()) continue;", edgeIdx);
+            codeCalls.add("if (execEdge%d()) continue;", edgeIdx);
             codeCalls.add();
 
             // Add method code.
@@ -615,7 +615,7 @@ public class JavaCodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return {@code true} if the event was executed, {@code false} otherwise.");
             codeMethods.add(" */");
-            codeMethods.add("private boolean execEvent%d() {", edgeIdx);
+            codeMethods.add("private boolean execEdge%d() {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
