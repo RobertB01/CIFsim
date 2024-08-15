@@ -755,7 +755,9 @@ public class CifBddSettings {
      * @param explorationStrategy The exploration strategy to use for symbolic reachability computations.
      */
     public void setExplorationStrategy(ExplorationStrategy explorationStrategy) {
+        Assert.check(modificationAllowed, "Modification is not allowed.");
         this.explorationStrategy = explorationStrategy;
+        checkSettings();
     }
 
     /**
