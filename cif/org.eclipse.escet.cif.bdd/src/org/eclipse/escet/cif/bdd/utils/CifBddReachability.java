@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.BitSets.copy;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Comparator;
 import java.util.List;
@@ -427,10 +426,8 @@ public class CifBddReachability {
         }
 
         // Obtain the BDDs of the transition relations and their variable support sets.
-        List<BDD> sortedRelations = sortedEdges.stream().map(edge -> edge.updateGuard)
-                .collect(Lists.toList());
-        List<BDDVarSet> sortedVars = sortedEdges.stream().map(edge -> edge.updateGuardSupport)
-                .collect(Collectors.toCollection(ArrayList::new));
+        List<BDD> sortedRelations = sortedEdges.stream().map(edge -> edge.updateGuard).toList();
+        List<BDDVarSet> sortedVars = sortedEdges.stream().map(edge -> edge.updateGuardSupport).toList();
 
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return null;
