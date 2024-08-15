@@ -75,12 +75,12 @@ static void PrintOutput(svg_input_decl_removed_Event_ event, BoolType pre) {
 }
 #endif
 
-/* Event execution code. */
+/* Edge execution code. */
 
 /**
- * Execute code for event "p.c".
+ * Execute code for edge with index 0 and event "p.c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(void) {
     BoolType guard = ((p_) == (_svg_input_decl_removed_l1)) && (x_);
@@ -127,7 +127,7 @@ static inline RealType UpdateContValue(RealType new_value, const char *var_name)
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -138,7 +138,7 @@ static void PerformEvents(void) {
         }
 
 
-        break; /* No event fired, done with discrete steps. */
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -150,8 +150,8 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEdge0()) continue;  /* (Try to) perform event "p.c". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge0()) continue; /* (Try to) perform edge with index 0 and event "p.c". */
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -169,7 +169,7 @@ void svg_input_decl_removed_EngineFirstStep(void) {
         PrintOutput(EVT_INITIAL_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */
@@ -195,7 +195,7 @@ void svg_input_decl_removed_EngineTimeStep(double delta) {
         PrintOutput(EVT_DELAY_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */

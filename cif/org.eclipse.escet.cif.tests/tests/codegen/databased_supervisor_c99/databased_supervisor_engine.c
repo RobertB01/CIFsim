@@ -358,12 +358,12 @@ static void PrintOutput(databased_supervisor_Event_ event, BoolType pre) {
 }
 #endif
 
-/* Event execution code. */
+/* Edge execution code. */
 
 /**
- * Execute code for event "Button.u_pushed".
+ * Execute code for edge with index 0 and event "Button.u_pushed".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(void) {
     BoolType guard = ((Button_) == (_databased_supervisor_Released)) && ((((Cycle_) == (_databased_supervisor_WaitForButtonPush)) || ((Cycle_) == (_databased_supervisor_TurnLampOn))) || (((Cycle_) == (_databased_supervisor_StartTimer)) || (((Cycle_) == (_databased_supervisor_WaitForTimeout)) || ((Cycle_) == (_databased_supervisor_TurnLampOff)))));
@@ -393,9 +393,9 @@ static BoolType execEdge0(void) {
 }
 
 /**
- * Execute code for event "Button.u_released".
+ * Execute code for edge with index 1 and event "Button.u_released".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge1(void) {
     BoolType guard = (Button_) == (_databased_supervisor_Pushed);
@@ -414,9 +414,9 @@ static BoolType execEdge1(void) {
 }
 
 /**
- * Execute code for event "Timer.u_timeout".
+ * Execute code for edge with index 2 and event "Timer.u_timeout".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge2(void) {
     BoolType guard = ((Cycle_) == (_databased_supervisor_WaitForTimeout)) && ((Timer_) == (_databased_supervisor_Running));
@@ -436,9 +436,9 @@ static BoolType execEdge2(void) {
 }
 
 /**
- * Execute code for event "Lamp.c_off".
+ * Execute code for edge with index 3 and event "Lamp.c_off".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge3(void) {
     A6BType deref_store3 = bdd_values_();
@@ -459,9 +459,9 @@ static BoolType execEdge3(void) {
 }
 
 /**
- * Execute code for event "Lamp.c_on".
+ * Execute code for edge with index 4 and event "Lamp.c_on".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge4(void) {
     A6BType deref_store4 = bdd_values_();
@@ -482,9 +482,9 @@ static BoolType execEdge4(void) {
 }
 
 /**
- * Execute code for event "Timer.c_start".
+ * Execute code for edge with index 5 and event "Timer.c_start".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge5(void) {
     A6BType deref_store5 = bdd_values_();
@@ -533,7 +533,7 @@ static inline RealType UpdateContValue(RealType new_value, const char *var_name)
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -543,10 +543,10 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEdge0()) continue;  /* (Try to) perform event "Button.u_pushed". */
-        if (execEdge1()) continue;  /* (Try to) perform event "Button.u_released". */
-        if (execEdge2()) continue;  /* (Try to) perform event "Timer.u_timeout". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge0()) continue; /* (Try to) perform edge with index 0 and event "Button.u_pushed". */
+        if (execEdge1()) continue; /* (Try to) perform edge with index 1 and event "Button.u_released". */
+        if (execEdge2()) continue; /* (Try to) perform edge with index 2 and event "Timer.u_timeout". */
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -558,10 +558,10 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEdge3()) continue;  /* (Try to) perform event "Lamp.c_off". */
-        if (execEdge4()) continue;  /* (Try to) perform event "Lamp.c_on". */
-        if (execEdge5()) continue;  /* (Try to) perform event "Timer.c_start". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge3()) continue; /* (Try to) perform edge with index 3 and event "Lamp.c_off". */
+        if (execEdge4()) continue; /* (Try to) perform edge with index 4 and event "Lamp.c_on". */
+        if (execEdge5()) continue; /* (Try to) perform edge with index 5 and event "Timer.c_start". */
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -582,7 +582,7 @@ void databased_supervisor_EngineFirstStep(void) {
         PrintOutput(EVT_INITIAL_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */
@@ -608,7 +608,7 @@ void databased_supervisor_EngineTimeStep(double delta) {
         PrintOutput(EVT_DELAY_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */

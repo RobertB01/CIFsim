@@ -216,12 +216,12 @@ static void PrintOutput(declarations_Event_ event, BoolType pre) {
 }
 #endif
 
-/* Event execution code. */
+/* Edge execution code. */
 
 /**
- * Execute code for event "u_e1".
+ * Execute code for edge with index 0 and event "u_e1".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(void) {
     #if EVENT_OUTPUT
@@ -235,9 +235,9 @@ static BoolType execEdge0(void) {
 }
 
 /**
- * Execute code for event "u_e2".
+ * Execute code for edge with index 1 and event "u_e2".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge1(void) {
     #if EVENT_OUTPUT
@@ -251,9 +251,9 @@ static BoolType execEdge1(void) {
 }
 
 /**
- * Execute code for event "c_e1".
+ * Execute code for edge with index 2 and event "c_e1".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge2(void) {
     BoolType guard = (g1_a1_) == (_declarations_loc1);
@@ -272,9 +272,9 @@ static BoolType execEdge2(void) {
 }
 
 /**
- * Execute code for event "c_e2".
+ * Execute code for edge with index 3 and event "c_e2".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge3(void) {
     BoolType guard = (g1_a1_) == (_declarations_loc2);
@@ -293,9 +293,9 @@ static BoolType execEdge3(void) {
 }
 
 /**
- * Execute code for event "c_e3".
+ * Execute code for edge with index 4 and event "c_e3".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge4(void) {
     #if EVENT_OUTPUT
@@ -309,9 +309,9 @@ static BoolType execEdge4(void) {
 }
 
 /**
- * Execute code for event "c_e4".
+ * Execute code for edge with index 5 and event "c_e4".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge5(void) {
     #if EVENT_OUTPUT
@@ -353,7 +353,7 @@ static inline RealType UpdateContValue(RealType new_value, const char *var_name)
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -363,9 +363,9 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEdge0()) continue;  /* (Try to) perform event "u_e1". */
-        if (execEdge1()) continue;  /* (Try to) perform event "u_e2". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge0()) continue; /* (Try to) perform edge with index 0 and event "u_e1". */
+        if (execEdge1()) continue; /* (Try to) perform edge with index 1 and event "u_e2". */
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -377,11 +377,11 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEdge2()) continue;  /* (Try to) perform event "c_e1". */
-        if (execEdge3()) continue;  /* (Try to) perform event "c_e2". */
-        if (execEdge4()) continue;  /* (Try to) perform event "c_e3". */
-        if (execEdge5()) continue;  /* (Try to) perform event "c_e4". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge2()) continue; /* (Try to) perform edge with index 2 and event "c_e1". */
+        if (execEdge3()) continue; /* (Try to) perform edge with index 3 and event "c_e2". */
+        if (execEdge4()) continue; /* (Try to) perform edge with index 4 and event "c_e3". */
+        if (execEdge5()) continue; /* (Try to) perform edge with index 5 and event "c_e4". */
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -409,7 +409,7 @@ void declarations_EngineFirstStep(void) {
         PrintOutput(EVT_INITIAL_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */
@@ -439,7 +439,7 @@ void declarations_EngineTimeStep(double delta) {
         PrintOutput(EVT_DELAY_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */

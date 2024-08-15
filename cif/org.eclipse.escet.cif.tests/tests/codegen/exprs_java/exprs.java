@@ -524,13 +524,13 @@ public abstract class exprs {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
 
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
             // Event "a1.e".
             if (execEdge0()) continue;
@@ -598,9 +598,9 @@ public abstract class exprs {
     }
 
     /**
-     * Execute code for event "a1.e".
+     * Execute code for edge with index 0 and event "a1.e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge0() {
         if (doInfoPrintOutput) printOutput(0, true);

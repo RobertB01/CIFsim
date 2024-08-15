@@ -70,12 +70,12 @@ static void PrintOutput(state_event_exclusion_invariants_Event_ event, BoolType 
 }
 #endif
 
-/* Event execution code. */
+/* Edge execution code. */
 
 /**
- * Execute code for event "e".
+ * Execute code for edge with index 0 and event "e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(void) {
     BoolType guard = (((x_) > (1)) && (((x_) <= (1)) && ((x_) > (1)))) && ((((x_) <= (1)) && ((x_) > (1))) && (((x_) <= (1)) && (((x_) > (1)) && ((x_) <= (1)))));
@@ -120,7 +120,7 @@ static inline RealType UpdateContValue(RealType new_value, const char *var_name)
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -131,7 +131,7 @@ static void PerformEvents(void) {
         }
 
 
-        break; /* No event fired, done with discrete steps. */
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -143,8 +143,8 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEdge0()) continue;  /* (Try to) perform event "e". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge0()) continue; /* (Try to) perform edge with index 0 and event "e". */
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -162,7 +162,7 @@ void state_event_exclusion_invariants_EngineFirstStep(void) {
         PrintOutput(EVT_INITIAL_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */
@@ -188,7 +188,7 @@ void state_event_exclusion_invariants_EngineTimeStep(double delta) {
         PrintOutput(EVT_DELAY_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */

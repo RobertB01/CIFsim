@@ -116,13 +116,13 @@ public abstract class various {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
 
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
             // Event "a.e".
             if (execEdge0()) continue;
@@ -196,9 +196,9 @@ public abstract class various {
     }
 
     /**
-     * Execute code for event "a.e".
+     * Execute code for edge with index 0 and event "a.e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge0() {
         boolean guard = false;
@@ -222,9 +222,9 @@ public abstract class various {
     }
 
     /**
-     * Execute code for event "e1".
+     * Execute code for edge with index 1 and event "e1".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge1() {
         boolean guard = (g_sync_) == (variousEnum._l1);
@@ -241,9 +241,9 @@ public abstract class various {
     }
 
     /**
-     * Execute code for event "g.h1".
+     * Execute code for edge with index 2 and event "g.h1".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge2() {
         boolean guard = ((g_sync_) == (variousEnum._l2)) && ((g_sync_c_) >= (2));

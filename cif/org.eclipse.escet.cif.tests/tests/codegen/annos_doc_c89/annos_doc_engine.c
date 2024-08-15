@@ -499,12 +499,12 @@ static void PrintOutput(annos_doc_Event_ event, BoolType pre) {
 }
 #endif
 
-/* Event execution code. */
+/* Edge execution code. */
 
 /**
- * Execute code for event "e".
+ * Execute code for edge with index 0 and event "e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(void) {
     BoolType guard = ((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || (((contvars_c3_) > (0)) || (((contvars_c4_) > (0)) || ((contvars_c5_) > (0))))) && (((discvars_d1_) || (discvars_d2_)) || ((discvars_d3_) || ((discvars_d4_) || (discvars_d5_))));
@@ -521,9 +521,9 @@ static BoolType execEdge0(void) {
 }
 
 /**
- * Execute code for event "events.e1".
+ * Execute code for edge with index 1 and event "events.e1".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge1(void) {
     #if EVENT_OUTPUT
@@ -537,11 +537,11 @@ static BoolType execEdge1(void) {
 }
 
 /**
- * Execute code for event "events.e2".
+ * Execute code for edge with index 2 and event "events.e2".
  *
  * single line doc
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge2(void) {
     #if EVENT_OUTPUT
@@ -555,13 +555,13 @@ static BoolType execEdge2(void) {
 }
 
 /**
- * Execute code for event "events.e3".
+ * Execute code for edge with index 3 and event "events.e3".
  *
  * doc with multiple
  * lines of
  *  text
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge3(void) {
     #if EVENT_OUTPUT
@@ -575,11 +575,11 @@ static BoolType execEdge3(void) {
 }
 
 /**
- * Execute code for event "events.e4".
+ * Execute code for edge with index 4 and event "events.e4".
  *
  * some doc
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge4(void) {
     #if EVENT_OUTPUT
@@ -593,14 +593,14 @@ static BoolType execEdge4(void) {
 }
 
 /**
- * Execute code for event "events.e5".
+ * Execute code for edge with index 5 and event "events.e5".
  *
  * First doc.
  *
  * Second doc line 1.
  * Second doc line 2.
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge5(void) {
     #if EVENT_OUTPUT
@@ -633,7 +633,7 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -644,7 +644,7 @@ static void PerformEvents(void) {
         }
 
 
-        break; /* No event fired, done with discrete steps. */
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -656,13 +656,13 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEdge0()) continue;  /* (Try to) perform event "e". */
-        if (execEdge1()) continue;  /* (Try to) perform event "events.e1". */
-        if (execEdge2()) continue;  /* (Try to) perform event "events.e2". */
-        if (execEdge3()) continue;  /* (Try to) perform event "events.e3". */
-        if (execEdge4()) continue;  /* (Try to) perform event "events.e4". */
-        if (execEdge5()) continue;  /* (Try to) perform event "events.e5". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge0()) continue; /* (Try to) perform edge with index 0 and event "e". */
+        if (execEdge1()) continue; /* (Try to) perform edge with index 1 and event "events.e1". */
+        if (execEdge2()) continue; /* (Try to) perform edge with index 2 and event "events.e2". */
+        if (execEdge3()) continue; /* (Try to) perform edge with index 3 and event "events.e3". */
+        if (execEdge4()) continue; /* (Try to) perform edge with index 4 and event "events.e4". */
+        if (execEdge5()) continue; /* (Try to) perform edge with index 5 and event "events.e5". */
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -689,7 +689,7 @@ void annos_doc_EngineFirstStep(void) {
         PrintOutput(EVT_INITIAL_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */
@@ -730,7 +730,7 @@ void annos_doc_EngineTimeStep(double delta) {
         PrintOutput(EVT_DELAY_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */

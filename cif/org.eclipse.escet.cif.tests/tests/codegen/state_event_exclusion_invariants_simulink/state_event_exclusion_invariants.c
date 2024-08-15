@@ -1269,12 +1269,12 @@ static BoolType GuardEval00(SimStruct *sim_struct) {
     return (((work->x_) > (1)) && (((work->x_) <= (1)) && ((work->x_) > (1)))) && ((((work->x_) <= (1)) && ((work->x_) > (1))) && (((work->x_) <= (1)) && (((work->x_) > (1)) && ((work->x_) <= (1)))));
 }
 
-/* Event execution. */
+/* Edge execution. */
 
 /**
- * Execute code for event "e".
+ * Execute code for edge with index 0 and event "e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1445,18 +1445,18 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
-    /* Uncontrollables. */
+    /* Uncontrollable edges. */
     for (;;) {
 
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
-    /* Controllables. */
+    /* Controllable edges. */
     for (;;) {
-        if (execEdge0(sim_struct)) continue;  /* (Try to) perform event "e". */
+        if (execEdge0(sim_struct)) continue; /* (Try to) perform edge with index 0 and event "e". */
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
     /* Print statement for time start. */

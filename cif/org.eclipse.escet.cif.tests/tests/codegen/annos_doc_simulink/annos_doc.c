@@ -1825,12 +1825,12 @@ static BoolType GuardEval00(SimStruct *sim_struct) {
     return ((((cstate[1]) > (0)) || ((cstate[2]) > (0))) || (((cstate[3]) > (0)) || (((cstate[4]) > (0)) || ((cstate[5]) > (0))))) && (((work->discvars_d1_) || (work->discvars_d2_)) || ((work->discvars_d3_) || ((work->discvars_d4_) || (work->discvars_d5_))));
 }
 
-/* Event execution. */
+/* Edge execution. */
 
 /**
- * Execute code for event "e".
+ * Execute code for edge with index 0 and event "e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1845,9 +1845,9 @@ static BoolType execEdge0(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "events.e1".
+ * Execute code for edge with index 1 and event "events.e1".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge1(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1859,11 +1859,11 @@ static BoolType execEdge1(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "events.e2".
+ * Execute code for edge with index 2 and event "events.e2".
  *
  * single line doc
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge2(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1875,13 +1875,13 @@ static BoolType execEdge2(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "events.e3".
+ * Execute code for edge with index 3 and event "events.e3".
  *
  * doc with multiple
  * lines of
  *  text
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge3(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1893,11 +1893,11 @@ static BoolType execEdge3(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "events.e4".
+ * Execute code for edge with index 4 and event "events.e4".
  *
  * some doc
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge4(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1909,14 +1909,14 @@ static BoolType execEdge4(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "events.e5".
+ * Execute code for edge with index 5 and event "events.e5".
  *
  * First doc.
  *
  * Second doc line 1.
  * Second doc line 2.
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge5(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -2165,23 +2165,23 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
-    /* Uncontrollables. */
+    /* Uncontrollable edges. */
     for (;;) {
 
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
-    /* Controllables. */
+    /* Controllable edges. */
     for (;;) {
-        if (execEdge0(sim_struct)) continue;  /* (Try to) perform event "e". */
-        if (execEdge1(sim_struct)) continue;  /* (Try to) perform event "events.e1". */
-        if (execEdge2(sim_struct)) continue;  /* (Try to) perform event "events.e2". */
-        if (execEdge3(sim_struct)) continue;  /* (Try to) perform event "events.e3". */
-        if (execEdge4(sim_struct)) continue;  /* (Try to) perform event "events.e4". */
-        if (execEdge5(sim_struct)) continue;  /* (Try to) perform event "events.e5". */
+        if (execEdge0(sim_struct)) continue; /* (Try to) perform edge with index 0 and event "e". */
+        if (execEdge1(sim_struct)) continue; /* (Try to) perform edge with index 1 and event "events.e1". */
+        if (execEdge2(sim_struct)) continue; /* (Try to) perform edge with index 2 and event "events.e2". */
+        if (execEdge3(sim_struct)) continue; /* (Try to) perform edge with index 3 and event "events.e3". */
+        if (execEdge4(sim_struct)) continue; /* (Try to) perform edge with index 4 and event "events.e4". */
+        if (execEdge5(sim_struct)) continue; /* (Try to) perform edge with index 5 and event "events.e5". */
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
     /* Print statement for time start. */

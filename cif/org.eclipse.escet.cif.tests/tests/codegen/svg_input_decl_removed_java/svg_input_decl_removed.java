@@ -86,13 +86,13 @@ public abstract class svg_input_decl_removed {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
 
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
             // Event "p.c".
             if (execEdge0()) continue;
@@ -160,9 +160,9 @@ public abstract class svg_input_decl_removed {
     }
 
     /**
-     * Execute code for event "p.c".
+     * Execute code for edge with index 0 and event "p.c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge0() {
         boolean guard = ((p_) == (svg_input_decl_removedEnum._l1)) && (x_);

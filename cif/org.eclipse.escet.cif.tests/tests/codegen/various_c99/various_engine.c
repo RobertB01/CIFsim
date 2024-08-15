@@ -264,12 +264,12 @@ static void PrintOutput(various_Event_ event, BoolType pre) {
 }
 #endif
 
-/* Event execution code. */
+/* Edge execution code. */
 
 /**
- * Execute code for event "a.e".
+ * Execute code for edge with index 0 and event "a.e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(void) {
     BoolType guard = FALSE;
@@ -305,9 +305,9 @@ static BoolType execEdge0(void) {
 }
 
 /**
- * Execute code for event "e1".
+ * Execute code for edge with index 1 and event "e1".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge1(void) {
     BoolType guard = (g_sync_) == (_various_l1);
@@ -332,9 +332,9 @@ static BoolType execEdge1(void) {
 }
 
 /**
- * Execute code for event "g.h1".
+ * Execute code for edge with index 2 and event "g.h1".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge2(void) {
     BoolType guard = ((g_sync_) == (_various_l2)) && ((g_sync_c_) >= (2));
@@ -390,7 +390,7 @@ static inline RealType UpdateContValue(RealType new_value, const char *var_name)
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -401,7 +401,7 @@ static void PerformEvents(void) {
         }
 
 
-        break; /* No event fired, done with discrete steps. */
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -413,10 +413,10 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEdge0()) continue;  /* (Try to) perform event "a.e". */
-        if (execEdge1()) continue;  /* (Try to) perform event "e1". */
-        if (execEdge2()) continue;  /* (Try to) perform event "g.h1". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge0()) continue; /* (Try to) perform edge with index 0 and event "a.e". */
+        if (execEdge1()) continue; /* (Try to) perform edge with index 1 and event "e1". */
+        if (execEdge2()) continue; /* (Try to) perform edge with index 2 and event "g.h1". */
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -441,7 +441,7 @@ void various_EngineFirstStep(void) {
         PrintOutput(EVT_INITIAL_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */
@@ -469,7 +469,7 @@ void various_EngineTimeStep(double delta) {
         PrintOutput(EVT_DELAY_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */

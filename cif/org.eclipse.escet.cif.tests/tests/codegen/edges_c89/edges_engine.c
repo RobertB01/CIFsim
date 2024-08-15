@@ -901,12 +901,12 @@ static void PrintOutput(edges_Event_ event, BoolType pre) {
 }
 #endif
 
-/* Event execution code. */
+/* Edge execution code. */
 
 /**
- * Execute code for event "e02a".
+ * Execute code for edge with index 0 and event "e02a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(void) {
     BoolType guard = ((aut02_) == (_edges_loc1)) || (((aut02_) == (_edges_loc2)) || ((aut02_) == (_edges_loc3)));
@@ -931,9 +931,9 @@ static BoolType execEdge0(void) {
 }
 
 /**
- * Execute code for event "e02b".
+ * Execute code for edge with index 1 and event "e02b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge1(void) {
     BoolType guard = (((aut02_) == (_edges_loc1)) && ((aut02_x_) == (2))) || (((aut02_) == (_edges_loc2)) || (((aut02_) == (_edges_loc3)) && ((aut02_x_) == (3))));
@@ -958,9 +958,9 @@ static BoolType execEdge1(void) {
 }
 
 /**
- * Execute code for event "e03a".
+ * Execute code for edge with index 2 and event "e03a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge2(void) {
     #if EVENT_OUTPUT
@@ -976,9 +976,9 @@ static BoolType execEdge2(void) {
 }
 
 /**
- * Execute code for event "e03b".
+ * Execute code for edge with index 3 and event "e03b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge3(void) {
     #if EVENT_OUTPUT
@@ -994,9 +994,9 @@ static BoolType execEdge3(void) {
 }
 
 /**
- * Execute code for event "e04a".
+ * Execute code for edge with index 4 and event "e04a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge4(void) {
     #if EVENT_OUTPUT
@@ -1014,9 +1014,9 @@ static BoolType execEdge4(void) {
 }
 
 /**
- * Execute code for event "e04b".
+ * Execute code for edge with index 5 and event "e04b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge5(void) {
     #if EVENT_OUTPUT
@@ -1036,9 +1036,9 @@ static BoolType execEdge5(void) {
 }
 
 /**
- * Execute code for event "e04c".
+ * Execute code for edge with index 6 and event "e04c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge6(void) {
     #if EVENT_OUTPUT
@@ -1060,9 +1060,9 @@ static BoolType execEdge6(void) {
 }
 
 /**
- * Execute code for event "e04d".
+ * Execute code for edge with index 7 and event "e04d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge7(void) {
     #if EVENT_OUTPUT
@@ -1086,9 +1086,9 @@ static BoolType execEdge7(void) {
 }
 
 /**
- * Execute code for event "e04e".
+ * Execute code for edge with index 8 and event "e04e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge8(void) {
     #if EVENT_OUTPUT
@@ -1108,9 +1108,9 @@ static BoolType execEdge8(void) {
 }
 
 /**
- * Execute code for event "e04f".
+ * Execute code for edge with index 9 and event "e04f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge9(void) {
     #if EVENT_OUTPUT
@@ -1135,9 +1135,9 @@ static BoolType execEdge9(void) {
 }
 
 /**
- * Execute code for event "e05a".
+ * Execute code for edge with index 10 and event "e05a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge10(void) {
     #if EVENT_OUTPUT
@@ -1162,9 +1162,9 @@ static BoolType execEdge10(void) {
 }
 
 /**
- * Execute code for event "e05b".
+ * Execute code for edge with index 11 and event "e05b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge11(void) {
     #if EVENT_OUTPUT
@@ -1189,9 +1189,9 @@ static BoolType execEdge11(void) {
 }
 
 /**
- * Execute code for event "e05c".
+ * Execute code for edge with index 12 and event "e05c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge12(void) {
     #if EVENT_OUTPUT
@@ -1207,9 +1207,9 @@ static BoolType execEdge12(void) {
 }
 
 /**
- * Execute code for event "e05d".
+ * Execute code for edge with index 13 and event "e05d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge13(void) {
     #if EVENT_OUTPUT
@@ -1234,9 +1234,9 @@ static BoolType execEdge13(void) {
 }
 
 /**
- * Execute code for event "e05e".
+ * Execute code for edge with index 14 and event "e05e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge14(void) {
     #if EVENT_OUTPUT
@@ -1261,9 +1261,9 @@ static BoolType execEdge14(void) {
 }
 
 /**
- * Execute code for event "e06a".
+ * Execute code for edge with index 15 and event "e06a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge15(void) {
     #if EVENT_OUTPUT
@@ -1280,9 +1280,9 @@ static BoolType execEdge15(void) {
 }
 
 /**
- * Execute code for event "e06b".
+ * Execute code for edge with index 16 and event "e06b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge16(void) {
     #if EVENT_OUTPUT
@@ -1301,9 +1301,9 @@ static BoolType execEdge16(void) {
 }
 
 /**
- * Execute code for event "e06c".
+ * Execute code for edge with index 17 and event "e06c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge17(void) {
     #if EVENT_OUTPUT
@@ -1323,9 +1323,9 @@ static BoolType execEdge17(void) {
 }
 
 /**
- * Execute code for event "e06d".
+ * Execute code for edge with index 18 and event "e06d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge18(void) {
     #if EVENT_OUTPUT
@@ -1342,9 +1342,9 @@ static BoolType execEdge18(void) {
 }
 
 /**
- * Execute code for event "e06e".
+ * Execute code for edge with index 19 and event "e06e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge19(void) {
     #if EVENT_OUTPUT
@@ -1360,9 +1360,9 @@ static BoolType execEdge19(void) {
 }
 
 /**
- * Execute code for event "e07a".
+ * Execute code for edge with index 20 and event "e07a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge20(void) {
     #if EVENT_OUTPUT
@@ -1378,9 +1378,9 @@ static BoolType execEdge20(void) {
 }
 
 /**
- * Execute code for event "e07b".
+ * Execute code for edge with index 21 and event "e07b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge21(void) {
     #if EVENT_OUTPUT
@@ -1397,9 +1397,9 @@ static BoolType execEdge21(void) {
 }
 
 /**
- * Execute code for event "e08a".
+ * Execute code for edge with index 22 and event "e08a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge22(void) {
     #if EVENT_OUTPUT
@@ -1417,9 +1417,9 @@ static BoolType execEdge22(void) {
 }
 
 /**
- * Execute code for event "e08b".
+ * Execute code for edge with index 23 and event "e08b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge23(void) {
     #if EVENT_OUTPUT
@@ -1435,9 +1435,9 @@ static BoolType execEdge23(void) {
 }
 
 /**
- * Execute code for event "e08c".
+ * Execute code for edge with index 24 and event "e08c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge24(void) {
     #if EVENT_OUTPUT
@@ -1456,9 +1456,9 @@ static BoolType execEdge24(void) {
 }
 
 /**
- * Execute code for event "e08d".
+ * Execute code for edge with index 25 and event "e08d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge25(void) {
     #if EVENT_OUTPUT
@@ -1479,9 +1479,9 @@ static BoolType execEdge25(void) {
 }
 
 /**
- * Execute code for event "e08e".
+ * Execute code for edge with index 26 and event "e08e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge26(void) {
     #if EVENT_OUTPUT
@@ -1502,9 +1502,9 @@ static BoolType execEdge26(void) {
 }
 
 /**
- * Execute code for event "e08f".
+ * Execute code for edge with index 27 and event "e08f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge27(void) {
     #if EVENT_OUTPUT
@@ -1525,9 +1525,9 @@ static BoolType execEdge27(void) {
 }
 
 /**
- * Execute code for event "e08g".
+ * Execute code for edge with index 28 and event "e08g".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge28(void) {
     #if EVENT_OUTPUT
@@ -1547,9 +1547,9 @@ static BoolType execEdge28(void) {
 }
 
 /**
- * Execute code for event "e08h".
+ * Execute code for edge with index 29 and event "e08h".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge29(void) {
     #if EVENT_OUTPUT
@@ -1570,9 +1570,9 @@ static BoolType execEdge29(void) {
 }
 
 /**
- * Execute code for event "e09a".
+ * Execute code for edge with index 30 and event "e09a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge30(void) {
     #if EVENT_OUTPUT
@@ -1593,9 +1593,9 @@ static BoolType execEdge30(void) {
 }
 
 /**
- * Execute code for event "e09b".
+ * Execute code for edge with index 31 and event "e09b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge31(void) {
     #if EVENT_OUTPUT
@@ -1611,9 +1611,9 @@ static BoolType execEdge31(void) {
 }
 
 /**
- * Execute code for event "e09c".
+ * Execute code for edge with index 32 and event "e09c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge32(void) {
     #if EVENT_OUTPUT
@@ -1633,9 +1633,9 @@ static BoolType execEdge32(void) {
 }
 
 /**
- * Execute code for event "e09d".
+ * Execute code for edge with index 33 and event "e09d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge33(void) {
     #if EVENT_OUTPUT
@@ -1658,9 +1658,9 @@ static BoolType execEdge33(void) {
 }
 
 /**
- * Execute code for event "e09e".
+ * Execute code for edge with index 34 and event "e09e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge34(void) {
     #if EVENT_OUTPUT
@@ -1676,9 +1676,9 @@ static BoolType execEdge34(void) {
 }
 
 /**
- * Execute code for event "e09f".
+ * Execute code for edge with index 35 and event "e09f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge35(void) {
     #if EVENT_OUTPUT
@@ -1694,9 +1694,9 @@ static BoolType execEdge35(void) {
 }
 
 /**
- * Execute code for event "e09g".
+ * Execute code for edge with index 36 and event "e09g".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge36(void) {
     #if EVENT_OUTPUT
@@ -1717,9 +1717,9 @@ static BoolType execEdge36(void) {
 }
 
 /**
- * Execute code for event "e10a".
+ * Execute code for edge with index 37 and event "e10a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge37(void) {
     #if EVENT_OUTPUT
@@ -1735,9 +1735,9 @@ static BoolType execEdge37(void) {
 }
 
 /**
- * Execute code for event "e10b".
+ * Execute code for edge with index 38 and event "e10b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge38(void) {
     #if EVENT_OUTPUT
@@ -1757,9 +1757,9 @@ static BoolType execEdge38(void) {
 }
 
 /**
- * Execute code for event "e10c".
+ * Execute code for edge with index 39 and event "e10c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge39(void) {
     #if EVENT_OUTPUT
@@ -1789,9 +1789,9 @@ static BoolType execEdge39(void) {
 }
 
 /**
- * Execute code for event "e10d".
+ * Execute code for edge with index 40 and event "e10d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge40(void) {
     #if EVENT_OUTPUT
@@ -1816,9 +1816,9 @@ static BoolType execEdge40(void) {
 }
 
 /**
- * Execute code for event "e10e".
+ * Execute code for edge with index 41 and event "e10e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge41(void) {
     #if EVENT_OUTPUT
@@ -1845,9 +1845,9 @@ static BoolType execEdge41(void) {
 }
 
 /**
- * Execute code for event "e10f".
+ * Execute code for edge with index 42 and event "e10f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge42(void) {
     #if EVENT_OUTPUT
@@ -1863,9 +1863,9 @@ static BoolType execEdge42(void) {
 }
 
 /**
- * Execute code for event "e10g".
+ * Execute code for edge with index 43 and event "e10g".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge43(void) {
     #if EVENT_OUTPUT
@@ -1881,9 +1881,9 @@ static BoolType execEdge43(void) {
 }
 
 /**
- * Execute code for event "e10h".
+ * Execute code for edge with index 44 and event "e10h".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge44(void) {
     #if EVENT_OUTPUT
@@ -1899,9 +1899,9 @@ static BoolType execEdge44(void) {
 }
 
 /**
- * Execute code for event "e10i".
+ * Execute code for edge with index 45 and event "e10i".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge45(void) {
     #if EVENT_OUTPUT
@@ -1918,9 +1918,9 @@ static BoolType execEdge45(void) {
 }
 
 /**
- * Execute code for event "e11a".
+ * Execute code for edge with index 46 and event "e11a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge46(void) {
     #if EVENT_OUTPUT
@@ -1961,9 +1961,9 @@ static BoolType execEdge46(void) {
 }
 
 /**
- * Execute code for event "e12a".
+ * Execute code for edge with index 47 and event "e12a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge47(void) {
     #if EVENT_OUTPUT
@@ -1981,9 +1981,9 @@ static BoolType execEdge47(void) {
 }
 
 /**
- * Execute code for event "e12b".
+ * Execute code for edge with index 48 and event "e12b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge48(void) {
     #if EVENT_OUTPUT
@@ -2003,9 +2003,9 @@ static BoolType execEdge48(void) {
 }
 
 /**
- * Execute code for event "e12c".
+ * Execute code for edge with index 49 and event "e12c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge49(void) {
     #if EVENT_OUTPUT
@@ -2026,9 +2026,9 @@ static BoolType execEdge49(void) {
 }
 
 /**
- * Execute code for event "e12d".
+ * Execute code for edge with index 50 and event "e12d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge50(void) {
     #if EVENT_OUTPUT
@@ -2048,9 +2048,9 @@ static BoolType execEdge50(void) {
 }
 
 /**
- * Execute code for event "e12e".
+ * Execute code for edge with index 51 and event "e12e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge51(void) {
     #if EVENT_OUTPUT
@@ -2068,9 +2068,9 @@ static BoolType execEdge51(void) {
 }
 
 /**
- * Execute code for event "e13a".
+ * Execute code for edge with index 52 and event "e13a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge52(void) {
     #if EVENT_OUTPUT
@@ -2086,9 +2086,9 @@ static BoolType execEdge52(void) {
 }
 
 /**
- * Execute code for event "e13b".
+ * Execute code for edge with index 53 and event "e13b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge53(void) {
     #if EVENT_OUTPUT
@@ -2108,9 +2108,9 @@ static BoolType execEdge53(void) {
 }
 
 /**
- * Execute code for event "e13c".
+ * Execute code for edge with index 54 and event "e13c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge54(void) {
     #if EVENT_OUTPUT
@@ -2130,9 +2130,9 @@ static BoolType execEdge54(void) {
 }
 
 /**
- * Execute code for event "e13d".
+ * Execute code for edge with index 55 and event "e13d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge55(void) {
     #if EVENT_OUTPUT
@@ -2154,9 +2154,9 @@ static BoolType execEdge55(void) {
 }
 
 /**
- * Execute code for event "e13e".
+ * Execute code for edge with index 56 and event "e13e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge56(void) {
     #if EVENT_OUTPUT
@@ -2176,9 +2176,9 @@ static BoolType execEdge56(void) {
 }
 
 /**
- * Execute code for event "e14a".
+ * Execute code for edge with index 57 and event "e14a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge57(void) {
     BoolType guard = aut14_b_;
@@ -2195,9 +2195,9 @@ static BoolType execEdge57(void) {
 }
 
 /**
- * Execute code for event "e14b".
+ * Execute code for edge with index 58 and event "e14b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge58(void) {
     BoolType guard = (aut14_i_) > (3);
@@ -2214,9 +2214,9 @@ static BoolType execEdge58(void) {
 }
 
 /**
- * Execute code for event "e14c".
+ * Execute code for edge with index 59 and event "e14c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge59(void) {
     BoolType guard = (RealAdd(aut14_r_, aut14_i_)) != (18.0);
@@ -2233,9 +2233,9 @@ static BoolType execEdge59(void) {
 }
 
 /**
- * Execute code for event "e14d".
+ * Execute code for edge with index 60 and event "e14d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge60(void) {
     BoolType guard = !(aut14_b_);
@@ -2252,9 +2252,9 @@ static BoolType execEdge60(void) {
 }
 
 /**
- * Execute code for event "e14e".
+ * Execute code for edge with index 61 and event "e14e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge61(void) {
     BoolType guard = (IntegerNegate(aut14_i_)) < (5);
@@ -2271,9 +2271,9 @@ static BoolType execEdge61(void) {
 }
 
 /**
- * Execute code for event "e14f".
+ * Execute code for edge with index 62 and event "e14f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge62(void) {
     BoolType guard = (RealNegate(aut14_r_)) < (6);
@@ -2290,9 +2290,9 @@ static BoolType execEdge62(void) {
 }
 
 /**
- * Execute code for event "e14g".
+ * Execute code for edge with index 63 and event "e14g".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge63(void) {
     BoolType guard = (aut14_i_) < (7);
@@ -2309,9 +2309,9 @@ static BoolType execEdge63(void) {
 }
 
 /**
- * Execute code for event "e14h".
+ * Execute code for edge with index 64 and event "e14h".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge64(void) {
     BoolType guard = (aut14_r_) < (8);
@@ -2347,7 +2347,7 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -2358,7 +2358,7 @@ static void PerformEvents(void) {
         }
 
 
-        break; /* No event fired, done with discrete steps. */
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -2370,72 +2370,72 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEdge0()) continue;  /* (Try to) perform event "e02a". */
-        if (execEdge1()) continue;  /* (Try to) perform event "e02b". */
-        if (execEdge2()) continue;  /* (Try to) perform event "e03a". */
-        if (execEdge3()) continue;  /* (Try to) perform event "e03b". */
-        if (execEdge4()) continue;  /* (Try to) perform event "e04a". */
-        if (execEdge5()) continue;  /* (Try to) perform event "e04b". */
-        if (execEdge6()) continue;  /* (Try to) perform event "e04c". */
-        if (execEdge7()) continue;  /* (Try to) perform event "e04d". */
-        if (execEdge8()) continue;  /* (Try to) perform event "e04e". */
-        if (execEdge9()) continue;  /* (Try to) perform event "e04f". */
-        if (execEdge10()) continue;  /* (Try to) perform event "e05a". */
-        if (execEdge11()) continue;  /* (Try to) perform event "e05b". */
-        if (execEdge12()) continue;  /* (Try to) perform event "e05c". */
-        if (execEdge13()) continue;  /* (Try to) perform event "e05d". */
-        if (execEdge14()) continue;  /* (Try to) perform event "e05e". */
-        if (execEdge15()) continue;  /* (Try to) perform event "e06a". */
-        if (execEdge16()) continue;  /* (Try to) perform event "e06b". */
-        if (execEdge17()) continue;  /* (Try to) perform event "e06c". */
-        if (execEdge18()) continue;  /* (Try to) perform event "e06d". */
-        if (execEdge19()) continue;  /* (Try to) perform event "e06e". */
-        if (execEdge20()) continue;  /* (Try to) perform event "e07a". */
-        if (execEdge21()) continue;  /* (Try to) perform event "e07b". */
-        if (execEdge22()) continue;  /* (Try to) perform event "e08a". */
-        if (execEdge23()) continue;  /* (Try to) perform event "e08b". */
-        if (execEdge24()) continue;  /* (Try to) perform event "e08c". */
-        if (execEdge25()) continue;  /* (Try to) perform event "e08d". */
-        if (execEdge26()) continue;  /* (Try to) perform event "e08e". */
-        if (execEdge27()) continue;  /* (Try to) perform event "e08f". */
-        if (execEdge28()) continue;  /* (Try to) perform event "e08g". */
-        if (execEdge29()) continue;  /* (Try to) perform event "e08h". */
-        if (execEdge30()) continue;  /* (Try to) perform event "e09a". */
-        if (execEdge31()) continue;  /* (Try to) perform event "e09b". */
-        if (execEdge32()) continue;  /* (Try to) perform event "e09c". */
-        if (execEdge33()) continue;  /* (Try to) perform event "e09d". */
-        if (execEdge34()) continue;  /* (Try to) perform event "e09e". */
-        if (execEdge35()) continue;  /* (Try to) perform event "e09f". */
-        if (execEdge36()) continue;  /* (Try to) perform event "e09g". */
-        if (execEdge37()) continue;  /* (Try to) perform event "e10a". */
-        if (execEdge38()) continue;  /* (Try to) perform event "e10b". */
-        if (execEdge39()) continue;  /* (Try to) perform event "e10c". */
-        if (execEdge40()) continue;  /* (Try to) perform event "e10d". */
-        if (execEdge41()) continue;  /* (Try to) perform event "e10e". */
-        if (execEdge42()) continue;  /* (Try to) perform event "e10f". */
-        if (execEdge43()) continue;  /* (Try to) perform event "e10g". */
-        if (execEdge44()) continue;  /* (Try to) perform event "e10h". */
-        if (execEdge45()) continue;  /* (Try to) perform event "e10i". */
-        if (execEdge46()) continue;  /* (Try to) perform event "e11a". */
-        if (execEdge47()) continue;  /* (Try to) perform event "e12a". */
-        if (execEdge48()) continue;  /* (Try to) perform event "e12b". */
-        if (execEdge49()) continue;  /* (Try to) perform event "e12c". */
-        if (execEdge50()) continue;  /* (Try to) perform event "e12d". */
-        if (execEdge51()) continue;  /* (Try to) perform event "e12e". */
-        if (execEdge52()) continue;  /* (Try to) perform event "e13a". */
-        if (execEdge53()) continue;  /* (Try to) perform event "e13b". */
-        if (execEdge54()) continue;  /* (Try to) perform event "e13c". */
-        if (execEdge55()) continue;  /* (Try to) perform event "e13d". */
-        if (execEdge56()) continue;  /* (Try to) perform event "e13e". */
-        if (execEdge57()) continue;  /* (Try to) perform event "e14a". */
-        if (execEdge58()) continue;  /* (Try to) perform event "e14b". */
-        if (execEdge59()) continue;  /* (Try to) perform event "e14c". */
-        if (execEdge60()) continue;  /* (Try to) perform event "e14d". */
-        if (execEdge61()) continue;  /* (Try to) perform event "e14e". */
-        if (execEdge62()) continue;  /* (Try to) perform event "e14f". */
-        if (execEdge63()) continue;  /* (Try to) perform event "e14g". */
-        if (execEdge64()) continue;  /* (Try to) perform event "e14h". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge0()) continue; /* (Try to) perform edge with index 0 and event "e02a". */
+        if (execEdge1()) continue; /* (Try to) perform edge with index 1 and event "e02b". */
+        if (execEdge2()) continue; /* (Try to) perform edge with index 2 and event "e03a". */
+        if (execEdge3()) continue; /* (Try to) perform edge with index 3 and event "e03b". */
+        if (execEdge4()) continue; /* (Try to) perform edge with index 4 and event "e04a". */
+        if (execEdge5()) continue; /* (Try to) perform edge with index 5 and event "e04b". */
+        if (execEdge6()) continue; /* (Try to) perform edge with index 6 and event "e04c". */
+        if (execEdge7()) continue; /* (Try to) perform edge with index 7 and event "e04d". */
+        if (execEdge8()) continue; /* (Try to) perform edge with index 8 and event "e04e". */
+        if (execEdge9()) continue; /* (Try to) perform edge with index 9 and event "e04f". */
+        if (execEdge10()) continue; /* (Try to) perform edge with index 10 and event "e05a". */
+        if (execEdge11()) continue; /* (Try to) perform edge with index 11 and event "e05b". */
+        if (execEdge12()) continue; /* (Try to) perform edge with index 12 and event "e05c". */
+        if (execEdge13()) continue; /* (Try to) perform edge with index 13 and event "e05d". */
+        if (execEdge14()) continue; /* (Try to) perform edge with index 14 and event "e05e". */
+        if (execEdge15()) continue; /* (Try to) perform edge with index 15 and event "e06a". */
+        if (execEdge16()) continue; /* (Try to) perform edge with index 16 and event "e06b". */
+        if (execEdge17()) continue; /* (Try to) perform edge with index 17 and event "e06c". */
+        if (execEdge18()) continue; /* (Try to) perform edge with index 18 and event "e06d". */
+        if (execEdge19()) continue; /* (Try to) perform edge with index 19 and event "e06e". */
+        if (execEdge20()) continue; /* (Try to) perform edge with index 20 and event "e07a". */
+        if (execEdge21()) continue; /* (Try to) perform edge with index 21 and event "e07b". */
+        if (execEdge22()) continue; /* (Try to) perform edge with index 22 and event "e08a". */
+        if (execEdge23()) continue; /* (Try to) perform edge with index 23 and event "e08b". */
+        if (execEdge24()) continue; /* (Try to) perform edge with index 24 and event "e08c". */
+        if (execEdge25()) continue; /* (Try to) perform edge with index 25 and event "e08d". */
+        if (execEdge26()) continue; /* (Try to) perform edge with index 26 and event "e08e". */
+        if (execEdge27()) continue; /* (Try to) perform edge with index 27 and event "e08f". */
+        if (execEdge28()) continue; /* (Try to) perform edge with index 28 and event "e08g". */
+        if (execEdge29()) continue; /* (Try to) perform edge with index 29 and event "e08h". */
+        if (execEdge30()) continue; /* (Try to) perform edge with index 30 and event "e09a". */
+        if (execEdge31()) continue; /* (Try to) perform edge with index 31 and event "e09b". */
+        if (execEdge32()) continue; /* (Try to) perform edge with index 32 and event "e09c". */
+        if (execEdge33()) continue; /* (Try to) perform edge with index 33 and event "e09d". */
+        if (execEdge34()) continue; /* (Try to) perform edge with index 34 and event "e09e". */
+        if (execEdge35()) continue; /* (Try to) perform edge with index 35 and event "e09f". */
+        if (execEdge36()) continue; /* (Try to) perform edge with index 36 and event "e09g". */
+        if (execEdge37()) continue; /* (Try to) perform edge with index 37 and event "e10a". */
+        if (execEdge38()) continue; /* (Try to) perform edge with index 38 and event "e10b". */
+        if (execEdge39()) continue; /* (Try to) perform edge with index 39 and event "e10c". */
+        if (execEdge40()) continue; /* (Try to) perform edge with index 40 and event "e10d". */
+        if (execEdge41()) continue; /* (Try to) perform edge with index 41 and event "e10e". */
+        if (execEdge42()) continue; /* (Try to) perform edge with index 42 and event "e10f". */
+        if (execEdge43()) continue; /* (Try to) perform edge with index 43 and event "e10g". */
+        if (execEdge44()) continue; /* (Try to) perform edge with index 44 and event "e10h". */
+        if (execEdge45()) continue; /* (Try to) perform edge with index 45 and event "e10i". */
+        if (execEdge46()) continue; /* (Try to) perform edge with index 46 and event "e11a". */
+        if (execEdge47()) continue; /* (Try to) perform edge with index 47 and event "e12a". */
+        if (execEdge48()) continue; /* (Try to) perform edge with index 48 and event "e12b". */
+        if (execEdge49()) continue; /* (Try to) perform edge with index 49 and event "e12c". */
+        if (execEdge50()) continue; /* (Try to) perform edge with index 50 and event "e12d". */
+        if (execEdge51()) continue; /* (Try to) perform edge with index 51 and event "e12e". */
+        if (execEdge52()) continue; /* (Try to) perform edge with index 52 and event "e13a". */
+        if (execEdge53()) continue; /* (Try to) perform edge with index 53 and event "e13b". */
+        if (execEdge54()) continue; /* (Try to) perform edge with index 54 and event "e13c". */
+        if (execEdge55()) continue; /* (Try to) perform edge with index 55 and event "e13d". */
+        if (execEdge56()) continue; /* (Try to) perform edge with index 56 and event "e13e". */
+        if (execEdge57()) continue; /* (Try to) perform edge with index 57 and event "e14a". */
+        if (execEdge58()) continue; /* (Try to) perform edge with index 58 and event "e14b". */
+        if (execEdge59()) continue; /* (Try to) perform edge with index 59 and event "e14c". */
+        if (execEdge60()) continue; /* (Try to) perform edge with index 60 and event "e14d". */
+        if (execEdge61()) continue; /* (Try to) perform edge with index 61 and event "e14e". */
+        if (execEdge62()) continue; /* (Try to) perform edge with index 62 and event "e14f". */
+        if (execEdge63()) continue; /* (Try to) perform edge with index 63 and event "e14g". */
+        if (execEdge64()) continue; /* (Try to) perform edge with index 64 and event "e14h". */
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -2539,7 +2539,7 @@ void edges_EngineFirstStep(void) {
         PrintOutput(EVT_INITIAL_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */
@@ -2580,7 +2580,7 @@ void edges_EngineTimeStep(double delta) {
         PrintOutput(EVT_DELAY_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */

@@ -149,7 +149,7 @@ public abstract class declarations {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
             // Event "u_e1".
             if (execEdge0()) continue;
@@ -160,7 +160,7 @@ public abstract class declarations {
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
             // Event "c_e1".
             if (execEdge2()) continue;
@@ -237,9 +237,9 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "u_e1".
+     * Execute code for edge with index 0 and event "u_e1".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge0() {
         if (doInfoPrintOutput) printOutput(4, true);
@@ -252,9 +252,9 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "u_e2".
+     * Execute code for edge with index 1 and event "u_e2".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge1() {
         if (doInfoPrintOutput) printOutput(5, true);
@@ -267,9 +267,9 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e1".
+     * Execute code for edge with index 2 and event "c_e1".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge2() {
         boolean guard = (g1_a1_) == (declarationsEnum._loc1);
@@ -286,9 +286,9 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e2".
+     * Execute code for edge with index 3 and event "c_e2".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge3() {
         boolean guard = (g1_a1_) == (declarationsEnum._loc2);
@@ -305,9 +305,9 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e3".
+     * Execute code for edge with index 4 and event "c_e3".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge4() {
         if (doInfoPrintOutput) printOutput(2, true);
@@ -320,9 +320,9 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e4".
+     * Execute code for edge with index 5 and event "c_e4".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge5() {
         if (doInfoPrintOutput) printOutput(3, true);

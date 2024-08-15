@@ -305,13 +305,13 @@ public abstract class edges {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
 
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
             // Event "e02a".
             if (execEdge0()) continue;
@@ -571,9 +571,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e02a".
+     * Execute code for edge with index 0 and event "e02a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge0() {
         boolean guard = ((aut02_) == (edgesEnum._loc1)) || (((aut02_) == (edgesEnum._loc2)) || ((aut02_) == (edgesEnum._loc3)));
@@ -596,9 +596,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e02b".
+     * Execute code for edge with index 1 and event "e02b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge1() {
         boolean guard = (((aut02_) == (edgesEnum._loc1)) && (equalObjs(aut02_x_, 2))) || (((aut02_) == (edgesEnum._loc2)) || (((aut02_) == (edgesEnum._loc3)) && (equalObjs(aut02_x_, 3))));
@@ -621,9 +621,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e03a".
+     * Execute code for edge with index 2 and event "e03a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge2() {
         if (doInfoPrintOutput) printOutput(2, true);
@@ -637,9 +637,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e03b".
+     * Execute code for edge with index 3 and event "e03b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge3() {
         if (doInfoPrintOutput) printOutput(3, true);
@@ -653,9 +653,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e04a".
+     * Execute code for edge with index 4 and event "e04a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge4() {
         if (doInfoPrintOutput) printOutput(4, true);
@@ -671,9 +671,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e04b".
+     * Execute code for edge with index 5 and event "e04b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge5() {
         if (doInfoPrintOutput) printOutput(5, true);
@@ -691,9 +691,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e04c".
+     * Execute code for edge with index 6 and event "e04c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge6() {
         if (doInfoPrintOutput) printOutput(6, true);
@@ -713,9 +713,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e04d".
+     * Execute code for edge with index 7 and event "e04d".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge7() {
         if (doInfoPrintOutput) printOutput(7, true);
@@ -737,9 +737,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e04e".
+     * Execute code for edge with index 8 and event "e04e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge8() {
         if (doInfoPrintOutput) printOutput(8, true);
@@ -757,9 +757,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e04f".
+     * Execute code for edge with index 9 and event "e04f".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge9() {
         if (doInfoPrintOutput) printOutput(9, true);
@@ -782,9 +782,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e05a".
+     * Execute code for edge with index 10 and event "e05a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge10() {
         if (doInfoPrintOutput) printOutput(10, true);
@@ -807,9 +807,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e05b".
+     * Execute code for edge with index 11 and event "e05b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge11() {
         if (doInfoPrintOutput) printOutput(11, true);
@@ -832,9 +832,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e05c".
+     * Execute code for edge with index 12 and event "e05c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge12() {
         if (doInfoPrintOutput) printOutput(12, true);
@@ -848,9 +848,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e05d".
+     * Execute code for edge with index 13 and event "e05d".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge13() {
         if (doInfoPrintOutput) printOutput(13, true);
@@ -873,9 +873,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e05e".
+     * Execute code for edge with index 14 and event "e05e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge14() {
         if (doInfoPrintOutput) printOutput(14, true);
@@ -898,9 +898,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e06a".
+     * Execute code for edge with index 15 and event "e06a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge15() {
         if (doInfoPrintOutput) printOutput(15, true);
@@ -914,9 +914,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e06b".
+     * Execute code for edge with index 16 and event "e06b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge16() {
         if (doInfoPrintOutput) printOutput(16, true);
@@ -934,9 +934,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e06c".
+     * Execute code for edge with index 17 and event "e06c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge17() {
         if (doInfoPrintOutput) printOutput(17, true);
@@ -954,9 +954,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e06d".
+     * Execute code for edge with index 18 and event "e06d".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge18() {
         if (doInfoPrintOutput) printOutput(18, true);
@@ -970,9 +970,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e06e".
+     * Execute code for edge with index 19 and event "e06e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge19() {
         if (doInfoPrintOutput) printOutput(19, true);
@@ -986,9 +986,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e07a".
+     * Execute code for edge with index 20 and event "e07a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge20() {
         if (doInfoPrintOutput) printOutput(20, true);
@@ -1002,9 +1002,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e07b".
+     * Execute code for edge with index 21 and event "e07b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge21() {
         if (doInfoPrintOutput) printOutput(21, true);
@@ -1019,9 +1019,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e08a".
+     * Execute code for edge with index 22 and event "e08a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge22() {
         if (doInfoPrintOutput) printOutput(22, true);
@@ -1035,9 +1035,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e08b".
+     * Execute code for edge with index 23 and event "e08b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge23() {
         if (doInfoPrintOutput) printOutput(23, true);
@@ -1051,9 +1051,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e08c".
+     * Execute code for edge with index 24 and event "e08c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge24() {
         if (doInfoPrintOutput) printOutput(24, true);
@@ -1071,9 +1071,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e08d".
+     * Execute code for edge with index 25 and event "e08d".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge25() {
         if (doInfoPrintOutput) printOutput(25, true);
@@ -1094,9 +1094,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e08e".
+     * Execute code for edge with index 26 and event "e08e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge26() {
         if (doInfoPrintOutput) printOutput(26, true);
@@ -1117,9 +1117,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e08f".
+     * Execute code for edge with index 27 and event "e08f".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge27() {
         if (doInfoPrintOutput) printOutput(27, true);
@@ -1137,9 +1137,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e08g".
+     * Execute code for edge with index 28 and event "e08g".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge28() {
         if (doInfoPrintOutput) printOutput(28, true);
@@ -1157,9 +1157,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e08h".
+     * Execute code for edge with index 29 and event "e08h".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge29() {
         if (doInfoPrintOutput) printOutput(29, true);
@@ -1178,9 +1178,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e09a".
+     * Execute code for edge with index 30 and event "e09a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge30() {
         if (doInfoPrintOutput) printOutput(30, true);
@@ -1194,9 +1194,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e09b".
+     * Execute code for edge with index 31 and event "e09b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge31() {
         if (doInfoPrintOutput) printOutput(31, true);
@@ -1210,9 +1210,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e09c".
+     * Execute code for edge with index 32 and event "e09c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge32() {
         if (doInfoPrintOutput) printOutput(32, true);
@@ -1230,9 +1230,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e09d".
+     * Execute code for edge with index 33 and event "e09d".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge33() {
         if (doInfoPrintOutput) printOutput(33, true);
@@ -1253,9 +1253,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e09e".
+     * Execute code for edge with index 34 and event "e09e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge34() {
         if (doInfoPrintOutput) printOutput(34, true);
@@ -1269,9 +1269,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e09f".
+     * Execute code for edge with index 35 and event "e09f".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge35() {
         if (doInfoPrintOutput) printOutput(35, true);
@@ -1285,9 +1285,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e09g".
+     * Execute code for edge with index 36 and event "e09g".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge36() {
         if (doInfoPrintOutput) printOutput(36, true);
@@ -1301,9 +1301,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e10a".
+     * Execute code for edge with index 37 and event "e10a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge37() {
         if (doInfoPrintOutput) printOutput(37, true);
@@ -1317,9 +1317,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e10b".
+     * Execute code for edge with index 38 and event "e10b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge38() {
         if (doInfoPrintOutput) printOutput(38, true);
@@ -1333,9 +1333,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e10c".
+     * Execute code for edge with index 39 and event "e10c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge39() {
         if (doInfoPrintOutput) printOutput(39, true);
@@ -1358,9 +1358,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e10d".
+     * Execute code for edge with index 40 and event "e10d".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge40() {
         if (doInfoPrintOutput) printOutput(40, true);
@@ -1381,9 +1381,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e10e".
+     * Execute code for edge with index 41 and event "e10e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge41() {
         if (doInfoPrintOutput) printOutput(41, true);
@@ -1410,9 +1410,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e10f".
+     * Execute code for edge with index 42 and event "e10f".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge42() {
         if (doInfoPrintOutput) printOutput(42, true);
@@ -1426,9 +1426,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e10g".
+     * Execute code for edge with index 43 and event "e10g".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge43() {
         if (doInfoPrintOutput) printOutput(43, true);
@@ -1442,9 +1442,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e10h".
+     * Execute code for edge with index 44 and event "e10h".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge44() {
         if (doInfoPrintOutput) printOutput(44, true);
@@ -1458,9 +1458,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e10i".
+     * Execute code for edge with index 45 and event "e10i".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge45() {
         if (doInfoPrintOutput) printOutput(45, true);
@@ -1475,9 +1475,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e11a".
+     * Execute code for edge with index 46 and event "e11a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge46() {
         if (doInfoPrintOutput) printOutput(46, true);
@@ -1520,9 +1520,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e12a".
+     * Execute code for edge with index 47 and event "e12a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge47() {
         if (doInfoPrintOutput) printOutput(47, true);
@@ -1538,9 +1538,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e12b".
+     * Execute code for edge with index 48 and event "e12b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge48() {
         if (doInfoPrintOutput) printOutput(48, true);
@@ -1558,9 +1558,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e12c".
+     * Execute code for edge with index 49 and event "e12c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge49() {
         if (doInfoPrintOutput) printOutput(49, true);
@@ -1579,9 +1579,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e12d".
+     * Execute code for edge with index 50 and event "e12d".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge50() {
         if (doInfoPrintOutput) printOutput(50, true);
@@ -1599,9 +1599,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e12e".
+     * Execute code for edge with index 51 and event "e12e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge51() {
         if (doInfoPrintOutput) printOutput(51, true);
@@ -1617,9 +1617,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e13a".
+     * Execute code for edge with index 52 and event "e13a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge52() {
         if (doInfoPrintOutput) printOutput(52, true);
@@ -1633,9 +1633,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e13b".
+     * Execute code for edge with index 53 and event "e13b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge53() {
         if (doInfoPrintOutput) printOutput(53, true);
@@ -1653,9 +1653,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e13c".
+     * Execute code for edge with index 54 and event "e13c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge54() {
         if (doInfoPrintOutput) printOutput(54, true);
@@ -1673,9 +1673,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e13d".
+     * Execute code for edge with index 55 and event "e13d".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge55() {
         if (doInfoPrintOutput) printOutput(55, true);
@@ -1695,9 +1695,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e13e".
+     * Execute code for edge with index 56 and event "e13e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge56() {
         if (doInfoPrintOutput) printOutput(56, true);
@@ -1715,9 +1715,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e14a".
+     * Execute code for edge with index 57 and event "e14a".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge57() {
         boolean guard = aut14_b_;
@@ -1733,9 +1733,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e14b".
+     * Execute code for edge with index 58 and event "e14b".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge58() {
         boolean guard = (aut14_i_) > (3);
@@ -1751,9 +1751,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e14c".
+     * Execute code for edge with index 59 and event "e14c".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge59() {
         boolean guard = !equalObjs(addReal(aut14_r_, aut14_i_), 18.0);
@@ -1769,9 +1769,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e14d".
+     * Execute code for edge with index 60 and event "e14d".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge60() {
         boolean guard = !(aut14_b_);
@@ -1787,9 +1787,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e14e".
+     * Execute code for edge with index 61 and event "e14e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge61() {
         boolean guard = (negate(aut14_i_)) < (5);
@@ -1805,9 +1805,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e14f".
+     * Execute code for edge with index 62 and event "e14f".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge62() {
         boolean guard = (negate(aut14_r_)) < (6);
@@ -1823,9 +1823,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e14g".
+     * Execute code for edge with index 63 and event "e14g".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge63() {
         boolean guard = (aut14_i_) < (7);
@@ -1841,9 +1841,9 @@ public abstract class edges {
     }
 
     /**
-     * Execute code for event "e14h".
+     * Execute code for edge with index 64 and event "e14h".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
     private boolean execEdge64() {
         boolean guard = (aut14_r_) < (8);

@@ -1653,12 +1653,12 @@ static void ClearInputFlags(struct WorkStruct *work) {
 /* Time-dependent guards. */
 
 
-/* Event execution. */
+/* Edge execution. */
 
 /**
- * Execute code for event "Button.u_pushed".
+ * Execute code for edge with index 0 and event "Button.u_pushed".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge0(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1686,9 +1686,9 @@ static BoolType execEdge0(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "Button.u_released".
+ * Execute code for edge with index 1 and event "Button.u_released".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge1(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1705,9 +1705,9 @@ static BoolType execEdge1(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "Timer.u_timeout".
+ * Execute code for edge with index 2 and event "Timer.u_timeout".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge2(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1725,9 +1725,9 @@ static BoolType execEdge2(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "Lamp.c_off".
+ * Execute code for edge with index 3 and event "Lamp.c_off".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge3(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1746,9 +1746,9 @@ static BoolType execEdge3(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "Lamp.c_on".
+ * Execute code for edge with index 4 and event "Lamp.c_on".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge4(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -1767,9 +1767,9 @@ static BoolType execEdge4(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "Timer.c_start".
+ * Execute code for edge with index 5 and event "Timer.c_start".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
 static BoolType execEdge5(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
@@ -2020,22 +2020,22 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
-    /* Uncontrollables. */
+    /* Uncontrollable edges. */
     for (;;) {
-        if (execEdge0(sim_struct)) continue;  /* (Try to) perform event "Button.u_pushed". */
-        if (execEdge1(sim_struct)) continue;  /* (Try to) perform event "Button.u_released". */
-        if (execEdge2(sim_struct)) continue;  /* (Try to) perform event "Timer.u_timeout". */
+        if (execEdge0(sim_struct)) continue; /* (Try to) perform edge with index 0 and event "Button.u_pushed". */
+        if (execEdge1(sim_struct)) continue; /* (Try to) perform edge with index 1 and event "Button.u_released". */
+        if (execEdge2(sim_struct)) continue; /* (Try to) perform edge with index 2 and event "Timer.u_timeout". */
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
-    /* Controllables. */
+    /* Controllable edges. */
     for (;;) {
-        if (execEdge3(sim_struct)) continue;  /* (Try to) perform event "Lamp.c_off". */
-        if (execEdge4(sim_struct)) continue;  /* (Try to) perform event "Lamp.c_on". */
-        if (execEdge5(sim_struct)) continue;  /* (Try to) perform event "Timer.c_start". */
+        if (execEdge3(sim_struct)) continue; /* (Try to) perform edge with index 3 and event "Lamp.c_off". */
+        if (execEdge4(sim_struct)) continue; /* (Try to) perform edge with index 4 and event "Lamp.c_on". */
+        if (execEdge5(sim_struct)) continue; /* (Try to) perform edge with index 5 and event "Timer.c_start". */
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
     /* Print statement for time start. */
