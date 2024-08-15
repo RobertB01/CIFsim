@@ -251,7 +251,7 @@ If in the CIF model always at least one event is enabled, the generated code wil
 Time will not pass.
 Code generation should be avoided for such models.
 It is the responsibility of the modeler to ensure this is taken into account.
-A <<tools-controller-checker-bounded-response, bounded response check>> can be done to ensure the CIF specification does not have infinite sequences of enabled events.
+A <<tools-controller-checker-bounded-response,bounded response check>> can be done to ensure the CIF specification does not have infinite sequences of enabled events.
 
 ==== Predictability of execution time
 
