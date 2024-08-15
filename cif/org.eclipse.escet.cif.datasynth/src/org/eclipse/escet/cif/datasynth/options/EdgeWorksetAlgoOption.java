@@ -20,7 +20,7 @@ public class EdgeWorksetAlgoOption extends BooleanOption {
     /** Message to indicate the option is unsupported. */
     private static final String UNSUPPORTED_MESSAGE = "This option is no longer supported. "
             + "It will be removed in a future version of the tool. "
-            + "Use the 'Exploration strategy for symbolic reachability computations' options instead.";
+            + "Use the 'Exploration strategy for symbolic reachability computations' option instead.";
 
     /** Constructor for the {@link EdgeWorksetAlgoOption} class. */
     public EdgeWorksetAlgoOption() {

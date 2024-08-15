@@ -122,7 +122,7 @@ public class CifBddReachability {
     }
 
     /**
-     * The instance number to use for saturation. This number must be unique for the list of edges with which saturation
+     * Set the instance number to use for saturation. This number must be unique for the list of edges with which saturation
      * is performed, and will be used internally for caching purposes.
      *
      * @param instance The instance number.
@@ -399,7 +399,7 @@ public class CifBddReachability {
 
     /**
      * Computes the set of reachable states from the given predicate by using the saturation strategy. The use of
-     * saturation requires that a saturation instance has been configured using {@link #setSaturationInstance(int)}.
+     * saturation requires that a saturation instance has been configured using {@link #setSaturationInstance}.
      *
      * @param pred The predicate to which to apply the reachability. This predicate should not be used after this
      *     method, as it may have been {@link BDD#free freed} by this method. Instead, continue with the predicate
@@ -428,7 +428,7 @@ public class CifBddReachability {
 
         // Obtain the BDDs of the transition relations and their variable support sets.
         List<BDD> sortedRelations = sortedEdges.stream().map(edge -> edge.updateGuard)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Lists.toList());
         List<BDDVarSet> sortedVars = sortedEdges.stream().map(edge -> edge.updateGuardSupport)
                 .collect(Collectors.toCollection(ArrayList::new));
 

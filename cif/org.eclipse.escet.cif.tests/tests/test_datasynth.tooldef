@@ -123,7 +123,7 @@ map(string:list string) test_options = {
     "datasynth/namespace_invalid.cif":                                   ["-n a.b."],
     "datasynth/namespace_non_empty.cif":                                 ["-n g.h"],
     "datasynth/reachability1_workset_off.cif":                           ["--edge-granularity=per-event"],
-    "datasynth/reachability1_workset_on.cif":                            ["--exploration-strategy=chaining-workset  --edge-granularity=per-event"],
+    "datasynth/reachability1_workset_on.cif":                            ["--exploration-strategy=chaining-workset --edge-granularity=per-event"],
     "datasynth/reachability2_workset_off.cif":                           ["--edge-granularity=per-event"],
     "datasynth/reachability2_workset_on.cif":                            ["--exploration-strategy=chaining-workset  --edge-granularity=per-event"],
     "datasynth/simplify_ctrl_beh_off.cif":                               ["--bdd-simplify="],
