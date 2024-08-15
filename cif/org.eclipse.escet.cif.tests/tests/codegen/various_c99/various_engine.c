@@ -271,7 +271,7 @@ static void PrintOutput(various_Event_ event, BoolType pre) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent0(void) {
+static BoolType execEdge0(void) {
     BoolType guard = FALSE;
     if (!guard) return FALSE;
 
@@ -309,7 +309,7 @@ static BoolType execEvent0(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent1(void) {
+static BoolType execEdge1(void) {
     BoolType guard = (g_sync_) == (_various_l1);
     if (!guard) return FALSE;
 
@@ -336,7 +336,7 @@ static BoolType execEvent1(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent2(void) {
+static BoolType execEdge2(void) {
     BoolType guard = ((g_sync_) == (_various_l2)) && ((g_sync_c_) >= (2));
     if (!guard) return FALSE;
 
@@ -413,9 +413,9 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "a.e". */
-        if (execEvent1()) continue;  /* (Try to) perform event "e1". */
-        if (execEvent2()) continue;  /* (Try to) perform event "g.h1". */
+        if (execEdge0()) continue;  /* (Try to) perform event "a.e". */
+        if (execEdge1()) continue;  /* (Try to) perform event "e1". */
+        if (execEdge2()) continue;  /* (Try to) perform event "g.h1". */
         break; /* No event fired, done with discrete steps. */
     }
 }

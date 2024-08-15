@@ -1514,7 +1514,7 @@ static BoolType GuardEval02(SimStruct *sim_struct) {
  *
  * @return Whether the event was performed.
  */
-static BoolType ExecEvent0(SimStruct *sim_struct) {
+static BoolType execEdge0(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -1550,7 +1550,7 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
  *
  * @return Whether the event was performed.
  */
-static BoolType ExecEvent1(SimStruct *sim_struct) {
+static BoolType execEdge1(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -1575,7 +1575,7 @@ static BoolType ExecEvent1(SimStruct *sim_struct) {
  *
  * @return Whether the event was performed.
  */
-static BoolType ExecEvent2(SimStruct *sim_struct) {
+static BoolType execEdge2(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -1804,9 +1804,9 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
 
     /* Controllables. */
     for (;;) {
-        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "a.e". */
-        if (ExecEvent1(sim_struct)) continue;  /* (Try to) perform event "e1". */
-        if (ExecEvent2(sim_struct)) continue;  /* (Try to) perform event "g.h1". */
+        if (execEdge0(sim_struct)) continue;  /* (Try to) perform event "a.e". */
+        if (execEdge1(sim_struct)) continue;  /* (Try to) perform event "e1". */
+        if (execEdge2(sim_struct)) continue;  /* (Try to) perform event "g.h1". */
 
         break; /* None of the events triggered. */
     }

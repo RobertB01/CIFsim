@@ -224,7 +224,7 @@ static void PrintOutput(ranges_Event_ event, BoolType pre) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent0(void) {
+static BoolType execEdge0(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e11_, TRUE);
     #endif
@@ -242,7 +242,7 @@ static BoolType execEvent0(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent1(void) {
+static BoolType execEdge1(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e12_, TRUE);
     #endif
@@ -260,7 +260,7 @@ static BoolType execEvent1(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent2(void) {
+static BoolType execEdge2(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e13_, TRUE);
     #endif
@@ -299,7 +299,7 @@ static BoolType execEvent2(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent3(void) {
+static BoolType execEdge3(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e14_, TRUE);
     #endif
@@ -322,7 +322,7 @@ static BoolType execEvent3(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent4(void) {
+static BoolType execEdge4(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e15_, TRUE);
     #endif
@@ -363,7 +363,7 @@ static BoolType execEvent4(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent5(void) {
+static BoolType execEdge5(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e16_, TRUE);
     #endif
@@ -404,7 +404,7 @@ static BoolType execEvent5(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent6(void) {
+static BoolType execEdge6(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e17_, TRUE);
     #endif
@@ -445,7 +445,7 @@ static BoolType execEvent6(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent7(void) {
+static BoolType execEdge7(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e18_, TRUE);
     #endif
@@ -491,7 +491,7 @@ static BoolType execEvent7(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent8(void) {
+static BoolType execEdge8(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e21_, TRUE);
     #endif
@@ -513,7 +513,7 @@ static BoolType execEvent8(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent9(void) {
+static BoolType execEdge9(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e22_, TRUE);
     #endif
@@ -535,7 +535,7 @@ static BoolType execEvent9(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent10(void) {
+static BoolType execEdge10(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e23_, TRUE);
     #endif
@@ -569,7 +569,7 @@ static BoolType execEvent10(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent11(void) {
+static BoolType execEdge11(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e24_, TRUE);
     #endif
@@ -594,7 +594,7 @@ static BoolType execEvent11(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent12(void) {
+static BoolType execEdge12(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e25_, TRUE);
     #endif
@@ -626,7 +626,7 @@ static BoolType execEvent12(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent13(void) {
+static BoolType execEdge13(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e26_, TRUE);
     #endif
@@ -658,7 +658,7 @@ static BoolType execEvent13(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent14(void) {
+static BoolType execEdge14(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e27_, TRUE);
     #endif
@@ -690,7 +690,7 @@ static BoolType execEvent14(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent15(void) {
+static BoolType execEdge15(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e28_, TRUE);
     #endif
@@ -722,7 +722,7 @@ static BoolType execEvent15(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent16(void) {
+static BoolType execEdge16(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e31_, TRUE);
     #endif
@@ -746,7 +746,7 @@ static BoolType execEvent16(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent17(void) {
+static BoolType execEdge17(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e32_, TRUE);
     #endif
@@ -770,7 +770,7 @@ static BoolType execEvent17(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent18(void) {
+static BoolType execEdge18(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e33_, TRUE);
     #endif
@@ -801,7 +801,7 @@ static BoolType execEvent18(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent19(void) {
+static BoolType execEdge19(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e34_, TRUE);
     #endif
@@ -825,7 +825,7 @@ static BoolType execEvent19(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent20(void) {
+static BoolType execEdge20(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e35_, TRUE);
     #endif
@@ -856,7 +856,7 @@ static BoolType execEvent20(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent21(void) {
+static BoolType execEdge21(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e36_, TRUE);
     #endif
@@ -887,7 +887,7 @@ static BoolType execEvent21(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent22(void) {
+static BoolType execEdge22(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e37_, TRUE);
     #endif
@@ -918,7 +918,7 @@ static BoolType execEvent22(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent23(void) {
+static BoolType execEdge23(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e38_, TRUE);
     #endif
@@ -949,7 +949,7 @@ static BoolType execEvent23(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent24(void) {
+static BoolType execEdge24(void) {
     #if EVENT_OUTPUT
         ranges_InfoEvent(e41_, TRUE);
     #endif
@@ -1015,31 +1015,31 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "e11". */
-        if (execEvent1()) continue;  /* (Try to) perform event "e12". */
-        if (execEvent2()) continue;  /* (Try to) perform event "e13". */
-        if (execEvent3()) continue;  /* (Try to) perform event "e14". */
-        if (execEvent4()) continue;  /* (Try to) perform event "e15". */
-        if (execEvent5()) continue;  /* (Try to) perform event "e16". */
-        if (execEvent6()) continue;  /* (Try to) perform event "e17". */
-        if (execEvent7()) continue;  /* (Try to) perform event "e18". */
-        if (execEvent8()) continue;  /* (Try to) perform event "e21". */
-        if (execEvent9()) continue;  /* (Try to) perform event "e22". */
-        if (execEvent10()) continue;  /* (Try to) perform event "e23". */
-        if (execEvent11()) continue;  /* (Try to) perform event "e24". */
-        if (execEvent12()) continue;  /* (Try to) perform event "e25". */
-        if (execEvent13()) continue;  /* (Try to) perform event "e26". */
-        if (execEvent14()) continue;  /* (Try to) perform event "e27". */
-        if (execEvent15()) continue;  /* (Try to) perform event "e28". */
-        if (execEvent16()) continue;  /* (Try to) perform event "e31". */
-        if (execEvent17()) continue;  /* (Try to) perform event "e32". */
-        if (execEvent18()) continue;  /* (Try to) perform event "e33". */
-        if (execEvent19()) continue;  /* (Try to) perform event "e34". */
-        if (execEvent20()) continue;  /* (Try to) perform event "e35". */
-        if (execEvent21()) continue;  /* (Try to) perform event "e36". */
-        if (execEvent22()) continue;  /* (Try to) perform event "e37". */
-        if (execEvent23()) continue;  /* (Try to) perform event "e38". */
-        if (execEvent24()) continue;  /* (Try to) perform event "e41". */
+        if (execEdge0()) continue;  /* (Try to) perform event "e11". */
+        if (execEdge1()) continue;  /* (Try to) perform event "e12". */
+        if (execEdge2()) continue;  /* (Try to) perform event "e13". */
+        if (execEdge3()) continue;  /* (Try to) perform event "e14". */
+        if (execEdge4()) continue;  /* (Try to) perform event "e15". */
+        if (execEdge5()) continue;  /* (Try to) perform event "e16". */
+        if (execEdge6()) continue;  /* (Try to) perform event "e17". */
+        if (execEdge7()) continue;  /* (Try to) perform event "e18". */
+        if (execEdge8()) continue;  /* (Try to) perform event "e21". */
+        if (execEdge9()) continue;  /* (Try to) perform event "e22". */
+        if (execEdge10()) continue;  /* (Try to) perform event "e23". */
+        if (execEdge11()) continue;  /* (Try to) perform event "e24". */
+        if (execEdge12()) continue;  /* (Try to) perform event "e25". */
+        if (execEdge13()) continue;  /* (Try to) perform event "e26". */
+        if (execEdge14()) continue;  /* (Try to) perform event "e27". */
+        if (execEdge15()) continue;  /* (Try to) perform event "e28". */
+        if (execEdge16()) continue;  /* (Try to) perform event "e31". */
+        if (execEdge17()) continue;  /* (Try to) perform event "e32". */
+        if (execEdge18()) continue;  /* (Try to) perform event "e33". */
+        if (execEdge19()) continue;  /* (Try to) perform event "e34". */
+        if (execEdge20()) continue;  /* (Try to) perform event "e35". */
+        if (execEdge21()) continue;  /* (Try to) perform event "e36". */
+        if (execEdge22()) continue;  /* (Try to) perform event "e37". */
+        if (execEdge23()) continue;  /* (Try to) perform event "e38". */
+        if (execEdge24()) continue;  /* (Try to) perform event "e41". */
         break; /* No event fired, done with discrete steps. */
     }
 }

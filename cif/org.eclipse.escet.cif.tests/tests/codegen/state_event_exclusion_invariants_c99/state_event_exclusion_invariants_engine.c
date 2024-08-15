@@ -77,7 +77,7 @@ static void PrintOutput(state_event_exclusion_invariants_Event_ event, BoolType 
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent0(void) {
+static BoolType execEdge0(void) {
     BoolType guard = (((x_) > (1)) && (((x_) <= (1)) && ((x_) > (1)))) && ((((x_) <= (1)) && ((x_) > (1))) && (((x_) <= (1)) && (((x_) > (1)) && ((x_) <= (1)))));
     if (!guard) return FALSE;
 
@@ -143,7 +143,7 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "e". */
+        if (execEdge0()) continue;  /* (Try to) perform event "e". */
         break; /* No event fired, done with discrete steps. */
     }
 }

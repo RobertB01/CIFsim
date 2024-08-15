@@ -82,7 +82,7 @@ static void PrintOutput(svg_input_decl_removed_Event_ event, BoolType pre) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent0(void) {
+static BoolType execEdge0(void) {
     BoolType guard = ((p_) == (_svg_input_decl_removed_l1)) && (x_);
     if (!guard) return FALSE;
 
@@ -150,7 +150,7 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "p.c". */
+        if (execEdge0()) continue;  /* (Try to) perform event "p.c". */
         break; /* No event fired, done with discrete steps. */
     }
 }

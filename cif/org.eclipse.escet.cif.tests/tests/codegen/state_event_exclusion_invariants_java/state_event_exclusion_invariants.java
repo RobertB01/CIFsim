@@ -93,7 +93,7 @@ public abstract class state_event_exclusion_invariants {
         // Execute controllable events as long as they are possible.
         while (true) {
             // Event "e".
-            if (execEvent0()) continue;
+            if (execEdge0()) continue;
 
             break;
         }
@@ -162,7 +162,7 @@ public abstract class state_event_exclusion_invariants {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent0() {
+    private boolean execEdge0() {
         boolean guard = (((x_) > (1)) && (((x_) <= (1)) && ((x_) > (1)))) && ((((x_) <= (1)) && ((x_) > (1))) && (((x_) <= (1)) && (((x_) > (1)) && ((x_) <= (1)))));
         if (!guard) return false;
 

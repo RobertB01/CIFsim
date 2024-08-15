@@ -125,13 +125,13 @@ public abstract class various {
         // Execute controllable events as long as they are possible.
         while (true) {
             // Event "a.e".
-            if (execEvent0()) continue;
+            if (execEdge0()) continue;
 
             // Event "e1".
-            if (execEvent1()) continue;
+            if (execEdge1()) continue;
 
             // Event "g.h1".
-            if (execEvent2()) continue;
+            if (execEdge2()) continue;
 
             break;
         }
@@ -200,7 +200,7 @@ public abstract class various {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent0() {
+    private boolean execEdge0() {
         boolean guard = false;
         if (!guard) return false;
 
@@ -226,7 +226,7 @@ public abstract class various {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent1() {
+    private boolean execEdge1() {
         boolean guard = (g_sync_) == (variousEnum._l1);
         if (!guard) return false;
 
@@ -245,7 +245,7 @@ public abstract class various {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent2() {
+    private boolean execEdge2() {
         boolean guard = ((g_sync_) == (variousEnum._l2)) && ((g_sync_c_) >= (2));
         if (!guard) return false;
 

@@ -506,7 +506,7 @@ static void PrintOutput(annos_doc_Event_ event, BoolType pre) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent0(void) {
+static BoolType execEdge0(void) {
     BoolType guard = ((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || (((contvars_c3_) > (0)) || (((contvars_c4_) > (0)) || ((contvars_c5_) > (0))))) && (((discvars_d1_) || (discvars_d2_)) || ((discvars_d3_) || ((discvars_d4_) || (discvars_d5_))));
     if (!guard) return FALSE;
 
@@ -525,7 +525,7 @@ static BoolType execEvent0(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent1(void) {
+static BoolType execEdge1(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e1_, TRUE);
     #endif
@@ -543,7 +543,7 @@ static BoolType execEvent1(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent2(void) {
+static BoolType execEdge2(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e2_, TRUE);
     #endif
@@ -563,7 +563,7 @@ static BoolType execEvent2(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent3(void) {
+static BoolType execEdge3(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e3_, TRUE);
     #endif
@@ -581,7 +581,7 @@ static BoolType execEvent3(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent4(void) {
+static BoolType execEdge4(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e4_, TRUE);
     #endif
@@ -602,7 +602,7 @@ static BoolType execEvent4(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent5(void) {
+static BoolType execEdge5(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e5_, TRUE);
     #endif
@@ -656,12 +656,12 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "e". */
-        if (execEvent1()) continue;  /* (Try to) perform event "events.e1". */
-        if (execEvent2()) continue;  /* (Try to) perform event "events.e2". */
-        if (execEvent3()) continue;  /* (Try to) perform event "events.e3". */
-        if (execEvent4()) continue;  /* (Try to) perform event "events.e4". */
-        if (execEvent5()) continue;  /* (Try to) perform event "events.e5". */
+        if (execEdge0()) continue;  /* (Try to) perform event "e". */
+        if (execEdge1()) continue;  /* (Try to) perform event "events.e1". */
+        if (execEdge2()) continue;  /* (Try to) perform event "events.e2". */
+        if (execEdge3()) continue;  /* (Try to) perform event "events.e3". */
+        if (execEdge4()) continue;  /* (Try to) perform event "events.e4". */
+        if (execEdge5()) continue;  /* (Try to) perform event "events.e5". */
         break; /* No event fired, done with discrete steps. */
     }
 }

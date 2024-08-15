@@ -223,7 +223,7 @@ static void PrintOutput(declarations_Event_ event, BoolType pre) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent0(void) {
+static BoolType execEdge0(void) {
     #if EVENT_OUTPUT
         declarations_InfoEvent(u_e1_, TRUE);
     #endif
@@ -239,7 +239,7 @@ static BoolType execEvent0(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent1(void) {
+static BoolType execEdge1(void) {
     #if EVENT_OUTPUT
         declarations_InfoEvent(u_e2_, TRUE);
     #endif
@@ -255,7 +255,7 @@ static BoolType execEvent1(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent2(void) {
+static BoolType execEdge2(void) {
     BoolType guard = (g1_a1_) == (_declarations_loc1);
     if (!guard) return FALSE;
 
@@ -276,7 +276,7 @@ static BoolType execEvent2(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent3(void) {
+static BoolType execEdge3(void) {
     BoolType guard = (g1_a1_) == (_declarations_loc2);
     if (!guard) return FALSE;
 
@@ -297,7 +297,7 @@ static BoolType execEvent3(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent4(void) {
+static BoolType execEdge4(void) {
     #if EVENT_OUTPUT
         declarations_InfoEvent(c_e3_, TRUE);
     #endif
@@ -313,7 +313,7 @@ static BoolType execEvent4(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent5(void) {
+static BoolType execEdge5(void) {
     #if EVENT_OUTPUT
         declarations_InfoEvent(c_e4_, TRUE);
     #endif
@@ -363,8 +363,8 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "u_e1". */
-        if (execEvent1()) continue;  /* (Try to) perform event "u_e2". */
+        if (execEdge0()) continue;  /* (Try to) perform event "u_e1". */
+        if (execEdge1()) continue;  /* (Try to) perform event "u_e2". */
         break; /* No event fired, done with discrete steps. */
     }
 
@@ -377,10 +377,10 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent2()) continue;  /* (Try to) perform event "c_e1". */
-        if (execEvent3()) continue;  /* (Try to) perform event "c_e2". */
-        if (execEvent4()) continue;  /* (Try to) perform event "c_e3". */
-        if (execEvent5()) continue;  /* (Try to) perform event "c_e4". */
+        if (execEdge2()) continue;  /* (Try to) perform event "c_e1". */
+        if (execEdge3()) continue;  /* (Try to) perform event "c_e2". */
+        if (execEdge4()) continue;  /* (Try to) perform event "c_e3". */
+        if (execEdge5()) continue;  /* (Try to) perform event "c_e4". */
         break; /* No event fired, done with discrete steps. */
     }
 }

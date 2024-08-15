@@ -1956,7 +1956,7 @@ static void ClearInputFlags(struct WorkStruct *work) {
  *
  * @return Whether the event was performed.
  */
-static BoolType ExecEvent0(SimStruct *sim_struct) {
+static BoolType execEdge0(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2138,7 +2138,7 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
 
     /* Controllables. */
     for (;;) {
-        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "a.e". */
+        if (execEdge0(sim_struct)) continue;  /* (Try to) perform event "a.e". */
 
         break; /* None of the events triggered. */
     }

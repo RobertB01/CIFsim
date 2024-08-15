@@ -579,7 +579,7 @@ static void PrintOutput(unsupported_simulink_warnings_Event_ event, BoolType pre
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent0(void) {
+static BoolType execEdge0(void) {
     BoolType guard = ((((a_d1_)._field0) > (0)) || (((StringTypeSize(&(a_d2_))) > (0)) || (((A1T2IITypeProject(&(a_d3_), 0))->_field0) > (0)))) || ((((StringTypeSize(A1STypeProject(&(a_d4_), 0))) > (0)) || (((A1T2IITypeProject(A1A1T2IITypeProject(&(a_d5_), 0), 0))->_field0) > (0))) || (((StringTypeSize(A1STypeProject(A1A1STypeProject(&(a_d6_), 0), 0))) > (0)) || (A1BTypeProject(A1A1BTypeProject(A1A1A1BTypeProject(&(a_d7_), 0), 0), 0))));
     if (!guard) return FALSE;
 
@@ -645,7 +645,7 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "a.e". */
+        if (execEdge0()) continue;  /* (Try to) perform event "a.e". */
         break; /* No event fired, done with discrete steps. */
     }
 }

@@ -770,7 +770,7 @@ static void PrintOutput(exprs_Event_ event, BoolType pre) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent0(void) {
+static BoolType execEdge0(void) {
     #if EVENT_OUTPUT
         exprs_InfoEvent(a1_e_, TRUE);
     #endif
@@ -839,7 +839,7 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "a1.e". */
+        if (execEdge0()) continue;  /* (Try to) perform event "a1.e". */
         break; /* No event fired, done with discrete steps. */
     }
 }
