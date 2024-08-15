@@ -698,10 +698,10 @@ public class JavaScriptCodeGen extends CodeGen {
         edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, false, ctxt);
 
         // Fill the replacement patterns with generated code.
-        replacements.put("javascript-event-calls-code-svgin", codeCallsSvgIn.toString());
-        replacements.put("javascript-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
-        replacements.put("javascript-event-calls-code-controllables", codeCallsControllables.toString());
-        replacements.put("javascript-event-methods-code", codeMethods.toString());
+        replacements.put("javascript-edge-calls-code-svgin", codeCallsSvgIn.toString());
+        replacements.put("javascript-edge-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("javascript-edge-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("javascript-edge-methods-code", codeMethods.toString());
     }
 
     /**

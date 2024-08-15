@@ -185,7 +185,7 @@ ${javascript-cont-upd-code}
             }
 
             // Try to execute an event. If one is executed, start from the top again.
-${javascript-event-calls-code-svgin}
+${javascript-edge-calls-code-svgin}
 
             // No event executed. We are done.
             break;
@@ -197,7 +197,7 @@ ${javascript-event-calls-code-svgin}
         // Execute uncontrollable events as long as they are possible.
         while (true) {
             // Try to execute an event. If one is executed, start from the top again.
-${javascript-event-calls-code-uncontrollables}
+${javascript-edge-calls-code-uncontrollables}
 
             // No event executed. We are done.
             break;
@@ -206,7 +206,7 @@ ${javascript-event-calls-code-uncontrollables}
         // Execute controllable events as long as they are possible.
         while (true) {
             // Try to execute an event. If one is executed, start from the top again.
-${javascript-event-calls-code-controllables}
+${javascript-edge-calls-code-controllables}
 
             // No event executed. We are done.
             break;
@@ -294,7 +294,7 @@ ${javascript-event-calls-code-controllables}
             },
         delay);
     }
-${javascript-event-methods-code}
+${javascript-edge-methods-code}
 
     /** Initializes the state. */
     initState() {

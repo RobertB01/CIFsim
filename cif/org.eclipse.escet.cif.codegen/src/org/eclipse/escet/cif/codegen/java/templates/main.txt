@@ -84,13 +84,13 @@ ${java-cont-upd-code}
 
         // Execute uncontrollable events as long as they are possible.
         while (true) {
-${java-event-calls-code-uncontrollables}
+${java-edge-calls-code-uncontrollables}
             break;
         }
 
         // Execute controllable events as long as they are possible.
         while (true) {
-${java-event-calls-code-controllables}
+${java-edge-calls-code-controllables}
             break;
         }
 
@@ -152,7 +152,7 @@ ${java-event-calls-code-controllables}
             }
         }
     }
-${java-event-methods-code}
+${java-edge-methods-code}
 
     /** Initializes the state. */
     private void initState() {

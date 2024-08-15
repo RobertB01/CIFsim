@@ -564,9 +564,9 @@ public class JavaCodeGen extends CodeGen {
         edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, ctxt);
         edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, ctxt);
 
-        replacements.put("java-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
-        replacements.put("java-event-calls-code-controllables", codeCallsControllables.toString());
-        replacements.put("java-event-methods-code", codeMethods.toString());
+        replacements.put("java-edge-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("java-edge-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("java-edge-methods-code", codeMethods.toString());
     }
 
     /**
