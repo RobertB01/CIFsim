@@ -14,21 +14,62 @@
 package org.eclipse.escet.cif.codegen;
 
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgCopy;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEvent;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventIf;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventIfEntry;
+import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgInEventSingle;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgMove;
 import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgOut;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 
 /** SVG code generator for the target language. */
 public abstract class SvgCodeGen {
+    /**
+     * Gets the interactive events, the events coupled to SVG input mappings.
+     *
+     * @param svgIns The SVG input mappings.
+     * @param events The events of the specification.
+     * @return The interactive events.
+     */
+    public static Set<Event> getSvgInEvents(List<SvgIn> svgIns, List<Event> events) {
+        Set<Event> svgInEvents = set();
+        for (SvgIn svgIn: svgIns) {
+            SvgInEvent event = svgIn.getEvent();
+            if (event == null) {
+                // Input mapping without event.
+            } else if (event instanceof SvgInEventSingle) {
+                // Single event.
+                SvgInEventSingle singleEvt = (SvgInEventSingle)event;
+                Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
+                svgInEvents.add(evt);
+            } else if (event instanceof SvgInEventIf) {
+                // 'if/then/else' event mapping.
+                SvgInEventIf ifEvent = (SvgInEventIf)event;
+                for (SvgInEventIfEntry entry: ifEvent.getEntries()) {
+                    Event evt = ((EventExpression)entry.getEvent()).getEvent();
+                    svgInEvents.add(evt);
+                }
+            } else {
+                throw new RuntimeException("Unknown SVG input mapping event: " + event);
+            }
+        }
+
+        return svgInEvents;
+    }
+
     /**
      * Filters the given CIF/SVG declarations to those for a certain SVG file, and group them per type.
      *

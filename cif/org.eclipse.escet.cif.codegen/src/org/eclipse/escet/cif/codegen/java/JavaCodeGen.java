@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +60,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
@@ -436,7 +434,6 @@ public class JavaCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(2);
 
         // 0+ evt
-        // -1 tau
         // -2 time
         // -3 init
 
@@ -452,7 +449,7 @@ public class JavaCodeGen extends CodeGen {
                 for (PrintFor printFor: printFors) {
                     switch (printFor.getKind()) {
                         case EVENT:
-                            printConds.add("(idx >= -1)");
+                            printConds.add("(idx >= 0)");
                             break;
 
                         case FINAL:
@@ -557,30 +554,53 @@ public class JavaCodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
-        CodeBox codeCalls = makeCodeBox(3);
+        Assert.check(svgInEdges.isEmpty());
+
+        CodeBox codeCallsUncontrollables = makeCodeBox(3);
+        CodeBox codeCallsControllables = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);
 
-        for (int i = 0; i < edges.size(); i++) {
+        int edgeIdx = 0;
+        edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, ctxt);
+        edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, ctxt);
+
+        replacements.put("java-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("java-event-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("java-event-methods-code", codeMethods.toString());
+    }
+
+    /**
+     * Generate code for the given edges.
+     *
+     * @param edges The edges for which to generate code.
+     * @param edgeIdx The edge index to use for the first edge.
+     * @param codeCalls The code storage for calls.
+     * @param codeMethods The code storage for methods.
+     * @param ctxt The code generation context.
+     * @return The edge index to use for the next edge, after the edges given to this method.
+     */
+    private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, CodeContext ctxt) {
+        for (int i = 0; i < edges.size(); i++, edgeIdx++) {
             // Get edge.
             Edge edge = edges.get(i);
 
             // Get event.
             Assert.check(edge.getEvents().size() == 1);
             Expression eventRef = first(edge.getEvents()).getEvent();
-            Event event = (eventRef instanceof TauExpression) ? null : ((EventExpression)eventRef).getEvent();
-            int eventIdx = (event == null) ? -1 : events.indexOf(event);
-            String eventName = (event == null) ? "tau" : origDeclNames.get(event);
+            Event event = ((EventExpression)eventRef).getEvent();
+            int eventIdx = events.indexOf(event);
+            String eventName = origDeclNames.get(event);
             Assert.notNull(eventName);
 
             // Add call code.
             codeCalls.add("// Event \"%s\".", eventName);
-            codeCalls.add("if (execEvent%d()) continue;", i);
+            codeCalls.add("if (execEvent%d()) continue;", edgeIdx);
             codeCalls.add();
 
             // Add method code.
 
             // Header.
-            List<String> docs = (event == null) ? Collections.emptyList() : CifDocAnnotationUtils.getDocs(event);
+            List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
@@ -595,7 +615,7 @@ public class JavaCodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return {@code true} if the event was executed, {@code false} otherwise.");
             codeMethods.add(" */");
-            codeMethods.add("private boolean execEvent%d() {", i);
+            codeMethods.add("private boolean execEvent%d() {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
@@ -630,8 +650,7 @@ public class JavaCodeGen extends CodeGen {
             codeMethods.add("}");
         }
 
-        replacements.put("java-event-calls-code", codeCalls.toString());
-        replacements.put("java-event-methods-code", codeMethods.toString());
+        return edgeIdx;
     }
 
     @Override

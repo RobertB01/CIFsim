@@ -17,7 +17,7 @@ input list[3] int[0..5] input_li;
 
 alg int z = x + y;
 
-event e1;
+controllable e1;
 
 print pre time;
 print post g.sync.c;
@@ -28,7 +28,7 @@ print "err" file ":stderr";
 print "file" file ".\\some_file.txt";
 
 group g:
-  event int h1;
+  controllable int h1;
 
   automaton snd:
     disc int a = 5 + size(input_li) + inc(rcv.v);
@@ -59,12 +59,13 @@ group g:
 end
 
 automaton a:
+  controllable e;
   disc list[2] int[0..3] li;
   disc int[2..5] x;
 
   location:
     initial;
-    edge when false do li[0] := x;
+    edge e when false do li[0] := x;
 end
 
 func int inc(int x):

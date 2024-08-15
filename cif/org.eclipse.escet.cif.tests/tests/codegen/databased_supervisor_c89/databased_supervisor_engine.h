@@ -91,9 +91,6 @@ enum databased_supervisorEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "Button.u_pushed". */
     Button_u_pushed_,
 

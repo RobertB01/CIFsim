@@ -73,9 +73,6 @@ enum fmtEventEnum_ {
 
     /** Delay step. */
     EVT_DELAY_,
-
-    /** Tau step. */
-    EVT_TAU_,
 };
 typedef enum fmtEventEnum_ fmt_Event_;
 

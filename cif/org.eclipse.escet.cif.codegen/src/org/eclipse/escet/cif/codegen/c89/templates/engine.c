@@ -79,15 +79,29 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
 static void PerformEvents(void) {
+    /* Uncontrollables. */
     int count = 0;
     for (;;) {
         count++;
         if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
-            fprintf(stderr, "Warning: Quitting after performing %d events, infinite loop?\n", count);
+            fprintf(stderr, "Warning: Quitting after performing %d uncontrollable events, infinite loop?\n", count);
             break;
         }
 
-${event-calls-code}
+${event-calls-code-uncontrollables}
+        break; /* No event fired, done with discrete steps. */
+    }
+
+    /* Controllables. */
+    count = 0;
+    for (;;) {
+        count++;
+        if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
+            fprintf(stderr, "Warning: Quitting after performing %d controllable events, infinite loop?\n", count);
+            break;
+        }
+
+${event-calls-code-controllables}
         break; /* No event fired, done with discrete steps. */
     }
 }

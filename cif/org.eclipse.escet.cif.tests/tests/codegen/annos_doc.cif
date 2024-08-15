@@ -29,6 +29,8 @@ input bool i4;
 @doc("Second doc line 1.", "Second doc line 2.")
 input bool i5;
 
+controllable e;
+
 @doc("discvarsAut") // Annotations on automata are ignored.
 automaton discvars:
   disc bool d1;
@@ -48,7 +50,7 @@ automaton discvars:
 
   location:
     initial;
-    edge when d1 or d2 or d3 or d4 or d5;
+    edge e when d1 or d2 or d3 or d4 or d5;
 end
 
 automaton contvars:
@@ -69,7 +71,7 @@ automaton contvars:
 
   location:
     initial;
-    edge when c1 > 0 or c2 > 0 or c3 > 0 or c4 > 0 or c5 > 0;
+    edge e when c1 > 0 or c2 > 0 or c3 > 0 or c4 > 0 or c5 > 0;
 end
 
 @doc("algVarsGroup") // Annotations on groups are ignored.
@@ -108,20 +110,20 @@ group constants:
 end
 
 automaton events:
-  event e1;
+  controllable e1;
 
   @doc("single line doc")
-  event e2;
+  controllable e2;
 
   @doc("doc with multiple\nlines " + "of\n text")
-  event e3;
+  controllable e3;
 
   @doc(fmt("%s", "some doc"))
-  event e4;
+  controllable e4;
 
   @doc("First doc.")
   @doc("Second doc line 1.", "Second doc line 2.")
-  event e5;
+  controllable e5;
 
   location:
     initial;

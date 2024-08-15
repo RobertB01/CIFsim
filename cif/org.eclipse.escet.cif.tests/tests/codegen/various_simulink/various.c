@@ -1460,23 +1460,23 @@ enum variousEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e1". */
     e1_,
 
     /** Event "g.h1". */
     g_h1_,
+
+    /** Event "a.e". */
+    a_e_,
 };
 typedef enum variousEventEnum_ various_Event_;
 
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e1",           /**< Event "e1". */
     "g.h1",         /**< Event "g.h1". */
+    "a.e",          /**< Event "a.e". */
 };
 
 /** Enum names. */
@@ -1499,7 +1499,7 @@ static void ClearInputFlags(struct WorkStruct *work) {
 }
 
 /* Time-dependent guards. */
-static BoolType GuardEval01(SimStruct *sim_struct) {
+static BoolType GuardEval02(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -1510,11 +1510,47 @@ static BoolType GuardEval01(SimStruct *sim_struct) {
 /* Event execution. */
 
 /**
- * Execute code for event "e1".
+ * Execute code for event "a.e".
  *
  * @return Whether the event was performed.
  */
 static BoolType ExecEvent0(SimStruct *sim_struct) {
+    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
+    int_T *modes = ssGetModeVector(sim_struct);
+    real_T *cstate = ssGetContStates(sim_struct);
+
+    BoolType guard = FALSE;
+    if (!guard) return FALSE;
+
+    #if PRINT_OUTPUT
+        PrintOutput(a_e_, TRUE);
+    #endif
+
+    {
+        int_T rhs2 = work->a_x_;
+        int_T index3 = 0;
+        #if CHECK_RANGES
+        if ((rhs2) > 3) {
+            fprintf(stderr, "RangeError: Writing %d into \"list[2] int[0..3]\"\n", rhs2);
+            fprintf(stderr, "            at " "a.li" "[%d]" "\n", index3);
+            RangeErrorDetected();
+        }
+        #endif
+        A2ITypeModify(&work->a_li_, index3, rhs2);
+    }
+
+    #if PRINT_OUTPUT
+        PrintOutput(a_e_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "e1".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType ExecEvent1(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -1539,12 +1575,12 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
  *
  * @return Whether the event was performed.
  */
-static BoolType ExecEvent1(SimStruct *sim_struct) {
+static BoolType ExecEvent2(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = GuardEval01(sim_struct);
+    BoolType guard = GuardEval02(sim_struct);
     if (!guard) return FALSE;
 
     #if PRINT_OUTPUT
@@ -1558,42 +1594,6 @@ static BoolType ExecEvent1(SimStruct *sim_struct) {
 
     #if PRINT_OUTPUT
         PrintOutput(g_h1_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType ExecEvent2(SimStruct *sim_struct) {
-    struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
-    int_T *modes = ssGetModeVector(sim_struct);
-    real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = FALSE;
-    if (!guard) return FALSE;
-
-    #if PRINT_OUTPUT
-        PrintOutput(EVT_TAU_, TRUE);
-    #endif
-
-    {
-        int_T rhs2 = work->a_x_;
-        int_T index3 = 0;
-        #if CHECK_RANGES
-        if ((rhs2) > 3) {
-            fprintf(stderr, "RangeError: Writing %d into \"list[2] int[0..3]\"\n", rhs2);
-            fprintf(stderr, "            at " "a.li" "[%d]" "\n", index3);
-            RangeErrorDetected();
-        }
-        #endif
-        A2ITypeModify(&work->a_li_, index3, rhs2);
-    }
-
-    #if PRINT_OUTPUT
-        PrintOutput(EVT_TAU_, FALSE);
     #endif
     return TRUE;
 }
@@ -1715,7 +1715,7 @@ static void mdlZeroCrossings(SimStruct *sim_struct) {
     ClearInputFlags(work);
     real_T *zcSignals = ssGetNonsampledZCs(sim_struct);
 
-    zcSignals[0] = GuardEval01(sim_struct);
+    zcSignals[0] = GuardEval02(sim_struct);
 }
 #endif
 /* }}} */
@@ -1795,10 +1795,18 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
+    /* Uncontrollables. */
     for (;;) {
-        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "e1". */
-        if (ExecEvent1(sim_struct)) continue;  /* (Try to) perform event "g.h1". */
-        if (ExecEvent2(sim_struct)) continue;  /* (Try to) perform event "tau". */
+
+
+        break; /* None of the events triggered. */
+    }
+
+    /* Controllables. */
+    for (;;) {
+        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "a.e". */
+        if (ExecEvent1(sim_struct)) continue;  /* (Try to) perform event "e1". */
+        if (ExecEvent2(sim_struct)) continue;  /* (Try to) perform event "g.h1". */
 
         break; /* None of the events triggered. */
     }

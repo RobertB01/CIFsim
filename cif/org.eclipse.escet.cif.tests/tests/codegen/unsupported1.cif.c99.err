@@ -1,16 +1,16 @@
-WARNING: File "codegen/unsupported1.cif": Semantic warning at line 49, column 7: Automaton "p2" has no initial location.
+WARNING: File "codegen/unsupported1.cif": Semantic warning at line 53, column 7: Automaton "p2" has no initial location.
 ERROR: Code generation to C99 failed for CIF file "codegen/unsupported1.cif".
 CAUSE: CIF code generator failed due to unsatisfied preconditions:
 
   ------------------------------------
-  (1/44) A dictionary literal is used.
+  (1/47) A dictionary literal is used.
   ------------------------------------
    * In discrete variable "q.v2":
      - disc dict(int:bool) v2 = {1: true};
                                 ^
 
   ---------------------------------
-  (2/44) A dictionary type is used.
+  (2/47) A dictionary type is used.
   ---------------------------------
    * In the top-level scope of the specification:
      - invariant size(q.v1) + size(q.v2) > 0;
@@ -20,7 +20,7 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
             ^                   ^
 
   -----------------------------------
-  (3/44) A distribution type is used.
+  (3/47) A distribution type is used.
   -----------------------------------
    * In the top-level scope of the specification:
      - invariant (sample q.v3)[0];
@@ -30,7 +30,7 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
             ^              ^       ^
 
   ----------------------------------------------------------------------------------
-  (4/44) A function type is used to store functions or use functions as data values.
+  (4/47) A function type is used to store functions or use functions as data values.
   ----------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant q.v4(1) > 0;
@@ -42,14 +42,14 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
             ^                  ^
 
   ------------------------------------------------------
-  (5/44) A non-array list projection expression is used.
+  (5/47) A non-array list projection expression is used.
   ------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant q.v5[:][0] > 0;
                         ^
 
   -------------------------------------
-  (6/44) A non-array list type is used.
+  (6/47) A non-array list type is used.
   -------------------------------------
    * In the top-level scope of the specification:
      - invariant size(q.v5) + size(q.v6) > 0;
@@ -67,7 +67,7 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
             ^
 
   -----------------------------
-  (7/44) A set literal is used.
+  (7/47) A set literal is used.
   -----------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v6 - {1});
@@ -79,7 +79,7 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
                          ^
 
   --------------------------
-  (8/44) A set type is used.
+  (8/47) A set type is used.
   --------------------------
    * In the top-level scope of the specification:
      - invariant size(q.v5) + size(q.v6) > 0;
@@ -101,14 +101,14 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
             ^            ^
 
   ----------------------------------
-  (9/44) A slice expression is used.
+  (9/47) A slice expression is used.
   ----------------------------------
    * In the top-level scope of the specification:
      - invariant q.v5[:][0] > 0;
                      ^
 
   ------------------------------------------------------------------
-  (10/44) A user-defined function reference is used as a data value.
+  (10/47) A user-defined function reference is used as a data value.
   ------------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant [f2][q.i]() > 0;
@@ -118,77 +118,77 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
                                ^
 
   -------------------------------------------------
-  (11/44) Automaton has multiple initial locations.
+  (11/47) Automaton has multiple initial locations.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - plant automaton p3:
                        ^
 
   ------------------------------------------
-  (12/44) Automaton has no initial location.
+  (12/47) Automaton has no initial location.
   ------------------------------------------
    * In the top-level scope of the specification:
      - plant automaton p2:
                        ^
 
   ------------------------------------------------------------
-  (13/44) Binary operator "!=" is used on a set typed operand.
+  (13/47) Binary operator "!=" is used on a set typed operand.
   ------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant q.v6 != q.v6;
                       ^
 
   ------------------------------------------------------------
-  (14/44) Binary operator "+" is used on a list typed operand.
+  (14/47) Binary operator "+" is used on a list typed operand.
   ------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v5 + [1]);
                             ^
 
   -----------------------------------------------------------
-  (15/44) Binary operator "-" is used on a set typed operand.
+  (15/47) Binary operator "-" is used on a set typed operand.
   -----------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v6 - {1});
                             ^
 
   ------------------------------------------------------------
-  (16/44) Binary operator "=" is used on a list typed operand.
+  (16/47) Binary operator "=" is used on a list typed operand.
   ------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant q.v5 = q.v5;
                       ^
 
   -------------------------------------------------------------
-  (17/44) Binary operator "and" is used on a set typed operand.
+  (17/47) Binary operator "and" is used on a set typed operand.
   -------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v6 and q.v6);
                             ^
 
   -------------------------------------
-  (18/44) Binary operator "in" is used.
+  (18/47) Binary operator "in" is used.
   -------------------------------------
    * In the top-level scope of the specification:
      - invariant 1 in q.v6;
                    ^
 
   ------------------------------------------------------------
-  (19/44) Binary operator "or" is used on a set typed operand.
+  (19/47) Binary operator "or" is used on a set typed operand.
   ------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v6 or q.v6);
                             ^
 
   --------------------------------------
-  (20/44) Binary operator "sub" is used.
+  (20/47) Binary operator "sub" is used.
   --------------------------------------
    * In the top-level scope of the specification:
      - invariant {1} sub q.v6;
                      ^
 
   --------------------------------------------------
-  (21/44) Component has an initialization predicate.
+  (21/47) Component has an initialization predicate.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - initial p.x > 0;
@@ -201,14 +201,14 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
                  ^
 
   ----------------------------------------------------------------
-  (22/44) Discrete variable has multiple potential initial values.
+  (22/47) Discrete variable has multiple potential initial values.
   ----------------------------------------------------------------
    * In automaton "p":
      - disc int y in {1, 2};
                 ^
 
   ------------------------------------------------------------------------------------------
-  (23/44) Discrete variable has multiple potential initial values (any value in its domain).
+  (23/47) Discrete variable has multiple potential initial values (any value in its domain).
   ------------------------------------------------------------------------------------------
    * In automaton "p":
      - disc int x in any;
@@ -217,22 +217,45 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
      - disc list[2] int v7 in any;
                         ^
 
+  --------------------------------------------------------------------------------------
+  (24/47) Edge has an explicit 'tau' event, which is not controllable or uncontrollable.
+  --------------------------------------------------------------------------------------
+   * In location "p.a":
+     - edge tau goto b;
+            ^
+     - edge tau;
+            ^
+
+  --------------------------------------------------------------------------------------
+  (25/47) Edge has an implicit 'tau' event, which is not controllable or uncontrollable.
+  --------------------------------------------------------------------------------------
+   * In location "p.b":
+     - edge now;
+       ^
+
   -----------------------
-  (24/44) Edge is urgent.
+  (26/47) Edge is urgent.
   -----------------------
    * In location "p.b":
      - edge now;
        ^
 
+  ----------------------------------------------------------------
+  (27/47) Event is not declared as controllable or uncontrollable.
+  ----------------------------------------------------------------
+   * In automaton "p":
+     - event e;
+             ^
+
   ------------------------------------------------------
-  (25/44) Function is an external user-defined function.
+  (28/47) Function is an external user-defined function.
   ------------------------------------------------------
    * In the top-level scope of the specification:
      - func int f1(int b): "java:A.b";
                 ^
 
   ---------------------------------------
-  (26/44) Invariant is a state invariant.
+  (29/47) Invariant is a state invariant.
   ---------------------------------------
    * In the top-level scope of the specification:
      - invariant p.y > 0;
@@ -294,77 +317,77 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
              ^
 
   ---------------------------
-  (27/44) Location is urgent.
+  (30/47) Location is urgent.
   ---------------------------
    * In automaton "p":
      - location a:
                 ^
 
   ------------------------------------------------------------------------------------------
-  (28/44) Print declaration has both a post/target state text and a pre/source state filter.
+  (31/47) Print declaration has both a post/target state text and a pre/source state filter.
   ------------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - print "a" when pre time > 2;
        ^
 
   ------------------------------------------------------------------------------------------
-  (29/44) Print declaration has both a pre/source state text and a post/target state filter.
+  (32/47) Print declaration has both a pre/source state text and a post/target state filter.
   ------------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - print pre "a" when time > 1;
        ^
 
   --------------------------------------------------
-  (30/44) Standard library function "acosh" is used.
+  (33/47) Standard library function "acosh" is used.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - invariant acosh(q.r) > 0;
                  ^
 
   --------------------------------------------------
-  (31/44) Standard library function "asinh" is used.
+  (34/47) Standard library function "asinh" is used.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - invariant asinh(q.r) > 0;
                  ^
 
   --------------------------------------------------
-  (32/44) Standard library function "atanh" is used.
+  (35/47) Standard library function "atanh" is used.
   --------------------------------------------------
    * In the top-level scope of the specification:
      - invariant atanh(q.r) > 0;
                  ^
 
   -----------------------------------------------------
-  (33/44) Standard library function "constant" is used.
+  (36/47) Standard library function "constant" is used.
   -----------------------------------------------------
    * In discrete variable "q.v3":
      - disc dist bool v3 = constant(true);
                            ^
 
   -------------------------------------------------
-  (34/44) Standard library function "cosh" is used.
+  (37/47) Standard library function "cosh" is used.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - invariant cosh(q.r) > 0;
                  ^
 
   ------------------------------------------------
-  (35/44) Standard library function "del" is used.
+  (38/47) Standard library function "del" is used.
   ------------------------------------------------
    * In the top-level scope of the specification:
      - invariant del(q.v7, 0)[0] > 0;
                  ^
 
   -------------------------------------------------------------------------------------
-  (36/44) Standard library function "empty" is used on a non-array list typed argument.
+  (39/47) Standard library function "empty" is used on a non-array list typed argument.
   -------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v5 + [1]);
                  ^
 
   --------------------------------------------------------------------------
-  (37/44) Standard library function "empty" is used on a set typed argument.
+  (40/47) Standard library function "empty" is used on a set typed argument.
   --------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant empty(q.v6 or q.v6);
@@ -375,49 +398,49 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
                  ^
 
   ------------------------------------------------
-  (38/44) Standard library function "pop" is used.
+  (41/47) Standard library function "pop" is used.
   ------------------------------------------------
    * In the top-level scope of the specification:
      - invariant pop(q.v5)[0] > 0;
                  ^
 
   -------------------------------------------------
-  (39/44) Standard library function "sinh" is used.
+  (42/47) Standard library function "sinh" is used.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - invariant sinh(q.r) > 0;
                  ^
 
   --------------------------------------------------------------------------------
-  (40/44) Standard library function "size" is used on a dictionary typed argument.
+  (43/47) Standard library function "size" is used on a dictionary typed argument.
   --------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant size(q.v1) + size(q.v2) > 0;
                               ^
 
   ------------------------------------------------------------------------------------
-  (41/44) Standard library function "size" is used on a non-array list typed argument.
+  (44/47) Standard library function "size" is used on a non-array list typed argument.
   ------------------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant size(q.v5) + size(q.v6) > 0;
                  ^
 
   -------------------------------------------------------------------------
-  (42/44) Standard library function "size" is used on a set typed argument.
+  (45/47) Standard library function "size" is used on a set typed argument.
   -------------------------------------------------------------------------
    * In the top-level scope of the specification:
      - invariant size(q.v5) + size(q.v6) > 0;
                               ^
 
   -------------------------------------------------
-  (43/44) Standard library function "tanh" is used.
+  (46/47) Standard library function "tanh" is used.
   -------------------------------------------------
    * In the top-level scope of the specification:
      - invariant tanh(q.r) > 0;
                  ^
 
   ----------------------------------------
-  (44/44) Unary operator "sample" is used.
+  (47/47) Unary operator "sample" is used.
   ----------------------------------------
    * In the top-level scope of the specification:
      - invariant (sample q.v3)[0];

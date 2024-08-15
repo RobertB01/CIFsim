@@ -22,7 +22,7 @@ public abstract class edges {
     /** Whether this is the first time the code is (to be) executed. */
     protected boolean firstExec;
 
-    /** The names of all the events, except for event 'tau'. */
+    /** The names of all the events. */
     private final String[] EVENT_NAMES = {
         "e02a",
         "e02b",
@@ -305,7 +305,13 @@ public abstract class edges {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
+        while (true) {
+
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
         while (true) {
             // Event "e02a".
             if (execEvent0()) continue;
@@ -501,18 +507,6 @@ public abstract class edges {
 
             // Event "e14h".
             if (execEvent64()) continue;
-
-            // Event "tau".
-            if (execEvent65()) continue;
-
-            // Event "tau".
-            if (execEvent66()) continue;
-
-            // Event "tau".
-            if (execEvent67()) continue;
-
-            // Event "tau".
-            if (execEvent68()) continue;
 
             break;
         }
@@ -1864,66 +1858,6 @@ public abstract class edges {
         return true;
     }
 
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent65() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent66() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent67() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "tau".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent68() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
-
-
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
-        return true;
-    }
-
     /** Initializes the state. */
     private void initState() {
         aut02_x_ = 0;
@@ -1990,7 +1924,7 @@ public abstract class edges {
     /**
      * Informs that an event will be or has been executed.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @param pre Whether the event will be executed ({@code true}) or has
      *      been executed ({@code false}).
      */
@@ -2009,11 +1943,10 @@ public abstract class edges {
     /**
      * Returns the name of an event.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @return The name of the event.
      */
     protected String getEventName(int idx) {
-        if (idx == -1) return "tau";
         return EVENT_NAMES[idx];
     }
 
@@ -2325,9 +2258,8 @@ public abstract class edges {
     /**
      * Print output for all relevant print declarations.
      *
-     * @param idx The 0-based event index of the transition, or {@code -1} for
-     *      'tau' transitions, {@code -2} for time transitions, or {@code -3}
-     *      for the 'initial' transition.
+     * @param idx The 0-based event index of the transition, or {@code -2} for
+     *      time transitions, or {@code -3} for the 'initial' transition.
      * @param pre Whether to print output for the pre/source state of the
      *      transition ({@code true}) or for the post/target state of the
      *      transition ({@code false}).

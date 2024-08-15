@@ -22,6 +22,7 @@ import static org.eclipse.escet.common.java.Sets.copy;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Sets.sortedgeneric;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Comparator;
 import java.util.List;
@@ -576,7 +577,7 @@ public class CifEventUtils {
      * </p>
      *
      * <p>
-     * This method does not support tau events.
+     * This method does not support 'tau' events.
      * </p>
      *
      * @param edge The edge for which to return the events.
@@ -592,6 +593,30 @@ public class CifEventUtils {
         }
 
         return events;
+    }
+
+    /**
+     * Returns the single event for the given edge. This includes events used to synchronize, send, and receive.
+     *
+     * <p>
+     * This method does not support specifications that have component definitions/instantiations. In particular, it
+     * can't handle wrapping expressions for event references.
+     * </p>
+     *
+     * <p>
+     * This method does not support 'tau' events.
+     * </p>
+     *
+     * @param edge The edge for which to return the events.
+     * @return The event of the edge.
+     * @throws IllegalArgumentException If the edge does not have exactly one event.
+     */
+    public static Event getEvent(Edge edge) {
+        Set<Event> events = getEvents(edge);
+        if (events.size() != 1) {
+            throw new IllegalArgumentException(fmt("Expected one event on edge, found %d.", events.size()));
+        }
+        return events.iterator().next();
     }
 
     /**

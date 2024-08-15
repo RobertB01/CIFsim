@@ -76,18 +76,17 @@ alg real a4 = 123.4 + i2;
 
 // Events
 
-event e_e1, e_e2;
-controllable c_e1, c_e2;
+controllable c_e1, c_e2, c_e3, c_e4;
 uncontrollable u_e1, u_e2;
 
 group g1:
   automaton a1:
     location loc1:
       initial;
-      edge e_e1 goto loc2;
+      edge c_e1 goto loc2;
 
     location loc2:
-      edge e_e2 goto loc1;
+      edge c_e2 goto loc1;
   end
 end
 
@@ -96,6 +95,6 @@ automaton aut3:
 
   location loc1:
     initial;
-    edge e_e1, e_e2, c_e1, c_e2;
+    edge c_e1, c_e2, c_e3, c_e4;
     edge u_e1, u_e2 when i1 = 5;
 end

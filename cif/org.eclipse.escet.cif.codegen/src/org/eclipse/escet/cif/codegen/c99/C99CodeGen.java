@@ -34,7 +34,6 @@ import static org.eclipse.escet.common.java.Strings.makeUppercase;
 import static org.eclipse.escet.common.java.Strings.spaces;
 import static org.eclipse.escet.common.java.Strings.stringToJava;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,7 +71,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
@@ -99,9 +97,6 @@ public class C99CodeGen extends CodeGen {
 
     /** Name of the 'delay' event in the C99 language. */
     public static final String DELAY_EVENT_NAME = "EVT_DELAY_";
-
-    /** Name of the 'tau' event in the C99 language. */
-    public static final String TAU_EVENT_NAME = "EVT_TAU_";
 
     /** Name of the enumeration literal names list. */
     public static final String ENUM_NAMES_LIST = "enum_names";
@@ -134,7 +129,8 @@ public class C99CodeGen extends CodeGen {
         replacements.put("derivative-declarations", "");
         replacements.put("derivative-functions", "");
         replacements.put("enum-names-list", "");
-        replacements.put("event-calls-code", "");
+        replacements.put("event-calls-code-uncontrollables", "");
+        replacements.put("event-calls-code-controllables", "");
         replacements.put("event-declarations", "");
         replacements.put("event-methods-code", "");
         replacements.put("event-name-list", "");
@@ -428,10 +424,6 @@ public class C99CodeGen extends CodeGen {
         evtDeclsCode.add("/** Delay step. */");
         evtDeclsCode.add(DELAY_EVENT_NAME + ",");
 
-        evtDeclsCode.add();
-        evtDeclsCode.add("/** Tau step. */");
-        evtDeclsCode.add(TAU_EVENT_NAME + ",");
-
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
@@ -463,19 +455,17 @@ public class C99CodeGen extends CodeGen {
         // Events name list.
         CodeBox evtNamesCode = makeCodeBox(1);
 
-        GridBox evtNames = new GridBox(3 + events.size(), 2, 0, 1);
+        GridBox evtNames = new GridBox(2 + events.size(), 2, 0, 1);
         evtNames.set(0, 0, "\"initial-step\",");
         evtNames.set(0, 1, "/**< Initial step. */");
         evtNames.set(1, 0, "\"delay-step\",");
         evtNames.set(1, 1, "/**< Delay step. */");
-        evtNames.set(2, 0, "\"tau\",");
-        evtNames.set(2, 1, "/**< Tau step. */");
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
-            evtNames.set(3 + i, 0, fmt("\"%s\",", origName));
-            evtNames.set(3 + i, 1, fmt("/**< Event \"%s\". */", origName));
+            evtNames.set(2 + i, 0, fmt("\"%s\",", origName));
+            evtNames.set(2 + i, 1, fmt("/**< Event \"%s\". */", origName));
         }
 
         evtNamesCode.add(evtNames);
@@ -883,7 +873,7 @@ public class C99CodeGen extends CodeGen {
         for (PrintFor pf: fors) {
             switch (pf.getKind()) {
                 case EVENT:
-                    conds.add(fmt("%s >= %s", eventVar, TAU_EVENT_NAME));
+                    conds.add(fmt("%s > %s", eventVar, DELAY_EVENT_NAME));
                     break;
 
                 case FINAL:
@@ -1008,35 +998,82 @@ public class C99CodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
-        CodeBox codeCalls = makeCodeBox(2);
-        CodeBox codeMethods = makeCodeBox(0);
-        String prefix = replacements.get("prefix");
+        Assert.check(svgInEdges.isEmpty());
 
-        for (int i = 0; i < edges.size(); i++) {
+        CodeBox codeCallsUncontrollables = makeCodeBox(2);
+        CodeBox codeCallsControllables = makeCodeBox(2);
+        CodeBox codeMethods = makeCodeBox(0);
+
+        int edgeIdx = 0;
+        edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, ctxt);
+        edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, ctxt);
+
+        replacements.put("event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("event-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("event-methods-code", codeMethods.toString());
+
+        // 'Initial' calls.
+        CodeBox code = makeCodeBox(1);
+        code.add("#if PRINT_OUTPUT");
+        code.indent();
+        code.add("/* pre-initial and post-initial prints. */");
+        code.add("PrintOutput(%s, TRUE);", INITIAL_EVENT_NAME);
+        code.add("PrintOutput(%s, FALSE);", INITIAL_EVENT_NAME);
+        code.dedent();
+        code.add("#endif");
+        replacements.put("initial-print-calls", code.toString());
+
+        code = makeCodeBox(1);
+        code.add("#if PRINT_OUTPUT");
+        code.indent();
+        code.add("/* pre-timestep print. */");
+        code.add("PrintOutput(%s, TRUE);", DELAY_EVENT_NAME);
+        code.dedent();
+        code.add("#endif");
+        replacements.put("time-pre-print-call", code.toString());
+
+        code = makeCodeBox(1);
+        code.add("#if PRINT_OUTPUT");
+        code.indent();
+        code.add("/* post-timestep print. */");
+        code.add("PrintOutput(%s, FALSE);", DELAY_EVENT_NAME);
+        code.dedent();
+        code.add("#endif");
+        replacements.put("time-post-print-call", code.toString());
+    }
+
+    /**
+     * Generate code for the given edges.
+     *
+     * @param edges The edges for which to generate code.
+     * @param edgeIdx The edge index to use for the first edge.
+     * @param codeCalls The code storage for calls.
+     * @param codeMethods The code storage for methods.
+     * @param ctxt The code generation context.
+     * @return The edge index to use for the next edge, after the edges given to this method.
+     */
+    private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, CodeContext ctxt) {
+        String prefix = ctxt.getPrefix();
+
+        for (int i = 0; i < edges.size(); i++, edgeIdx++) {
             Edge edge = edges.get(i);
 
             // Get event.
             Assert.check(edge.getEvents().size() == 1);
             Expression eventRef = first(edge.getEvents()).getEvent();
-            Event event = (eventRef instanceof TauExpression) ? null : ((EventExpression)eventRef).getEvent();
+            Event event = ((EventExpression)eventRef).getEvent();
 
-            String eventName, eventTargetName;
-            if (event == null) {
-                eventName = "tau";
-                eventTargetName = TAU_EVENT_NAME;
-            } else {
-                eventName = origDeclNames.get(event);
-                Assert.notNull(eventName);
-                eventTargetName = getTargetRef(event);
-            }
+            String eventName = origDeclNames.get(event);
+            Assert.notNull(eventName);
+            String eventTargetName = getTargetRef(event);
 
             // Construct the call to try executing the event.
-            codeCalls.add("if (execEvent%d()) continue;  /* (Try to) perform event \"%s\". */", i, eventName);
+            codeCalls.add("if (execEvent%d()) continue;  /* (Try to) perform event \"%s\". */", edgeIdx, eventName);
 
             // Add method code.
 
             // Header.
-            List<String> docs = (event == null) ? Collections.emptyList() : CifDocAnnotationUtils.getDocs(event);
+            List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
@@ -1049,7 +1086,7 @@ public class C99CodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return Whether the event was performed.");
             codeMethods.add(" */");
-            codeMethods.add("static BoolType execEvent%d(void) {", i);
+            codeMethods.add("static BoolType execEvent%d(void) {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
@@ -1104,37 +1141,7 @@ public class C99CodeGen extends CodeGen {
             codeMethods.add("}");
         }
 
-        replacements.put("event-calls-code", codeCalls.toString());
-        replacements.put("event-methods-code", codeMethods.toString());
-
-        // 'Initial' calls.
-        CodeBox code = makeCodeBox(1);
-        code.add("#if PRINT_OUTPUT");
-        code.indent();
-        code.add("/* pre-initial and post-initial prints. */");
-        code.add("PrintOutput(%s, TRUE);", INITIAL_EVENT_NAME);
-        code.add("PrintOutput(%s, FALSE);", INITIAL_EVENT_NAME);
-        code.dedent();
-        code.add("#endif");
-        replacements.put("initial-print-calls", code.toString());
-
-        code = makeCodeBox(1);
-        code.add("#if PRINT_OUTPUT");
-        code.indent();
-        code.add("/* pre-timestep print. */");
-        code.add("PrintOutput(%s, TRUE);", DELAY_EVENT_NAME);
-        code.dedent();
-        code.add("#endif");
-        replacements.put("time-pre-print-call", code.toString());
-
-        code = makeCodeBox(1);
-        code.add("#if PRINT_OUTPUT");
-        code.indent();
-        code.add("/* post-timestep print. */");
-        code.add("PrintOutput(%s, FALSE);", DELAY_EVENT_NAME);
-        code.dedent();
-        code.add("#endif");
-        replacements.put("time-post-print-call", code.toString());
+        return edgeIdx;
     }
 
     @Override

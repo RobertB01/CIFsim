@@ -1322,8 +1322,16 @@ ${initial-print-calls}
 ${time-post-print-call}
     }
 
+    /* Uncontrollables. */
     for (;;) {
-${event-calls-code}
+${event-calls-code-uncontrollables}
+
+        break; /* None of the events triggered. */
+    }
+
+    /* Controllables. */
+    for (;;) {
+${event-calls-code-controllables}
 
         break; /* None of the events triggered. */
     }

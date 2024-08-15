@@ -17,14 +17,12 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
-import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.transform.OutputKeys;
@@ -431,47 +429,5 @@ public class JavaScriptSvgCodeGen extends SvgCodeGen {
         if (!updates.isEmpty()) {
             // TODO: Generate code for updates.
         }
-    }
-
-    /**
-     * Gets the indices of the interactive events, the events coupled to SVG input mappings.
-     *
-     * @param svgIns The SVG input mappings.
-     * @param events The events of the specification.
-     * @return The indices of the interactive events.
-     */
-    static Set<Integer> getInteractiveEventIndices(List<SvgIn> svgIns, List<Event> events) {
-        // Get event to index mapping.
-        Map<Event, Integer> eventMap = mapc(events.size());
-        for (int i = 0; i < events.size(); i++) {
-            eventMap.put(events.get(i), i);
-        }
-
-        // Get the indices of the interactive events.
-        Set<Integer> interactiveEventIndices = set();
-        for (SvgIn svgIn: svgIns) {
-            SvgInEvent event = svgIn.getEvent();
-            if (event == null) {
-                // Input mapping without event.
-            } else if (event instanceof SvgInEventSingle) {
-                // Single event.
-                SvgInEventSingle singleEvt = (SvgInEventSingle)event;
-                Event evt = ((EventExpression)singleEvt.getEvent()).getEvent();
-                int eventIdx = eventMap.get(evt);
-                interactiveEventIndices.add(eventIdx);
-            } else if (event instanceof SvgInEventIf) {
-                // 'if/then/else' event mapping.
-                SvgInEventIf ifEvent = (SvgInEventIf)event;
-                for (SvgInEventIfEntry entry: ifEvent.getEntries()) {
-                    Event evt = ((EventExpression)entry.getEvent()).getEvent();
-                    int eventIdx = eventMap.get(evt);
-                    interactiveEventIndices.add(eventIdx);
-                }
-            } else {
-                throw new RuntimeException("Unknown SVG input mapping event: " + event);
-            }
-        }
-
-        return interactiveEventIndices;
     }
 }

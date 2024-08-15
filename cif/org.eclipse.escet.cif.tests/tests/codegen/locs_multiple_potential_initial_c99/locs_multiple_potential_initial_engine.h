@@ -30,9 +30,6 @@ enum locs_multiple_potential_initialEventEnum_ {
 
     /** Delay step. */
     EVT_DELAY_,
-
-    /** Tau step. */
-    EVT_TAU_,
 };
 typedef enum locs_multiple_potential_initialEventEnum_ locs_multiple_potential_initial_Event_;
 

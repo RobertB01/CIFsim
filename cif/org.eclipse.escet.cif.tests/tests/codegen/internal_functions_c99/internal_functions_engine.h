@@ -69,9 +69,6 @@ enum internal_functionsEventEnum_ {
 
     /** Delay step. */
     EVT_DELAY_,
-
-    /** Tau step. */
-    EVT_TAU_,
 };
 typedef enum internal_functionsEventEnum_ internal_functions_Event_;
 

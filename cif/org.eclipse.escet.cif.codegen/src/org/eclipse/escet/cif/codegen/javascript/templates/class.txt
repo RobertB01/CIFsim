@@ -32,7 +32,7 @@ ${javascript-enum-lits-code}
     /** Whether this is the first time the code is (to be) executed. */
     firstExec;
 
-    /** The names of all the events, except for event 'tau'. */
+    /** The names of all the events. */
     EVENT_NAMES = [
 ${javascript-event-name-code}
     ];
@@ -176,7 +176,7 @@ ${javascript-cont-upd-code}
             if (this.doInfoPrintOutput) this.printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute SVG input events as long as they are possible.
         while (true) {
             // Handle next element from SVG input queue, if not already already processing one.
             if (this.svgInEvent == -1 && this.svgInQueue.length > 0) {
@@ -185,7 +185,7 @@ ${javascript-cont-upd-code}
             }
 
             // Try to execute an event. If one is executed, start from the top again.
-${javascript-event-calls-code}
+${javascript-event-calls-code-svgin}
 
             // No event executed. We are done.
             break;
@@ -193,6 +193,24 @@ ${javascript-event-calls-code}
 
         // Make sure all outstanding SVG input clicks have been processed.
         console.assert(this.svgInEvent == -1);
+
+        // Execute uncontrollable events as long as they are possible.
+        while (true) {
+            // Try to execute an event. If one is executed, start from the top again.
+${javascript-event-calls-code-uncontrollables}
+
+            // No event executed. We are done.
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
+        while (true) {
+            // Try to execute an event. If one is executed, start from the top again.
+${javascript-event-calls-code-controllables}
+
+            // No event executed. We are done.
+            break;
+        }
 
         // Apply print declarations for 'pre' of time transition.
         if (this.doInfoPrintOutput) this.printOutput(-2, true);
@@ -369,7 +387,7 @@ ${html-error-to-panel-code}
     /**
      * Informs that an event will be or has been executed.
      *
-     * @param idx The 0-based index of the event, or '-1' for 'tau'.
+     * @param idx The 0-based index of the event.
      * @param pre Whether the event will be executed ('true') or has
      *      been executed ('false').
      */
@@ -398,13 +416,10 @@ ${html-error-to-panel-code}
     /**
      * Returns the name of an event.
      *
-     * @param idx The 0-based index of the event, or '-1' for 'tau'.
+     * @param idx The 0-based index of the event.
      * @return The name of the event.
      */
     getEventName(idx) {
-        if (idx == -1) {
-            return 'tau';
-        }
         return this.EVENT_NAMES[idx];
     }
 
@@ -426,9 +441,8 @@ ${javascript-funcs-code}
     /**
      * Print output for all relevant print declarations.
      *
-     * @param idx The 0-based event index of the transition, or '-1' for
-     *      'tau' transitions, '-2' for time transitions, or '-3'
-     *      for the 'initial' transition.
+     * @param idx The 0-based event index of the transition, or '-2' for
+     *      time transitions, or '-3' for the 'initial' transition.
      * @param pre Whether to print output for the pre/source state of the
      *      transition ('true') or for the post/target state of the
      *      transition ('false').

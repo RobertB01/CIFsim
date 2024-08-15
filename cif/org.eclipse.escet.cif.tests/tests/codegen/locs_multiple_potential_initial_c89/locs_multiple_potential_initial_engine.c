@@ -35,7 +35,6 @@ int EnumTypePrint(locs_multiple_potential_initialEnum value, char *dest, int sta
 const char *locs_multiple_potential_initial_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
 };
 
 /** Enumeration names. */
@@ -105,11 +104,25 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
 static void PerformEvents(void) {
+    /* Uncontrollables. */
     int count = 0;
     for (;;) {
         count++;
         if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
-            fprintf(stderr, "Warning: Quitting after performing %d events, infinite loop?\n", count);
+            fprintf(stderr, "Warning: Quitting after performing %d uncontrollable events, infinite loop?\n", count);
+            break;
+        }
+
+
+        break; /* No event fired, done with discrete steps. */
+    }
+
+    /* Controllables. */
+    count = 0;
+    for (;;) {
+        count++;
+        if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
+            fprintf(stderr, "Warning: Quitting after performing %d controllable events, infinite loop?\n", count);
             break;
         }
 

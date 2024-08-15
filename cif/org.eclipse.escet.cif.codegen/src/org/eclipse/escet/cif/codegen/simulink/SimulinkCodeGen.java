@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.escet.cif.codegen.CodeContext;
 import org.eclipse.escet.cif.codegen.CodeGen;
@@ -88,7 +89,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
@@ -118,9 +118,6 @@ public class SimulinkCodeGen extends CodeGen {
 
     /** Name of the 'delay' event in the C89 language. */
     public static final String DELAY_EVENT_NAME = "EVT_DELAY_";
-
-    /** Name of the 'tau' event in the C89 language. */
-    public static final String TAU_EVENT_NAME = "EVT_TAU_";
 
     /** Name of the enumeration literal names list. */
     public static final String ENUM_NAMES_LIST = "enum_names";
@@ -622,10 +619,6 @@ public class SimulinkCodeGen extends CodeGen {
         evtDeclsCode.add("/** Delay step. */");
         evtDeclsCode.add(DELAY_EVENT_NAME + ",");
 
-        evtDeclsCode.add();
-        evtDeclsCode.add("/** Tau step. */");
-        evtDeclsCode.add(TAU_EVENT_NAME + ",");
-
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
@@ -657,19 +650,17 @@ public class SimulinkCodeGen extends CodeGen {
         // Events name list.
         CodeBox evtNamesCode = makeCodeBox(1);
 
-        GridBox evtNames = new GridBox(3 + events.size(), 2, 0, 1);
+        GridBox evtNames = new GridBox(2 + events.size(), 2, 0, 1);
         evtNames.set(0, 0, "\"initial-step\",");
         evtNames.set(0, 1, "/**< Initial step. */");
         evtNames.set(1, 0, "\"delay-step\",");
         evtNames.set(1, 1, "/**< Delay step. */");
-        evtNames.set(2, 0, "\"tau\",");
-        evtNames.set(2, 1, "/**< Tau step. */");
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
             String origName = origDeclNames.get(evt);
             Assert.notNull(origName);
-            evtNames.set(3 + i, 0, fmt("\"%s\",", origName));
-            evtNames.set(3 + i, 1, fmt("/**< Event \"%s\". */", origName));
+            evtNames.set(2 + i, 0, fmt("\"%s\",", origName));
+            evtNames.set(2 + i, 1, fmt("/**< Event \"%s\". */", origName));
         }
 
         evtNamesCode.add(evtNames);
@@ -1191,7 +1182,7 @@ public class SimulinkCodeGen extends CodeGen {
         for (PrintFor pf: fors) {
             switch (pf.getKind()) {
                 case EVENT:
-                    conds.add(fmt("%s >= %s", eventVar, TAU_EVENT_NAME));
+                    conds.add(fmt("%s > %s", eventVar, DELAY_EVENT_NAME));
                     break;
 
                 case FINAL:
@@ -1318,14 +1309,83 @@ public class SimulinkCodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
-        CodeBox guardFunctions = makeCodeBox(); // Functions computing time-dependent guards.
-        CodeBox zcCompute = makeCodeBox(1); // Calls in zero-crossings compute code.
+        Assert.check(svgInEdges.isEmpty());
 
-        CodeBox codeCalls = makeCodeBox(2); // Calls to try to perform the events.
+        CodeBox codeGuardFuncs = makeCodeBox(); // Functions computing time-dependent guards.
+        CodeBox codeZeroCross = makeCodeBox(1); // Calls in zero-crossings compute code.
+
+        CodeBox codeCallsUncontrollables = makeCodeBox(2); // Calls to try to perform the uncontrollable events.
+        CodeBox codeCallsControllables = makeCodeBox(2); // Calls to try to perform the controllable events.
         CodeBox codeMethods = makeCodeBox(); // Event execution functions.
 
-        int numTimeDependentGuards = 0;
-        for (int i = 0; i < edges.size(); i++) {
+        AtomicInteger numTimeDependentGuards = new AtomicInteger(0);
+        int edgeIdx = 0;
+        edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, codeGuardFuncs,
+                codeZeroCross, numTimeDependentGuards, ctxt);
+        edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, codeGuardFuncs,
+                codeZeroCross, numTimeDependentGuards, ctxt);
+
+        replacements.put("number-of-time-dependent-guards", str(numTimeDependentGuards));
+        replacements.put("zero-crossings-compute", codeZeroCross.toString());
+        replacements.put("guard-functions", codeGuardFuncs.toString());
+
+        if (numTimeDependentGuards.get() == 0) {
+            replacements.put("define-mdlZeroCrossings", "#undef MDL_ZERO_CROSSINGS");
+        } else {
+            replacements.put("define-mdlZeroCrossings", "#define MDL_ZERO_CROSSINGS");
+        }
+
+        replacements.put("event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("event-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("event-methods-code", codeMethods.toString());
+
+        // 'Initial' calls.
+        CodeBox code = makeCodeBox(2);
+        code.add("#if PRINT_OUTPUT");
+        code.indent();
+        code.add("/* pre-initial and post-initial prints. */");
+        code.add("PrintOutput(%s, TRUE);", INITIAL_EVENT_NAME);
+        code.add("PrintOutput(%s, FALSE);", INITIAL_EVENT_NAME);
+        code.dedent();
+        code.add("#endif");
+        replacements.put("initial-print-calls", code.toString());
+
+        code = makeCodeBox(1);
+        code.add("#if PRINT_OUTPUT");
+        code.indent();
+        code.add("/* pre-timestep print. */");
+        code.add("PrintOutput(%s, TRUE);", DELAY_EVENT_NAME);
+        code.dedent();
+        code.add("#endif");
+        replacements.put("time-pre-print-call", code.toString());
+
+        code = makeCodeBox(2);
+        code.add("#if PRINT_OUTPUT");
+        code.indent();
+        code.add("/* post-timestep print. */");
+        code.add("PrintOutput(%s, FALSE);", DELAY_EVENT_NAME);
+        code.dedent();
+        code.add("#endif");
+        replacements.put("time-post-print-call", code.toString());
+    }
+
+    /**
+     * Generate code for the given edges.
+     *
+     * @param edges The edges for which to generate code.
+     * @param edgeIdx The edge index to use for the first edge.
+     * @param codeCalls The code storage for calls.
+     * @param codeMethods The code storage for methods.
+     * @param codeGuardFuncs The code storage for guard functions.
+     * @param codeZeroCross The code storage zero-crossing computations.
+     * @param numTimeDependentGuards The number of time-dependent guards. Is modified in-place.
+     * @param ctxt The code generation context.
+     * @return The edge index to use for the next edge, after the edges given to this method.
+     */
+    private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, CodeBox codeGuardFuncs,
+            CodeBox codeZeroCross, AtomicInteger numTimeDependentGuards, CodeContext ctxt)
+    {
+        for (int i = 0; i < edges.size(); i++, edgeIdx++) {
             Edge edge = edges.get(i);
 
             // Get guard. After linearization, there is at most one
@@ -1345,21 +1405,21 @@ public class SimulinkCodeGen extends CodeGen {
                     // Guard to check in zero crossings as well as in event processing, fold it in
                     // a separate function.
                     String guardFuncName = fmt("GuardEval%02d", i);
-                    zcCompute.add("zcSignals[%d] = %s(sim_struct);", numTimeDependentGuards, guardFuncName);
+                    codeZeroCross.add("zcSignals[%d] = %s(sim_struct);", numTimeDependentGuards.get(), guardFuncName);
 
-                    if (!guardFunctions.isEmpty()) {
-                        guardFunctions.add();
+                    if (!codeGuardFuncs.isEmpty()) {
+                        codeGuardFuncs.add();
                     }
-                    guardFunctions.add("static BoolType %s(SimStruct *sim_struct) {", guardFuncName);
-                    guardFunctions.indent();
-                    addPreamble(guardFunctions, false);
-                    guardFunctions.add();
-                    guardFunctions.add(guardCode.getCode());
-                    guardFunctions.add("return %s;", guardCode.getData());
-                    guardFunctions.dedent();
-                    guardFunctions.add("}");
+                    codeGuardFuncs.add("static BoolType %s(SimStruct *sim_struct) {", guardFuncName);
+                    codeGuardFuncs.indent();
+                    addPreamble(codeGuardFuncs, false);
+                    codeGuardFuncs.add();
+                    codeGuardFuncs.add(guardCode.getCode());
+                    codeGuardFuncs.add("return %s;", guardCode.getData());
+                    codeGuardFuncs.dedent();
+                    codeGuardFuncs.add("}");
 
-                    numTimeDependentGuards++;
+                    numTimeDependentGuards.incrementAndGet();
 
                     guardCode = new ExprCode();
                     guardCode.setDataValue(makeComputed(guardFuncName + "(sim_struct)"));
@@ -1369,25 +1429,20 @@ public class SimulinkCodeGen extends CodeGen {
             // Get event.
             Assert.check(edge.getEvents().size() == 1);
             Expression eventRef = first(edge.getEvents()).getEvent();
-            Event event = (eventRef instanceof TauExpression) ? null : ((EventExpression)eventRef).getEvent();
+            Event event = ((EventExpression)eventRef).getEvent();
 
-            String eventName, eventTargetName;
-            if (event == null) {
-                eventName = "tau";
-                eventTargetName = TAU_EVENT_NAME;
-            } else {
-                eventName = origDeclNames.get(event);
-                Assert.notNull(eventName);
-                eventTargetName = getTargetRef(event);
-            }
+            String eventName = origDeclNames.get(event);
+            Assert.notNull(eventName);
+            String eventTargetName = getTargetRef(event);
 
             // Construct the call to try executing the event.
-            codeCalls.add("if (ExecEvent%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", i, eventName);
+            codeCalls.add("if (ExecEvent%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", edgeIdx,
+                    eventName);
 
             // Add method code.
 
             // Header.
-            List<String> docs = (event == null) ? Collections.emptyList() : CifDocAnnotationUtils.getDocs(event);
+            List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
@@ -1400,7 +1455,7 @@ public class SimulinkCodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return Whether the event was performed.");
             codeMethods.add(" */");
-            codeMethods.add("static BoolType ExecEvent%d(SimStruct *sim_struct) {", i);
+            codeMethods.add("static BoolType ExecEvent%d(SimStruct *sim_struct) {", edgeIdx);
             codeMethods.indent();
             addPreamble(codeMethods, false);
             codeMethods.add();
@@ -1436,47 +1491,7 @@ public class SimulinkCodeGen extends CodeGen {
             codeMethods.add("}");
         }
 
-        replacements.put("number-of-time-dependent-guards", str(numTimeDependentGuards));
-        replacements.put("zero-crossings-compute", zcCompute.toString());
-        replacements.put("guard-functions", guardFunctions.toString());
-
-        if (numTimeDependentGuards == 0) {
-            replacements.put("define-mdlZeroCrossings", "#undef MDL_ZERO_CROSSINGS");
-        } else {
-            replacements.put("define-mdlZeroCrossings", "#define MDL_ZERO_CROSSINGS");
-        }
-
-        replacements.put("event-calls-code", codeCalls.toString());
-        replacements.put("event-methods-code", codeMethods.toString());
-
-        // 'Initial' calls.
-        CodeBox code = makeCodeBox(2);
-        code.add("#if PRINT_OUTPUT");
-        code.indent();
-        code.add("/* pre-initial and post-initial prints. */");
-        code.add("PrintOutput(%s, TRUE);", INITIAL_EVENT_NAME);
-        code.add("PrintOutput(%s, FALSE);", INITIAL_EVENT_NAME);
-        code.dedent();
-        code.add("#endif");
-        replacements.put("initial-print-calls", code.toString());
-
-        code = makeCodeBox(1);
-        code.add("#if PRINT_OUTPUT");
-        code.indent();
-        code.add("/* pre-timestep print. */");
-        code.add("PrintOutput(%s, TRUE);", DELAY_EVENT_NAME);
-        code.dedent();
-        code.add("#endif");
-        replacements.put("time-pre-print-call", code.toString());
-
-        code = makeCodeBox(2);
-        code.add("#if PRINT_OUTPUT");
-        code.indent();
-        code.add("/* post-timestep print. */");
-        code.add("PrintOutput(%s, FALSE);", DELAY_EVENT_NAME);
-        code.dedent();
-        code.add("#endif");
-        replacements.put("time-post-print-call", code.toString());
+        return edgeIdx;
     }
 
     @Override

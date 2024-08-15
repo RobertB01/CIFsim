@@ -22,7 +22,7 @@ public abstract class databased_supervisor {
     /** Whether this is the first time the code is (to be) executed. */
     protected boolean firstExec;
 
-    /** The names of all the events, except for event 'tau'. */
+    /** The names of all the events. */
     private final String[] EVENT_NAMES = {
         "Button.u_pushed",
         "Button.u_released",
@@ -100,7 +100,7 @@ public abstract class databased_supervisor {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
         while (true) {
             // Event "Button.u_pushed".
             if (execEvent0()) continue;
@@ -108,16 +108,21 @@ public abstract class databased_supervisor {
             // Event "Button.u_released".
             if (execEvent1()) continue;
 
-            // Event "Lamp.c_off".
+            // Event "Timer.u_timeout".
             if (execEvent2()) continue;
 
-            // Event "Lamp.c_on".
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
+        while (true) {
+            // Event "Lamp.c_off".
             if (execEvent3()) continue;
 
-            // Event "Timer.c_start".
+            // Event "Lamp.c_on".
             if (execEvent4()) continue;
 
-            // Event "Timer.u_timeout".
+            // Event "Timer.c_start".
             if (execEvent5()) continue;
 
             break;
@@ -232,11 +237,31 @@ public abstract class databased_supervisor {
     }
 
     /**
-     * Execute code for event "Lamp.c_off".
+     * Execute code for event "Timer.u_timeout".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent2() {
+        boolean guard = ((Cycle_) == (databased_supervisorEnum._WaitForTimeout)) && ((Timer_) == (databased_supervisorEnum._Running));
+        if (!guard) return false;
+
+        if (doInfoPrintOutput) printOutput(5, true);
+        if (doInfoEvent) infoEvent(5, true);
+
+        Cycle_ = databased_supervisorEnum._TurnLampOff;
+        Timer_ = databased_supervisorEnum._Idle;
+
+        if (doInfoEvent) infoEvent(5, false);
+        if (doInfoPrintOutput) printOutput(5, false);
+        return true;
+    }
+
+    /**
+     * Execute code for event "Lamp.c_off".
+     *
+     * @return {@code true} if the event was executed, {@code false} otherwise.
+     */
+    private boolean execEvent3() {
         boolean guard = (((Cycle_) == (databased_supervisorEnum._TurnLampOff)) && ((Lamp_) == (databased_supervisorEnum._On))) && (bdd_eval_(5, bdd_values_()));
         if (!guard) return false;
 
@@ -256,7 +281,7 @@ public abstract class databased_supervisor {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent3() {
+    private boolean execEvent4() {
         boolean guard = (((Cycle_) == (databased_supervisorEnum._TurnLampOn)) && ((Lamp_) == (databased_supervisorEnum._Off))) && (bdd_eval_(0, bdd_values_()));
         if (!guard) return false;
 
@@ -276,7 +301,7 @@ public abstract class databased_supervisor {
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
-    private boolean execEvent4() {
+    private boolean execEvent5() {
         boolean guard = ((Cycle_) == (databased_supervisorEnum._StartTimer)) && ((bdd_eval_(9, bdd_values_())) && ((Timer_) == (databased_supervisorEnum._Idle)));
         if (!guard) return false;
 
@@ -288,26 +313,6 @@ public abstract class databased_supervisor {
 
         if (doInfoEvent) infoEvent(4, false);
         if (doInfoPrintOutput) printOutput(4, false);
-        return true;
-    }
-
-    /**
-     * Execute code for event "Timer.u_timeout".
-     *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
-     */
-    private boolean execEvent5() {
-        boolean guard = ((Cycle_) == (databased_supervisorEnum._WaitForTimeout)) && ((Timer_) == (databased_supervisorEnum._Running));
-        if (!guard) return false;
-
-        if (doInfoPrintOutput) printOutput(5, true);
-        if (doInfoEvent) infoEvent(5, true);
-
-        Cycle_ = databased_supervisorEnum._TurnLampOff;
-        Timer_ = databased_supervisorEnum._Idle;
-
-        if (doInfoEvent) infoEvent(5, false);
-        if (doInfoPrintOutput) printOutput(5, false);
         return true;
     }
 
@@ -337,7 +342,7 @@ public abstract class databased_supervisor {
     /**
      * Informs that an event will be or has been executed.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @param pre Whether the event will be executed ({@code true}) or has
      *      been executed ({@code false}).
      */
@@ -356,11 +361,10 @@ public abstract class databased_supervisor {
     /**
      * Returns the name of an event.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @return The name of the event.
      */
     protected String getEventName(int idx) {
-        if (idx == -1) return "tau";
         return EVENT_NAMES[idx];
     }
 
@@ -539,9 +543,8 @@ public abstract class databased_supervisor {
     /**
      * Print output for all relevant print declarations.
      *
-     * @param idx The 0-based event index of the transition, or {@code -1} for
-     *      'tau' transitions, {@code -2} for time transitions, or {@code -3}
-     *      for the 'initial' transition.
+     * @param idx The 0-based event index of the transition, or {@code -2} for
+     *      time transitions, or {@code -3} for the 'initial' transition.
      * @param pre Whether to print output for the pre/source state of the
      *      transition ({@code true}) or for the post/target state of the
      *      transition ({@code false}).

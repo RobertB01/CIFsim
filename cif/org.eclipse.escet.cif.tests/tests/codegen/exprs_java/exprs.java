@@ -22,9 +22,9 @@ public abstract class exprs {
     /** Whether this is the first time the code is (to be) executed. */
     protected boolean firstExec;
 
-    /** The names of all the events, except for event 'tau'. */
+    /** The names of all the events. */
     private final String[] EVENT_NAMES = {
-
+        "a1.e",
     };
 
     /** Constant "x1". */
@@ -524,9 +524,15 @@ public abstract class exprs {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
         while (true) {
-            // Event "tau".
+
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
+        while (true) {
+            // Event "a1.e".
             if (execEvent0()) continue;
 
             break;
@@ -592,13 +598,13 @@ public abstract class exprs {
     }
 
     /**
-     * Execute code for event "tau".
+     * Execute code for event "a1.e".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        if (doInfoPrintOutput) printOutput(-1, true);
-        if (doInfoEvent) infoEvent(-1, true);
+        if (doInfoPrintOutput) printOutput(0, true);
+        if (doInfoEvent) infoEvent(0, true);
 
         if ((!equalObjs(a1_x_, 1)) && (!equalObjs(a1_x_, 2))) {
             a1_x_ = 3;
@@ -606,8 +612,8 @@ public abstract class exprs {
             a1_x_ = 4;
         }
 
-        if (doInfoEvent) infoEvent(-1, false);
-        if (doInfoPrintOutput) printOutput(-1, false);
+        if (doInfoEvent) infoEvent(0, false);
+        if (doInfoPrintOutput) printOutput(0, false);
         return true;
     }
 
@@ -778,7 +784,7 @@ public abstract class exprs {
     /**
      * Informs that an event will be or has been executed.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @param pre Whether the event will be executed ({@code true}) or has
      *      been executed ({@code false}).
      */
@@ -797,11 +803,10 @@ public abstract class exprs {
     /**
      * Returns the name of an event.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @return The name of the event.
      */
     protected String getEventName(int idx) {
-        if (idx == -1) return "tau";
         return EVENT_NAMES[idx];
     }
 
@@ -1041,9 +1046,8 @@ public abstract class exprs {
     /**
      * Print output for all relevant print declarations.
      *
-     * @param idx The 0-based event index of the transition, or {@code -1} for
-     *      'tau' transitions, {@code -2} for time transitions, or {@code -3}
-     *      for the 'initial' transition.
+     * @param idx The 0-based event index of the transition, or {@code -2} for
+     *      time transitions, or {@code -3} for the 'initial' transition.
      * @param pre Whether to print output for the pre/source state of the
      *      transition ({@code true}) or for the post/target state of the
      *      transition ({@code false}).

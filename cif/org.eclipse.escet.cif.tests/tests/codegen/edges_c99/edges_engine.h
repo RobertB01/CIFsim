@@ -151,9 +151,6 @@ enum edgesEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e02a". */
     e02a_,
 

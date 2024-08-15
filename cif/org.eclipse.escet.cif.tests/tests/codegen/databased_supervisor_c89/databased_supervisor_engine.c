@@ -201,7 +201,6 @@ int A6BTypePrint(A6BType *array, char *dest, int start, int end) {
 const char *databased_supervisor_event_names[] = {
     "initial-step",      /**< Initial step. */
     "delay-step",        /**< Delay step. */
-    "tau",               /**< Tau step. */
     "Button.u_pushed",   /**< Event "Button.u_pushed". */
     "Button.u_released", /**< Event "Button.u_released". */
     "Lamp.c_on",         /**< Event "Lamp.c_on". */
@@ -460,11 +459,33 @@ static BoolType execEvent1(void) {
 }
 
 /**
- * Execute code for event "Lamp.c_off".
+ * Execute code for event "Timer.u_timeout".
  *
  * @return Whether the event was performed.
  */
 static BoolType execEvent2(void) {
+    BoolType guard = ((Cycle_) == (_databased_supervisor_WaitForTimeout)) && ((Timer_) == (_databased_supervisor_Running));
+    if (!guard) return FALSE;
+
+    #if EVENT_OUTPUT
+        databased_supervisor_InfoEvent(Timer_u_timeout_, TRUE);
+    #endif
+
+    Cycle_ = _databased_supervisor_TurnLampOff;
+    Timer_ = _databased_supervisor_Idle;
+
+    #if EVENT_OUTPUT
+        databased_supervisor_InfoEvent(Timer_u_timeout_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "Lamp.c_off".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent3(void) {
     A6BType deref_store3 = bdd_values_();
     BoolType guard = (((Cycle_) == (_databased_supervisor_TurnLampOff)) && ((Lamp_) == (_databased_supervisor_On))) && (bdd_eval_(5, &deref_store3));
     if (!guard) return FALSE;
@@ -487,7 +508,7 @@ static BoolType execEvent2(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent3(void) {
+static BoolType execEvent4(void) {
     A6BType deref_store4 = bdd_values_();
     BoolType guard = (((Cycle_) == (_databased_supervisor_TurnLampOn)) && ((Lamp_) == (_databased_supervisor_Off))) && (bdd_eval_(0, &deref_store4));
     if (!guard) return FALSE;
@@ -510,7 +531,7 @@ static BoolType execEvent3(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent4(void) {
+static BoolType execEvent5(void) {
     A6BType deref_store5 = bdd_values_();
     BoolType guard = ((Cycle_) == (_databased_supervisor_StartTimer)) && ((bdd_eval_(9, &deref_store5)) && ((Timer_) == (_databased_supervisor_Idle)));
     if (!guard) return FALSE;
@@ -524,28 +545,6 @@ static BoolType execEvent4(void) {
 
     #if EVENT_OUTPUT
         databased_supervisor_InfoEvent(Timer_c_start_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "Timer.u_timeout".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent5(void) {
-    BoolType guard = ((Cycle_) == (_databased_supervisor_WaitForTimeout)) && ((Timer_) == (_databased_supervisor_Running));
-    if (!guard) return FALSE;
-
-    #if EVENT_OUTPUT
-        databased_supervisor_InfoEvent(Timer_u_timeout_, TRUE);
-    #endif
-
-    Cycle_ = _databased_supervisor_TurnLampOff;
-    Timer_ = _databased_supervisor_Idle;
-
-    #if EVENT_OUTPUT
-        databased_supervisor_InfoEvent(Timer_u_timeout_, FALSE);
     #endif
     return TRUE;
 }
@@ -571,20 +570,33 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
 static void PerformEvents(void) {
+    /* Uncontrollables. */
     int count = 0;
     for (;;) {
         count++;
         if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
-            fprintf(stderr, "Warning: Quitting after performing %d events, infinite loop?\n", count);
+            fprintf(stderr, "Warning: Quitting after performing %d uncontrollable events, infinite loop?\n", count);
             break;
         }
 
         if (execEvent0()) continue;  /* (Try to) perform event "Button.u_pushed". */
         if (execEvent1()) continue;  /* (Try to) perform event "Button.u_released". */
-        if (execEvent2()) continue;  /* (Try to) perform event "Lamp.c_off". */
-        if (execEvent3()) continue;  /* (Try to) perform event "Lamp.c_on". */
-        if (execEvent4()) continue;  /* (Try to) perform event "Timer.c_start". */
-        if (execEvent5()) continue;  /* (Try to) perform event "Timer.u_timeout". */
+        if (execEvent2()) continue;  /* (Try to) perform event "Timer.u_timeout". */
+        break; /* No event fired, done with discrete steps. */
+    }
+
+    /* Controllables. */
+    count = 0;
+    for (;;) {
+        count++;
+        if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
+            fprintf(stderr, "Warning: Quitting after performing %d controllable events, infinite loop?\n", count);
+            break;
+        }
+
+        if (execEvent3()) continue;  /* (Try to) perform event "Lamp.c_off". */
+        if (execEvent4()) continue;  /* (Try to) perform event "Lamp.c_on". */
+        if (execEvent5()) continue;  /* (Try to) perform event "Timer.c_start". */
         break; /* No event fired, done with discrete steps. */
     }
 }

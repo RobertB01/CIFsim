@@ -34,7 +34,6 @@ int EnumTypePrint(state_event_exclusion_invariantsEnum value, char *dest, int st
 const char *state_event_exclusion_invariants_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e",            /**< Event "e". */
 };
 
@@ -122,11 +121,25 @@ static inline RealType UpdateContValue(RealType new_value, const char *var_name)
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
 static void PerformEvents(void) {
+    /* Uncontrollables. */
     int count = 0;
     for (;;) {
         count++;
         if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
-            fprintf(stderr, "Warning: Quitting after performing %d events, infinite loop?\n", count);
+            fprintf(stderr, "Warning: Quitting after performing %d uncontrollable events, infinite loop?\n", count);
+            break;
+        }
+
+
+        break; /* No event fired, done with discrete steps. */
+    }
+
+    /* Controllables. */
+    count = 0;
+    for (;;) {
+        count++;
+        if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
+            fprintf(stderr, "Warning: Quitting after performing %d controllable events, infinite loop?\n", count);
             break;
         }
 

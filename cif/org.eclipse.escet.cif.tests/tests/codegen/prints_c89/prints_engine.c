@@ -201,7 +201,6 @@ int T3IBSTypePrint(T3IBSType *tuple, char *dest, int start, int end) {
 const char *prints_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e1",           /**< Event "e1". */
     "e2",           /**< Event "e2". */
 };
@@ -275,7 +274,7 @@ static void PrintOutput(prints_Event_ event, BoolType pre) {
             prints_PrintOutput(text_var1.data, ":stdout");
         }
 
-        if (event >= EVT_TAU_) {
+        if (event > EVT_DELAY_) {
             StringTypeCopyText(&(text_var1), "bla12");
             prints_PrintOutput(text_var1.data, ":stdout");
         }
@@ -300,7 +299,7 @@ static void PrintOutput(prints_Event_ event, BoolType pre) {
             prints_PrintOutput(text_var1.data, ":stdout");
         }
 
-        if (event == EVT_INITIAL_ || event >= EVT_TAU_ || event == EVT_DELAY_) {
+        if (event == EVT_INITIAL_ || event > EVT_DELAY_ || event == EVT_DELAY_) {
             StringTypeCopyText(&(text_var1), "bla17");
             prints_PrintOutput(text_var1.data, ":stdout");
         }
@@ -401,11 +400,25 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
 static void PerformEvents(void) {
+    /* Uncontrollables. */
     int count = 0;
     for (;;) {
         count++;
         if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
-            fprintf(stderr, "Warning: Quitting after performing %d events, infinite loop?\n", count);
+            fprintf(stderr, "Warning: Quitting after performing %d uncontrollable events, infinite loop?\n", count);
+            break;
+        }
+
+
+        break; /* No event fired, done with discrete steps. */
+    }
+
+    /* Controllables. */
+    count = 0;
+    for (;;) {
+        count++;
+        if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
+            fprintf(stderr, "Warning: Quitting after performing %d controllable events, infinite loop?\n", count);
             break;
         }
 

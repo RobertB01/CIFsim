@@ -61,8 +61,8 @@ enum annos_docEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
+    /** Event "e". */
+    e_,
 
     /** Event "events.e1". */
     events_e1_,

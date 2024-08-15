@@ -1195,9 +1195,6 @@ enum printsEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e1". */
     e1_,
 
@@ -1209,7 +1206,6 @@ typedef enum printsEventEnum_ prints_Event_;
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e1",           /**< Event "e1". */
     "e2",           /**< Event "e2". */
 };
@@ -1389,6 +1385,14 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
+    /* Uncontrollables. */
+    for (;;) {
+
+
+        break; /* None of the events triggered. */
+    }
+
+    /* Controllables. */
     for (;;) {
 
 

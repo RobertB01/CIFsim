@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,7 +48,6 @@ import org.eclipse.escet.cif.common.CifDocAnnotationUtils;
 import org.eclipse.escet.cif.common.CifIntFuncUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
-import org.eclipse.escet.cif.metamodel.cif.cifsvg.SvgIn;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -61,7 +59,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
 import org.eclipse.escet.cif.metamodel.cif.print.PrintFor;
@@ -531,7 +528,6 @@ public class JavaScriptCodeGen extends CodeGen {
         CodeBox code = makeCodeBox(2);
 
         // 0+ evt
-        // -1 tau
         // -2 time
         // -3 init
 
@@ -547,7 +543,7 @@ public class JavaScriptCodeGen extends CodeGen {
                 for (PrintFor printFor: printFors) {
                     switch (printFor.getKind()) {
                         case EVENT:
-                            printConds.add("(idx >= -1)");
+                            printConds.add("(idx >= 0)");
                             break;
 
                         case FINAL:
@@ -687,39 +683,60 @@ public class JavaScriptCodeGen extends CodeGen {
 
     @Override
     protected void addEdges(CodeContext ctxt) {
+        Assert.implies(language == TargetLanguage.JAVASCRIPT, svgInEdges.isEmpty());
+
         // Create codeboxes to hold generated code.
-        CodeBox codeCalls = makeCodeBox(3);
+        CodeBox codeCallsSvgIn = makeCodeBox(3);
+        CodeBox codeCallsUncontrollables = makeCodeBox(3);
+        CodeBox codeCallsControllables = makeCodeBox(3);
         CodeBox codeMethods = makeCodeBox(1);
 
-        // Collect the SVG input declarations.
-        List<SvgIn> svgIns = svgDecls.stream().filter(decl -> decl instanceof SvgIn).map(decl -> (SvgIn)decl).toList();
+        // Generate code, for the different kinds of edges.
+        int edgeIdx = 0;
+        edgeIdx = addEdges(svgInEdges, edgeIdx, codeCallsUncontrollables, codeMethods, true, ctxt);
+        edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, false, ctxt);
+        edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, false, ctxt);
 
-        // Get the indices of the interactive events, the events coupled to SVG input mappings.
-        Set<Integer> interactiveEventIndices = JavaScriptSvgCodeGen.getInteractiveEventIndices(svgIns, events);
+        // Fill the replacement patterns with generated code.
+        replacements.put("javascript-event-calls-code-svgin", codeCallsSvgIn.toString());
+        replacements.put("javascript-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("javascript-event-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("javascript-event-methods-code", codeMethods.toString());
+    }
 
-        // Generate code, per edge.
-        for (int i = 0; i < edges.size(); i++) {
+    /**
+     * Generate code for the given edges.
+     *
+     * @param edges The edges for which to generate code.
+     * @param edgeIdx The edge index to use for the first edge.
+     * @param codeCalls The code storage for calls.
+     * @param codeMethods The code storage for methods.
+     * @param areSvgInEdges Whether the given edges are edges for SVG input events.
+     * @param ctxt The code generation context.
+     * @return The edge index to use for the next edge, after the edges given to this method.
+     */
+    private int addEdges(List<Edge> edges, int edgeIdx, CodeBox codeCalls, CodeBox codeMethods, boolean areSvgInEdges,
+            CodeContext ctxt)
+    {
+        for (int i = 0; i < edges.size(); i++, edgeIdx++) {
             // Get edge.
             Edge edge = edges.get(i);
 
             // Get event.
             Assert.check(edge.getEvents().size() == 1);
             Expression eventRef = first(edge.getEvents()).getEvent();
-            Event event = (eventRef instanceof TauExpression) ? null : ((EventExpression)eventRef).getEvent();
-            int eventIdx = (event == null) ? -1 : events.indexOf(event);
-            String eventName = (event == null) ? "tau" : origDeclNames.get(event);
+            Event event = ((EventExpression)eventRef).getEvent();
+            int eventIdx = events.indexOf(event);
+            String eventName = origDeclNames.get(event);
             Assert.notNull(eventName);
-
-            // Determine whether event is an interactive SVG input event.
-            boolean isSvgInEvent = interactiveEventIndices.contains(eventIdx);
 
             // Add call code.
             codeCalls.add();
             codeCalls.add("// Event \"%s\".", eventName);
-            codeCalls.add("if (this.execEvent%d()) continue;", i);
+            codeCalls.add("if (this.execEvent%d()) continue;", edgeIdx);
 
             // Add method code, starting with the header.
-            List<String> docs = (event == null) ? Collections.emptyList() : CifDocAnnotationUtils.getDocs(event);
+            List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
             codeMethods.add(" * Execute code for event \"%s\".", eventName);
@@ -734,7 +751,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add(" *");
             codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
             codeMethods.add(" */");
-            codeMethods.add("execEvent%d() {", i);
+            codeMethods.add("execEvent%d() {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
@@ -752,17 +769,16 @@ public class JavaScriptCodeGen extends CodeGen {
                 codeMethods.add(guardCode.getCode());
                 codeMethods.add("var guard = %s;", guardCode.getData());
 
-                // Add code for when the event is not enabled. If the event is an interactive SVG input event, display a
-                // warning if the event is not enabled.
+                // Add code for when the event is not enabled. If the event is an interactive SVG input event,
+                // display a warning if the event is not enabled.
                 codeMethods.add();
                 codeMethods.add("if (!guard) {");
                 codeMethods.indent();
-                if (isSvgInEvent) {
+                if (areSvgInEdges) {
                     codeMethods.add("if (%s.svgInEvent == %d) {", ctxt.getPrefix(), eventIdx);
                     codeMethods.indent();
-                    codeMethods.add(
-                            "%s.warning(%sUtils.fmt('An SVG element with id \"%%s\" was clicked, but the corresponding "
-                                    + "event \"%s\" is not enabled in the current state.', %s.svgInId));",
+                    codeMethods.add("%s.warning(%sUtils.fmt('An SVG element with id \"%%s\" was clicked, but the "
+                            + "corresponding event \"%s\" is not enabled in the current state.', %s.svgInId));",
                             ctxt.getPrefix(), ctxt.getPrefix(), eventName, ctxt.getPrefix());
                     codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
                     codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
@@ -774,15 +790,15 @@ public class JavaScriptCodeGen extends CodeGen {
                 codeMethods.add("}");
             }
 
-            // Add code to disable events that are associated to SVG input mappings, to ensure they can't occur until
-            // the corresponding SVG element is clicked.
-            if (isSvgInEvent) {
+            // Add code to disable events that are associated to SVG input mappings, to ensure they can't occur
+            // until the corresponding SVG element is clicked.
+            if (areSvgInEdges) {
                 // Check whether we can take the event.
                 codeMethods.add();
                 codeMethods.add("if (%s.svgInEvent != %d) return false;", ctxt.getPrefix(), eventIdx);
 
-                // We will perform a transition for the event. This event is no longer the current SVG input event to
-                // process.
+                // We will perform a transition for the event. This event is no longer the current SVG input event
+                // to process.
                 codeMethods.add();
                 codeMethods.add("%s.svgInId = null;", ctxt.getPrefix());
                 codeMethods.add("%s.svgInEvent = -1;", ctxt.getPrefix());
@@ -813,9 +829,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add("}");
         }
 
-        // Fill the replacement patterns with generated code.
-        replacements.put("javascript-event-calls-code", codeCalls.toString());
-        replacements.put("javascript-event-methods-code", codeMethods.toString());
+        return edgeIdx;
     }
 
     @Override

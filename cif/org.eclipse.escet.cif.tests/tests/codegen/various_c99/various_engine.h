@@ -53,14 +53,14 @@ enum variousEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e1". */
     e1_,
 
     /** Event "g.h1". */
     g_h1_,
+
+    /** Event "a.e". */
+    a_e_,
 };
 typedef enum variousEventEnum_ various_Event_;
 

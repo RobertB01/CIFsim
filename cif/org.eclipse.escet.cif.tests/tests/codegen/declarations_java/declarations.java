@@ -22,12 +22,12 @@ public abstract class declarations {
     /** Whether this is the first time the code is (to be) executed. */
     protected boolean firstExec;
 
-    /** The names of all the events, except for event 'tau'. */
+    /** The names of all the events. */
     private final String[] EVENT_NAMES = {
-        "e_e1",
-        "e_e2",
         "c_e1",
         "c_e2",
+        "c_e3",
+        "c_e4",
         "u_e1",
         "u_e2",
     };
@@ -149,24 +149,29 @@ public abstract class declarations {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute events as long as they are possible.
+        // Execute uncontrollable events as long as they are possible.
         while (true) {
-            // Event "c_e1".
+            // Event "u_e1".
             if (execEvent0()) continue;
 
-            // Event "c_e2".
+            // Event "u_e2".
             if (execEvent1()) continue;
 
-            // Event "e_e1".
+            break;
+        }
+
+        // Execute controllable events as long as they are possible.
+        while (true) {
+            // Event "c_e1".
             if (execEvent2()) continue;
 
-            // Event "e_e2".
+            // Event "c_e2".
             if (execEvent3()) continue;
 
-            // Event "u_e1".
+            // Event "c_e3".
             if (execEvent4()) continue;
 
-            // Event "u_e2".
+            // Event "c_e4".
             if (execEvent5()) continue;
 
             break;
@@ -232,37 +237,37 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e1".
+     * Execute code for event "u_e1".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        if (doInfoPrintOutput) printOutput(2, true);
-        if (doInfoEvent) infoEvent(2, true);
+        if (doInfoPrintOutput) printOutput(4, true);
+        if (doInfoEvent) infoEvent(4, true);
 
 
-        if (doInfoEvent) infoEvent(2, false);
-        if (doInfoPrintOutput) printOutput(2, false);
+        if (doInfoEvent) infoEvent(4, false);
+        if (doInfoPrintOutput) printOutput(4, false);
         return true;
     }
 
     /**
-     * Execute code for event "c_e2".
+     * Execute code for event "u_e2".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent1() {
-        if (doInfoPrintOutput) printOutput(3, true);
-        if (doInfoEvent) infoEvent(3, true);
+        if (doInfoPrintOutput) printOutput(5, true);
+        if (doInfoEvent) infoEvent(5, true);
 
 
-        if (doInfoEvent) infoEvent(3, false);
-        if (doInfoPrintOutput) printOutput(3, false);
+        if (doInfoEvent) infoEvent(5, false);
+        if (doInfoPrintOutput) printOutput(5, false);
         return true;
     }
 
     /**
-     * Execute code for event "e_e1".
+     * Execute code for event "c_e1".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -281,7 +286,7 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "e_e2".
+     * Execute code for event "c_e2".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
@@ -300,32 +305,32 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "u_e1".
+     * Execute code for event "c_e3".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent4() {
-        if (doInfoPrintOutput) printOutput(4, true);
-        if (doInfoEvent) infoEvent(4, true);
+        if (doInfoPrintOutput) printOutput(2, true);
+        if (doInfoEvent) infoEvent(2, true);
 
 
-        if (doInfoEvent) infoEvent(4, false);
-        if (doInfoPrintOutput) printOutput(4, false);
+        if (doInfoEvent) infoEvent(2, false);
+        if (doInfoPrintOutput) printOutput(2, false);
         return true;
     }
 
     /**
-     * Execute code for event "u_e2".
+     * Execute code for event "c_e4".
      *
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent5() {
-        if (doInfoPrintOutput) printOutput(5, true);
-        if (doInfoEvent) infoEvent(5, true);
+        if (doInfoPrintOutput) printOutput(3, true);
+        if (doInfoEvent) infoEvent(3, true);
 
 
-        if (doInfoEvent) infoEvent(5, false);
-        if (doInfoPrintOutput) printOutput(5, false);
+        if (doInfoEvent) infoEvent(3, false);
+        if (doInfoPrintOutput) printOutput(3, false);
         return true;
     }
 
@@ -362,7 +367,7 @@ public abstract class declarations {
     /**
      * Informs that an event will be or has been executed.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @param pre Whether the event will be executed ({@code true}) or has
      *      been executed ({@code false}).
      */
@@ -381,11 +386,10 @@ public abstract class declarations {
     /**
      * Returns the name of an event.
      *
-     * @param idx The 0-based index of the event, or {@code -1} for 'tau'.
+     * @param idx The 0-based index of the event.
      * @return The name of the event.
      */
     protected String getEventName(int idx) {
-        if (idx == -1) return "tau";
         return EVENT_NAMES[idx];
     }
 
@@ -566,9 +570,8 @@ public abstract class declarations {
     /**
      * Print output for all relevant print declarations.
      *
-     * @param idx The 0-based event index of the transition, or {@code -1} for
-     *      'tau' transitions, {@code -2} for time transitions, or {@code -3}
-     *      for the 'initial' transition.
+     * @param idx The 0-based event index of the transition, or {@code -2} for
+     *      time transitions, or {@code -3} for the 'initial' transition.
      * @param pre Whether to print output for the pre/source state of the
      *      transition ({@code true}) or for the post/target state of the
      *      transition ({@code false}).

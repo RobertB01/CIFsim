@@ -1202,16 +1202,12 @@ enum locs_multiple_potential_initialEventEnum_ {
 
     /** Delay step. */
     EVT_DELAY_,
-
-    /** Tau step. */
-    EVT_TAU_,
 };
 typedef enum locs_multiple_potential_initialEventEnum_ locs_multiple_potential_initial_Event_;
 
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
 };
 
 /** Enum names. */
@@ -1395,6 +1391,14 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
+    /* Uncontrollables. */
+    for (;;) {
+
+
+        break; /* None of the events triggered. */
+    }
+
+    /* Controllables. */
     for (;;) {
 
 

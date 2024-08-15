@@ -64,6 +64,7 @@ import org.eclipse.escet.cif.codegen.updates.AlgDerInvalidations;
 import org.eclipse.escet.cif.codegen.updates.VariableWrapper;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
 import org.eclipse.escet.cif.common.CifCollectUtils;
+import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifValidationUtils;
@@ -90,6 +91,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
+import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
 import org.eclipse.escet.cif.metamodel.cif.print.Print;
@@ -256,15 +258,40 @@ public abstract class CodeGen {
     protected List<IoDecl> svgDecls;
 
     /**
-     * The edges of the specification. {@code null} if not available, empty until filled with actual data.
+     * The edges of the specification, for SVG input events. {@code null} if not available, empty until filled with
+     * actual data.
      *
      * <p>
-     * Each linearized edge has at most one guard predicate, and exactly one edge event. There are no implicit 'tau'
-     * edges. No send/receive edges are present. All linearized edges are self loops. There are no urgent linearized
-     * edges, as it is a precondition that there is no urgent locations or edges in the input specification.
+     * Each linearized edge has at most one guard predicate, and exactly one edge event. No send/receive edges are
+     * present. All linearized edges are self loops. There are no urgent linearized edges, as it is a precondition that
+     * there is no urgent locations or edges in the input specification.
      * </p>
      */
-    protected List<Edge> edges;
+    protected List<Edge> svgInEdges;
+
+    /**
+     * The edges of the specification, for uncontrollable events (excluding SVG input events). {@code null} if not
+     * available, empty until filled with actual data.
+     *
+     * <p>
+     * Each linearized edge has at most one guard predicate, and exactly one edge event. No send/receive edges are
+     * present. All linearized edges are self loops. There are no urgent linearized edges, as it is a precondition that
+     * there is no urgent locations or edges in the input specification.
+     * </p>
+     */
+    protected List<Edge> uncontrollableEdges;
+
+    /**
+     * The edges of the specification, for controllable events (excluding SVG input events). {@code null} if not
+     * available, empty until filled with actual data.
+     *
+     * <p>
+     * Each linearized edge has at most one guard predicate, and exactly one edge event. No send/receive edges are
+     * present. All linearized edges are self loops. There are no urgent linearized edges, as it is a precondition that
+     * there is no urgent locations or edges in the input specification.
+     * </p>
+     */
+    protected List<Edge> controllableEdges;
 
     /**
      * Reserved ranges of {@link #tmpvarNumber}, contains the first available numbers after reserving. Note that
@@ -467,7 +494,9 @@ public abstract class CodeGen {
         functions = list();
         printDecls = list();
         svgDecls = list();
-        edges = list();
+        svgInEdges = list();
+        uncontrollableEdges = list();
+        controllableEdges = list();
 
         // Initialize the expression and type code generators.
         exprCodeGen = getExpressionCodeGenerator();
@@ -685,7 +714,9 @@ public abstract class CodeGen {
         inputVars = null;
         functions = null;
         printDecls = null;
-        edges = null;
+        svgInEdges = null;
+        uncontrollableEdges = null;
+        controllableEdges = null;
     }
 
     /**
@@ -934,10 +965,10 @@ public abstract class CodeGen {
         Assert.check(aut.getLocations().size() == 1);
         Location loc = first(aut.getLocations());
 
-        // Generate code for the edges, after check the assumptions. We
+        // Generate code for the edges, after checking the assumptions. We
         // ignore the urgency (should not exist, precondition), and target
         // location (should not be set, all self loops after linearization).
-        edges = loc.getEdges();
+        List<Edge> edges = loc.getEdges();
         for (Edge edge: edges) {
             Assert.check(edge.getGuards().size() <= 1);
             Assert.check(!edge.isUrgent());
@@ -945,7 +976,20 @@ public abstract class CodeGen {
             Assert.check(edge.getTarget() == null);
             Assert.check(!(edge.getEvents().get(0) instanceof EdgeSend));
             Assert.check(!(edge.getEvents().get(0) instanceof EdgeReceive));
+            Assert.check(edge.getEvents().get(0).getEvent() instanceof EventExpression);
         }
+        List<SvgIn> svgIns = svgDecls.stream().filter(SvgIn.class::isInstance).map(SvgIn.class::cast).toList();
+        Set<Event> svgInEvents = SvgCodeGen.getSvgInEvents(svgIns, events);
+        svgInEdges = edges.stream().filter(e -> svgInEvents.contains(CifEventUtils.getEvent(e))).toList();
+        uncontrollableEdges = edges.stream().filter(e -> {
+            Event evt = CifEventUtils.getEvent(e);
+            return !evt.getControllable() && !svgInEvents.contains(evt);
+        }).toList();
+        controllableEdges = edges.stream().filter(e -> {
+            Event evt = CifEventUtils.getEvent(e);
+            return evt.getControllable() && !svgInEvents.contains(evt);
+        }).toList();
+        Assert.areEqual(edges.size(), svgInEdges.size() + uncontrollableEdges.size() + controllableEdges.size());
         addEdges(ctxt);
 
         // Add code for the specification itself.
@@ -1025,7 +1069,7 @@ public abstract class CodeGen {
     protected abstract void addSvgDecls(CodeContext ctxt, String cifSpecFileDir);
 
     /**
-     * Add code (substitutions) for the {@link #edges}.
+     * Add code (substitutions) for the edges ({@link #uncontrollableEdges} and {@link #controllableEdges}).
      *
      * <p>
      * To add code for updates, use {@link #addUpdates}.

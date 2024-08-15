@@ -41,7 +41,7 @@ int EnumTypePrint(annos_docEnum value, char *dest, int start, int end) {
 const char *annos_doc_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
+    "e",            /**< Event "e". */
     "events.e1",    /**< Event "events.e1". */
     "events.e2",    /**< Event "events.e2". */
     "events.e3",    /**< Event "events.e3". */
@@ -502,11 +502,30 @@ static void PrintOutput(annos_doc_Event_ event, BoolType pre) {
 /* Event execution code. */
 
 /**
- * Execute code for event "events.e1".
+ * Execute code for event "e".
  *
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
+    BoolType guard = ((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || (((contvars_c3_) > (0)) || (((contvars_c4_) > (0)) || ((contvars_c5_) > (0))))) && (((discvars_d1_) || (discvars_d2_)) || ((discvars_d3_) || ((discvars_d4_) || (discvars_d5_))));
+    if (!guard) return FALSE;
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(e_, TRUE);
+    #endif
+
+    #if EVENT_OUTPUT
+        annos_doc_InfoEvent(e_, FALSE);
+    #endif
+    return TRUE;
+}
+
+/**
+ * Execute code for event "events.e1".
+ *
+ * @return Whether the event was performed.
+ */
+static BoolType execEvent1(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e1_, TRUE);
     #endif
@@ -524,7 +543,7 @@ static BoolType execEvent0(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent1(void) {
+static BoolType execEvent2(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e2_, TRUE);
     #endif
@@ -544,7 +563,7 @@ static BoolType execEvent1(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent2(void) {
+static BoolType execEvent3(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e3_, TRUE);
     #endif
@@ -562,7 +581,7 @@ static BoolType execEvent2(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent3(void) {
+static BoolType execEvent4(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e4_, TRUE);
     #endif
@@ -583,51 +602,13 @@ static BoolType execEvent3(void) {
  *
  * @return Whether the event was performed.
  */
-static BoolType execEvent4(void) {
+static BoolType execEvent5(void) {
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e5_, TRUE);
     #endif
 
     #if EVENT_OUTPUT
         annos_doc_InfoEvent(events_e5_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent5(void) {
-    BoolType guard = (((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || ((contvars_c3_) > (0))) || ((contvars_c4_) > (0))) || ((contvars_c5_) > (0));
-    if (!guard) return FALSE;
-
-    #if EVENT_OUTPUT
-        annos_doc_InfoEvent(EVT_TAU_, TRUE);
-    #endif
-
-    #if EVENT_OUTPUT
-        annos_doc_InfoEvent(EVT_TAU_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent6(void) {
-    BoolType guard = ((((discvars_d1_) || (discvars_d2_)) || (discvars_d3_)) || (discvars_d4_)) || (discvars_d5_);
-    if (!guard) return FALSE;
-
-    #if EVENT_OUTPUT
-        annos_doc_InfoEvent(EVT_TAU_, TRUE);
-    #endif
-
-    #if EVENT_OUTPUT
-        annos_doc_InfoEvent(EVT_TAU_, FALSE);
     #endif
     return TRUE;
 }
@@ -653,21 +634,34 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
 static void PerformEvents(void) {
+    /* Uncontrollables. */
     int count = 0;
     for (;;) {
         count++;
         if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
-            fprintf(stderr, "Warning: Quitting after performing %d events, infinite loop?\n", count);
+            fprintf(stderr, "Warning: Quitting after performing %d uncontrollable events, infinite loop?\n", count);
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "events.e1". */
-        if (execEvent1()) continue;  /* (Try to) perform event "events.e2". */
-        if (execEvent2()) continue;  /* (Try to) perform event "events.e3". */
-        if (execEvent3()) continue;  /* (Try to) perform event "events.e4". */
-        if (execEvent4()) continue;  /* (Try to) perform event "events.e5". */
-        if (execEvent5()) continue;  /* (Try to) perform event "tau". */
-        if (execEvent6()) continue;  /* (Try to) perform event "tau". */
+
+        break; /* No event fired, done with discrete steps. */
+    }
+
+    /* Controllables. */
+    count = 0;
+    for (;;) {
+        count++;
+        if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
+            fprintf(stderr, "Warning: Quitting after performing %d controllable events, infinite loop?\n", count);
+            break;
+        }
+
+        if (execEvent0()) continue;  /* (Try to) perform event "e". */
+        if (execEvent1()) continue;  /* (Try to) perform event "events.e1". */
+        if (execEvent2()) continue;  /* (Try to) perform event "events.e2". */
+        if (execEvent3()) continue;  /* (Try to) perform event "events.e3". */
+        if (execEvent4()) continue;  /* (Try to) perform event "events.e4". */
+        if (execEvent5()) continue;  /* (Try to) perform event "events.e5". */
         break; /* No event fired, done with discrete steps. */
     }
 }

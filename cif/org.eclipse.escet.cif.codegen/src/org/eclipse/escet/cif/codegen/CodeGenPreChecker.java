@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsC
 import org.eclipse.escet.cif.checkers.checks.AutOnlyWithCertainNumberOfInitLocsCheck.AllowedNumberOfInitLocs;
 import org.eclipse.escet.cif.checkers.checks.CompNoInitPredsCheck;
 import org.eclipse.escet.cif.checkers.checks.EdgeNoUrgentCheck;
+import org.eclipse.escet.cif.checkers.checks.EventOnlyWithControllabilityCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificBinaryExprsCheck.NoSpecificBinaryOp;
 import org.eclipse.escet.cif.checkers.checks.ExprNoSpecificExprsCheck;
@@ -72,6 +73,9 @@ public class CodeGenPreChecker extends CifPreconditionChecker {
 
         // Specifications without automata are not supported.
         checks.add(new SpecAutomataCountsCheck().setMinMaxAuts(1, Integer.MAX_VALUE));
+
+        // Events that are not controllable or uncontrollable (including 'tau') are not supported.
+        checks.add(new EventOnlyWithControllabilityCheck());
 
         // Initialization predicates in components are not supported, except if it can be determined statically that
         // they are trivially true.

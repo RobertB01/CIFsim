@@ -1921,9 +1921,6 @@ enum unsupported_simulink_warningsEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "a.e". */
     a_e_,
 };
@@ -1932,7 +1929,6 @@ typedef enum unsupported_simulink_warningsEventEnum_ unsupported_simulink_warnin
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "a.e",          /**< Event "a.e". */
 };
 
@@ -2133,6 +2129,14 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
+    /* Uncontrollables. */
+    for (;;) {
+
+
+        break; /* None of the events triggered. */
+    }
+
+    /* Controllables. */
     for (;;) {
         if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "a.e". */
 

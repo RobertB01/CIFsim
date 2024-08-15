@@ -613,7 +613,6 @@ int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end) {
 const char *edges_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e02a",         /**< Event "e02a". */
     "e02b",         /**< Event "e02b". */
     "e03a",         /**< Event "e03a". */
@@ -2329,70 +2328,6 @@ static BoolType execEvent64(void) {
 }
 
 /**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent65(void) {
-    #if EVENT_OUTPUT
-        edges_InfoEvent(EVT_TAU_, TRUE);
-    #endif
-
-    #if EVENT_OUTPUT
-        edges_InfoEvent(EVT_TAU_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent66(void) {
-    #if EVENT_OUTPUT
-        edges_InfoEvent(EVT_TAU_, TRUE);
-    #endif
-
-    #if EVENT_OUTPUT
-        edges_InfoEvent(EVT_TAU_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent67(void) {
-    #if EVENT_OUTPUT
-        edges_InfoEvent(EVT_TAU_, TRUE);
-    #endif
-
-    #if EVENT_OUTPUT
-        edges_InfoEvent(EVT_TAU_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
- * Execute code for event "tau".
- *
- * @return Whether the event was performed.
- */
-static BoolType execEvent68(void) {
-    #if EVENT_OUTPUT
-        edges_InfoEvent(EVT_TAU_, TRUE);
-    #endif
-
-    #if EVENT_OUTPUT
-        edges_InfoEvent(EVT_TAU_, FALSE);
-    #endif
-    return TRUE;
-}
-
-/**
  * Normalize and check the new value of a continuous variable after an update.
  * @param new_value Unnormalized new value of the continuous variable.
  * @param var_name Name of the continuous variable in the CIF model.
@@ -2413,11 +2348,25 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
 static void PerformEvents(void) {
+    /* Uncontrollables. */
     int count = 0;
     for (;;) {
         count++;
         if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
-            fprintf(stderr, "Warning: Quitting after performing %d events, infinite loop?\n", count);
+            fprintf(stderr, "Warning: Quitting after performing %d uncontrollable events, infinite loop?\n", count);
+            break;
+        }
+
+
+        break; /* No event fired, done with discrete steps. */
+    }
+
+    /* Controllables. */
+    count = 0;
+    for (;;) {
+        count++;
+        if (count > MAX_NUM_EVENTS) { /* 'Infinite' loop detection. */
+            fprintf(stderr, "Warning: Quitting after performing %d controllable events, infinite loop?\n", count);
             break;
         }
 
@@ -2486,10 +2435,6 @@ static void PerformEvents(void) {
         if (execEvent62()) continue;  /* (Try to) perform event "e14f". */
         if (execEvent63()) continue;  /* (Try to) perform event "e14g". */
         if (execEvent64()) continue;  /* (Try to) perform event "e14h". */
-        if (execEvent65()) continue;  /* (Try to) perform event "tau". */
-        if (execEvent66()) continue;  /* (Try to) perform event "tau". */
-        if (execEvent67()) continue;  /* (Try to) perform event "tau". */
-        if (execEvent68()) continue;  /* (Try to) perform event "tau". */
         break; /* No event fired, done with discrete steps. */
     }
 }

@@ -1195,9 +1195,6 @@ enum state_event_exclusion_invariantsEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e". */
     e_,
 };
@@ -1206,7 +1203,6 @@ typedef enum state_event_exclusion_invariantsEventEnum_ state_event_exclusion_in
 const char *evt_names[] = { /** < Event names. */
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
-    "tau",          /**< Tau step. */
     "e",            /**< Event "e". */
 };
 
@@ -1449,6 +1445,14 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
+    /* Uncontrollables. */
+    for (;;) {
+
+
+        break; /* None of the events triggered. */
+    }
+
+    /* Controllables. */
     for (;;) {
         if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "e". */
 

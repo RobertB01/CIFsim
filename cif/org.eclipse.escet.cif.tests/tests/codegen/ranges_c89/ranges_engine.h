@@ -49,9 +49,6 @@ enum rangesEventEnum_ {
     /** Delay step. */
     EVT_DELAY_,
 
-    /** Tau step. */
-    EVT_TAU_,
-
     /** Event "e11". */
     e11_,
 

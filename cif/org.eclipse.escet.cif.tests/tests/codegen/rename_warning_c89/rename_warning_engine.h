@@ -27,9 +27,6 @@ enum rename_warningEventEnum_ {
 
     /** Delay step. */
     EVT_DELAY_,
-
-    /** Tau step. */
-    EVT_TAU_,
 };
 typedef enum rename_warningEventEnum_ rename_warning_Event_;
 
