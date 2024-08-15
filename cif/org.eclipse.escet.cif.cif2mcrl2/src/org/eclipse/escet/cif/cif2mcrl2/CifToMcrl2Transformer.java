@@ -387,43 +387,43 @@ public class CifToMcrl2Transformer {
         code.indent();
         boolean first = true;
 
-            // Add for edges.
-            boolean firstEdge = true;
-            for (Edge edge: edges) {
-                if (!first) {
-                    code.add("+");
-                }
-                first = false;
-                if (firstEdge) {
-                    code.add("% CIF linearized edges.");
-                    firstEdge = false;
-                }
-                addProcessExprForEdge(edge, vars, code);
+        // Add for edges.
+        boolean firstEdge = true;
+        for (Edge edge: edges) {
+            if (!first) {
+                code.add("+");
             }
+            first = false;
+            if (firstEdge) {
+                code.add("% CIF linearized edges.");
+                firstEdge = false;
+            }
+            addProcessExprForEdge(edge, vars, code);
+        }
 
-            // Add for variable 'value' actions.
-            boolean firstValueAct = true;
-            for (DiscVariable valueActVar: valueActVars) {
-                if (!first) {
-                    code.add("+");
-                }
-                first = false;
-                if (firstValueAct) {
-                    code.add("% CIF variable value actions.");
-                    firstValueAct = false;
-                }
-                addProcessExprForValueActVar(valueActVar, code);
+        // Add for variable 'value' actions.
+        boolean firstValueAct = true;
+        for (DiscVariable valueActVar: valueActVars) {
+            if (!first) {
+                code.add("+");
             }
+            first = false;
+            if (firstValueAct) {
+                code.add("% CIF variable value actions.");
+                firstValueAct = false;
+            }
+            addProcessExprForValueActVar(valueActVar, code);
+        }
 
-            // Add for 'marked' action.
-            if (marked != null) {
-                if (!first) {
-                    code.add("+");
-                }
-                first = false;
-                code.add("% CIF 'marked' action.");
-                addProcessExprForMarked(marked, code);
+        // Add for 'marked' action.
+        if (marked != null) {
+            if (!first) {
+                code.add("+");
             }
+            first = false;
+            code.add("% CIF 'marked' action.");
+            addProcessExprForMarked(marked, code);
+        }
 
         // Add 'delta' for empty process.
         if (first) {
