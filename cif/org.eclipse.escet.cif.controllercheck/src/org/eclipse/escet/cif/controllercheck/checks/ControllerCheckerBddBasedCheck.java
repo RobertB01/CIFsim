@@ -24,10 +24,10 @@ public abstract class ControllerCheckerBddBasedCheck<T extends CheckConclusion> 
     /** The saturation instance number for the forward search by the bounded response check. */
     public static final int SATURATION_INSTANCE_BOUNDED_RESPONSE_FORWARD = 0;
 
-    /** The saturation instance number for the backward 'cpp' search by the non-blocking under control checker. */
+    /** The saturation instance number for the backward 'cpp' search by the non-blocking under control check. */
     public static final int SATURATION_INSTANCE_NONBLOCKING_CCP = 1;
 
-    /** The saturation instance number for the backward 'bad' search by the non-blocking under control checker. */
+    /** The saturation instance number for the backward 'bad' search by the non-blocking under control check. */
     public static final int SATURATION_INSTANCE_NONBLOCKING_BAD = 2;
 
     /**
