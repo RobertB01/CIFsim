@@ -76,6 +76,7 @@ The workset algorithm can not be used when duplicate events are allowed in a <<t
 +
 Saturation is a strategy for BDD-based symbolic reachability computations that exploits locality of the edges that are considered.
 The edges to consider are sorted on the top-most BDD variable of their BDD representations.
+The order of edges with the same such top-most BDD variable is determined based on the <<tools-datasynth-configuring-the-edge-order, configured order>>.
 The saturation algorithm then uses this order to saturate the BDD representation of the set of reachable states from the bottom up.
 This is done by first applying edges over the lowest part of the BDD until they no longer lead to new states, and then gradually go upward in the sorted edge order until saturation is reached for all edges.
 Saturation thereby tries to reduce blow-ups of BDDs at intermediate points during reachability computations, which can sometimes be observed with other exploration strategies, like chaining.
@@ -88,9 +89,10 @@ The workset algorithm may reduce the maximum amount of memory used during synthe
 However, this often comes at the cost of extra computations that require more time, especially if edges have many other edges as their dependencies.
 Saturation generally works best.
 
+[[tools-datasynth-configuring-the-edge-order]]
 === Configuring the order
 
-The order in which the edges are considered when a fixed order is used, is determined by the _Edge order for backward reachability_ and _Edge order for forward reachability_ options (see the <<tools-datasynth-options,options section>>).
+The order in which the edges are considered when either a fixed order or saturation is used, is determined by the _Edge order for backward reachability_ and _Edge order for forward reachability_ options (see the <<tools-datasynth-options,options section>>).
 If the workset algorithm is used, the edges in the workset are ordered according to the configured order.
 The configured order may therefore also influence the order in which edges are selected by the workset algorithm's edge selection heuristics.
 
