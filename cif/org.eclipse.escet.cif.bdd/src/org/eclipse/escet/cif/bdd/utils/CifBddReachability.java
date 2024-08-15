@@ -121,8 +121,8 @@ public class CifBddReachability {
     }
 
     /**
-     * Set the instance number to use for saturation. This number must be unique for the list of edges with which saturation
-     * is performed, and will be used internally for caching purposes.
+     * Set the instance number to use for saturation. This number must be unique for the list of edges with which
+     * saturation is performed, and will be used internally for caching purposes.
      *
      * @param instance The instance number.
      */
