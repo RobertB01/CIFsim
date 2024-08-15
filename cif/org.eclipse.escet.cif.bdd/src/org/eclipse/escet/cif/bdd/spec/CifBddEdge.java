@@ -145,7 +145,8 @@ public class CifBddEdge {
     }
 
     /**
-     * Returns the variable support for the given relation, including all variables that are assigned on this edge.
+     * Returns the variable support for the given relation, including the old-state and new-state BDD variables of all
+     * CIF/BDD variables that are assigned on this edge.
      *
      * @param relation The relation for which to compute the BDD variable support.
      * @return The BDD variable support for the given relation.
