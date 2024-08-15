@@ -367,9 +367,6 @@ public class CifToMcrl2Transformer {
     private void addProcess(List<DiscVariable> vars, Set<DiscVariable> valueActVars, List<Edge> edges,
             Expression marked, MemoryCodeBox code)
     {
-        // Get integer-typed variables.
-        List<DiscVariable> intVars = vars.stream().filter(v -> v.getType() instanceof IntType).toList();
-
         // Generate header.
         code.add("% Process for behavior of the CIF specification.");
         if (vars.isEmpty()) {
@@ -388,11 +385,9 @@ public class CifToMcrl2Transformer {
 
         // Generate body.
         code.indent();
-        if (edges.isEmpty() && valueActVars.isEmpty() && intVars.isEmpty() && marked == null) {
-            code.add("delta");
-        } else {
+        boolean first = true;
+
             // Add for edges.
-            boolean first = true;
             boolean firstEdge = true;
             for (Edge edge: edges) {
                 if (!first) {
@@ -429,7 +424,13 @@ public class CifToMcrl2Transformer {
                 code.add("% CIF 'marked' action.");
                 addProcessExprForMarked(marked, code);
             }
+
+        // Add 'delta' for empty process.
+        if (first) {
+            code.add("delta");
         }
+
+        // Done with body.
         code.dedent();
         code.add(";");
     }
