@@ -48,6 +48,7 @@ A fixed order is determined upfront, before any reachability computations.
 Each of the edges is considered in that fixed order, one after the other.
 Regardless of whether an edge leads to new states being found or not, the search always continues with the next edge from the fixed order.
 After the last edge has been considered, the first edge is considered again, then the second one, etc.
+This way of applying edges is known as the chaining strategy for reachability computation.
 A fixed point is reached once:
 +
 ** All edges have been considered at least once.
@@ -56,7 +57,7 @@ A fixed point is reached once:
 * _Workset algorithm_:
 +
 The order in which the edges are considered is dynamic, rather than fixed.
-The algorithm works as follows:
+The algorithm also follows the chaining exploration strategy, and works as follows:
 +
 --
 ** Initially, all edges are in a workset.
