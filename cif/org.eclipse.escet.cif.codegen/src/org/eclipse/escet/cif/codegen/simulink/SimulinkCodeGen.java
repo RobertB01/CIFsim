@@ -1314,9 +1314,9 @@ public class SimulinkCodeGen extends CodeGen {
         CodeBox codeGuardFuncs = makeCodeBox(); // Functions computing time-dependent guards.
         CodeBox codeZeroCross = makeCodeBox(1); // Calls in zero-crossings compute code.
 
-        CodeBox codeCallsUncontrollables = makeCodeBox(2); // Calls to try to perform the uncontrollable events.
-        CodeBox codeCallsControllables = makeCodeBox(2); // Calls to try to perform the controllable events.
-        CodeBox codeMethods = makeCodeBox(); // Event execution functions.
+        CodeBox codeCallsUncontrollables = makeCodeBox(2); // Calls to try to perform the uncontrollable edges.
+        CodeBox codeCallsControllables = makeCodeBox(2); // Calls to try to perform the controllable edges.
+        CodeBox codeMethods = makeCodeBox(); // Edge execution functions.
 
         AtomicInteger numTimeDependentGuards = new AtomicInteger(0);
         int edgeIdx = 0;
@@ -1335,9 +1335,9 @@ public class SimulinkCodeGen extends CodeGen {
             replacements.put("define-mdlZeroCrossings", "#define MDL_ZERO_CROSSINGS");
         }
 
-        replacements.put("event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
-        replacements.put("event-calls-code-controllables", codeCallsControllables.toString());
-        replacements.put("event-methods-code", codeMethods.toString());
+        replacements.put("edge-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("edge-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("edge-methods-code", codeMethods.toString());
 
         // 'Initial' calls.
         CodeBox code = makeCodeBox(2);
@@ -1436,8 +1436,9 @@ public class SimulinkCodeGen extends CodeGen {
             String eventTargetName = getTargetRef(event);
 
             // Construct the call to try executing the event.
-            codeCalls.add("if (execEdge%d(sim_struct)) continue;  /* (Try to) perform event \"%s\". */", edgeIdx,
-                    eventName);
+            codeCalls.add(
+                    "if (execEdge%d(sim_struct)) continue; /* (Try to) perform edge with index %d and event \"%s\". */",
+                    edgeIdx, edgeIdx, eventName);
 
             // Add method code.
 
@@ -1445,7 +1446,7 @@ public class SimulinkCodeGen extends CodeGen {
             List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
-            codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            codeMethods.add(" * Execute code for edge with index %d and event \"%s\".", edgeIdx, eventName);
             for (String doc: docs) {
                 codeMethods.add(" *");
                 for (String line: doc.split("\\r?\\n")) {
@@ -1453,14 +1454,14 @@ public class SimulinkCodeGen extends CodeGen {
                 }
             }
             codeMethods.add(" *");
-            codeMethods.add(" * @return Whether the event was performed.");
+            codeMethods.add(" * @return Whether the edge was performed.");
             codeMethods.add(" */");
             codeMethods.add("static BoolType execEdge%d(SimStruct *sim_struct) {", edgeIdx);
             codeMethods.indent();
             addPreamble(codeMethods, false);
             codeMethods.add();
 
-            // Add event code.
+            // Add edge code.
             if (guardCode != null) {
                 codeMethods.add(guardCode.getCode());
                 codeMethods.add("BoolType guard = %s;", guardCode.getData());

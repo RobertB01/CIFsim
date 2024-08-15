@@ -1187,8 +1187,8 @@ ${clear-inputflags-code}
 /* Time-dependent guards. */
 ${guard-functions}
 
-/* Event execution. */
-${event-methods-code}
+/* Edge execution. */
+${edge-methods-code}
 
 ${print-function}
 
@@ -1322,18 +1322,18 @@ ${initial-print-calls}
 ${time-post-print-call}
     }
 
-    /* Uncontrollables. */
+    /* Uncontrollable edges. */
     for (;;) {
-${event-calls-code-uncontrollables}
+${edge-calls-code-uncontrollables}
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
-    /* Controllables. */
+    /* Controllable edges. */
     for (;;) {
-${event-calls-code-controllables}
+${edge-calls-code-controllables}
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
     /* Print statement for time start. */

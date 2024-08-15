@@ -603,7 +603,7 @@ public class JavaCodeGen extends CodeGen {
             List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
-            codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            codeMethods.add(" * Execute code for edge with index %d and event \"%s\".", edgeIdx, eventName);
             for (String doc: docs) {
                 codeMethods.add(" *");
                 codeMethods.add(" * <p>");
@@ -613,7 +613,7 @@ public class JavaCodeGen extends CodeGen {
                 codeMethods.add(" * </p>");
             }
             codeMethods.add(" *");
-            codeMethods.add(" * @return {@code true} if the event was executed, {@code false} otherwise.");
+            codeMethods.add(" * @return {@code true} if the edge was executed, {@code false} otherwise.");
             codeMethods.add(" */");
             codeMethods.add("private boolean execEdge%d() {", edgeIdx);
             codeMethods.indent();
@@ -626,7 +626,7 @@ public class JavaCodeGen extends CodeGen {
             Assert.check(guards.size() <= 1);
             Expression guard = guards.isEmpty() ? null : first(guards);
 
-            // Add event code.
+            // Add edge code.
             if (guard != null) {
                 ExprCode guardCode = ctxt.exprToTarget(guard, null);
                 codeMethods.add(guardCode.getCode());
