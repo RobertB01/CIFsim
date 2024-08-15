@@ -64,12 +64,13 @@ for time_file in time_files:
     long nodes = -1;
     long ops = -1;
     for line in stdout_lines:
+        line = trim(line);
         if startswith(line, "Maximum used BDD nodes: ") and endswith(line, "."):
             long x = <long>(trim(line[size("Maximum used BDD nodes: "):-size(".")]));
             if nodes == -1: nodes = x; else nodes = max(<long>nodes, x); end
         end
-        if startswith(line, "  Operation cache misses: "):
-            long x = <long>(trim(line[size("  Operation cache misses: "):]));
+        if startswith(line, "Operation cache misses: "):
+            long x = <long>(trim(line[size("Operation cache misses: "):]));
             if ops == -1: ops = x; else ops = max(<long>ops, x); end
         end
     end
