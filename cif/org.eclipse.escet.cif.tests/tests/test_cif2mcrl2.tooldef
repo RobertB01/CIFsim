@@ -24,6 +24,7 @@ map(string:list string) test_options = {
     "cif2mcrl2/marked_opt_on.cif":             ["--marked-action=on"],
     "cif2mcrl2/no_value_actions.cif":          ["-v ''"],
     "cif2mcrl2/value_actions_subset.cif":      ["--value-actions=Q,P.*,-P.x"],
+    "cif2mcrl2/var_no_extra_actions.cif":      ["-a0 -v ''"],
 };
 set string test_skip = {};
 

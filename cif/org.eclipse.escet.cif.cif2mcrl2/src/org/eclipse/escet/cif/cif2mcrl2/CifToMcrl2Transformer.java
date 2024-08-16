@@ -367,9 +367,6 @@ public class CifToMcrl2Transformer {
     private void addProcess(List<DiscVariable> vars, Set<DiscVariable> valueActVars, List<Edge> edges,
             Expression marked, MemoryCodeBox code)
     {
-        // Get integer-typed variables.
-        List<DiscVariable> intVars = vars.stream().filter(v -> v.getType() instanceof IntType).toList();
-
         // Generate header.
         code.add("% Process for behavior of the CIF specification.");
         if (vars.isEmpty()) {
@@ -386,50 +383,54 @@ public class CifToMcrl2Transformer {
             code.add(") =");
         }
 
-        // Generate body.
+        // Generate process body.
         code.indent();
-        if (edges.isEmpty() && valueActVars.isEmpty() && intVars.isEmpty() && marked == null) {
-            code.add("delta");
-        } else {
-            // Add for edges.
-            boolean first = true;
-            boolean firstEdge = true;
-            for (Edge edge: edges) {
-                if (!first) {
-                    code.add("+");
-                }
-                first = false;
-                if (firstEdge) {
-                    code.add("% CIF linearized edges.");
-                    firstEdge = false;
-                }
-                addProcessExprForEdge(edge, vars, code);
-            }
+        boolean first = true;
 
-            // Add for variable 'value' actions.
-            boolean firstValueAct = true;
-            for (DiscVariable valueActVar: valueActVars) {
-                if (!first) {
-                    code.add("+");
-                }
-                first = false;
-                if (firstValueAct) {
-                    code.add("% CIF variable value actions.");
-                    firstValueAct = false;
-                }
-                addProcessExprForValueActVar(valueActVar, code);
+        // Add process expressions to body, for edges.
+        boolean firstEdge = true;
+        for (Edge edge: edges) {
+            if (!first) {
+                code.add("+");
             }
-
-            // Add for 'marked' action.
-            if (marked != null) {
-                if (!first) {
-                    code.add("+");
-                }
-                first = false;
-                code.add("% CIF 'marked' action.");
-                addProcessExprForMarked(marked, code);
+            first = false;
+            if (firstEdge) {
+                code.add("% CIF linearized edges.");
+                firstEdge = false;
             }
+            addProcessExprForEdge(edge, vars, code);
         }
+
+        // Add process expressions to body, for variable 'value' actions.
+        boolean firstValueAct = true;
+        for (DiscVariable valueActVar: valueActVars) {
+            if (!first) {
+                code.add("+");
+            }
+            first = false;
+            if (firstValueAct) {
+                code.add("% CIF variable value actions.");
+                firstValueAct = false;
+            }
+            addProcessExprForValueActVar(valueActVar, code);
+        }
+
+        // Add process expression to body, for 'marked' action.
+        if (marked != null) {
+            if (!first) {
+                code.add("+");
+            }
+            first = false;
+            code.add("% CIF 'marked' action.");
+            addProcessExprForMarked(marked, code);
+        }
+
+        // If the process body is empty, add a 'delta' process expression, to ensure a valid process without behavior.
+        if (first) {
+            code.add("delta");
+        }
+
+        // Done with body.
         code.dedent();
         code.add(";");
     }
