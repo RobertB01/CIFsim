@@ -27,6 +27,12 @@ public class PlcMaxIterOption extends StringOption {
     /** Default option value text. */
     private static final String DEFAULT_VALUE_TEXT = "resp,resp";
 
+    /** Default fallback iteration limit for controllable events. */
+    private static final int DEFAULT_FALLBACK_CONTR_LIMIT = MaxIterLimits.INFINITE_VALUE;
+
+    /** Default fallback iteration limit for uncontrollable events. */
+    private static final int DEFAULT_FALLBACK_UNCONTR_LIMIT = MaxIterLimits.INFINITE_VALUE;
+
     /** Description of the option value. */
     private static final String VALUE_DESCRIPTION_TEXT = """
             The worst case maximum number of iterations to try each uncontrollable event once and the wordt case maximum
@@ -99,7 +105,8 @@ public class PlcMaxIterOption extends StringOption {
             unconText = value.substring(0, sepIndex).strip();
             conText = value.substring(sepIndex + 1).strip();
         }
-        return new MaxIterLimits(convertLimit("uncontrollable", unconText), convertLimit("controllable", conText));
+        return new MaxIterLimits(convertLimit("uncontrollable", unconText), convertLimit("controllable", conText),
+                DEFAULT_FALLBACK_UNCONTR_LIMIT, DEFAULT_FALLBACK_CONTR_LIMIT);
     }
 
     /** Class to store, transport, and express the entered value of the {@link PlcMaxIterOption}. */
@@ -255,9 +262,11 @@ public class PlcMaxIterOption extends StringOption {
      * @param numberText Text to convert.
      * @return The converted limit value.
      */
-    private static Integer convertLimit(String eventKind, String numberText) {
+    private static int convertLimit(String eventKind, String numberText) {
         if (numberText.toLowerCase(Locale.US).equals("inf")) {
-            return null;
+            return MaxIterLimits.INFINITE_VALUE;
+        } else if (numberText.toLowerCase(Locale.US).equals("resp")) {
+            return MaxIterLimits.BOUNDED_RESPONSE_VALUE;
         } else {
             int value;
             try {
