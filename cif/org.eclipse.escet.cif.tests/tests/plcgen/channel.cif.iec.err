@@ -1,5 +1,13 @@
-WARNING: I/O table file "plcgen/channel.csv" not found. The PLC code will not perform any I/O with the environment.
 WARNING: File "plcgen/channel.cif": Semantic warning at line 28, column 12: Location "B" is not reachable from any of the initial locations of automaton "S2".
 WARNING: File "plcgen/channel.cif": Semantic warning at line 44, column 12: Location "B" is not reachable from any of the initial locations of automaton "R2".
 WARNING: File "plcgen/channel.cif": Semantic warning at line 60, column 12: Location "B" is not reachable from any of the initial locations of automaton "Y2".
 WARNING: File "plcgen/channel.cif": Semantic warning at line 78, column 12: Location "B" is not reachable from any of the initial locations of automaton "M2".
+WARNING: The Input specification has no annotation for the bounded response property.
+WARNING: The Input specification has no annotation for the confluence property.
+WARNING: Before generating PLC code, both the bounded response and the confluence properties of the CIF specificiation should be checked and hold.
+WARNING: Please apply the CIF controller properties checker application on hte CIF specification before generating PLC code from it.
+WARNING:
+WARNING: Using control code generated from a CIF specification without both bounded response and confluence properties may result in undesired or unexpected behavior of the controlled system.
+WARNING: Bounded response limit for uncontrollable events is not available, falling back to limitless trying events until blocked.
+WARNING: Bounded response limit for controllable events is not available, falling back to limitless trying events until blocked.
+WARNING: I/O table file "plcgen/channel.csv" not found. The PLC code will not perform any I/O with the environment.
