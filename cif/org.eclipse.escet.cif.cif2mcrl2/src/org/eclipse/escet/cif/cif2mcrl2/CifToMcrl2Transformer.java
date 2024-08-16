@@ -383,11 +383,11 @@ public class CifToMcrl2Transformer {
             code.add(") =");
         }
 
-        // Generate body.
+        // Generate process body.
         code.indent();
         boolean first = true;
 
-        // Add for edges.
+        // Add process expressions to body, for edges.
         boolean firstEdge = true;
         for (Edge edge: edges) {
             if (!first) {
@@ -401,7 +401,7 @@ public class CifToMcrl2Transformer {
             addProcessExprForEdge(edge, vars, code);
         }
 
-        // Add for variable 'value' actions.
+        // Add process expressions to body, for variable 'value' actions.
         boolean firstValueAct = true;
         for (DiscVariable valueActVar: valueActVars) {
             if (!first) {
@@ -415,7 +415,7 @@ public class CifToMcrl2Transformer {
             addProcessExprForValueActVar(valueActVar, code);
         }
 
-        // Add for 'marked' action.
+        // Add process expression to body, for 'marked' action.
         if (marked != null) {
             if (!first) {
                 code.add("+");
@@ -425,7 +425,7 @@ public class CifToMcrl2Transformer {
             addProcessExprForMarked(marked, code);
         }
 
-        // Add 'delta' for empty process.
+        // If the process body is empty, add a 'delta' process expression, to ensure a valid process without behavior.
         if (first) {
             code.add("delta");
         }
