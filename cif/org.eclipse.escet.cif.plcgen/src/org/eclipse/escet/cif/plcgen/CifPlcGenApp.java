@@ -30,6 +30,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.escet.cif.io.CifReader;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.plcgen.options.IoTablePathOption;
@@ -176,6 +178,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         PathPair outputPathPair = new PathPair(outputPath, Paths.resolve(outputPath));
         PathPair ioTablePathPair = new PathPair(ioTablePath, Paths.resolve(ioTablePath));
         List<String> programHeaderLines = expandAndCleanProgramHeaderLines(obtainProgramHeaderLines());
+        Specification inputSpec = new CifReader().init(inputPathPair.userPath, inputPathPair.systemPath, false).read();
 
         PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
         PlcNumberBits realSize = PlcRealTypeSizeOption.getNumberBits();
@@ -189,7 +192,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
                 iterLimits.uncontrollableLimit(), iterLimits.controllableLimit(),
-                inputPathPair, outputPathPair, ioTablePathPair, programHeaderLines, intSize, realSize,
+                inputPathPair, outputPathPair, ioTablePathPair, programHeaderLines, inputSpec, intSize, realSize,
                 simplifyValues, enumConversion, termination, warnOnRename, warnOutput);
     }
 

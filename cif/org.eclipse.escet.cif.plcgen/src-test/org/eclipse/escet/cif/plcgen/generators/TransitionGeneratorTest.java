@@ -94,7 +94,7 @@ public class TransitionGeneratorTest {
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
                     taskCyceTime, priority, null, null, new PathPair(inputPath, "/" + inputPath),
                     new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath),
-                    programHeader, intSize, realSize, simplifyValues, enumConversion, termination, warnOnRename,
+                    programHeader, null, intSize, realSize, simplifyValues, enumConversion, termination, warnOnRename,
                     warnOutput);
             setup(settings);
 
