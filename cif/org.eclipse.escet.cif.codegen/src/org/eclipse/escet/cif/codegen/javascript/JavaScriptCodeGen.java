@@ -698,10 +698,10 @@ public class JavaScriptCodeGen extends CodeGen {
         edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, false, ctxt);
 
         // Fill the replacement patterns with generated code.
-        replacements.put("javascript-event-calls-code-svgin", codeCallsSvgIn.toString());
-        replacements.put("javascript-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
-        replacements.put("javascript-event-calls-code-controllables", codeCallsControllables.toString());
-        replacements.put("javascript-event-methods-code", codeMethods.toString());
+        replacements.put("javascript-edge-calls-code-svgin", codeCallsSvgIn.toString());
+        replacements.put("javascript-edge-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("javascript-edge-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("javascript-edge-methods-code", codeMethods.toString());
     }
 
     /**
@@ -733,13 +733,13 @@ public class JavaScriptCodeGen extends CodeGen {
             // Add call code.
             codeCalls.add();
             codeCalls.add("// Event \"%s\".", eventName);
-            codeCalls.add("if (this.execEvent%d()) continue;", edgeIdx);
+            codeCalls.add("if (this.execEdge%d()) continue;", edgeIdx);
 
             // Add method code, starting with the header.
             List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
-            codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            codeMethods.add(" * Execute code for edge with index %d and event \"%s\".", edgeIdx, eventName);
             for (String doc: docs) {
                 codeMethods.add(" *");
                 codeMethods.add(" * <p>");
@@ -749,9 +749,9 @@ public class JavaScriptCodeGen extends CodeGen {
                 codeMethods.add(" * </p>");
             }
             codeMethods.add(" *");
-            codeMethods.add(" * @return 'true' if the event was executed, 'false' otherwise.");
+            codeMethods.add(" * @return 'true' if the edge was executed, 'false' otherwise.");
             codeMethods.add(" */");
-            codeMethods.add("execEvent%d() {", edgeIdx);
+            codeMethods.add("execEdge%d() {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
@@ -769,7 +769,7 @@ public class JavaScriptCodeGen extends CodeGen {
                 codeMethods.add(guardCode.getCode());
                 codeMethods.add("var guard = %s;", guardCode.getData());
 
-                // Add code for when the event is not enabled. If the event is an interactive SVG input event,
+                // Add code for when the edge is not enabled. If the event is an interactive SVG input event,
                 // display a warning if the event is not enabled.
                 codeMethods.add();
                 codeMethods.add("if (!guard) {");
@@ -821,7 +821,7 @@ public class JavaScriptCodeGen extends CodeGen {
             codeMethods.add("if (this.doInfoPrintOutput) this.printOutput(%d, false);", eventIdx);
             codeMethods.add("if (this.doStateOutput || this.doTransitionOutput) this.log('');");
 
-            // We executed the event.
+            // We executed the edge.
             codeMethods.add("return true;");
 
             // Method code done.

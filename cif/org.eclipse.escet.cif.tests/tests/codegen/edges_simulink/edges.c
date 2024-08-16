@@ -2626,14 +2626,14 @@ static BoolType GuardEval64(SimStruct *sim_struct) {
     return (work->aut14_r_) < (8);
 }
 
-/* Event execution. */
+/* Edge execution. */
 
 /**
- * Execute code for event "e02a".
+ * Execute code for edge with index 0 and event "e02a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent0(SimStruct *sim_struct) {
+static BoolType execEdge0(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2654,11 +2654,11 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e02b".
+ * Execute code for edge with index 1 and event "e02b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent1(SimStruct *sim_struct) {
+static BoolType execEdge1(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2679,11 +2679,11 @@ static BoolType ExecEvent1(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e03a".
+ * Execute code for edge with index 2 and event "e03a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent2(SimStruct *sim_struct) {
+static BoolType execEdge2(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2695,11 +2695,11 @@ static BoolType ExecEvent2(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e03b".
+ * Execute code for edge with index 3 and event "e03b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent3(SimStruct *sim_struct) {
+static BoolType execEdge3(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2711,11 +2711,11 @@ static BoolType ExecEvent3(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e04a".
+ * Execute code for edge with index 4 and event "e04a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent4(SimStruct *sim_struct) {
+static BoolType execEdge4(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2729,11 +2729,11 @@ static BoolType ExecEvent4(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e04b".
+ * Execute code for edge with index 5 and event "e04b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent5(SimStruct *sim_struct) {
+static BoolType execEdge5(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2749,11 +2749,11 @@ static BoolType ExecEvent5(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e04c".
+ * Execute code for edge with index 6 and event "e04c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent6(SimStruct *sim_struct) {
+static BoolType execEdge6(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2771,11 +2771,11 @@ static BoolType ExecEvent6(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e04d".
+ * Execute code for edge with index 7 and event "e04d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent7(SimStruct *sim_struct) {
+static BoolType execEdge7(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2795,11 +2795,11 @@ static BoolType ExecEvent7(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e04e".
+ * Execute code for edge with index 8 and event "e04e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent8(SimStruct *sim_struct) {
+static BoolType execEdge8(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2815,11 +2815,11 @@ static BoolType ExecEvent8(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e04f".
+ * Execute code for edge with index 9 and event "e04f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent9(SimStruct *sim_struct) {
+static BoolType execEdge9(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2840,11 +2840,11 @@ static BoolType ExecEvent9(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e05a".
+ * Execute code for edge with index 10 and event "e05a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent10(SimStruct *sim_struct) {
+static BoolType execEdge10(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2865,11 +2865,11 @@ static BoolType ExecEvent10(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e05b".
+ * Execute code for edge with index 11 and event "e05b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent11(SimStruct *sim_struct) {
+static BoolType execEdge11(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2890,11 +2890,11 @@ static BoolType ExecEvent11(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e05c".
+ * Execute code for edge with index 12 and event "e05c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent12(SimStruct *sim_struct) {
+static BoolType execEdge12(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2906,11 +2906,11 @@ static BoolType ExecEvent12(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e05d".
+ * Execute code for edge with index 13 and event "e05d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent13(SimStruct *sim_struct) {
+static BoolType execEdge13(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2931,11 +2931,11 @@ static BoolType ExecEvent13(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e05e".
+ * Execute code for edge with index 14 and event "e05e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent14(SimStruct *sim_struct) {
+static BoolType execEdge14(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2956,11 +2956,11 @@ static BoolType ExecEvent14(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e06a".
+ * Execute code for edge with index 15 and event "e06a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent15(SimStruct *sim_struct) {
+static BoolType execEdge15(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2973,11 +2973,11 @@ static BoolType ExecEvent15(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e06b".
+ * Execute code for edge with index 16 and event "e06b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent16(SimStruct *sim_struct) {
+static BoolType execEdge16(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -2992,11 +2992,11 @@ static BoolType ExecEvent16(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e06c".
+ * Execute code for edge with index 17 and event "e06c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent17(SimStruct *sim_struct) {
+static BoolType execEdge17(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3012,11 +3012,11 @@ static BoolType ExecEvent17(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e06d".
+ * Execute code for edge with index 18 and event "e06d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent18(SimStruct *sim_struct) {
+static BoolType execEdge18(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3029,11 +3029,11 @@ static BoolType ExecEvent18(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e06e".
+ * Execute code for edge with index 19 and event "e06e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent19(SimStruct *sim_struct) {
+static BoolType execEdge19(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3045,11 +3045,11 @@ static BoolType ExecEvent19(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e07a".
+ * Execute code for edge with index 20 and event "e07a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent20(SimStruct *sim_struct) {
+static BoolType execEdge20(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3061,11 +3061,11 @@ static BoolType ExecEvent20(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e07b".
+ * Execute code for edge with index 21 and event "e07b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent21(SimStruct *sim_struct) {
+static BoolType execEdge21(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3078,11 +3078,11 @@ static BoolType ExecEvent21(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e08a".
+ * Execute code for edge with index 22 and event "e08a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent22(SimStruct *sim_struct) {
+static BoolType execEdge22(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3096,11 +3096,11 @@ static BoolType ExecEvent22(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e08b".
+ * Execute code for edge with index 23 and event "e08b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent23(SimStruct *sim_struct) {
+static BoolType execEdge23(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3112,11 +3112,11 @@ static BoolType ExecEvent23(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e08c".
+ * Execute code for edge with index 24 and event "e08c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent24(SimStruct *sim_struct) {
+static BoolType execEdge24(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3131,11 +3131,11 @@ static BoolType ExecEvent24(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e08d".
+ * Execute code for edge with index 25 and event "e08d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent25(SimStruct *sim_struct) {
+static BoolType execEdge25(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3152,11 +3152,11 @@ static BoolType ExecEvent25(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e08e".
+ * Execute code for edge with index 26 and event "e08e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent26(SimStruct *sim_struct) {
+static BoolType execEdge26(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3173,11 +3173,11 @@ static BoolType ExecEvent26(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e08f".
+ * Execute code for edge with index 27 and event "e08f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent27(SimStruct *sim_struct) {
+static BoolType execEdge27(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3194,11 +3194,11 @@ static BoolType ExecEvent27(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e08g".
+ * Execute code for edge with index 28 and event "e08g".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent28(SimStruct *sim_struct) {
+static BoolType execEdge28(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3214,11 +3214,11 @@ static BoolType ExecEvent28(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e08h".
+ * Execute code for edge with index 29 and event "e08h".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent29(SimStruct *sim_struct) {
+static BoolType execEdge29(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3235,11 +3235,11 @@ static BoolType ExecEvent29(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e09a".
+ * Execute code for edge with index 30 and event "e09a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent30(SimStruct *sim_struct) {
+static BoolType execEdge30(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3256,11 +3256,11 @@ static BoolType ExecEvent30(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e09b".
+ * Execute code for edge with index 31 and event "e09b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent31(SimStruct *sim_struct) {
+static BoolType execEdge31(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3272,11 +3272,11 @@ static BoolType ExecEvent31(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e09c".
+ * Execute code for edge with index 32 and event "e09c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent32(SimStruct *sim_struct) {
+static BoolType execEdge32(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3292,11 +3292,11 @@ static BoolType ExecEvent32(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e09d".
+ * Execute code for edge with index 33 and event "e09d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent33(SimStruct *sim_struct) {
+static BoolType execEdge33(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3315,11 +3315,11 @@ static BoolType ExecEvent33(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e09e".
+ * Execute code for edge with index 34 and event "e09e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent34(SimStruct *sim_struct) {
+static BoolType execEdge34(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3331,11 +3331,11 @@ static BoolType ExecEvent34(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e09f".
+ * Execute code for edge with index 35 and event "e09f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent35(SimStruct *sim_struct) {
+static BoolType execEdge35(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3347,11 +3347,11 @@ static BoolType ExecEvent35(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e09g".
+ * Execute code for edge with index 36 and event "e09g".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent36(SimStruct *sim_struct) {
+static BoolType execEdge36(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3368,11 +3368,11 @@ static BoolType ExecEvent36(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e10a".
+ * Execute code for edge with index 37 and event "e10a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent37(SimStruct *sim_struct) {
+static BoolType execEdge37(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3384,11 +3384,11 @@ static BoolType ExecEvent37(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e10b".
+ * Execute code for edge with index 38 and event "e10b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent38(SimStruct *sim_struct) {
+static BoolType execEdge38(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3404,11 +3404,11 @@ static BoolType ExecEvent38(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e10c".
+ * Execute code for edge with index 39 and event "e10c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent39(SimStruct *sim_struct) {
+static BoolType execEdge39(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3434,11 +3434,11 @@ static BoolType ExecEvent39(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e10d".
+ * Execute code for edge with index 40 and event "e10d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent40(SimStruct *sim_struct) {
+static BoolType execEdge40(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3459,11 +3459,11 @@ static BoolType ExecEvent40(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e10e".
+ * Execute code for edge with index 41 and event "e10e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent41(SimStruct *sim_struct) {
+static BoolType execEdge41(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3486,11 +3486,11 @@ static BoolType ExecEvent41(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e10f".
+ * Execute code for edge with index 42 and event "e10f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent42(SimStruct *sim_struct) {
+static BoolType execEdge42(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3502,11 +3502,11 @@ static BoolType ExecEvent42(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e10g".
+ * Execute code for edge with index 43 and event "e10g".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent43(SimStruct *sim_struct) {
+static BoolType execEdge43(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3518,11 +3518,11 @@ static BoolType ExecEvent43(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e10h".
+ * Execute code for edge with index 44 and event "e10h".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent44(SimStruct *sim_struct) {
+static BoolType execEdge44(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3534,11 +3534,11 @@ static BoolType ExecEvent44(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e10i".
+ * Execute code for edge with index 45 and event "e10i".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent45(SimStruct *sim_struct) {
+static BoolType execEdge45(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3551,11 +3551,11 @@ static BoolType ExecEvent45(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e11a".
+ * Execute code for edge with index 46 and event "e11a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent46(SimStruct *sim_struct) {
+static BoolType execEdge46(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3592,11 +3592,11 @@ static BoolType ExecEvent46(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e12a".
+ * Execute code for edge with index 47 and event "e12a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent47(SimStruct *sim_struct) {
+static BoolType execEdge47(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3610,11 +3610,11 @@ static BoolType ExecEvent47(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e12b".
+ * Execute code for edge with index 48 and event "e12b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent48(SimStruct *sim_struct) {
+static BoolType execEdge48(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3630,11 +3630,11 @@ static BoolType ExecEvent48(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e12c".
+ * Execute code for edge with index 49 and event "e12c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent49(SimStruct *sim_struct) {
+static BoolType execEdge49(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3651,11 +3651,11 @@ static BoolType ExecEvent49(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e12d".
+ * Execute code for edge with index 50 and event "e12d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent50(SimStruct *sim_struct) {
+static BoolType execEdge50(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3671,11 +3671,11 @@ static BoolType ExecEvent50(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e12e".
+ * Execute code for edge with index 51 and event "e12e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent51(SimStruct *sim_struct) {
+static BoolType execEdge51(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3689,11 +3689,11 @@ static BoolType ExecEvent51(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e13a".
+ * Execute code for edge with index 52 and event "e13a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent52(SimStruct *sim_struct) {
+static BoolType execEdge52(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3705,11 +3705,11 @@ static BoolType ExecEvent52(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e13b".
+ * Execute code for edge with index 53 and event "e13b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent53(SimStruct *sim_struct) {
+static BoolType execEdge53(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3725,11 +3725,11 @@ static BoolType ExecEvent53(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e13c".
+ * Execute code for edge with index 54 and event "e13c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent54(SimStruct *sim_struct) {
+static BoolType execEdge54(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3745,11 +3745,11 @@ static BoolType ExecEvent54(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e13d".
+ * Execute code for edge with index 55 and event "e13d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent55(SimStruct *sim_struct) {
+static BoolType execEdge55(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3767,11 +3767,11 @@ static BoolType ExecEvent55(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e13e".
+ * Execute code for edge with index 56 and event "e13e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent56(SimStruct *sim_struct) {
+static BoolType execEdge56(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3787,11 +3787,11 @@ static BoolType ExecEvent56(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e14a".
+ * Execute code for edge with index 57 and event "e14a".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent57(SimStruct *sim_struct) {
+static BoolType execEdge57(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3804,11 +3804,11 @@ static BoolType ExecEvent57(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e14b".
+ * Execute code for edge with index 58 and event "e14b".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent58(SimStruct *sim_struct) {
+static BoolType execEdge58(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3821,11 +3821,11 @@ static BoolType ExecEvent58(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e14c".
+ * Execute code for edge with index 59 and event "e14c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent59(SimStruct *sim_struct) {
+static BoolType execEdge59(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3838,11 +3838,11 @@ static BoolType ExecEvent59(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e14d".
+ * Execute code for edge with index 60 and event "e14d".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent60(SimStruct *sim_struct) {
+static BoolType execEdge60(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3855,11 +3855,11 @@ static BoolType ExecEvent60(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e14e".
+ * Execute code for edge with index 61 and event "e14e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent61(SimStruct *sim_struct) {
+static BoolType execEdge61(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3872,11 +3872,11 @@ static BoolType ExecEvent61(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e14f".
+ * Execute code for edge with index 62 and event "e14f".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent62(SimStruct *sim_struct) {
+static BoolType execEdge62(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3889,11 +3889,11 @@ static BoolType ExecEvent62(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e14g".
+ * Execute code for edge with index 63 and event "e14g".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent63(SimStruct *sim_struct) {
+static BoolType execEdge63(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3906,11 +3906,11 @@ static BoolType ExecEvent63(SimStruct *sim_struct) {
 }
 
 /**
- * Execute code for event "e14h".
+ * Execute code for edge with index 64 and event "e14h".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent64(SimStruct *sim_struct) {
+static BoolType execEdge64(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -4329,82 +4329,82 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
-    /* Uncontrollables. */
+    /* Uncontrollable edges. */
     for (;;) {
 
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
-    /* Controllables. */
+    /* Controllable edges. */
     for (;;) {
-        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "e02a". */
-        if (ExecEvent1(sim_struct)) continue;  /* (Try to) perform event "e02b". */
-        if (ExecEvent2(sim_struct)) continue;  /* (Try to) perform event "e03a". */
-        if (ExecEvent3(sim_struct)) continue;  /* (Try to) perform event "e03b". */
-        if (ExecEvent4(sim_struct)) continue;  /* (Try to) perform event "e04a". */
-        if (ExecEvent5(sim_struct)) continue;  /* (Try to) perform event "e04b". */
-        if (ExecEvent6(sim_struct)) continue;  /* (Try to) perform event "e04c". */
-        if (ExecEvent7(sim_struct)) continue;  /* (Try to) perform event "e04d". */
-        if (ExecEvent8(sim_struct)) continue;  /* (Try to) perform event "e04e". */
-        if (ExecEvent9(sim_struct)) continue;  /* (Try to) perform event "e04f". */
-        if (ExecEvent10(sim_struct)) continue;  /* (Try to) perform event "e05a". */
-        if (ExecEvent11(sim_struct)) continue;  /* (Try to) perform event "e05b". */
-        if (ExecEvent12(sim_struct)) continue;  /* (Try to) perform event "e05c". */
-        if (ExecEvent13(sim_struct)) continue;  /* (Try to) perform event "e05d". */
-        if (ExecEvent14(sim_struct)) continue;  /* (Try to) perform event "e05e". */
-        if (ExecEvent15(sim_struct)) continue;  /* (Try to) perform event "e06a". */
-        if (ExecEvent16(sim_struct)) continue;  /* (Try to) perform event "e06b". */
-        if (ExecEvent17(sim_struct)) continue;  /* (Try to) perform event "e06c". */
-        if (ExecEvent18(sim_struct)) continue;  /* (Try to) perform event "e06d". */
-        if (ExecEvent19(sim_struct)) continue;  /* (Try to) perform event "e06e". */
-        if (ExecEvent20(sim_struct)) continue;  /* (Try to) perform event "e07a". */
-        if (ExecEvent21(sim_struct)) continue;  /* (Try to) perform event "e07b". */
-        if (ExecEvent22(sim_struct)) continue;  /* (Try to) perform event "e08a". */
-        if (ExecEvent23(sim_struct)) continue;  /* (Try to) perform event "e08b". */
-        if (ExecEvent24(sim_struct)) continue;  /* (Try to) perform event "e08c". */
-        if (ExecEvent25(sim_struct)) continue;  /* (Try to) perform event "e08d". */
-        if (ExecEvent26(sim_struct)) continue;  /* (Try to) perform event "e08e". */
-        if (ExecEvent27(sim_struct)) continue;  /* (Try to) perform event "e08f". */
-        if (ExecEvent28(sim_struct)) continue;  /* (Try to) perform event "e08g". */
-        if (ExecEvent29(sim_struct)) continue;  /* (Try to) perform event "e08h". */
-        if (ExecEvent30(sim_struct)) continue;  /* (Try to) perform event "e09a". */
-        if (ExecEvent31(sim_struct)) continue;  /* (Try to) perform event "e09b". */
-        if (ExecEvent32(sim_struct)) continue;  /* (Try to) perform event "e09c". */
-        if (ExecEvent33(sim_struct)) continue;  /* (Try to) perform event "e09d". */
-        if (ExecEvent34(sim_struct)) continue;  /* (Try to) perform event "e09e". */
-        if (ExecEvent35(sim_struct)) continue;  /* (Try to) perform event "e09f". */
-        if (ExecEvent36(sim_struct)) continue;  /* (Try to) perform event "e09g". */
-        if (ExecEvent37(sim_struct)) continue;  /* (Try to) perform event "e10a". */
-        if (ExecEvent38(sim_struct)) continue;  /* (Try to) perform event "e10b". */
-        if (ExecEvent39(sim_struct)) continue;  /* (Try to) perform event "e10c". */
-        if (ExecEvent40(sim_struct)) continue;  /* (Try to) perform event "e10d". */
-        if (ExecEvent41(sim_struct)) continue;  /* (Try to) perform event "e10e". */
-        if (ExecEvent42(sim_struct)) continue;  /* (Try to) perform event "e10f". */
-        if (ExecEvent43(sim_struct)) continue;  /* (Try to) perform event "e10g". */
-        if (ExecEvent44(sim_struct)) continue;  /* (Try to) perform event "e10h". */
-        if (ExecEvent45(sim_struct)) continue;  /* (Try to) perform event "e10i". */
-        if (ExecEvent46(sim_struct)) continue;  /* (Try to) perform event "e11a". */
-        if (ExecEvent47(sim_struct)) continue;  /* (Try to) perform event "e12a". */
-        if (ExecEvent48(sim_struct)) continue;  /* (Try to) perform event "e12b". */
-        if (ExecEvent49(sim_struct)) continue;  /* (Try to) perform event "e12c". */
-        if (ExecEvent50(sim_struct)) continue;  /* (Try to) perform event "e12d". */
-        if (ExecEvent51(sim_struct)) continue;  /* (Try to) perform event "e12e". */
-        if (ExecEvent52(sim_struct)) continue;  /* (Try to) perform event "e13a". */
-        if (ExecEvent53(sim_struct)) continue;  /* (Try to) perform event "e13b". */
-        if (ExecEvent54(sim_struct)) continue;  /* (Try to) perform event "e13c". */
-        if (ExecEvent55(sim_struct)) continue;  /* (Try to) perform event "e13d". */
-        if (ExecEvent56(sim_struct)) continue;  /* (Try to) perform event "e13e". */
-        if (ExecEvent57(sim_struct)) continue;  /* (Try to) perform event "e14a". */
-        if (ExecEvent58(sim_struct)) continue;  /* (Try to) perform event "e14b". */
-        if (ExecEvent59(sim_struct)) continue;  /* (Try to) perform event "e14c". */
-        if (ExecEvent60(sim_struct)) continue;  /* (Try to) perform event "e14d". */
-        if (ExecEvent61(sim_struct)) continue;  /* (Try to) perform event "e14e". */
-        if (ExecEvent62(sim_struct)) continue;  /* (Try to) perform event "e14f". */
-        if (ExecEvent63(sim_struct)) continue;  /* (Try to) perform event "e14g". */
-        if (ExecEvent64(sim_struct)) continue;  /* (Try to) perform event "e14h". */
+        if (execEdge0(sim_struct)) continue; /* (Try to) perform edge with index 0 and event "e02a". */
+        if (execEdge1(sim_struct)) continue; /* (Try to) perform edge with index 1 and event "e02b". */
+        if (execEdge2(sim_struct)) continue; /* (Try to) perform edge with index 2 and event "e03a". */
+        if (execEdge3(sim_struct)) continue; /* (Try to) perform edge with index 3 and event "e03b". */
+        if (execEdge4(sim_struct)) continue; /* (Try to) perform edge with index 4 and event "e04a". */
+        if (execEdge5(sim_struct)) continue; /* (Try to) perform edge with index 5 and event "e04b". */
+        if (execEdge6(sim_struct)) continue; /* (Try to) perform edge with index 6 and event "e04c". */
+        if (execEdge7(sim_struct)) continue; /* (Try to) perform edge with index 7 and event "e04d". */
+        if (execEdge8(sim_struct)) continue; /* (Try to) perform edge with index 8 and event "e04e". */
+        if (execEdge9(sim_struct)) continue; /* (Try to) perform edge with index 9 and event "e04f". */
+        if (execEdge10(sim_struct)) continue; /* (Try to) perform edge with index 10 and event "e05a". */
+        if (execEdge11(sim_struct)) continue; /* (Try to) perform edge with index 11 and event "e05b". */
+        if (execEdge12(sim_struct)) continue; /* (Try to) perform edge with index 12 and event "e05c". */
+        if (execEdge13(sim_struct)) continue; /* (Try to) perform edge with index 13 and event "e05d". */
+        if (execEdge14(sim_struct)) continue; /* (Try to) perform edge with index 14 and event "e05e". */
+        if (execEdge15(sim_struct)) continue; /* (Try to) perform edge with index 15 and event "e06a". */
+        if (execEdge16(sim_struct)) continue; /* (Try to) perform edge with index 16 and event "e06b". */
+        if (execEdge17(sim_struct)) continue; /* (Try to) perform edge with index 17 and event "e06c". */
+        if (execEdge18(sim_struct)) continue; /* (Try to) perform edge with index 18 and event "e06d". */
+        if (execEdge19(sim_struct)) continue; /* (Try to) perform edge with index 19 and event "e06e". */
+        if (execEdge20(sim_struct)) continue; /* (Try to) perform edge with index 20 and event "e07a". */
+        if (execEdge21(sim_struct)) continue; /* (Try to) perform edge with index 21 and event "e07b". */
+        if (execEdge22(sim_struct)) continue; /* (Try to) perform edge with index 22 and event "e08a". */
+        if (execEdge23(sim_struct)) continue; /* (Try to) perform edge with index 23 and event "e08b". */
+        if (execEdge24(sim_struct)) continue; /* (Try to) perform edge with index 24 and event "e08c". */
+        if (execEdge25(sim_struct)) continue; /* (Try to) perform edge with index 25 and event "e08d". */
+        if (execEdge26(sim_struct)) continue; /* (Try to) perform edge with index 26 and event "e08e". */
+        if (execEdge27(sim_struct)) continue; /* (Try to) perform edge with index 27 and event "e08f". */
+        if (execEdge28(sim_struct)) continue; /* (Try to) perform edge with index 28 and event "e08g". */
+        if (execEdge29(sim_struct)) continue; /* (Try to) perform edge with index 29 and event "e08h". */
+        if (execEdge30(sim_struct)) continue; /* (Try to) perform edge with index 30 and event "e09a". */
+        if (execEdge31(sim_struct)) continue; /* (Try to) perform edge with index 31 and event "e09b". */
+        if (execEdge32(sim_struct)) continue; /* (Try to) perform edge with index 32 and event "e09c". */
+        if (execEdge33(sim_struct)) continue; /* (Try to) perform edge with index 33 and event "e09d". */
+        if (execEdge34(sim_struct)) continue; /* (Try to) perform edge with index 34 and event "e09e". */
+        if (execEdge35(sim_struct)) continue; /* (Try to) perform edge with index 35 and event "e09f". */
+        if (execEdge36(sim_struct)) continue; /* (Try to) perform edge with index 36 and event "e09g". */
+        if (execEdge37(sim_struct)) continue; /* (Try to) perform edge with index 37 and event "e10a". */
+        if (execEdge38(sim_struct)) continue; /* (Try to) perform edge with index 38 and event "e10b". */
+        if (execEdge39(sim_struct)) continue; /* (Try to) perform edge with index 39 and event "e10c". */
+        if (execEdge40(sim_struct)) continue; /* (Try to) perform edge with index 40 and event "e10d". */
+        if (execEdge41(sim_struct)) continue; /* (Try to) perform edge with index 41 and event "e10e". */
+        if (execEdge42(sim_struct)) continue; /* (Try to) perform edge with index 42 and event "e10f". */
+        if (execEdge43(sim_struct)) continue; /* (Try to) perform edge with index 43 and event "e10g". */
+        if (execEdge44(sim_struct)) continue; /* (Try to) perform edge with index 44 and event "e10h". */
+        if (execEdge45(sim_struct)) continue; /* (Try to) perform edge with index 45 and event "e10i". */
+        if (execEdge46(sim_struct)) continue; /* (Try to) perform edge with index 46 and event "e11a". */
+        if (execEdge47(sim_struct)) continue; /* (Try to) perform edge with index 47 and event "e12a". */
+        if (execEdge48(sim_struct)) continue; /* (Try to) perform edge with index 48 and event "e12b". */
+        if (execEdge49(sim_struct)) continue; /* (Try to) perform edge with index 49 and event "e12c". */
+        if (execEdge50(sim_struct)) continue; /* (Try to) perform edge with index 50 and event "e12d". */
+        if (execEdge51(sim_struct)) continue; /* (Try to) perform edge with index 51 and event "e12e". */
+        if (execEdge52(sim_struct)) continue; /* (Try to) perform edge with index 52 and event "e13a". */
+        if (execEdge53(sim_struct)) continue; /* (Try to) perform edge with index 53 and event "e13b". */
+        if (execEdge54(sim_struct)) continue; /* (Try to) perform edge with index 54 and event "e13c". */
+        if (execEdge55(sim_struct)) continue; /* (Try to) perform edge with index 55 and event "e13d". */
+        if (execEdge56(sim_struct)) continue; /* (Try to) perform edge with index 56 and event "e13e". */
+        if (execEdge57(sim_struct)) continue; /* (Try to) perform edge with index 57 and event "e14a". */
+        if (execEdge58(sim_struct)) continue; /* (Try to) perform edge with index 58 and event "e14b". */
+        if (execEdge59(sim_struct)) continue; /* (Try to) perform edge with index 59 and event "e14c". */
+        if (execEdge60(sim_struct)) continue; /* (Try to) perform edge with index 60 and event "e14d". */
+        if (execEdge61(sim_struct)) continue; /* (Try to) perform edge with index 61 and event "e14e". */
+        if (execEdge62(sim_struct)) continue; /* (Try to) perform edge with index 62 and event "e14f". */
+        if (execEdge63(sim_struct)) continue; /* (Try to) perform edge with index 63 and event "e14g". */
+        if (execEdge64(sim_struct)) continue; /* (Try to) perform edge with index 64 and event "e14h". */
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
     /* Print statement for time start. */

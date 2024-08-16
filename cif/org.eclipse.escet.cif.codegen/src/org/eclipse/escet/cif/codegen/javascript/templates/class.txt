@@ -176,7 +176,7 @@ ${javascript-cont-upd-code}
             if (this.doInfoPrintOutput) this.printOutput(-2, false);
         }
 
-        // Execute SVG input events as long as they are possible.
+        // Execute SVG input edges as long as they are possible.
         while (true) {
             // Handle next element from SVG input queue, if not already already processing one.
             if (this.svgInEvent == -1 && this.svgInQueue.length > 0) {
@@ -184,31 +184,31 @@ ${javascript-cont-upd-code}
                 func(); // Call function, to set the event to allow.
             }
 
-            // Try to execute an event. If one is executed, start from the top again.
-${javascript-event-calls-code-svgin}
+            // Try to execute an edge. If one is executed, start from the top again.
+${javascript-edge-calls-code-svgin}
 
-            // No event executed. We are done.
+            // No edge executed. We are done.
             break;
         }
 
         // Make sure all outstanding SVG input clicks have been processed.
         console.assert(this.svgInEvent == -1);
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
-            // Try to execute an event. If one is executed, start from the top again.
-${javascript-event-calls-code-uncontrollables}
+            // Try to execute an edge. If one is executed, start from the top again.
+${javascript-edge-calls-code-uncontrollables}
 
-            // No event executed. We are done.
+            // No edge executed. We are done.
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
-            // Try to execute an event. If one is executed, start from the top again.
-${javascript-event-calls-code-controllables}
+            // Try to execute an edge. If one is executed, start from the top again.
+${javascript-edge-calls-code-controllables}
 
-            // No event executed. We are done.
+            // No edge executed. We are done.
             break;
         }
 
@@ -294,7 +294,7 @@ ${javascript-event-calls-code-controllables}
             },
         delay);
     }
-${javascript-event-methods-code}
+${javascript-edge-methods-code}
 
     /** Initializes the state. */
     initState() {

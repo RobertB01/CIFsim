@@ -564,9 +564,9 @@ public class JavaCodeGen extends CodeGen {
         edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, ctxt);
         edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, ctxt);
 
-        replacements.put("java-event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
-        replacements.put("java-event-calls-code-controllables", codeCallsControllables.toString());
-        replacements.put("java-event-methods-code", codeMethods.toString());
+        replacements.put("java-edge-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("java-edge-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("java-edge-methods-code", codeMethods.toString());
     }
 
     /**
@@ -594,7 +594,7 @@ public class JavaCodeGen extends CodeGen {
 
             // Add call code.
             codeCalls.add("// Event \"%s\".", eventName);
-            codeCalls.add("if (execEvent%d()) continue;", edgeIdx);
+            codeCalls.add("if (execEdge%d()) continue;", edgeIdx);
             codeCalls.add();
 
             // Add method code.
@@ -603,7 +603,7 @@ public class JavaCodeGen extends CodeGen {
             List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
-            codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            codeMethods.add(" * Execute code for edge with index %d and event \"%s\".", edgeIdx, eventName);
             for (String doc: docs) {
                 codeMethods.add(" *");
                 codeMethods.add(" * <p>");
@@ -613,9 +613,9 @@ public class JavaCodeGen extends CodeGen {
                 codeMethods.add(" * </p>");
             }
             codeMethods.add(" *");
-            codeMethods.add(" * @return {@code true} if the event was executed, {@code false} otherwise.");
+            codeMethods.add(" * @return {@code true} if the edge was executed, {@code false} otherwise.");
             codeMethods.add(" */");
-            codeMethods.add("private boolean execEvent%d() {", edgeIdx);
+            codeMethods.add("private boolean execEdge%d() {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
@@ -626,7 +626,7 @@ public class JavaCodeGen extends CodeGen {
             Assert.check(guards.size() <= 1);
             Expression guard = guards.isEmpty() ? null : first(guards);
 
-            // Add event code.
+            // Add edge code.
             if (guard != null) {
                 ExprCode guardCode = ctxt.exprToTarget(guard, null);
                 codeMethods.add(guardCode.getCode());

@@ -129,10 +129,10 @@ public class C89CodeGen extends CodeGen {
         replacements.put("derivative-declarations", "");
         replacements.put("derivative-functions", "");
         replacements.put("enum-names-list", "");
-        replacements.put("event-calls-code-uncontrollables", "");
-        replacements.put("event-calls-code-controllables", "");
+        replacements.put("edge-calls-code-uncontrollables", "");
+        replacements.put("edge-calls-code-controllables", "");
+        replacements.put("edge-methods-code", "");
         replacements.put("event-declarations", "");
-        replacements.put("event-methods-code", "");
         replacements.put("event-name-list", "");
         replacements.put("functions-code", "");
         replacements.put("functions-declarations", "");
@@ -1009,9 +1009,9 @@ public class C89CodeGen extends CodeGen {
         edgeIdx = addEdges(uncontrollableEdges, edgeIdx, codeCallsUncontrollables, codeMethods, ctxt);
         edgeIdx = addEdges(controllableEdges, edgeIdx, codeCallsControllables, codeMethods, ctxt);
 
-        replacements.put("event-calls-code-uncontrollables", codeCallsUncontrollables.toString());
-        replacements.put("event-calls-code-controllables", codeCallsControllables.toString());
-        replacements.put("event-methods-code", codeMethods.toString());
+        replacements.put("edge-calls-code-uncontrollables", codeCallsUncontrollables.toString());
+        replacements.put("edge-calls-code-controllables", codeCallsControllables.toString());
+        replacements.put("edge-methods-code", codeMethods.toString());
 
         // 'Initial' calls.
         CodeBox code = makeCodeBox(1);
@@ -1069,7 +1069,8 @@ public class C89CodeGen extends CodeGen {
             String eventTargetName = getTargetRef(event);
 
             // Construct the call to try executing the event.
-            codeCalls.add("if (execEvent%d()) continue;  /* (Try to) perform event \"%s\". */", edgeIdx, eventName);
+            codeCalls.add("if (execEdge%d()) continue; /* (Try to) perform edge with index %d and event \"%s\". */",
+                    edgeIdx, edgeIdx, eventName);
 
             // Add method code.
 
@@ -1077,7 +1078,7 @@ public class C89CodeGen extends CodeGen {
             List<String> docs = CifDocAnnotationUtils.getDocs(event);
             codeMethods.add();
             codeMethods.add("/**");
-            codeMethods.add(" * Execute code for event \"%s\".", eventName);
+            codeMethods.add(" * Execute code for edge with index %d and event \"%s\".", edgeIdx, eventName);
             for (String doc: docs) {
                 codeMethods.add(" *");
                 for (String line: doc.split("\\r?\\n")) {
@@ -1085,9 +1086,9 @@ public class C89CodeGen extends CodeGen {
                 }
             }
             codeMethods.add(" *");
-            codeMethods.add(" * @return Whether the event was performed.");
+            codeMethods.add(" * @return Whether the edge was performed.");
             codeMethods.add(" */");
-            codeMethods.add("static BoolType execEvent%d(void) {", edgeIdx);
+            codeMethods.add("static BoolType execEdge%d(void) {", edgeIdx);
             codeMethods.indent();
 
             // Get guard. After linearization, there is at most one
@@ -1098,7 +1099,7 @@ public class C89CodeGen extends CodeGen {
             Assert.check(guards.size() <= 1);
             Expression guard = guards.isEmpty() ? null : first(guards);
 
-            // Add event code.
+            // Add edge code.
             if (guard != null) {
                 ExprCode guardCode = ctxt.exprToTarget(guard, null);
                 codeMethods.add(guardCode.getCode());

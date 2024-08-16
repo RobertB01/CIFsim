@@ -572,14 +572,14 @@ static void PrintOutput(unsupported_simulink_warnings_Event_ event, BoolType pre
 }
 #endif
 
-/* Event execution code. */
+/* Edge execution code. */
 
 /**
- * Execute code for event "a.e".
+ * Execute code for edge with index 0 and event "a.e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType execEvent0(void) {
+static BoolType execEdge0(void) {
     BoolType guard = ((((a_d1_)._field0) > (0)) || (((StringTypeSize(&(a_d2_))) > (0)) || (((A1T2IITypeProject(&(a_d3_), 0))->_field0) > (0)))) || ((((StringTypeSize(A1STypeProject(&(a_d4_), 0))) > (0)) || (((A1T2IITypeProject(A1A1T2IITypeProject(&(a_d5_), 0), 0))->_field0) > (0))) || (((StringTypeSize(A1STypeProject(A1A1STypeProject(&(a_d6_), 0), 0))) > (0)) || (A1BTypeProject(A1A1BTypeProject(A1A1A1BTypeProject(&(a_d7_), 0), 0), 0))));
     if (!guard) return FALSE;
 
@@ -622,7 +622,7 @@ static inline RealType UpdateContValue(RealType new_value, const char *var_name)
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -633,7 +633,7 @@ static void PerformEvents(void) {
         }
 
 
-        break; /* No event fired, done with discrete steps. */
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -645,8 +645,8 @@ static void PerformEvents(void) {
             break;
         }
 
-        if (execEvent0()) continue;  /* (Try to) perform event "a.e". */
-        break; /* No event fired, done with discrete steps. */
+        if (execEdge0()) continue; /* (Try to) perform edge with index 0 and event "a.e". */
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -673,7 +673,7 @@ void unsupported_simulink_warnings_EngineFirstStep(void) {
         PrintOutput(EVT_INITIAL_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */
@@ -699,7 +699,7 @@ void unsupported_simulink_warnings_EngineTimeStep(double delta) {
         PrintOutput(EVT_DELAY_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */

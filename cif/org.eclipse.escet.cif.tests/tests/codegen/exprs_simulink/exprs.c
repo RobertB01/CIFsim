@@ -2225,14 +2225,14 @@ static void ClearInputFlags(struct WorkStruct *work) {
 /* Time-dependent guards. */
 
 
-/* Event execution. */
+/* Edge execution. */
 
 /**
- * Execute code for event "a1.e".
+ * Execute code for edge with index 0 and event "a1.e".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent0(SimStruct *sim_struct) {
+static BoolType execEdge0(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -3148,18 +3148,18 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
-    /* Uncontrollables. */
+    /* Uncontrollable edges. */
     for (;;) {
 
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
-    /* Controllables. */
+    /* Controllable edges. */
     for (;;) {
-        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "a1.e". */
+        if (execEdge0(sim_struct)) continue; /* (Try to) perform edge with index 0 and event "a1.e". */
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
     /* Print statement for time start. */

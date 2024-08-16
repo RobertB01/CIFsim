@@ -102,16 +102,16 @@ public abstract class unsupported_simulink_warnings {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
 
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
             // Event "a.e".
-            if (execEvent0()) continue;
+            if (execEdge0()) continue;
 
             break;
         }
@@ -176,11 +176,11 @@ public abstract class unsupported_simulink_warnings {
     }
 
     /**
-     * Execute code for event "a.e".
+     * Execute code for edge with index 0 and event "a.e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent0() {
+    private boolean execEdge0() {
         boolean guard = ((((a_d1_)._field0) > (0)) || (((size(a_d2_)) > (0)) || (((project(a_d3_, 0))._field0) > (0)))) || ((((size(project(a_d4_, 0))) > (0)) || (((project(project(a_d5_, 0), 0))._field0) > (0))) || (((size(project(project(a_d6_, 0), 0))) > (0)) || (project(project(project(a_d7_, 0), 0), 0))));
         if (!guard) return false;
 

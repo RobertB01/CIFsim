@@ -1240,14 +1240,14 @@ static BoolType GuardEval00(SimStruct *sim_struct) {
     return ((modes[0]) == (_svg_input_decl_removed_l1)) && (work->x_);
 }
 
-/* Event execution. */
+/* Edge execution. */
 
 /**
- * Execute code for event "p.c".
+ * Execute code for edge with index 0 and event "p.c".
  *
- * @return Whether the event was performed.
+ * @return Whether the edge was performed.
  */
-static BoolType ExecEvent0(SimStruct *sim_struct) {
+static BoolType execEdge0(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
@@ -1420,18 +1420,18 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
-    /* Uncontrollables. */
+    /* Uncontrollable edges. */
     for (;;) {
 
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
-    /* Controllables. */
+    /* Controllable edges. */
     for (;;) {
-        if (ExecEvent0(sim_struct)) continue;  /* (Try to) perform event "p.c". */
+        if (execEdge0(sim_struct)) continue; /* (Try to) perform edge with index 0 and event "p.c". */
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
     /* Print statement for time start. */

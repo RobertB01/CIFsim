@@ -100,30 +100,30 @@ public abstract class databased_supervisor {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
             // Event "Button.u_pushed".
-            if (execEvent0()) continue;
+            if (execEdge0()) continue;
 
             // Event "Button.u_released".
-            if (execEvent1()) continue;
+            if (execEdge1()) continue;
 
             // Event "Timer.u_timeout".
-            if (execEvent2()) continue;
+            if (execEdge2()) continue;
 
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
             // Event "Lamp.c_off".
-            if (execEvent3()) continue;
+            if (execEdge3()) continue;
 
             // Event "Lamp.c_on".
-            if (execEvent4()) continue;
+            if (execEdge4()) continue;
 
             // Event "Timer.c_start".
-            if (execEvent5()) continue;
+            if (execEdge5()) continue;
 
             break;
         }
@@ -188,11 +188,11 @@ public abstract class databased_supervisor {
     }
 
     /**
-     * Execute code for event "Button.u_pushed".
+     * Execute code for edge with index 0 and event "Button.u_pushed".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent0() {
+    private boolean execEdge0() {
         boolean guard = ((Button_) == (databased_supervisorEnum._Released)) && ((((Cycle_) == (databased_supervisorEnum._WaitForButtonPush)) || ((Cycle_) == (databased_supervisorEnum._TurnLampOn))) || (((Cycle_) == (databased_supervisorEnum._StartTimer)) || (((Cycle_) == (databased_supervisorEnum._WaitForTimeout)) || ((Cycle_) == (databased_supervisorEnum._TurnLampOff)))));
         if (!guard) return false;
 
@@ -218,11 +218,11 @@ public abstract class databased_supervisor {
     }
 
     /**
-     * Execute code for event "Button.u_released".
+     * Execute code for edge with index 1 and event "Button.u_released".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent1() {
+    private boolean execEdge1() {
         boolean guard = (Button_) == (databased_supervisorEnum._Pushed);
         if (!guard) return false;
 
@@ -237,11 +237,11 @@ public abstract class databased_supervisor {
     }
 
     /**
-     * Execute code for event "Timer.u_timeout".
+     * Execute code for edge with index 2 and event "Timer.u_timeout".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent2() {
+    private boolean execEdge2() {
         boolean guard = ((Cycle_) == (databased_supervisorEnum._WaitForTimeout)) && ((Timer_) == (databased_supervisorEnum._Running));
         if (!guard) return false;
 
@@ -257,11 +257,11 @@ public abstract class databased_supervisor {
     }
 
     /**
-     * Execute code for event "Lamp.c_off".
+     * Execute code for edge with index 3 and event "Lamp.c_off".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent3() {
+    private boolean execEdge3() {
         boolean guard = (((Cycle_) == (databased_supervisorEnum._TurnLampOff)) && ((Lamp_) == (databased_supervisorEnum._On))) && (bdd_eval_(5, bdd_values_()));
         if (!guard) return false;
 
@@ -277,11 +277,11 @@ public abstract class databased_supervisor {
     }
 
     /**
-     * Execute code for event "Lamp.c_on".
+     * Execute code for edge with index 4 and event "Lamp.c_on".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent4() {
+    private boolean execEdge4() {
         boolean guard = (((Cycle_) == (databased_supervisorEnum._TurnLampOn)) && ((Lamp_) == (databased_supervisorEnum._Off))) && (bdd_eval_(0, bdd_values_()));
         if (!guard) return false;
 
@@ -297,11 +297,11 @@ public abstract class databased_supervisor {
     }
 
     /**
-     * Execute code for event "Timer.c_start".
+     * Execute code for edge with index 5 and event "Timer.c_start".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent5() {
+    private boolean execEdge5() {
         boolean guard = ((Cycle_) == (databased_supervisorEnum._StartTimer)) && ((bdd_eval_(9, bdd_values_())) && ((Timer_) == (databased_supervisorEnum._Idle)));
         if (!guard) return false;
 

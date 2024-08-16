@@ -309,31 +309,31 @@ public abstract class annos_doc {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
 
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
             // Event "e".
-            if (execEvent0()) continue;
+            if (execEdge0()) continue;
 
             // Event "events.e1".
-            if (execEvent1()) continue;
+            if (execEdge1()) continue;
 
             // Event "events.e2".
-            if (execEvent2()) continue;
+            if (execEdge2()) continue;
 
             // Event "events.e3".
-            if (execEvent3()) continue;
+            if (execEdge3()) continue;
 
             // Event "events.e4".
-            if (execEvent4()) continue;
+            if (execEdge4()) continue;
 
             // Event "events.e5".
-            if (execEvent5()) continue;
+            if (execEdge5()) continue;
 
             break;
         }
@@ -398,11 +398,11 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "e".
+     * Execute code for edge with index 0 and event "e".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent0() {
+    private boolean execEdge0() {
         boolean guard = ((((contvars_c1_) > (0)) || ((contvars_c2_) > (0))) || (((contvars_c3_) > (0)) || (((contvars_c4_) > (0)) || ((contvars_c5_) > (0))))) && (((discvars_d1_) || (discvars_d2_)) || ((discvars_d3_) || ((discvars_d4_) || (discvars_d5_))));
         if (!guard) return false;
 
@@ -416,11 +416,11 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "events.e1".
+     * Execute code for edge with index 1 and event "events.e1".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent1() {
+    private boolean execEdge1() {
         if (doInfoPrintOutput) printOutput(1, true);
         if (doInfoEvent) infoEvent(1, true);
 
@@ -431,15 +431,15 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "events.e2".
+     * Execute code for edge with index 2 and event "events.e2".
      *
      * <p>
      * single line doc
      * </p>
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent2() {
+    private boolean execEdge2() {
         if (doInfoPrintOutput) printOutput(2, true);
         if (doInfoEvent) infoEvent(2, true);
 
@@ -450,7 +450,7 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "events.e3".
+     * Execute code for edge with index 3 and event "events.e3".
      *
      * <p>
      * doc with multiple
@@ -458,9 +458,9 @@ public abstract class annos_doc {
      *  text
      * </p>
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent3() {
+    private boolean execEdge3() {
         if (doInfoPrintOutput) printOutput(3, true);
         if (doInfoEvent) infoEvent(3, true);
 
@@ -471,15 +471,15 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "events.e4".
+     * Execute code for edge with index 4 and event "events.e4".
      *
      * <p>
      * some doc
      * </p>
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent4() {
+    private boolean execEdge4() {
         if (doInfoPrintOutput) printOutput(4, true);
         if (doInfoEvent) infoEvent(4, true);
 
@@ -490,7 +490,7 @@ public abstract class annos_doc {
     }
 
     /**
-     * Execute code for event "events.e5".
+     * Execute code for edge with index 5 and event "events.e5".
      *
      * <p>
      * First doc.
@@ -501,9 +501,9 @@ public abstract class annos_doc {
      * Second doc line 2.
      * </p>
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent5() {
+    private boolean execEdge5() {
         if (doInfoPrintOutput) printOutput(5, true);
         if (doInfoEvent) infoEvent(5, true);
 

@@ -848,7 +848,7 @@ static void PrintOutput(internal_functions_Event_ event, BoolType pre) {
 }
 #endif
 
-/* Event execution code. */
+/* Edge execution code. */
 
 
 /**
@@ -871,7 +871,7 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -882,7 +882,7 @@ static void PerformEvents(void) {
         }
 
 
-        break; /* No event fired, done with discrete steps. */
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -895,7 +895,7 @@ static void PerformEvents(void) {
         }
 
 
-        break; /* No event fired, done with discrete steps. */
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -945,7 +945,7 @@ void internal_functions_EngineFirstStep(void) {
         PrintOutput(EVT_INITIAL_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */
@@ -971,7 +971,7 @@ void internal_functions_EngineTimeStep(double delta) {
         PrintOutput(EVT_DELAY_, FALSE);
     #endif
 
-    PerformEvents();
+    PerformEdges();
 
     #if PRINT_OUTPUT
         /* pre-timestep print. */

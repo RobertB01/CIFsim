@@ -1778,7 +1778,7 @@ static void ClearInputFlags(struct WorkStruct *work) {
 /* Time-dependent guards. */
 
 
-/* Event execution. */
+/* Edge execution. */
 
 
 #if PRINT_OUTPUT
@@ -1994,18 +1994,18 @@ static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
         #endif
     }
 
-    /* Uncontrollables. */
+    /* Uncontrollable edges. */
     for (;;) {
 
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
-    /* Controllables. */
+    /* Controllable edges. */
     for (;;) {
 
 
-        break; /* None of the events triggered. */
+        break; /* No edge executed. */
     }
 
     /* Print statement for time start. */

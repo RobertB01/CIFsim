@@ -55,8 +55,8 @@ ${constant-initialization}
 /** Print function. */
 ${print-function}
 
-/* Event execution code. */
-${event-methods-code}
+/* Edge execution code. */
+${edge-methods-code}
 
 /**
  * Normalize and check the new value of a continuous variable after an update.
@@ -78,7 +78,7 @@ static RealType UpdateContValue(RealType new_value, const char *var_name, BoolTy
 }
 
 /** Repeatedly perform discrete event steps, until no progress can be made any more. */
-static void PerformEvents(void) {
+static void PerformEdges(void) {
     /* Uncontrollables. */
     int count = 0;
     for (;;) {
@@ -88,8 +88,8 @@ static void PerformEvents(void) {
             break;
         }
 
-${event-calls-code-uncontrollables}
-        break; /* No event fired, done with discrete steps. */
+${edge-calls-code-uncontrollables}
+        break; /* No edge fired, done with discrete steps. */
     }
 
     /* Controllables. */
@@ -101,8 +101,8 @@ ${event-calls-code-uncontrollables}
             break;
         }
 
-${event-calls-code-controllables}
-        break; /* No event fired, done with discrete steps. */
+${edge-calls-code-controllables}
+        break; /* No edge fired, done with discrete steps. */
     }
 }
 
@@ -116,7 +116,7 @@ ${initialize-statevars}
 
 ${initial-print-calls}
 
-    PerformEvents();
+    PerformEdges();
 
 ${time-pre-print-call}
 }
@@ -136,7 +136,7 @@ ${contvars-update}
 
 ${time-post-print-call}
 
-    PerformEvents();
+    PerformEdges();
 
 ${time-pre-print-call}
 }

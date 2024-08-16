@@ -149,30 +149,30 @@ public abstract class declarations {
             if (doInfoPrintOutput) printOutput(-2, false);
         }
 
-        // Execute uncontrollable events as long as they are possible.
+        // Execute uncontrollable edges as long as they are possible.
         while (true) {
             // Event "u_e1".
-            if (execEvent0()) continue;
+            if (execEdge0()) continue;
 
             // Event "u_e2".
-            if (execEvent1()) continue;
+            if (execEdge1()) continue;
 
             break;
         }
 
-        // Execute controllable events as long as they are possible.
+        // Execute controllable edges as long as they are possible.
         while (true) {
             // Event "c_e1".
-            if (execEvent2()) continue;
+            if (execEdge2()) continue;
 
             // Event "c_e2".
-            if (execEvent3()) continue;
+            if (execEdge3()) continue;
 
             // Event "c_e3".
-            if (execEvent4()) continue;
+            if (execEdge4()) continue;
 
             // Event "c_e4".
-            if (execEvent5()) continue;
+            if (execEdge5()) continue;
 
             break;
         }
@@ -237,11 +237,11 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "u_e1".
+     * Execute code for edge with index 0 and event "u_e1".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent0() {
+    private boolean execEdge0() {
         if (doInfoPrintOutput) printOutput(4, true);
         if (doInfoEvent) infoEvent(4, true);
 
@@ -252,11 +252,11 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "u_e2".
+     * Execute code for edge with index 1 and event "u_e2".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent1() {
+    private boolean execEdge1() {
         if (doInfoPrintOutput) printOutput(5, true);
         if (doInfoEvent) infoEvent(5, true);
 
@@ -267,11 +267,11 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e1".
+     * Execute code for edge with index 2 and event "c_e1".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent2() {
+    private boolean execEdge2() {
         boolean guard = (g1_a1_) == (declarationsEnum._loc1);
         if (!guard) return false;
 
@@ -286,11 +286,11 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e2".
+     * Execute code for edge with index 3 and event "c_e2".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent3() {
+    private boolean execEdge3() {
         boolean guard = (g1_a1_) == (declarationsEnum._loc2);
         if (!guard) return false;
 
@@ -305,11 +305,11 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e3".
+     * Execute code for edge with index 4 and event "c_e3".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent4() {
+    private boolean execEdge4() {
         if (doInfoPrintOutput) printOutput(2, true);
         if (doInfoEvent) infoEvent(2, true);
 
@@ -320,11 +320,11 @@ public abstract class declarations {
     }
 
     /**
-     * Execute code for event "c_e4".
+     * Execute code for edge with index 5 and event "c_e4".
      *
-     * @return {@code true} if the event was executed, {@code false} otherwise.
+     * @return {@code true} if the edge was executed, {@code false} otherwise.
      */
-    private boolean execEvent5() {
+    private boolean execEdge5() {
         if (doInfoPrintOutput) printOutput(3, true);
         if (doInfoEvent) infoEvent(3, true);
 
