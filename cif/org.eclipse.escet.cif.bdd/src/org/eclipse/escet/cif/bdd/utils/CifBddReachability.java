@@ -40,6 +40,7 @@ import org.eclipse.escet.cif.bdd.workset.selectors.FirstEdgeSelector;
 import org.eclipse.escet.cif.bdd.workset.selectors.PruningEdgeSelector;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.BitSets;
+import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Strings;
 
@@ -426,8 +427,8 @@ public class CifBddReachability {
         }
 
         // Obtain the BDDs of the transition relations and their variable support sets.
-        List<BDD> sortedRelations = sortedEdges.stream().map(edge -> edge.updateGuard).toList();
-        List<BDDVarSet> sortedVars = sortedEdges.stream().map(edge -> edge.updateGuardSupport).toList();
+        List<BDD> sortedRelations = sortedEdges.stream().map(edge -> edge.updateGuard).collect(Lists.toList());
+        List<BDDVarSet> sortedVars = sortedEdges.stream().map(edge -> edge.updateGuardSupport).collect(Lists.toList());
 
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return null;
