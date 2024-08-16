@@ -172,6 +172,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         String inputPath = InputFileOption.getPath();
         String outputPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
         String ioTablePath = IoTablePathOption.getDerivedPath();
+        PathPair inputPathPair = new PathPair(inputPath, Paths.resolve(inputPath));
+        PathPair outputPathPair = new PathPair(outputPath, Paths.resolve(outputPath));
+        PathPair ioTablePathPair = new PathPair(ioTablePath, Paths.resolve(ioTablePath));
         List<String> programHeaderLines = expandAndCleanProgramHeaderLines(obtainProgramHeaderLines());
 
         PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
@@ -186,8 +189,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
                 iterLimits.uncontrollableLimit(), iterLimits.controllableLimit(),
-                new PathPair(inputPath, Paths.resolve(inputPath)), new PathPair(outputPath, Paths.resolve(outputPath)),
-                new PathPair(ioTablePath, Paths.resolve(ioTablePath)), programHeaderLines, intSize, realSize,
+                inputPathPair, outputPathPair, ioTablePathPair, programHeaderLines, intSize, realSize,
                 simplifyValues, enumConversion, termination, warnOnRename, warnOutput);
     }
 
