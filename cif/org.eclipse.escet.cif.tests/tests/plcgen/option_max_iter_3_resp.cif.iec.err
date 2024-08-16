@@ -1,0 +1,9 @@
+WARNING: The confluence property of the CIF specification may not hold.
+WARNING: The finite response property of the CIF specification may not hold.
+WARNING: Before generating PLC code, both the bounded response and the confluence properties of the CIF specificiation should hold.
+WARNING: Please improve the CIF specification, and check the bounded response and the confluence properties again.
+WARNING:
+WARNING: Using control code generated from a CIF specification without both bounded response and confluence properties may result in undesired or unexpected behavior of the controlled system.
+WARNING: Applied uncontrollable event iteration limit (at most 3 attempts) is less than the computed bounded response limit (5 attemots are needed).
+WARNING: Using a lower limit than the computed bound of the CIF controller properties checker application may result in undesired or unexpected behavior of the controlled system.
+WARNING: I/O table file "plcgen/option_max_iter_3_resp.csv" not found. The PLC code will not perform any I/O with the environment.
