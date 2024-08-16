@@ -82,6 +82,8 @@ The order of edges with the same such top-most BDD variable is determined based 
 The saturation algorithm then uses this order to saturate the BDD representation of the set of reachable states from the bottom up.
 This is done by first applying edges over the lowest part of the BDD until they no longer lead to new states, and then gradually go upward in the sorted edge order until saturation is reached for all edges.
 Saturation thereby tries to reduce blow-ups of BDDs at intermediate points during reachability computations, which can sometimes be observed with other exploration strategies, like chaining.
++
+The saturation strategy can not be used when duplicate events are allowed in a <<tools-datasynth-edge-order-custom,custom edge order>>.
 
 Which approach to use during synthesis, can be configured using the _Exploration strategy_ option (see the <<tools-datasynth-options,options section>>).
 Saturation is used by default.
