@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** PLC maximum iterations option. */
@@ -81,17 +82,6 @@ public class PlcMaxIterOption extends StringOption {
     }
 
     /**
-     * Iteration limits for the uncontrollable and controllable event transition loops.
-     *
-     * @param uncontrollableLimit Maximum number of iterations over the uncontrollable events. Either a positive number
-     *     or {@code null}. The latter means 'infinite'.
-     * @param controllableLimit Maximum number of iterations over the controllable events. Either a positive number or
-     *     {@code null}. The latter means 'infinite'.
-     */
-    public static record MaxIterLimits(Integer uncontrollableLimit, Integer controllableLimit) {
-    }
-
-    /**
      * Returns the maximum number of iterations of the event loops of the main program body, per execution of the main
      * program body.
      *
@@ -110,6 +100,152 @@ public class PlcMaxIterOption extends StringOption {
             conText = value.substring(sepIndex + 1).strip();
         }
         return new MaxIterLimits(convertLimit("uncontrollable", unconText), convertLimit("controllable", conText));
+    }
+
+    /** Class to store, transport, and express the entered value of the {@link PlcMaxIterOption}. */
+    public static class MaxIterLimits {
+        /** Value to use to express 'inf' as number. */
+        private static final int INFINITE_VALUE = 0;
+
+        /** Value to use to express 'resp' as number. */
+        private static final int BOUNDED_RESPONSE_VALUE = -1;
+
+        /** Limit for uncontrollable events, as stated by the user. */
+        private final int uncontrollableLimit;
+
+        /** Limit for controllable events, as stated by the user. */
+        private final int controllableLimit;
+
+        /**
+         * Limit for uncontrollable events, if the user requested using the bounded response property but that is not
+         * available.
+         */
+        private final int fallbackUncontrollableLimit;
+
+        /**
+         * Limit for controllable events, if the user requested using the bounded response property but that is not
+         * available.
+         */
+        private final int fallbackControllableLimit;
+
+        /**
+         * Constructor of the {@link MaxIterLimits}.
+         *
+         * @param uncontrollableLimit Limit for uncontrollable events, as stated by the user.
+         * @param controllableLimit Limit for controllable events, as stated by the user.
+         * @param fallbackUncontrollableLimit Limit for uncontrollable events, if the user requested using the bounded
+         *     response property but that is not available.
+         * @param fallbackControllableLimit Limit for controllable events, if the user requested using the bounded
+         *     response property but that is not available.
+         */
+        public MaxIterLimits(int uncontrollableLimit, int controllableLimit,
+                int fallbackUncontrollableLimit, int fallbackControllableLimit)
+        {
+            this.uncontrollableLimit = uncontrollableLimit;
+            this.controllableLimit = controllableLimit;
+            this.fallbackUncontrollableLimit = fallbackUncontrollableLimit;
+            this.fallbackControllableLimit = fallbackControllableLimit;
+
+            // Fallback values must not point at bounded response, since they are used when it is not available.
+            Assert.check(convertToKind(fallbackUncontrollableLimit) != IterLimitKind.BOUNDED_RESPONSE);
+            Assert.check(convertToKind(fallbackControllableLimit) != IterLimitKind.BOUNDED_RESPONSE);
+
+            // Check the suggested values as well.
+            Assert.check(convertToKind(INFINITE_VALUE) == IterLimitKind.INFINITE);
+            Assert.check(convertToKind(BOUNDED_RESPONSE_VALUE) == IterLimitKind.BOUNDED_RESPONSE);
+        }
+
+        /**
+         * Get the kind of iteration limit for uncontrollable events.
+         *
+         * @param fallback If {@code false} the limit as specified by the user is returned. If {@code true}, the limit
+         *     to use instead of the bounded response limit, if the user requested it but it is not available.
+         * @return The kind of iteration limit for uncontrollable events.
+         */
+        public IterLimitKind getUncontrollableLimitKind(boolean fallback) {
+            Assert.implies(fallback, convertToKind(uncontrollableLimit) == IterLimitKind.BOUNDED_RESPONSE);
+
+            int v = fallback ? fallbackUncontrollableLimit : uncontrollableLimit;
+            return convertToKind(v);
+        }
+
+        /**
+         * Get the kind of iteration limit for controllable events.
+         *
+         * @param fallback If {@code false} the limit as specified by the user is returned. If {@code true}, the limit
+         *     to use instead of the bounded response limit, if the user requested it but it is not available.
+         * @return The kind of iteration limit for controllable events.
+         */
+        public IterLimitKind getControllableLimitKind(boolean fallback) {
+            Assert.implies(fallback, convertToKind(controllableLimit) == IterLimitKind.BOUNDED_RESPONSE);
+
+            int v = fallback ? fallbackControllableLimit : controllableLimit;
+            return convertToKind(v);
+        }
+
+        /**
+         * The maximum number of iterations to allow for uncontrollable events, in case
+         * {@code getUncontrollableLimitKind(fallback)} returned {@link IterLimitKind#INTEGER}.
+         *
+         * @param fallback If {@code false} the limit as specified by the user is returned. If {@code true}, the limit
+         *     to use instead of the bounded response limit, if the user requested it but it is not available.
+         * @return The maximum number of iterations to allow for controllable events if the limit is an integer.
+         * @throws AssertionError If the limit is not an integer.
+         * @see #getUncontrollableLimitKind
+         */
+        public int getUncontrollableLimitNumber(boolean fallback) {
+            Assert.implies(fallback, convertToKind(uncontrollableLimit) == IterLimitKind.BOUNDED_RESPONSE);
+
+            int v = fallback ? fallbackUncontrollableLimit : uncontrollableLimit;
+            Assert.areEqual(convertToKind(v), IterLimitKind.INTEGER);
+            return v;
+        }
+
+        /**
+         * The maximum number of iterations to allow for controllable events, in case
+         * {@code getControllableLimitKind(fallback)} returned {@link IterLimitKind#INTEGER}.
+         *
+         * @param fallback If {@code false} the limit as specified by the user is returned. If {@code true}, the limit
+         *     to use instead of the bounded response limit, if the user requested it but it is not available.
+         * @return The maximum number of iterations to allow for controllable events if the limit is an integer.
+         * @throws AssertionError If the limit is not an integer.
+         * @see #getControllableLimitKind
+         */
+        public int getControllableLimitNumber(boolean fallback) {
+            Assert.implies(fallback, convertToKind(controllableLimit) == IterLimitKind.BOUNDED_RESPONSE);
+
+            int v = fallback ? fallbackControllableLimit : controllableLimit;
+            Assert.areEqual(convertToKind(v), IterLimitKind.INTEGER);
+            return v;
+        }
+
+        /**
+         * Authoritative conversion from number to kind of limit.
+         *
+         * @param value Value to judge.
+         * @return How to interpret the given value.
+         */
+        private static IterLimitKind convertToKind(int value) {
+            if (value > 0) {
+                return IterLimitKind.INTEGER;
+            }
+            if (value < 0) {
+                return IterLimitKind.BOUNDED_RESPONSE;
+            }
+            return IterLimitKind.INFINITE;
+        }
+    }
+
+    /** Available kinds of iteration limits. */
+    public enum IterLimitKind {
+        /** Limit is a positive integer number. */
+        INTEGER,
+
+        /** Limit is infinite. */
+        INFINITE,
+
+        /** Limit is decided by bounded response property. */
+        BOUNDED_RESPONSE;
     }
 
     /**
