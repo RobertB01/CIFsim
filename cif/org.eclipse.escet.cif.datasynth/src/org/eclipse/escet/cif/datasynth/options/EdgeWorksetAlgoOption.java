@@ -13,12 +13,15 @@
 
 package org.eclipse.escet.cif.datasynth.options;
 
-import org.eclipse.escet.cif.bdd.settings.CifBddSettingsDefaults;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
-import org.eclipse.escet.common.app.framework.options.Options;
 
 /** Edge workset algorithm option. */
 public class EdgeWorksetAlgoOption extends BooleanOption {
+    /** Message to indicate the option is unsupported. */
+    private static final String UNSUPPORTED_MESSAGE = "This option is no longer supported. "
+            + "It will be removed in a future version of the tool. "
+            + "Use the 'Exploration strategy for symbolic reachability computations' option instead.";
+
     /** Constructor for the {@link EdgeWorksetAlgoOption} class. */
     public EdgeWorksetAlgoOption() {
         super(
@@ -26,8 +29,7 @@ public class EdgeWorksetAlgoOption extends BooleanOption {
                 "Edge workset algorithm",
 
                 // description
-                "Whether to use the edge workset algorithm to dynamically choose the best edge to apply during "
-                        + "reachability computations (BOOL=yes), or not (BOOL=no). [DEFAULT=no]",
+                "Whether to use the edge workset algorithm. " + UNSUPPORTED_MESSAGE,
 
                 // cmdShort
                 null,
@@ -39,25 +41,15 @@ public class EdgeWorksetAlgoOption extends BooleanOption {
                 "BOOL",
 
                 // defaultValue
-                CifBddSettingsDefaults.DO_USE_WORKSET_ALGO_DEFAULT,
+                false,
 
                 // showInDialog
-                true,
+                false,
 
                 // optDialogDescr
-                "Whether to use the edge workset algorithm to dynamically choose the best edge to apply during "
-                        + "reachability computations.",
+                null,
 
                 // optDialogLabelText
-                "Use workset algorithm");
-    }
-
-    /**
-     * Should the edge workset algorithm be used?
-     *
-     * @return {@code true} to use the algorithm, {@code false} otherwise.
-     */
-    public static boolean isEnabled() {
-        return Options.get(EdgeWorksetAlgoOption.class);
+                null);
     }
 }

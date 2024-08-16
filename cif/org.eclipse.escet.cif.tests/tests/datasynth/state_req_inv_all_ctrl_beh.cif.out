@@ -190,21 +190,12 @@ Synthesis round 1:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> <bdd 12n 27p> [restricted to current/previous controlled-behavior predicate: <bdd 12n 27p>]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Backward controlled-behavior: <bdd 12n 27p> [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: <bdd 12n 52p> [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            Backward uncontrolled bad-state: <bdd 12n 52p> -> <bdd 14n 105p> [backward reach with edge: (event: u_e) (guard: not p.b -> not p.b) (assignments: p.x := p.x + 2, p.b := true)]
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Backward uncontrolled bad-state: <bdd 14n 105p> [fixed point].
 
@@ -213,12 +204,6 @@ Synthesis round 1:
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: <bdd 13n 125p> [initialization predicate]
         Forward controlled-behavior: <bdd 13n 125p> -> <bdd 13n 27p> [restricted to current/previous controlled-behavior predicate: <bdd 14n 54p>]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: <bdd 13n 27p> -> <bdd 17n 63p> [forward reach with edge: (event: u_e) (guard: not p.b -> not p.b) (assignments: p.x := p.x + 2, p.b := true), restricted to current/previous controlled-behavior predicate: <bdd 14n 54p>]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: <bdd 17n 63p> [fixed point].
 
@@ -231,18 +216,12 @@ Synthesis round 2:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> <bdd 17n 63p> [restricted to current/previous controlled-behavior predicate: <bdd 17n 63p>]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Backward controlled-behavior: <bdd 17n 63p> [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: <bdd 17n 124p> [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

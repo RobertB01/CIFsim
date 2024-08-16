@@ -61,6 +61,7 @@ import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.bdd.settings.CifBddStatistics;
 import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
 import org.eclipse.escet.cif.bdd.settings.EdgeOrderDuplicateEventAllowance;
+import org.eclipse.escet.cif.bdd.settings.ExplorationStrategy;
 import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddInputVariable;
@@ -584,6 +585,12 @@ public class CifToBddConverter {
 
         // Check edge workset algorithm settings.
         checkEdgeWorksetAlgorithmSettings(cifBddSpec.settings);
+        if (cifBddSpec.settings.getTermination().isRequested()) {
+            return cifBddSpec;
+        }
+
+        // Check saturation settings.
+        checkSaturationSettings(cifBddSpec.settings);
         if (cifBddSpec.settings.getTermination().isRequested()) {
             return cifBddSpec;
         }
@@ -2165,7 +2172,7 @@ public class CifToBddConverter {
      */
     private void checkEdgeWorksetAlgorithmSettings(CifBddSettings settings) {
         // Skip if workset algorithm is disabled.
-        if (!settings.getDoUseEdgeWorksetAlgo()) {
+        if (settings.getExplorationStrategy() != ExplorationStrategy.CHAINING_WORKSET) {
             return;
         }
 
@@ -2179,6 +2186,25 @@ public class CifToBddConverter {
             throw new InvalidOptionException(
                     "The edge workset algorithm can not be used with duplicate events in the edge order. "
                             + "Either disable the edge workset algorithm, or disable duplicates for custom edge orders.");
+        }
+    }
+
+    /**
+     * Check saturation settings.
+     *
+     * @param settings The settings.
+     */
+    private void checkSaturationSettings(CifBddSettings settings) {
+        // Skip if saturation is disabled.
+        if (settings.getExplorationStrategy() != ExplorationStrategy.SATURATION) {
+            return;
+        }
+
+        // Saturation requires no duplicate edges in the edge order.
+        if (settings.getEdgeOrderAllowDuplicateEvents() == EdgeOrderDuplicateEventAllowance.ALLOWED) {
+            throw new InvalidOptionException(
+                    "Saturation can not be used with duplicate events in the edge order. "
+                            + "Either disable saturation, or disable duplicates for custom edge orders.");
         }
     }
 

@@ -133,16 +133,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: B.v = 0 and (B.p and A.p) [initial states predicate]
 
-        Forward reachability iteration 1:
-            Reachable states: B.v = 0 and (B.p and A.p) -> B.v = 0 and B.p [forward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-            Reachable states: B.v = 0 and B.p -> B.v = 0 and B.p or B.v = 2 and (B.q and A.p) [forward reach with edge: (event: b) (guard: B.v = 0 and (B.p and A.p)) (assignments: B.v := B.v + 2, B := B.q)]
-
-        Forward reachability iteration 2:
-            Reachable states: B.v = 0 and B.p or B.v = 2 and (B.q and A.p) -> B.v = 0 and B.p or B.v = 2 and B.q [forward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-
-        Forward reachability iteration 3:
-            No change this iteration.
-
         Reachable states: B.v = 0 and B.p or B.v = 2 and B.q [fixed point].
 
     Computing bound for uncontrollable events:
@@ -167,25 +157,12 @@ Checking for non-blocking under control:
     Computing the controllable-complete path states:
         Controllable-complete path states: B.p and A.q [controllable-complete path end states predicate]
 
-        Backward reachability iteration 1:
-            Controllable-complete path states: B.p and A.q -> B.p [backward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-            Controllable-complete path states: B.p -> (B.v = 2 or B.p) and (B.v != 2 or (B.p or A.q)) [backward reach with edge: (event: c) (guard: B.q and A.q -> B.v = 2 and (B.q and A.q)) (assignments: B.v := B.v - 2, B := B.p)]
-
-        Backward reachability iteration 2:
-            Controllable-complete path states: (B.v = 2 or B.p) and (B.v != 2 or (B.p or A.q)) -> B.v = 2 or B.p [backward reach with edge: (event: a) (guard: A.p) (assignments: A := A.q)]
-
-        Backward reachability iteration 3:
-            No change this iteration.
-
         Controllable-complete path states: B.v = 2 or B.p [fixed point].
 
         Controllable-complete path states: B.v = 2 or B.p
 
     Computing the bad states:
         Bad states: B.v != 2 and B.q [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: B.v != 2 and B.q
 

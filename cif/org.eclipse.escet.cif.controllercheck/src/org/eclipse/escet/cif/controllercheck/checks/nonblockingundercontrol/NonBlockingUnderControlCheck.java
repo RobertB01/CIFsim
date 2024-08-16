@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.escet.cif.bdd.settings.ExplorationStrategy;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeKind;
@@ -210,6 +211,11 @@ public class NonBlockingUnderControlCheck
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
                 restriction, direction, edgeKinds, dbgEnabled);
 
+        // If the saturation strategy is used, configure the saturation instance number.
+        if (cifBddSpec.settings.getExplorationStrategy() == ExplorationStrategy.SATURATION) {
+            reachability.setSaturationInstance(SATURATION_INSTANCE_NONBLOCKING_CCP);
+        }
+
         // Get the initial predicate for the reachability computation. We use 'marked' rather than 'markedInv', since
         // preconditions forbid state invariants.
         BDD initPred = cifBddSpec.marked.id().andWith(notGc);
@@ -270,6 +276,11 @@ public class NonBlockingUnderControlCheck
         boolean dbgEnabled = cifBddSpec.settings.getDebugOutput().isEnabled(); // Whether debug output is enabled.
         CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initValName, restrictionName,
                 restriction, direction, edgeKinds, dbgEnabled);
+
+        // If the saturation strategy is used, configure the saturation instance number.
+        if (cifBddSpec.settings.getExplorationStrategy() == ExplorationStrategy.SATURATION) {
+            reachability.setSaturationInstance(SATURATION_INSTANCE_NONBLOCKING_BAD);
+        }
 
         // Get the initial predicate for the reachability computation.
         BDD initPred = ccp.not();

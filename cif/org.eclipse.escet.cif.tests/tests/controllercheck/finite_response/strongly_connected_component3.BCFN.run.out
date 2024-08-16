@@ -69,22 +69,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: A.l1 [initial states predicate]
 
-        Forward reachability iteration 1:
-            Reachable states: A.l1 -> A.l1 or A.l2 [forward reach with edge: (event: A.a) (guard: A.l1) (assignments: A := A.l2)]
-            Reachable states: A.l1 or A.l2 -> A.l1 or (A.l3 or A.l2) [forward reach with edge: (event: A.b) (guard: A.l2) (assignments: A := A.l3)]
-            Reachable states: A.l1 or (A.l3 or A.l2) -> A.l1 or A.l2 or (A.l3 or A.l4) [forward reach with edge: (event: A.c) (guard: A.l2) (assignments: A := A.l4)]
-            Reachable states: A.l1 or A.l2 or (A.l3 or A.l4) -> A.l1 or A.l5 or (A.l3 or (A.l2 or A.l4)) [forward reach with edge: (event: A.d) (guard: A.l2) (assignments: A := A.l5)]
-            Reachable states: A.l1 or A.l5 or (A.l3 or (A.l2 or A.l4)) -> A.l1 or (A.l2 or A.l5) or (A.l6 or (A.l3 or A.l4)) [forward reach with edge: (event: A.e) (guard: A.l3) (assignments: A := A.l6)]
-            Reachable states: A.l1 or (A.l2 or A.l5) or (A.l6 or (A.l3 or A.l4)) -> A.l1 or (A.l3 or A.l5) or (A.l7 or A.l2 or (A.l6 or A.l4)) [forward reach with edge: (event: A.g) (guard: A.l4) (assignments: A := A.l7)]
-            Reachable states: A.l1 or (A.l3 or A.l5) or (A.l7 or A.l2 or (A.l6 or A.l4)) -> not A.l9 and not A.l10 and (not A.l11 and not A.l12) [forward reach with edge: (event: A.l) (guard: A.l6) (assignments: A := A.l8)]
-            Reachable states: not A.l9 and not A.l10 and (not A.l11 and not A.l12) -> not A.l9 and (not A.l11 and not A.l12) [forward reach with edge: (event: A.n) (guard: A.l7) (assignments: A := A.l10)]
-            Reachable states: not A.l9 and (not A.l11 and not A.l12) -> not A.l11 and not A.l12 [forward reach with edge: (event: A.q) (guard: A.l10) (assignments: A := A.l9)]
-            Reachable states: not A.l11 and not A.l12 -> not A.l12 [forward reach with edge: (event: A.r) (guard: A.l10) (assignments: A := A.l11)]
-            Reachable states: not A.l12 -> true [forward reach with edge: (event: A.s) (guard: A.l11) (assignments: A := A.l12)]
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events:
@@ -108,16 +92,10 @@ Checking for non-blocking under control:
     Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controllable-complete path states: false
 
     Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: true
 

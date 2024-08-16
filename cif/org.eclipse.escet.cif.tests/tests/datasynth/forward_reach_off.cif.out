@@ -187,9 +187,6 @@ Synthesis round 1:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.

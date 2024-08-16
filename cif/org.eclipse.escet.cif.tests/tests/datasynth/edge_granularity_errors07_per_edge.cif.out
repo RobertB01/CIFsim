@@ -194,9 +194,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.l2 [marker predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior: not(p.x = 4 or p.x = 5) or p.l2 -> p.l2.
 
     Finished: no initialization possible.

@@ -189,12 +189,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.y = 3 and p.y3 [marker predicate]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: p.y = 3 and p.y3 -> (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and ((p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and (p.x != 1 or p.y = 1 or (p.y = 3 or p.l1))) and ((p.x != 1 or (p.y != 1 or p.l1)) and (p.x != 3 or (p.y = 1 or p.y = 3)) and ((p.x != 3 or p.y != 1) and (p.x != 3 or (p.y != 3 or p.y3)))) [backward reach with edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 3, p := p.y3 / p.y := 3, p := p.y3), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward controlled-behavior: (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and ((p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and (p.x != 1 or p.y = 1 or (p.y = 3 or p.l1))) and ((p.x != 1 or (p.y != 1 or p.l1)) and (p.x != 3 or (p.y = 1 or p.y = 3)) and ((p.x != 3 or p.y != 1) and (p.x != 3 or (p.y != 3 or p.y3)))) [fixed point].
 
         Controlled behavior: true -> (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and ((p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and (p.x != 1 or p.y = 1 or (p.y = 3 or p.l1))) and ((p.x != 1 or (p.y != 1 or p.l1)) and (p.x != 3 or (p.y = 1 or p.y = 3)) and ((p.x != 3 or p.y != 1) and (p.x != 3 or (p.y != 3 or p.y3)))).
@@ -202,20 +196,11 @@ Synthesis round 1:
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.y3))) and ((p.x = 1 or p.x = 3 or (p.y != 1 or p.y3)) and (p.x = 1 or (p.x = 3 or p.y != 3))) and ((p.x != 1 or p.y = 1 or (p.y = 3 or p.y3)) and (p.x != 1 or (p.y != 1 or p.y3)) and ((p.x != 1 or p.y != 3) and (p.x != 3 or (p.y != 3 or p.l1)))) [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.l1 [initialization predicate]
         Forward controlled-behavior: p.l1 -> (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1 [restricted to current/previous controlled-behavior predicate: (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and ((p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and (p.x != 1 or p.y = 1 or (p.y = 3 or p.l1))) and ((p.x != 1 or (p.y != 1 or p.l1)) and (p.x != 3 or (p.y = 1 or p.y = 3)) and ((p.x != 3 or p.y != 1) and (p.x != 3 or (p.y != 3 or p.y3))))]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1 -> (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and (p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and ((p.x != 1 or p.y = 1 or (p.y = 3 or p.l1)) and ((p.x != 1 or (p.y != 1 or p.l1)) and p.x != 3)) [forward reach with edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 3, p := p.y3 / p.y := 3, p := p.y3), restricted to current/previous controlled-behavior predicate: (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and ((p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and (p.x != 1 or p.y = 1 or (p.y = 3 or p.l1))) and ((p.x != 1 or (p.y != 1 or p.l1)) and (p.x != 3 or (p.y = 1 or p.y = 3)) and ((p.x != 3 or p.y != 1) and (p.x != 3 or (p.y != 3 or p.y3))))]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and (p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and ((p.x != 1 or p.y = 1 or (p.y = 3 or p.l1)) and ((p.x != 1 or (p.y != 1 or p.l1)) and p.x != 3)) [fixed point].
 
@@ -228,21 +213,12 @@ Synthesis round 2:
         Backward controlled-behavior: p.y = 3 and p.y3 [marker predicate]
         Backward controlled-behavior: p.y = 3 and p.y3 -> (p.x = 0 or p.x = 2) and (p.y = 3 and p.y3) or p.x = 1 and (p.y = 3 and p.y3) [restricted to current/previous controlled-behavior predicate: (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and (p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and ((p.x != 1 or p.y = 1 or (p.y = 3 or p.l1)) and ((p.x != 1 or (p.y != 1 or p.l1)) and p.x != 3))]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: (p.x = 0 or p.x = 2) and (p.y = 3 and p.y3) or p.x = 1 and (p.y = 3 and p.y3) -> (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and (p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and ((p.x != 1 or p.y = 1 or (p.y = 3 or p.l1)) and ((p.x != 1 or (p.y != 1 or p.l1)) and p.x != 3)) [backward reach with edge: (event: e) (guard: (p.x = 0 or p.x = 2) and p.l1 or p.x = 1 and p.l1) (assignments: p.y := 3, p := p.y3 / p.y := 3, p := p.y3), restricted to current/previous controlled-behavior predicate: (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and (p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and ((p.x != 1 or p.y = 1 or (p.y = 3 or p.l1)) and ((p.x != 1 or (p.y != 1 or p.l1)) and p.x != 3))]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward controlled-behavior: (p.x = 1 or p.x = 3 or (p.y = 1 or (p.y = 3 or p.l1))) and (p.x = 1 or p.x = 3 or (p.y != 1 or p.l1)) and ((p.x != 1 or p.y = 1 or (p.y = 3 or p.l1)) and ((p.x != 1 or (p.y != 1 or p.l1)) and p.x != 3)) [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: (p.x = 0 or p.x = 2) and ((p.y = 0 or p.y = 2) and p.y3) or (p.x = 0 or p.x = 2) and (p.y = 1 and p.y3) or (p.x = 1 and ((p.y = 0 or p.y = 2) and p.y3) or (p.x = 1 and (p.y = 1 and p.y3) or p.x = 3)) [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

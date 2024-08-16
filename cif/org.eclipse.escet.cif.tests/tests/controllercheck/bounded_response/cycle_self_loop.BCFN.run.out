@@ -12,9 +12,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: true [initial states predicate]
 
-        Forward reachability iteration 1:
-            No change this iteration.
-
     Computing bound for uncontrollable events:
         Bounded response check round 1 (states before round: true).
 
@@ -34,16 +31,10 @@ Checking for non-blocking under control:
     Computing the controllable-complete path states:
         Controllable-complete path states: true [controllable-complete path end states predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controllable-complete path states: true
 
     Computing the bad states:
         Bad states: false [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: false
 

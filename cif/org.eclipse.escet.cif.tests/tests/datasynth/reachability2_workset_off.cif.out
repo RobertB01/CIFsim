@@ -189,25 +189,6 @@ Synthesis round 1:
         Backward controlled-behavior: p.increase [marker predicate]
         Backward controlled-behavior: p.increase -> (p.x = 2 or (p.x = 3 or p.increase)) and (not(p.x = 2 or p.x = 3) or p.increase) [restricted to current/previous controlled-behavior predicate: true]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: (p.x = 2 or (p.x = 3 or p.increase)) and (not(p.x = 2 or p.x = 3) or p.increase) -> (p.x != 4 or p.increase) and (p.x != 2 or p.increase) and ((p.x = 0 or (2 <= p.x and p.x <= 4 or p.increase)) and (p.x != 3 or p.increase)) [backward reach with edge: (event: p.u_switch) (guard: p.x = 0 and p.decrease or p.x = 5 and p.increase) (assignments: p := p.decrease / p := p.increase), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: (p.x != 4 or p.increase) and (p.x != 2 or p.increase) and ((p.x = 0 or (2 <= p.x and p.x <= 4 or p.increase)) and (p.x != 3 or p.increase)) -> (0 <= p.x and p.x <= 3 or p.increase) and (not(p.x = 2 or p.x = 3) or p.increase) [backward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            Backward controlled-behavior: (0 <= p.x and p.x <= 3 or p.increase) and (not(p.x = 2 or p.x = 3) or p.increase) -> (p.x != 4 or p.increase) and ((p.x != 5 or p.increase) and (p.x != 3 or p.increase)) [backward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 3:
-            Backward controlled-behavior: (p.x != 4 or p.increase) and ((p.x != 5 or p.increase) and (p.x != 3 or p.increase)) -> 0 <= p.x and p.x <= 3 or p.increase [backward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 4:
-            Backward controlled-behavior: 0 <= p.x and p.x <= 3 or p.increase -> p.x != 5 or p.increase [backward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 5:
-            Backward controlled-behavior: p.x != 5 or p.increase -> true [backward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 6:
-            No change this iteration.
-
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -215,45 +196,10 @@ Synthesis round 1:
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.x = 0 and p.increase [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: p.x = 0 and p.increase -> (p.x = 0 or p.x = 1) and p.increase [forward reach with edge: (event: p.u_inc) (guard: (p.x = 0 or p.x = 4) and p.increase or (p.x = 2 and p.increase or (p.x = 1 or p.x = 3) and p.increase)) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 2:
-            Forward controlled-behavior: (p.x = 0 or p.x = 1) and p.increase -> (p.x = 0 or p.x = 2) and p.increase or p.x = 1 and p.increase [forward reach with edge: (event: p.u_inc) (guard: (p.x = 0 or p.x = 4) and p.increase or (p.x = 2 and p.increase or (p.x = 1 or p.x = 3) and p.increase)) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 3:
-            Forward controlled-behavior: (p.x = 0 or p.x = 2) and p.increase or p.x = 1 and p.increase -> 0 <= p.x and (p.x <= 3 and p.increase) [forward reach with edge: (event: p.u_inc) (guard: (p.x = 0 or p.x = 4) and p.increase or (p.x = 2 and p.increase or (p.x = 1 or p.x = 3) and p.increase)) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 4:
-            Forward controlled-behavior: 0 <= p.x and (p.x <= 3 and p.increase) -> (p.x = 0 or p.x = 4) and p.increase or (p.x = 2 and p.increase or (p.x = 1 or p.x = 3) and p.increase) [forward reach with edge: (event: p.u_inc) (guard: (p.x = 0 or p.x = 4) and p.increase or (p.x = 2 and p.increase or (p.x = 1 or p.x = 3) and p.increase)) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 5:
-            Forward controlled-behavior: (p.x = 0 or p.x = 4) and p.increase or (p.x = 2 and p.increase or (p.x = 1 or p.x = 3) and p.increase) -> (p.x = 2 or (p.x = 3 or p.increase)) and (not(p.x = 2 or p.x = 3) or p.increase) [forward reach with edge: (event: p.u_inc) (guard: (p.x = 0 or p.x = 4) and p.increase or (p.x = 2 and p.increase or (p.x = 1 or p.x = 3) and p.increase)) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: true]
-            Forward controlled-behavior: (p.x = 2 or (p.x = 3 or p.increase)) and (not(p.x = 2 or p.x = 3) or p.increase) -> (1 <= p.x and p.x <= 3 or (p.x = 5 or p.increase)) and (p.x != 2 or p.increase) and ((p.x != 1 or p.increase) and (p.x != 3 or p.increase)) [forward reach with edge: (event: p.u_switch) (guard: p.x = 0 and p.decrease or p.x = 5 and p.increase) (assignments: p := p.decrease / p := p.increase), restricted to current/previous controlled-behavior predicate: true]
-            Forward controlled-behavior: (1 <= p.x and p.x <= 3 or (p.x = 5 or p.increase)) and (p.x != 2 or p.increase) and ((p.x != 1 or p.increase) and (p.x != 3 or p.increase)) -> (2 <= p.x and p.x <= 5 or p.increase) and (not(p.x = 2 or p.x = 3) or p.increase) [forward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 6:
-            Forward controlled-behavior: (2 <= p.x and p.x <= 5 or p.increase) and (not(p.x = 2 or p.x = 3) or p.increase) -> (p.x != 0 or p.increase) and ((p.x != 2 or p.increase) and (p.x != 1 or p.increase)) [forward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 7:
-            Forward controlled-behavior: (p.x != 0 or p.increase) and ((p.x != 2 or p.increase) and (p.x != 1 or p.increase)) -> 2 <= p.x and p.x <= 5 or p.increase [forward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 8:
-            Forward controlled-behavior: 2 <= p.x and p.x <= 5 or p.increase -> p.x != 0 or p.increase [forward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 9:
-            Forward controlled-behavior: p.x != 0 or p.increase -> true [forward reach with edge: (event: p.u_dec) (guard: p.x = 4 and p.decrease or (p.x = 2 and p.decrease or (p.x = 1 or (p.x = 3 or p.x = 5)) and p.decrease)) (assignments: p.x := p.x - 1), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 10:
-            No change this iteration.
 
         Forward controlled-behavior: true [fixed point].
 

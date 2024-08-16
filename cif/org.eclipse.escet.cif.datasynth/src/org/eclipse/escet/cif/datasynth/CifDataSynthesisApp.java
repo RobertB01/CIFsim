@@ -48,6 +48,7 @@ import org.eclipse.escet.cif.datasynth.options.EdgeOrderForwardOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
 import org.eclipse.escet.cif.datasynth.options.EdgeWorksetAlgoOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
+import org.eclipse.escet.cif.datasynth.options.ExplorationStrategyOption;
 import org.eclipse.escet.cif.datasynth.options.FixedPointComputationsOrderOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.PlantsRefReqsWarnOption;
@@ -146,12 +147,12 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         settings.setEdgeOrderBackward(EdgeOrderBackwardOption.getOrder());
         settings.setEdgeOrderForward(EdgeOrderForwardOption.getOrder());
         settings.setEdgeOrderAllowDuplicateEvents(EdgeOrderDuplicateEventsOption.getAllowance());
-        settings.setDoUseEdgeWorksetAlgo(EdgeWorksetAlgoOption.isEnabled());
         settings.setCifBddStatistics(SynthesisStatistics.toCifBdd(SynthesisStatisticsOption.getStatistics()));
 
         settings.setDoNeverEnabledEventsWarn(EventWarnOption.isEnabled());
         settings.setStateReqInvEnforceMode(StateReqInvEnforceOption.getMode());
         settings.setFixedPointComputationsOrder(FixedPointComputationsOrderOption.getOrder());
+        settings.setExplorationStrategy(ExplorationStrategyOption.getStrategy());
         settings.setDoForwardReach(ForwardReachOption.isEnabled());
         settings.setSupervisorName(SupervisorNameOption.getSupervisorName());
         settings.setSupervisorNamespace(SupervisorNamespaceOption.getNamespace());
@@ -394,12 +395,13 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(SupervisorNamespaceOption.class));
         synthOpts.add(Options.getInstance(ForwardReachOption.class));
         synthOpts.add(Options.getInstance(FixedPointComputationsOrderOption.class));
+        synthOpts.add(Options.getInstance(ExplorationStrategyOption.class));
         synthOpts.add(Options.getInstance(EdgeGranularityOption.class));
         synthOpts.add(Options.getInstance(EdgeOrderOption.class)); // No longer supported.
         synthOpts.add(Options.getInstance(EdgeOrderBackwardOption.class));
         synthOpts.add(Options.getInstance(EdgeOrderForwardOption.class));
         synthOpts.add(Options.getInstance(EdgeOrderDuplicateEventsOption.class));
-        synthOpts.add(Options.getInstance(EdgeWorksetAlgoOption.class));
+        synthOpts.add(Options.getInstance(EdgeWorksetAlgoOption.class)); // No longer supported.
         synthOpts.add(Options.getInstance(StateReqInvEnforceOption.class));
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
         synthOpts.add(Options.getInstance(ContinuousPerformanceStatisticsFileOption.class));

@@ -81,6 +81,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Choose the best ordering, depends on the model
 
 | Order
+| Exploration strategy
+| <<tools-datasynth-edge-order>>
+| Better order for less computations and smaller BDD representations
+| The `saturation` strategy likely gives best performance
+
+| Order
 | BDD initial variable ordering
 | <<tools-datasynth-var-order-initial-ordering>>
 | Better order for smaller BDD representations
@@ -133,12 +139,6 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | <<tools-datasynth-edge-order>>
 | Better order for less computations and smaller BDD representations
 | Choose the best order, depends on the model, custom order allows for best performance
-
-| Order
-| Edge workset algorithm
-| <<tools-datasynth-edge-order>>
-| Better order for less computations and smaller BDD representations
-| Enable to dynamically determine the order in which edges are considered, which may improve performance
 
 | Library
 | BDD library initial node table size

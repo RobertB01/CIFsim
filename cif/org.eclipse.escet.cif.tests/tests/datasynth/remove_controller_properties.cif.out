@@ -84,24 +84,15 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: true [marker predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior not changed.
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: true [initialization predicate]
-
-        Forward reachability iteration 1:
-            No change this iteration.
 
         Controlled behavior not changed.
 

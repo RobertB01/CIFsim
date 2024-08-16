@@ -128,11 +128,8 @@ public class CifBddSettings {
     /** Whether duplicate events are allowed for custom edge orders. */
     private EdgeOrderDuplicateEventAllowance edgeOrderAllowDuplicateEvents = CifBddSettingsDefaults.EDGE_ORDER_ALLOW_DUPLICATES_EVENTS_DEFAULT;
 
-    /**
-     * Whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
-     * computations ({@code true}), or not ({@code false}).
-     */
-    private boolean doUseEdgeWorksetAlgo = CifBddSettingsDefaults.DO_USE_WORKSET_ALGO_DEFAULT;
+    /** The exploration strategy to use for symbolic reachability computations. */
+    private ExplorationStrategy explorationStrategy = CifBddSettingsDefaults.EXPLORATION_STRATEGY_DEFAULT;
 
     /** The kinds of statistics to print. */
     private EnumSet<CifBddStatistics> cifBddStatistics = CifBddSettingsDefaults.CIF_BDD_STATISTICS_DEFAULT.clone();
@@ -740,28 +737,26 @@ public class CifBddSettings {
     }
 
     /**
-     * Get whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
-     * computations.
+     * Get the exploration strategy to use for symbolic reachability computations.
      *
      * <p>
-     * {@link CifBddSettingsDefaults#DO_USE_WORKSET_ALGO_DEFAULT} is the default value.
+     * {@link CifBddSettingsDefaults#EXPLORATION_STRATEGY_DEFAULT} is the default value.
      * </p>
      *
-     * @return {@code true} to use the edge workset algorithm, {@code false} to not use it.
+     * @return The exploration strategy to use for symbolic reachability computations.
      */
-    public boolean getDoUseEdgeWorksetAlgo() {
-        return doUseEdgeWorksetAlgo;
+    public ExplorationStrategy getExplorationStrategy() {
+        return explorationStrategy;
     }
 
     /**
-     * Set whether to use the edge workset algorithm to dynamically choose the best edge to apply during reachability
-     * computations.
+     * Set the exploration strategy to use for symbolic reachability computations.
      *
-     * @param doUseEdgeWorksetAlgo {@code true} to use the edge workset algorithm, {@code false} to not use it.
+     * @param explorationStrategy The exploration strategy to use for symbolic reachability computations.
      */
-    public void setDoUseEdgeWorksetAlgo(boolean doUseEdgeWorksetAlgo) {
+    public void setExplorationStrategy(ExplorationStrategy explorationStrategy) {
         Assert.check(modificationAllowed, "Modification is not allowed.");
-        this.doUseEdgeWorksetAlgo = doUseEdgeWorksetAlgo;
+        this.explorationStrategy = explorationStrategy;
         checkSettings();
     }
 

@@ -126,21 +126,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: not LampHW.bit and (LampHW.Off and Lamp.Off) and (Timer.Idle and Cycle.WaitForButtonPush and (ButtonHW.Released and Button.Released)) [initial states predicate]
 
-        Forward reachability iteration 1:
-            Reachable states: not LampHW.bit and (LampHW.Off and Lamp.Off) and (Timer.Idle and Cycle.WaitForButtonPush and (ButtonHW.Released and Button.Released)) -> <bdd 14n 2p> [forward reach with edge: (event: Button.u_pushed) (guard: (Cycle.WaitForButtonPush or Cycle.TurnLampOff) and ButtonHW.bit and (ButtonHW.Released and Button.Released) or (Cycle.StartTimer and ButtonHW.bit and (ButtonHW.Released and Button.Released) or (Cycle.TurnLampOn or Cycle.WaitForTimeout) and ButtonHW.bit and (ButtonHW.Released and Button.Released))) (assignments: Button := Button.Pushed, Cycle := Cycle.TurnLampOn, ButtonHW := ButtonHW.Pushed / Button := Button.Pushed, ButtonHW := ButtonHW.Pushed / Button := Button.Pushed, ButtonHW := ButtonHW.Pushed / Button := Button.Pushed, ButtonHW := ButtonHW.Pushed / Button := Button.Pushed, ButtonHW := ButtonHW.Pushed)]
-            Reachable states: <bdd 14n 2p> -> <bdd 19n 3p> [forward reach with edge: (event: Lamp.c_on) (guard: LampHW.Off and (Lamp.Off and Cycle.TurnLampOn)) (assignments: Lamp := Lamp.On, Cycle := Cycle.StartTimer, LampHW.bit := true, LampHW := LampHW.On)]
-            Reachable states: <bdd 19n 3p> -> <bdd 20n 4p> [forward reach with edge: (event: Timer.c_start) (guard: Timer.Idle and Cycle.StartTimer) (assignments: Timer := Timer.Running, Cycle := Cycle.WaitForTimeout)]
-            Reachable states: <bdd 20n 4p> -> <bdd 22n 5p> [forward reach with edge: (event: Timer.u_timeout) (guard: Timer.Running and Cycle.WaitForTimeout) (assignments: Timer := Timer.Idle, Cycle := Cycle.TurnLampOff)]
-            Reachable states: <bdd 22n 5p> -> <bdd 21n 5p> [forward reach with edge: (event: ButtonHW.bit) (guard: true) (assignments: ButtonHW.bit+ != ButtonHW.bit)]
-
-        Forward reachability iteration 2:
-            Reachable states: <bdd 21n 5p> -> <bdd 23n 13p> [forward reach with edge: (event: Button.u_released) (guard: not ButtonHW.bit and (ButtonHW.Pushed and Button.Pushed)) (assignments: Button := Button.Released, ButtonHW := ButtonHW.Released)]
-            Reachable states: <bdd 23n 13p> -> <bdd 22n 14p> [forward reach with edge: (event: Lamp.c_off) (guard: LampHW.On and (Lamp.On and Cycle.TurnLampOff)) (assignments: Lamp := Lamp.Off, Cycle := Cycle.WaitForButtonPush, LampHW.bit := false, LampHW := LampHW.Off)]
-            Reachable states: <bdd 22n 14p> -> <bdd 17n 8p> [forward reach with edge: (event: ButtonHW.bit) (guard: true) (assignments: ButtonHW.bit+ != ButtonHW.bit)]
-
-        Forward reachability iteration 3:
-            No change this iteration.
-
         Reachable states: <bdd 17n 8p> [fixed point].
 
     Computing bound for uncontrollable events:

@@ -185,12 +185,6 @@ Synthesis round 1:
         Backward controlled-behavior: p.loc1 [marker predicate]
         Backward controlled-behavior: p.loc1 -> p.loc1 [restricted to current/previous controlled-behavior predicate: true]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: p.loc1 -> true [backward reach with edge: (event: e) (guard: p.loc2) (assignments: p := p.loc1), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -203,12 +197,6 @@ Synthesis round 1:
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) [initialization predicate]
 
-        Forward reachability iteration 1:
-            Forward controlled-behavior: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [forward reach with edge: (event: e) (guard: p.loc1 -> p.loc1 and (p.x = 4 or p.x = 5)) (assignments: p := p.loc2), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Forward controlled-behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [fixed point].
 
         Controlled behavior: true -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)).
@@ -219,12 +207,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: p.loc1 [marker predicate]
         Backward controlled-behavior: p.loc1 -> p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) [restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
-
-        Backward reachability iteration 1:
-            Backward controlled-behavior: p.loc1 and p.x = 4 or (p.loc1 and p.x = 5 or p.loc1 and p.x = 3) -> p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [backward reach with edge: (event: e) (guard: p.loc2) (assignments: p := p.loc1), restricted to current/previous controlled-behavior predicate: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5))]
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Backward controlled-behavior: p.loc1 and p.x = 4 or p.loc1 and p.x = 5 or (p.loc1 and p.x = 3 or p.loc2 and (p.x = 4 or p.x = 5)) [fixed point].
 

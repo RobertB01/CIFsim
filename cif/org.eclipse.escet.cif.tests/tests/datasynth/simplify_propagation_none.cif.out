@@ -191,16 +191,6 @@ Synthesis round 1:
         Backward controlled-behavior: not p.loc3 and q.loc1 [marker predicate]
         Backward controlled-behavior: not p.loc3 and q.loc1 -> not p.loc3 and (not(p.x = 2 or p.x = 3) and q.loc1) or not p.loc3 and ((p.x = 2 or p.x = 3) and q.loc1) [restricted to current/previous controlled-behavior predicate: true]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: not p.loc3 and (not(p.x = 2 or p.x = 3) and q.loc1) or not p.loc3 and ((p.x = 2 or p.x = 3) and q.loc1) -> not p.loc3 and (not(p.x = 2 or p.x = 3) and q.loc1) or not p.loc3 and (not(p.x = 2 or p.x = 3) and q.loc4) or (not p.loc3 and ((p.x = 2 or p.x = 3) and q.loc1) or not p.loc3 and ((p.x = 2 or p.x = 3) and q.loc4)) [backward reach with edge: (event: q_a) (guard: q.loc4) (assignments: q := q.loc1), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: not p.loc3 and (not(p.x = 2 or p.x = 3) and q.loc1) or not p.loc3 and (not(p.x = 2 or p.x = 3) and q.loc4) or (not p.loc3 and ((p.x = 2 or p.x = 3) and q.loc1) or not p.loc3 and ((p.x = 2 or p.x = 3) and q.loc4)) -> not p.loc3 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or not p.loc3 and (not(p.x = 2 or p.x = 3) and q.loc4) or (not p.loc3 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or not p.loc3 and ((p.x = 2 or p.x = 3) and q.loc4)) [backward reach with edge: (event: q_b) (guard: q.loc3) (assignments: q := q.loc4), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            Backward controlled-behavior: not p.loc3 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or not p.loc3 and (not(p.x = 2 or p.x = 3) and q.loc4) or (not p.loc3 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or not p.loc3 and ((p.x = 2 or p.x = 3) and q.loc4)) -> not p.loc3 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or not p.loc3 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) [backward reach with edge: (event: q_a) (guard: q.loc2) (assignments: q := q.loc3), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 3:
-            No change this iteration.
-
         Backward controlled-behavior: not p.loc3 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or not p.loc3 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) [fixed point].
 
         Controlled behavior: true -> not p.loc3 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or not p.loc3 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)).
@@ -208,26 +198,12 @@ Synthesis round 1:
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: (p.loc3 or (p.x = 2 or p.x = 3) or (q.loc5 or (q.loc6 or q.loc7))) and (p.loc3 or not(p.x = 2 or p.x = 3) or (q.loc5 or (q.loc6 or q.loc7))) [current/previous controlled behavior predicate]
 
-        Backward reachability iteration 1:
-            Backward uncontrolled bad-state: (p.loc3 or (p.x = 2 or p.x = 3) or (q.loc5 or (q.loc6 or q.loc7))) and (p.loc3 or not(p.x = 2 or p.x = 3) or (q.loc5 or (q.loc6 or q.loc7))) -> (not p.loc1 or (p.x = 2 or p.x = 3) or (q.loc5 or (q.loc6 or q.loc7))) and (not p.loc1 or not(p.x = 2 or p.x = 3) or (q.loc5 or (q.loc6 or q.loc7))) [backward reach with edge: (event: p_b) (guard: p.loc2) (assignments: p := p.loc3)]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward uncontrolled bad-state: (not p.loc1 or (p.x = 2 or p.x = 3) or (q.loc5 or (q.loc6 or q.loc7))) and (not p.loc1 or not(p.x = 2 or p.x = 3) or (q.loc5 or (q.loc6 or q.loc7))) [fixed point].
 
         Controlled behavior: not p.loc3 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or not p.loc3 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) -> p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)).
 
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1) [initialization predicate]
-
-        Forward reachability iteration 1:
-            Forward controlled-behavior: p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1) -> p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc2)) or p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc2)) [forward reach with edge: (event: q_a) (guard: q.loc1) (assignments: q := q.loc2), restricted to current/previous controlled-behavior predicate: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7))]
-            Forward controlled-behavior: p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc2)) or p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc2)) -> p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc2) or (p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc2)) [forward reach with edge: (event: q_a) (guard: q.loc2) (assignments: q := q.loc3), restricted to current/previous controlled-behavior predicate: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7))]
-            Forward controlled-behavior: p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc2) or (p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc2)) -> p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) [forward reach with edge: (event: q_b) (guard: q.loc3) (assignments: q := q.loc4), restricted to current/previous controlled-behavior predicate: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7))]
-
-        Forward reachability iteration 2:
-            No change this iteration.
 
         Forward controlled-behavior: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) [fixed point].
 
@@ -239,16 +215,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: not p.loc3 and q.loc1 [marker predicate]
         Backward controlled-behavior: not p.loc3 and q.loc1 -> p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1) [restricted to current/previous controlled-behavior predicate: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7))]
-
-        Backward reachability iteration 1:
-            Backward controlled-behavior: p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1) -> p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc4) or (p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc4)) [backward reach with edge: (event: q_a) (guard: q.loc4) (assignments: q := q.loc1), restricted to current/previous controlled-behavior predicate: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7))]
-            Backward controlled-behavior: p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc4) or (p.loc1 and ((p.x = 2 or p.x = 3) and q.loc1) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc4)) -> p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc4) or (p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc4)) [backward reach with edge: (event: q_b) (guard: q.loc3) (assignments: q := q.loc4), restricted to current/previous controlled-behavior predicate: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7))]
-
-        Backward reachability iteration 2:
-            Backward controlled-behavior: p.loc1 and (not(p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and (not(p.x = 2 or p.x = 3) and q.loc4) or (p.loc1 and ((p.x = 2 or p.x = 3) and (q.loc1 or q.loc3)) or p.loc1 and ((p.x = 2 or p.x = 3) and q.loc4)) -> p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) [backward reach with edge: (event: q_a) (guard: q.loc2) (assignments: q := q.loc3), restricted to current/previous controlled-behavior predicate: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7))]
-
-        Backward reachability iteration 3:
-            No change this iteration.
 
         Backward controlled-behavior: p.loc1 and not(p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) or p.loc1 and (p.x = 2 or p.x = 3) and (not q.loc5 and (not q.loc6 and not q.loc7)) [fixed point].
 

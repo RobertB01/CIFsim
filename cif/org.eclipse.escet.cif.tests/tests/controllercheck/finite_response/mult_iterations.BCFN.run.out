@@ -149,18 +149,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: Actuator2.Off and Actuator1.Off [initial states predicate]
 
-        Forward reachability iteration 1:
-            Reachable states: Actuator2.Off and Actuator1.Off -> (Actuator2.On or (Actuator1.Off or Sensor)) and Actuator2.Off [forward reach with edge: (event: Actuator1.c_on) (guard: Actuator1.Off -> Actuator1.Off and Sensor) (assignments: Actuator1 := Actuator1.On)]
-            Reachable states: (Actuator2.On or (Actuator1.Off or Sensor)) and Actuator2.Off -> Actuator2.Off [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
-
-        Forward reachability iteration 2:
-            Reachable states: Actuator2.Off -> Actuator2.Off or Actuator1.On [forward reach with edge: (event: Actuator2.c_on) (guard: Actuator2.Off -> Actuator2.Off and Actuator1.On) (assignments: Actuator2 := Actuator2.On)]
-            Reachable states: Actuator2.Off or Actuator1.On -> Actuator2.Off or (Actuator1.On or not Sensor) [forward reach with edge: (event: Actuator1.c_off) (guard: Actuator1.On -> Actuator1.On and not Sensor) (assignments: Actuator1 := Actuator1.Off)]
-            Reachable states: Actuator2.Off or (Actuator1.On or not Sensor) -> true [forward reach with edge: (event: Sensor) (guard: true) (assignments: Sensor+ != Sensor)]
-
-        Forward reachability iteration 3:
-            No change this iteration.
-
         Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events:
@@ -185,16 +173,10 @@ Checking for non-blocking under control:
     Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controllable-complete path states: false
 
     Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: true
 

@@ -175,21 +175,12 @@ Synthesis round 1:
         Backward controlled-behavior: true [marker predicate]
         Backward controlled-behavior: true -> io.b and (io.i = 3 and io.e = A) [restricted to current/previous controlled-behavior predicate: io.b and (io.i = 3 and io.e = A)]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Backward controlled-behavior: io.b and (io.i = 3 and io.e = A) [fixed point].
 
         Controlled behavior not changed.
 
     Computing backward uncontrolled bad-state predicate:
         Backward uncontrolled bad-state: not io.b or (io.i != 3 or io.e = B) [current/previous controlled behavior predicate]
-
-        Backward reachability iteration 1:
-            Backward uncontrolled bad-state: not io.b or (io.i != 3 or io.e = B) -> true [backward reach with edge: (event: io.b) (guard: true) (assignments: io.b+ != io.b)]
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Backward uncontrolled bad-state: true [fixed point].
 

@@ -113,28 +113,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: p.xc = 0 and p.xu = 0 [initial states predicate]
 
-        Forward reachability iteration 1:
-            Reachable states: p.xc = 0 and p.xu = 0 -> p.xc = 0 and (p.xu = 0 or p.xu = 1) [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
-            Reachable states: p.xc = 0 and (p.xu = 0 or p.xu = 1) -> (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 1) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-
-        Forward reachability iteration 2:
-            Reachable states: (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 1) -> (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 1) and p.xu = 1 [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
-            Reachable states: (p.xc = 0 or p.xc = 1) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 1) and p.xu = 1 -> (p.xc = 0 or p.xc = 2) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 2) and p.xu = 1 or (p.xc = 1 and (p.xu = 0 or p.xu = 2) or p.xc = 1 and p.xu = 1) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-
-        Forward reachability iteration 3:
-            Reachable states: (p.xc = 0 or p.xc = 2) and (p.xu = 0 or p.xu = 2) or (p.xc = 0 or p.xc = 2) and p.xu = 1 or (p.xc = 1 and (p.xu = 0 or p.xu = 2) or p.xc = 1 and p.xu = 1) -> (p.xc = 0 or p.xc = 2) and (0 <= p.xu and p.xu <= 3) or p.xc = 1 and (0 <= p.xu and p.xu <= 3) [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
-            Reachable states: (p.xc = 0 or p.xc = 2) and (0 <= p.xu and p.xu <= 3) or p.xc = 1 and (0 <= p.xu and p.xu <= 3) -> 0 <= p.xc and p.xc <= 3 and (0 <= p.xu and p.xu <= 3) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-
-        Forward reachability iteration 4:
-            Reachable states: 0 <= p.xc and p.xc <= 3 and (0 <= p.xu and p.xu <= 3) -> (4 <= p.xc and p.xc <= 7 or p.xu != 6) and (4 <= p.xc and p.xc <= 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 3) [forward reach with edge: (event: u) (guard: true -> 0 <= p.xu and p.xu <= 3) (assignments: p.xu := p.xu + 1)]
-            Reachable states: (4 <= p.xc and p.xc <= 7 or p.xu != 6) and (4 <= p.xc and p.xc <= 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 3) -> (not(p.xc = 0 or p.xc = 4) or p.xu != 6) and (not(p.xc = 0 or p.xc = 4) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and ((p.xc != 2 or p.xu != 6) and (p.xc != 2 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (p.xc != 6 and (not(p.xc = 1 or p.xc = 3) or p.xu != 6) and ((not(p.xc = 1 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 4 or p.xc = 6))) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-
-        Forward reachability iteration 5:
-            Reachable states: (not(p.xc = 0 or p.xc = 4) or p.xu != 6) and (not(p.xc = 0 or p.xc = 4) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and ((p.xc != 2 or p.xu != 6) and (p.xc != 2 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (p.xc != 6 and (not(p.xc = 1 or p.xc = 3) or p.xu != 6) and ((not(p.xc = 1 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 4 or p.xc = 6))) -> (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5)) [forward reach with edge: (event: c) (guard: true -> p.xc != 6 and (0 <= p.xc and p.xc <= 4 or p.xc = 6)) (assignments: p.xc := p.xc + 1)]
-
-        Forward reachability iteration 6:
-            No change this iteration.
-
         Reachable states: (p.xc = 2 or p.xc = 3 or (p.xc = 6 or (p.xc = 7 or p.xu != 6))) and ((p.xc = 2 or (p.xc = 3 or p.xc = 6) or (p.xc = 7 or (0 <= p.xu and p.xu <= 4 or p.xu = 6))) and (not(p.xc = 2 or p.xc = 3) or p.xu != 6)) and ((not(p.xc = 2 or p.xc = 3) or (0 <= p.xu and p.xu <= 4 or p.xu = 6)) and (0 <= p.xc and p.xc <= 5)) [fixed point].
 
     Computing bound for uncontrollable events:

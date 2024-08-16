@@ -199,17 +199,6 @@ Synthesis round 1:
         Backward controlled-behavior: <bdd 24n 16p> [marker predicate]
         Backward controlled-behavior: <bdd 24n 16p> -> <bdd 23n 21p> [restricted to current/previous controlled-behavior predicate: true]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: <bdd 23n 21p> -> <bdd 26n 25p> [backward reach with edge: (event: c1) (guard: p1.l1 and p2.l0) (assignments: p1 := p1.l2, p2 := p2.l1), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 26n 25p> -> <bdd 27n 27p> [backward reach with edge: (event: c1) (guard: p1.l1 and p2.l1) (assignments: p1 := p1.l2, p2 := p2.l2), restricted to current/previous controlled-behavior predicate: true]
-            Backward controlled-behavior: <bdd 27n 27p> -> <bdd 22n 18p> [backward reach with edge: (event: c2) (guard: p2.l2) (assignments: p2 := p2.l3), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            Backward controlled-behavior: <bdd 22n 18p> -> (not p1.l0 or not p2.l4) and (not p1.l0 or (not p2.l2 and not p2.l3 or p1.x != 4)) and ((not p1.l2 or (not p2.l0 and not p2.l1 or p1.x != 0)) and ((not p1.l2 or not p2.l4) and (not p1.l2 or not p2.l2 and not p2.l3 or (1 <= p1.x and p1.x <= 3 or p1.x = 5)))) and ((not p1.l1 or (not p2.l0 or p1.x != 0)) and ((not p1.l1 or not p2.l4) and (not p1.l1 or not p2.l2)) and ((not p1.l1 or not p2.l1 or (1 <= p1.x and p1.x <= 3 or p1.x = 5)) and ((not p1.l1 or not p2.l3) and not p1.l3))) [backward reach with edge: (event: c1) (guard: p1.l1 and p2.l1) (assignments: p1 := p1.l2, p2 := p2.l2), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 3:
-            No change this iteration.
-
         Backward controlled-behavior: (not p1.l0 or not p2.l4) and (not p1.l0 or (not p2.l2 and not p2.l3 or p1.x != 4)) and ((not p1.l2 or (not p2.l0 and not p2.l1 or p1.x != 0)) and ((not p1.l2 or not p2.l4) and (not p1.l2 or not p2.l2 and not p2.l3 or (1 <= p1.x and p1.x <= 3 or p1.x = 5)))) and ((not p1.l1 or (not p2.l0 or p1.x != 0)) and ((not p1.l1 or not p2.l4) and (not p1.l1 or not p2.l2)) and ((not p1.l1 or not p2.l1 or (1 <= p1.x and p1.x <= 3 or p1.x = 5)) and ((not p1.l1 or not p2.l3) and not p1.l3))) [fixed point].
 
         Controlled behavior: true -> (not p1.l0 or not p2.l4) and (not p1.l0 or (not p2.l2 and not p2.l3 or p1.x != 4)) and ((not p1.l2 or (not p2.l0 and not p2.l1 or p1.x != 0)) and ((not p1.l2 or not p2.l4) and (not p1.l2 or not p2.l2 and not p2.l3 or (1 <= p1.x and p1.x <= 3 or p1.x = 5)))) and ((not p1.l1 or (not p2.l0 or p1.x != 0)) and ((not p1.l1 or not p2.l4) and (not p1.l1 or not p2.l2)) and ((not p1.l1 or not p2.l1 or (1 <= p1.x and p1.x <= 3 or p1.x = 5)) and ((not p1.l1 or not p2.l3) and not p1.l3))).
@@ -222,9 +211,6 @@ Synthesis round 1:
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: p1.l0 and (p2.l0 and p1.x = 0) [initialization predicate]
 
-        Forward reachability iteration 1:
-            No change this iteration.
-
         Controlled behavior: (not p1.l0 or not p2.l4) and (not p1.l0 or (not p2.l2 and not p2.l3 or p1.x != 4)) and ((not p1.l2 or (not p2.l0 and not p2.l1 or p1.x != 0)) and ((not p1.l2 or not p2.l4) and (not p1.l2 or not p2.l2 and not p2.l3 or (1 <= p1.x and p1.x <= 3 or p1.x = 5)))) and ((not p1.l1 or (not p2.l0 or p1.x != 0)) and ((not p1.l1 or not p2.l4) and (not p1.l1 or not p2.l2)) and ((not p1.l1 or not p2.l1 or (1 <= p1.x and p1.x <= 3 or p1.x = 5)) and ((not p1.l1 or not p2.l3) and not p1.l3))) -> p1.l0 and (p2.l0 and p1.x = 0).
 
     Need another round.
@@ -233,9 +219,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: <bdd 24n 16p> [marker predicate]
         Backward controlled-behavior: <bdd 24n 16p> -> p1.l0 and (p2.l0 and p1.x = 0) [restricted to current/previous controlled-behavior predicate: p1.l0 and (p2.l0 and p1.x = 0)]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Backward controlled-behavior: p1.l0 and (p2.l0 and p1.x = 0) [fixed point].
 

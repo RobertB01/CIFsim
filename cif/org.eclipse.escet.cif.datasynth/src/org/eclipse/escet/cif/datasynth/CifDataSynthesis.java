@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.eclipse.escet.cif.bdd.settings.ExplorationStrategy;
 import org.eclipse.escet.cif.bdd.spec.CifBddDiscVariable;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdgeApplyDirection;
@@ -212,7 +213,7 @@ public class CifDataSynthesis {
             }
 
             // Prepare workset algorithm, if enabled.
-            if (cifBddSpec.settings.getDoUseEdgeWorksetAlgo()) {
+            if (cifBddSpec.settings.getExplorationStrategy() == ExplorationStrategy.CHAINING_WORKSET) {
                 if (cifBddSpec.settings.getTermination().isRequested()) {
                     return null;
                 }
@@ -1423,6 +1424,7 @@ public class CifDataSynthesis {
                 BDD restriction; // The restriction predicate, if applicable.
                 CifBddEdgeApplyDirection direction; //  The direction of the reachability computation..
                 Set<CifBddEdgeKind> edgeKinds; // Kinds of edges to apply.
+                int saturationInstanceNumber; // The instance number to use for saturation.
                 switch (fixedPointComputation) {
                     case NONBLOCK:
                         predName = "backward controlled-behavior";
@@ -1431,6 +1433,7 @@ public class CifDataSynthesis {
                         restriction = synthResult.ctrlBeh;
                         direction = CifBddEdgeApplyDirection.BACKWARD;
                         edgeKinds = EnumSet.allOf(CifBddEdgeKind.class);
+                        saturationInstanceNumber = 0;
                         break;
                     case CTRL:
                         predName = "backward uncontrolled bad-state";
@@ -1439,6 +1442,7 @@ public class CifDataSynthesis {
                         restriction = null;
                         direction = CifBddEdgeApplyDirection.BACKWARD;
                         edgeKinds = EnumSet.of(CifBddEdgeKind.UNCONTROLLABLE, CifBddEdgeKind.INPUT_VARIABLE);
+                        saturationInstanceNumber = 1;
                         break;
                     case REACH:
                         predName = "forward controlled-behavior";
@@ -1447,6 +1451,7 @@ public class CifDataSynthesis {
                         restriction = synthResult.ctrlBeh;
                         direction = CifBddEdgeApplyDirection.FORWARD;
                         edgeKinds = EnumSet.allOf(CifBddEdgeKind.class);
+                        saturationInstanceNumber = 2;
                         break;
                     default:
                         throw new RuntimeException("Unknown fixed-point computation: " + fixedPointComputation);
@@ -1478,6 +1483,12 @@ public class CifDataSynthesis {
                 try {
                     CifBddReachability reachability = new CifBddReachability(cifBddSpec, predName, initName,
                             restrictionName, restriction, direction, edgeKinds, dbgEnabled);
+
+                    // If the saturation strategy is used, configure the saturation instance number.
+                    if (cifBddSpec.settings.getExplorationStrategy() == ExplorationStrategy.SATURATION) {
+                        reachability.setSaturationInstance(saturationInstanceNumber);
+                    }
+
                     reachabilityResult = reachability.performReachability(startPred);
                 } finally {
                     // Stop timing the fixed-point reachability computation.

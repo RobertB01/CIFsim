@@ -19,16 +19,10 @@ Checking for non-blocking under control:
     Computing the controllable-complete path states:
         Controllable-complete path states: Supervisor2b.Halt [controllable-complete path end states predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controllable-complete path states: Supervisor2b.Halt
 
     Computing the bad states:
         Bad states: not Supervisor2b.Halt [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: not Supervisor2b.Halt
 

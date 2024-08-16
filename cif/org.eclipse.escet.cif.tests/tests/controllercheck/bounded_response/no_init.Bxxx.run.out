@@ -9,9 +9,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: false [initial states predicate]
 
-        Forward reachability iteration 1:
-            No change this iteration.
-
     Computing bound for uncontrollable events:
         Bound: 0.
 

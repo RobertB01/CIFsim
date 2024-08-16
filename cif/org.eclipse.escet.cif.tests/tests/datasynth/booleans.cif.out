@@ -199,12 +199,6 @@ Synthesis round 1:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: g.p.b0 [marker predicate]
 
-        Backward reachability iteration 1:
-            Backward controlled-behavior: g.p.b0 -> true [backward reach with edge: (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0), restricted to current/previous controlled-behavior predicate: true]
-
-        Backward reachability iteration 2:
-            No change this iteration.
-
         Backward controlled-behavior: true [fixed point].
 
         Controlled behavior not changed.
@@ -217,12 +211,6 @@ Synthesis round 1:
     Computing forward controlled-behavior predicate:
         Forward controlled-behavior: not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4)) [initialization predicate]
 
-        Forward reachability iteration 1:
-            Forward controlled-behavior: not g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4)) -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4) [forward reach with edge: (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0), restricted to current/previous controlled-behavior predicate: true]
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Forward controlled-behavior: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4) [fixed point].
 
         Controlled behavior: true -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4).
@@ -233,12 +221,6 @@ Synthesis round 2:
     Computing backward controlled-behavior predicate:
         Backward controlled-behavior: g.p.b0 [marker predicate]
         Backward controlled-behavior: g.p.b0 -> g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4)) [restricted to current/previous controlled-behavior predicate: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4)]
-
-        Backward reachability iteration 1:
-            Backward controlled-behavior: g.p.b0 and not g.p.b2 and (g.p.b1 and (g.p.b3 and g.p.b4)) -> not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4) [backward reach with edge: (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0), restricted to current/previous controlled-behavior predicate: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4)]
-
-        Backward reachability iteration 2:
-            No change this iteration.
 
         Backward controlled-behavior: not g.p.b2 and g.p.b1 and (g.p.b3 and g.p.b4) [fixed point].
 

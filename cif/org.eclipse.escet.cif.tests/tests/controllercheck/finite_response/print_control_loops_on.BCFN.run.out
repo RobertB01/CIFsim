@@ -25,12 +25,6 @@ Checking for bounded response:
     Computing reachable states:
         Reachable states: p.loc1 [initial states predicate]
 
-        Forward reachability iteration 1:
-            Reachable states: p.loc1 -> true [forward reach with edge: (event: p.c1) (guard: p.loc1) (assignments: p := p.loc2)]
-
-        Forward reachability iteration 2:
-            No change this iteration.
-
         Reachable states: true [fixed point].
 
     Computing bound for uncontrollable events:
@@ -52,16 +46,10 @@ Checking for non-blocking under control:
     Computing the controllable-complete path states:
         Controllable-complete path states: false [controllable-complete path end states predicate]
 
-        Backward reachability iteration 1:
-            No change this iteration.
-
         Controllable-complete path states: false
 
     Computing the bad states:
         Bad states: true [not controllable-complete path states predicate]
-
-        Backward reachability iteration 1:
-            No change this iteration.
 
         Bad states: true
 

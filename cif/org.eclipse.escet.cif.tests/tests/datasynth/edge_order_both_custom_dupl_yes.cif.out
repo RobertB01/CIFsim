@@ -311,8 +311,8 @@ BDD cache statistics:
     Node creation chain accesses: 0
     Node creation cache hits:     436
     Node creation cache misses:   146
-    Operation count:              2685
-    Operation cache hits:         517
+    Operation count:              2709
+    Operation cache hits:         518
     Operation cache misses:       504
 
 Maximum used BDD nodes: 102.

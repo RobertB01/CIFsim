@@ -1,0 +1,24 @@
+plant automaton p1:
+  controllable next;
+  disc int[0..3] c = 0;
+  location:
+    initial;
+    marked;
+    edge next when c < 3 do c := c + 1;
+end
+plant automaton p2:
+  controllable e;
+  disc bool b;
+  location:
+    initial;
+    marked;
+    edge e when p1.c = 1, not b do b := true;
+end
+supervisor automaton sup:
+  alphabet p1.next, p2.e;
+  location:
+    initial;
+    marked;
+    edge p1.next when true;
+    edge p2.e when true;
+end

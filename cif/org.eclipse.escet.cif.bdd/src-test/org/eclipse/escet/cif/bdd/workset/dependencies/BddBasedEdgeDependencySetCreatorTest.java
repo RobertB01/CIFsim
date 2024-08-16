@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import org.eclipse.escet.cif.bdd.conversion.CifToBddConverter;
 import org.eclipse.escet.cif.bdd.settings.CifBddSettings;
 import org.eclipse.escet.cif.bdd.settings.EdgeGranularity;
+import org.eclipse.escet.cif.bdd.settings.ExplorationStrategy;
 import org.eclipse.escet.cif.bdd.spec.CifBddEdge;
 import org.eclipse.escet.cif.bdd.spec.CifBddSpec;
 import org.eclipse.escet.cif.io.CifReader;
@@ -540,7 +541,7 @@ public class BddBasedEdgeDependencySetCreatorTest {
         // Get settings.
         CifBddSettings settings = new CifBddSettings();
         settings.setEdgeGranularity(EdgeGranularity.PER_EVENT);
-        settings.setDoUseEdgeWorksetAlgo(true);
+        settings.setExplorationStrategy(ExplorationStrategy.CHAINING_WORKSET);
         settings.setEdgeOrderBackward("sorted");
         settings.setEdgeOrderForward("sorted");
 
