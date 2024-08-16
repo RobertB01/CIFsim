@@ -23,22 +23,27 @@ import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** PLC maximum iterations option. */
 public class PlcMaxIterOption extends StringOption {
-    /** Default option value. */
-    private static final String DEFAULT_VALUE = "inf,inf";
+    /** Default option value text. */
+    private static final String DEFAULT_VALUE_TEXT = "resp,resp";
 
     /** Description of the option value. */
     private static final String VALUE_DESCRIPTION_TEXT = """
-            The maximum number of iterations to try each uncontrollable event once and the maximum number of
-            iterations to try each controllable event once, for a single execution of the main program body.
-            A maximum number of iterations is either a positive integer number or "inf" to state
-            there is no upper bound on the maximum number of iterations.
+            The worst case maximum number of iterations to try each uncontrollable event once and the wordt case maximum
+            number of iterations to try each controllable event once, for a single execution of the main program body.
+            A maximum number of iterations is a positive integer number, the word "resp" or the word "inf".
+            An integer number directly states the number of iterations.
+            The word "inf" means "infinite", there is no upper bound on the maximum number of iterations.
+            The word "resp" means that the maximum number of iterations is derived from the bounded response property
+            computed by the CIF controller properties checker application.
             This option takes two maximum numbers, one for uncontrollable events and one for controllable
-            events.
-            For example "20,inf" means that in a single execution of the main program body at most 20 times
-            every uncontrollable event is tried, and at most an unrestricted number of times every
-            controllable event is tried. Note that an iteration loop is always considered finished as soon
-            as none of the tried events in one iteration was possible.
-            If only one value is given to this option, it is used as maximum iteration count for both
+            events respectively.
+            For example "20,resp" means that in a single execution of the main program body,
+            each uncontrollable event is tried at most 20 times, and
+            each controllable event is tried as often as the bounded response value for controllable events computed
+            by the CIF controller properties checker application indicates.
+            Note that in any case, an iteration loop is considered to be finished as soon as none of the tried events
+            in one iteration was possible.
+            If only one value is given to this option, it is used as maximum number of iterations for both
             uncontrollable and controllable events.""";
 
     /** Constructor for the {@link PlcMaxIterOption} class. */
@@ -48,7 +53,7 @@ public class PlcMaxIterOption extends StringOption {
                 "PLC maximum iterations",
 
                 // description
-                (VALUE_DESCRIPTION_TEXT + " [DEFAULT=\"" + DEFAULT_VALUE + "\"]").replace("\n", " "),
+                (VALUE_DESCRIPTION_TEXT + " [DEFAULT=\"" + DEFAULT_VALUE_TEXT + "\"]").replace("\n", " "),
 
                 // cmdShort
                 'x',
@@ -60,7 +65,7 @@ public class PlcMaxIterOption extends StringOption {
                 "ITERS",
 
                 // defaultValue
-                DEFAULT_VALUE,
+                DEFAULT_VALUE_TEXT,
 
                 // emptyAsNull
                 false,
