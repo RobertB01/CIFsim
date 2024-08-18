@@ -13,6 +13,9 @@
 
 package org.eclipse.escet.cif.cif2mcrl2;
 
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
+import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -45,6 +48,7 @@ import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifMarkedUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -58,6 +62,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
@@ -462,11 +467,12 @@ public class CifToMcrl2Transformer {
      * @param code The mCRL2 code generated so far. Is extended in-place.
      */
     private void addProcessExprForEdge(Edge edge, List<DiscVariable> vars, MemoryCodeBox code) {
-        // Convert guards of the linearized edge. Skip 'true' guards.
-        List<String> guards = edge.getGuards().stream().map(g -> generateExpr(g)).filter(g -> !g.equals("true"))
-                .collect(Collectors.toList());
+        // Copy guards of the linearized edge.
+        List<Expression> guards = list();
+        guards.addAll(deepclone(edge.getGuards()));
 
-        // Make sure that assigned integer variables don't go out of range. Prevents runtime errors.
+        // Add additional guards to ensure that assigned integer variables don't go out of range. This prevents runtime
+        // errors.
         Map<DiscVariable, Expression> assignments = getAssignments(edge.getUpdates());
         List<DiscVariable> intVars = vars.stream().filter(v -> v.getType() instanceof IntType).toList();
         for (DiscVariable var: intVars) {
@@ -474,13 +480,24 @@ public class CifToMcrl2Transformer {
             if (newValue != null) {
                 int lower = CifTypeUtils.getLowerBound((IntType)var.getType());
                 int upper = CifTypeUtils.getUpperBound((IntType)var.getType());
-                guards.add(fmt("%s <= %s", lower, generateExpr(newValue)));
-                guards.add(fmt("%s <= %s", generateExpr(newValue), upper));
+                guards.addAll(createRangeGuards(newValue, lower, upper));
             }
         }
 
-        // Generate single mCRL2 guard expression.
-        String guard = guards.isEmpty() ? "true" : String.join(" && ", guards);
+        // Get a single CIF guard predicate.
+        Expression guardExpr = CifValueUtils.createConjunction(guards, true);
+
+        // Simplify the guard predicate. We temporarily put the predicate in the specification, to ensure value
+        // simplification won't crash. Then we simplify the predicate, and take it out of the specification again.
+        // Note that simplification may completely replace the predicate, so we need to get it from the specification
+        // after simplification.
+        edge.getGuards().add(guardExpr);
+        new SimplifyValues().transform(guardExpr);
+        guardExpr = last(edge.getGuards());
+        edge.getGuards().remove(guardExpr);
+
+        // Get the mCRL2 guard expression.
+        String guard = generateExpr(guardExpr);
 
         // Get event.
         Assert.areEqual(edge.getEvents().size(), 1);
@@ -502,6 +519,37 @@ public class CifToMcrl2Transformer {
 
         // Generate process expression.
         code.add("(%s) -> %s . P(%s)", guard, event, updates);
+    }
+
+    /**
+     * Creates guards to ensure that an integer-typed variable doesn't go out of range.
+     *
+     * @param value The value of the variable.
+     * @param lower The lower bound of the integer type.
+     * @param upper The upper bound of the integer type.
+     * @return The newly created guard predicates.
+     */
+    private List<Expression> createRangeGuards(Expression value, int lower, int upper) {
+        // Create 'lower <= value'.
+        Expression left1 = CifValueUtils.makeInt(lower);
+        Expression right1 = deepclone(value);
+        BinaryExpression bexpr1 = newBinaryExpression();
+        bexpr1.setLeft(left1);
+        bexpr1.setOperator(BinaryOperator.LESS_EQUAL);
+        bexpr1.setRight(right1);
+        bexpr1.setType(newBoolType());
+
+        // Create 'value <= upper'.
+        Expression left2 = deepclone(value);
+        Expression right2 = CifValueUtils.makeInt(upper);
+        BinaryExpression bexpr2 = newBinaryExpression();
+        bexpr2.setLeft(left2);
+        bexpr2.setOperator(BinaryOperator.LESS_EQUAL);
+        bexpr2.setRight(right2);
+        bexpr2.setType(newBoolType());
+
+        // Return both.
+        return List.of(bexpr1, bexpr2);
     }
 
     /**
