@@ -214,13 +214,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      */
     private LoopLimits deriveIterLimits(Specification spec) {
         // Sentences to explain how to obtain the properties, and why it is important that they hold.
-        String howToGet = "Please apply the CIF controller properties checker application on the CIF specification "
-                + "before generating PLC code from it.";
         String badNoProps = "Using control code generated from a CIF specification without both bounded response and "
                 + "confluence properties may result in undesired or unexpected behavior of the controlled system.";
-        String badTooLow = "Using a lower limit than the bound of the controller properties annotation in the "
-                + "specification may result in undesired or unexpected behavior of the controlled system.";
-
         // Check that the specification has controller properties for bounded response and confluence.
         Boolean hasBoundedResponse = CifControllerPropertiesAnnotationUtils.hasBoundedResponse(spec);
         Boolean hasConfluence = CifControllerPropertiesAnnotationUtils.hasConfluence(spec);
@@ -242,7 +237,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         if (hasBoundedResponse == null || hasConfluence == null) {
             warn("Before generating PLC code, both the bounded response and confluence properties of the "
                     + "CIF specification should be checked and should hold.");
-            warn(howToGet);
+            warn("Please apply the CIF controller properties checker application on the CIF specification before "
+                    + "generating PLC code from it.");
             warn();
             warn(badNoProps);
             warned = true;
@@ -263,8 +259,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
             if (hasBoundedResponse != Boolean.TRUE || hasConfluence != Boolean.TRUE) {
                 warn("Before generating PLC code, both the bounded response and confluence properties of the "
-                        + "CIF specificiation should hold.");
-                warn("Please improve the CIF specifcation, and check the bounded response and confluence "
+                        + "CIF specification should hold.");
+                warn("Please improve the CIF specification, and check the bounded response and confluence "
                         + "properties again.");
                 warn();
                 warn(badNoProps);
@@ -286,7 +282,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         // Warn about a too low limit if possible.
         if (usedUncontrLimit != null && uncontrBound != null && usedUncontrLimit < uncontrBound) {
             warn("Used uncontrollable event iteration limit (at most %d attempts) is less than the bounded response "
-                    + "limit of the controller properties annotation (%d attemots are needed).",
+                    + "limit of the controller properties annotation (%d attempts are needed).",
                     usedUncontrLimit, uncontrBound);
             tooLow = true;
         }
@@ -303,14 +299,15 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         // Warn about a too low limit if possible.
         if (usedContrLimit != null && contrBound != null && usedContrLimit < contrBound) {
             warn("Used controllable event iteration limit (at most %d attempts) is less than the bounded response "
-                    + "limit of the controller properties annotation (%d attemots are needed).",
+                    + "limit of the controller properties annotation (%d attempts are needed).",
                     usedContrLimit, contrBound);
             tooLow = true;
         }
 
         // If a 'too low' warning was given also explain why it's a bad idea to proceed.
         if (tooLow) {
-            warn(badTooLow);
+            warn("Using a lower limit than the bound of the controller properties annotation in the specification may "
+                    + "result in undesired or unexpected behavior of the controlled system.");
         }
 
         // Construct and return the derived limits.
