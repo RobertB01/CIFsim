@@ -270,7 +270,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
                 allCifEventTransitions.stream().filter(cet -> !cet.event.getControllable()).toList(),
                 allCifEventTransitions.stream().filter(cet -> cet.event.getControllable()).toList());
 
-        // Generated the transition code.
+        // Generate the transition code.
         ExprGenerator exprGen = codeStorage.getExprGenerator();
         PlcBasicVariable isProgressVar = codeStorage.getIsProgressVariable();
         List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transLoops, exprGen, isProgressVar);

@@ -91,7 +91,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private final PlcTarget target;
 
     /**
-     * For each automaton with at least one edge outside monitor context, the name of the variable that tracks the
+     * For each automaton with at least one edge outside monitor context, the data of the variable that tracks the
      * selected edge to perform for its automaton.
      *
      * <p>
@@ -194,7 +194,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private Map<Automaton, PlcDataVariable> createEdgeVariables(List<List<CifEventTransition>> transLoops,
             ExprGenerator exprGen)
     {
-        // Construct edge variable for the automaata as needed.
+        // Construct edge variable for the automata as needed.
         Map<Automaton, PlcDataVariable> edgeVariables = map();
         for (List<CifEventTransition> transLoop: transLoops) {
             for (CifEventTransition evtTrans: transLoop) {
@@ -204,7 +204,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             }
         }
 
-        // Add the created variable s to the scope.
+        // Add the created variables to the scope.
         for (PlcDataVariable edgeVar: edgeVariables.values()) {
             exprGen.addLocalVariable(edgeVar, true);
         }

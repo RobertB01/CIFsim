@@ -37,7 +37,7 @@ public interface TransitionGenerator {
      * </p>
      *
      * @param transLoops Sequence of event loops, where a single loop may try several events in each iteration. The used
-     *     {@link CifEventTransition} here must be a subset of the transitions given to {@link #setup}.
+     *     {@link CifEventTransition}s here must be a subset of the transitions given to {@link #setup}.
      * @param exprGen Expression generator for the scope of the generated code.
      * @param isProgressVar The variable to set if an event transition is performed.
      * @return The sequence of statements for each loop.

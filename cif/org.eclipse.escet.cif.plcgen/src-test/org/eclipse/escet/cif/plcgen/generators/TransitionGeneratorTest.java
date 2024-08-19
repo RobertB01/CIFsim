@@ -786,7 +786,7 @@ public class TransitionGeneratorTest {
     private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
         ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
 
-        // Setup the trnasition generator.
+        // Setup the transition generator.
         transitionGenerator.setup(List.of(transition));
 
         // Generate the transition and return the code.
