@@ -212,56 +212,75 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      * @param spec Input specification.
      * @return The maximum iteration limits to use.
      */
+    @SuppressWarnings("null")
     private LoopLimits deriveIterLimits(Specification spec) {
         // Sentences to explain how to obtain the properties, and why it is important that they hold.
-        String badNoProps = "Using control code generated from a CIF specification without both bounded response and "
-                + "confluence properties may result in undesired or unexpected behavior of the controlled system.";
+        String badNoProps = "Using control code generated from a CIF specification without bounded response, "
+                + "confluence or non-blocking under control properties may result in undesired or unexpected behavior "
+                + "of the controlled system.";
         // Check that the specification has controller properties for bounded response and confluence.
         Boolean hasBoundedResponse = CifControllerPropertiesAnnotationUtils.hasBoundedResponse(spec);
         Boolean hasConfluence = CifControllerPropertiesAnnotationUtils.hasConfluence(spec);
+        Boolean hasNonBlocking = CifControllerPropertiesAnnotationUtils.isNonBlockingUnderControl(spec);
         Boolean hasFiniteResponse = CifControllerPropertiesAnnotationUtils.hasFiniteResponse(spec);
 
         boolean warned = false; // Whether warnings were given.
 
         // Check and possibly report about lack of existence of the bounded response and/or finite response properties.
         if (hasBoundedResponse == null) {
-            warn("The Input specification has no annotation for the bounded response property.");
+            warn("The input specification has no controller properties annotation that specifies the bounded response "
+                    + "property.");
             warned = true;
         }
         if (hasConfluence == null) {
-            warn("The Input specification has no annotation for the confluence property.");
+            warn("The input specification has no controller properties annotation that specifies the confluence "
+                    + "property.");
+            warned = true;
+        }
+        if (hasNonBlocking == null) {
+            warn("The input specification has no controller properties annotation that specifies the non-blocking "
+                    + "under control property.");
             warned = true;
         }
         // Don't care about lacking finite response, as bounded response covers it completely.
 
-        if (hasBoundedResponse == null || hasConfluence == null) {
-            warn("Before generating PLC code, both the bounded response and confluence properties of the "
-                    + "CIF specification should be checked and should hold.");
+        if (warned) {
+            warn("Before generating PLC code, the bounded response, confluence and non-blocking under control "
+                    + "properties of the CIF specification should be checked and should hold.");
             warn("Please apply the CIF controller properties checker application on the CIF specification before "
                     + "generating PLC code from it.");
             warn();
             warn(badNoProps);
-            warned = true;
         }
 
         // Check and possibly report that the bounded response and/or confluence properties do not hold.
         // If provided, also check and possibly report that the finite response property does not hold.
         if (!warned) {
-            if (hasBoundedResponse == Boolean.FALSE) { // The only other possible bounded response value here is TRUE.
-                warn("The bounded response property of the CIF specification does not hold.");
+            if (hasBoundedResponse.equals(Boolean.FALSE)) { // The value cannot be 'null' here.
+                warn("The controller properties annotation of the input specification that specifies the bounded "
+                        + "response property does not hold.");
             }
-            if (hasConfluence == Boolean.FALSE) { // The only other possible confluence value here is TRUE.
-                warn("The confluence property of the CIF specification may not hold.");
+            if (hasConfluence.equals(Boolean.FALSE)) { // The value cannot be 'null' here.
+                warn("The controller properties annotation of the input specification that specifies the confluence "
+                        + "property may not hold.");
             }
-            if (hasFiniteResponse == Boolean.FALSE) { // Missing or true finite response is ok.
-                warn("The finite response property of the CIF specification may not hold.");
+            if (hasNonBlocking.equals(Boolean.FALSE)) { // The value cannot be 'null' here.
+                warn("The controller properties annotation of the input specification that specifies the non-blocking "
+                        + "under control property does not hold.");
             }
 
-            if (hasBoundedResponse != Boolean.TRUE || hasConfluence != Boolean.TRUE) {
-                warn("Before generating PLC code, both the bounded response and confluence properties of the "
-                        + "CIF specification should hold.");
-                warn("Please improve the CIF specification, and check the bounded response and confluence "
-                        + "properties again.");
+            // Missing or true finite response is ok.
+            if (hasFiniteResponse != null && hasFiniteResponse.equals(Boolean.FALSE)) {
+                warn("The controller properties annotation of the input specification that specifies the finite "
+                        + "response property may not hold.");
+            }
+
+            if (!hasBoundedResponse.equals(Boolean.TRUE) || !hasConfluence.equals(Boolean.TRUE)
+                    || !hasNonBlocking.equals(Boolean.TRUE))
+            {
+                warn("Before generating PLC code, the bounded response, confluence and non-blocking under control "
+                        + "properties of the CIF specification should hold.");
+                warn("Please improve the CIF specification, and check the properties again.");
                 warn();
                 warn(badNoProps);
             }
