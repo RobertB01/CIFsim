@@ -148,14 +148,14 @@ That may cause difficulties in reviewing the generated PLC code.
 In a CIF specification, performing events has priority over delaying in time.
 To get the same behavior as the CIF specification in the generated PLC code, the generated PLC code must also give priority to performing events.
 As a PLC is not fast enough to indefinitely perform events before the end of a PLC cycle, it is paramount that the PLC code will always eventually run out of events to perform.
-The bounded response and the confluence checks of the <<tools-chapter-controller-checker,controller properties checker>> should be used on the specification to check that this is always the case.
+The bounded response and confluence checks of the <<tools-chapter-controller-checker,controller properties checker>> should be used on the specification to check that this is always the case.
 The option takes two loop bounds.
 The first loop bound defines the limit for uncontrollable events, while the second loop bound defines the limit for controllable events.
 There are three kinds of loop bounds:
 ** The word `resp`, which means that the PLC code generator takes the loop bound limit from the annotation of the <<tools-chapter-controller-checker,controller properties checker>> as the limit value.
 This is recommended, as it is the lowest loop limit that preserves CIF behavior in the generated PLC code.
 If the annotation is not available, or the check result does not hold, the `inf` kind is used instead.
-** The word `inf`, which means infinite, try to perform events until all (uncontrollable or controllable) events are blocked.
+** The word `inf`, for 'infinite', which means that the PLC code keeps trying to perform events with a limit, until no more (uncontrollable or controllable) events are enabled.
 In a CIF specification with finite behavior (that is, it always eventually run out of events to perform), this will lead to one additional loop being performed.
 (The additional loop tries all events it should try, and at the end then reaches the conclusion that none of them could be performed.)
 ** A numeric value, which expresses the maximum number of loop iterations directly.

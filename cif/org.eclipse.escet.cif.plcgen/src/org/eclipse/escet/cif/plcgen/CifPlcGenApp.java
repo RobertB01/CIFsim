@@ -209,8 +209,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      * @return The maximum iteration limits to use.
      */
     private LoopLimits deriveIterLimits(Specification spec) {
-        // Sentences to explain howo to obtain the properties, and why it is important that they hold.
-        String howToGet = "Please apply the CIF controller properties checker application on hte CIF specification "
+        // Sentences to explain how to obtain the properties, and why it is important that they hold.
+        String howToGet = "Please apply the CIF controller properties checker application on the CIF specification "
                 + "before generating PLC code from it.";
         String badNoProps = "Using control code generated from a CIF specification without both bounded response and "
                 + "confluence properties may result in undesired or unexpected behavior of the controlled system.";
@@ -245,7 +245,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         }
 
         // Check and possibly report that the bounded response and/or confluence properties do not hold.
-        // If provied, also check and possibly report that the finite response property does not hold.
+        // If provided, also check and possibly report that the finite response property does not hold.
         if (!warned) {
             if (hasBoundedResponse == Boolean.FALSE) { // The only other possible bounded response value here is TRUE.
                 warn("The bounded response property of the CIF specification does not hold.");
@@ -281,8 +281,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         // Warn about a too low limit if possible.
         if (usedUncontrLimit != null && uncontrBound != null && usedUncontrLimit < uncontrBound) {
-            warn("Applied uncontrollable event iteration limit (at most %d attempts) is less than the computed bounded "
-                    + "response limit (%d attemots are needed).", usedUncontrLimit, uncontrBound);
+            warn("Used uncontrollable event iteration limit (at most %d attempts) is less than the computed bounded "
+                    + "response limit (%d attempts are needed).", usedUncontrLimit, uncontrBound);
             tooLow = true;
         }
 
@@ -357,7 +357,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
                 break;
             case INTEGER:
                 resultValue = getFallbackBound.getAsInt();
-                kindText = "trying events up to " + resultValue + " attenpts";
+                kindText = "trying events up to " + resultValue + " attempts";
                 break;
             case BOUNDED_RESPONSE:
             default:
@@ -369,7 +369,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
     }
 
     /**
-     * Iteration loop limits for the controllable respectively uncontrollable events.
+     * Iteration loop limits for the controllable and uncontrollable events.
      *
      * @param uncontrollableLoopLimit If positive, the maximum number of iteration to allow for uncontrollable events.
      *     If {@code null}, there is no limit.
