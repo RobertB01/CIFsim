@@ -94,7 +94,7 @@ public class TransitionGeneratorTest {
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
                     taskCyceTime, priority, null, null, new PathPair(inputPath, "/" + inputPath),
                     new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath),
-                    programHeader, null, intSize, realSize, simplifyValues, enumConversion, termination, warnOnRename,
+                    programHeader, intSize, realSize, simplifyValues, enumConversion, termination, warnOnRename,
                     warnOutput);
             setup(settings);
 
@@ -103,7 +103,7 @@ public class TransitionGeneratorTest {
             codeStorage = new PlcCodeStorage(this, settings);
             typeGenerator = new DefaultTypeGenerator(this, settings);
             varStorage = new DefaultVariableStorage(this);
-            cifProcessor = new CifProcessor(this, settings);
+            cifProcessor = new CifProcessor(this, null, settings);
             transitionGenerator = new DefaultTransitionGenerator(this);
         }
 

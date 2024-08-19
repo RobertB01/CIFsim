@@ -123,11 +123,12 @@ public class CifProcessor {
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
      *
      * @param target PLC target to generate code for.
+     * @param inputSpec Input CIF specification.
      * @param settings Configuration to use.
      */
-    public CifProcessor(PlcTarget target, PlcGenSettings settings) {
+    public CifProcessor(PlcTarget target, Specification inputSpec, PlcGenSettings settings) {
         this.target = target;
-        inputSpec = settings.inputSpec;
+        this.inputSpec = inputSpec;
         inputPaths = settings.inputPaths;
         simplifyValues = settings.simplifyValues;
         warnOutput = settings.warnOutput;

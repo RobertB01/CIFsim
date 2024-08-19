@@ -154,10 +154,15 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             default:
                 throw new RuntimeException("Unknown target type: " + targetType);
         }
-        PlcGenSettings settings = makePlcGenSettings(target);
+
+        // Load the specification already. It's needed to compute maximum iteration bounds.
+        String inputPath = InputFileOption.getPath();
+        PathPair inputPathPair = new PathPair(inputPath, Paths.resolve(inputPath));
+        Specification inputSpec = new CifReader().init(inputPathPair.userPath, inputPathPair.systemPath, false).read();
+        PlcGenSettings settings = makePlcGenSettings(target, inputPathPair, inputSpec);
 
         // Generate PLC code and write it to the file system.
-        target.generate(settings);
+        target.generate(settings, inputSpec);
 
         return 0;
     }
@@ -166,9 +171,11 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      * Construct settings for the PLC code generator.
      *
      * @param target The target to generate PLC code for.
+     * @param inputPathPair Paths to the CIF specification for which to generate PLC code.
+     * @param inputSpec Input CIF specification.
      * @return The constructed settings instance.
      */
-    private PlcGenSettings makePlcGenSettings(PlcTarget target) {
+    private PlcGenSettings makePlcGenSettings(PlcTarget target, PathPair inputPathPair, Specification inputSpec) {
         String projectName = PlcProjectNameOption.getProjName();
         String configurationName = PlcConfigurationNameOption.getCfgName();
         String resourceName = PlcResourceNameOption.getResName();
@@ -176,14 +183,11 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         int taskCyceTime = PlcTaskCycleTimeOption.getTaskCycleTime();
         int priority = PlcTaskPriorityOption.getTaskPrio();
 
-        String inputPath = InputFileOption.getPath();
         String outputPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
         String ioTablePath = IoTablePathOption.getDerivedPath();
-        PathPair inputPathPair = new PathPair(inputPath, Paths.resolve(inputPath));
         PathPair outputPathPair = new PathPair(outputPath, Paths.resolve(outputPath));
         PathPair ioTablePathPair = new PathPair(ioTablePath, Paths.resolve(ioTablePath));
         List<String> programHeaderLines = expandAndCleanProgramHeaderLines(obtainProgramHeaderLines());
-        Specification inputSpec = new CifReader().init(inputPathPair.userPath, inputPathPair.systemPath, false).read();
         LoopLimits iterLimits = deriveIterLimits(inputSpec);
 
         PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
@@ -198,7 +202,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
                 iterLimits.uncontrollableLoopLimit(), iterLimits.controllableLoopLimit(), inputPathPair, outputPathPair,
-                ioTablePathPair, programHeaderLines, inputSpec, intSize, realSize, simplifyValues, enumConversion,
+                ioTablePathPair, programHeaderLines, intSize, realSize, simplifyValues, enumConversion,
                 termination, warnOnRename, warnOutput);
     }
 

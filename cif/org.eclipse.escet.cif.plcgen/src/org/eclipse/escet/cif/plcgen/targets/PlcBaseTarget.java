@@ -22,6 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -190,15 +191,16 @@ public abstract class PlcBaseTarget extends PlcTarget {
      * Generate and write the PLC code.
      *
      * @param settings Configuration to use.
+     * @param inputSpec Input CIF specification.
      */
-    public void generate(PlcGenSettings settings) {
+    public void generate(PlcGenSettings settings, Specification inputSpec) {
         setup(settings);
 
         nameGenerator = new DefaultNameGenerator(settings);
         codeStorage = new PlcCodeStorage(this, settings);
         typeGenerator = new DefaultTypeGenerator(this, settings);
         varStorage = new DefaultVariableStorage(this);
-        cifProcessor = new CifProcessor(this, settings);
+        cifProcessor = new CifProcessor(this, inputSpec, settings);
         transitionGenerator = new DefaultTransitionGenerator(this);
         ioGenerator = new InputOutputGenerator(this, settings);
         continuousVariablesGenerator = new DefaultContinuousVariablesGenerator(this);
