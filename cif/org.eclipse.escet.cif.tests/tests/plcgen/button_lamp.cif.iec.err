@@ -1,9 +1,10 @@
-WARNING: The Input specification has no annotation for the bounded response property.
-WARNING: The Input specification has no annotation for the confluence property.
-WARNING: Before generating PLC code, both the bounded response and the confluence properties of the CIF specificiation should be checked and hold.
-WARNING: Please apply the CIF controller properties checker application on hte CIF specification before generating PLC code from it.
+WARNING: The input specification has no controller properties annotation that specifies the bounded response property.
+WARNING: The input specification has no controller properties annotation that specifies the confluence property.
+WARNING: The input specification has no controller properties annotation that specifies the non-blocking under control property.
+WARNING: Before generating PLC code, the bounded response, confluence and non-blocking under control properties of the CIF specification should be checked and should hold.
+WARNING: Please apply the CIF controller properties checker application on the CIF specification before generating PLC code from it.
 WARNING:
-WARNING: Using control code generated from a CIF specification without both bounded response and confluence properties may result in undesired or unexpected behavior of the controlled system.
-WARNING: Bounded response limit for uncontrollable events is not available, falling back to limitless trying events until blocked.
-WARNING: Bounded response limit for controllable events is not available, falling back to limitless trying events until blocked.
+WARNING: Using control code generated from a CIF specification without bounded response, confluence or non-blocking under control properties may result in undesired or unexpected behavior of the controlled system.
+WARNING: Bounded response limit for uncontrollable events is not available, falling back to limitless trying of events until blocked.
+WARNING: Bounded response limit for controllable events is not available, falling back to limitless trying of events until blocked.
 WARNING: Renaming "timer." to "timer_1".
