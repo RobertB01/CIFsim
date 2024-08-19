@@ -53,7 +53,7 @@ proc P(
     aut've3': E'
 ) =
     % CIF linearized edges.
-    ((aut'v' < 10) && -2147483648 <= (aut'v' + 1) && (aut'v' + 1) <= 2147483647) -> aut'e' . P(aut'v' = (aut'v' + 1))
+    (((aut'v' < 10) && (((-2147483647 - 1) <= (aut'v' + 1)) && ((aut'v' + 1) <= 2147483647)))) -> aut'e' . P(aut'v' = (aut'v' + 1))
     +
     ((aut'v' == 0)) -> aut'e01' . P()
     +

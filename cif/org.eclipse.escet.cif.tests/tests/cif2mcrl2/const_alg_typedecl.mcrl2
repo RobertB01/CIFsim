@@ -14,7 +14,7 @@ proc P(
     aut'x': Int
 ) =
     % CIF linearized edges.
-    ((aut'x' < 5) && -2147483648 <= (aut'x' + 1) && (aut'x' + 1) <= 2147483647) -> e' . P(aut'x' = (aut'x' + 1))
+    (((aut'x' < 5) && (((-2147483647 - 1) <= (aut'x' + 1)) && ((aut'x' + 1) <= 2147483647)))) -> e' . P(aut'x' = (aut'x' + 1))
     +
     % CIF variable value actions.
     aut'x''varvalue(aut'x') . P()

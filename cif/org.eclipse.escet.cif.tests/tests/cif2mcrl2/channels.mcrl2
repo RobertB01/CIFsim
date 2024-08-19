@@ -16,13 +16,13 @@ proc P(
     recv2'v': Int
 ) =
     % CIF linearized edges.
-    (-2147483648 <= 1 && 1 <= 2147483647) -> chan' . P(recv1'v' = 1)
+    (true) -> chan' . P(recv1'v' = 1)
     +
-    (-2147483648 <= 1 && 1 <= 2147483647) -> chan' . P(recv2'v' = 1)
+    (true) -> chan' . P(recv2'v' = 1)
     +
-    (-2147483648 <= 2 && 2 <= 2147483647) -> chan' . P(recv1'v' = 2)
+    (true) -> chan' . P(recv1'v' = 2)
     +
-    (-2147483648 <= 2 && 2 <= 2147483647) -> chan' . P(recv2'v' = 2)
+    (true) -> chan' . P(recv2'v' = 2)
     +
     % CIF variable value actions.
     recv1'v''varvalue(recv1'v') . P()
