@@ -93,14 +93,16 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     /**
      * For each automaton with at least one edge outside monitor context, the data of the variable that tracks the
      * selected edge to perform for its automaton.
+     */
+    private final Map<Automaton, EdgeVariableData> edgeSelectionVarData = map();
+
+    /**
+     * Edge selection variables that exist in the current scope.
      *
      * <p>
      * Use the {@link #getAutomatonEdgeVariable} method to query this map.
      * </p>
      */
-    private final Map<Automaton, EdgeVariableData> edgeSelectionVarData = map();
-
-    /** Edge selection variables that exist in the current scope. */
     private Map<Automaton, PlcDataVariable> edgeSelectionVariables;
 
     /** Generation of standard PLC functions. */
@@ -119,19 +121,6 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     @Override
     public void setup(List<CifEventTransition> allEventTransitions) {
         setupEdgeVariableData(allEventTransitions);
-    }
-
-    @Override
-    public List<List<PlcStatement>> generate(List<List<CifEventTransition>> transLoops,
-            ExprGenerator exprGen, PlcBasicVariable isProgressVar)
-    {
-        // Construct the edge selection variables, convert the event transition collections in the same structure as
-        // provided, and return the generated code.
-        edgeSelectionVariables = createEdgeVariables(transLoops, exprGen);
-        List<List<PlcStatement>> loopsStatements = transLoops.stream()
-                .map(tl -> generateCode(isProgressVar, tl, exprGen)).toList();
-        edgeSelectionVariables = null;
-        return loopsStatements;
     }
 
     /**
@@ -181,6 +170,19 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
             target.getCodeStorage().setAutomatonEdgeVariableName(aut, variableName);
             edgeSelectionVarData.put(aut, new EdgeVariableData(variableName, varType));
         }
+    }
+
+    @Override
+    public List<List<PlcStatement>> generate(List<List<CifEventTransition>> transLoops,
+            ExprGenerator exprGen, PlcBasicVariable isProgressVar)
+    {
+        // Construct the edge selection variables, convert the event transition collections in the same structure as
+        // provided, and return the generated code.
+        edgeSelectionVariables = createEdgeVariables(transLoops, exprGen);
+        List<List<PlcStatement>> loopsStatements = transLoops.stream()
+                .map(tl -> generateCode(isProgressVar, tl, exprGen)).toList();
+        edgeSelectionVariables = null;
+        return loopsStatements;
     }
 
     /**
@@ -1132,8 +1134,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     /**
      * Data to construct an edge variable.
      *
-     *  @param name Name of the variable.
-     *  @param plcType Type of the variable in the PLC.
+     * @param name Name of the variable.
+     * @param plcType Type of the variable in the PLC.
      */
     private record EdgeVariableData(String name, PlcType plcType) {
         /**
