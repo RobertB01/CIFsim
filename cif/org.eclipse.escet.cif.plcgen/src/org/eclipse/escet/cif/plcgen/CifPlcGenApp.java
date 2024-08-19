@@ -339,12 +339,10 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      * @param getUserLimitKind Function to obtain the kind of bound requested by the user.
      * @param getFallbackLimitKind Function to obtain the kind of bound in case the user requested to use the computed
      *     response but it is not available.
-
      * @param getUserBound Function to obtain the numeric limit expressed by the user, if and only if the
      *     {@code getUserLimitKind} expresses that the user requested it.
      * @param getFallbackBound Function to obtain the numeric limit expressed as default, if and only if the
      *     {@code getFallbackLimitKind} expresses that as fallback kind.
-
      * @param boundedResponse The computed bounded response limit if available. Is either a positive value or
      *     {@code null} if there is no computed bound available.
      * @param eventKindName Name of the kind of events dealt with.
@@ -375,7 +373,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         switch (getFallbackLimitKind.get()) {
             case INFINITE:
                 resultValue = null;
-                kindText = "limitless trying events until blocked";
+                kindText = "limitless trying of events until blocked";
                 break;
             case INTEGER:
                 resultValue = getFallbackBound.getAsInt();
