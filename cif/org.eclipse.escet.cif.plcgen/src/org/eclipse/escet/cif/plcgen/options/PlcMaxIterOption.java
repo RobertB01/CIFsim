@@ -40,14 +40,14 @@ public class PlcMaxIterOption extends StringOption {
             A maximum number of iterations is a positive integer number, the word "resp" or the word "inf".
             An integer number directly states the number of iterations.
             The word "inf" means "infinite", there is no upper bound on the maximum number of iterations.
-            The word "resp" means that the maximum number of iterations is derived from the bounded response property
-            computed by the CIF controller properties checker application.
+            The word "resp" means that the maximum number of iterations is taken from the bounded response result in the
+            controller properties annotation of the input specification. If the value of the bounded response is not
+            available or not valid, the maximum number "inf" is used instead.
             This option takes two maximum numbers, one for uncontrollable events and one for controllable
             events respectively.
             For example "20,resp" means that in a single execution of the main program body,
-            each uncontrollable event is tried at most 20 times, and
-            each controllable event is tried as often as the bounded response value for controllable events computed
-            by the CIF controller properties checker application indicates.
+            each uncontrollable event is tried at most 20 times, and each controllable event is tried as often as the
+            valid bounded response value in the specification indicates.
             Note that in any case, an iteration loop is considered to be finished as soon as none of the tried events
             in one iteration was possible.
             If only one value is given to this option, it is used as maximum number of iterations for both
@@ -192,7 +192,7 @@ public class PlcMaxIterOption extends StringOption {
 
         /**
          * The maximum number of iterations to allow for uncontrollable events, in case
-         * {@code getUncontrollableLimitKind(fallback)} returned {@link IterLimitKind#INTEGER}.
+         * {@link #getUncontrollableLimitKind} returned {@link IterLimitKind#INTEGER}.
          *
          * @param fallback If {@code false} the limit as specified by the user is returned. If {@code true}, the limit
          *     to use instead of the bounded response limit, if the user requested it but it is not available.
@@ -210,7 +210,7 @@ public class PlcMaxIterOption extends StringOption {
 
         /**
          * The maximum number of iterations to allow for controllable events, in case
-         * {@code getControllableLimitKind(fallback)} returned {@link IterLimitKind#INTEGER}.
+         * {@link #getControllableLimitKind} returned {@link IterLimitKind#INTEGER}.
          *
          * @param fallback If {@code false} the limit as specified by the user is returned. If {@code true}, the limit
          *     to use instead of the bounded response limit, if the user requested it but it is not available.
@@ -256,7 +256,10 @@ public class PlcMaxIterOption extends StringOption {
     }
 
     /**
-     * Convert the option value string of a limit either to a positive integer number, or to {@code null} for infinite.
+     * Convert the option value string of a limit to a positive integer number that defines the maximum number of
+     * iterations, to {@link MaxIterLimits#INFINITE_VALUE} for infinite looping, or
+     * {@link MaxIterLimits#BOUNDED_RESPONSE_VALUE} to use the bounded response property limit value of the
+     * specification.
      *
      * @param eventKind The kind of events being considered.
      * @param numberText Text to convert.
@@ -273,7 +276,9 @@ public class PlcMaxIterOption extends StringOption {
                 value = Integer.parseInt(numberText);
             } catch (NumberFormatException ex) {
                 throw new InvalidOptionException(fmt("PLC maximum iterations option value \"%s\" for %s events "
-                        + "is neither recognized as infinite (\"inf\" without quotes) nor as positive integer number.",
+                        + "is not recognized as using the bounded response property (\"resp\" without quotes), "
+                        + "is not recognized as infinite (\"inf\" without quotes) and "
+                        + "is not recognized as a positive integer number.",
                         numberText, eventKind), ex);
             }
             if (value <= 0) {

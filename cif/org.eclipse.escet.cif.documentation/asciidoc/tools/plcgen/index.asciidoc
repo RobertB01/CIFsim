@@ -149,10 +149,11 @@ In a CIF specification, performing events has priority over delaying in time.
 To get the same behavior as the CIF specification in the generated PLC code, the generated PLC code must also give priority to performing events.
 As a PLC is not fast enough to indefinitely perform events before the end of a PLC cycle, it is paramount that the PLC code will always eventually run out of events to perform.
 The bounded response and confluence checks of the <<tools-chapter-controller-checker,controller properties checker>> should be used on the specification to check that this is always the case.
++
 The option takes two loop bounds.
 The first loop bound defines the limit for uncontrollable events, while the second loop bound defines the limit for controllable events.
 There are three kinds of loop bounds:
-** The word `resp`, which means that the PLC code generator takes the loop bound limit from the annotation of the <<tools-chapter-controller-checker,controller properties checker>> as the limit value.
+** The word `resp`, which means that the PLC code generator takes the loop bound limit from the controller properties annotation in the specification as the limit value.
 This is recommended, as it is the lowest loop limit that preserves CIF behavior in the generated PLC code.
 If the annotation is not available, or the check result does not hold, the `inf` kind is used instead.
 ** The word `inf`, for 'infinite', which means that the PLC code keeps trying to perform events with a limit, until no more (uncontrollable or controllable) events are enabled.
@@ -638,7 +639,7 @@ It consists of the following steps:
 * Read values from the external inputs.
 * For the first cycle, initialize the CIF variables and automata locations.
 For every next cycle, update the continuous variables for the passed time.
-* Perform as many uncontrollable events as possible (within loop limits, see the _PLC maximum iterations_ option for details).
+* Perform as many uncontrollable events as possible (within loop limits for uncontrollable events, see the _PLC maximum iterations_ option for details).
 * Perform as many controllable events as possible (within loop limits for controllable events, see the _PLC maximum iterations_ option for details).
 * Write values to the external outputs.
 

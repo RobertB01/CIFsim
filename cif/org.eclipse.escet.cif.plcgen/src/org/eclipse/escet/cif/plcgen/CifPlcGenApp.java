@@ -214,8 +214,8 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
                 + "before generating PLC code from it.";
         String badNoProps = "Using control code generated from a CIF specification without both bounded response and "
                 + "confluence properties may result in undesired or unexpected behavior of the controlled system.";
-        String badTooLow = "Using a lower limit than the computed bound of the CIF controller properties checker "
-                + "application may result in undesired or unexpected behavior of the controlled system.";
+        String badTooLow = "Using a lower limit than the bound of the controller properties annotation in the "
+                + "specification may result in undesired or unexpected behavior of the controlled system.";
 
         // Check that the specification has controller properties for bounded response and confluence.
         Boolean hasBoundedResponse = CifControllerPropertiesAnnotationUtils.hasBoundedResponse(spec);
@@ -237,7 +237,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         if (hasBoundedResponse == null || hasConfluence == null) {
             warn("Before generating PLC code, both the bounded response and confluence properties of the "
-                    + "CIF specificiation should be checked and hold.");
+                    + "CIF specification should be checked and should hold.");
             warn(howToGet);
             warn();
             warn(badNoProps);
@@ -260,7 +260,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             if (hasBoundedResponse != Boolean.TRUE || hasConfluence != Boolean.TRUE) {
                 warn("Before generating PLC code, both the bounded response and confluence properties of the "
                         + "CIF specificiation should hold.");
-                warn("Please improve the CIF specification, and check the bounded response and confluence "
+                warn("Please improve the CIF specifcation, and check the bounded response and confluence "
                         + "properties again.");
                 warn();
                 warn(badNoProps);
@@ -281,8 +281,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         // Warn about a too low limit if possible.
         if (usedUncontrLimit != null && uncontrBound != null && usedUncontrLimit < uncontrBound) {
-            warn("Used uncontrollable event iteration limit (at most %d attempts) is less than the computed bounded "
-                    + "response limit (%d attempts are needed).", usedUncontrLimit, uncontrBound);
+            warn("Used uncontrollable event iteration limit (at most %d attempts) is less than the bounded response "
+                    + "limit of the controller properties annotation (%d attemots are needed).",
+                    usedUncontrLimit, uncontrBound);
             tooLow = true;
         }
 
@@ -297,8 +298,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         // Warn about a too low limit if possible.
         if (usedContrLimit != null && contrBound != null && usedContrLimit < contrBound) {
-            warn("Applied controllable event iteration limit (at most %d attempts) is less than the computed bounded "
-                    + "response limit (%d attemots are needed).", usedContrLimit, contrBound);
+            warn("Used controllable event iteration limit (at most %d attempts) is less than the bounded response "
+                    + "limit of the controller properties annotation (%d attemots are needed).",
+                    usedContrLimit, contrBound);
             tooLow = true;
         }
 
