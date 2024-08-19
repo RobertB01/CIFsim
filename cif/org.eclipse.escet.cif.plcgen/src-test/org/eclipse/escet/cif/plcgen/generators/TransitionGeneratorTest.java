@@ -31,7 +31,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleExpre
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -183,7 +182,6 @@ public class TransitionGeneratorTest {
 
         transitionGenerator.setup(List.of());
         transitionGenerator.generate(List.of(), codeStorage.getExprGenerator(), codeStorage.getIsProgressVariable());
-        assertTrue(true);
     }
 
     @Test
