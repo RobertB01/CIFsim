@@ -97,7 +97,8 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     private final Map<Automaton, EdgeVariableData> edgeSelectionVarData = map();
 
     /**
-     * Edge selection variables that exist in the current scope.
+     * Edge selection variables that exist in the current scope. Only valid when code is being generated. Is
+     * {@code null} otherwise.
      *
      * <p>
      * Use the {@link #getAutomatonEdgeVariable} method to query this map.
@@ -1123,6 +1124,10 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     /**
      * Get the variable that tracks the selected edge of the provided automaton.
      *
+     * <p>
+     * Should only be called when code is being generated.
+     * </p>
+     *
      * @param aut Automaton to use for finding the edge variable.
      * @return The edge variable. Returns {@code null} for an edge variable if there is no edge variable.
      */
@@ -1390,8 +1395,7 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
                 statements);
         for (ElifUpdate elifUpd: ifUpd.getElifs()) {
             selStat = exprGen.addBranch(elifUpd.getGuards(), () -> generateUpdates(elifUpd.getThens(), exprGen),
-                    selStat,
-                    statements);
+                    selStat, statements);
         }
         exprGen.addBranch(null, () -> generateUpdates(ifUpd.getElses(), exprGen), selStat, statements);
     }
