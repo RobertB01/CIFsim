@@ -236,7 +236,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         // Don't care about lacking finite response, as bounded response covers it completely.
 
         if (hasBoundedResponse == null || hasConfluence == null) {
-            warn("Before generating PLC code, both the bounded response and the confluence properties of the "
+            warn("Before generating PLC code, both the bounded response and confluence properties of the "
                     + "CIF specificiation should be checked and hold.");
             warn(howToGet);
             warn();
@@ -258,9 +258,9 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             }
 
             if (hasBoundedResponse != Boolean.TRUE || hasConfluence != Boolean.TRUE) {
-                warn("Before generating PLC code, both the bounded response and the confluence properties of the "
+                warn("Before generating PLC code, both the bounded response and confluence properties of the "
                         + "CIF specificiation should hold.");
-                warn("Please improve the CIF specification, and check the bounded response and the confluence "
+                warn("Please improve the CIF specification, and check the bounded response and confluence "
                         + "properties again.");
                 warn();
                 warn(badNoProps);
