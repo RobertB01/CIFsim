@@ -4,5 +4,5 @@ WARNING: The input specification has no controller properties annotation that sp
 WARNING: Before generating PLC code, the bounded response, confluence and non-blocking under control properties of the CIF specification should be checked and should hold.
 WARNING: Please apply the CIF controller properties checker on the CIF specification before generating PLC code from it.
 WARNING: Using control code generated from a CIF specification without bounded response, confluence or non-blocking under control properties may result in undesired or unexpected behavior of the controlled system.
-ERROR: PLC maximum iterations option value "nonsense" for uncontrollable events is not recognized as using the bounded response property ("resp" without quotes), is not recognized as infinite ("inf" without quotes) and is not recognized as a positive integer number.
+ERROR: PLC maximum iterations option value "nonsense" for uncontrollable events is not recognized as using the bounded response property ("ctrl-props-anno" without quotes), is not recognized as infinite ("inf" without quotes) and is not recognized as a positive integer number.
 CAUSE: (NumberFormatException) For input string: "nonsense"
