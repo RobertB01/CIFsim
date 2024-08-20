@@ -88,11 +88,6 @@
                 <derived name="hw_button_location"/>
               </type>
             </variable>
-            <variable name="hw_lamp_bit">
-              <type>
-                <BOOL/>
-              </type>
-            </variable>
             <variable name="hw_lamp">
               <type>
                 <derived name="hw_lamp_location"/>
@@ -161,16 +156,6 @@
             <variable name="current_hw_lamp_1">
               <type>
                 <derived name="hw_lamp_location"/>
-              </type>
-            </variable>
-            <variable name="current_hw_lamp_bit">
-              <type>
-                <BOOL/>
-              </type>
-            </variable>
-            <variable name="current_hw_lamp_bit_1">
-              <type>
-                <BOOL/>
               </type>
             </variable>
             <variable name="current_sup">
@@ -284,7 +269,6 @@
  * Automaton "hw_lamp":
  *
  * - Current location of automaton "hw_lamp".
- * - Discrete variable "hw_lamp.bit".
  *
  * - PLC edge selection variable "edge_hw_lamp".
  *
@@ -342,8 +326,6 @@ IF firstRun THEN
     hw_button_r := 0.0;
     (* Initialize current location of automaton "hw_button". *)
     hw_button := hw_button_Released;
-    (* Initialize discrete variable "hw_lamp.bit". *)
-    hw_lamp_bit := FALSE;
     (* Initialize current location of automaton "hw_lamp". *)
     hw_lamp := hw_lamp_Off;
     (* Initialize continuous variable "timer.t". *)
@@ -762,7 +744,6 @@ WHILE isProgress DO
         isProgress := TRUE;
         (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_hw_lamp := hw_lamp;
-        current_hw_lamp_bit := hw_lamp_bit;
         current_sup_4 := sup;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
@@ -780,8 +761,6 @@ WHILE isProgress DO
         (* Perform assignments of automaton "hw_lamp". *)
         IF edge_hw_lamp = 0 THEN
             (* Perform assignments of the 1st edge in location "hw_lamp.Off". *)
-            (* Perform update of discrete variable "hw_lamp.bit". *)
-            hw_lamp_bit := TRUE;
             (* Perform update of current location of automaton "hw_lamp". *)
             hw_lamp := hw_lamp_On;
         END_IF;
@@ -836,7 +815,6 @@ WHILE isProgress DO
         isProgress := TRUE;
         (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
         current_hw_lamp_1 := hw_lamp;
-        current_hw_lamp_bit_1 := hw_lamp_bit;
         current_sup_5 := sup;
         (*******************************
          * Perform the assignments of each synchronizing automaton.
@@ -854,8 +832,6 @@ WHILE isProgress DO
         (* Perform assignments of automaton "hw_lamp". *)
         IF edge_hw_lamp = 0 THEN
             (* Perform assignments of the 1st edge in location "hw_lamp.On". *)
-            (* Perform update of discrete variable "hw_lamp.bit". *)
-            hw_lamp_bit := FALSE;
             (* Perform update of current location of automaton "hw_lamp". *)
             hw_lamp := hw_lamp_Off;
         END_IF;
@@ -863,8 +839,8 @@ WHILE isProgress DO
 END_WHILE;
 
 (* --- Write PLC outputs. -------------------------------------------------- *)
-(* Write discrete variable "hw_lamp.bit" to PLC output. *)
-out_hw_lamp_bit := hw_lamp_bit;</xhtml>
+(* Write algebraic variable "hw_lamp.bit" to PLC output. *)
+out_hw_lamp_bit := hw_lamp = hw_lamp_On;</xhtml>
           </ST>
         </body>
       </pou>

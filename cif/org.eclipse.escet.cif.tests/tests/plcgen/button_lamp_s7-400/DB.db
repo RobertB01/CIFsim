@@ -5,7 +5,6 @@ DATA_BLOCK "DB"
         sup: BYTE;
         hw_button_r: REAL;
         hw_button: BOOL;
-        hw_lamp_bit: BOOL;
         hw_lamp: BOOL;
         hw_button_bit: BOOL;
         hw_button_bot: DINT;
