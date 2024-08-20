@@ -3163,6 +3163,24 @@ public class CifValueUtils {
     }
 
     /**
+     * Returns whether the given expressions represents '-2147483648' ({@link Integer#MIN_VALUE}) in the form of
+     * '-2147483647 - 1', as produced by {@link #makeInt}.
+     *
+     * @param expr The expression to check.
+     * @return {@code true} if the expression represents '-2147483647 - 1', {@code false} otherwise.
+     */
+    public static boolean isIntMinValueExpr(Expression expr) {
+        return expr instanceof BinaryExpression binExpr
+                && binExpr.getOperator() == BinaryOperator.SUBTRACTION
+                && binExpr.getLeft() instanceof UnaryExpression unExpr
+                && unExpr.getOperator() == UnaryOperator.NEGATE
+                && unExpr.getChild() instanceof IntExpression leftLit
+                && leftLit.getValue() == Integer.MAX_VALUE
+                && binExpr.getRight() instanceof IntExpression rightLit
+                && rightLit.getValue() == 1;
+    }
+
+    /**
      * A count that may be approximate or precise.
      *
      * @param value The count value.
