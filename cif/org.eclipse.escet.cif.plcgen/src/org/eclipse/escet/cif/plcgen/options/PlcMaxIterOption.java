@@ -24,8 +24,14 @@ import org.eclipse.escet.common.java.exceptions.InvalidOptionException;
 
 /** PLC maximum iterations option. */
 public class PlcMaxIterOption extends StringOption {
+    /** Text to express the bounded response of the controller properties annotations should be used. */
+    private static final String USE_BOUNDED_RESP_TEXT = "ctrl-props-anno";
+
+    /** Text to express infinite looping should be used. */
+    private static final String USE_INF_LOOPING_TEXT = "inf";
+
     /** Default option value text. */
-    private static final String DEFAULT_VALUE_TEXT = "resp,resp";
+    private static final String DEFAULT_VALUE_TEXT = USE_BOUNDED_RESP_TEXT + "," + USE_BOUNDED_RESP_TEXT;
 
     /** Default fallback iteration limit for controllable events. */
     private static final int DEFAULT_FALLBACK_CONTR_LIMIT = MaxIterLimits.INFINITE_VALUE;
@@ -35,23 +41,24 @@ public class PlcMaxIterOption extends StringOption {
 
     /** Description of the option value. */
     private static final String VALUE_DESCRIPTION_TEXT = """
-            The worst case maximum number of iterations to try each uncontrollable event once and the wordt case maximum
+            The worst case maximum number of iterations to try each uncontrollable event once and the worst case maximum
             number of iterations to try each controllable event once, for a single execution of the main program body.
-            A maximum number of iterations is a positive integer number, the word "resp" or the word "inf".
+            A maximum number of iterations is a positive integer number, the word "$resp" or the word "$inf".
             An integer number directly states the number of iterations.
-            The word "inf" means "infinite", there is no upper bound on the maximum number of iterations.
-            The word "resp" means that the maximum number of iterations is taken from the bounded response result in the
-            controller properties annotation of the input specification. If the value of the bounded response is not
-            available or not valid, the maximum number "inf" is used instead.
+            The word "$inf" means "infinite", there is no upper bound on the maximum number of iterations.
+            The word "$resp" means that the maximum number of iterations is taken from the bounded response result in
+            the controller properties annotation of the input specification. If the value of the bounded response is not
+            available or not valid, the maximum number "$inf" is used instead.
             This option takes two maximum numbers, one for uncontrollable events and one for controllable
             events respectively.
-            For example "20,resp" means that in a single execution of the main program body,
+            For example "20,$resp" means that in a single execution of the main program body,
             each uncontrollable event is tried at most 20 times, and each controllable event is tried as often as the
             valid bounded response value in the specification indicates.
             Note that in any case, an iteration loop is considered to be finished as soon as none of the tried events
             in one iteration was possible.
             If only one value is given to this option, it is used as maximum number of iterations for both
-            uncontrollable and controllable events.""";
+            uncontrollable and controllable events.""".replace("$resp", USE_BOUNDED_RESP_TEXT)
+            .replace("$inf", USE_INF_LOOPING_TEXT).replace("\n", " ");
 
     /** Constructor for the {@link PlcMaxIterOption} class. */
     public PlcMaxIterOption() {
@@ -60,7 +67,7 @@ public class PlcMaxIterOption extends StringOption {
                 "PLC maximum iterations",
 
                 // description
-                (VALUE_DESCRIPTION_TEXT + " [DEFAULT=\"" + DEFAULT_VALUE_TEXT + "\"]").replace("\n", " "),
+                (VALUE_DESCRIPTION_TEXT + " [DEFAULT=\"" + DEFAULT_VALUE_TEXT + "\"]"),
 
                 // cmdShort
                 'x',
@@ -81,7 +88,7 @@ public class PlcMaxIterOption extends StringOption {
                 true,
 
                 // optDialogDescr
-                VALUE_DESCRIPTION_TEXT.replace("\n", " "),
+                VALUE_DESCRIPTION_TEXT,
 
                 // optDialogLabelText
                 "Maximum iterations:");
@@ -111,10 +118,10 @@ public class PlcMaxIterOption extends StringOption {
 
     /** Class to store, transport, and express the entered value of the {@link PlcMaxIterOption}. */
     public static class MaxIterLimits {
-        /** Value to use to express 'inf' as number. */
+        /** Value to use to express 'infinite looping' as number. */
         private static final int INFINITE_VALUE = 0;
 
-        /** Value to use to express 'resp' as number. */
+        /** Value to use to express 'used bounded response' as number. */
         private static final int BOUNDED_RESPONSE_VALUE = -1;
 
         /** Limit for uncontrollable events, as stated by the user. */
@@ -209,8 +216,8 @@ public class PlcMaxIterOption extends StringOption {
         }
 
         /**
-         * The maximum number of iterations to allow for controllable events, in case
-         * {@link #getControllableLimitKind} returned {@link IterLimitKind#INTEGER}.
+         * The maximum number of iterations to allow for controllable events, in case {@link #getControllableLimitKind}
+         * returned {@link IterLimitKind#INTEGER}.
          *
          * @param fallback If {@code false} the limit as specified by the user is returned. If {@code true}, the limit
          *     to use instead of the bounded response limit, if the user requested it but it is not available.
@@ -266,9 +273,9 @@ public class PlcMaxIterOption extends StringOption {
      * @return The converted limit value.
      */
     private static int convertLimit(String eventKind, String numberText) {
-        if (numberText.toLowerCase(Locale.US).equals("inf")) {
+        if (numberText.toLowerCase(Locale.US).equals(USE_INF_LOOPING_TEXT)) {
             return MaxIterLimits.INFINITE_VALUE;
-        } else if (numberText.toLowerCase(Locale.US).equals("resp")) {
+        } else if (numberText.toLowerCase(Locale.US).equals(USE_BOUNDED_RESP_TEXT)) {
             return MaxIterLimits.BOUNDED_RESPONSE_VALUE;
         } else {
             int value;
@@ -276,8 +283,9 @@ public class PlcMaxIterOption extends StringOption {
                 value = Integer.parseInt(numberText);
             } catch (NumberFormatException ex) {
                 throw new InvalidOptionException(fmt("PLC maximum iterations option value \"%s\" for %s events "
-                        + "is not recognized as using the bounded response property (\"resp\" without quotes), "
-                        + "is not recognized as infinite (\"inf\" without quotes) and "
+                        + "is not recognized as using the bounded response property (\"" + USE_BOUNDED_RESP_TEXT
+                        + "\" without quotes), "
+                        + "is not recognized as infinite (\"" + USE_INF_LOOPING_TEXT + "\" without quotes) and "
                         + "is not recognized as a positive integer number.",
                         numberText, eventKind), ex);
             }
