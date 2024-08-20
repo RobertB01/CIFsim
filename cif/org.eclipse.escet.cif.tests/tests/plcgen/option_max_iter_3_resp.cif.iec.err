@@ -2,7 +2,6 @@ WARNING: The controller properties annotation of the input specification that sp
 WARNING: The controller properties annotation of the input specification that specifies the finite response property may not hold.
 WARNING: Before generating PLC code, the bounded response, confluence and non-blocking under control properties of the CIF specification should hold.
 WARNING: Please improve the CIF specification, and check the properties again.
-WARNING:
 WARNING: Using control code generated from a CIF specification without bounded response, confluence or non-blocking under control properties may result in undesired or unexpected behavior of the controlled system.
 WARNING: Used uncontrollable event iteration limit (at most 3 attempts) is less than the bounded response limit of the controller properties annotation (5 attempts are needed).
 WARNING: Using a lower limit than the bound of the controller properties annotation in the specification may result in undesired or unexpected behavior of the controlled system.
