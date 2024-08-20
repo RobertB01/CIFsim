@@ -620,6 +620,12 @@ public class CifToMcrl2Transformer {
      * @return The mCRL2 data expression.
      */
     private String generateExpr(Expression expr) {
+        // Special case to handle '-2147483648' that is represented in CIF as '-2147483647 - 1'.
+        if (CifValueUtils.isIntMinValueExpr(expr)) {
+            return "-2147483648";
+        }
+
+        // Handle the different expressions.
         if (expr instanceof BoolExpression boolExpr) {
             return boolExpr.isValue() ? "true" : "false";
         } else if (expr instanceof BinaryExpression binExpr) {
