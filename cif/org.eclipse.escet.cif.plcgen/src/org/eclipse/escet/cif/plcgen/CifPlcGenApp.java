@@ -218,6 +218,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         String badNoProps = "Using control code generated from a CIF specification without bounded response, "
                 + "confluence or non-blocking under control properties may result in undesired or unexpected behavior "
                 + "of the controlled system.";
+
         // Check that the specification has controller properties for bounded response and confluence.
         Boolean hasBoundedResponse = CifControllerPropertiesAnnotationUtils.hasBoundedResponse(spec);
         Boolean hasConfluence = CifControllerPropertiesAnnotationUtils.hasConfluence(spec);
@@ -247,41 +248,37 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         if (warned) {
             warn("Before generating PLC code, the bounded response, confluence and non-blocking under control "
                     + "properties of the CIF specification should be checked and should hold.");
-            warn("Please apply the CIF controller properties checker application on the CIF specification before "
-                    + "generating PLC code from it.");
-            warn();
+            warn("Please apply the CIF controller properties checker on the CIF specification before generating PLC "
+                    + "code from it.");
             warn(badNoProps);
         }
 
         // Check and possibly report that the bounded response and/or confluence properties do not hold.
         // If provided, also check and possibly report that the finite response property does not hold.
         if (!warned) {
-            if (hasBoundedResponse.equals(Boolean.FALSE)) { // The value cannot be 'null' here.
+            if (!hasBoundedResponse) { // The value cannot be 'null' here.
                 warn("The controller properties annotation of the input specification that specifies the bounded "
                         + "response property does not hold.");
             }
-            if (hasConfluence.equals(Boolean.FALSE)) { // The value cannot be 'null' here.
+            if (!hasConfluence) { // The value cannot be 'null' here.
                 warn("The controller properties annotation of the input specification that specifies the confluence "
                         + "property may not hold.");
             }
-            if (hasNonBlocking.equals(Boolean.FALSE)) { // The value cannot be 'null' here.
+            if (!hasNonBlocking) { // The value cannot be 'null' here.
                 warn("The controller properties annotation of the input specification that specifies the non-blocking "
                         + "under control property does not hold.");
             }
 
             // Missing or true finite response is ok.
-            if (hasFiniteResponse != null && hasFiniteResponse.equals(Boolean.FALSE)) {
+            if (hasFiniteResponse != null && !hasFiniteResponse) {
                 warn("The controller properties annotation of the input specification that specifies the finite "
                         + "response property may not hold.");
             }
 
-            if (!hasBoundedResponse.equals(Boolean.TRUE) || !hasConfluence.equals(Boolean.TRUE)
-                    || !hasNonBlocking.equals(Boolean.TRUE))
-            {
+            if (!hasBoundedResponse || !hasConfluence || !hasNonBlocking) { // Safe, since the values cannot be 'null'.
                 warn("Before generating PLC code, the bounded response, confluence and non-blocking under control "
                         + "properties of the CIF specification should hold.");
                 warn("Please improve the CIF specification, and check the properties again.");
-                warn();
                 warn(badNoProps);
             }
         }
@@ -367,7 +364,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
                 throw new AssertionError("Unexpected limit kind \"" + getUserLimitKind.get() + "\".");
         }
 
-        // User specifed to use bounded response, but it is not available. Use the fallback.
+        // User specified to use bounded response, but it is not available. Use the fallback.
         String kindText;
         Integer resultValue;
         switch (getFallbackLimitKind.get()) {

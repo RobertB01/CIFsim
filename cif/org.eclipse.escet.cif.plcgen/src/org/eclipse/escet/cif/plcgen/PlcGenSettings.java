@@ -103,7 +103,7 @@ public class PlcGenSettings {
      *     cycle, or {@code null} if unrestricted.
      * @param maxControllableLimit Maximum number of iterations for performing controllable events in a single cycle, or
      *     {@code null} if unrestricted.
-     * @param inputPaths Paths to the CIF specification for which to generate PLC code
+     * @param inputPaths Paths to the CIF specification for which to generate PLC code.
      * @param outputPaths Paths to write the generated code. Depending on the target can be either a file or a directory
      *     path.
      * @param ioTablePaths Paths to the I/O table file, may not exist.
