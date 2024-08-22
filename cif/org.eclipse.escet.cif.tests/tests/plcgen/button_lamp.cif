@@ -81,10 +81,10 @@ plant hw_button:
 end
 
 plant hw_lamp:
-  disc bool bit = false;
+  alg bool bit = On;
   location Off:
     initial;
-    edge lamp.on do bit := true goto On;
+    edge lamp.on goto On;
   location On:
-    edge lamp.off do bit := false goto Off;
+    edge lamp.off goto Off;
 end

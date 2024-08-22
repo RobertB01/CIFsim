@@ -18,6 +18,7 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -70,6 +71,8 @@ public class DocumentingSupport {
             }
         } else if (posObj instanceof InputVariable) {
             return "input variable \"" + getAbsName(posObj, false) + "\"";
+        } else if (posObj instanceof AlgVariable) {
+            return "algebraic variable \"" + getAbsName(posObj, false) + "\"";
         } else if (posObj instanceof Event evt) {
             Assert.notNull(evt.getControllable());
             if (evt.getControllable()) {

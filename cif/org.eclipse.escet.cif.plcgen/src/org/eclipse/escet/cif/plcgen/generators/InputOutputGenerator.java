@@ -14,6 +14,8 @@
 package org.eclipse.escet.cif.plcgen.generators;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlgVariableExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.BOOL_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.DINT_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYPE;
@@ -34,11 +36,15 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.PlcFunctionAppls;
 import org.eclipse.escet.cif.plcgen.conversion.expressions.CifDataProvider;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprValueResult;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor.CifObjectFinder;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
@@ -52,6 +58,7 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
+import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.CsvParser;
 import org.eclipse.escet.common.java.PathPair;
@@ -332,9 +339,11 @@ public class InputOutputGenerator {
             plcType = target.getTypeGenerator().convertType(dv.getType());
         } else if (cifObj instanceof InputVariable iv) {
             plcType = target.getTypeGenerator().convertType(iv.getType());
+        } else if (cifObj instanceof AlgVariable av) {
+            plcType = target.getTypeGenerator().convertType(av.getType());
         } else {
-            String message = fmt("The 'CIF name' field containing \"%s\" does not indicate an input or discrete "
-                    + "variable (third field %s).", absName, tableLinePositionText);
+            String message = fmt("The 'CIF name' field containing \"%s\" does not indicate an algebraic, discrete or "
+                    + "input variable (third field %s).", absName, tableLinePositionText);
             throw new InvalidInputException(message);
         }
 
@@ -354,7 +363,7 @@ public class InputOutputGenerator {
      * @return Direction of I/O for the entry in the PLC.
      */
     private IoDirection decideIoDirectionFromCif(PositionObject posObject) {
-        if (posObject instanceof DiscVariable) {
+        if (posObject instanceof DiscVariable || posObject instanceof AlgVariable) {
             return IoDirection.IO_WRITE;
         } else if (posObject instanceof InputVariable) {
             return IoDirection.IO_READ;
@@ -445,6 +454,7 @@ public class InputOutputGenerator {
         // a PLC cycle. By writing all output at the same time it is easier to implement it correctly and easier to
         // verify in a review of the generated PLC code.
         CifDataProvider cifDataProvider = codeStorage.getExprGenerator().getScopeCifDataProvider();
+        ExprGenerator exprGen = codeStorage.getExprGenerator();
         for (IoEntry entry: entries) {
             // Preliminaries (check I/O direction, construct links to the correct local data structures).
             Assert.check(EnumSet.of(IoDirection.IO_READ, IoDirection.IO_WRITE).contains(entry.ioDirection));
@@ -481,15 +491,9 @@ public class InputOutputGenerator {
                         DocumentingSupport.getDescription(entry.cifObject));
                 stats.add(new PlcCommentLine(commentText));
 
-                // Create the access expressions for the input address and the variable.
-                PlcVarExpression leftSide;
-                if (entry.cifObject instanceof DiscVariable discVar) {
-                    leftSide = cifDataProvider.getAddressableForDiscVar(discVar);
-                } else if (entry.cifObject instanceof InputVariable inpVar) {
-                    leftSide = cifDataProvider.getAddressableForInputVar(inpVar);
-                } else {
-                    throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
-                }
+                // Create the access expressions for the PLC input variable (LHS) and CIF input variable (RHS).
+                Assert.check(entry.cifObject instanceof InputVariable);
+                PlcVarExpression leftSide = cifDataProvider.getAddressableForInputVar((InputVariable)entry.cifObject);
                 PlcExpression rightSide = new PlcVarExpression(ioVar);
 
                 // Perform the assignment, possibly after unifying the type.
@@ -503,22 +507,29 @@ public class InputOutputGenerator {
                 String commentText = fmt("Write %s to PLC output.", DocumentingSupport.getDescription(entry.cifObject));
                 stats.add(new PlcCommentLine(commentText));
 
-                // Create the access expressions for the output address and the variable.
+                // Create the access expression for the PLC output variable (LHS).
                 PlcVarExpression leftSide = new PlcVarExpression(ioVar);
-                PlcExpression rightSide;
+
+                // Construct the right side of the assignment.
+                Expression cifRightSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
-                    rightSide = cifDataProvider.getValueForDiscVar(discVar);
-                } else if (entry.cifObject instanceof InputVariable inpVar) {
-                    rightSide = cifDataProvider.getValueForInputVar(inpVar);
+                    cifRightSide = newDiscVariableExpression(null, EMFHelper.deepclone(discVar.getType()), discVar);
+                } else if (entry.cifObject instanceof AlgVariable algVar) {
+                    cifRightSide = newAlgVariableExpression(null, EMFHelper.deepclone(algVar.getType()), algVar);
                 } else {
                     throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
                 }
+                ExprValueResult exprResult = exprGen.convertValue(cifRightSide);
+                stats.addAll(exprResult.code);
+                exprResult.releaseCodeVariables();
+                PlcExpression rightSide = exprResult.value;
 
                 // Perform the assignment, possibly after unifying the type.
                 if (!leftSide.type.equals(rightSide.type)) {
                     rightSide = funcAppls.castFunctionAppl(rightSide, (PlcElementaryType)leftSide.type);
                 }
                 stats.add(new PlcAssignmentStatement(leftSide, rightSide));
+                exprResult.releaseValueVariables();
             }
         }
         if (!inputStats.isEmpty()) {

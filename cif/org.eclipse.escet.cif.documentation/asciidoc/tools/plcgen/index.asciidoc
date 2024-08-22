@@ -362,12 +362,12 @@ indexterm:[PLC code generator,outputs]
 
 The PLC code generator generates PLC code that reads input values from external inputs and writes output values to external outputs.
 Inside the PLC these values are transferred using variables with an I/O address.
-To make such connections in CIF, some of the input variables should be connected to input addresses, and some of the discrete variables should be connected to output addresses.
+To make such connections in CIF, some of the input variables should be connected to input addresses, and some of the discrete and/or algebraic variables should be connected to output addresses.
 This is done by writing an I/O table file (details follow below), and giving it to the PLC code generator.
 
 The generated PLC code will automatically read all inputs at the start of a PLC cycle and store them in the connected input variables.
 The values of the variables can for instance be used in a guard or a computation, or get copied to other variables.
-At the end of a cycle, outputs are written in a similar way by using the values of the connected discrete variables.
+At the end of a cycle, outputs are written in a similar way by using the values of the connected discrete and algebraic variables.
 
 The I/O table file is a **C**omma **S**eperated **V**alues (CSV) file.
 The CIF PLC code generator assumes the https://www.rfc-editor.org/rfc/rfc4180[RFC-4180] format for this file, which is compatible with many spreadsheet programs.
@@ -423,12 +423,12 @@ The kind of connection, the direction of the connection, and the allowed kind of
 
 [cols="1, 1, 1"]
 |===
-| Connection kind | Direction | Variable Kind
+| Connection kind | Direction | Variable kind
 
 | `I` | from input | input variable
-| `Q` | to output | discrete variable
+| `Q` | to output | discrete or algebraic variable
 | `M` | from memory | input variable
-| `M` | to memory | discrete variable
+| `M` | to memory | discrete or algebraic variable
 |===
 
 It is highly recommended that the number of transferred bits from the I/O matches with the CIF type of the variable as follows:
