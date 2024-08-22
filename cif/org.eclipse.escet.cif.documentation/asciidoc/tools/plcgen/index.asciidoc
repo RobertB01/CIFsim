@@ -412,7 +412,7 @@ The kind of connection, the direction of the connection, and the allowed kind of
 
 [cols="1, 1, 1"]
 |===
-| Connection kind | Direction | Variable Kind
+| Connection kind | Direction | Variable kind
 
 | `I` | from input | input variable
 | `Q` | to output | discrete or algebraic variable

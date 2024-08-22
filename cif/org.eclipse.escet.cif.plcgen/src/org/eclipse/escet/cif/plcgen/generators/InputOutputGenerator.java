@@ -492,7 +492,7 @@ public class InputOutputGenerator {
                         DocumentingSupport.getDescription(entry.cifObject));
                 stats.add(new PlcCommentLine(commentText));
 
-                // Create the access expressions for the input address and the variable.
+                // Create the access expressions for the PLC input variable (LHS) and CIF input variable (RHS).
                 PlcVarExpression leftSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
                     leftSide = cifDataProvider.getAddressableForDiscVar(discVar);
@@ -514,7 +514,7 @@ public class InputOutputGenerator {
                 String commentText = fmt("Write %s to PLC output.", DocumentingSupport.getDescription(entry.cifObject));
                 stats.add(new PlcCommentLine(commentText));
 
-                // Create the access expression for the output address and the variable.
+                // Create the access expression for the PLC output variable (LHS).
                 PlcVarExpression leftSide = new PlcVarExpression(ioVar);
 
                 // Construct the right side of the assignment.
