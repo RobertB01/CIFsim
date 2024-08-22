@@ -620,6 +620,14 @@ public class CifToMcrl2Transformer {
      * @return The mCRL2 data expression.
      */
     private String generateExpr(Expression expr) {
+        // Check for integer literals and include their value directly. This handles among others the integer number
+        // '-2147483648' that is represented in CIF as '-2147483647 - 1'.
+        Integer intValue = CifValueUtils.tryGetIntLiteralValue(expr);
+        if (intValue != null) {
+            return intValue.toString();
+        }
+
+        // Handle the different expressions.
         if (expr instanceof BoolExpression boolExpr) {
             return boolExpr.isValue() ? "true" : "false";
         } else if (expr instanceof BinaryExpression binExpr) {

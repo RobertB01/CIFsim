@@ -1072,6 +1072,94 @@ public class CifValueUtils {
     }
 
     /**
+     * Try to get the value of a CIF expression that represents an integer literal, or {@code null} otherwise.
+     *
+     * <p>
+     * This method recognizes all CIF representations of integer literals supported by CIF, both positive and negative
+     * ones. In particular, the integer number '-2147483648' is represented in CIF as '-2147483647 - 1', which is also
+     * recognized by this method. Concretely, it recognizes the following, which is a bit more than just the
+     * representations of integer literals:
+     * </p>
+     * <ul>
+     * <li>{@link IntExpression}s.</li>
+     * <li>Integer-typed binary expressions with {@link BinaryOperator#SUBTRACTION} as operator, with recognized left
+     * and right side child expressions, as long as evaluating the binary expression doesn't cause integer
+     * overflow.</li>
+     * <li>Integer-typed unary expressions with {@link UnaryOperator#NEGATE} as operator, with recognized child
+     * expression, as long as evaluating the unary expression doesn't cause integer overflow.</li>
+     * </ul>
+     *
+     * @param expr The expression from which to try getting the integer value.
+     * @return An integer value if the form of the expression is recognized, or {@code null} otherwise.
+     */
+    public static Integer tryGetIntLiteralValue(Expression expr) {
+        if (expr instanceof IntExpression intLit) {
+            // A non-negative integer literal is simply an integer value.
+            return intLit.getValue();
+        } else if (expr instanceof BinaryExpression binExpr && binExpr.getOperator() == BinaryOperator.SUBTRACTION
+                && CifTypeUtils.normalizeType(binExpr.getType()) instanceof IntType)
+        {
+            Integer left = tryGetIntLiteralValue(binExpr.getLeft());
+            if (left != null) {
+                Integer right = tryGetIntLiteralValue(binExpr.getRight());
+                if (right != null) {
+                    try {
+                        return CifMath.subtract(left, right, binExpr);
+                    } catch (CifEvalException e) {
+                        // Treat evaluation error as not being recognized.
+                    }
+                }
+            }
+        } else if (expr instanceof UnaryExpression unExpr && unExpr.getOperator() == UnaryOperator.NEGATE
+                && CifTypeUtils.normalizeType(unExpr.getType()) instanceof IntType)
+        {
+            // All negative integer literals except -2147483648 are encoded as a negated positive integer literal.
+            Integer child = tryGetIntLiteralValue(unExpr.getChild());
+            try {
+                return (child == null) ? null : CifMath.negate(child, unExpr);
+            } catch (CifEvalException e) {
+                // Treat evaluation error as not being recognized.
+            }
+        }
+        return null; // Expression is not recognized.
+    }
+
+    /**
+     * Try to get the value of a CIF expression that represents a real literal, or {@code null} otherwise.
+     *
+     * <p>
+     * This method recognizes all CIF representations of real literals supported by CIF, both positive and negative
+     * ones. Concretely, it recognizes the following, which is a bit more than just the representations of real
+     * literals:
+     * </p>
+     * <ul>
+     * <li>{@link RealExpression}s.</li>
+     * <li>Real-typed unary expressions with {@link UnaryOperator#NEGATE} as operator, with recognized child
+     * expression.</li>
+     * </ul>
+     *
+     * @param expr The expression from which to try getting the real value.
+     * @return A real value as a string, if the form of the expression is recognized, or {@code null} otherwise.
+     */
+    public static String tryGetRealLiteralValue(Expression expr) {
+        if (expr instanceof RealExpression realLit) {
+            // A non-negative real literal is simply a real value.
+            return realLit.getValue();
+        } else if (expr instanceof UnaryExpression unExpr && unExpr.getOperator() == UnaryOperator.NEGATE
+                && CifTypeUtils.normalizeType(unExpr.getType()) instanceof RealType)
+        {
+            // All negative real literals are encoded as a negated positive real literal.
+            String child = tryGetRealLiteralValue(unExpr.getChild());
+            if (child != null) {
+                // Avoid creating "--number".
+                child = child.startsWith("-") ? child.substring(1) : ("-" + child);
+            }
+            return child;
+        }
+        return null; // Expression is not recognized.
+    }
+
+    /**
      * Returns the default value for the given type.
      *
      * <p>
