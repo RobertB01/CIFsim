@@ -343,8 +343,8 @@ public class InputOutputGenerator {
         } else if (cifObj instanceof AlgVariable av) {
             plcType = target.getTypeGenerator().convertType(av.getType());
         } else {
-            String message = fmt("The 'CIF name' field containing \"%s\" does not indicate an input or discrete "
-                    + "variable (third field %s).", absName, tableLinePositionText);
+            String message = fmt("The 'CIF name' field containing \"%s\" does not indicate an algebraic, discrete or "
+                    + "input variable (third field %s).", absName, tableLinePositionText);
             throw new InvalidInputException(message);
         }
 
