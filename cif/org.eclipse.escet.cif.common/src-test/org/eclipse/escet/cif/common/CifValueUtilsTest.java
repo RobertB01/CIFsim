@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.common;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifValueUtils.makeInt;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompInstWrapType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompParamWrapType;
@@ -27,6 +28,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newField;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newFuncType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newListType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSetType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
@@ -34,6 +36,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newStringType
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeDecl;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeRef;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newUnaryExpression;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.str;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +46,9 @@ import java.util.List;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
+import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.junit.jupiter.api.Test;
 
@@ -620,5 +625,79 @@ public class CifValueUtilsTest {
                 assertEquals(expected, actual, 0.0);
             }
         }
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testTryGetIntLiteralValueValidInts() {
+        int[] values = {Integer.MIN_VALUE, Integer.MIN_VALUE + 1, -5, -1, 0, 1, 5, Integer.MAX_VALUE - 1,
+                Integer.MAX_VALUE};
+        for (int i: values) {
+            assertEquals(i, CifValueUtils.tryGetIntLiteralValue(CifValueUtils.makeInt(i)));
+        }
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testTryGetIntLiteralValueOverflow() {
+        // Binary subtraction overflow.
+        Expression left = CifValueUtils.makeInt(-2_147_000_000);
+        Expression right = CifValueUtils.makeInt(2_147_000_000);
+        Expression binExpr = newBinaryExpression(left, BinaryOperator.SUBTRACTION, null, right, newIntType());
+        assertEquals(null, CifValueUtils.tryGetIntLiteralValue(binExpr));
+
+        // Unary negation overflow.
+        Expression child = CifValueUtils.makeInt(Integer.MIN_VALUE);
+        Expression unExpr = newUnaryExpression(child, UnaryOperator.NEGATE, null, newIntType());
+        assertEquals(null, CifValueUtils.tryGetIntLiteralValue(unExpr));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testTryGetIntLiteralValueUnrecognizedForm() {
+        Expression left = CifValueUtils.makeInt(1);
+        Expression right = CifValueUtils.makeInt(2);
+        Expression binExpr = newBinaryExpression(left, BinaryOperator.ADDITION, null, right, newIntType());
+        assertEquals(null, CifValueUtils.tryGetIntLiteralValue(binExpr));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testTryGetIntLiteralValueNonInt() {
+        Expression left = CifValueUtils.makeReal(1.0);
+        Expression right = CifValueUtils.makeReal(2.0);
+        Expression binExpr = newBinaryExpression(left, BinaryOperator.SUBTRACTION, null, right, newRealType());
+        assertEquals(null, CifValueUtils.tryGetIntLiteralValue(binExpr));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testTryGetRealLiteralValueValidReals() {
+        String[] values = {"-5.0", "0.0", "1e5", "-3.0", "-1e+5", "-1.34e-3"};
+        for (String value: values) {
+            Expression expr = value.startsWith("-")
+                    ? newUnaryExpression(newRealExpression(null, newRealType(), value.substring(1)),
+                            UnaryOperator.NEGATE, null, newRealType())
+                    : newRealExpression(null, newRealType(), value);
+            assertEquals(value, CifValueUtils.tryGetRealLiteralValue(expr));
+        }
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testTryGetRealLiteralValueUnrecognizedForm() {
+        Expression left = CifValueUtils.makeReal(1.0);
+        Expression right = CifValueUtils.makeReal(2.0);
+        Expression binExpr = newBinaryExpression(left, BinaryOperator.ADDITION, null, right, newRealType());
+        assertEquals(null, CifValueUtils.tryGetRealLiteralValue(binExpr));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testTryGetRealLiteralValueNonReal() {
+        Expression left = CifValueUtils.makeInt(1);
+        Expression right = CifValueUtils.makeInt(2);
+        Expression binExpr = newBinaryExpression(left, BinaryOperator.SUBTRACTION, null, right, newIntType());
+        assertEquals(null, CifValueUtils.tryGetRealLiteralValue(binExpr));
     }
 }
