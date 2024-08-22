@@ -31,7 +31,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleExpre
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTupleType;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -48,6 +47,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.Field;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransAutPurpose;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionAutomaton;
 import org.eclipse.escet.cif.plcgen.generators.CifEventTransition.TransitionEdge;
@@ -178,9 +178,10 @@ public class TransitionGeneratorTest {
 
     @Test
     public void testCreateTransitionGenerator() {
-        transitionGenerator.setTransitions(List.of());
-        transitionGenerator.generate();
-        assertTrue(true);
+        PlcCodeStorage codeStorage = target.getCodeStorage();
+
+        transitionGenerator.setup(List.of());
+        transitionGenerator.generate(List.of(), codeStorage.getExprGenerator(), codeStorage.getIsProgressVariable());
     }
 
     @Test
@@ -781,11 +782,14 @@ public class TransitionGeneratorTest {
 
     /** Run the transition generator. */
     private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
-        // Construct edge variables.
-        transitionGenerator.setTransitions(List.of(transition));
-        transitionGenerator.setupEdgeVariables();
+        ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
 
-        // Generate the transition.
-        return transitionGenerator.generateCode(isProgressVar, List.of(transition));
+        // Setup the transition generator.
+        transitionGenerator.setup(List.of(transition));
+
+        // Generate the transition and return the code.
+        List<List<CifEventTransition>> transLoops = List.of(List.of(transition));
+        List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transLoops, exprGen, isProgressVar);
+        return loopsStatements.get(0);
     }
 }

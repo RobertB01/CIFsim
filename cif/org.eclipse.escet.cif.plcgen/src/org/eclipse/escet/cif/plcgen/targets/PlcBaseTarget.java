@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +35,8 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.RealType;
 import org.eclipse.escet.cif.plcgen.PlcGenSettings;
 import org.eclipse.escet.cif.plcgen.conversion.ModelTextGenerator;
+import org.eclipse.escet.cif.plcgen.conversion.expressions.ExprGenerator;
+import org.eclipse.escet.cif.plcgen.generators.CifEventTransition;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor;
 import org.eclipse.escet.cif.plcgen.generators.CifProcessor.CifProcessorResults;
 import org.eclipse.escet.cif.plcgen.generators.ContinuousVariablesGenerator;
@@ -51,9 +54,11 @@ import org.eclipse.escet.cif.plcgen.generators.TypeGenerator;
 import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
@@ -234,8 +239,6 @@ public abstract class PlcBaseTarget extends PlcTarget {
             varStorage.addConstant(constant);
         }
         codeStorage.addComponentDatas(processorResults.componentDatas());
-        transitionGenerator.setTransitions(processorResults.cifEventTransitions());
-
         if (settings.termination.isRequested()) {
             return;
         }
@@ -259,12 +262,24 @@ public abstract class PlcBaseTarget extends PlcTarget {
         }
 
         // Generate the event transition functions.
-        transitionGenerator.generate();
+        List<CifEventTransition> allCifEventTransitions = processorResults.cifEventTransitions();
+        transitionGenerator.setup(allCifEventTransitions);
+
+        // Split event transitions between controllable and uncontrollable events.
+        List<List<CifEventTransition>> transLoops = List.of(
+                allCifEventTransitions.stream().filter(cet -> !cet.event.getControllable()).toList(),
+                allCifEventTransitions.stream().filter(cet -> cet.event.getControllable()).toList());
+
+        // Generate the transition code.
+        ExprGenerator exprGen = codeStorage.getExprGenerator();
+        PlcBasicVariable isProgressVar = codeStorage.getIsProgressVariable();
+        List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transLoops, exprGen, isProgressVar);
         if (settings.termination.isRequested()) {
             return;
         }
 
         // Prepare the PLC program for getting saved to the file system.
+        codeStorage.addEventTransitions(loopsStatements.get(0), loopsStatements.get(1));
         codeStorage.finishPlcProgram();
         if (settings.termination.isRequested()) {
             return;
