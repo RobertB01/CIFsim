@@ -155,7 +155,7 @@ The option takes two loop bounds.
 The first loop bound defines the limit for uncontrollable events, while the second loop bound defines the limit for controllable events.
 There are three kinds of loop bounds:
 
-** The word `resp`, which means that the PLC code generator takes the loop bound limit from the controller properties annotation in the specification as the limit value.
+** The word `ctrl-props-anno`, which means that the PLC code generator takes the loop bound limit from the controller properties annotation in the specification as the limit value.
 This is recommended, as it is the lowest loop limit that preserves CIF behavior in the generated PLC code.
 If the annotation is not available, or the check result does not hold, the `inf` kind is used instead.
 
@@ -172,7 +172,7 @@ Section <<tools-plcgen-resulting-plc-code>> explains how this affects processing
 
 +
 For example, if `20,inf` is given to the option, the PLC system will allow at most 20 loop iterations for uncontrollable events and it does not enforce a limit for controllable events.
-Default behavior of this option is `resp,resp`.
+The default value of this option is `ctrl-props-anno,ctrl-props-anno`.
 
 * _PLC task name_: The name of the generated PLC task that runs the converted CIF specification.
 If not specified, defaults to `PlcTask`.
