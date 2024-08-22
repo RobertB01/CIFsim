@@ -16,7 +16,6 @@ package org.eclipse.escet.cif.plcgen.generators;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlgVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
-import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVariableExpression;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.BOOL_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.DINT_TYPE;
 import static org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType.INT_TYPE;
@@ -493,14 +492,8 @@ public class InputOutputGenerator {
                 stats.add(new PlcCommentLine(commentText));
 
                 // Create the access expressions for the PLC input variable (LHS) and CIF input variable (RHS).
-                PlcVarExpression leftSide;
-                if (entry.cifObject instanceof DiscVariable discVar) {
-                    leftSide = cifDataProvider.getAddressableForDiscVar(discVar);
-                } else if (entry.cifObject instanceof InputVariable inpVar) {
-                    leftSide = cifDataProvider.getAddressableForInputVar(inpVar);
-                } else {
-                    throw new AssertionError("Unexpected state variable found: " + entry.cifObject);
-                }
+                Assert.check(entry.cifObject instanceof InputVariable);
+                PlcVarExpression leftSide = cifDataProvider.getAddressableForInputVar((InputVariable)entry.cifObject);
                 PlcExpression rightSide = new PlcVarExpression(ioVar);
 
                 // Perform the assignment, possibly after unifying the type.
@@ -521,8 +514,6 @@ public class InputOutputGenerator {
                 Expression cifRightSide;
                 if (entry.cifObject instanceof DiscVariable discVar) {
                     cifRightSide = newDiscVariableExpression(null, EMFHelper.deepclone(discVar.getType()), discVar);
-                } else if (entry.cifObject instanceof InputVariable inpVar) {
-                    cifRightSide = newInputVariableExpression(null, EMFHelper.deepclone(inpVar.getType()), inpVar);
                 } else if (entry.cifObject instanceof AlgVariable algVar) {
                     cifRightSide = newAlgVariableExpression(null, EMFHelper.deepclone(algVar.getType()), algVar);
                 } else {
