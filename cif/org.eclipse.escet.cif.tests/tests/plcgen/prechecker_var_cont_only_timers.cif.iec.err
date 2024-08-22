@@ -1,3 +1,11 @@
+WARNING: The input specification has no controller properties annotation that specifies the bounded response property.
+WARNING: The input specification has no controller properties annotation that specifies the confluence property.
+WARNING: The input specification has no controller properties annotation that specifies the non-blocking under control property.
+WARNING: Before generating PLC code, the bounded response, confluence and non-blocking under control properties of the CIF specification should be checked and should hold.
+WARNING: Please apply the CIF controller properties checker on the CIF specification before generating PLC code from it.
+WARNING: Using control code generated from a CIF specification without bounded response, confluence or non-blocking under control properties may result in undesired or unexpected behavior of the controlled system.
+WARNING: Bounded response limit for uncontrollable events is not available, falling back to limitless trying of events until blocked.
+WARNING: Bounded response limit for controllable events is not available, falling back to limitless trying of events until blocked.
 WARNING: I/O table file "plcgen/prechecker_var_cont_only_timers.csv" not found. The PLC code will not perform any I/O with the environment.
 ERROR: CIF PLC code generator failed due to unsatisfied preconditions:
 

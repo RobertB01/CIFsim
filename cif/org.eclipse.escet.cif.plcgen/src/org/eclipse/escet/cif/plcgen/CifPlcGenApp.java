@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.plcgen;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -29,13 +30,19 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
+import org.eclipse.escet.cif.common.CifControllerPropertiesAnnotationUtils;
+import org.eclipse.escet.cif.io.CifReader;
+import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.plcgen.options.IoTablePathOption;
 import org.eclipse.escet.cif.plcgen.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.plcgen.options.PlcIntTypeSizeOption;
 import org.eclipse.escet.cif.plcgen.options.PlcMaxIterOption;
+import org.eclipse.escet.cif.plcgen.options.PlcMaxIterOption.IterLimitKind;
 import org.eclipse.escet.cif.plcgen.options.PlcMaxIterOption.MaxIterLimits;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.options.PlcProjectNameOption;
@@ -66,6 +73,7 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.PathPair;
 import org.eclipse.escet.common.java.Termination;
 import org.eclipse.escet.common.java.exceptions.InputOutputException;
@@ -146,10 +154,15 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
             default:
                 throw new RuntimeException("Unknown target type: " + targetType);
         }
-        PlcGenSettings settings = makePlcGenSettings(target);
+
+        // Load the specification already. It's needed to compute maximum iteration bounds.
+        String inputPath = InputFileOption.getPath();
+        PathPair inputPathPair = new PathPair(inputPath, Paths.resolve(inputPath));
+        Specification inputSpec = new CifReader().init(inputPathPair.userPath, inputPathPair.systemPath, false).read();
+        PlcGenSettings settings = makePlcGenSettings(target, inputPathPair, inputSpec);
 
         // Generate PLC code and write it to the file system.
-        target.generate(settings);
+        target.generate(settings, inputSpec);
 
         return 0;
     }
@@ -158,21 +171,24 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
      * Construct settings for the PLC code generator.
      *
      * @param target The target to generate PLC code for.
+     * @param inputPathPair Paths to the CIF specification for which to generate PLC code.
+     * @param inputSpec Input CIF specification.
      * @return The constructed settings instance.
      */
-    private PlcGenSettings makePlcGenSettings(PlcTarget target) {
+    private PlcGenSettings makePlcGenSettings(PlcTarget target, PathPair inputPathPair, Specification inputSpec) {
         String projectName = PlcProjectNameOption.getProjName();
         String configurationName = PlcConfigurationNameOption.getCfgName();
         String resourceName = PlcResourceNameOption.getResName();
         String plcTaskName = PlcTaskNameOption.getTaskName();
         int taskCyceTime = PlcTaskCycleTimeOption.getTaskCycleTime();
         int priority = PlcTaskPriorityOption.getTaskPrio();
-        MaxIterLimits iterLimits = PlcMaxIterOption.getMaxIterLimits();
 
-        String inputPath = InputFileOption.getPath();
         String outputPath = OutputFileOption.getDerivedPath(".cif", target.getPathSuffixReplacement());
         String ioTablePath = IoTablePathOption.getDerivedPath();
+        PathPair outputPathPair = new PathPair(outputPath, Paths.resolve(outputPath));
+        PathPair ioTablePathPair = new PathPair(ioTablePath, Paths.resolve(ioTablePath));
         List<String> programHeaderLines = expandAndCleanProgramHeaderLines(obtainProgramHeaderLines());
+        LoopLimits iterLimits = deriveIterLimits(inputSpec);
 
         PlcNumberBits intSize = PlcIntTypeSizeOption.getNumberBits();
         PlcNumberBits realSize = PlcRealTypeSizeOption.getNumberBits();
@@ -185,10 +201,199 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         WarnOutput warnOutput = OutputProvider.getWarningOutputStream();
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
-                iterLimits.uncontrollableLimit(), iterLimits.controllableLimit(),
-                new PathPair(inputPath, Paths.resolve(inputPath)), new PathPair(outputPath, Paths.resolve(outputPath)),
-                new PathPair(ioTablePath, Paths.resolve(ioTablePath)), programHeaderLines, intSize, realSize,
-                simplifyValues, enumConversion, termination, warnOnRename, warnOutput);
+                iterLimits.uncontrollableLoopLimit(), iterLimits.controllableLoopLimit(), inputPathPair, outputPathPair,
+                ioTablePathPair, programHeaderLines, intSize, realSize, simplifyValues, enumConversion,
+                termination, warnOnRename, warnOutput);
+    }
+
+    /**
+     * Derive the maximum iteration limits to use in the PLC code generator for uncontrollable and controllable events.
+     *
+     * @param spec Input specification.
+     * @return The maximum iteration limits to use.
+     */
+    @SuppressWarnings("null")
+    private LoopLimits deriveIterLimits(Specification spec) {
+        // Sentences to explain how to obtain the properties, and why it is important that they hold.
+        String badNoProps = "Using control code generated from a CIF specification without bounded response, "
+                + "confluence or non-blocking under control properties may result in undesired or unexpected behavior "
+                + "of the controlled system.";
+
+        // Check that the specification has controller properties for bounded response and confluence.
+        Boolean hasBoundedResponse = CifControllerPropertiesAnnotationUtils.hasBoundedResponse(spec);
+        Boolean hasConfluence = CifControllerPropertiesAnnotationUtils.hasConfluence(spec);
+        Boolean hasNonBlocking = CifControllerPropertiesAnnotationUtils.isNonBlockingUnderControl(spec);
+        Boolean hasFiniteResponse = CifControllerPropertiesAnnotationUtils.hasFiniteResponse(spec);
+
+        boolean warned = false; // Whether warnings were given.
+
+        // Check and possibly report about lack of existence of the bounded response and/or finite response properties.
+        if (hasBoundedResponse == null) {
+            warn("The input specification has no controller properties annotation that specifies the bounded response "
+                    + "property.");
+            warned = true;
+        }
+        if (hasConfluence == null) {
+            warn("The input specification has no controller properties annotation that specifies the confluence "
+                    + "property.");
+            warned = true;
+        }
+        if (hasNonBlocking == null) {
+            warn("The input specification has no controller properties annotation that specifies the non-blocking "
+                    + "under control property.");
+            warned = true;
+        }
+        // Don't care about lacking finite response, as bounded response covers it completely.
+
+        if (warned) {
+            warn("Before generating PLC code, the bounded response, confluence and non-blocking under control "
+                    + "properties of the CIF specification should be checked and should hold.");
+            warn("Please apply the CIF controller properties checker on the CIF specification before generating PLC "
+                    + "code from it.");
+            warn(badNoProps);
+        }
+
+        // Check and possibly report that the bounded response and/or confluence properties do not hold.
+        // If provided, also check and possibly report that the finite response property does not hold.
+        if (!warned) {
+            if (!hasBoundedResponse) { // The value cannot be 'null' here.
+                warn("The controller properties annotation of the input specification that specifies the bounded "
+                        + "response property does not hold.");
+            }
+            if (!hasConfluence) { // The value cannot be 'null' here.
+                warn("The controller properties annotation of the input specification that specifies the confluence "
+                        + "property may not hold.");
+            }
+            if (!hasNonBlocking) { // The value cannot be 'null' here.
+                warn("The controller properties annotation of the input specification that specifies the non-blocking "
+                        + "under control property does not hold.");
+            }
+
+            // Missing or true finite response is ok.
+            if (hasFiniteResponse != null && !hasFiniteResponse) {
+                warn("The controller properties annotation of the input specification that specifies the finite "
+                        + "response property may not hold.");
+            }
+
+            if (!hasBoundedResponse || !hasConfluence || !hasNonBlocking) { // Safe, since the values cannot be 'null'.
+                warn("Before generating PLC code, the bounded response, confluence and non-blocking under control "
+                        + "properties of the CIF specification should hold.");
+                warn("Please improve the CIF specification, and check the properties again.");
+                warn(badNoProps);
+            }
+        }
+
+        boolean tooLow = false; // Flag to warn if the used limit is lower than the computed bounded response limit.
+        MaxIterLimits iterLimits = PlcMaxIterOption.getMaxIterLimits();
+
+        // Compute the used iteration bound for uncontrollable events.
+        Integer uncontrBound = CifControllerPropertiesAnnotationUtils.getUncontrollablesBound(spec);
+        Integer usedUncontrLimit = computeLimit(
+                () -> iterLimits.getUncontrollableLimitKind(false),
+                () -> iterLimits.getUncontrollableLimitKind(true),
+                () -> iterLimits.getUncontrollableLimitNumber(false),
+                () -> iterLimits.getUncontrollableLimitNumber(true), uncontrBound, "uncontrollable");
+        Assert.check(usedUncontrLimit == null || usedUncontrLimit > 0);
+
+        // Warn about a too low limit if possible.
+        if (usedUncontrLimit != null && uncontrBound != null && usedUncontrLimit < uncontrBound) {
+            warn("Used uncontrollable event iteration limit (at most %d attempts) is less than the bounded response "
+                    + "limit of the controller properties annotation (%d attempts are needed).",
+                    usedUncontrLimit, uncontrBound);
+            tooLow = true;
+        }
+
+        // Compute the used iteration bound for controllable events.
+        Integer contrBound = CifControllerPropertiesAnnotationUtils.getControllablesBound(spec);
+        Integer usedContrLimit = computeLimit(
+                () -> iterLimits.getControllableLimitKind(false),
+                () -> iterLimits.getControllableLimitKind(true),
+                () -> iterLimits.getControllableLimitNumber(false),
+                () -> iterLimits.getControllableLimitNumber(true), contrBound, "controllable");
+        Assert.check(usedContrLimit == null || usedContrLimit > 0);
+
+        // Warn about a too low limit if possible.
+        if (usedContrLimit != null && contrBound != null && usedContrLimit < contrBound) {
+            warn("Used controllable event iteration limit (at most %d attempts) is less than the bounded response "
+                    + "limit of the controller properties annotation (%d attempts are needed).",
+                    usedContrLimit, contrBound);
+            tooLow = true;
+        }
+
+        // If a 'too low' warning was given also explain why it's a bad idea to proceed.
+        if (tooLow) {
+            warn("Using a lower limit than the bound of the controller properties annotation in the specification may "
+                    + "result in undesired or unexpected behavior of the controlled system.");
+        }
+
+        // Construct and return the derived limits.
+        return new LoopLimits(usedUncontrLimit, usedContrLimit);
+    }
+
+    /**
+     * Compute the iteration limit for a kind of events from the available preferences and information.
+     *
+     * @param getUserLimitKind Function to obtain the kind of bound requested by the user.
+     * @param getFallbackLimitKind Function to obtain the kind of bound in case the user requested to use the computed
+     *     response but it is not available.
+     * @param getUserBound Function to obtain the numeric limit expressed by the user, if and only if the
+     *     {@code getUserLimitKind} expresses that the user requested it.
+     * @param getFallbackBound Function to obtain the numeric limit expressed as default, if and only if the
+     *     {@code getFallbackLimitKind} expresses that as fallback kind.
+     * @param boundedResponse The computed bounded response limit if available. Is either a positive value or
+     *     {@code null} if there is no computed bound available.
+     * @param eventKindName Name of the kind of events dealt with.
+     * @return The iteration limit to use for the kind of events.
+     */
+    Integer computeLimit(Supplier<IterLimitKind> getUserLimitKind, Supplier<IterLimitKind> getFallbackLimitKind,
+            IntSupplier getUserBound, IntSupplier getFallbackBound, Integer boundedResponse, String eventKindName)
+    {
+        // Try to realize what the user requested.
+        switch (getUserLimitKind.get()) {
+            case BOUNDED_RESPONSE: {
+                if (boundedResponse != null) {
+                    return boundedResponse;
+                }
+                break;
+            }
+            case INFINITE:
+                return null;
+            case INTEGER:
+                return getUserBound.getAsInt();
+            default:
+                throw new AssertionError("Unexpected limit kind \"" + getUserLimitKind.get() + "\".");
+        }
+
+        // User specified to use bounded response, but it is not available. Use the fallback.
+        String kindText;
+        Integer resultValue;
+        switch (getFallbackLimitKind.get()) {
+            case INFINITE:
+                resultValue = null;
+                kindText = "limitless trying of events until blocked";
+                break;
+            case INTEGER:
+                resultValue = getFallbackBound.getAsInt();
+                kindText = "trying events up to " + resultValue + " attempts";
+                break;
+            case BOUNDED_RESPONSE:
+            default:
+                throw new AssertionError("Unexpected limit kind \"" + getFallbackLimitKind.get() + "\".");
+        }
+
+        warn("Bounded response limit for %s events is not available, falling back to %s.", eventKindName, kindText);
+        return resultValue;
+    }
+
+    /**
+     * Iteration loop limits for the controllable and uncontrollable events.
+     *
+     * @param uncontrollableLoopLimit If positive, the maximum number of iteration to allow for uncontrollable events.
+     *     If {@code null}, there is no limit.
+     * @param controllableLoopLimit If positive, the maximum number of iteration to allow for controllable events. If
+     *     {@code null}, there is no limit.
+     */
+    public static record LoopLimits(Integer uncontrollableLoopLimit, Integer controllableLoopLimit) {
     }
 
     @Override

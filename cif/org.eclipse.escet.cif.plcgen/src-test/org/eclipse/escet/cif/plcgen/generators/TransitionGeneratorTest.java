@@ -103,7 +103,7 @@ public class TransitionGeneratorTest {
             codeStorage = new PlcCodeStorage(this, settings);
             typeGenerator = new DefaultTypeGenerator(this, settings);
             varStorage = new DefaultVariableStorage(this);
-            cifProcessor = new CifProcessor(this, settings);
+            cifProcessor = new CifProcessor(this, null, settings);
             transitionGenerator = new DefaultTransitionGenerator(this);
         }
 

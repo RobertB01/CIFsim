@@ -67,7 +67,6 @@ import org.eclipse.escet.cif.cif2cif.SwitchesToIfs;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
-import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -105,6 +104,9 @@ public class CifProcessor {
     /** PLC target to generate code for. */
     private final PlcTarget target;
 
+    /** Input CIF specification. */
+    private final Specification inputSpec;
+
     /** Paths to the CIF specification for which to generate PLC code. */
     private final PathPair inputPaths;
 
@@ -121,10 +123,12 @@ public class CifProcessor {
      * Process the input CIF specification, reading it, and extracting the relevant information for PLC code generation.
      *
      * @param target PLC target to generate code for.
+     * @param inputSpec Input CIF specification.
      * @param settings Configuration to use.
      */
-    public CifProcessor(PlcTarget target, PlcGenSettings settings) {
+    public CifProcessor(PlcTarget target, Specification inputSpec, PlcGenSettings settings) {
         this.target = target;
+        this.inputSpec = inputSpec;
         inputPaths = settings.inputPaths;
         simplifyValues = settings.simplifyValues;
         warnOutput = settings.warnOutput;
@@ -137,11 +141,10 @@ public class CifProcessor {
      * @return Results of processing the CIF specification.
      */
     public CifProcessorResults process() {
-        // Read CIF specification.
-        Specification spec = new CifReader().init(inputPaths.userPath, inputPaths.systemPath, false).read();
-        widenSpec(spec);
-        preCheckSpec(spec, inputPaths.systemPath, termination);
-        normalizeSpec(spec);
+        // Process the CIF specification.
+        widenSpec(inputSpec);
+        preCheckSpec(inputSpec, inputPaths.systemPath, termination);
+        normalizeSpec(inputSpec);
 
         // While collecting the information for performing events, also store the information by component to enable
         // generating documentation for them in the PLC code.
@@ -153,7 +156,7 @@ public class CifProcessor {
         List<EnumDecl> enumDecls = list();
         List<ContVariable> contVariables = list();
         List<Constant> constants = list();
-        for (Declaration decl: CifCollectUtils.collectDeclarations(spec, list())) {
+        for (Declaration decl: CifCollectUtils.collectDeclarations(inputSpec, list())) {
             // Store the found declaration in the data of its complex component.
             ComponentDocData compData = componentDatas.computeIfAbsent((ComplexComponent)decl.eContainer(),
                     comp -> new ComponentDocData(comp));
@@ -182,7 +185,7 @@ public class CifProcessor {
 
         // Collect edge transitions from automata.
         Map<Event, CifEventTransition> eventTransitions = map();
-        for (Automaton aut: collectAutomata(spec, list())) {
+        for (Automaton aut: collectAutomata(inputSpec, list())) {
             // Classify the role of the automaton, per relevant event.
             Map<Event, AutomatonRoleInfo> autRoleInfoPerEvent = classifyAutomatonRole(aut);
 
@@ -218,7 +221,7 @@ public class CifProcessor {
         List<CifEventTransition> cifEventTransitions = listc(eventTransitions.values().size());
         cifEventTransitions.addAll(eventTransitions.values());
         return new CifProcessorResults(componentDatas, discVariables, inputVariables, enumDecls, contVariables,
-                constants, cifEventTransitions, new CifObjectFinder(spec));
+                constants, cifEventTransitions, new CifObjectFinder(inputSpec));
     }
 
     /**
