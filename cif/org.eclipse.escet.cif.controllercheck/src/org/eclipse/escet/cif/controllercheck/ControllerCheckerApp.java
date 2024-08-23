@@ -105,11 +105,17 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
 
         // Perform checks.
         ControllerCheckerResult result = ControllerChecker.performChecks(spec, specAbsPath, settings);
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
         // Update the input specification based with the results of the checks. If a check was not performed, don't
         // update the annotation for that check, but keep the existing result. That way, we can do checks one by one, or
         // we can only redo a certain check.
         result.updateSpecification(spec);
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
         // Check CIF specification to output.
         CifToolPostCheckEnv env = new CifToolPostCheckEnv(cifReader.getAbsDirPath(), "output");
@@ -119,6 +125,9 @@ public class ControllerCheckerApp extends Application<IOutputComponent> {
             // Ignore.
         }
         env.throwUnsupportedExceptionIfAnyErrors("Checking the specification for the requested properties failed.");
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
         // Write the output file.
         String outPath = OutputFileOption.getDerivedPath(".cif", ".checked.cif");

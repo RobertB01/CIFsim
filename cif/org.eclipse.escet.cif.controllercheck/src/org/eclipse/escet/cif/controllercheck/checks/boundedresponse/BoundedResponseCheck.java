@@ -70,6 +70,10 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
             dbg.dec();
             throw e;
         }
+        if (termination.isRequested()) {
+            dbg.dec();
+            return null;
+        }
 
         if (uncontrollablesBound.hasInitialState()) {
             dbg.line();
@@ -91,6 +95,10 @@ public class BoundedResponseCheck extends ControllerCheckerBddBasedCheck<Bounded
         } catch (Throwable e) {
             dbg.dec();
             throw e;
+        }
+        if (termination.isRequested()) {
+            dbg.dec();
+            return null;
         }
 
         if (controllablesBound.hasInitialState()) {
