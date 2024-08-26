@@ -38,6 +38,8 @@ import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
+import org.eclipse.escet.cif.plcgen.options.EventTransitionForm;
+import org.eclipse.escet.cif.plcgen.options.EventTransitionFormOption;
 import org.eclipse.escet.cif.plcgen.options.IoTablePathOption;
 import org.eclipse.escet.cif.plcgen.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.plcgen.options.PlcIntTypeSizeOption;
@@ -194,6 +196,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         PlcNumberBits realSize = PlcRealTypeSizeOption.getNumberBits();
         boolean simplifyValues = SimplifyValuesOption.simplifyValues();
         ConvertEnums enumConversion = ConvertEnumsOption.getValue();
+        EventTransitionForm transitionForm = EventTransitionFormOption.getValue();
 
         Termination termination = () -> isTerminationRequested();
 
@@ -202,7 +205,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
 
         return new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName, taskCyceTime, priority,
                 iterLimits.uncontrollableLoopLimit(), iterLimits.controllableLoopLimit(), inputPathPair, outputPathPair,
-                ioTablePathPair, programHeaderLines, intSize, realSize, simplifyValues, enumConversion,
+                ioTablePathPair, programHeaderLines, intSize, realSize, simplifyValues, enumConversion, transitionForm,
                 termination, warnOnRename, warnOutput);
     }
 
@@ -422,6 +425,7 @@ public class CifPlcGenApp extends Application<IOutputComponent> {
         applicationOpts.add(Options.getInstance(PlcRealTypeSizeOption.class));
         applicationOpts.add(Options.getInstance(SimplifyValuesOption.class));
         applicationOpts.add(Options.getInstance(ConvertEnumsOption.class));
+        applicationOpts.add(Options.getInstance(EventTransitionFormOption.class));
         applicationOpts.add(Options.getInstance(RenameWarningsOption.class));
         applicationOpts.add(Options.getInstance(PlcMaxIterOption.class));
 
