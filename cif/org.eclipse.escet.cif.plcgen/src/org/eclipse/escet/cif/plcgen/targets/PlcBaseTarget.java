@@ -15,10 +15,12 @@ package org.eclipse.escet.cif.plcgen.targets;
 
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.common.java.Lists.last;
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,15 +58,24 @@ import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPouType;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcFuncAppl;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcNamedValue;
+import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
+import org.eclipse.escet.cif.plcgen.model.functions.PlcPouDescription;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcReturnStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnumsOption;
+import org.eclipse.escet.cif.plcgen.options.EventTransitionForm;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.writers.Writer;
 import org.eclipse.escet.common.java.Assert;
@@ -97,6 +108,9 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
     /** How to convert enumerations. */
     private ConvertEnums selectedEnumConversion;
+
+    /** The chosen form of the code for an event transition. */
+    private EventTransitionForm transitionForm;
 
     /** Paths to write the generated code. Depending on the target can be either a file or a directory path. */
     private PathPair outputPaths;
@@ -172,6 +186,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
         warnOutput = settings.warnOutput;
         selectedEnumConversion = (settings.enumConversion == ConvertEnums.AUTO) ? autoEnumConversion
                 : settings.enumConversion;
+        transitionForm = settings.transitionForm;
 
         // Warn the user about getting a possibly too small integer type size.
         if (settings.intTypeSize.getTypeSize(CIF_INTEGER_SIZE) < CIF_INTEGER_SIZE) {
@@ -298,11 +313,80 @@ public abstract class PlcBaseTarget extends PlcTarget {
                 .filter(cet -> cet.event.getControllable()).toList();
 
         // Generate the transition code.
-        ExprGenerator exprGen = codeStorage.getExprGenerator();
-        PlcBasicVariable isProgressVar = codeStorage.getIsProgressVariable();
-        List<List<PlcStatement>> transCode = transitionGenerator.generate(List.of(unconSeq, conSeq),
-                exprGen, isProgressVar);
-        return new EventTransitionsCode(transCode.get(0), transCode.get(1), List.of());
+        PlcBasicVariable mainProgressVar = codeStorage.getIsProgressVariable();
+        if (transitionForm == EventTransitionForm.CODE_IN_MAIN) {
+            ExprGenerator exprGen = codeStorage.getExprGenerator();
+            List<List<PlcStatement>> transCode = transitionGenerator.generate(List.of(unconSeq, conSeq),
+                    exprGen, mainProgressVar);
+            return new EventTransitionsCode(transCode.get(0), transCode.get(1), List.of());
+        } else {
+            Assert.areEqual(transitionForm, EventTransitionForm.CODE_IN_FUNCTION);
+
+            List<PlcPou> pous = listc(unconSeq.size() + conSeq.size());
+            List<PlcStatement> unconCallSequence = convertEventTransitions(unconSeq, mainProgressVar, pous);
+            List<PlcStatement> conCallSequence = convertEventTransitions(conSeq, mainProgressVar, pous);
+            return new EventTransitionsCode(unconCallSequence, conCallSequence, pous);
+        }
+    }
+
+    /**
+     * Convert the provided event transitions by creating a POU for each event transition, generating the event
+     * transition code in the POU, adding the POU to the output, and adding a function call statement to the POU in the
+     * returned event code.
+     *
+     * @param eventTransitions Event transitions to convert.
+     * @param mainProgressVar The progress variable to update from the generated event code inside the POU.
+     * @param pous Storage for the generated POUs, in order of creating and calling the POUs.
+     * @return The generated sequence POU call statements for the main program that tries each of the given event
+     *     transitions once.
+     */
+    private List<PlcStatement> convertEventTransitions(List<CifEventTransition> eventTransitions,
+            PlcBasicVariable mainProgressVar, List<PlcPou> pous)
+    {
+        List<PlcStatement> stats = listc(eventTransitions.size());
+        for (CifEventTransition eventTrans: eventTransitions) {
+            // Construct the POU with one input/output variable.
+            PlcPou pou = makeEventPou(eventTrans, mainProgressVar.varName);
+            pous.add(pou);
+
+            // Construct the function call statement, and add it to the main program code.
+            PlcPouDescription funcDesc = new PlcPouDescription(pou);
+            PlcNamedValue argument = new PlcNamedValue(mainProgressVar.varName,
+                    new PlcVarExpression(mainProgressVar));
+            stats.add(new PlcFuncApplStatement(new PlcFuncAppl(funcDesc, List.of(argument))));
+        }
+        return stats;
+    }
+
+    /**
+     * Construct a POU with a single boolean IN_OUT parameter named {@code paramName}. The POU that tries to performs
+     * the provided CIF event transition. The POU should test whether the event can be performed and if so, actually
+     * perform the event. If the event is performed, the IN_OUT parameter should be set.
+     *
+     * @param cifEventTrans Transition to translate.
+     * @param paramName The Name of the IN_OUT parameter of the POU to set when the event transition is performed.
+     * @return The constructed POU.
+     */
+    private PlcPou makeEventPou(CifEventTransition cifEventTrans, String paramName) {
+        // Construct a POU for the generated code.
+        String funcName = nameGenerator.generateGlobalNames(Set.of("tryEvent_"), cifEventTrans.event);
+        PlcPou pou = new PlcPou("tryEvent_" + funcName, PlcPouType.FUNCTION, PlcElementaryType.BOOL_TYPE);
+        PlcDataVariable funcIsProgressVar = new PlcDataVariable(paramName, PlcElementaryType.BOOL_TYPE);
+        pou.inOutVars.add(funcIsProgressVar);
+
+        // Construct the PLC code of the transition.
+        ExprGenerator pouExprGen = new ExprGenerator(this, varStorage.getCifDataProvider());
+        List<List<CifEventTransition>> eventSeqs = List.of(List.of(cifEventTrans));
+        List<PlcStatement> stats = transitionGenerator.generate(eventSeqs, pouExprGen, funcIsProgressVar).get(0);
+        pou.tempVars.addAll(pouExprGen.getCreatedTempVariables());
+        // Don't bother cleaning up the expression generator of the POU as it gets discarded.
+
+        // POU must return a boolean value.
+        stats.add(new PlcReturnStatement(new PlcVarExpression(funcIsProgressVar)));
+
+        // Convert statements to text, store inside the POU, and return the created POU.
+        modelTextGenerator.toText(stats, pou.body, pou.name, true);
+        return pou;
     }
 
     /**
