@@ -56,6 +56,7 @@ import org.eclipse.escet.cif.plcgen.generators.VariableStorage;
 import org.eclipse.escet.cif.plcgen.generators.io.IoAddress;
 import org.eclipse.escet.cif.plcgen.generators.io.IoDirection;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcBasicVariable;
+import org.eclipse.escet.cif.plcgen.model.declarations.PlcPou;
 import org.eclipse.escet.cif.plcgen.model.declarations.PlcProject;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
@@ -276,19 +277,32 @@ public abstract class PlcBaseTarget extends PlcTarget {
         ExprGenerator exprGen = codeStorage.getExprGenerator();
         PlcBasicVariable isProgressVar = codeStorage.getIsProgressVariable();
         List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transLoops, exprGen, isProgressVar);
+        EventTransitionsCode eventTransCode = new EventTransitionsCode(loopsStatements.get(0), loopsStatements.get(1),
+                List.of());
         if (settings.termination.isRequested()) {
             return;
         }
 
         // Prepare the PLC program for getting saved to the file system.
-        codeStorage.addEventTransitions(loopsStatements.get(0), loopsStatements.get(1));
-        codeStorage.finishPlcProgram();
+        codeStorage.finishPlcProgram(eventTransCode);
         if (settings.termination.isRequested()) {
             return;
         }
 
         // And write it.
         codeStorage.writeOutput();
+    }
+
+    /**
+     * Storage for generated event transitions code and supporting event functions.
+     *
+     * @param unconTransCode Code to execute in main program scope to (try to) perform each uncontrollable event once.
+     * @param conTransCode Code to execute in main program scope to (try to) perform each controllable event once.
+     * @param eventFunctions Support functions to perform event transitions. May be empty.
+     */
+    public static record EventTransitionsCode(List<PlcStatement> unconTransCode, List<PlcStatement> conTransCode,
+            List<PlcPou> eventFunctions)
+    {
     }
 
     /**
