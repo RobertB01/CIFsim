@@ -338,6 +338,11 @@ public class S7Writer extends Writer {
             writeVarTable(c, "VAR_INPUT", pou.inputVars, 0);
         }
 
+        // Write the input/output variables.
+        if (!pou.inOutVars.isEmpty()) {
+            writeVarTable(c, "VAR_IN_OUT", pou.inOutVars, 0);
+        }
+
         // Write the output variables.
         if (!pou.outputVars.isEmpty()) {
             // In S7 the main program cannot have output variables.

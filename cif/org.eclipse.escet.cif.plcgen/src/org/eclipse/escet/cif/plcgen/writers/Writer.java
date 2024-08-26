@@ -282,6 +282,15 @@ public abstract class Writer {
             c.dedent();
             c.add("END_VAR");
         }
+        if (!pou.inOutVars.isEmpty()) {
+            c.add("VAR_IN_OUT");
+            c.indent();
+            for (PlcDataVariable var: pou.inOutVars) {
+                c.add(toVarDeclBox(var));
+            }
+            c.dedent();
+            c.add("END_VAR");
+        }
         if (!pou.outputVars.isEmpty()) {
             c.add("VAR_OUTPUT");
             c.indent();
