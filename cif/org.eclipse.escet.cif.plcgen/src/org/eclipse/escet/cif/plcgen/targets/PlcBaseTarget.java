@@ -266,19 +266,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
         // Generate the event transition functions.
         List<CifEventTransition> allCifEventTransitions = processorResults.cifEventTransitions();
-        transitionGenerator.setup(allCifEventTransitions);
-
-        // Split event transitions between controllable and uncontrollable events.
-        List<List<CifEventTransition>> transLoops = List.of(
-                allCifEventTransitions.stream().filter(cet -> !cet.event.getControllable()).toList(),
-                allCifEventTransitions.stream().filter(cet -> cet.event.getControllable()).toList());
-
-        // Generate the transition code.
-        ExprGenerator exprGen = codeStorage.getExprGenerator();
-        PlcBasicVariable isProgressVar = codeStorage.getIsProgressVariable();
-        List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transLoops, exprGen, isProgressVar);
-        EventTransitionsCode eventTransCode = new EventTransitionsCode(loopsStatements.get(0), loopsStatements.get(1),
-                List.of());
+        EventTransitionsCode eventTransCode = generateTransCode(allCifEventTransitions);
         if (settings.termination.isRequested()) {
             return;
         }
@@ -291,6 +279,30 @@ public abstract class PlcBaseTarget extends PlcTarget {
 
         // And write it.
         codeStorage.writeOutput();
+    }
+
+    /**
+     * Construct the transitions code and support POUs.
+     *
+     * @param allCifEventTransitions Event transitions to convert to code.
+     * @return The generated transitions code and support POUs.
+     */
+    private EventTransitionsCode generateTransCode(List<CifEventTransition> allCifEventTransitions) {
+        // Setup the transition generator.
+        transitionGenerator.setup(allCifEventTransitions);
+
+        // Split event transitions between controllable and uncontrollable events.
+        List<CifEventTransition> unconSeq = allCifEventTransitions.stream()
+                .filter(cet -> !cet.event.getControllable()).toList();
+        List<CifEventTransition> conSeq = allCifEventTransitions.stream()
+                .filter(cet -> cet.event.getControllable()).toList();
+
+        // Generate the transition code.
+        ExprGenerator exprGen = codeStorage.getExprGenerator();
+        PlcBasicVariable isProgressVar = codeStorage.getIsProgressVariable();
+        List<List<PlcStatement>> transCode = transitionGenerator.generate(List.of(unconSeq, conSeq),
+                exprGen, isProgressVar);
+        return new EventTransitionsCode(transCode.get(0), transCode.get(1), List.of());
     }
 
     /**
