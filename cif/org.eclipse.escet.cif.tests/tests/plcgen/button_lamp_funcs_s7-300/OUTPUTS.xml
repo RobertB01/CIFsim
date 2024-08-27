@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='OUTPUTS'>
+    <Tag type='BOOL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%Q16.6'>out_hw_lamp_bit</Tag>
+</Tagtable>

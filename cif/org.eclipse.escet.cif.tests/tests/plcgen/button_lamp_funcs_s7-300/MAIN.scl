@@ -1,0 +1,138 @@
+ORGANIZATION_BLOCK MAIN
+{ S7_Optimized_Access := 'false' }
+    VAR_TEMP
+        curValue: TIME;
+        isProgress: BOOL;
+        timeOut: BOOL;
+        dummyVar1: DINT;
+        dummyVar2: DINT;
+        dummyVar3: DINT;
+        dummyVar4: DINT;
+        dummyVar5: DINT;
+    END_VAR
+
+BEGIN
+    (* Header text file for:
+     *  -> (-*-) CIF PLC code generator.
+     *)
+
+    (*------------------------------------------------------
+     * Model overview:
+     *
+     * ----
+     * Automaton "hw_button":
+     *
+     * - Current location of automaton "hw_button".
+     * - Input variable "hw_button.bat".
+     * - Input variable "hw_button.bit".
+     * - Input variable "hw_button.bot".
+     * - Discrete variable "hw_button.r".
+     *
+     * - PLC edge selection variable "edge_hw_button".
+     *
+     * - Uncontrollable event "button.push".
+     * - Uncontrollable event "button.release".
+     *
+     * - No use of controllable events.
+     *
+     * ----
+     * Automaton "hw_lamp":
+     *
+     * - Current location of automaton "hw_lamp".
+     *
+     * - PLC edge selection variable "edge_hw_lamp".
+     *
+     * - No use of uncontrollable events.
+     *
+     * - Controllable event "lamp.off".
+     * - Controllable event "lamp.on".
+     *
+     * ----
+     * Automaton "sup":
+     *
+     * - Current location of automaton "sup".
+     *
+     * - PLC edge selection variable "edge_sup".
+     *
+     * - Uncontrollable event "button.push".
+     * - Uncontrollable event "button.release".
+     * - Uncontrollable event "timer.timeout".
+     *
+     * - Controllable event "lamp.off".
+     * - Controllable event "lamp.on".
+     * - Controllable event "timer.start".
+     *
+     * ----
+     * Automaton "timer":
+     *
+     * - Current location of automaton "timer".
+     * - Continuous variable "timer.t".
+     *
+     * - PLC edge selection variable "edge_timer".
+     *
+     * - Uncontrollable event "timer.timeout".
+     *
+     * - Controllable event "timer.start".
+     *------------------------------------------------------ *)
+
+    (* --- Read PLC inputs. ---------------------------------------------------- *)
+    (* Read PLC input and write it to input variable "hw_button.bit". *)
+    "DB".hw_button_bit := in_hw_button_bit;
+    (* Read PLC input and write it to input variable "hw_button.bot". *)
+    "DB".hw_button_bot := in_hw_button_bot;
+    (* Read PLC input and write it to input variable "hw_button.bat". *)
+    "DB".hw_button_bat := in_hw_button_bat;
+
+    (* --- Initialize state or update continuous variables. -------------------- *)
+    IF "DB".firstRun THEN
+        "DB".firstRun := FALSE;
+
+        (* Initialize the state variables. *)
+        (* Initialize current location of automaton "timer". *)
+        "DB".timer_1 := timer_Idle;
+        (* Initialize current location of automaton "sup". *)
+        "DB".sup := sup_s1;
+        (* Initialize discrete variable "hw_button.r". *)
+        "DB".hw_button_r := 0.0;
+        (* Initialize current location of automaton "hw_button". *)
+        "DB".hw_button := hw_button_Released;
+        (* Initialize current location of automaton "hw_lamp". *)
+        "DB".hw_lamp := hw_lamp_Off;
+        (* Initialize continuous variable "timer.t". *)
+        "DB".timer_t := 0.0;
+        (* Reset timer of "timer_t". *)
+        "DB".preset_timer_t := DINT_TO_TIME(REAL_TO_DINT("DB".timer_t * 1000.0));
+        ton_timer_t.TON(IN := FALSE, PT := "DB".preset_timer_t);
+        ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t);
+    ELSE
+        (* Update remaining time of continuous variable "timer.t". *)
+        ton_timer_t.TON(IN := TRUE, PT := "DB".preset_timer_t, Q => timeOut, ET => curValue);
+        "DB".timer_t := SEL_REAL(G := timeOut, IN0 := MAX(IN1 := DINT_TO_REAL(TIME_TO_DINT("DB".preset_timer_t - curValue)) / 1000.0, IN2 := 0.0), IN1 := 0.0);
+    END_IF;
+
+    (* --- Process uncontrollable events. -------------------------------------- *)
+    isProgress := TRUE;
+    (* Perform events until none can be done anymore. *)
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        tryEvent_timer_timeout(isProgress);
+        tryEvent_button_push(isProgress);
+        tryEvent_button_release(isProgress);
+    END_WHILE;
+
+    (* --- Process controllable events. ---------------------------------------- *)
+    isProgress := TRUE;
+    (* Perform events until none can be done anymore. *)
+    WHILE isProgress DO
+        isProgress := FALSE;
+
+        tryEvent_timer_start(isProgress);
+        tryEvent_lamp_on(isProgress);
+        tryEvent_lamp_off(isProgress);
+    END_WHILE;
+
+    (* --- Write PLC outputs. -------------------------------------------------- *)
+    (* Write algebraic variable "hw_lamp.bit" to PLC output. *)
+    out_hw_lamp_bit := "DB".hw_lamp = hw_lamp_On;
+END_ORGANIZATION_BLOCK

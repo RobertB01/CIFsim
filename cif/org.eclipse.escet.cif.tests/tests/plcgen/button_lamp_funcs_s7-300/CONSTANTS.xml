@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='CONSTANTS'>
+    <Constant type='BOOL' remark='' value='0'>timer_Idle</Constant>
+    <Constant type='BOOL' remark='' value='1'>timer_Running</Constant>
+    <Constant type='BYTE' remark='' value='0'>sup_s1</Constant>
+    <Constant type='BYTE' remark='' value='1'>sup_s2</Constant>
+    <Constant type='BYTE' remark='' value='2'>sup_s3</Constant>
+    <Constant type='BYTE' remark='' value='3'>sup_s4</Constant>
+    <Constant type='BYTE' remark='' value='4'>sup_s5</Constant>
+    <Constant type='BYTE' remark='' value='5'>sup_s6</Constant>
+    <Constant type='BYTE' remark='' value='6'>sup_s7</Constant>
+    <Constant type='BYTE' remark='' value='7'>sup_s8</Constant>
+    <Constant type='BYTE' remark='' value='8'>sup_s9</Constant>
+    <Constant type='BYTE' remark='' value='9'>sup_s10</Constant>
+    <Constant type='BOOL' remark='' value='0'>hw_button_Released</Constant>
+    <Constant type='BOOL' remark='' value='1'>hw_button_Pushed</Constant>
+    <Constant type='BOOL' remark='' value='0'>hw_lamp_Off</Constant>
+    <Constant type='BOOL' remark='' value='1'>hw_lamp_On</Constant>
+</Tagtable>

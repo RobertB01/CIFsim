@@ -1,0 +1,92 @@
+FUNCTION tryEvent_timer_timeout: BOOL
+{ S7_Optimized_Access := 'false' }
+    VAR_IN_OUT
+        isProgress: BOOL;
+    END_VAR
+    VAR_TEMP
+        current_sup: BYTE;
+        current_timer: BOOL;
+        edge_sup: BYTE;
+        edge_timer: BOOL;
+        eventEnabled: BOOL;
+        dummyVar1: DINT;
+        dummyVar2: DINT;
+        dummyVar3: DINT;
+        dummyVar4: DINT;
+        dummyVar5: DINT;
+    END_VAR
+
+BEGIN
+    (*************************************************************
+     * Try to perform uncontrollable event "timer.timeout".
+     *
+     * - Automaton "timer" must always synchronize.
+     * - Automaton "sup" must always synchronize.
+     *************************************************************)
+    eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Test edge of automaton "timer" to synchronize for event "timer.timeout".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edge being tested:
+     * - Location "Running":
+     *   - 1st edge in the location
+     ***********)
+    IF "DB".timer_1 = timer_Running AND "DB".timer_t <= 0.0 THEN
+        edge_timer := 0;
+    ELSE
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        (***********
+         * Test edges of automaton "sup" to synchronize for event "timer.timeout".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edges being tested:
+         * - Location "s6":
+         *   - 1st edge in the location
+         * - Location "s7":
+         *   - 1st edge in the location
+         ***********)
+        IF "DB".sup = sup_s6 THEN
+            edge_sup := 0;
+        ELSIF "DB".sup = sup_s7 THEN
+            edge_sup := 1;
+        ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+    END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "timer.timeout" can occur. *)
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+        current_sup := "DB".sup;
+        current_timer := "DB".timer_1;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* Perform assignments of automaton "timer". *)
+        IF edge_timer = 0 THEN
+            (* Perform assignments of the 1st edge in location "timer.Running". *)
+            (* Perform update of current location of automaton "timer". *)
+            "DB".timer_1 := timer_Idle;
+        END_IF;
+        (* Perform assignments of automaton "sup". *)
+        IF edge_sup = 0 THEN
+            (* Perform assignments of the 1st edge in location "sup.s6". *)
+            (* Perform update of current location of automaton "sup". *)
+            "DB".sup := sup_s8;
+        ELSIF edge_sup = 1 THEN
+            (* Perform assignments of the 1st edge in location "sup.s7". *)
+            (* Perform update of current location of automaton "sup". *)
+            "DB".sup := sup_s9;
+        END_IF;
+    END_IF;
+    tryEvent_timer_timeout := isProgress;
+    RETURN;
+END_FUNCTION

@@ -1,0 +1,90 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2024 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group button:
+  uncontrollable push;
+  uncontrollable release;
+end
+
+group lamp:
+  controllable on;
+  controllable off;
+end
+
+plant timer:
+  controllable start;
+  uncontrollable timeout;
+  cont t der -1.0;
+  location Idle:
+    initial;
+    marked;
+    edge start do t := 3.0 goto Running;
+  location Running:
+    edge timeout when t <= 0.0 goto Idle;
+end
+
+supervisor sup:
+  alphabet button.push, button.release, lamp.on, lamp.off, timer.start, timer.timeout;
+  location s1:
+    initial;
+    marked;
+    edge button.push goto s2;
+  location s2:
+    edge lamp.on goto s3;
+    edge button.release goto s4;
+  location s3:
+    edge timer.start goto s6;
+    edge button.release goto s5;
+  location s4:
+    edge lamp.on goto s5;
+    edge button.push goto s2;
+  location s5:
+    edge timer.start goto s7;
+    edge button.push goto s3;
+  location s6:
+    edge timer.timeout goto s8;
+    edge button.release goto s7;
+  location s7:
+    edge timer.timeout goto s9;
+    edge button.push goto s6;
+  location s8:
+    edge lamp.off goto s10;
+    edge button.release goto s9;
+  location s9:
+    edge lamp.off goto s1;
+    edge button.push goto s8;
+  location s10:
+    edge button.release goto s1;
+end
+
+plant hw_button:
+  input bool bit;
+  input int bot;
+  input real bat;
+  disc real r;
+
+  location Released:
+    initial;
+    edge button.push when bit do r := bat + bot goto Pushed;
+  location Pushed:
+    edge button.release when not bit goto Released;
+end
+
+plant hw_lamp:
+  alg bool bit = On;
+  location Off:
+    initial;
+    edge lamp.on goto On;
+  location On:
+    edge lamp.off goto Off;
+end
