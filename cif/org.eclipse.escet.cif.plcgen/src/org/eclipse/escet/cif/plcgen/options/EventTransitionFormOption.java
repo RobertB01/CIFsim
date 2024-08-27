@@ -29,7 +29,7 @@ public class EventTransitionFormOption extends EnumOption<EventTransitionForm> {
 
     /** Constructor of the {@link EventTransitionFormOption}. */
     public EventTransitionFormOption() {
-        super("Placement of event trnaistions",
+        super("Form of event tranistions",
                 "Specify where the event transitions code should be created. Specify "
                         + makeValueDescriptions() + ". [DEFAULT=\"" + DEFAULT_VALUE.name + "\"]",
                 null,
