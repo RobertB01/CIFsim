@@ -68,6 +68,7 @@ import org.eclipse.escet.cif.plcgen.model.expressions.PlcVarExpression;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcBasicFuncDescription.PlcFuncNotation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcFuncOperation;
 import org.eclipse.escet.cif.plcgen.model.functions.PlcPouDescription;
+import org.eclipse.escet.cif.plcgen.model.statements.PlcCommentLine;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcFuncApplStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcReturnStatement;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
@@ -382,6 +383,8 @@ public abstract class PlcBaseTarget extends PlcTarget {
         // Don't bother cleaning up the expression generator of the POU as it gets discarded.
 
         // POU must return a boolean value.
+        stats.add(new PlcCommentLine(null));
+        stats.add(new PlcCommentLine("Return event execution progress."));
         stats.add(new PlcReturnStatement(new PlcVarExpression(funcIsProgressVar)));
 
         // Convert statements to text, store inside the POU, and return the created POU.
