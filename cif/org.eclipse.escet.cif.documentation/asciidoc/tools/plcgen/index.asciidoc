@@ -112,6 +112,7 @@ That part of the code can be generated in two different forms:
 ** Use _Each event in a separate function_ to obtain a POU event function for each event.
 The main program calls the POU event functions as needed.
 
++
 The former avoids function calls while the latter splits the code in several smaller functions.
 Which form is better depends on the target as well as the program.
 
