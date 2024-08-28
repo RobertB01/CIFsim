@@ -497,12 +497,12 @@ public class ModelTextGenerator {
      *
      * @param plcStats Statements to convert.
      * @param pouName Name of the surrounding POU.
-     * @param fixCodeBlcok If set, make sequences without proper statement correct by adding an empty statement.
+     * @param fixCodeBlock If set, make sequences without proper statement correct by adding an empty statement.
      * @return The generated output.
      */
-    public String toString(List<PlcStatement> plcStats, String pouName, boolean fixCodeBlcok) {
+    public String toString(List<PlcStatement> plcStats, String pouName, boolean fixCodeBlock) {
         CodeBox boxBuilder = new MemoryCodeBox();
-        toText(plcStats, boxBuilder, pouName, fixCodeBlcok);
+        toText(plcStats, boxBuilder, pouName, fixCodeBlock);
         return boxBuilder.toString();
     }
 
@@ -513,9 +513,9 @@ public class ModelTextGenerator {
      * @param plcStats StatementS to convert.
      * @param boxBuilder Storage of produced text, extended in-place.
      * @param pouName Name of the surrounding POU.
-     * @param fixCodeBlcok If set, make sequences without proper statement correct by adding an empty statement.
+     * @param fixCodeBlock If set, make sequences without proper statement correct by adding an empty statement.
      */
-    public void toText(List<PlcStatement> plcStats, CodeBox boxBuilder, String pouName, boolean fixCodeBlcok) {
+    public void toText(List<PlcStatement> plcStats, CodeBox boxBuilder, String pouName, boolean fixCodeBlock) {
         // Generate the output while checking if the sequence contains at least one proper statement.
         boolean foundStat = false;
         for (PlcStatement plcStat: plcStats) {
@@ -525,7 +525,7 @@ public class ModelTextGenerator {
         }
 
         if (!foundStat) {
-            if (fixCodeBlcok) {
+            if (fixCodeBlock) {
                 toText(new PlcCommentLine("Nothing to do.", true), boxBuilder, pouName);
             } else {
                 throw new AssertionError("Code block does not have a proper PLC statement.");
