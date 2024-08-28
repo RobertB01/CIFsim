@@ -81,6 +81,9 @@ public class PlcGenSettings {
     /** How to treat enumerations. */
     public final ConvertEnums enumConversion;
 
+    /** The chosen form of the code for an event transition. */
+    public final EventTransitionForm transitionForm;
+
     /** Cooperative termination query function. */
     public final Termination termination;
 
@@ -89,9 +92,6 @@ public class PlcGenSettings {
 
     /** Callback to send warnings to the user. */
     public final WarnOutput warnOutput;
-
-    /** The chosen form of the code for an event transition. */
-    public final EventTransitionForm transitionForm;
 
     /**
      * Constructor of the {@link PlcGenSettings} class.
