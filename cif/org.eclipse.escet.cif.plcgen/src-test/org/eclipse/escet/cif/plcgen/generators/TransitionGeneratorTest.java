@@ -781,7 +781,11 @@ public class TransitionGeneratorTest {
         assertEquals(expectedText, actualText);
     }
 
-    /** Run the transition generator. */
+    /**
+     * Run the transition generator.
+     *
+     * @param transition Transition to perform.
+     */
     private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
         ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
 
@@ -789,8 +793,8 @@ public class TransitionGeneratorTest {
         transitionGenerator.setup(List.of(transition));
 
         // Generate the transition and return the code.
-        List<List<CifEventTransition>> transLoops = List.of(List.of(transition));
-        List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transLoops, exprGen, isProgressVar);
+        List<List<CifEventTransition>> transSeqs = List.of(List.of(transition));
+        List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transSeqs, exprGen, isProgressVar);
         return loopsStatements.get(0);
     }
 }
