@@ -279,7 +279,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
             return;
         }
 
-        // Generate the event transition functions.
+        // Generate the event transitions code.
         List<CifEventTransition> allCifEventTransitions = processorResults.cifEventTransitions();
         EventTransitionsCode eventTransCode = generateTransCode(allCifEventTransitions);
         if (settings.termination.isRequested()) {
@@ -312,7 +312,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
         List<CifEventTransition> conSeq = allCifEventTransitions.stream()
                 .filter(cet -> cet.event.getControllable()).toList();
 
-        // Generate the transition code.
+        // Generate the transitions code.
         PlcBasicVariable mainProgressVar = codeStorage.getIsProgressVariable();
         if (transitionForm == EventTransitionForm.CODE_IN_MAIN) {
             ExprGenerator exprGen = codeStorage.getExprGenerator();
@@ -337,7 +337,7 @@ public abstract class PlcBaseTarget extends PlcTarget {
      * @param eventTransitions Event transitions to convert.
      * @param mainProgressVar The progress variable to update from the generated event code inside the POU.
      * @param pous Storage for the generated POUs, in order of creating and calling the POUs.
-     * @return The generated sequence POU call statements for the main program that tries each of the given event
+     * @return The generated sequence of POU call statements for the main program that tries each of the given event
      *     transitions once.
      */
     private List<PlcStatement> convertEventTransitions(List<CifEventTransition> eventTransitions,
@@ -359,12 +359,12 @@ public abstract class PlcBaseTarget extends PlcTarget {
     }
 
     /**
-     * Construct a POU with a single boolean IN_OUT parameter named {@code paramName}. The POU that tries to performs
+     * Construct a POU with a single boolean IN_OUT parameter named {@code paramName}: the POU that tries to perform
      * the provided CIF event transition. The POU should test whether the event can be performed and if so, actually
      * perform the event. If the event is performed, the IN_OUT parameter should be set.
      *
      * @param cifEventTrans Transition to translate.
-     * @param paramName The Name of the IN_OUT parameter of the POU to set when the event transition is performed.
+     * @param paramName The name of the IN_OUT parameter of the POU to set when the event transition is performed.
      * @return The constructed POU.
      */
     private PlcPou makeEventPou(CifEventTransition cifEventTrans, String paramName) {

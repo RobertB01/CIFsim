@@ -45,7 +45,7 @@ public enum EventTransitionForm {
      * Constructor of the {@link EventTransitionForm}.
      *
      * @param name Descriptive name of the option value.
-     * @param shortDescription Short description of the value
+     * @param shortDescription Short description of the value.
      * @param description Longer description of the value.
      */
     private EventTransitionForm(String name, String shortDescription, String description) {

@@ -363,7 +363,7 @@ public class PlcCodeStorage {
     /**
      * Perform any additional processing to make the generated PLC program ready.
      *
-     * @param transitionsCode Generated event transitions POUS and code.
+     * @param transitionsCode Generated event transition POUs and code.
      */
     @SuppressWarnings("null")
     public void finishPlcProgram(EventTransitionsCode transitionsCode) {
@@ -455,7 +455,7 @@ public class PlcCodeStorage {
             isProperPlcBody = true;
         }
 
-        // Add event transitions POUs and PLC code.
+        // Add event transition POUs and PLC code.
         project.pous.addAll(transitionsCode.eventFunctions());
         generateEventTransitionsCode(transitionsCode.unconTransCode(), maxUncontrollableLimit, "uncontrollable",
                 loopCount, loopsKilled, box);

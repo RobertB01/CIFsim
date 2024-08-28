@@ -37,7 +37,7 @@ public interface TransitionGenerator {
      * </p>
      *
      * @param transSeqs One or more event sequences. Each event sequence is to be converted to a PLC statement sequence.
-     *     All provided transitions must have been setup already during the  {@link #setup} call. All generated code is
+     *     All provided transitions must have been setup already during the {@link #setup} call. All generated code is
      *     assumed to be executed in the same scope.
      * @param exprGen Expression generator for the scope of the generated code.
      * @param isProgressVar The variable to set if an event transition is performed.
