@@ -105,7 +105,7 @@ The result also depends on the chosen <<tools-plcgen-target-type, target type>>.
 
 Additional options exist to tailor the output of the code generator:
 
-* _Form of event transitions_: Select the desired form of the generated event transitions.
+* _Event transitions form_: Select the desired form of the generated event transitions.
 The PLC code generator simulates the CIF specification by performing event transitions just like CIF.
 That part of the code can be generated in two different forms:
 ** Use _All event code in main program_ to obtain one main program with all code, or
