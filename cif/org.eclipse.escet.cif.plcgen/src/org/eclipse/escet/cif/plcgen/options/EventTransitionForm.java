@@ -24,12 +24,12 @@ package org.eclipse.escet.cif.plcgen.options;
 public enum EventTransitionForm {
     /** PLC code of an event transition is inlined in the main program. */
     CODE_IN_MAIN("code-in-main",
-            "the main program contains all event transitions code",
+            "all event transitions code in the main program",
             "All event code in main program"),
 
     /** PLC code of an event transition is stored in a POU. */
     CODE_IN_FUNCTION("code-in-function",
-            "each event transition code has its own function and the main program calls the functions",
+            "the event transition code for each event in its own function and have the main program call the functions",
             "Each event in a separate function");
 
     /** Descriptive name of the option value. */

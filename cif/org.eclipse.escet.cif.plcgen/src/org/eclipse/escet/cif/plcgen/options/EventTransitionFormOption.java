@@ -52,7 +52,7 @@ public class EventTransitionFormOption extends EnumOption<EventTransitionForm> {
      */
     private static String makeValueDescriptions() {
         List<EventTransitionForm> enumValues = Arrays.asList(EventTransitionForm.values());
-        return makeElementsChoiceText(enumValues, v -> fmt("\"%s\" for %s", v.name, v.shortDescription));
+        return makeElementsChoiceText(enumValues, v -> fmt("\"%s\" to put %s", v.name, v.shortDescription));
     }
 
     /**
