@@ -87,6 +87,8 @@ BEGIN
             "DB".hw_lamp := hw_lamp_Off;
         END_IF;
     END_IF;
+
+    (* Return event execution progress. *)
     tryEvent_lamp_off := isProgress;
     RETURN;
 END_FUNCTION

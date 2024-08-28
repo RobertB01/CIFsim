@@ -114,6 +114,8 @@ BEGIN
             "DB".hw_button := hw_button_Pushed;
         END_IF;
     END_IF;
+
+    (* Return event execution progress. *)
     tryEvent_button_push := isProgress;
     RETURN;
 END_FUNCTION

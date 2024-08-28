@@ -111,6 +111,8 @@ BEGIN
             "DB".hw_button := hw_button_Released;
         END_IF;
     END_IF;
+
+    (* Return event execution progress. *)
     tryEvent_button_release := isProgress;
     RETURN;
 END_FUNCTION

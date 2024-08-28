@@ -94,6 +94,8 @@ BEGIN
             "DB".sup := sup_s7;
         END_IF;
     END_IF;
+
+    (* Return event execution progress. *)
     tryEvent_timer_start := isProgress;
     RETURN;
 END_FUNCTION
