@@ -785,6 +785,7 @@ public class TransitionGeneratorTest {
      * Run the transition generator.
      *
      * @param transition Transition to perform.
+     * @return The generated PLC statements.
      */
     private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
         ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
