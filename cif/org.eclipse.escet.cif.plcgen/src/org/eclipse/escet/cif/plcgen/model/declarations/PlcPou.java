@@ -36,6 +36,9 @@ public class PlcPou {
     /** The input variables of the POU. */
     public List<PlcDataVariable> inputVars = list();
 
+    /** The input/output variables of the POU. */
+    public List<PlcDataVariable> inOutVars = list();
+
     /** The output variables of the POU. */
     public List<PlcDataVariable> outputVars = list();
 

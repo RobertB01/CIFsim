@@ -41,5 +41,5 @@ public class PlcArrayLiteral extends PlcExpression {
     public String toString() {
         String s = values.stream().map(v -> v.toString()).collect(Collectors.joining(", "));
         return "PlcArrayLiteral(" + s + ")";
-        }
+    }
 }

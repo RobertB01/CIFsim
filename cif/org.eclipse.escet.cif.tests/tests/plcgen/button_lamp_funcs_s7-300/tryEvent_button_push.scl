@@ -1,0 +1,121 @@
+FUNCTION tryEvent_button_push: BOOL
+{ S7_Optimized_Access := 'false' }
+    VAR_IN_OUT
+        isProgress: BOOL;
+    END_VAR
+    VAR_TEMP
+        current_hw_button: BOOL;
+        current_hw_button_r: REAL;
+        current_sup: BYTE;
+        edge_hw_button: BOOL;
+        edge_sup: BYTE;
+        eventEnabled: BOOL;
+        dummyVar1: DINT;
+        dummyVar2: DINT;
+        dummyVar3: DINT;
+        dummyVar4: DINT;
+    END_VAR
+
+BEGIN
+    (*************************************************************
+     * Try to perform uncontrollable event "button.push".
+     *
+     * - Automaton "sup" must always synchronize.
+     * - Automaton "hw_button" must always synchronize.
+     *************************************************************)
+    eventEnabled := TRUE;
+    (*******************************
+     * Check each synchronizing automaton for having an edge with a true guard.
+     *******************************)
+    (***********
+     * Test edges of automaton "sup" to synchronize for event "button.push".
+     * This automaton must have an edge with a true guard to allow the event.
+     *
+     * Edges being tested:
+     * - Location "s1":
+     *   - 1st edge in the location
+     * - Location "s4":
+     *   - 2nd edge in the location
+     * - Location "s5":
+     *   - 2nd edge in the location
+     * - Location "s7":
+     *   - 2nd edge in the location
+     * - Location "s9":
+     *   - 2nd edge in the location
+     ***********)
+    IF "DB".sup = sup_s1 THEN
+        edge_sup := 0;
+    ELSIF "DB".sup = sup_s4 THEN
+        edge_sup := 1;
+    ELSIF "DB".sup = sup_s5 THEN
+        edge_sup := 2;
+    ELSIF "DB".sup = sup_s7 THEN
+        edge_sup := 3;
+    ELSIF "DB".sup = sup_s9 THEN
+        edge_sup := 4;
+    ELSE
+        (* The automaton has no edge with a true guard. Skip to the next event. *)
+        eventEnabled := FALSE;
+    END_IF;
+    IF eventEnabled THEN
+        (***********
+         * Test edge of automaton "hw_button" to synchronize for event "button.push".
+         * This automaton must have an edge with a true guard to allow the event.
+         *
+         * Edge being tested:
+         * - Location "Released":
+         *   - 1st edge in the location
+         ***********)
+        IF "DB".hw_button = hw_button_Released AND "DB".hw_button_bit THEN
+            edge_hw_button := 0;
+        ELSE
+            (* The automaton has no edge with a true guard. Skip to the next event. *)
+            eventEnabled := FALSE;
+        END_IF;
+    END_IF;
+    (* All checks have been done. If variable "eventEnabled" still holds, event "button.push" can occur. *)
+    IF eventEnabled THEN
+        isProgress := TRUE;
+        (* Make temporary copies of assigned variables to preserve the old values while assigning new values. *)
+        current_hw_button := "DB".hw_button;
+        current_hw_button_r := "DB".hw_button_r;
+        current_sup := "DB".sup;
+        (*******************************
+         * Perform the assignments of each synchronizing automaton.
+         *******************************)
+        (* Perform assignments of automaton "sup". *)
+        IF edge_sup = 0 THEN
+            (* Perform assignments of the 1st edge in location "sup.s1". *)
+            (* Perform update of current location of automaton "sup". *)
+            "DB".sup := sup_s2;
+        ELSIF edge_sup = 1 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s4". *)
+            (* Perform update of current location of automaton "sup". *)
+            "DB".sup := sup_s2;
+        ELSIF edge_sup = 2 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s5". *)
+            (* Perform update of current location of automaton "sup". *)
+            "DB".sup := sup_s3;
+        ELSIF edge_sup = 3 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s7". *)
+            (* Perform update of current location of automaton "sup". *)
+            "DB".sup := sup_s6;
+        ELSIF edge_sup = 4 THEN
+            (* Perform assignments of the 2nd edge in location "sup.s9". *)
+            (* Perform update of current location of automaton "sup". *)
+            "DB".sup := sup_s8;
+        END_IF;
+        (* Perform assignments of automaton "hw_button". *)
+        IF edge_hw_button = 0 THEN
+            (* Perform assignments of the 1st edge in location "hw_button.Released". *)
+            (* Perform update of discrete variable "hw_button.r". *)
+            "DB".hw_button_r := "DB".hw_button_bat + DINT_TO_REAL("DB".hw_button_bot);
+            (* Perform update of current location of automaton "hw_button". *)
+            "DB".hw_button := hw_button_Pushed;
+        END_IF;
+    END_IF;
+
+    (* Return event execution progress. *)
+    tryEvent_button_push := isProgress;
+    RETURN;
+END_FUNCTION

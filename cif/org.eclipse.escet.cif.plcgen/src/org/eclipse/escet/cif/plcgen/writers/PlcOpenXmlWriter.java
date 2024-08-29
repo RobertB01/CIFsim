@@ -359,6 +359,13 @@ public class PlcOpenXmlWriter extends Writer {
             }
         }
 
+        if (!pou.inOutVars.isEmpty()) {
+            Element e = makeChild(iface, "inOutVars");
+            for (PlcDataVariable var: pou.inOutVars) {
+                transVariable(var, e);
+            }
+        }
+
         if (!pou.outputVars.isEmpty()) {
             Element e = makeChild(iface, "outputVars");
             for (PlcDataVariable var: pou.outputVars) {

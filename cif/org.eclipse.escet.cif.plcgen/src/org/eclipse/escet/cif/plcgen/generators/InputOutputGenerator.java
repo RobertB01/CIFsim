@@ -467,9 +467,9 @@ public class InputOutputGenerator {
                 ioVarName = entry.ioName; // Pick the custom name if available.
             } else {
                 // Else, derive a name for the variable with the I/O address from the attached CIF state variable.
-               String varPrefix = isInput ? "in_" : "out_";
-               ioVarName = getAbsName(entry.cifObject, false);
-               ioVarName = varPrefix + nameGenerator.generateGlobalNames(Set.of(varPrefix), ioVarName, false);
+                String varPrefix = isInput ? "in_" : "out_";
+                ioVarName = getAbsName(entry.cifObject, false);
+                ioVarName = varPrefix + nameGenerator.generateGlobalNames(Set.of(varPrefix), ioVarName, false);
             }
 
             // Construct the variable with the I/O address, and store it.

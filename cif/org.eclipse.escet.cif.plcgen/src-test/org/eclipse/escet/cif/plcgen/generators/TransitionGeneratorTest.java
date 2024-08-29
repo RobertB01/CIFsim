@@ -55,6 +55,7 @@ import org.eclipse.escet.cif.plcgen.model.declarations.PlcDataVariable;
 import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
+import org.eclipse.escet.cif.plcgen.options.EventTransitionForm;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
@@ -94,8 +95,8 @@ public class TransitionGeneratorTest {
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
                     taskCyceTime, priority, null, null, new PathPair(inputPath, "/" + inputPath),
                     new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath),
-                    programHeader, intSize, realSize, simplifyValues, enumConversion, termination, warnOnRename,
-                    warnOutput);
+                    programHeader, intSize, realSize, simplifyValues, enumConversion,
+                    EventTransitionForm.CODE_IN_MAIN, termination, warnOnRename, warnOutput);
             setup(settings);
 
             // Setup the generators, part of PlcBaseTarget.generate() normally.
@@ -780,7 +781,12 @@ public class TransitionGeneratorTest {
         assertEquals(expectedText, actualText);
     }
 
-    /** Run the transition generator. */
+    /**
+     * Run the transition generator.
+     *
+     * @param transition Transition to perform.
+     * @return The generated PLC statements.
+     */
     private List<PlcStatement> runTransitionGenerator(CifEventTransition transition) {
         ExprGenerator exprGen = target.getCodeStorage().getExprGenerator();
 
@@ -788,8 +794,8 @@ public class TransitionGeneratorTest {
         transitionGenerator.setup(List.of(transition));
 
         // Generate the transition and return the code.
-        List<List<CifEventTransition>> transLoops = List.of(List.of(transition));
-        List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transLoops, exprGen, isProgressVar);
+        List<List<CifEventTransition>> transSeqs = List.of(List.of(transition));
+        List<List<PlcStatement>> loopsStatements = transitionGenerator.generate(transSeqs, exprGen, isProgressVar);
         return loopsStatements.get(0);
     }
 }

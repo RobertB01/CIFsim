@@ -107,6 +107,7 @@ import org.eclipse.escet.cif.plcgen.model.types.PlcStructField;
 import org.eclipse.escet.cif.plcgen.model.types.PlcStructType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
 import org.eclipse.escet.cif.plcgen.options.ConvertEnums;
+import org.eclipse.escet.cif.plcgen.options.EventTransitionForm;
 import org.eclipse.escet.cif.plcgen.options.PlcNumberBits;
 import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget;
 import org.eclipse.escet.cif.plcgen.targets.PlcTargetType;
@@ -218,8 +219,8 @@ public class ExprGeneratorTest {
             PlcGenSettings settings = new PlcGenSettings(projectName, configurationName, resourceName, plcTaskName,
                     taskCyceTime, priority, null, null, new PathPair(inputPath, "/" + inputPath),
                     new PathPair(outputPath, "/" + outputPath), new PathPair(ioTablePath, "/" + ioTablePath),
-                    programHeader, intSize, realSize, simplifyValues, enumConversion, termination, warnOnRename,
-                    warnOutput);
+                    programHeader, intSize, realSize, simplifyValues, enumConversion,
+                    EventTransitionForm.CODE_IN_MAIN, termination, warnOnRename, warnOutput);
             setup(settings);
         }
 

@@ -52,6 +52,7 @@ import org.eclipse.escet.cif.plcgen.model.statements.PlcStatement;
 import org.eclipse.escet.cif.plcgen.model.types.PlcElementaryType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcFuncBlockType;
 import org.eclipse.escet.cif.plcgen.model.types.PlcType;
+import org.eclipse.escet.cif.plcgen.targets.PlcBaseTarget.EventTransitionsCode;
 import org.eclipse.escet.cif.plcgen.targets.PlcTarget;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
@@ -112,12 +113,6 @@ public class PlcCodeStorage {
      * of the event transitions.
      */
     private List<PlcStatement> updateContVarsRemainingTimeCode = null;
-
-    /** If not {@code null}, code to perform one iteration of every uncontrollable event. */
-    List<PlcStatement> uncontrollableEventTransitionsCode = null;
-
-    /** If not {@code null}, code to perform one iteration of every controllable event. */
-    List<PlcStatement> controllableEventTransitionsCode = null;
 
     /**
      * Maximum number of iterations for performing uncontrollable events in a single cycle, or {@code null} if
@@ -342,33 +337,6 @@ public class PlcCodeStorage {
     }
 
     /**
-     * Add code to (try to) perform one iteration of all event transitions. Code should update the
-     * {@link #isProgressVariable} if an event is performed.
-     *
-     * @param uncontrollableEventTransitionsIterationCode Code that (tries to) perform one iteration of all
-     *     uncontrollable event transitions. Code should update the {@link #isProgressVariable} if an event is
-     *     performed.
-     * @param controllableEventTransitionsIterationCode Code that (tries to) perform one iteration of all controllable
-     *     event transitions. Code should update the {@link #isProgressVariable} if an event is performed.
-     * @see #getIsProgressVariable
-     */
-    public void addEventTransitions(List<PlcStatement> uncontrollableEventTransitionsIterationCode,
-            List<PlcStatement> controllableEventTransitionsIterationCode)
-    {
-        // No code added yet?
-        Assert.areEqual(null, uncontrollableEventTransitionsCode);
-        Assert.areEqual(null, controllableEventTransitionsCode);
-
-        // Add the given code if it has content.
-        if (PlcModelUtils.isNonEmptyCode(uncontrollableEventTransitionsIterationCode)) {
-            uncontrollableEventTransitionsCode = uncontrollableEventTransitionsIterationCode;
-        }
-        if (PlcModelUtils.isNonEmptyCode(controllableEventTransitionsIterationCode)) {
-            controllableEventTransitionsCode = controllableEventTransitionsIterationCode;
-        }
-    }
-
-    /**
      * Add code for copying input I/O to CIF state.
      *
      * @param inputFuncCode Code of the input function.
@@ -392,9 +360,13 @@ public class PlcCodeStorage {
         }
     }
 
-    /** Perform any additional processing to make the generated PLC program ready. */
+    /**
+     * Perform any additional processing to make the generated PLC program ready.
+     *
+     * @param transitionsCode Generated event transition POUs and code.
+     */
     @SuppressWarnings("null")
-    public void finishPlcProgram() {
+    public void finishPlcProgram(EventTransitionsCode transitionsCode) {
         // Continuous variables are state so they are also initialized. Therefore needing to update the
         // remaining time of continuous variables means there is also state initialization code. That is, having
         // continuous variables is a subset within having state.
@@ -483,14 +455,15 @@ public class PlcCodeStorage {
             isProperPlcBody = true;
         }
 
-        // Add event transitions code.
-        generateEventTransitionsCode(uncontrollableEventTransitionsCode, maxUncontrollableLimit, "uncontrollable",
+        // Add event transition POUs and PLC code.
+        project.pous.addAll(transitionsCode.eventFunctions());
+        generateEventTransitionsCode(transitionsCode.unconTransCode(), maxUncontrollableLimit, "uncontrollable",
                 loopCount, loopsKilled, box);
-        isProperPlcBody = isProperPlcBody || hasProperPlcStatement(uncontrollableEventTransitionsCode);
+        isProperPlcBody = isProperPlcBody || hasProperPlcStatement(transitionsCode.unconTransCode());
 
-        generateEventTransitionsCode(controllableEventTransitionsCode, maxControllableLimit, "controllable",
+        generateEventTransitionsCode(transitionsCode.conTransCode(), maxControllableLimit, "controllable",
                 loopCount, loopsKilled, box);
-        isProperPlcBody = isProperPlcBody || hasProperPlcStatement(controllableEventTransitionsCode);
+        isProperPlcBody = isProperPlcBody || hasProperPlcStatement(transitionsCode.conTransCode());
 
         // Generate output code if it exists.
         //
@@ -532,7 +505,7 @@ public class PlcCodeStorage {
     private void generateEventTransitionsCode(List<PlcStatement> eventTransitionsIterationCode, Integer maxIter,
             String eventKind, PlcBasicVariable loopCount, PlcBasicVariable loopsKilled, CodeBox box)
     {
-        if (eventTransitionsIterationCode == null) {
+        if (eventTransitionsIterationCode.isEmpty()) {
             return;
         }
 

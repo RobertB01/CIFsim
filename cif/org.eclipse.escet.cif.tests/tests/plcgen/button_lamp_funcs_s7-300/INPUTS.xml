@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='INPUTS'>
+    <Tag type='BOOL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%I15.5'>in_hw_button_bit</Tag>
+    <Tag type='DINT' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%I18'>in_hw_button_bot</Tag>
+    <Tag type='REAL' hmiVisible='True' hmiWriteable='False' hmiAccessible='True' retain='False' remark='' addr='%I19'>in_hw_button_bat</Tag>
+</Tagtable>

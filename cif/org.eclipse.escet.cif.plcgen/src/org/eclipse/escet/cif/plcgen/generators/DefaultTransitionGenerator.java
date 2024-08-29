@@ -174,36 +174,36 @@ public class DefaultTransitionGenerator implements TransitionGenerator {
     }
 
     @Override
-    public List<List<PlcStatement>> generate(List<List<CifEventTransition>> transLoops,
+    public List<List<PlcStatement>> generate(List<List<CifEventTransition>> transSeqs,
             ExprGenerator exprGen, PlcBasicVariable isProgressVar)
     {
         // Construct the edge selection variables, convert the event transition collections in the same structure as
         // provided, and return the generated code.
-        edgeSelectionVariables = createEdgeVariables(transLoops, exprGen);
-        List<List<PlcStatement>> loopsStatements = transLoops.stream()
+        edgeSelectionVariables = createEdgeVariables(transSeqs, exprGen);
+        List<List<PlcStatement>> statementSequences = transSeqs.stream()
                 .map(tl -> generateCode(isProgressVar, tl, exprGen)).toList();
         edgeSelectionVariables = null;
-        return loopsStatements;
+        return statementSequences;
     }
 
     /**
      * Construct edge variables in the scope of the expression generator for the automata in the provided event
      * transitions. Automata that do not need an edge variable are not in the returned map.
      *
-     * @param transLoops Event transitions to examine.
+     * @param transSeqs Event transition sequences to examine.
      * @param exprGen Expression generator to add the created variables to the scope.
      * @return The constructed edge variables ordered by automaton.
      */
-    private Map<Automaton, PlcDataVariable> createEdgeVariables(List<List<CifEventTransition>> transLoops,
+    private Map<Automaton, PlcDataVariable> createEdgeVariables(List<List<CifEventTransition>> transSeqs,
             ExprGenerator exprGen)
     {
         // Construct edge variable for the automata as needed.
         Map<Automaton, PlcDataVariable> edgeVariables = map();
-        for (List<CifEventTransition> transLoop: transLoops) {
-            for (CifEventTransition evtTrans: transLoop) {
-                addEdgeVariables(evtTrans.senders, edgeVariables);
-                addEdgeVariables(evtTrans.receivers, edgeVariables);
-                addEdgeVariables(evtTrans.syncers, edgeVariables);
+        for (List<CifEventTransition> transSeq: transSeqs) {
+            for (CifEventTransition eventTrans: transSeq) {
+                addEdgeVariables(eventTrans.senders, edgeVariables);
+                addEdgeVariables(eventTrans.receivers, edgeVariables);
+                addEdgeVariables(eventTrans.syncers, edgeVariables);
             }
         }
 

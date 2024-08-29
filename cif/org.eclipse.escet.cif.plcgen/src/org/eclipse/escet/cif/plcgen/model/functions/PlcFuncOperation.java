@@ -109,5 +109,8 @@ public enum PlcFuncOperation {
     STDLIB_TAN,
 
     /** TON standard function block. */
-    BLOCK_TON;
+    BLOCK_TON,
+
+    /** Operation is not known. */
+    UNKNOWN;
 }

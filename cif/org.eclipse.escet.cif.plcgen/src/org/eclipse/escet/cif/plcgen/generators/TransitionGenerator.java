@@ -36,12 +36,13 @@ public interface TransitionGenerator {
      * usually adds temporary variables into the scope that are needed for the generated code to function.
      * </p>
      *
-     * @param transLoops Sequence of event loops, where a single loop may try several events in each iteration. The used
-     *     {@link CifEventTransition}s here must be a subset of the transitions given to {@link #setup}.
+     * @param transSeqs One or more event sequences. Each event sequence is to be converted to a PLC statement sequence.
+     *     All provided transitions must have been setup already during the {@link #setup} call. All generated code is
+     *     assumed to be executed in the same scope.
      * @param exprGen Expression generator for the scope of the generated code.
      * @param isProgressVar The variable to set if an event transition is performed.
-     * @return The sequence of statements for each loop.
+     * @return The sequence of statements for each event sequence.
      */
-    List<List<PlcStatement>> generate(List<List<CifEventTransition>> transLoops,
+    List<List<PlcStatement>> generate(List<List<CifEventTransition>> transSeqs,
             ExprGenerator exprGen, PlcBasicVariable isProgressVar);
 }
