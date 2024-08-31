@@ -288,9 +288,9 @@ SPDX-License-Identifier: MIT
     <property name="fileExtensions" value="java,asciidoc"/>
   </module>
   <module name="RegexpMultiline">
-    <metadata name="net.sf.eclipsecs.core.comment" value="Each JavaDoc @param/@return should end with a period."/>
+    <metadata name="net.sf.eclipsecs.core.comment" value="JavaDoc @-tag's description should end with a period."/>
     <property name="format" value="( +)\* @((deprecated|implNote|implSpec|param [^ ]+)|return|throws) [^\n]+[^>.!?\r\n]\r?\n(\1\*     [^\n]+[^>.?!\r\n]\r?\n)*(?=\1\*(/| [^ ]))"/>
-    <property name="message" value="Missing a period at end of a @param/@return description."/>
+    <property name="message" value="Missing a period at the end of a JavaDoc @-tag's description."/>
     <property name="fileExtensions" value="java"/>
   </module>
 </module>
