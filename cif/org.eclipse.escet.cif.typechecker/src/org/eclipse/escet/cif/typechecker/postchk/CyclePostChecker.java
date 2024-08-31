@@ -134,7 +134,7 @@ public class CyclePostChecker {
     /**
      * Returns the unique derivative object for the given continuous variable.
      *
-     * @param var The continuous variable
+     * @param var The continuous variable.
      * @return The unique derivative object.
      */
     private Derivative getDerivative(ContVariable var) {

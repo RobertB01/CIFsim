@@ -182,7 +182,7 @@ public abstract class TypeInfo {
      *
      * @param lhsType Type of the left hand side.
      * @param rhsType Type of the right hand side.
-     * @param rhsValue Value to check
+     * @param rhsValue Value to check.
      * @param varType Type of the left hand side.
      * @param varName Name of the assigned variable.
      * @param errorTexts Texts to output in case of a range error.

@@ -58,7 +58,7 @@ public class SelectAlternativeClass {
      * @param commStat Communication statement to wait for. May be {@code null}.
      * @param ctxt Code generator context.
      * @param processClass Class representing the process containing this select alternative.
-     * @return Generated class specification.x
+     * @return Generated class specification.
      */
     public static String createSelectCaseClass(int selChoiceNumber, List<VariableDeclaration> vars, String guardKind,
             Expression guard, String channelKind, CommunicationStatement commStat, CodeGeneratorContext ctxt,

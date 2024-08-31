@@ -312,7 +312,7 @@ public class CifSimulatorMathTest {
      *
      * @param a First argument.
      * @param b Second argument.
-     * @return {@code a div b}
+     * @return {@code a div b}.
      */
     private int div2(int a, int b) {
         Assert.check(b != 0);
@@ -783,7 +783,7 @@ public class CifSimulatorMathTest {
      *
      * @param a First argument.
      * @param b Second argument.
-     * @return {@code a mod b}
+     * @return {@code a mod b}.
      */
     private int mod2(int a, int b) {
         Assert.check(b != 0);

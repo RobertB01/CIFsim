@@ -255,7 +255,7 @@ public class ResourceManager {
      *
      * @param obj The {@link EObject} to save.
      * @param resourcePath The path to save the resource to; either a local file system path (absolute or relative), or
-     *     a URI
+     *     a URI.
      * @throws EMFResourceException if saving fails.
      */
     public static void saveResource(EObject obj, String resourcePath) throws EMFResourceException {

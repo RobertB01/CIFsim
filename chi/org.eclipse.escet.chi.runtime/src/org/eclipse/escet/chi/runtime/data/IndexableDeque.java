@@ -471,7 +471,7 @@ public class IndexableDeque<T> implements Iterable<T> {
     /**
      * Insert the given element in the sorted list according to a sort predicate function.
      *
-     * @param elm Element to insert
+     * @param elm Element to insert.
      * @param comp Sort predicate.
      */
     public void insert(T elm, Comparator<T> comp) {

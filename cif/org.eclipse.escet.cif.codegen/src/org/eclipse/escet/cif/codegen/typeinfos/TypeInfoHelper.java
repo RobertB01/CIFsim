@@ -32,7 +32,7 @@ public class TypeInfoHelper {
     /**
      * Generate a binary expression in the target language using the supplied pattern.
      *
-     * @param expr Expression to convert to the target language
+     * @param expr Expression to convert to the target language.
      * @param target Text to use in the conversion. Contains '${left-value}' or '${left-ref}' and '${right-value}' or
      *     '${right-ref}' at the position where the left respectively right sub-expression is expected.
      * @param dest Storage destination of the result.

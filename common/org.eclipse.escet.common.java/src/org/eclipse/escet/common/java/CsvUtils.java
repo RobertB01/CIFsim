@@ -90,8 +90,8 @@ public class CsvUtils {
      * Check that the supplied rows form a proper CSV file.
      *
      * @param rows Rows of the CSV file.
-     * @return Whether the given rows form a proper CSV file. (At least one row and one column, and all rows have the
-     *     same number of columns.)
+     * @return Whether the given rows form a proper CSV file, i.e., there is at least one row and one column, and all
+     *     rows have the same number of columns.
      */
     public static boolean isCsvFormat(List<List<String>> rows) {
         return getNumRows(rows) > 0 && getNumColumns(rows) > 0 && isRectangular(rows);

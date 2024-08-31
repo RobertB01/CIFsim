@@ -71,7 +71,7 @@ public abstract class RegEx extends SeTextObject {
      * Returns the literal text that can be used as a terminal description, if this regular expression represents such
      * literal text, or {@code null} otherwise.
      *
-     * @return The literal text that can be used as a terminal description, or {@code null}
+     * @return The literal text that can be used as a terminal description, or {@code null}.
      * @see #isDescriptionText
      */
     public abstract String getDescriptionText();

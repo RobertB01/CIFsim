@@ -149,7 +149,7 @@ public class CodeGeneratorContext {
     /**
      * Get the name of the enumerate class for the given source type, if it exists.
      *
-     * @param tid Source type ID
+     * @param tid Source type ID.
      * @return Name of the class with the enumerate functions if it exists, {@code null} otherwise.
      */
     public String getEnumerateName(TypeID tid) {

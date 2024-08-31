@@ -71,7 +71,7 @@ public class Timer implements Comparable<Timer> {
     /**
      * Has the timer reached timeout?
      *
-     * @return Timeout of the timer has been reached,
+     * @return Timeout of the timer has been reached.
      */
     public boolean isReady() {
         return chiCoordinator.getCurrentTime() >= endTime;

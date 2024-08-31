@@ -125,7 +125,7 @@ public class ChiMatrix {
      * @param coord Chi coordinator (not used).
      * @param numRows Number of rows of the matrix.
      * @param numColumns Number of columns of the matrix.
-     * @param stream Input stream
+     * @param stream Input stream.
      * @return Read matrix.
      */
     public static ChiMatrix read(ChiCoordinator coord, int numRows, int numColumns, ChiFileHandle stream) {

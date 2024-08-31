@@ -94,7 +94,7 @@ public class CifBddLocationPointerManager implements LocationPointerManager {
      * represent a location pointer variable.
      *
      * @param locPtr The location pointer variable.
-     * @return The automaton, or {@code null}
+     * @return The automaton, or {@code null}.
      */
     public Automaton getAutomaton(DiscVariable locPtr) {
         return lpToAutMap.get(locPtr);
