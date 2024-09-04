@@ -45,6 +45,7 @@ import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RelabelSupervisorsAsPlants;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
+import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.controllercheck.checks.CheckConclusion;
 import org.eclipse.escet.cif.controllercheck.checks.ControllerCheckerBddBasedCheck;
@@ -298,6 +299,13 @@ public class ControllerChecker {
         }
         if (specAlphabet.stream().allMatch(e -> e.getControllable())) {
             warnOutput.line("The alphabet of the specification contains no uncontrollable events.");
+        }
+
+        // Warn if specification doesn't look very useful:
+        // - Check for no input variables being present, to detect absence of a hardware mapping connecting
+        //   uncontrollable events to input variables.
+        if (CifCollectUtils.collectInputVariables(spec, list()).isEmpty()) {
+            warnOutput.line("The specification contains no input variables.");
         }
 
         // Return the preprocessed and checked specification.
