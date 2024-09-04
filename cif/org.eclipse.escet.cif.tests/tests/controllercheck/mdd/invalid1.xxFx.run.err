@@ -1,5 +1,6 @@
 WARNING: File "controllercheck/mdd/invalid1.cif": Semantic warning at line 16, column 26: Event "g.e2" is not used anywhere in the specification.
 WARNING: The alphabet of the specification contains no controllable events.
+WARNING: The specification contains no input variables.
 ERROR: CIF controller properties checker failed due to unsatisfied preconditions:
 
   ------------------------------
