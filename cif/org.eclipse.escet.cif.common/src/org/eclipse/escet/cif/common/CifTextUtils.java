@@ -197,7 +197,7 @@ public class CifTextUtils {
      *
      * @param ctrl The CIF event controllability.
      * @return The textual representation of the event controllability in the CIF ASCII syntax. It is either
-     *     {@code "event"}, {@code "controllable"}, or {@code "uncontrollable"},
+     *     {@code "event"}, {@code "controllable"}, or {@code "uncontrollable"}.
      */
     public static String controllabilityToStr(Boolean ctrl) {
         return (ctrl == null) ? "event" : ctrl ? "controllable" : "uncontrollable";

@@ -657,7 +657,7 @@ public class ToolDefExec {
     /**
      * Executes the given variable declaration statement.
      *
-     * @param var The variable declaration
+     * @param var The variable declaration.
      * @param ctxt The execution context.
      * @return {@code null} for no 'return' statement encountered.
      * @throws ExitException In case an 'exit' statement was encountered, or execution should stop with a specific exit

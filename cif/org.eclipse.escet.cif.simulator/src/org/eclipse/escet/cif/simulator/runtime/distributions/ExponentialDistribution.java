@@ -78,7 +78,7 @@ public class ExponentialDistribution extends RealDistribution {
      * Take a sample from the negative exponential stochastic distribution.
      *
      * @param randGen The random generator to use. Is modified in-place.
-     * @param b The scale parameter of the distribution
+     * @param b The scale parameter of the distribution.
      * @return The sampled value.
      */
     public static double sample(CifRandomGenerator randGen, double b) {

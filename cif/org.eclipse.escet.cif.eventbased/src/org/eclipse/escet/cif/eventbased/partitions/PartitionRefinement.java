@@ -200,8 +200,8 @@ public class PartitionRefinement {
      *
      * @param expandedSet Computation result of the first step of function f. Must not be modified.
      * @param visibleEvent Visible event to perform first in the second step.
-     * @param result Resulting set of locations. Modified in-place, also returned as result. (Done this way to re-use
-     *     the same set and avoid too many set creations and expansions.)
+     * @param result Resulting set of locations. Modified in-place, but also returned as result, to re-use the same set
+     *     and avoid too many set creations and expansions.
      * @return The set of locations backward reachable from 'expandSet' by first performing 'visibleEvent' and then zero
      *     or more non-observable events.
      */

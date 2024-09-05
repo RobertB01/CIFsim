@@ -87,7 +87,7 @@ public abstract class ArithmeticFunctions {
      *
      * @param x First operand.
      * @param y Second operand.
-     * @return The equivalent of Math.pow(x, y)
+     * @return The equivalent of Math.pow(x, y).
      */
     public static double intPower(double x, int y) {
         if (y < 0) {

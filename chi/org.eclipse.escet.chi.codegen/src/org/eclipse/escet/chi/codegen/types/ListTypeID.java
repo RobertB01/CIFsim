@@ -348,7 +348,7 @@ public class ListTypeID extends CoordObjectTypeID {
     /**
      * Add functions for internal support.
      *
-     * @param cls List class being generated,
+     * @param cls List class being generated.
      */
     private void addSizeSupportCode(JavaFile cls) {
         TypeID elmTid = first(subTypes);

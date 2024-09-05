@@ -80,7 +80,7 @@ public abstract class ArrayTypeInfo extends ContainerTypeInfo {
     /**
      * Modify a container in-place.
      *
-     * @param container Container being modified
+     * @param container Container being modified.
      * @param partCode Code to obtain the new value of the part.
      * @param indexCode Code to obtain the index value.
      * @param ctxt Code context of the expression.
@@ -94,7 +94,7 @@ public abstract class ArrayTypeInfo extends ContainerTypeInfo {
      *
      * @param expr Literal array expression to convert to the target language.
      * @param dest Storage destination if available, else {@code null}.
-     * @param ctxt Code context
+     * @param ctxt Code context.
      * @return Result of the conversion.
      */
     public abstract ExprCode convertLiteral(ListExpression expr, Destination dest, CodeContext ctxt);

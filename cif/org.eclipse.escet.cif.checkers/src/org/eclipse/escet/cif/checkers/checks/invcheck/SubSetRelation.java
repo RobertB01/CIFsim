@@ -72,7 +72,7 @@ public enum SubSetRelation {
      * @param <E> Enumeration type used in the comparison.
      * @param left Left side to compare.
      * @param right Right side to compare.
-     * @return Which of the sets are larger
+     * @return Which of the sets is larger.
      */
     public static <E extends Enum<E>> SubSetRelation compare(EnumSet<E> left, EnumSet<E> right) {
         EnumSet<E> copy;

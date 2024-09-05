@@ -2103,7 +2103,7 @@ public class CifToPlcTrans {
      *     that is 1 higher than their parent.
      * @param state The textual reference of the state variable. Must not be {@code null}.
      * @param pou The POU in which to generate code.
-     * @return The text to use to
+     * @return The PLC code that refers to the result of the guard computation.
      */
     private String transGuard(Expression expr, int level, String state, PlcPou pou) {
         // If not special, use normal expression code generation.

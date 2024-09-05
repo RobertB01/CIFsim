@@ -132,7 +132,7 @@ public class ToolDefInterpreterApp extends Application<IOutputComponent> {
     /**
      * Get the tool invocation for the given tool invocation text, by parsing and type checking it.
      *
-     * @param invocationText The tool invocation text, in ToolDef textual syntax. Maybe
+     * @param invocationText The tool invocation text, in ToolDef textual syntax.
      * @param tchecker The type checker use to check the ToolDef script.
      * @return The tool invocation.
      */

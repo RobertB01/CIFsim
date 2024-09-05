@@ -105,7 +105,7 @@ public class ProcessTypeDefinition {
      * Add all process definitions of the specification to the process type mapping.
      *
      * @param decls Declarations of the specification.
-     * @param specClass Specification class (storage of the process type enums)
+     * @param specClass Specification class (storage of the process type enums).
      * @param ctxt Code generator context.
      */
     public static void addProcessTypes(List<Declaration> decls, JavaFile specClass, CodeGeneratorContext ctxt) {

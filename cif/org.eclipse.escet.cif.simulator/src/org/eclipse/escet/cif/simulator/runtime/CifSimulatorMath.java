@@ -438,7 +438,7 @@ public class CifSimulatorMath {
      * Returns {@code empty(x)} for the given list.
      *
      * @param x The list.
-     * @return {@code empty(x)}
+     * @return {@code empty(x)}.
      */
     public static boolean empty(List<?> x) {
         return x.isEmpty();
@@ -448,7 +448,7 @@ public class CifSimulatorMath {
      * Returns {@code empty(x)} for the given set.
      *
      * @param x The set.
-     * @return {@code empty(x)}
+     * @return {@code empty(x)}.
      */
     public static boolean empty(Set<?> x) {
         return x.isEmpty();
@@ -458,7 +458,7 @@ public class CifSimulatorMath {
      * Returns {@code empty(x)} for the given dictionary.
      *
      * @param x The dictionary.
-     * @return {@code empty(x)}
+     * @return {@code empty(x)}.
      */
     public static boolean empty(Map<?, ?> x) {
         return x.isEmpty();
@@ -474,7 +474,7 @@ public class CifSimulatorMath {
      *
      * @param x The first boolean value.
      * @param y The second boolean value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(boolean x, boolean y) {
         return x == y;
@@ -490,7 +490,7 @@ public class CifSimulatorMath {
      *
      * @param x The first boolean value.
      * @param y The second boolean value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(Boolean x, boolean y) {
         return x == y;
@@ -506,7 +506,7 @@ public class CifSimulatorMath {
      *
      * @param x The first boolean value.
      * @param y The second boolean value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(boolean x, Boolean y) {
         return x == y;
@@ -522,7 +522,7 @@ public class CifSimulatorMath {
      *
      * @param x The first integer value.
      * @param y The second integer value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(int x, int y) {
         return x == y;
@@ -538,7 +538,7 @@ public class CifSimulatorMath {
      *
      * @param x The first integer value.
      * @param y The second integer value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(Integer x, int y) {
         return x == y;
@@ -554,7 +554,7 @@ public class CifSimulatorMath {
      *
      * @param x The first integer value.
      * @param y The second integer value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(int x, Integer y) {
         return x == y;
@@ -570,7 +570,7 @@ public class CifSimulatorMath {
      *
      * @param x The first real value.
      * @param y The second real value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(double x, double y) {
         return x == y;
@@ -586,7 +586,7 @@ public class CifSimulatorMath {
      *
      * @param x The first real value.
      * @param y The second real value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(Double x, double y) {
         return x == y;
@@ -602,7 +602,7 @@ public class CifSimulatorMath {
      *
      * @param x The first real value.
      * @param y The second real value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(double x, Double y) {
         return x == y;
@@ -618,7 +618,7 @@ public class CifSimulatorMath {
      *
      * @param x The first value.
      * @param y The second value.
-     * @return {@code x = y}
+     * @return {@code x = y}.
      */
     public static boolean equal(Object x, Object y) {
         return x.equals(y);
@@ -1200,7 +1200,7 @@ public class CifSimulatorMath {
      * Returns {@code size(x)} for the given string.
      *
      * @param x The string.
-     * @return {@code size(x)}
+     * @return {@code size(x)}.
      */
     public static int size(String x) {
         return x.length();
@@ -1210,7 +1210,7 @@ public class CifSimulatorMath {
      * Returns {@code size(x)} for the given list.
      *
      * @param x The list.
-     * @return {@code size(x)}
+     * @return {@code size(x)}.
      */
     public static int size(List<?> x) {
         return x.size();
@@ -1220,7 +1220,7 @@ public class CifSimulatorMath {
      * Returns {@code size(x)} for the given set.
      *
      * @param x The set.
-     * @return {@code size(x)}
+     * @return {@code size(x)}.
      */
     public static int size(Set<?> x) {
         return x.size();
@@ -1230,7 +1230,7 @@ public class CifSimulatorMath {
      * Returns {@code size(x)} for the given dictionary.
      *
      * @param x The dictionary.
-     * @return {@code size(x)}
+     * @return {@code size(x)}.
      */
     public static int size(Map<?, ?> x) {
         return x.size();
