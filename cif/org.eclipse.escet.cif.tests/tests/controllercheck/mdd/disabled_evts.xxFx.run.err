@@ -1,3 +1,4 @@
 WARNING: File "controllercheck/mdd/disabled_evts.cif": Semantic warning at line 15, column 14: Event "c_b" is not used anywhere in the specification.
 WARNING: File "controllercheck/mdd/disabled_evts.cif": Semantic warning at line 18, column 12: The alphabet of automaton "A" globally disables event "c_a", as the event is not used on any of the edges of the automaton.
 WARNING: The alphabet of the specification contains no uncontrollable events.
+WARNING: The specification contains no input variables.

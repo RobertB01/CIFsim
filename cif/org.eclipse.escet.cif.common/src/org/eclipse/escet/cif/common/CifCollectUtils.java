@@ -196,6 +196,25 @@ public class CifCollectUtils {
     }
 
     /**
+     * Collect the input variables declared in the given component (recursively).
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param <T> The type of the collection for storing found input variables.
+     * @param comp The component.
+     * @param variables The input variables collected so far. Is modified in-place.
+     * @return The updated variables collection.
+     */
+    public static <T extends Collection<InputVariable>> T collectInputVariables(ComplexComponent comp, T variables) {
+        getComplexComponentsStream(comp).flatMap(cc -> cc.getDeclarations().stream())
+                .filter(decl -> decl instanceof InputVariable).map(decl -> (InputVariable)decl)
+                .collect(Collectors.toCollection(() -> variables));
+        return variables;
+    }
+
+    /**
      * Collect the I/O declarations declared in the given component (recursively).
      *
      * <p>
